@@ -1461,7 +1461,8 @@ bool travel_pathfind::path_flood(const coord_def &c, const coord_def &dc)
     {
         if (!env.map_knowledge(dc).seen())
         {
-            if (ignore_hostile && !player_in_branch(BRANCH_SHOALS))
+            if (ignore_hostile && !player_in_branch(BRANCH_SHOALS)
+                && !player_in_branch(BRANCH_SWAMP))
             {
                 // This point is unexplored but unreachable. Let's find a
                 // place from where we can see it.
