@@ -291,13 +291,7 @@ command_type feat_stair_direction(dungeon_feature_type feat)
 
 bool feat_is_opaque(dungeon_feature_type feat)
 {
-    return (feat <= DNGN_MAXOPAQUE
-#if TAG_MAJOR_VERSION == 33
-            // Hack to make mangroves opaque. This isn't needed once the
-            // feature enums are reordered.
-            || feat == DNGN_MANGROVE
-#endif
-            );
+    return (feat <= DNGN_MAXOPAQUE);
 }
 
 bool feat_is_solid(dungeon_feature_type feat)
@@ -1646,9 +1640,9 @@ static const char *dngn_feature_names[] =
 "granite_statue", "malign_gateway", "", "", "", "", "", "", "", "",
 #else
 "metal_wall", "green_crystal_wall", "rock_wall",
-"slimy_wall", "stone_wall", "permarock_wall", "mangrove",
+"slimy_wall", "stone_wall", "permarock_wall",
 "clear_rock_wall", "clear_stone_wall", "clear_permarock_wall", "iron_grate",
-"tree", "open_sea", "endless_lava", "orcish_idol",
+"tree", "mangrove", "open_sea", "endless_lava", "orcish_idol",
 "granite_statue", "malign_gateway", "", "", "", "", "", "", "", "", "",
 #endif
 

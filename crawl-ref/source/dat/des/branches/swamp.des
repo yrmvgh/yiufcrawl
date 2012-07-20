@@ -146,7 +146,6 @@ DEPTH:  Swamp
 WEIGHT: 1000
 {{ smear_map({iterations=5, smear='w', onto='wwt"', boxy=false}) }}
 SUBST:  "=ttw
-KFEAT:  t = mangrove
 MAP
      ""
    "www"
@@ -162,7 +161,6 @@ TAGS:   no_pool_fixup allow_dup extra luniq_pool mini_float
 DEPTH:  Swamp
 WEIGHT: 500
 SUBST:  "=ttttw
-KFEAT:  t = mangrove
 MAP
      ""
    "www"

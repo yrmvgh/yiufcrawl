@@ -33,7 +33,7 @@ Branches, environment
   found in vaults.
 * The Swamp has an improved layout, with smaller and more compact levels, and
   more trees. It is also less misty than before.
-* Swamp trees are now mangroves, and are opaque.
+* Swamp trees are now mangroves.
 * Spider Nest: replaces the old spider portal vault, contains the gossamer
   rune of Zot.
 * Games will have one of the Spider Nest or Snake Pit, and one of the Swamp or

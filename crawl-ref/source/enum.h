@@ -1174,8 +1174,6 @@ enum dungeon_feature_type
     DNGN_SECRET_DOOR,
 #if TAG_MAJOR_VERSION == 33
     DNGN_OLD_WAX_WALL,
-#else
-    DNGN_MANGROVE,
 #endif
     DNGN_METAL_WALL,
         DNGN_MINWALL = DNGN_METAL_WALL,
@@ -1193,13 +1191,9 @@ enum dungeon_feature_type
         DNGN_MAXWALL = DNGN_CLEAR_PERMAROCK_WALL,
     DNGN_GRATE,
     DNGN_TREE,
-#if TAG_MAJOR_VERSION == 33
     DNGN_MANGROVE,
         // Highest grid value which can't be reached through.
         DNGN_MAX_NONREACH = DNGN_MANGROVE,
-#else
-        DNGN_MAX_NONREACH = DNGN_TREE,
-#endif
 
     DNGN_OPEN_SEA,                     // Shoals equivalent for permarock
     DNGN_LAVA_SEA,                     // Gehenna equivalent for permarock
