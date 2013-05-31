@@ -1923,6 +1923,7 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
     if (need_plural && quantity > 1 && !basename && !qualname)
         buff.str(pluralise(buff.str()));
 
+#if TAG_MAJOR_VERSION == 34
     // Disambiguation.
     if (!terse && !basename && !dbname && know_type
         && !is_artefact(*this))
@@ -1948,6 +1949,7 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
             break;
         }
     }
+#endif
 
     // Rod charges.
     if (base_type == OBJ_RODS && know_type && know_pluses

@@ -2933,7 +2933,22 @@ static void _generate_staff_item(item_def& item, bool allow_uniques, int force_t
 static void _generate_rod_item(item_def& item, int force_type, int item_level)
 {
     if (force_type == OBJ_RANDOM)
-        item.sub_type = random2(NUM_RODS);
+    {
+#if TAG_MAJOR_VERSION == 34
+        do
+        {
+#endif
+            item.sub_type = random2(NUM_RODS);
+#if TAG_MAJOR_VERSION == 34
+        }
+        while (item.sub_type == ROD_DESTRUCTION_I
+               || item.sub_type == ROD_DESTRUCTION_II
+               || item.sub_type == ROD_DESTRUCTION_III
+               || item.sub_type == ROD_WARDING
+               || item.sub_type == ROD_DEMONOLOGY
+               || item.sub_type == ROD_VENOM);
+#endif
+    }
     else
         item.sub_type = force_type;
 

@@ -501,6 +501,7 @@
     SPELL_NO_SPELL,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {   // Rod of destruction (fire)
     SPELL_THROW_FLAME,
     SPELL_FIREBALL,
@@ -533,6 +534,7 @@
     SPELL_NO_SPELL,
     SPELL_NO_SPELL,
 },
+#endif
 
 {   // Rod of inaccuracy
     SPELL_BOLT_OF_INACCURACY,
@@ -545,6 +547,7 @@
     SPELL_NO_SPELL,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {   // Rod of warding
     SPELL_ABJURATION,
     SPELL_CONDENSATION_SHIELD,
@@ -566,6 +569,7 @@
     SPELL_NO_SPELL,
     SPELL_NO_SPELL,
 },
+#endif
 
 {   // Rod of striking
     SPELL_STRIKING,
@@ -578,6 +582,7 @@
     SPELL_NO_SPELL,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {   // Rod of venom
     SPELL_OLGREBS_TOXIC_RADIANCE,
     SPELL_POISONOUS_CLOUD,
@@ -588,3 +593,4 @@
     SPELL_NO_SPELL,
     SPELL_NO_SPELL,
 },
+#endif
