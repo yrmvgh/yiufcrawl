@@ -2106,12 +2106,6 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
         return false;
 
     case OBJ_RODS:
-        if (!wielded)
-        {
-            if (msg)
-                mpr(error);
-            return false;
-        }
         return true;
 
     case OBJ_STAVES:

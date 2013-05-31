@@ -2925,9 +2925,6 @@ static void _generate_staff_item(item_def& item, bool allow_uniques, int force_t
     }
     else
         item.sub_type = force_type;
-
-    if (one_chance_in(16))
-        do_curse_item(item);
 }
 
 static void _generate_rod_item(item_def& item, int force_type, int item_level)

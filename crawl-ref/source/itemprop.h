@@ -192,7 +192,6 @@ void seen_item(const item_def &item);
 static inline bool is_weapon(const item_def &item)
 {
     return item.base_type == OBJ_WEAPONS
-           || item.base_type == OBJ_STAVES
-           || item.base_type == OBJ_RODS;
+           || item.base_type == OBJ_STAVES;
 }
 #endif
