@@ -1257,7 +1257,7 @@ static bool _thunderbolt_tracer(monster *caster, int pow, coord_def aim)
 // not one word about the name of this function!
 static bool _handle_rod(monster *mons, bolt &beem)
 {
-    const int weapon = mons->inv[MSLOT_WEAPON];
+    const int weapon = mons->inv[MSLOT_WAND];
     item_def &rod(mitm[weapon]);
 
     // Make sure the item actually is a rod.
@@ -1399,8 +1399,8 @@ static bool _handle_wand(monster* mons, bolt &beem)
     if (mons_itemuse(mons) < MONUSE_STARTING_EQUIPMENT)
         return false;
 
-    if (mons->inv[MSLOT_WEAPON] != NON_ITEM
-        && mitm[mons->inv[MSLOT_WEAPON]].base_type == OBJ_RODS)
+    if (mons->inv[MSLOT_WAND] != NON_ITEM
+        && mitm[mons->inv[MSLOT_WAND]].base_type == OBJ_RODS)
     {
         return _handle_rod(mons, beem);
     }

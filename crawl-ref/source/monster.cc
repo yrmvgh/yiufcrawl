@@ -1009,7 +1009,6 @@ void monster::equip(item_def &item, int slot, int near)
     {
     case OBJ_WEAPONS:
     case OBJ_STAVES:
-    case OBJ_RODS:
     {
         bool give_msg = (slot == MSLOT_WEAPON || mons_wields_two_weapons(this));
         equip_weapon(item, near, give_msg);
@@ -1432,9 +1431,6 @@ bool monster::pickup_launcher(item_def &launch, int near, bool force)
 
 static bool _is_signature_weapon(monster* mons, const item_def &weapon)
 {
-    if (mons->type == MONS_DEEP_DWARF_ARTIFICER)
-        return (weapon.base_type == OBJ_RODS);
-
     // Don't pick up items that would interfere with our special ability
     if (mons->type == MONS_RED_DEVIL)
         return (weapon_skill(weapon) == SK_POLEARMS);
@@ -2170,8 +2166,10 @@ bool monster::pickup_missile(item_def &item, int near, bool force)
 
 bool monster::pickup_wand(item_def &item, int near)
 {
+    bool is_wand = item.base_type == OBJ_WANDS;
+
     // Don't pick up empty wands.
-    if (item.plus == 0)
+    if (is_wand && item.plus == 0)
         return false;
 
     // Only low-HD monsters bother with wands.
@@ -2183,11 +2181,15 @@ bool monster::pickup_wand(item_def &item, int near)
     if ((is_holy() || is_good_god(god)) && is_evil_item(item))
         return false;
 
-    // If a monster already has a charged wand, don't bother.
-    // Otherwise, replace with a charged one.
+    // If a monster has a rod, don't lose it.
+    // Otherwise, only replace charged wands with rods,
+    // and empty wands with non-empty wands or rods.
     if (item_def *wand = mslot_item(MSLOT_WAND))
     {
-        if (wand->plus > 0)
+        if (wand->base_type == OBJ_RODS)
+            return false;
+
+        if (is_wand && wand->plus > 0)
             return false;
 
         if (!drop_item(MSLOT_WAND, near))
@@ -2372,13 +2374,13 @@ bool monster::pickup_item(item_def &item, int near, bool force)
     // Hostiles won't pick them up if they were ever dropped/thrown by you.
     case OBJ_STAVES:
     case OBJ_WEAPONS:
-    case OBJ_RODS:
         return pickup_weapon(item, near, force);
     case OBJ_MISSILES:
         return pickup_missile(item, near, force);
     // Other types can always be picked up
     // (barring other checks depending on subtype, of course).
     case OBJ_WANDS:
+    case OBJ_RODS:
         return pickup_wand(item, near);
     case OBJ_SCROLLS:
         return pickup_scroll(item, near);
