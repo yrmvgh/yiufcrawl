@@ -433,6 +433,7 @@ enum rod_type
 #if TAG_MAJOR_VERSION == 34
     ROD_VENOM,
 #endif
+    ROD_CLOUDS,
     NUM_RODS,
 };
 

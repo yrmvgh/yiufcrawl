@@ -1113,6 +1113,9 @@ static const char* rod_type_name(int type)
     case ROD_DESTRUCTION_III:
                               return "destruction";
 
+    case ROD_CLOUDS:
+                              return "clouds";
+
     default: return "bugginess";
     }
 }

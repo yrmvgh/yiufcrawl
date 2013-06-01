@@ -594,3 +594,14 @@
     SPELL_NO_SPELL,
 },
 #endif
+
+{   // Rod of clouds
+    SPELL_CLOUD_CONE,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+    SPELL_NO_SPELL,
+},

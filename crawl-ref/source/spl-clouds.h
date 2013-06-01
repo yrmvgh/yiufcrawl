@@ -22,4 +22,6 @@ spret_type cast_corpse_rot(bool fail);
 void corpse_rot(actor* caster);
 
 int holy_flames(monster* caster, actor* defender);
+
+spret_type cast_cloud_cone(actor* caster, int pow, coord_def target, bool fail);
 #endif

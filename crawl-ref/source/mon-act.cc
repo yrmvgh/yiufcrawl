@@ -48,6 +48,7 @@
 #include "religion.h"
 #include "shopping.h" // for item values
 #include "spl-book.h"
+#include "spl-clouds.h"
 #include "spl-damage.h"
 #include "spl-summoning.h"
 #include "spl-util.h"
@@ -1274,6 +1275,8 @@ static bool _handle_rod(monster *mons, bolt &beem)
     if (!_get_rod_spell_and_cost(rod, mzap, rate))
         return false;
 
+    const int power = max(_generate_rod_power(mons), 1);
+
     // XXX: There should be a better way to do this than hardcoding
     // monster-castable rod spells!
     switch (mzap)
@@ -1285,7 +1288,6 @@ static bool _handle_rod(monster *mons, bolt &beem)
     case SPELL_POISON_ARROW:
     case SPELL_THROW_FLAME:
     case SPELL_THROW_FROST:
-        break;
 
     case SPELL_STRIKING:
     case SPELL_FIREBALL:
@@ -1318,6 +1320,13 @@ static bool _handle_rod(monster *mons, bolt &beem)
         _rod_fired_post(mons, rod, weapon, beem, rate, was_visible);
         return true;
 
+    case SPELL_CLOUD_CONE:
+        if (mons->foe_distance() > power/6
+            || !mons->get_foe()
+            || cloud_type_at(mons->get_foe()->pos()) != CLOUD_NONE)
+            return false;
+        break;
+
     default:
         return false;
     }
@@ -1325,8 +1334,6 @@ static bool _handle_rod(monster *mons, bolt &beem)
     bool zap = false;
 
     // set up the beam
-    const int power = max(_generate_rod_power(mons), 1);
-
     dprf("using rod with power %d", power);
 
     bolt theBeam = mons_spell_beam(mons, mzap, power, check_validity);
@@ -1343,6 +1350,8 @@ static bool _handle_rod(monster *mons, bolt &beem)
     }
     else if (mzap == SPELL_THUNDERBOLT)
         zap = _thunderbolt_tracer(mons, power, beem.target);
+    else if (mzap == SPELL_CLOUD_CONE)
+        zap = true;
     else
     {
         fire_tracer(mons, beem);
@@ -1363,6 +1372,12 @@ static bool _handle_rod(monster *mons, bolt &beem)
         _rod_fired_pre(mons);
         cast_thunderbolt(mons, power, beem.target);
         return (_rod_fired_post(mons, rod, weapon, beem, rate, was_visible));
+    }
+    else if (mzap == SPELL_CLOUD_CONE)
+    {
+        _rod_fired_pre(mons);
+        cast_cloud_cone(mons, power, beem.target, false);
+        return _rod_fired_post(mons, rod, weapon, beem, rate, was_visible);
     }
     else if (zap)
     {

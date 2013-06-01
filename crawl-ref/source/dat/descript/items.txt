@@ -2032,6 +2032,11 @@ robe:quote
  Immortal longings in me”
     -William Shakespeare, _Anthony & Cleopatra_, V, ii. ca. 1605.
 %%%%
+rod of clouds
+
+This rod, when evoked, emits a cloud whose nature varies by the skill of the
+evocator.
+%%%%
 rod of demonology
 
 This rod contains spells of summoning, some of which can unleash demons unto

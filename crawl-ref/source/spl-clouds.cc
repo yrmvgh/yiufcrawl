@@ -9,6 +9,7 @@
 #include "externs.h"
 
 #include <algorithm>
+#include <math.h>
 
 #include "beam.h"
 #include "cloud.h"
@@ -364,4 +365,75 @@ int holy_flames(monster* caster, actor* defender)
     }
 
     return cloud_count;
+}
+
+spret_type cast_cloud_cone(actor* caster, int pow, coord_def target, bool fail)
+{
+    if (caster->is_player())
+        fail_check();
+
+    int cloud_count = 0;
+
+    double ang0 = atan2(target.x - caster->pos().x,
+                        target.y - caster->pos().y);
+
+    cloud_type cloud = CLOUD_NONE;
+    int type = random2avg(pow, 2);
+    if (type >= 40)
+    {
+        cloud = one_chance_in(3) ? CLOUD_GHOSTLY_FLAME :
+                coinflip()       ? CLOUD_MUTAGENIC
+                                 : CLOUD_CHAOS;
+    }
+    else if (type >= 5)
+    {
+        cloud = one_chance_in(3) ? CLOUD_POISON :
+                coinflip()       ? CLOUD_FIRE
+                                 : CLOUD_COLD;
+    }
+    else
+    {
+        cloud = one_chance_in(3) ? CLOUD_MEPHITIC :
+                coinflip()       ? CLOUD_STEAM
+                                 : CLOUD_RAIN; // cute.
+    }
+
+    for (radius_iterator ri(caster->get_los_no_trans(), true); ri; ++ri)
+    {
+        if (cloud_type_at(*ri) != CLOUD_NONE || cell_is_solid(*ri))
+            continue;
+
+        // This is kind of arcane.
+        // The idea is that the maximum distance from the caster the clouds
+        // can reach is dependent on angle, and that the maximum distance
+        // depends on evocation power (as does the cloud duration).
+
+        double ang = atan2(ri->x - caster->pos().x, ri->y - caster->pos().y);
+        double delta = min(fabs(ang - ang0), fabs(ang - ang0 + 2 * PI));
+        int los = (int)((double)LOS_RADIUS * (PI/2.0 - delta) / (PI/2.0));
+        int pow_delta = (int)(max(3, pow/6) - delta*(101-pow)/(25.0*PI));
+
+        if (los <= 0 || pow_delta <= 0)
+            continue;
+
+        int maxdist = random2avg(min(los, max(1, pow_delta)), 2) + 1;
+        if (distance2(caster->pos(), *ri) > maxdist*maxdist)
+            continue;
+
+        int pow_mod = (int)((double)pow * (PI/4.0 - delta) / (PI/4.0));
+        place_cloud(cloud, *ri,
+                    3 + random2(pow_mod / 4) + random2(pow / 4)
+                      + random2(pow_mod / 4),
+                    caster, 0);
+        cloud_count++;
+    }
+
+    if (cloud_count == 0
+        && (caster->is_player()
+            || you.can_see(caster)))
+    {
+        canned_msg(MSG_NOTHING_HAPPENS);
+    }
+
+    return SPRET_SUCCESS;
 }

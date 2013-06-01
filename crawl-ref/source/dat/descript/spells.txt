@@ -116,6 +116,13 @@ This spell releases a massive electrical discharge that arcs from target to
 target until it grounds out. It may ground out harmlessly if there are no
 targets sufficiently close to the caster, however.
 %%%%
+Cloud Cone spell
+
+This spell spits a cone of vapour in a general direction determined by the
+caster. The nature of the vapour varies - at low skill, it may be as harmless
+as a rain cloud, whereas more powerful users can generate clouds of flame,
+freezing vapour, poisonous gas, or worse.
+%%%%
 Condensation Shield spell
 
 This spell causes a disc of dense vapour to condense out of the air surrounding
