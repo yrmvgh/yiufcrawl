@@ -381,9 +381,9 @@ spret_type cast_cloud_cone(actor* caster, int pow, coord_def target, bool fail)
     int type = random2avg(pow, 2);
     if (type >= 40)
     {
-        cloud = one_chance_in(3) ? CLOUD_GHOSTLY_FLAME :
-                coinflip()       ? CLOUD_MUTAGENIC
-                                 : CLOUD_CHAOS;
+        cloud = one_chance_in(3) ? CLOUD_ACID :
+                coinflip()       ? CLOUD_STORM
+                                 : CLOUD_NEGATIVE_ENERGY;
     }
     else if (type >= 5)
     {
