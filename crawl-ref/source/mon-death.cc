@@ -1928,6 +1928,11 @@ int monster_die(monster* mons, killer_type killer,
             silent = true;
         }
     }
+    else if (mons->type == MONS_SINGULARITY && mons->countdown <= 0)
+    {
+        simple_monster_message(mons, " implodes!");
+        silent = true;
+    }
     else if (mons->type == MONS_FIRE_VORTEX
              || mons->type == MONS_SPATIAL_VORTEX
              || mons->type == MONS_TWISTER)

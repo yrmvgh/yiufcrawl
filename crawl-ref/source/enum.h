@@ -3023,6 +3023,7 @@ enum monster_type                      // menv[].type
     MONS_ORB_OF_DESTRUCTION,    // a projectile, not a real mon
 #if TAG_MAJOR_VERSION > 34
     MONS_FULMINANT_PRISM,
+    MONS_SINGULARITY,
     MONS_BATTLESPHERE,
 #endif
     MONS_PILLAR_OF_SALT,
@@ -3188,6 +3189,7 @@ enum monster_type                      // menv[].type
     MONS_CAUSTIC_SHRIKE,
 
     MONS_ROBIN,
+    MONS_SINGULARITY,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -4254,6 +4256,7 @@ enum spell_type
     SPELL_SCATTERSHOT,
     SPELL_CLEANSING_FLAME,
     SPELL_GOBLIN_TOSS,
+    SPELL_SINGULARITY,
     NUM_SPELLS
 };
 

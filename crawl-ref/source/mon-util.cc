@@ -1074,7 +1074,8 @@ bool mons_is_conjured(monster_type mc)
            || mc == MONS_FIRE_VORTEX
            || mc == MONS_SPATIAL_VORTEX
            || mc == MONS_BALL_LIGHTNING
-           || mc == MONS_FULMINANT_PRISM;
+           || mc == MONS_FULMINANT_PRISM
+           || mc == MONS_SINGULARITY;
 }
 
 int mons_weight(monster_type mc)
