@@ -91,6 +91,7 @@ void initialise_branch_depths()
     {
         random_choose(BRANCH_SWAMP, BRANCH_SHOALS, -1),
         random_choose(BRANCH_SNAKE, BRANCH_SPIDER, -1),
+        random_choose(BRANCH_FOREST, BRANCH_VAULTS, -1),
     };
 
     for (unsigned int i = 0; i < ARRAYSZ(disabled_branch); ++i)
@@ -98,7 +99,11 @@ void initialise_branch_depths()
         dprf("Disabling branch: %s", branches[disabled_branch[i]].shortname);
         brentry[disabled_branch[i]].clear();
     }
-    brentry[BRANCH_FOREST].clear();
+    if (brentry[BRANCH_FOREST].is_valid())
+    {
+        brentry[BRANCH_BLADE].branch = BRANCH_FOREST;
+        brentry[BRANCH_CRYPT].branch = BRANCH_FOREST;
+    }
 
     for (int i = 0; i < NUM_BRANCHES; i++)
         brdepth[i] = branches[i].numlevels;

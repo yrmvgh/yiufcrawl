@@ -3167,6 +3167,7 @@ static string _base_feature_desc(dungeon_feature_type grid, trap_type trap)
     case DNGN_RETURN_FROM_ORC:
     case DNGN_RETURN_FROM_LAIR:
     case DNGN_RETURN_FROM_VAULTS:
+    case DNGN_RETURN_FROM_FOREST:
     case DNGN_RETURN_FROM_TEMPLE:
     case DNGN_RETURN_FROM_DEPTHS:
         return "staircase back to the Dungeon";
@@ -3179,7 +3180,6 @@ static string _base_feature_desc(dungeon_feature_type grid, trap_type trap)
         return "crawl-hole back to the Lair";
     case DNGN_RETURN_FROM_CRYPT:
     case DNGN_RETURN_FROM_BLADE:
-    case DNGN_RETURN_FROM_FOREST:
         return "staircase back to the Vaults";
     case DNGN_RETURN_FROM_ELF:
         return "staircase back to the Mines";

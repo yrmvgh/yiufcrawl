@@ -182,7 +182,7 @@ const Branch branches[NUM_BRANCHES] =
       true, BLACK, BLACK, // set per-map
       'Z', true, 0 },
 
-    { BRANCH_FOREST, BRANCH_VAULTS, 2, 3, 5, 19,
+    { BRANCH_FOREST, BRANCH_DUNGEON, 14, 15, 5, 19,
       0, 0,
       DNGN_ENTER_FOREST, DNGN_RETURN_FROM_FOREST,
       "Forest", "the Enchanted Forest", "Forest",
