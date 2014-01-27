@@ -20,7 +20,7 @@ ENDMAP
 ##############################################################################
 # A really basic entry.
 NAME:   grunt_forest_entry_basic
-TAGS:   forest_entry vaults_entry_forest
+TAGS:   forest_entry
 KFEAT:  O = enter_forest
 MONS:   plant / nothing
 MAP
@@ -38,7 +38,7 @@ ENDMAP
 ##############################################################################
 # A small clearing.
 NAME:   grunt_forest_entry_clearing
-TAGS:   forest_entry vaults_entry_forest
+TAGS:   forest_entry
 KFEAT:  O = enter_forest
 MONS:   spriggan
 MONS:   faun / spriggan rider
@@ -62,7 +62,7 @@ ENDMAP
 ##############################################################################
 # A secluded grove.
 NAME:   forest_entry_grove
-TAGS:   forest_entry vaults_entry_forest vaults_orient_s
+TAGS:   forest_entry
 KFEAT:  O = enter_forest
 MONS:   spriggan
 MONS:   faun / spriggan rider
