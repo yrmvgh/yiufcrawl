@@ -1161,7 +1161,7 @@ MAP
 tttttttttttttttttttttttttttttttttt
 tttttttttttttccccccccttttttttttttt
 tttttttttttccc||||||cccttttttttttt
-ttttttttttcc..........cctttttttttt
+ttttttttttcc||||||||||cctttttttttt
 tttttttttcc....4444....ccttttttttt
 tttttttttc..............cttttttttt
 ttttttttcc..6.5....5.6..cctttttttt
@@ -1177,14 +1177,14 @@ tttttttttcc....4224....ccttttttttt
 ttttcccccccc..........cccccccctttt
 tttcc......ccc......ccc......ccttt
 ttcc.4.4.4..cccc++cccc..4.4.4.cctt
-tcc..........c.6..6.c..........cct
-tc%..........c+.66.+c..........%ct
-tc%......1....cccccc....1......%ct
-tc%....T.2....cccccc....2.T....%ct
-tc%...........cccccc...........%ct
-tc%.6........c+.66.+c........6.%ct
-tcc.6........c.6..6.c........6.cct
-ttc..66.....cccc++cccc.....66..ctt
+tcc%.........c.6..6.c.........%cct
+tc*%.........c+.66.+c.........%*ct
+tc*%.....1....cccccc....1.....%*ct
+tc*%...T.2....cccccc....2.T...%*ct
+tc*%..........cccccc..........%*ct
+tc*%6........c+.66.+c........6%*ct
+tcc%6........c.6..6.c........6%cct
+ttc%.66.....cccc++cccc.....66.%ctt
 ttccc..66..cccc....cccc..66..ccctt
 ttttccc..cccc........cccc..cccLttt
 tLttLLcccccc...6446...ccccccLtLtLt
@@ -1216,6 +1216,8 @@ MONS:   spriggan air mage
 MONS:   spriggan defender
 KMONS:  O = the Enchantress
 KITEM:  O = mossy rune of Zot
+KMONS:  8 = spriggan defender
+KITEM:  8 = |
 SUBST:  . = .:100 / 1:2 / 2:1 / 3:1 / 4:1 / 5:1
 SUBST:  T = t / t / P / .
 KMONS:  P = plant / plant / bush / nothing
@@ -1238,12 +1240,12 @@ ttttttttttttttttttttttttttttttttttttttttttt
 ttttttttttttttttttttttttttTTTTTttTTTTtttttt
 tttttttttTtTTtttttttQTtttTT.T.Ttt.T.TTTtttt
 ttttttttT*....QQPtt..ccccc....cccc.TT.Ttttt
-tttCCCCCCCCCCCCCC....c..1c....c.1c.t.TTtttt
-tttC.6.C6..6C$*|CtT..c.1.+....+..cT.TT.tttt
-tttCO..+....+$*|Ctt..ccccc....cccc.TT.Ttttt
-tttC.6.C6..6C$*|CttQ..................ttttt
+tttCCCCCCCCCCCCCC....c*.1c....c*1c.t.TTtttt
+tttC|8|C6..6C|||CtT..c*1.+....+**cT.TT.tttt
+tttCO||+....+|||Ctt..ccccc....cccc.TT.Ttttt
+tttC|8|C6..6C|||CttQ..................ttttt
 tttCCCCCC++CCCCCCttttccccc....cccc......ttt
-tttCgggC....CfffCttttchxLc....c1.c.....tttt
+tttCgggC....CfffCttttchxLc....c1*c.....tttt
 tttCggg+..1.+fffCttttch..+....+.5c..1...ttt
 tttCgggC1...CfffCttttccccc....cccc...1.tttt
 tttCCCCCC++CCCCCCttttt...................tt
@@ -1291,13 +1293,13 @@ XttT..4d4d4.cccccccccccccccccccccccccccc.Ttt
 XttT..4d4d4.ce-e-e-e-e-e-e-eceeeeee+||Oc.Ttt
 XttT..4d4d4.c-e-e-e-c-e-e-e-c------c|||c.Ttt
 XttT..4d4d4.ce-e2e-ece-e2e-ec------cc+cc.Ttt
-XttT..4d4d4.cc+ccccccc+cccccc------c%**c.Ttt
-XttT..4d4d45c-----3---3-----+----1-c%**c.Ttt
-XttT..4d4d4.c-------2-------+------c%**c.Ttt
-XtT...4d4d4.c--wwwwwwwwwww--+------c%**c.Ttt
-XtT...4d4d4.c--wwwwwwwwwww--c------c$$$c.Ttt
-XtT...4d4d4.c-----3---3-----c------c$$$c.Ttt
-XtT...4d4d4.c---------------ceeeeee+$$$c.Ttt
+XttT..4d4d4.cc+ccccccc+cccccc------c***c.Ttt
+XttT..4d4d45c-----3---3-----+----1-c***c.Ttt
+XttT..4d4d4.c-------2-------+------c***c.Ttt
+XtT...4d4d4.c--wwwwwwwwwww--+------c***c.Ttt
+XtT...4d4d4.c--wwwwwwwwwww--c------c|||c.Ttt
+XtT...4d4d4.c-----3---3-----c------c|||c.Ttt
+XtT...4d4d4.c---------------ceeeeee+|||c.Ttt
 XTT...4d4d4.cc++cccccccccccccccccccccccc.Ttt
 T.......5......5............5............Ttt
 @TT...44444444..444444444444..4444444444.Ttt
@@ -1339,13 +1341,13 @@ MAP
 TTtt.........ttTT
 Ttt3.........3ttT
 Tt..ccccccccc..tTTTTTTTT
-Tt..c||c$$$$c..ttttttttt
-Tt..c|-c****c.2t..3....t
+Tt..c||c||||c..ttttttttt
+Tt..c||c****c.2t..3....t
 Tt..cc+c----+....G.G.G..
 Tt2.cO---1_-+..2.......@
 Tt..cc+c----+....G.G.G..
-Tt..c|-c****c.2t..3....t
-Tt..c||c$$$$c..ttttttttt
+Tt..c||c****c.2t..3....t
+Tt..c||c||||c..ttttttttt
 Tt..ccccccccc..tTTTTTTTT
 Ttt3.........3ttT
 TTtt.........ttTT
@@ -1389,9 +1391,9 @@ veto {{ -- remove when TAG_MAJOR_VERSION is bumped
 MAP
 ttttttttttttttttttttttttttttttttttttttttttttttttt
 Ett.....WWWWWWWWcccccccccccccccccWWWWWWWW.....ttE
-Ett....WWWWWWWWcc*..||||O||||..*ccWWWWWWWW....ttE
-Ett....WWWGLWWWc**.....555.....**cWWWLGWWW....ttE
-Ett....WWWWWWWWc**.4..........4**cWWWWWWWW....ttE
+Ett....WWWWWWWWcc*||||||O||||||*ccWWWWWWWW....ttE
+Ett....WWWGLWWWc**|$$$$555$$$$|**cWWWLGWWW....ttE
+Ett....WWWWWWWWc***4..........4**cWWWWWWWW....ttE
 Ett....WWWWWccccccccccc+++cccccccccccWWWWW....ttE
 Ett....WWWWccWWWWWWWWWWWWWWWWWWWWWWWccWWWW....ttE
 Ett.1..WWWWcWWWWWWWWWWWWWWWWWWWWWWWWWcWWWW..1.ttE
