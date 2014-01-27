@@ -1144,7 +1144,7 @@ ENDMAP
 NAME:   grunt_forest_end_chambers
 ORIENT: north
 PLACE:  Forest:$
-KITEM:  O = superb_item
+KITEM:  O = mossy rune of Zot
 KITEM:  1 = superb_item
 KMONS:  O = the Enchantress
 KMONS:  1 = spriggan defender
@@ -1215,7 +1215,8 @@ MONS:   spriggan druid
 MONS:   spriggan berserker
 MONS:   spriggan air mage
 MONS:   spriggan defender
-MONS:   the Enchantress
+KMONS:  O = the Enchantress
+KITEM:  O = mossy rune of Zot
 SUBST:  . = .:100 / 1:2 / 2:1 / 3:1 / 4:1 / 5:1
 SUBST:  T = t / t / P / .
 KMONS:  P = plant / plant / bush / nothing
@@ -1240,7 +1241,7 @@ tttttttttTtTTtttttttQTtttTT.T.Ttt.T.TTTtttt
 ttttttttT*....QQPtt..ccccc....cccc.TT.Ttttt
 tttCCCCCCCCCCCCCC....c..1c....c.1c.t.TTtttt
 tttC.6.C6..6C$*|CtT..c.1.+....+..cT.TT.tttt
-tttC7..+....+$*|Ctt..ccccc....cccc.TT.Ttttt
+tttCO..+....+$*|Ctt..ccccc....cccc.TT.Ttttt
 tttC.6.C6..6C$*|CttQ..................ttttt
 tttCCCCCC++CCCCCCttttccccc....cccc......ttt
 tttCgggC....CfffCttttchxLc....c1.c.....tttt
@@ -1274,6 +1275,7 @@ KFEAT:  T = tree / floor
 SUBST:  X = xt
 CLEAR:  x
 KFEAT:  : = floor
+KITEM:  O = mossy rune of Zot
 ITEM:   grape q:1 / grape q:2 / nothing w:180
 ITEM:   any potion / grape q:1 / nothing w:30
 TILE:   c = wall_vines
@@ -1287,7 +1289,7 @@ Xttttttttttttttttttttttttttttttttttttttttttt
 XttTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTtt
 XttT.5...................................Ttt
 XttT..4d4d4.cccccccccccccccccccccccccccc.Ttt
-XttT..4d4d4.ce-e-e-e-e-e-e-eceeeeee+|||c.Ttt
+XttT..4d4d4.ce-e-e-e-e-e-e-eceeeeee+||Oc.Ttt
 XttT..4d4d4.c-e-e-e-c-e-e-e-c------c|||c.Ttt
 XttT..4d4d4.ce-e2e-ece-e2e-ec------cc+cc.Ttt
 XttT..4d4d4.cc+ccccccc+cccccc------c%**c.Ttt
@@ -1326,8 +1328,9 @@ KFEAT:  _ = altar_vehumet
 KFEAT:  - = floor
 SUBST:  T = tx
 CLEAR:  x
-FTILE:  1|*$-+ = floor_dirt
+FTILE:  O1|*$-+ = floor_dirt
 TILE:   c = wall_church
+KITEM:  O = mossy rune of Zot
 veto {{ -- remove when TAG_MAJOR_VERSION is bumped
   return crawl.game_started() and dgn.br_exists("Vaults")
 }}
@@ -1340,7 +1343,7 @@ Tt..ccccccccc..tTTTTTTTT
 Tt..c||c$$$$c..ttttttttt
 Tt..c|-c****c.2t..3....t
 Tt..cc+c----+....G.G.G..
-Tt2.c----1_-+..2.......@
+Tt2.cO---1_-+..2.......@
 Tt..cc+c----+....G.G.G..
 Tt..c|-c****c.2t..3....t
 Tt..c||c$$$$c..ttttttttt
@@ -1377,8 +1380,9 @@ KMONS:    L = thorn lotus
 KMONS:    N = water nymph
 KMONS:    S = water elemental
 KFEAT:    ALNS = shallow_water
+KITEM:    O = mossy rune of Zot
 COLOUR:   c = white
-FTILE:    |*123456GTU+. = floor_pebble_cyan
+FTILE:    |*123456GTUO+. = floor_pebble_cyan
 CLEAR:    E
 veto {{ -- remove when TAG_MAJOR_VERSION is bumped
   return crawl.game_started() and dgn.br_exists("Vaults")
@@ -1386,7 +1390,7 @@ veto {{ -- remove when TAG_MAJOR_VERSION is bumped
 MAP
 ttttttttttttttttttttttttttttttttttttttttttttttttt
 Ett.....WWWWWWWWcccccccccccccccccWWWWWWWW.....ttE
-Ett....WWWWWWWWcc*..|||||||||..*ccWWWWWWWW....ttE
+Ett....WWWWWWWWcc*..||||O||||..*ccWWWWWWWW....ttE
 Ett....WWWGLWWWc**.....555.....**cWWWLGWWW....ttE
 Ett....WWWWWWWWc**.4..........4**cWWWWWWWW....ttE
 Ett....WWWWWccccccccccc+++cccccccccccWWWWW....ttE
