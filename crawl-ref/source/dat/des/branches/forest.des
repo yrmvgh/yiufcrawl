@@ -1122,6 +1122,22 @@ MAP
 1
 ENDMAP
 
+# Please remove this vault when TAG_MAJOR_VERSION is bumped, it is needed
+# only to allow games with rune-less Forest to not crash when they generate
+# this level.
+NAME:   old_forest_compat
+ORIENT: north
+PLACE:  Forest:$
+MONS:   the Enchantress, spriggan defender, spriggan berserker
+veto {{
+  return crawl.game_started() and not dgn.br_exists("Vaults")
+}}
+MAP
+ccccccccccc
+c*|||||||*c
+c332212233c
+ENDMAP
+
 ##############################################################################
 # Forest ends
 ##############################################################################
@@ -1139,6 +1155,9 @@ MONS:   faun / satyr w:5
 TILE:   c = wall_marble
 COLOUR: .|*%OT123456+ = lightgray
 FTILE:  .|*%OT123456+ = floor_normal
+veto {{ -- remove when TAG_MAJOR_VERSION is bumped
+  return crawl.game_started() and dgn.br_exists("Vaults")
+}}
 MAP
 tttttttttttttttttttttttttttttttttt
 tttttttttttttccccccccttttttttttttt
@@ -1210,6 +1229,9 @@ KITEM:  h = bread ration q:2
 COLOUR: C = white
 KFEAT:  C = stone_wall
 TILE:   C = wall_marble
+veto {{ -- remove when TAG_MAJOR_VERSION is bumped
+  return crawl.game_started() and dgn.br_exists("Vaults")
+}}
 MAP
 ttttttttttttttttttttttttttttttttttttttttttt
 ttttttttttttttttttttttttttttttttttttttttttt
@@ -1256,6 +1278,9 @@ ITEM:   grape q:1 / grape q:2 / nothing w:180
 ITEM:   any potion / grape q:1 / nothing w:30
 TILE:   c = wall_vines
 FTILE:  e123+|%*$- = floor_vines
+veto {{ -- remove when TAG_MAJOR_VERSION is bumped
+  return crawl.game_started() and dgn.br_exists("Vaults")
+}}
 MAP
 tttttttttttttttttttttttttttttttttttttttttttt
 Xttttttttttttttttttttttttttttttttttttttttttt
@@ -1303,6 +1328,9 @@ SUBST:  T = tx
 CLEAR:  x
 FTILE:  1|*$-+ = floor_dirt
 TILE:   c = wall_church
+veto {{ -- remove when TAG_MAJOR_VERSION is bumped
+  return crawl.game_started() and dgn.br_exists("Vaults")
+}}
 MAP
   TTTTTTTTTTTTT
  TTtttttttttttTT
@@ -1352,6 +1380,9 @@ KFEAT:    ALNS = shallow_water
 COLOUR:   c = white
 FTILE:    |*123456GTU+. = floor_pebble_cyan
 CLEAR:    E
+veto {{ -- remove when TAG_MAJOR_VERSION is bumped
+  return crawl.game_started() and dgn.br_exists("Vaults")
+}}
 MAP
 ttttttttttttttttttttttttttttttttttttttttttttttttt
 Ett.....WWWWWWWWcccccccccccccccccWWWWWWWW.....ttE
