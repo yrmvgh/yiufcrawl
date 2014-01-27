@@ -322,7 +322,7 @@ static string _get_unseen_branches()
         {
             if (parent_branch((branch_type)i) == BRANCH_LAIR)
                 seen_lair_branches++;
-            else if (parent_branch((branch_type)i) == BRANCH_VAULTS)
+            else if (parent_branch((branch_type)i) == BRANCH_DUNGEON)
                 seen_vaults_branches++;
         }
     }
@@ -334,7 +334,7 @@ static string _get_unseen_branches()
         if (is_random_subbranch(branch)
             && ((parent_branch((branch_type)i) == BRANCH_LAIR
                  && seen_lair_branches >= 2)
-                || (parent_branch((branch_type)i) == BRANCH_VAULTS)
+                || (parent_branch((branch_type)i) == BRANCH_DUNGEON)
                     && seen_vaults_branches >= 1))
             continue;
 
