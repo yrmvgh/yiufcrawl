@@ -1275,7 +1275,13 @@ bool divine_retribution(god_type god, bool no_bonus, bool force)
     case GOD_ELYVILON:      do_more = _elyvilon_retribution(); break;
     case GOD_JIYVA:         do_more = _jiyva_retribution(); break;
     case GOD_FEDHAS:        do_more = _fedhas_retribution(); break;
-    case GOD_CHEIBRIADOS:   do_more = _cheibriados_retribution(); break;
+    case GOD_CHEIBRIADOS:
+        // As noted above, Chei wrath is meant to trigger in combat;
+        // don't attempt it if there aren't enemies around.
+        if (random2(get_tension(GOD_CHEIBRIADOS)) < 4)
+            return false;
+        do_more = _cheibriados_retribution();
+        break;
     case GOD_DITHMENGOS:    do_more = _dithmengos_retribution(); break;
 
     case GOD_ASHENZARI:
