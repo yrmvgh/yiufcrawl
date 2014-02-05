@@ -313,6 +313,8 @@ enum attribute_type
     ATTR_SWIFTNESS,            // Duration of future antiswiftness.
     ATTR_BARBS_MSG,            // Have we already printed a message on move?
     ATTR_BARBS_POW,            // How badly we are currently skewered
+    ATTR_GOD_WRATH_XP,         // How much XP before our next god wrath check?
+    ATTR_GOD_WRATH_COUNT,      // Number of stored retributions
     NUM_ATTRIBUTES
 };
 
