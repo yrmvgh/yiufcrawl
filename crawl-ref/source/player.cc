@@ -4880,16 +4880,17 @@ int get_real_hp(bool trans, bool rotted)
 
 int get_real_mp(bool include_items)
 {
-    int enp = you.experience_level + you.mp_max_perm;
-    enp += (you.experience_level * species_mp_modifier(you.species) + 1) / 3;
+    int enp = 100 * (you.experience_level + you.mp_max_perm);
+    enp += (you.experience_level * species_mp_modifier(you.species) + 1) * 100 / 3;
 
-    int spell_extra = you.skill(SK_SPELLCASTING, you.experience_level * 3, true) / 14
-                    + you.skill(SK_SPELLCASTING, 1, true);
-    int invoc_extra = you.skill(SK_INVOCATIONS, you.experience_level * 2, true) / 13
-                    + you.skill(SK_INVOCATIONS, 1, true) / 3;
-    int evoc_extra = you.skill(SK_EVOCATIONS, you.experience_level, true) / 6;
+    int spell_extra = you.skill(SK_SPELLCASTING, you.experience_level * 300, true) / 14
+                    + you.skill(SK_SPELLCASTING, 100, true);
+    int invoc_extra = you.skill(SK_INVOCATIONS, you.experience_level * 200, true) / 13
+                    + you.skill(SK_INVOCATIONS, 100, true) / 3;
+    int evoc_extra = you.skill(SK_EVOCATIONS, you.experience_level * 100, true) / 6;
 
     enp += max(spell_extra, max(invoc_extra, evoc_extra));
+    enp /= 100;
     enp = stepdown_value(enp, 9, 18, 45, 100);
 
     // This is our "rotted" base (applied after scaling):
