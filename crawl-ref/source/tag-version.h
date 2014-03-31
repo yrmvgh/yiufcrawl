@@ -13,7 +13,7 @@
 // in a single commit, please.  Making clean-up and actual code changes,
 // especially of this size, separated is vital for sanity.
 #ifndef TAG_MAJOR_VERSION
-#define TAG_MAJOR_VERSION 34
+#define TAG_MAJOR_VERSION 35
 #endif
 
 // Minor version will be reset to zero when major version changes.

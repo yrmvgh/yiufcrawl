@@ -10,8 +10,8 @@
 
 # A twisty turny forest maze.
 NAME:   layout_twisted_forest
-DEPTH:  Forest
-WEIGHT: 100
+DEPTH:  100
+WEIGHT: 0
 ORIENT: encompass
 TAGS: overwritable layout allow_dup unrand layout_type_forest
 {{

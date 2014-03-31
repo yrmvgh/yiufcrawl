@@ -182,8 +182,6 @@ i-flaming BRAND_FLAMING BRAND_WEP_FIRST
 i-freezing BRAND_FREEZING
 i-holy_wrath BRAND_HOLY_WRATH
 i-electrocution BRAND_ELECTROCUTION
-# Remove i-orc_slaying when TAG_MAJOR_VERSION > 34
-i-confusion BRAND_ORC_SLAYING
 i-dragon_slaying BRAND_DRAGON_SLAYING
 i-venom BRAND_VENOM
 i-protection BRAND_PROTECTION
@@ -198,14 +196,8 @@ i-pain BRAND_PAIN
 i-antimagic BRAND_ANTIMAGIC
 %rim 0
 i-distortion BRAND_DISTORTION
-# Remove when TAG_MAJOR_VERSION > 34
-i-confusion BRAND_REACHING
-# Move i-returning down to missile-only brands when TAG_MAJOR_VERSION > 34
-i-returning BRAND_RETURNING
 i-chaos BRAND_CHAOS
 i-evasion BRAND_EVASION
-# Move i-confusion down to missile-only brands when TAG_MAJOR_VERSION > 34
-i-confusion BRAND_CONFUSION
 i-penetration BRAND_PENETRATION
 i-reaping BRAND_REAPING BRAND_WEP_LAST
 # missile-only brands, order doesn't matter
@@ -219,6 +211,8 @@ i-slowing BRAND_SLOWING
 i-paralysis BRAND_PARALYSIS
 i-frenzy BRAND_FRENZY
 i-sleep BRAND_SLEEP
+i-confusion BRAND_CONFUSION
+i-returning BRAND_RETURNING
 %rim 1
 %sdir item/weapon/ranged
 
@@ -777,8 +771,6 @@ i-warding AMU_WARDING
 i-r-corrosion AMU_RESIST_CORROSION
 i-gourmand AMU_THE_GOURMAND
 i-conservation AMU_CONSERVATION
-# Remove i-c-flight when TAG_MAJOR_VERSION > 34
-i-c-flight AMU_CONTROLLED_FLIGHT
 i-inaccuracy AMU_INACCURACY
 i-r-mutation AMU_RESIST_MUTATION
 i-spirit AMU_SPIRIT_SHIELD
@@ -813,10 +805,6 @@ i-haste POT_HASTE
 i-might POT_MIGHT
 i-brilliance POT_BRILLIANCE
 i-agility POT_AGILITY
-# please remove these 3 when TAG_MAJOR_VERSION is bumped
-i-gain-strength POT_REMOVEME2
-i-gain-dexterity POT_REMOVEME3
-i-gain-intelligence POT_REMOVEME4
 i-flight POT_FLIGHT
 i-poison POT_POISON
 i-slowing POT_SLOWING
@@ -826,8 +814,6 @@ i-invisibility POT_INVISIBILITY
 i-porridge POT_PORRIDGE
 i-degeneration POT_DEGENERATION
 i-decay POT_DECAY
-# please remove when TAG_MAJOR_VERSION is bumped
-i-confusion POT_REMOVE_ME
 i-experience POT_EXPERIENCE
 i-magic POT_MAGIC
 i-restore-abilities POT_RESTORE_ABILITIES
@@ -918,14 +904,11 @@ i-staff_poison STAFF_POISON
 i-staff_energy STAFF_ENERGY
 i-staff_death STAFF_DEATH
 i-staff_conjuration STAFF_CONJURATION
-# Remove when TAG_MAJOR_VERSION > 34
-i-staff_enchantment STAFF_ENCHANTMENT
 i-staff_summoning STAFF_SUMMONING
 i-staff_air STAFF_AIR
-i-staff_earth STAFF_EARTH
-%rim 0
-i-staff_channeling STAFF_CHANNELING STAFF_ID_LAST
+i-staff_earth STAFF_EARTH STAFF_ID_LAST
 
+%rim 0
 %sdir item/rod
 rod00 ROD
 rod01
@@ -945,12 +928,8 @@ i-rod_ignition ROD_IGNITION
 i-rod_clouds ROD_CLOUDS
 i-rod_destruction ROD_DESTRUCTION
 i-rod_inaccuracy ROD_INACCURACY
-# Remove when TAG_MAJOR_VERSION > 34
-i-rod_warding ROD_WARDING
 i-rod_shadows ROD_SHADOWS
-i-rod_striking ROD_STRIKING
-# Remove when TAG_MAJOR_VERSION > 34
-i-rod_venom ROD_VENOM ROD_ID_LAST
+i-rod_striking ROD_STRIKING ROD_ID_LAST
 %rim 1
 
 #OBJ_ORBS

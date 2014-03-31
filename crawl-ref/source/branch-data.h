@@ -134,6 +134,14 @@ const Branch branches[NUM_BRANCHES] =
       true, BROWN, BROWN,
       'W', true, -10 },
 
+    { BRANCH_DEPTHS, BRANCH_DUNGEON, 15, 15, 5, 22,
+      0, 0,
+      DNGN_ENTER_DEPTHS, DNGN_RETURN_FROM_DEPTHS,
+      "Depths", "the Depths", "Depths",
+      NULL,
+      true, LIGHTGREY, BROWN,
+      'U', false, 0 },
+
     { BRANCH_VESTIBULE, NUM_BRANCHES, 27, 27, 1, 27,
       BFLAG_NO_ITEMS, 0,
       DNGN_ENTER_HELL, DNGN_EXIT_HELL,
@@ -286,12 +294,4 @@ const Branch branches[NUM_BRANCHES] =
       NULL,
       false, LIGHTGREY, BROWN, // set per-map
       '8', false, 0 },
-
-    { BRANCH_DEPTHS, BRANCH_DUNGEON, 15, 15, 5, 22,
-      0, 0,
-      DNGN_ENTER_DEPTHS, DNGN_RETURN_FROM_DEPTHS,
-      "Depths", "the Depths", "Depths",
-      NULL,
-      true, LIGHTGREY, BROWN,
-      'U', false, 0 },
 };

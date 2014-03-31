@@ -325,7 +325,7 @@ function choose_mset_3(e)
     e.kmons("1 = lesser demon w:5 / place:Abyss")
 -- Forest
   elseif rnd < 44 then
-    e.kmons("1 = place:Forest:$ w:50 /\
+    e.kmons("1 = spriggan defender / thorn hunter / shambling mangrove /\
                spriggan druid w:2 / spriggan air mage w:5 / spriggan berserker w:5")
 -- Shoals
   elseif rnd < 49 then
@@ -454,7 +454,7 @@ local rnd = crawl.random2(142)
     e.kmons("1 = pandemonium lord / place:Abyss w:500")
 -- Forest
   elseif rnd < 47 then
-    e.kmons("1 = place:Forest:$ w:50 / spriggan defender /\
+    e.kmons("1 = spriggan defender w:20 / thorn hunter / shambling mangrove /\
                spriggan air mage / spriggan druid w:3 / spriggan berserker")
 -- Shoals
   elseif rnd < 52 then
