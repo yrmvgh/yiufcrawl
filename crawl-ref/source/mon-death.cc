@@ -39,6 +39,7 @@
 #include "libutil.h"
 #include "los_def.h"
 #include "mapmark.h"
+#include "makeitem.h"
 #include "message.h"
 #include "mgen_data.h"
 #include "misc.h"
@@ -406,7 +407,7 @@ static void _give_experience(int player_exp, int monster_exp,
 }
 
 // Returns the item slot of a generated corpse, or -1 if no corpse.
-int place_monster_corpse(const monster* mons, bool silent,
+int place_monster_corpse(const monster* mons, bool player_or_pet, bool silent,
                          bool force)
 {
     // The game can attempt to place a corpse for an out-of-bounds monster
@@ -454,7 +455,16 @@ int place_monster_corpse(const monster* mons, bool silent,
         return -1;
     }
 
-    if (mons && mons_is_phoenix(mons))
+    if (player_or_pet && you_worship(GOD_GOZAG) && !player_under_penance())
+    {
+        const monsterentry* me = get_monster_data(corpse_class);
+        const int base_gold = max(3, (me->weight - 200) / 27);
+        corpse.clear();
+        corpse.base_type = OBJ_GOLD;
+        corpse.quantity = base_gold / 2 + random2avg(base_gold, 2);
+        item_colour(corpse);
+    }
+    else if (mons && mons_is_phoenix(mons))
         corpse.props["destroy_xp"].get_int() = _calc_player_experience(mons);
 
     int o = get_mitm_slot();
@@ -2563,7 +2573,8 @@ int monster_die(monster* mons, killer_type killer,
             corpse2 = mounted_kill(mons, MONS_FIREFLY, killer, killer_index);
             mons->type = MONS_SPRIGGAN;
         }
-        corpse = place_monster_corpse(mons, silent);
+        corpse = place_monster_corpse(mons, YOU_KILL(killer) || pet_kill,
+                                      silent);
         if (corpse == -1)
             corpse = corpse2;
     }
