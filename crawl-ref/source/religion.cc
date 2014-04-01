@@ -3478,7 +3478,7 @@ static bool _transformed_player_can_join_god(god_type which_god)
     return true;
 }
 
-static int _gozag_service_fee()
+int gozag_service_fee()
 {
     const int gold = you.attribute[ATTR_GOLD_GENERATED];
     const int fee =
@@ -3519,7 +3519,7 @@ bool player_can_join_god(god_type which_god)
         return false;
     }
 
-    if (which_god == GOD_GOZAG && you.gold < _gozag_service_fee())
+    if (which_god == GOD_GOZAG && you.gold < gozag_service_fee())
         return false;
 
     return _transformed_player_can_join_god(which_god);
@@ -3595,6 +3595,8 @@ void god_pitch(god_type which_god)
     }
     more();
 
+    const int fee = (which_god == GOD_GOZAG) ? gozag_service_fee() : 0;
+
     // Note: using worship we could make some gods not allow followers to
     // return, or not allow worshippers from other religions. - bwr
 
@@ -3611,6 +3613,8 @@ void god_pitch(god_type which_god)
         {
             simple_god_message(" does not accept service from beggars like you!",
                                which_god);
+            mprf("The service fee for joining is currently %d gold; you only"
+                 " have %d.", fee, you.gold);
         }
         else if (!_transformed_player_can_join_god(which_god))
         {
@@ -3640,7 +3644,16 @@ void god_pitch(god_type which_god)
 
     describe_god(which_god, false);
 
-    snprintf(info, INFO_SIZE, "Do you wish to %sjoin this religion?",
+    string service_fee = "";
+    if (which_god == GOD_GOZAG)
+    {
+        service_fee = make_stringf(
+            "The service fee for joining is currently %d gold; you currently"
+            " have %d.\n",
+            fee, you.gold);
+    }
+    snprintf(info, INFO_SIZE, "%sDo you wish to %sjoin this religion?",
+             service_fee.c_str(),
              (you.worshipped[which_god]) ? "re" : "");
 
     cgotoxy(1, 18, GOTO_CRT);
@@ -3878,7 +3891,6 @@ void god_pitch(god_type which_god)
 
     if (you_worship(GOD_GOZAG))
     {
-        const int fee = _gozag_service_fee();
         mprf("You pay a service fee of %d gold.", fee);
         you.gold -= fee;
     }
