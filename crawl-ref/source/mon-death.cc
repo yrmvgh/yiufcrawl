@@ -462,6 +462,7 @@ int place_monster_corpse(const monster* mons, bool player_or_pet, bool silent,
         corpse.clear();
         corpse.base_type = OBJ_GOLD;
         corpse.quantity = base_gold / 2 + random2avg(base_gold, 2);
+        corpse.special = corpse.quantity;
         item_colour(corpse);
     }
     else if (mons && mons_is_phoenix(mons))
@@ -495,6 +496,8 @@ int place_monster_corpse(const monster* mons, bool player_or_pet, bool silent,
     }
 
     move_item_to_grid(&o, mons->pos(), !mons->swimming());
+    if (mitm[o].base_type == OBJ_GOLD)
+        invalidate_agrid(true);
 
     if (you.see_cell(mons->pos()))
     {
