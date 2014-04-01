@@ -4325,6 +4325,7 @@ enum daction_type
 #if TAG_MAJOR_VERSION == 34
     DACT_END_SPIRIT_HOWL,
 #endif
+    DACT_GOLD_ON_TOP,
     NUM_DACTIONS,
 };
 
