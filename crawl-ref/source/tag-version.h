@@ -23,6 +23,7 @@ enum tag_minor_version
     TAG_MINOR_RESET           = 0, // Minor tags were reset
 #if TAG_MAJOR_VERSION == 35
     TAG_MINOR_GOLD_TRACKING   = 1, // Track gold generated
+    TAG_MINOR_BRIBE_BRANCH    = 2, // Bribe branch tracking
 #endif
     NUM_TAG_MINORS,
     TAG_MINOR_VERSION = NUM_TAG_MINORS - 1

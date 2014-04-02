@@ -4275,6 +4275,7 @@ void display_char_status()
         DUR_PORTAL_PROJECTILE,
         DUR_NO_POTIONS,
         STATUS_GOLDEN,
+        STATUS_BRIBE,
     };
 
     status_info inf;

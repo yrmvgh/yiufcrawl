@@ -1712,6 +1712,7 @@ static void tag_construct_you_dungeon(writer &th)
     {
         marshallInt(th, brdepth[j]);
         marshall_level_id(th, brentry[j]);
+        marshallInt(th, branch_bribe[j]);
     }
 
     // Root of the dungeon; usually BRANCH_DUNGEON.
@@ -3157,16 +3158,13 @@ static void tag_read_you_dungeon(reader &th)
     {
         brdepth[j]    = unmarshallInt(th);
         ASSERT_RANGE(brdepth[j], -1, MAX_BRANCH_DEPTH + 1);
-#if TAG_MAJOR_VERSION == 34
-        if (th.getMinorVersion() < TAG_MINOR_BRANCH_ENTRY)
-        {
-            int depth = unmarshallInt(th);
-            if (j != BRANCH_VESTIBULE)
-                brentry[j] = level_id(old_entries[j], depth);
-        }
+        brentry[j]    = unmarshall_level_id(th);
+#if TAG_MAJOR_VERSION == 35
+        if (th.getMinorVersion() < TAG_MINOR_BRIBE_BRANCH)
+            branch_bribe[j] = 0;
         else
 #endif
-        brentry[j]    = unmarshall_level_id(th);
+        branch_bribe[j] = unmarshallInt(th);
     }
 #if TAG_MAJOR_VERSION == 34
     // Deepen the Abyss; this is okay since new abyssal stairs will be
