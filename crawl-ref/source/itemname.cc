@@ -1381,7 +1381,7 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
     {
         special_missile_type brand  = get_ammo_brand(*this);
 
-        if (!terse && _missile_brand_is_prefix(brand))
+        if (!terse && !dbname && _missile_brand_is_prefix(brand))
             buff << _missile_brand_name(brand, MBN_NAME) << ' ';
 
         buff << ammo_name(static_cast<missile_type>(item_typ));
