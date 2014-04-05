@@ -12,4 +12,5 @@ bool make_god_gifts_disappear();
 void good_god_holy_attitude_change(monster* holy);
 void beogh_convert_orc(monster* orc, bool emergency,
                        bool converted_by_follower = false);
+void gozag_check_bribe(monster* traitor);
 #endif

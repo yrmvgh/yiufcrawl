@@ -144,6 +144,7 @@ void seen_monsters_react()
 
         good_god_follower_attitude_change(*mi);
         beogh_follower_convert(*mi);
+        gozag_check_bribe(*mi);
         slime_convert(*mi);
 
         // XXX: Hack for triggering Duvessa's going berserk.
