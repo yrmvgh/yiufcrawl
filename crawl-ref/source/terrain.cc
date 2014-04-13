@@ -1559,8 +1559,8 @@ static const char *dngn_feature_names[] =
 "altar_okawaru", "altar_makhleb", "altar_sif_muna", "altar_trog",
 "altar_nemelex_xobeh", "altar_elyvilon", "altar_lugonu",
 "altar_beogh", "altar_jiyva", "altar_fedhas", "altar_cheibriados",
-"altar_ashenzari", "altar_dithmenos", "altar_gozag",
-"", "", "", "", "", "", "",
+"altar_ashenzari", "altar_dithmenos", "altar_gozag", "altar_qazlal",
+"", "", "", "", "", "",
 
 "fountain_blue", "fountain_sparkling", "fountain_blood",
 #if TAG_MAJOR_VERSION == 34
