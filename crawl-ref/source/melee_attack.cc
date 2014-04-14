@@ -4442,6 +4442,9 @@ void melee_attack::mons_apply_attack_flavour()
     switch (flavour)
     {
     default:
+        // Just to trigger special melee damage effects for regular attacks
+        // (e.g. Qazlal's elemental adaptation).
+        defender->expose_to_element(BEAM_MISSILE, 2);
         break;
 
     case AF_MUTATE:
@@ -4538,6 +4541,7 @@ void melee_attack::mons_apply_attack_flavour()
         }
 
         dprf(DIAG_COMBAT, "Shock damage: %d", special_damage);
+        defender->expose_to_element(BEAM_ELECTRICITY, 2);
         break;
 
     case AF_VAMPIRIC:

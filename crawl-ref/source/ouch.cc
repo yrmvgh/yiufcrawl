@@ -37,6 +37,7 @@
 #include "fight.h"
 #include "fineff.h"
 #include "godabil.h"
+#include "godpassive.h"
 #include "hints.h"
 #include "hiscores.h"
 #include "invent.h"
@@ -646,6 +647,7 @@ bool expose_player_to_element(beam_type flavour, int strength,
                               bool damage_inventory, bool slow_dracs)
 {
     _maybe_melt_player_enchantments(flavour, strength ? strength : 10);
+    qazlal_element_adapt(flavour, strength);
 
     if (flavour == BEAM_COLD && slow_dracs && player_genus(GENPC_DRACONIAN)
         && you.res_cold() <= 0 && coinflip())
