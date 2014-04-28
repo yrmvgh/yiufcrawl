@@ -24,6 +24,7 @@ enum tag_minor_version
 #if TAG_MAJOR_VERSION == 35
     TAG_MINOR_GOLD_TRACKING   = 1, // Track gold generated
     TAG_MINOR_BRIBE_BRANCH    = 2, // Bribe branch tracking
+    TAG_MINOR_CLOUD_OWNER,         // Track owners of clouds in map knowledge
 #endif
     NUM_TAG_MINORS,
     TAG_MINOR_VERSION = NUM_TAG_MINORS - 1
