@@ -482,11 +482,11 @@ my @art_order = (
 
     "{", "BRAND", "AC", "EV", "STR", "INT", "DEX", "\n",
     "FIRE", "COLD", "ELEC", "POISON", "LIFE", "MAGIC", "\n",
-    "SEEINV", "INV", "FLY", "BLINK", "BERSERK",  "NOISES", "\n",
-    "NOSPELL", "RND_TELE", "NOTELEP", "ANGRY", "METAB", "\n",
-    "MUTATE", "ACC", "DAM", "CURSED", "STEALTH", "MP", "\n",
-    "BASE_DELAY", "HP", "CLARITY", "BASE_ACC", "BASE_DAM", "\n",
-    "RMSL", "FOG", "REGEN", "NO_UPGRADE", "\n",
+    "SEEINV", "INV", "FLY", "FOG", "BLINK", "BERSERK", "\n",
+    "NOISES", "NOSPELL", "RND_TELE", "NOTELEP", "ANGRY", "\n",
+    "METAB", "MUTATE", "ACC", "DAM", "CURSED", "STEALTH", "\n",
+    "MP", "BASE_DELAY", "HP", "CLARITY", "BASE_ACC", "BASE_DAM", "\n",
+    "RMSL", "REGEN", "NO_UPGRADE", "\n",
     "}",
 
     "equip_func", "unequip_func", "world_reacts_func", "melee_effects_func",
@@ -545,7 +545,7 @@ sub art_to_str
             my $temp = $artefact->{$part};
             $temp =~ s/"/\\"/g;
             $str .= (($part eq "TYPE" || $part eq "INSCRIP") && $temp eq "")
-	        ? "NULL" : "\"$temp\"";
+                ? "NULL" : "\"$temp\"";
         }
         else
         {
