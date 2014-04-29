@@ -4468,6 +4468,9 @@ bool qazlal_upheaval(coord_def target, bool quiet)
     for (radius_iterator ri(beam.target, max_radius, C_ROUND, LOS_SOLID, true);
          ri; ++ri)
     {
+        if (!in_bounds(*ri))
+            continue;
+
         int chance = pow;
 
         bool adj = adjacent(beam.target, *ri);
@@ -4645,6 +4648,9 @@ bool qazlal_disaster_area()
     vector<coord_def> targets;
     for (radius_iterator ri(you.pos(), LOS_RADIUS, C_ROUND, true); ri; ++ri)
     {
+        if (!in_bounds(*ri))
+            continue;
+
         const monster_info* m = env.map_knowledge(*ri).monsterinfo();
         if (m && mons_att_wont_attack(m->attitude)
             && !mons_is_projectile(m->type))
