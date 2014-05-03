@@ -261,6 +261,8 @@ KITEM: N = any misc
 KFEAT: X = altar_xom
 KFEAT: M = altar_makhleb
 KFEAT: D = altar_dithmenos
+KFEAT: G = altar_gozag
+KFEAT: Q = altar_qazlal
 KMONS: l = patrolling spatial vortex
 KFEAT: ? = altar_jiyva / w:5 altar_lugonu / w:25 floor
 KMONS: m = shadow
@@ -282,11 +284,11 @@ xxx+x+xxx+x
 x..........
 #.f........
 x...xxxxxx+
-x.f.x.lxm..
+x.f.xGlxm..
 x...xNDx...
 x+xxxX?x...
 x.s5xM.x..*
-xVSKx..+..j
+xVSKxQ.+..j
 ENDMAP
 
 ##############################################################################
