@@ -1605,7 +1605,7 @@ void scorefile_entry::init(time_t dt)
         STATUS_MAGIC_SAPPED,
         DUR_PORTAL_PROJECTILE,
         DUR_NO_POTIONS,
-#if TAG_MAJOR_VERSION == 34
+#if TAG_MAJOR_VERSION == 35
         STATUS_GOLDEN,
 #endif
         STATUS_BRIBE,

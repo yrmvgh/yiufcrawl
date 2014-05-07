@@ -1051,7 +1051,7 @@ static void _get_status_lights(vector<status_light>& out)
         DUR_BRILLIANCE,
         DUR_MIGHT,
         DUR_NO_POTIONS,
-#if TAG_MAJOR_VERSION == 34
+#if TAG_MAJOR_VERSION == 35
         STATUS_GOLDEN,
 #endif
         STATUS_BRIBE,
@@ -2556,7 +2556,7 @@ static string _status_mut_abilities(int sw)
         DUR_DRAGON_CALL,
         DUR_ABJURATION_AURA,
         DUR_NO_POTIONS,
-#if TAG_MAJOR_VERSION == 34
+#if TAG_MAJOR_VERSION == 35
         STATUS_GOLDEN,
 #endif
         STATUS_BRIBE,
