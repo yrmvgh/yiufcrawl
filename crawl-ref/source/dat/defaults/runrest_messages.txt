@@ -20,7 +20,6 @@ ignore += This .*flesh tastes
 ignore += You .* eating
 ignore += The winds around you calm down.
 ignore += Lightning arcs down from a storm cloud
-ignore += You displace your
 
 # Traps
 #
