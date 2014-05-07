@@ -4575,6 +4575,18 @@ bool qazlal_upheaval(coord_def target, bool quiet)
         {
             return false;
         }
+        bolt tempbeam;
+        tempbeam.source    = beam.target;
+        tempbeam.target    = beam.target;
+        tempbeam.flavour   = BEAM_MISSILE;
+        tempbeam.ex_size   = max_radius;
+        tempbeam.hit       = AUTOMATIC_HIT;
+        tempbeam.damage    = dice_def(AUTOMATIC_HIT, 1);
+        tempbeam.thrower   = KILL_YOU;
+        tempbeam.is_tracer = true;
+        tempbeam.explode(false);
+        if (tempbeam.beam_cancelled)
+            return false;
     }
     else
         beam.target = target;
