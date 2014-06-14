@@ -8,6 +8,7 @@
 
 #ifdef DEBUG_DIAGNOSTICS
 void generate_map_stats();
+void mg_build_levels(int niters);
 
 class map_def;
 void mapgen_report_map_try(const map_def &map);

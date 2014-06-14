@@ -153,6 +153,12 @@ static vector<level_id> mg_dungeon_places()
         if (brdepth[br] == -1)
             continue;
 
+#if TAG_MAJOR_VERSION == 34
+        // Don't want to include Forest since it doesn't generate
+        if (br == BRANCH_FOREST)
+            continue;
+#endif
+
         const branch_type branch = static_cast<branch_type>(br);
         for (int depth = 1; depth <= brdepth[br]; ++depth)
         {
@@ -190,11 +196,8 @@ static bool mg_build_dungeon()
     return true;
 }
 
-static void mg_build_levels(int niters)
+void mg_build_levels(int niters)
 {
-    clear_messages();
-    mpr("Generating dungeon map stats");
-
     for (int i = 0; i < niters; ++i)
     {
         clear_messages();
@@ -447,6 +450,8 @@ void generate_map_stats()
     // We have to run map preludes ourselves.
     run_map_global_preludes();
     run_map_local_preludes();
+    clear_messages();
+    mpr("Generating dungeon map stats");
     mg_build_levels(SysEnv.map_gen_iters);
     _write_mapgen_stats();
 }
