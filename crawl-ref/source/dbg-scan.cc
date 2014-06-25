@@ -1793,7 +1793,7 @@ void objstat_generate_stats()
     _init_foods();
     _init_monsters();
     _init_stats();
-    mg_build_levels(SysEnv.map_gen_iters);
+    mapstat_build_levels(SysEnv.map_gen_iters);
     _write_object_stats();
 }
 

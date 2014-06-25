@@ -4463,10 +4463,6 @@ bool parse_args(int argc, char **argv, bool rc_only)
 #endif
         case CLO_ITERATIONS:
 #ifdef DEBUG_DIAGNOSTICS
-            if (o == CLO_MAPSTAT)
-                crawl_state.map_stat_gen = true;
-            else
-                crawl_state.obj_stat_gen = true;
             if (!next_is_param || !isadigit(*next_arg))
             {
                 fprintf(stderr, "Integer argument required for -%s\n", arg);
