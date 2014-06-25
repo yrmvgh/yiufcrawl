@@ -104,6 +104,9 @@ static bool mg_do_build_level(int niters)
                 default:
                     break;
                 }
+                // Turn any mimics into actual monsters so they'll be recorded
+                // by objstat.
+                discover_mimic(coord_def(x, y), false);
             }
 
         {

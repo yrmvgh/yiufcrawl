@@ -1265,6 +1265,11 @@ void objgen_record_item(item_def &item)
     string cursed_f = is_arte ? "ArteNumCursed" : "OrdNumCursed";
     string ench_f = is_arte ? "ArteEnch" : "OrdEnch";
 
+    // Don't count mimics as items; these are converted explicitely in
+    // mg_do_build_level().
+    if (item.flags & ISFLAG_MIMIC)
+        return;
+
     // The Some averages are calculated after all items are tallied.
     switch (ogi.base_type)
     {
