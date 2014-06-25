@@ -18,6 +18,7 @@
 #include "message.h"
 #include "ng-init.h"
 #include "player.h"
+#include "state.h"
 #include "view.h"
 
 #ifdef DEBUG_DIAGNOSTICS
@@ -90,6 +91,14 @@ static bool mg_do_build_level(int niters)
         if (!builder())
         {
             ++mg_levels_failed;
+            // A level build failure can't be backed out of easily for
+            // objstat.
+            if (crawl_state.obj_stat_gen)
+            {
+                fprintf(stderr, "Level build failed on %s, aborting.",
+                        level_id::current().describe().c_str());
+                return false;
+            }
             continue;
         }
 
@@ -114,7 +123,9 @@ static bool mg_do_build_level(int niters)
             magic_mapping(1000, 100, true, true, false,
                           coord_def(GXM/2, GYM/2));
         }
-        if (_mg_is_disconnected_level())
+        // This kind of error didn't cause builder() to reject the level, so it
+        // should be fine for objstat purposes.
+        if (_mg_is_disconnected_level() && !crawl_state.obj_stat_gen)
         {
             string vaults;
             for (int j = 0, size = env.level_vaults.size(); j < size; ++j)

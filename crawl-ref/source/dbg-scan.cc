@@ -1787,7 +1787,7 @@ void objstat_generate_stats()
     stat_branches[NUM_BRANCHES] = vector<level_id>();
     stat_branches[NUM_BRANCHES].push_back(level_id(NUM_BRANCHES, -1));
     fprintf(stdout, "Generating object statistics for %d iteration(s) of %d "
-            "level(s) over %d branche(s).\n", SysEnv.map_gen_iters, num_levels,
+            "level(s) over %d branch(es).\n", SysEnv.map_gen_iters, num_levels,
             num_branches);
     _init_fields();
     _init_foods();
