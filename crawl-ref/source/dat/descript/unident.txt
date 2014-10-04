@@ -40,5 +40,6 @@ A staff improved with arcane powers of unknown nature.
 %%%%
 wand
 
-A stick. Maybe it's magical.
+An unusually magical sort of stick. If evoked without first being identified,
+several charges will be wasted figuring out how to use it.
 %%%%
