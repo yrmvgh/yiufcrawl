@@ -2003,6 +2003,12 @@ void drink(int slot)
         return;
     }
 
+    if (player_in_branch(BRANCH_COCYTUS))
+    {
+        mpr("It's too cold; everything's frozen solid!");
+        return;
+    }
+
     if (you.duration[DUR_NO_POTIONS])
     {
         mpr("You cannot drink potions in your current state!");

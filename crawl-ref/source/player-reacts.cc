@@ -728,8 +728,9 @@ static void _decrement_durations()
                           0, NULL, MSGCH_RECOVERY);
 
     _decrement_a_duration(DUR_NO_POTIONS, delay,
-                          you_foodless(true) ? NULL
-                                             : "You can drink potions again.",
+                          you_foodless(true)
+                          || player_in_branch(BRANCH_COCYTUS) ? NULL
+                                             : "Your potions thaw.",
                           0, NULL, MSGCH_RECOVERY);
 
     _decrement_a_duration(DUR_NO_SCROLLS, delay,

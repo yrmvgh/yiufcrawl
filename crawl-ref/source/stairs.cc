@@ -432,6 +432,7 @@ void up_stairs(dungeon_feature_type force_stair, bool wizard)
     {
         mprf("Welcome back to %s!",
              branches[you.where_are_you].longname);
+
         if ((brdepth[old_level.branch] > 1
              || old_level.branch == BRANCH_VESTIBULE)
             && !you.branches_left[old_level.branch])
@@ -443,6 +444,9 @@ void up_stairs(dungeon_feature_type force_stair, bool wizard)
                            old_level.describe());
             you.branches_left.set(old_level.branch);
         }
+
+        if (old_level.branch == BRANCH_COCYTUS)
+            mpr("Your potions thaw.");
     }
 
     const coord_def stair_pos = you.pos();
@@ -962,6 +966,12 @@ void down_stairs(dungeon_feature_type force_stair, bool force_known_shaft,
             mpr("You enter the halls of Pandemonium!");
             mpr("To return, you must find a gate leading back.");
         }
+        break;
+
+
+    case BRANCH_COCYTUS:
+        if (old_level.branch != BRANCH_COCYTUS)
+            mpr("Your potions freeze solid.");
         break;
 
     default:
