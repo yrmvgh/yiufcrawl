@@ -808,7 +808,9 @@ void handle_behaviour(monster* mon)
 
             // Creatures not currently pursuing another foe are
             // alerted by a sentinel's mark
-            if (mon->foe == MHITNOT && you.duration[DUR_SENTINEL_MARK]
+            if (mon->foe == MHITNOT
+                && (you.duration[DUR_SENTINEL_MARK]
+                    || mons_guarding_held_rune(mon->type))
                 && (!isFriendly && !mons_is_avatar(mon->type) && !isNeutral
                     && !isPacified
                     || mon->has_ench(ENCH_INSANE)))

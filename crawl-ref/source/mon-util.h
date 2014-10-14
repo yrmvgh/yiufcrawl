@@ -8,6 +8,7 @@
 
 #include "externs.h"
 #include "enum.h"
+#include "itemprop-enum.h"
 #include "mon-enum.h"
 #include "player.h"
 
@@ -158,6 +159,8 @@ struct monsterentry
     mon_itemeat_type gmon_eat;
     size_type size;
     mon_body_shape shape;
+    rune_type guarded_rune;        // If you have this rune, the monster knows
+                                   // where you are, always.
 };
 
 enum mon_threat_level_type
@@ -477,6 +480,7 @@ mon_threat_level_type mons_threat_level(const monster *mon,
 int count_monsters(monster_type mtyp, bool friendly_only);
 int count_allies();
 
+bool mons_guarding_held_rune(monster_type mc);
 bool mons_foe_is_marked(const monster* mons);
 vector<monster* > get_on_level_followers();
 
