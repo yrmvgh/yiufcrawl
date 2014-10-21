@@ -108,8 +108,11 @@ void init_mons_spells()
         if (!is_valid_spell(spell))
             continue;
 
-        if (spell == SPELL_MELEE
-            || setup_mons_cast(&fake_mon, pbolt, spell, true))
+        if (
+#if TAG_MAJOR_VERSION == 34
+            spell == SPELL_MELEE ||
+#endif
+            setup_mons_cast(&fake_mon, pbolt, spell, true))
         {
             _valid_mon_spells[i] = true;
         }
@@ -859,6 +862,7 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
     case SPELL_PORTAL_PROJECTILE:     // ditto
     case SPELL_GLACIATE:              // ditto
     case SPELL_CLOUD_CONE:            // ditto
+    case SPELL_SCATTERSHOT:           // ditto
         beam.flavour  = BEAM_DEVASTATION;
         beam.is_beam  = true;
         // Doesn't take distance into account, but this is just a tracer so
@@ -2860,6 +2864,33 @@ static bool _spray_tracer(monster *caster, int pow, bolt parent_beam, spell_type
     return mons_should_fire(beam);
 }
 
+bool scattershot_tracer(monster *caster, int pow, coord_def aim)
+{
+    targetter_shotgun hitfunc(caster, spell_range(SPELL_SCATTERSHOT, pow));
+    hitfunc.set_aim(aim);
+
+    mon_attitude_type castatt = caster->temp_attitude();
+    int friendly = 0, enemy = 0;
+
+    for (map<coord_def, int>::const_iterator p = hitfunc.zapped.begin();
+         p != hitfunc.zapped.end(); ++p)
+    {
+        if (p->second <= 0)
+            continue;
+
+        const actor *victim = actor_at(p->first);
+        if (!victim)
+            continue;
+
+        if (mons_atts_aligned(castatt, victim->temp_attitude()))
+            friendly += victim->get_experience_level();
+        else
+            enemy += victim->get_experience_level();
+    }
+
+    return enemy > friendly;
+}
+
 /** Chooses a matching spell from this spell list, based on frequency.
  *
  *  @param[in]  spells     the monster spell list to search
@@ -3187,8 +3218,14 @@ bool handle_mon_spell(monster* mons, bolt &beem)
             }
 
             // Setup the spell.
-            if (spell_cast != SPELL_MELEE && spell_cast != SPELL_NO_SPELL)
+            if (
+#if TAG_MAJOR_VERSION == 34
+                spell_cast != SPELL_MELEE &&
+#endif
+                spell_cast != SPELL_NO_SPELL)
+            {
                 setup_mons_cast(mons, beem, spell_cast);
+            }
 
             // Try to find a nearby ally to haste, heal, might,
             // or make invisible.
@@ -3300,8 +3337,14 @@ bool handle_mon_spell(monster* mons, bolt &beem)
     }
 
     // Should the monster *still* not have a spell, well, too bad {dlb}:
-    if (spell_cast == SPELL_NO_SPELL || spell_cast == SPELL_MELEE)
+    if (spell_cast == SPELL_NO_SPELL
+#if TAG_MAJOR_VERSION == 34
+        || spell_cast == SPELL_MELEE
+#endif
+        )
+    {
         return false;
+    }
 
     // Check for antimagic if casting a spell spell.
     if (mons->has_ench(ENCH_ANTIMAGIC) && flags & MON_SPELL_ANTIMAGIC_MASK
@@ -5997,6 +6040,14 @@ void mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
                                      mons->foe, 0, god));
         }
         return;
+
+    case SPELL_SCATTERSHOT:
+    {
+        actor *foe = mons->get_foe();
+        ASSERT(foe);
+        cast_scattershot(mons, 12 * mons->spell_hd(spell_cast), foe->pos());
+        return;
+    }
     }
 
     case SPELL_HUNTING_CRY:
@@ -7390,6 +7441,11 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
 
     case SPELL_HUNTING_CRY:
         return !foe;
+
+    case SPELL_SCATTERSHOT:
+        return !foe
+               || !scattershot_tracer(mon, 12 * mon->spell_hd(monspell),
+                                      foe->pos());
 
 #if TAG_MAJOR_VERSION == 34
     case SPELL_SUMMON_TWISTER:

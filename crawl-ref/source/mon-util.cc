@@ -2330,7 +2330,11 @@ unique_books get_unique_spells(const monster_info &mi,
                 if (spell == spells[k])
                     match = true;
 
-            if (!match && spell != SPELL_NO_SPELL && spell != SPELL_MELEE)
+            if (!match && spell != SPELL_NO_SPELL
+#if TAG_MAJOR_VERSION == 34
+                && spell != SPELL_MELEE
+#endif
+                )
                 spells.push_back(spell);
         }
 
