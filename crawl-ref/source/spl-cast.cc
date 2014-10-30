@@ -1068,8 +1068,9 @@ static targetter* _spell_targetter(spell_type spell, int pow, int range)
     case SPELL_GLACIATE:
         return new targetter_cone(&you, range);
     case SPELL_CLOUD_CONE:
+        return new targetter_shotgun(&you, CLOUD_CONE_BEAM_COUNT, range);
     case SPELL_SCATTERSHOT:
-        return new targetter_shotgun(&you, range);
+        return new targetter_shotgun(&you, shotgun_beam_count(pow), range);
     case SPELL_MAGIC_DART:
     case SPELL_FORCE_LANCE:
     case SPELL_SHOCK:

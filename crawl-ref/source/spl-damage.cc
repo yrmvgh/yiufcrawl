@@ -3116,12 +3116,18 @@ spret_type cast_random_bolt(int pow, bolt& beam, bool fail)
     return SPRET_SUCCESS;
 }
 
+size_t shotgun_beam_count(int pow)
+{
+    return 1 + (pow - 5) / 3;
+}
+
 spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
                             bool fail)
 {
     const size_t range = spell_range(SPELL_SCATTERSHOT, pow);
+    const size_t beam_count = shotgun_beam_count(pow);
 
-    targetter_shotgun hitfunc(caster, range);
+    targetter_shotgun hitfunc(caster, beam_count, range);
 
     hitfunc.set_aim(pos);
 
@@ -3147,10 +3153,10 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
     if (!caster->is_player())
         beam.damage   = dice_def(3, 4 + (pow / 18));
 
-    for (size_t i = 0; i < SHOTGUN_BEAMS; i++)
+    for (size_t i = 0; i < beam_count; i++)
     {
         bolt tempbeam = beam;
-        ray_def ray = hitfunc.rays[random2avg(SHOTGUN_BEAMS, 3)];
+        ray_def ray = hitfunc.rays[random2avg(beam_count, 3)];
         for (size_t j = 0; j < range; j++)
             ray.advance();
         tempbeam.target = ray.pos();

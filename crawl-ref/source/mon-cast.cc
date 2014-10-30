@@ -2815,7 +2815,7 @@ static bool _glaciate_tracer(monster *caster, int pow, coord_def aim)
 
 bool mons_should_cloud_cone(monster* agent, int power, const coord_def pos)
 {
-    targetter_shotgun hitfunc(agent,
+    targetter_shotgun hitfunc(agent, CLOUD_CONE_BEAM_COUNT,
                               spell_range(SPELL_CLOUD_CONE, power));
 
     hitfunc.set_aim(pos);
@@ -2866,13 +2866,14 @@ static bool _spray_tracer(monster *caster, int pow, bolt parent_beam, spell_type
 
 bool scattershot_tracer(monster *caster, int pow, coord_def aim)
 {
-    targetter_shotgun hitfunc(caster, spell_range(SPELL_SCATTERSHOT, pow));
+    targetter_shotgun hitfunc(caster, shotgun_beam_count(pow),
+                              spell_range(SPELL_SCATTERSHOT, pow));
     hitfunc.set_aim(aim);
 
     mon_attitude_type castatt = caster->temp_attitude();
     int friendly = 0, enemy = 0;
 
-    for (map<coord_def, int>::const_iterator p = hitfunc.zapped.begin();
+    for (map<coord_def, size_t>::const_iterator p = hitfunc.zapped.begin();
          p != hitfunc.zapped.end(); ++p)
     {
         if (p->second <= 0)

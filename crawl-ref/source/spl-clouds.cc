@@ -474,7 +474,7 @@ spret_type cast_cloud_cone(const actor *caster, int pow, const coord_def &pos,
 
     const int range = spell_range(SPELL_CLOUD_CONE, pow);
 
-    targetter_shotgun hitfunc(caster, range);
+    targetter_shotgun hitfunc(caster, CLOUD_CONE_BEAM_COUNT, range);
 
     hitfunc.set_aim(pos);
 
@@ -489,7 +489,7 @@ spret_type cast_cloud_cone(const actor *caster, int pow, const coord_def &pos,
     random_picker<cloud_type, NUM_CLOUD_TYPES> cloud_picker;
     cloud_type cloud = cloud_picker.pick(cloud_cone_clouds, pow, CLOUD_NONE);
 
-    for (map<coord_def, int>::const_iterator p = hitfunc.zapped.begin();
+    for (map<coord_def, size_t>::const_iterator p = hitfunc.zapped.begin();
          p != hitfunc.zapped.end(); ++p)
     {
         if (p->second <= 0)
