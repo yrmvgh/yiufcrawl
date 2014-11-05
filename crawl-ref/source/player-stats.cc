@@ -201,8 +201,9 @@ void jiyva_stat_action()
         stat_total += cur_stat[x];
     }
 
-    int evp = you.unadjusted_body_armour_penalty();
-    target_stat[0] = max(9, evp);
+    const int max_evp = max(you.unadjusted_body_armour_penalty(),
+                            you.unadjusted_shield_penalty());
+    target_stat[0] = max(9, max_evp);
     target_stat[1] = 9;
     target_stat[2] = 9;
     int remaining = stat_total - 18 - target_stat[0];
@@ -229,13 +230,13 @@ void jiyva_stat_action()
         // dexterity.  EVP 15 (chain) is enough to weight towards pure Str in
         // the absence of dodging skill, but 15 dodging will will push that
         // back to pure Dex.
-        int str_weight = (10 * evp - you.skill(SK_DODGING, 10)) / 15;
+        int str_weight = (10 * max_evp - you.skill(SK_DODGING, 10)) / 15;
         // Clip weight between 0 (pure dex) and 10 (pure strength).
         str_weight = min(10, max(0, str_weight));
 
         // If you are in really heavy armour, then you already are getting a
         // lot of Str and more won't help much, so weight magic more.
-        other_weights = max(other_weights - (evp >= 15 ? 4 : 1)
+        other_weights = max(other_weights - (max_evp >= 15 ? 4 : 1)
                             * magic_weights / 2, 0);
         magic_weights = div_rand_round(remaining * magic_weights,
                                        magic_weights + other_weights);

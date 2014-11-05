@@ -280,7 +280,6 @@ random_var player::attack_delay(const item_def *weap,
     // math.
     const int DELAY_SCALE = 20;
     const int armour_penalty = adjusted_body_armour_penalty(DELAY_SCALE);
-    const int base_shield_penalty = adjusted_shield_penalty(DELAY_SCALE);
 
     bool check_weapon = (!projectile && !!weap)
                         || projectile
@@ -340,14 +339,8 @@ random_var player::attack_delay(const item_def *weap,
     // Calculate this separately to avoid overflowing the weights in
     // the random_var.
     random_var shield_penalty = constant(0);
-    if (base_shield_penalty)
-    {
-        shield_penalty =
-            div_rand_round(rv::min(rv::roll_dice(1, base_shield_penalty),
-                                   rv::roll_dice(1, base_shield_penalty)),
-                           DELAY_SCALE);
-    }
     // Give unarmed shield-users a slight penalty always.
+    // (since they only have to trade off their aux punch, not a 2h weapon.)
     if (!weap && player_wearing_slot(EQ_SHIELD))
         shield_penalty += rv::random2(2);
 

@@ -1193,7 +1193,8 @@ static string _describe_ammo(const item_def &item)
 
 void append_armour_stats(string &description, const item_def &item)
 {
-    description += "\nBase armour rating: ";
+    description += make_stringf("\nBase %s rating: ",
+                                is_shield(item) ? "shield" : "armour");
     _append_value(description, property(item, PARM_AC), false);
     description += "       ";
 
@@ -1224,10 +1225,7 @@ static string _describe_armour(const item_def &item, bool verbose)
 
     description.reserve(200);
 
-    if (verbose
-        && item.sub_type != ARM_SHIELD
-        && item.sub_type != ARM_BUCKLER
-        && item.sub_type != ARM_LARGE_SHIELD)
+    if (verbose)
     {
         description += "\n";
         append_armour_stats(description, item);

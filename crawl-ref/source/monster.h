@@ -497,8 +497,11 @@ public:
 
     // Combat-related class methods
     int     unadjusted_body_armour_penalty() const { return 0; }
-    int     adjusted_body_armour_penalty(int, bool) const { return 0; }
-    int     adjusted_shield_penalty(int) const { return 0; }
+    int     unadjusted_shield_penalty() const { return 0; }
+    int     adjusted_body_armour_penalty(int scale = 1) const  { return 0; };
+    int     adjusted_shield_penalty(int scale = 1) const { return 0; };
+    int     adjusted_armour_penalty(int) const { return 0; }
+    int     armour_dodge_penalty(int) const { return 0; }
     int     armour_tohit_penalty(bool, int) const { return 0; }
     int     shield_tohit_penalty(bool, int) const { return 0; }
 

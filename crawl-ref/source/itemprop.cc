@@ -151,11 +151,11 @@ static const armour_def Armour_prop[] =
 
     // Note: shields use ac-value as sh-value, EV pen is used as the basis
     // to calculate adjusted shield penalty.
-    { ARM_BUCKLER,              "buckler",                3,  -1,   90,
+    { ARM_BUCKLER,              "buckler",                3,  -8,   90,
         EQ_SHIELD,      SIZE_LITTLE, SIZE_MEDIUM, true },
-    { ARM_SHIELD,               "shield",                 8,  -3,  150,
+    { ARM_SHIELD,               "shield",                 8,  -12,  150,
         EQ_SHIELD,      SIZE_SMALL,  SIZE_BIG, true    },
-    { ARM_LARGE_SHIELD,         "large shield",          13,  -5,  230,
+    { ARM_LARGE_SHIELD,         "large shield",          13,  -16, 230,
         EQ_SHIELD,      SIZE_MEDIUM, SIZE_GIANT, true  },
 };
 

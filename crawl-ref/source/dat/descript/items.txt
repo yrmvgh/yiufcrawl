@@ -376,9 +376,7 @@ crescent head.
 %%%%
 buckler
 
-A small piece of wood and metal, to be strapped on one arm for defence. It is
-somewhat cumbersome to wear, and, without a little training, slightly slows the
-rate at which a warrior attacks.
+A small piece of wood and metal, to be strapped on one arm for defence.
 %%%%
 centaur barding
 
@@ -696,20 +694,7 @@ A very large and very heavy stone. {{
 %%%%
 large shield
 
-A large piece of wood and metal, to be strapped on one arm for defence. {{
-    if you.race() == "Ogre"
-       or you.race() == "Troll"
-       or you.race() == "Naga"
-       or you.race() == "Centaur"
-       or you.race() == "Formicid"
-    then
-        return "It looks like it would fit you well."
-    else
-        return "It is very cumbersome to wear, and, without a great " ..
-               "deal of training, greatly slows the rate at which a " ..
-               "warrior attacks."
-    end
-}}
+A large piece of wood and metal, to be strapped on one arm for defence.
 %%%%
 leather armour
 
@@ -1310,9 +1295,7 @@ A farm implement, usually only used by untrained mobs in combat.
 %%%%
 shield
 
-A piece of wood and metal, to be strapped on one arm for defence. It is
-cumbersome to wear, and, without training, slows the rate at which a warrior
-attacks.
+A piece of wood and metal, to be strapped on one arm for defence.
 %%%%
 shortbow
 
