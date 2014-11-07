@@ -26,6 +26,7 @@
 #include "notes.h"
 #include "options.h"
 #include "religion.h"
+#include "random-weight.h"
 #include "shopping.h"
 #include "skills.h"
 #include "stringutil.h"
@@ -159,6 +160,8 @@ static const armour_def Armour_prop[] =
         EQ_SHIELD,      SIZE_MEDIUM, SIZE_GIANT, true  },
 };
 
+typedef pair<brand_type, int> brand_weight_tuple;
+
 /// The standard properties for a given weapon type. (E.g. falchions)
 struct weapon_def
 {
@@ -192,6 +195,24 @@ struct weapon_def
     int                 commonness;
     /// Used in *some* item 'acquirement' code; higher = generated more.
     int                 acquire_weight;
+    /// Used in non-artefact ego item generation.
+    std::vector<brand_weight_tuple> brand_weights;
+};
+
+// weights for non-dagger shortblades (short sword & rapier)
+static const std::vector<brand_weight_tuple> sbl_weights = {
+    { SPWPN_NORMAL, 33 },
+    { SPWPN_VENOM, 17 },
+    { SPWPN_SPEED, 10 },
+    { SPWPN_DRAINING, 9 },
+    { SPWPN_PROTECTION, 6 },
+    { SPWPN_ELECTROCUTION, 6 },
+    { SPWPN_HOLY_WRATH, 5 },
+    { SPWPN_VAMPIRISM, 4 },
+    { SPWPN_FLAMING, 4 },
+    { SPWPN_FREEZING, 4 },
+    { SPWPN_DISTORTION, 1 },
+    { SPWPN_ANTIMAGIC, 1 },
 };
 
 static int Weapon_index[NUM_WEAPONS];
@@ -206,7 +227,19 @@ static const weapon_def Weapon_prop[] =
         DAMV_CRUSHING, 0, 0 },
     { WPN_WHIP,              "whip",                6,  2, 11,  30,  2,
         SK_MACES_FLAILS, SIZE_LITTLE,  SIZE_LITTLE, MI_NONE,
-        DAMV_SLASHING, 4, 0 },
+        DAMV_SLASHING, 4, 0, {
+            { SPWPN_NORMAL, 34 },
+            { SPWPN_VENOM, 16 },
+            { SPWPN_ELECTROCUTION, 16 },
+            { SPWPN_DRAINING, 7 },
+            { SPWPN_FREEZING, 6 },
+            { SPWPN_FLAMING, 6 },
+            { SPWPN_VAMPIRISM, 5 },
+            { SPWPN_PAIN, 4 },
+            { SPWPN_HOLY_WRATH, 3 },
+            { SPWPN_DISTORTION, 2 },
+            { SPWPN_ANTIMAGIC, 1 },
+        }},
     { WPN_HAMMER,            "hammer",              7,  3, 13,  90,  7,
         SK_MACES_FLAILS, SIZE_LITTLE,  SIZE_LITTLE, MI_NONE,
         DAMV_CRUSHING, 0, 0 },
@@ -250,13 +283,13 @@ static const weapon_def Weapon_prop[] =
         DAMV_PIERCING, 0, 2 },
     { WPN_SHORT_SWORD,       "short sword",         6,  4, 11,  80,  2,
         SK_SHORT_BLADES, SIZE_LITTLE,  SIZE_LITTLE,  MI_NONE,
-        DAMV_PIERCING, 8, 10 },
+        DAMV_PIERCING, 8, 10, sbl_weights},
     { WPN_RAPIER,           "rapier",               7,  4, 12,  90,  2,
         SK_SHORT_BLADES, SIZE_LITTLE,  SIZE_LITTLE,  MI_NONE,
-        DAMV_PIERCING, 8, 10 },
+        DAMV_PIERCING, 8, 10, sbl_weights},
     { WPN_CUTLASS,          "cutlass",              7,  4, 12,  90,  2,
         SK_SHORT_BLADES, SIZE_LITTLE,  SIZE_LITTLE,  MI_NONE,
-        DAMV_SLICING | DAM_PIERCE, 0, 0 },
+        DAMV_SLICING | DAM_PIERCE, 0, 0, {}},
 
 
     // Long Blades
@@ -907,6 +940,26 @@ bool is_hard_helmet(const item_def &item)
 //
 // Ego item functions:
 //
+/**
+ * For a given weapon type, randomly choose an appropriate brand.
+ *
+ * @param wpn_type  The type of weapon in question.
+ * @return          An appropriate brand. (e.g. fire, pain, venom, etc)
+ *                  If we don't know how to choose a brand type for a weapon
+ *                  of this type, return NUM_SPECIAL_WEAPONS.
+ */
+brand_type choose_weapon_brand(weapon_type wpn_type)
+{
+    std::vector<brand_weight_tuple> weights
+        = Weapon_prop[ Weapon_index[wpn_type] ].brand_weights;
+    if (!weights.size())
+        return NUM_SPECIAL_WEAPONS;
+
+    brand_type *brand = random_choose_weighted(weights);
+    ASSERT(brand);
+    return *brand;
+}
+
 bool set_item_ego_type(item_def &item, object_class_type item_type,
                        int ego_type)
 {

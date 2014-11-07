@@ -254,6 +254,7 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
     if (item.special != 0)
         return static_cast<brand_type>(item.special);
 
+    const weapon_type wpn_type = static_cast<weapon_type>(item.sub_type);
     const bool force_good = item_level >= MAKE_GIFT_ITEM;
     const int tries       = force_good ? 5 : 1;
     brand_type rc         = SPWPN_NORMAL;
@@ -266,9 +267,16 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
             continue;
         }
 
+        brand_type itemprop_brand = choose_weapon_brand(wpn_type);
+        if (itemprop_brand != NUM_SPECIAL_WEAPONS)
+        {
+            rc = itemprop_brand;
+            continue;
+        }
+
         // We are not guaranteed to have a special set by the end of
         // this.
-        switch (item.sub_type)
+        switch (wpn_type)
         {
         case WPN_EVENINGSTAR:
             if (coinflip())
@@ -329,24 +337,6 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
                                          0);
             break;
 
-        case WPN_SHORT_SWORD:
-        case WPN_RAPIER:
-                                    // total weight 100
-            rc = random_choose_weighted(33, SPWPN_NORMAL,
-                                        17, SPWPN_VENOM,
-                                        10, SPWPN_SPEED,
-                                         9, SPWPN_DRAINING,
-                                         6, SPWPN_PROTECTION,
-                                         6, SPWPN_ELECTROCUTION,
-                                         5, SPWPN_HOLY_WRATH,
-                                         4, SPWPN_VAMPIRISM,
-                                         4, SPWPN_FLAMING,
-                                         4, SPWPN_FREEZING,
-                                         1, SPWPN_DISTORTION,
-                                         1, SPWPN_ANTIMAGIC,
-                                         0);
-            break;
-
         case WPN_FALCHION:
         case WPN_LONG_SWORD:
         case WPN_SCIMITAR:
@@ -389,22 +379,6 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
                                          1, SPWPN_PAIN,
                                          1, SPWPN_HOLY_WRATH,
                                          0);
-            break;
-
-        case WPN_WHIP:
-                                    // total weight 100
-            rc = random_choose_weighted(34, SPWPN_NORMAL,
-                                        16, SPWPN_VENOM,
-                                        16, SPWPN_ELECTROCUTION,
-                                         7, SPWPN_DRAINING,
-                                         6, SPWPN_FLAMING,
-                                         6, SPWPN_FREEZING,
-                                         5, SPWPN_VAMPIRISM,
-                                         4, SPWPN_PAIN,
-                                         3, SPWPN_HOLY_WRATH,
-                                         2, SPWPN_DISTORTION,
-                                         1, SPWPN_ANTIMAGIC,
-                                           0);
             break;
 
         case WPN_HALBERD:
