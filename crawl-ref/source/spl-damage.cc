@@ -3156,11 +3156,13 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
     for (size_t i = 0; i < beam_count; i++)
     {
         bolt tempbeam = beam;
+        tempbeam.draw_delay = 0;
         ray_def ray = hitfunc.rays[random2avg(beam_count, 3)];
         for (size_t j = 0; j < range; j++)
             ray.advance();
         tempbeam.target = ray.pos();
         tempbeam.fire();
+        scaled_delay(5);
     }
 
     return SPRET_SUCCESS;
