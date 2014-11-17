@@ -3130,6 +3130,8 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
     if (!caster->is_player())
         beam.damage   = dice_def(3, 4 + (pow / 18));
 
+    map<mid_t, int> hit_count;
+
     for (size_t i = 0; i < beam_count; i++)
     {
         bolt tempbeam = beam;
@@ -3140,6 +3142,20 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
         tempbeam.target = ray.pos();
         tempbeam.fire();
         scaled_delay(5);
+        for (auto it : tempbeam.hit_count)
+            hit_count[it.first] += it.second;
+    }
+
+    for (auto it : hit_count)
+    {
+        if (it.first == MID_PLAYER)
+            continue;
+
+        monster* mons = monster_by_mid(it.first);
+        if (!mons || !mons->alive() || !you.can_see(mons))
+            continue;
+
+        print_wounds(mons);
     }
 
     return SPRET_SUCCESS;
