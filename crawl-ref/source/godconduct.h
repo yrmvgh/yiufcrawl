@@ -13,7 +13,7 @@ struct god_conduct_trigger
     int pgain;
     bool known;
     bool enabled;
-    Unique_ptr<monster> victim;
+    unique_ptr<monster> victim;
 
     god_conduct_trigger(conduct_type c = NUM_CONDUCTS,
                         int pg = 0,
@@ -28,7 +28,7 @@ struct god_conduct_trigger
     ~god_conduct_trigger();
 };
 
-bool did_god_conduct(conduct_type thing_done, int level, bool known = true,
+void did_god_conduct(conduct_type thing_done, int level, bool known = true,
                      const monster* victim = NULL);
 void set_attack_conducts(god_conduct_trigger conduct[3], const monster* mon,
                          bool known = true);

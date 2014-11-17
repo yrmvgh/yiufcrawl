@@ -3,6 +3,8 @@
 #ifdef USE_TILE_LOCAL
 #ifdef USE_FT
 
+#include "fontwrapper-ft.h"
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -10,13 +12,12 @@
 #include "errno.h"
 #include "files.h"
 #include "format.h"
-#include "fontwrapper-ft.h"
 #include "glwrapper.h"
+#include "options.h"
 #include "syscalls.h"
 #include "tilebuf.h"
 #include "tilefont.h"
 #include "unicode.h"
-#include "options.h"
 
 // maximum number of unique glyphs that can be rendered with this font at once; e.g. 4096, 256, 36
 #define MAX_GLYPHS 256
@@ -470,7 +471,7 @@ static void _draw_box(int x_pos, int y_pos, float width, float height,
                       float box_width, unsigned char box_colour,
                       unsigned char box_alpha)
 {
-    Unique_ptr<GLShapeBuffer> buf(GLShapeBuffer::create(false, true));
+    unique_ptr<GLShapeBuffer> buf(GLShapeBuffer::create(false, true));
     GLWPrim rect(x_pos - box_width, y_pos - box_width,
                  x_pos + width + box_width, y_pos + height + box_width);
 

@@ -6,11 +6,10 @@
 #ifndef FILES_H
 #define FILES_H
 
-#include "externs.h"
-#include <stdio.h>
+#include <cstdio>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
 
 struct player_save_info;
 

@@ -6,12 +6,14 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "player.h"
 #include <vector>
+
+#include "player.h"
 
 class monster;
 class mon_acting;
 class targetter;
+struct activity_interrupt_data;
 
 struct god_act_state
 {
@@ -101,6 +103,7 @@ struct game_state
     // drawing.
     bool mlist_targeting;
 #else
+    bool tiles_disabled;
     bool title_screen;
 #endif
 
@@ -243,5 +246,8 @@ public:
 private:
     monster* mon;
 };
+
+bool interrupt_cmd_repeat(activity_interrupt_type ai,
+                          const activity_interrupt_data &at);
 
 #endif

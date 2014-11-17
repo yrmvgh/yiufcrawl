@@ -5,13 +5,10 @@
 
 #include "AppHdr.h"
 
-#include "externs.h"
+#include "place.h"
 
 #include "branch.h"
-#include "place.h"
 #include "player.h"
-#include "stringutil.h"
-#include "travel.h"
 
 // Prepositional form of branch level name.  For example, "in the
 // Abyss" or "on level 3 of the Main Dungeon".

@@ -23,7 +23,6 @@
 #include "dungeon.h"
 #include "english.h"
 #include "env.h"
-#include "target.h"
 #include "fprop.h"
 #include "ghost.h"
 #include "godconduct.h"
@@ -38,11 +37,12 @@
 #include "message.h"
 #include "mgen_data.h"
 #include "misc.h"
-#include "mon-act.h"
 #include "mon-abil.h"
+#include "mon-act.h"
 #include "mon-behv.h"
 #include "mon-cast.h"
 #include "mon-death.h"
+#include "mon-movetarget.h"
 #include "mon-place.h"
 #include "mon-speak.h"
 #include "options.h"
@@ -58,6 +58,7 @@
 #include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
+#include "target.h"
 #include "teleport.h"
 #include "terrain.h"
 #include "unwind.h"
@@ -144,7 +145,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
     // Don't enchant sticks marked with {!D}.
     if (!check_warning_inscriptions(wpn, OPER_DESTROY))
     {
-        mprf("%s", abort_msg.c_str());
+        mpr(abort_msg);
         return SPRET_ABORT;
     }
 
@@ -157,7 +158,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
 
     if (!item_is_snakable(wpn))
     {
-        mprf("%s", abort_msg.c_str());
+        mpr(abort_msg);
         return SPRET_ABORT;
     }
     else
@@ -190,7 +191,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
 
     if (!count)
     {
-        mprf("%s", abort_msg.c_str());
+        mpr(abort_msg);
         return SPRET_SUCCESS;
     }
 
@@ -396,7 +397,7 @@ spret_type cast_summon_hydra(actor *caster, int pow, god_type god, bool fail)
                       MONS_HYDRA, heads)))
     {
         if (you.see_cell(hydra->pos()))
-            mpr("A hydra appears.");
+            mprf("%s appears.", hydra->name(DESC_A).c_str());
     }
     else if (caster->is_player())
         canned_msg(MSG_NOTHING_HAPPENS);
@@ -1339,7 +1340,7 @@ spret_type cast_malign_gateway(actor * caster, int pow, god_type god, bool fail)
         if (one_chance_in(5) && caster->is_player())
         {
             // if someone deletes the db, no message is ok
-            mpr(getMiscString("SHT_int_loss").c_str());
+            mpr(getMiscString("SHT_int_loss"));
             // Messages the same as for SHT, as they are currently (10/10) generic.
             lose_stat(STAT_INT, 1 + random2(3), false, "opening a malign portal");
         }
@@ -1359,7 +1360,7 @@ spret_type cast_summon_horrible_things(int pow, god_type god, bool fail)
     if (one_chance_in(5))
     {
         // if someone deletes the db, no message is ok
-        mpr(getMiscString("SHT_int_loss").c_str());
+        mpr(getMiscString("SHT_int_loss"));
         lose_stat(STAT_INT, 1 + random2(2), false, "summoning horrible things");
     }
 
@@ -1725,7 +1726,10 @@ static bool _raise_remains(const coord_def &pos, int corps, beh_type beha,
     if (!actual)
         return true;
 
-    const monster_type zombie_type = item.mon_type;
+    monster_type zombie_type = item.mon_type;
+    // hack: don't re-froggify poor prince ribbit after death
+    if (zombie_type == MONS_PRINCE_RIBBIT)
+        zombie_type = MONS_HUMAN;
 
     const int hd     = (item.props.exists(MONSTER_HIT_DICE)) ?
                            item.props[MONSTER_HIT_DICE].get_short() : 0;
@@ -1749,8 +1753,13 @@ static bool _raise_remains(const coord_def &pos, int corps, beh_type beha,
         return false;
     }
 
-    monster_type mon = item.sub_type == CORPSE_BODY ? MONS_ZOMBIE : MONS_SKELETON;
-    const monster_type monnum = static_cast<monster_type>(item.orig_monnum);
+    monster_type mon = item.sub_type == CORPSE_BODY ? MONS_ZOMBIE
+                                                    : MONS_SKELETON;
+    monster_type monnum = static_cast<monster_type>(item.orig_monnum);
+    // hack: don't re-froggify poor prince ribbit after death
+    if (monnum == MONS_PRINCE_RIBBIT)
+        monnum = MONS_HUMAN;
+
     if (mon == MONS_ZOMBIE && !mons_zombifiable(zombie_type))
     {
         ASSERT(mons_skeleton(zombie_type));
@@ -2698,8 +2707,8 @@ spret_type cast_battlesphere(actor* agent, int pow, god_type god, bool fail)
         else
             mpr("You imbue your battlesphere with additional charge.");
 
-        battlesphere->number = min(20, (int) battlesphere->number
-                                   + 4 + random2(pow + 10) / 10);
+        battlesphere->battlecharge = min(20, (int) battlesphere->battlecharge
+                                              + 4 + random2(pow + 10) / 10);
 
         // Increase duration
         mon_enchant abj = battlesphere->get_ench(ENCH_FAKE_ABJURATION);
@@ -2742,7 +2751,7 @@ spret_type cast_battlesphere(actor* agent, int pow, god_type god, bool fail)
                     simple_monster_message(battlesphere, " appears!");
                 battlesphere->props["band_leader"].get_int() = agent->mid;
             }
-            battlesphere->number = 4 + random2(pow + 10) / 10;
+            battlesphere->battlecharge = 4 + random2(pow + 10) / 10;
             battlesphere->foe = agent->mindex();
             battlesphere->target = agent->pos();
         }
@@ -2769,7 +2778,7 @@ void end_battlesphere(monster* mons, bool killed)
         {
             if (you.can_see(mons))
             {
-                if (mons->number == 0)
+                if (mons->battlecharge == 0)
                 {
                     mpr("Your battlesphere expends the last of its energy"
                         " and dissipates.");
@@ -2973,7 +2982,7 @@ bool fire_battlesphere(monster* mons)
 
     bool used = false;
 
-    if (mons->props.exists("firing") && mons->number > 0)
+    if (mons->props.exists("firing") && mons->battlecharge > 0)
     {
         if (mons->props.exists("tracking"))
         {
@@ -3025,7 +3034,7 @@ bool fire_battlesphere(monster* mons)
         beam.glyph      = dchar_glyph(DCHAR_FIRED_ZAP);
         beam.colour     = MAGENTA;
         beam.flavour    = BEAM_MMISSILE;
-        beam.is_beam    = false;
+        beam.pierce     = false;
 
         // Fire tracer.
         fire_tracer(mons, beam);
@@ -3045,7 +3054,7 @@ bool fire_battlesphere(monster* mons)
 
             used = true;
             // Decrement # of volleys left and possibly expire the battlesphere.
-            if (--mons->number == 0)
+            if (--mons->battlecharge == 0)
                 end_battlesphere(mons, false);
 
             mons->props.erase("firing");
@@ -3109,35 +3118,48 @@ bool fire_battlesphere(monster* mons)
     return used;
 }
 
-spret_type cast_fulminating_prism(int pow, const coord_def& where, bool fail)
+spret_type cast_fulminating_prism(actor* caster, int pow,
+                                  const coord_def& where, bool fail)
 {
-    if (distance2(where, you.pos()) > dist_range(spell_range(SPELL_FULMINANT_PRISM,
-                                                 pow)))
+    if (distance2(where, caster->pos())
+        > dist_range(spell_range(SPELL_FULMINANT_PRISM, pow)))
     {
-        mpr("That's too far away.");
+        if (caster->is_player())
+            mpr("That's too far away.");
         return SPRET_ABORT;
     }
 
     if (cell_is_solid(where))
     {
-        mpr("You can't conjure that within a solid object!");
+        if (caster->is_player())
+            mpr("You can't conjure that within a solid object!");
         return SPRET_ABORT;
     }
 
-    // Note that self-targeting is handled by SPFLAG_NOT_SELF.
-    monster* mons = monster_at(where);
-    if (mons)
+    actor* victim = monster_at(where);
+    if (victim)
     {
-        if (you.can_see(mons))
+        if (caster->can_see(victim))
         {
-            mpr("You can't place the prism on a creature.");
+            if (caster->is_player())
+                mpr("You can't place the prism on a creature.");
             return SPRET_ABORT;
         }
 
         fail_check();
 
         // FIXME: maybe should do _paranoid_option_disable() here?
-        mpr("You see a ghostly outline there, and the spell fizzles.");
+        if (caster->is_player()
+            || (you.can_see(caster) && you.see_cell(where)))
+        {
+            if (you.can_see(victim))
+            {
+                mprf("%s %s.", victim->name(DESC_THE).c_str(),
+                               victim->conj_verb("twitch").c_str());
+            }
+            else
+                mpr("You see a ghostly outline there, and the spell fizzles.");
+        }
         return SPRET_SUCCESS;      // Don't give free detection!
     }
 
@@ -3145,15 +3167,27 @@ spret_type cast_fulminating_prism(int pow, const coord_def& where, bool fail)
 
     int hd = div_rand_round(pow, 10);
 
-    mgen_data prism_data = mgen_data(MONS_FULMINANT_PRISM, BEH_FRIENDLY, &you,
-                                     3, SPELL_FULMINANT_PRISM,
+    mgen_data prism_data = mgen_data(MONS_FULMINANT_PRISM,
+                                     caster->is_player()
+                                     ? BEH_FRIENDLY
+                                     : SAME_ATTITUDE(caster->as_monster()),
+                                     caster, 0, SPELL_FULMINANT_PRISM,
                                      where, MHITYOU, MG_FORCE_PLACE);
     prism_data.hd = hd;
     monster *prism = create_monster(prism_data);
 
     if (prism)
-        mpr("You conjure a prism of explosive energy!");
-    else
+    {
+        if (you.can_see(caster))
+        {
+            mprf("%s %s a prism of explosive energy!",
+                 caster->name(DESC_THE).c_str(),
+                 caster->conj_verb("conjure").c_str());
+        }
+        else if (you.can_see(prism))
+            mprf("A prism of explosive energy appears from nowhere!");
+    }
+    else if (you.can_see(caster))
         canned_msg(MSG_NOTHING_HAPPENS);
 
     return SPRET_SUCCESS;
@@ -3395,7 +3429,7 @@ bool grand_avatar_check_melee(monster* mons, actor* target)
     return false;
 }
 
-void trigger_grand_avatar(monster* mons, actor* victim, spell_type spell,
+void trigger_grand_avatar(monster* mons, const actor* victim, spell_type spell,
                           const int old_hp)
 {
     const bool melee = (spell == SPELL_NO_SPELL);

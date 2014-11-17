@@ -7,7 +7,7 @@
 
 #include "dbg-scan.h"
 
-#include <errno.h>
+#include <cerrno>
 #include <cmath>
 #include <sstream>
 
@@ -24,11 +24,11 @@
 #include "end.h"
 #include "env.h"
 #include "godabil.h"
-#include "items.h"
-#include "itemname.h"
-#include "itemprop.h"
 #include "initfile.h"
 #include "invent.h"
+#include "itemname.h"
+#include "itemprop.h"
+#include "items.h"
 #include "libutil.h"
 #include "maps.h"
 #include "message.h"
@@ -36,8 +36,8 @@
 #include "ng-init.h"
 #include "shopping.h"
 #include "state.h"
-#include "stringutil.h"
 #include "stepdown.h"
+#include "stringutil.h"
 #include "terrain.h"
 #include "traps.h"
 #include "version.h"
@@ -68,9 +68,8 @@ static void _dump_item(const char *name, int num, const item_def &item,
          num, item.base_type, item.sub_type,
          item.plus, item.plus2, item.special);
 
-    mprf("    quant: %d; colour: %d; ident: 0x%08" PRIx32"; ident_type: %d",
-         item.quantity, (int)item.colour, item.flags,
-         get_ident_type(item));
+    mprf("    quant: %d; ident: 0x%08" PRIx32"; ident_type: %d",
+         item.quantity, item.flags, get_ident_type(item));
 
     mprf("    x: %d; y: %d; link: %d", item.pos.x, item.pos.y, item.link);
 
@@ -552,16 +551,16 @@ void debug_mons_scan()
         }
     } // for (int i = 0; i < MAX_MONSTERS; ++i)
 
-    for (map<mid_t, unsigned short>::const_iterator mc = env.mid_cache.begin();
-         mc != env.mid_cache.end(); ++mc)
+    for (const auto &entry : env.mid_cache)
     {
-        unsigned short idx = mc->second;
+        unsigned short idx = entry.second;
         ASSERT(!invalid_monster_index(idx));
-        if (menv[idx].mid != mc->first)
+        if (menv[idx].mid != entry.first)
         {
             monster &m(menv[idx]);
             die("mid cache bogosity: mid %d points to %s mindex=%d mid=%d",
-                mc->first, m.name(DESC_PLAIN, true).c_str(), m.mindex(), m.mid);
+                entry.first, m.name(DESC_PLAIN, true).c_str(), m.mindex(),
+                m.mid);
         }
     }
 
@@ -746,6 +745,7 @@ const static char *stat_out_prefix = "objstat_";
 const static char *stat_out_ext = ".txt";
 #define STAT_PRECISION 2
 
+// This must match the order of item_fields
 enum item_base_type {
     ITEM_FOOD,
     ITEM_GOLD,
@@ -796,10 +796,76 @@ static map<level_id, FixedVector<map<int, map<string, double> >, NUM_ITEM_BASE_T
 // weapon_brands[level_id][item.base_type][item.sub_type][antiquity_level][brand];
 // arte_sum is 0 for ordinary, 1 for artefact, or 2 for all
 static map<level_id, vector <vector< vector< vector< int> > > > > equip_brands;
-static map<level_id, vector< vector< vector< int> > > > armour_brands;
 static map<level_id, vector< vector< int> > > missile_brands;
 
-static FixedVector< vector<string>, NUM_ITEM_BASE_TYPES> item_fields;
+// This must match the order of item_base_type
+static const vector<string> item_fields[NUM_ITEM_BASE_TYPES] = {
+    { // ITEM_FOOD
+        "Num", "NumMin", "NumMax", "NumSD", "NumPiles", "PileQuant",
+        "TotalNormNutr", "TotalCarnNutr", "TotalHerbNutr"
+    },
+    { // ITEM_GOLD
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
+        "NumPiles", "PileQuant"
+    },
+    { // ITEM_SCROLLS
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
+        "NumPiles", "PileQuant"
+    },
+    { // ITEM_POTIONS
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
+        "NumPiles", "PileQuant"
+    },
+    { // ITEM_WANDS
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons", "WandCharges"
+    },
+    { // ITEM_WEAPONS
+        "OrdNum", "ArteNum", "AllNum", "AllNumMin",
+        "AllNumMax", "AllNumSD", "OrdEnch", "ArteEnch",
+        "AllEnch", "OrdNumCursed", "ArteNumCursed",
+        "AllNumCursed", "OrdNumBranded", "OrdNumHeldMons",
+        "ArteNumHeldMons", "AllNumHeldMons"
+    },
+    { // ITEM_MISSILES
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
+        "NumBranded", "NumPiles", "PileQuant"
+    },
+    { // ITEM_STAVES
+        "Num", "NumMin", "NumMax", "NumSD", "NumCursed", "NumHeldMons"
+    },
+    { // ITEM_ARMOUR
+        "OrdNum", "ArteNum", "AllNum", "AllNumMin", "AllNumMax", "AllNumSD",
+        "OrdEnch", "ArteEnch", "AllEnch",
+        "OrdNumCursed", "ArteNumCursed", "AllNumCursed", "OrdNumBranded",
+        "OrdNumHeldMons", "ArteNumHeldMons", "AllNumHeldMons"
+    },
+    { // ITEM_JEWELLERY
+        "OrdNum", "ArteNum", "AllNum", "AllNumMin", "AllNumMax", "AllNumSD",
+        "OrdNumCursed", "ArteNumCursed", "AllNumCursed",
+        "OrdNumHeldMons", "ArteNumHeldMons", "AllNumHeldMons",
+        "OrdEnch", "ArteEnch", "AllEnch"
+    },
+    { // ITEM_MISCELLANY
+        "Num", "NumMin", "NumMax", "NumSD", "MiscPlus"
+    },
+    { // ITEM_RODS
+        "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
+        "RodMana", "RodRecharge", "NumCursed"
+    },
+    { // ITEM_DECKS
+        "PlainNum", "OrnateNum", "LegendaryNum", "AllNum",
+        "AllNumMin", "AllNumMax", "AllNumSD", "AllDeckCards"
+    },
+    { // ITEM_BOOKS
+        "Num", "NumMin", "NumMax", "NumSD"
+    },
+    { // ITEM_ARTEBOOKS
+        "Num", "NumMin", "NumMax", "NumSD"
+    },
+    { // ITEM_MANUALS
+        "Num", "NumMin", "NumMax", "NumSD"
+    },
+};
 
 static const char* equip_brand_fields[] = {"OrdBrandNums", "ArteBrandNums",
                                            "AllBrandNums"};
@@ -807,7 +873,11 @@ static const char* missile_brand_field = "BrandNums";
 
 static map<int, int> valid_foods;
 
-static vector<string> monster_fields;
+static const vector<string> monster_fields = {
+    "Num", "NumMin", "NumMax", "NumSD", "MonsHD", "MonsHP",
+    "MonsXP", "TotalXP", "MonsNumChunks", "TotalNutr"
+};
+
 static map<monster_type, int> valid_monsters;
 static map<level_id, map<int, map <string, double> > > monster_recs;
 
@@ -1097,63 +1167,6 @@ item_type::item_type(item_def &item)
         sub_type = item.sub_type;
 }
 
-// This could be done without the macros in C++11, where std::vector has a
-// constructor that takes an initializer list.
-#define INIT_VEC(vec, ...) do                                  \
-    {                                                          \
-        vector<string> &x = (vec);                             \
-        static const char *const ary[] = { __VA_ARGS__ };      \
-        x.insert(x.begin(), ary, ary + ARRAYSZ(ary));          \
-    } while (0)
-
-#define ITEM_FIELDS(name, ...) INIT_VEC(item_fields[ITEM_ ## name], __VA_ARGS__)
-
-static void _init_fields()
-{
-    ITEM_FIELDS(SCROLLS,    "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
-                            "NumPiles", "PileQuant");
-    ITEM_FIELDS(POTIONS,    "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
-                            "NumPiles", "PileQuant");
-    ITEM_FIELDS(FOOD,       "Num", "NumMin", "NumMax", "NumSD", "NumPiles",
-                            "PileQuant", "TotalNormNutr", "TotalCarnNutr",
-                            "TotalHerbNutr");
-    ITEM_FIELDS(GOLD,       "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
-                            "NumPiles", "PileQuant");
-    ITEM_FIELDS(WANDS,      "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons", "WandCharges");
-    ITEM_FIELDS(WEAPONS,    "OrdNum", "ArteNum", "AllNum", "AllNumMin",
-                            "AllNumMax", "AllNumSD", "OrdEnch", "ArteEnch",
-                            "AllEnch", "OrdNumCursed", "ArteNumCursed",
-                            "AllNumCursed", "OrdNumBranded", "OrdNumHeldMons",
-                            "ArteNumHeldMons", "AllNumHeldMons");
-    ITEM_FIELDS(STAVES,     "Num", "NumMin", "NumMax", "NumSD", "NumCursed",
-                            "NumHeldMons");
-    ITEM_FIELDS(ARMOUR,     "OrdNum", "ArteNum", "AllNum", "AllNumMin",
-                            "AllNumMax", "AllNumSD", "OrdEnch", "ArteEnch",
-                            "AllEnch", "OrdNumCursed", "ArteNumCursed",
-                            "AllNumCursed", "OrdNumBranded", "OrdNumHeldMons",
-                            "ArteNumHeldMons", "AllNumHeldMons");
-    ITEM_FIELDS(JEWELLERY,  "OrdNum", "ArteNum", "AllNum", "AllNumMin",
-                            "AllNumMax", "AllNumSD", "OrdNumCursed",
-                            "ArteNumCursed", "AllNumCursed", "OrdNumHeldMons",
-                            "ArteNumHeldMons", "AllNumHeldMons", "OrdEnch",
-                            "ArteEnch", "AllEnch");
-    ITEM_FIELDS(RODS,       "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
-                            "RodMana", "RodRecharge", "NumCursed");
-    ITEM_FIELDS(MISSILES,   "Num", "NumMin", "NumMax", "NumSD", "NumHeldMons",
-                            "NumBranded", "NumPiles", "PileQuant");
-    ITEM_FIELDS(MISCELLANY, "Num", "NumMin", "NumMax", "NumSD", "MiscPlus");
-    ITEM_FIELDS(DECKS,      "PlainNum", "OrnateNum", "LegendaryNum", "AllNum",
-                            "AllNumMin", "AllNumMax", "AllNumSD",
-                            "AllDeckCards");
-    ITEM_FIELDS(BOOKS,      "Num", "NumMin", "NumMax", "NumSD");
-    ITEM_FIELDS(ARTEBOOKS,  "Num", "NumMin", "NumMax", "NumSD");
-    ITEM_FIELDS(MANUALS,    "Num", "NumMin", "NumMax", "NumSD");
-
-    INIT_VEC(monster_fields, "Num", "NumMin", "NumMax", "NumSD", "MonsHD",
-                             "MonsHP", "MonsXP", "TotalXP", "MonsNumChunks",
-                             "TotalNutr");
-}
-
 static void _init_stats()
 {
     map<branch_type, vector<level_id> >::const_iterator bi;
@@ -1428,7 +1441,7 @@ void objstat_record_item(item_def &item)
         all_plus_f = "MiscPlus";
         break;
     case ITEM_DECKS:
-        switch (deck_rarity(item))
+        switch (item.deck_rarity)
         {
         case DECK_RARITY_COMMON:
             _record_item_stat(cur_lev, itype, "PlainNum", 1);
@@ -1496,11 +1509,19 @@ static void _record_monster_stat(level_id &lev, int mons_ind, string field,
 
 void objstat_record_monster(monster *mons)
 {
-    if (!valid_monsters.count(mons->type))
+    monster_type type;
+    if (mons->has_ench(ENCH_GLOWING_SHAPESHIFTER))
+        type = MONS_GLOWING_SHAPESHIFTER;
+    else if (mons->has_ench(ENCH_SHAPESHIFTER))
+        type = MONS_SHAPESHIFTER;
+    else
+        type = mons->type;
+
+    if (!valid_monsters.count(type))
         return;
 
-    int mons_ind = valid_monsters[mons->type];
-    corpse_effect_type chunk_effect = mons_corpse_effect(mons->type);
+    int mons_ind = valid_monsters[type];
+    corpse_effect_type chunk_effect = mons_corpse_effect(type);
     bool is_clean = chunk_effect == CE_CLEAN || chunk_effect == CE_POISONOUS;
     level_id lev = level_id::current();
 
@@ -1511,10 +1532,10 @@ void objstat_record_monster(monster *mons)
     _record_monster_stat(lev, mons_ind, "MonsHP", mons->max_hit_points);
     _record_monster_stat(lev, mons_ind, "MonsHD", mons->get_experience_level());
     // Record chunks/nutrition if monster leaves a corpse.
-    if (chunk_effect != CE_NOCORPSE && mons_weight(mons->type))
+    if (chunk_effect != CE_NOCORPSE && mons_class_can_leave_corpse(type))
     {
         // copied from turn_corpse_into_chunks()
-        double chunks = (1 + stepdown_value(get_max_corpse_chunks(mons->type),
+        double chunks = (1 + stepdown_value(get_max_corpse_chunks(type),
                                             4, 4, 12, 12)) / 2.0;
         _record_monster_stat(lev, mons_ind, "MonsNumChunks", chunks);
         if (is_clean)
@@ -1604,7 +1625,7 @@ static void _write_level_headers(branch_type br, int num_fields)
     fprintf(stat_outf, "\n");
 }
 
-static void _write_stat_headers(branch_type br, vector<string> fields)
+static void _write_stat_headers(branch_type br, const vector<string> &fields)
 {
     unsigned int level_count = 0;
     vector<level_id> &levels = stat_branches[br];
@@ -1763,7 +1784,7 @@ static void _write_item_stats(branch_type br, item_type &item)
     int equip_ind = is_brand_equip
         ? (item.base_type == ITEM_WEAPONS ? 0 : 1) : -1;
     unsigned int level_count = 0;
-    vector <string> fields = item_fields[item.base_type];
+    const vector<string> &fields = item_fields[item.base_type];
     vector<level_id>::const_iterator li;
 
     fprintf(stat_outf, "%s", _item_name(item).c_str());
@@ -1814,7 +1835,7 @@ static void _write_monster_stats(branch_type br, monster_type mons_type,
                                     int mons_ind)
 {
     unsigned int level_count = 0;
-    vector <string> fields = monster_fields;
+    const vector<string> &fields = monster_fields;
     vector<level_id>::const_iterator li;
 
     if (mons_ind == valid_monsters[NUM_MONSTERS])
@@ -1909,8 +1930,8 @@ static void _write_object_stats()
                 all_desc.c_str(), num_levels, Version::Long);
         _write_branch_stats(bi->first);
         fclose(stat_outf);
-        fprintf(stdout, "Wrote statistics for branch %s to %s.\n",
-                branch_name.c_str(), out_file.str().c_str());
+        printf("Wrote statistics for branch %s to %s.\n", branch_name.c_str(),
+               out_file.str().c_str());
     }
 }
 
@@ -1961,14 +1982,16 @@ void objstat_generate_stats()
     // This represents the AllLevels summary.
     stat_branches[NUM_BRANCHES] = vector<level_id>();
     stat_branches[NUM_BRANCHES].push_back(level_id(NUM_BRANCHES, -1));
-    fprintf(stdout, "Generating object statistics for %d iteration(s) of %d "
-            "level(s) over %d branch(es).\n", SysEnv.map_gen_iters,
-            num_levels, num_branches);
-    _init_fields();
+    printf("Generating object statistics for %d iteration(s) of %d "
+           "level(s) over %d branch(es).\n", SysEnv.map_gen_iters,
+           num_levels, num_branches);
     _init_foods();
     _init_monsters();
     _init_stats();
     if (mapstat_build_levels())
+    {
         _write_object_stats();
+        printf("Object statistics complete.\n");
+    }
 }
 #endif // DEBUG_DIAGNOSTICS

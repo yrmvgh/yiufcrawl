@@ -7,8 +7,9 @@
 #ifndef ENGLISH_H
 #define ENGLISH_H
 
-#include "enum.h"
 #include <string>
+
+#include "enum.h"
 
 extern const char * const standard_plural_qualifiers[];
 
@@ -23,7 +24,7 @@ string apostrophise_fixup(const string &msg);
 string conjugate_verb(const string &verb, bool plural);
 const char *decline_pronoun(gender_type gender, pronoun_type variant);
 
-string number_in_words(unsigned number, int pow = 0);
+string number_in_words(unsigned number);
 
 string article_a(const string &name, bool lowercase = true);
 

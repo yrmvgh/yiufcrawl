@@ -5,57 +5,40 @@
 
 #include "AppHdr.h"
 
-#include "cio.h"
+#include "hints.h"
 
 #include <cstring>
 #include <sstream>
-
-#include "hints.h"
 
 #include "ability.h"
 #include "artefact.h"
 #include "cloud.h"
 #include "colour.h"
-#include "command.h"
 #include "database.h"
 #include "decks.h"
 #include "describe.h"
 #include "end.h"
 #include "english.h"
 #include "env.h"
-#include "files.h"
-#include "food.h"
-#include "format.h"
 #include "fprop.h"
 #include "invent.h"
-#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
+#include "jobs.h"
 #include "libutil.h"
 #include "macro.h"
-#include "menu.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-behv.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "options.h"
-#include "ouch.h"
 #include "output.h"
-#include "jobs.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
-#include "rot.h"
 #include "shopping.h"
 #include "showsymb.h"
-#include "skills2.h"
-#include "species.h"
+#include "skills.h"
 #include "spl-book.h"
 #include "state.h"
 #include "stringutil.h"
-#include "strings.h"
-#include "tags.h"
 #include "terrain.h"
 #include "travel.h"
 #include "viewchar.h"
@@ -2696,7 +2679,7 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
 #ifdef USE_TILE
                     "or mouse over the spell tiles "
 #endif
-                    "to check your current success rates.";
+                    "to check your current failure rates.";
             cmd.push_back(CMD_DISPLAY_SPELLS);
             break;
         }
@@ -2708,7 +2691,7 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
             text << "Wearing heavy body armour or using a shield, especially a "
                     "large one, can severely hamper your spellcasting "
                     "abilities. You can check the effect of this by comparing "
-                    "the success rates on the <w>%\?</w> screen with and "
+                    "the failure rates on the <w>%\?</w> screen with and "
                     "without the item being worn.\n\n";
             cmd.push_back(CMD_CAST_SPELL);
         }
@@ -2717,12 +2700,13 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
                 "checked by entering <w>%\?</w> or <w>%</w>) then a miscast "
                 "merely means the spell is not working, along with a harmless "
                 "side effect. "
-                "However, for spells with a low success rate, there's a chance "
-                "of contaminating yourself with magical energy, plus a chance "
-                "of an additional harmful side effect. Normally this isn't a "
-                "problem, since magical contamination bleeds off over time, "
-                "but if you're repeatedly contaminated in a short amount of "
-                "time you'll mutate or suffer from other ill side effects.\n\n";
+                "However, for spells with a high failure rate, there's a "
+                "chance of contaminating yourself with magical energy, plus a "
+                "chance of an additional harmful side effect. Normally this "
+                "isn't a problem, since magical contamination bleeds off over "
+                "time, but if you're repeatedly contaminated in a short amount "
+                "of time you'll mutate or suffer from other ill side effects."
+                "\n\n";
         cmd.push_back(CMD_CAST_SPELL);
         cmd.push_back(CMD_DISPLAY_SPELLS);
 
@@ -3686,17 +3670,16 @@ void hints_describe_item(const item_def &item)
             if (is_deck(item))
             {
                 ostr << "Decks of cards are powerful but dangerous magical "
-                        "items. Try <w>%</w>ielding and e<w>%</w>oking it"
+                        "items. Try e<w>%</w>oking it"
 #ifdef USE_TILE
-                        ", either of which can be done by clicking on it"
+                        ", which can be done by clicking on it"
 #endif
                         ". If you use a scroll of identify on the deck you "
                         "can discover the name of the top card, making the "
                         "deck less risky to draw from. You can read about the "
                         "effect of a card by searching the game's database "
                         "with <w>%/c</w>.";
-                cmd.push_back(CMD_WIELD_WEAPON);
-                cmd.push_back(CMD_EVOKE_WIELDED);
+                cmd.push_back(CMD_EVOKE);
                 cmd.push_back(CMD_DISPLAY_COMMANDS);
             }
             else

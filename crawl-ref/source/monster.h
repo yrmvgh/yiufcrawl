@@ -51,7 +51,22 @@ public:
 
     unsigned int experience;
     monster_type  base_monster;        // zombie base monster, draconian colour
-    unsigned int  number;              // #heads (hydra), etc.
+    union {
+        unsigned int number;   ///< General purpose number variable
+        int blob_size;         ///< # of slimes/masses in this one
+        int num_heads;         ///< Hydra-like head number
+        int ballisto_activity; ///< How active is this ballistomycete?
+        int spore_cooldown;    ///< Can this make ballistos (if 0)
+        int mangrove_pests;    ///< # of animals in shambling mangrove
+        int prism_charge;      ///< Turns this prism has existed
+        int battlecharge;      ///< Charges of battlesphere
+        int move_spurt;        ///< Sixfirhy/jiangshi/kraken black magic
+        int swift_cooldown;    ///< When alligator last casted Swift
+        monster_type orc_type; ///< Orc type of Nergalle's spectral orc.
+        mid_t tentacle_connect;///< mid of monster this tentacle is
+                               //   connected to: for segments, this is the
+                               //   tentacle; for tentacles, the head.
+    };
     int           colour;
     mid_t         summoner;
 
@@ -61,7 +76,7 @@ public:
     god_type god;                      // What god the monster worships, if
                                        // any.
 
-    Unique_ptr<ghost_demon> ghost;     // Ghost information.
+    unique_ptr<ghost_demon> ghost;     // Ghost information.
 
     seen_context_type seen_context;    // Non-standard context for
                                        // AI_SEE_MONSTER
@@ -118,7 +133,7 @@ public:
     int  foe_distance() const;
     bool needs_berserk(bool check_spells = true) const;
 
-    // Has a hydra-like variable number of attacks based on mons->number.
+    // Has a hydra-like variable number of attacks based on num_heads.
     bool has_hydra_multi_attack() const;
     int  heads() const;
     bool has_multitargeting() const;
@@ -169,7 +184,7 @@ public:
 
     bool can_drink_potion(potion_type ptype) const;
     bool should_drink_potion(potion_type ptype) const;
-    item_type_id_state_type drink_potion_effect(potion_type pot_eff);
+    item_type_id_state_type drink_potion_effect(potion_type pot_eff, bool card = false);
 
     bool can_evoke_jewellery(jewellery_type jtype) const;
     bool should_evoke_jewellery(jewellery_type jtype) const;
@@ -196,7 +211,7 @@ public:
     void ghost_init(bool need_pos = true);
     void ghost_demon_init();
     void uglything_init(bool only_mutate = false);
-    void uglything_mutate(colour_t force_colour = BLACK);
+    void uglything_mutate(colour_t force_colour = COLOUR_UNDEF);
     void uglything_upgrade();
     void destroy_inventory();
     void load_ghost_spells();
@@ -448,7 +463,9 @@ public:
     void confuse(actor *, int strength);
     bool drain_exp(actor *, bool quiet = false, int pow = 3);
     bool rot(actor *, int amount, int immediate = 0, bool quiet = false);
-    void splash_with_acid(const actor* evildoer);
+    void splash_with_acid(const actor* evildoer, int acid_strength = -1,
+                          bool allow_corrosion = true,
+                          const char* hurt_msg = NULL);
     int hurt(const actor *attacker, int amount,
              beam_type flavour = BEAM_MISSILE,
              bool cleanup_dead = true,
@@ -542,7 +559,7 @@ private:
     bool level_up_change();
     bool pickup(item_def &item, int slot, int near);
     void equip_weapon(item_def &item, int near, bool msg = true);
-    void equip_armour(item_def &item, int near);
+    void equip_armour(item_def &item, int slot, int near);
     void equip_jewellery(item_def &item, int near);
     void unequip_weapon(item_def &item, int near, bool msg = true);
     void unequip_armour(item_def &item, int near);
@@ -561,6 +578,7 @@ private:
     bool check_set_valid_home(const coord_def &place,
                               coord_def &chosen,
                               int &nvalid) const;
+    bool search_spells(function<bool (const mon_spell_slot)> func) const;
 };
 
 #endif

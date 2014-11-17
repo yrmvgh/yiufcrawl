@@ -1,4 +1,18 @@
-// mutation_def struct is defined & documented in mutation.h.
+struct mutation_def
+{
+    mutation_type mutation;
+    short       weight;     // Commonality of the mutation; bigger = appears
+                            // more often.
+    short       levels;     // The number of levels of the mutation.
+    unsigned int  uses;     // Bitfield holding types of effects that grant
+                            // this mutation. (MFLAG)
+    bool        form_based; // A mutation that is suppressed when shapechanged.
+    const char* short_desc; // What appears on the '%' screen.
+    const char* have[3];    // What appears on the 'A' screen.
+    const char* gain[3];    // Message when you gain the mutation.
+    const char* lose[3];    // Message when you lose the mutation.
+    const char* desc;       // A descriptive phrase that can be used in a sentence.
+};
 
 static const mutation_def mut_data[] =
 {
@@ -1276,9 +1290,9 @@ static const mutation_def mut_data[] =
 { MUT_TRANSLUCENT_SKIN,               0,  3, MUTFLAG_GOOD | MUTFLAG_JIYVA, true,
   "translucent skin",
 
-  {"Your skin is partially translucent.",
-   "Your skin is mostly translucent (Stealth).",
-   "Your transparent skin reduces the accuracy of your foes (Stealth)."},
+  {"Your skin is partially translucent (Stealth, -foe acc).",
+   "Your skin is mostly translucent (Stealth, -foe acc).",
+   "Your skin is entirely transparent (Stealth, -foe acc)."},
 
   {"Your skin becomes partially translucent.",
    "Your skin becomes more translucent.",
@@ -1288,7 +1302,7 @@ static const mutation_def mut_data[] =
    "Your skin's translucency fades.",
    "Your skin's transparency fades."},
 
-   "translucent skin (Stealth)",
+   "translucent skin (Stealth and reduced enemy accuracy)",
 },
 
 { MUT_PSEUDOPODS,                     0,  3, MUTFLAG_GOOD | MUTFLAG_JIYVA, true,

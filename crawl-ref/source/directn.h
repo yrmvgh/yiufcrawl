@@ -6,7 +6,6 @@
 #ifndef DIRECT_H
 #define DIRECT_H
 
-#include "externs.h"
 #include "enum.h"
 #include "mon-info.h"
 
@@ -299,8 +298,6 @@ string get_monster_equipment_desc(const monster_info& mi,
                                   mons_equip_desc_level_type level = DESC_FULL,
                                   description_level_type mondtype = DESC_A,
                                   bool print_attitude = false);
-
-int dos_direction_unmunge(int doskey);
 
 string feature_description_at(const coord_def& where, bool covering = false,
                               description_level_type dtype = DESC_A,

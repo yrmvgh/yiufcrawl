@@ -61,6 +61,7 @@ fire_bat MONS_FIRE_BAT
 %rim 1
 raven MONS_RAVEN
 bennu MONS_BENNU
+caustic_shrike MONS_CAUSTIC_SHRIKE
 %sdir mon/vault
 %rim 0
 microbat MONS_MICROBAT
@@ -109,7 +110,7 @@ gastronok MONS_GASTRONOK
 %sdir mon/animals
 %rim 0
 rat MONS_RAT
-green_rat MONS_GREEN_RAT
+green_rat MONS_RIVER_RAT
 orange_rat MONS_ORANGE_RAT
 porcupine MONS_PORCUPINE
 %rim 1
@@ -444,7 +445,7 @@ block_of_ice MONS_BLOCK_OF_ICE
 block_of_ice2
 training_dummy MONS_TRAINING_DUMMY
 ice_statue MONS_ICE_STATUE
-silver_statue MONS_SILVER_STATUE
+obsidian_statue MONS_OBSIDIAN_STATUE
 orange_crystal_statue MONS_ORANGE_STATUE
 wucad_mu_statue MONS_WUCAD_MU_STATUE
 %sdir mon/vault
@@ -986,8 +987,8 @@ ghost MONS_PLAYER_GHOST
 silent_spectre MONS_SILENT_SPECTRE
 lost_soul MONS_LOST_SOUL /*'*'*/
 drowned_soul MONS_DROWNED_SOUL
-%rim 1
 flayed_ghost MONS_FLAYED_GHOST
+%rim 1
 hungry_ghost MONS_HUNGRY_GHOST
 %sdir mon/unique
 %sdir mon/nonliving

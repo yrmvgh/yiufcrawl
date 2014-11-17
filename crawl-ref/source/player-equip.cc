@@ -1,38 +1,34 @@
 #include "AppHdr.h"
 
 #include "player-equip.h"
+
+#include <cmath>
+
 #include "act-iter.h"
-#include "art-enum.h"
 #include "areas.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "delay.h"
 #include "food.h"
 #include "goditem.h"
 #include "godpassive.h"
 #include "hints.h"
-#include "item_use.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
+#include "item_use.h"
 #include "libutil.h"
 #include "message.h"
 #include "misc.h"
 #include "notes.h"
 #include "options.h"
-#include "player.h"
 #include "player-stats.h"
 #include "religion.h"
 #include "shopping.h"
-#include "skills2.h"
-#include "spl-cast.h"
 #include "spl-miscast.h"
 #include "spl-summoning.h"
 #include "spl-wpnench.h"
-#include "state.h"
-#include "transform.h"
 #include "xom.h"
-
-#include <cmath>
 
 static void _mark_unseen_monsters();
 
@@ -55,7 +51,7 @@ static void _calc_hp_artefact()
     set_hp(min(hp / 100, you.hp_max));
     you.hit_points_regeneration = hp % 100;
     if (you.hp_max <= 0) // Borgnjor's abusers...
-        ouch(0, NON_MONSTER, KILLED_BY_DRAINING);
+        ouch(0, KILLED_BY_DRAINING);
 }
 
 // Fill an empty equipment slot.
@@ -727,8 +723,9 @@ static void _unequip_weapon_effect(item_def& item, bool showMsgs, bool meld)
                     // Makes no sense to discourage unwielding a temporarily
                     // branded weapon since you can wait it out. This also
                     // fixes problems with unwield prompts (mantis #793).
-                    MiscastEffect(&you, WIELD_MISCAST, SPTYP_TRANSLOCATION,
-                                  9, 90, "a distortion unwield");
+                    MiscastEffect(&you, NULL, WIELD_MISCAST,
+                                  SPTYP_TRANSLOCATION, 9, 90,
+                                  "a distortion unwield");
                 }
                 break;
 

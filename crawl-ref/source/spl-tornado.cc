@@ -1,10 +1,10 @@
 #include "AppHdr.h"
-#include <math.h>
-#include <cfloat>
 
 #include "spl-damage.h"
 
-#include "areas.h"
+#include <cfloat>
+#include <cmath>
+
 #include "cloud.h"
 #include "coord.h"
 #include "coordit.h"
@@ -12,14 +12,12 @@
 #include "fineff.h"
 #include "godconduct.h"
 #include "libutil.h"
-#include "los.h"
 #include "message.h"
 #include "mon-behv.h"
 #include "mon-tentacle.h"
 #include "ouch.h"
 #include "prompt.h"
 #include "shout.h"
-#include "spl-cast.h"
 #include "terrain.h"
 #include "transform.h"
 
@@ -357,7 +355,7 @@ void tornado_damage(actor *caster, int dur)
                                     0, AC_PROPORTIONAL);
                         dprf("damage done: %d", dmg);
                         if (victim->is_player())
-                            ouch(dmg, caster->mindex(), KILLED_BY_BEAM, "tornado");
+                            ouch(dmg, KILLED_BY_BEAM, caster->mid, "tornado");
                         else
                             victim->hurt(caster, dmg);
                     }

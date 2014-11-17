@@ -1,35 +1,30 @@
 #include "AppHdr.h"
 
+#include "dgn-shoals.h"
+
+#include <algorithm>
+#include <cmath>
+#include <vector>
+
 #include "act-iter.h"
-#include "cio.h"
 #include "colour.h"
 #include "coordit.h"
-#include "dungeon.h"
-#include "dgn-shoals.h"
 #include "dgn-height.h"
+#include "dungeon.h"
 #include "english.h"
-#include "env.h"
 #include "flood_find.h"
-#include "fprop.h"
-#include "items.h"
 #include "itemprop.h"
+#include "items.h"
 #include "libutil.h"
 #include "mapmark.h"
 #include "maps.h"
 #include "message.h"
 #include "mgen_data.h"
 #include "mon-place.h"
-#include "mon-util.h"
-#include "random.h"
 #include "state.h"
 #include "stringutil.h"
-#include "terrain.h"
 #include "traps.h"
 #include "view.h"
-
-#include <algorithm>
-#include <vector>
-#include <cmath>
 
 static const char *PROPS_SHOALS_TIDE_KEY = "shoals-tide-height";
 static const char *PROPS_SHOALS_TIDE_VEL = "shoals-tide-velocity";
@@ -792,11 +787,10 @@ bool dgn_shoals_connect_point(const coord_def &point,
         const int n_points = 15;
         const int radius = 4;
 
-        for (vector<coord_def>::const_iterator i = track.begin();
-             i != track.end(); ++i)
+        for (auto tc : track)
         {
             int height = 0, npoints = 0;
-            for (radius_iterator ri(*i, radius, C_POINTY); ri; ++ri)
+            for (radius_iterator ri(tc, radius, C_POINTY); ri; ++ri)
             {
                 if (in_bounds(*ri))
                 {
@@ -812,7 +806,7 @@ bool dgn_shoals_connect_point(const coord_def &point,
                 const int elevation_change_per_dot =
                     max(1, elevation_change / n_points + 1);
 
-                dgn_island_centred_at(*i, n_points, radius,
+                dgn_island_centred_at(tc, n_points, radius,
                                       int_range(elevation_change_per_dot,
                                                 elevation_change_per_dot + 20),
                                       3);

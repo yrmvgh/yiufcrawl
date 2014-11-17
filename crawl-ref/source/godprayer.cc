@@ -19,21 +19,14 @@
 #include "itemprop.h"
 #include "items.h"
 #include "item_use.h"
-#include "libutil.h"
-#include "player.h"
 #include "makeitem.h"
 #include "message.h"
-#include "monster.h"
 #include "notes.h"
-#include "options.h"
 #include "prompt.h"
-#include "random.h"
 #include "religion.h"
-#include "rot.h"
 #include "shopping.h"
-#include "skills2.h"
-#include "state.h"
 #include "spl-wpnench.h"
+#include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
 #include "terrain.h"
@@ -85,7 +78,7 @@ string god_prayer_reaction()
     return result;
 }
 
-static bool _bless_weapon(god_type god, brand_type brand, int colour)
+static bool _bless_weapon(god_type god, brand_type brand, colour_t colour)
 {
     int item_slot = prompt_invent_item("Brand which weapon?", MT_INVLIST,
                                        OSEL_BLESSABLE_WEAPON, true, true, false);
@@ -124,7 +117,6 @@ static bool _bless_weapon(god_type god, brand_type brand, int colour)
     string old_name = wpn.name(DESC_A);
     set_equip_desc(wpn, ISFLAG_GLOWING);
     set_item_ego_type(wpn, OBJ_WEAPONS, brand);
-    wpn.colour = colour;
 
     const bool is_cursed = wpn.cursed();
 
@@ -139,16 +131,10 @@ static bool _bless_weapon(god_type god, brand_type brand, int colour)
         convert2good(wpn);
 
         if (is_blessed_convertible(wpn))
-        {
             origin_acquired(wpn, GOD_SHINING_ONE);
-            wpn.flags |= ISFLAG_BLESSED_WEAPON;
-        }
     }
     else if (is_evil_god(god))
-    {
         convert2bad(wpn);
-        wpn.flags &= ~ISFLAG_BLESSED_WEAPON;
-    }
 
     you.wield_change = true;
     you.one_time_ability_used.set(god);
@@ -164,6 +150,7 @@ static bool _bless_weapon(god_type god, brand_type brand, int colour)
     take_note(Note(NOTE_ID_ITEM, 0, 0,
               wpn.name(DESC_A).c_str(), desc.c_str()));
     wpn.flags |= ISFLAG_NOTED_ID;
+    wpn.props[FORCED_ITEM_COLOUR_KEY] = colour;
 
     mprf(MSGCH_GOD, "Your %s shines brightly!", wpn.name(DESC_QUALNAME).c_str());
 
@@ -222,8 +209,7 @@ static bool _altar_prayer()
     if (you_worship(GOD_ZIN))
         return _zin_donate_gold();
 
-    // TSO blesses weapons with holy wrath, and long blades and demon
-    // whips specially.
+    // TSO blesses weapons with holy wrath, and demon weapons specially.
     else if (can_do_capstone_ability(GOD_SHINING_ONE))
     {
         simple_god_message(" will bless one of your weapons.");
@@ -561,7 +547,7 @@ static bool _zin_donate_gold()
                                                      : "noncommittal";
         result += (donation >= 30 && you.piety < piety_breakpoint(5)) ? "!" : ".";
 
-        mpr(result.c_str());
+        mpr(result);
     }
 
     zin_recite_interrupt();
@@ -624,38 +610,6 @@ static bool _destroyed_valuable_weapon(int value, int type)
 
 static piety_gain_t _sac_corpse(const item_def& item)
 {
-    if (you_worship(GOD_OKAWARU))
-    {
-        monster dummy;
-        dummy.type = (monster_type)(item.orig_monnum ? item.orig_monnum
-                                                     : item.plus);
-        if (item.props.exists(MONSTER_NUMBER))
-            dummy.number   = item.props[MONSTER_NUMBER].get_short();
-        define_monster(&dummy);
-
-        // Hit dice are overridden by define_monster, so only set them now.
-        if (item.props.exists(MONSTER_HIT_DICE))
-        {
-            int hd = item.props[MONSTER_HIT_DICE].get_short();
-            const monsterentry *m = get_monster_data(dummy.type);
-            int hp = hit_points(hd, m->hpdice[1], m->hpdice[2]) + m->hpdice[3];
-
-            dummy.set_hit_dice(hd);
-            dummy.max_hit_points = hp;
-        }
-        int gain = get_fuzzied_monster_difficulty(&dummy);
-        dprf("fuzzied corpse difficulty: %4.2f", gain*0.01);
-
-        // Shouldn't be needed, but just in case an XL:1 spriggan diver walks
-        // into a minotaur corpses vault on D:10 ...
-        if (item.props.exists("cap_sacrifice"))
-            gain = min(gain, 700 * 3);
-
-        gain_piety(gain, 700);
-        gain = div_rand_round(gain, 700);
-        return (gain <= 0) ? PIETY_NONE : (gain < 4) ? PIETY_SOME : PIETY_LOTS;
-    }
-
     gain_piety(13, 19);
 
     // The feedback is not accurate any longer on purpose; it only reveals

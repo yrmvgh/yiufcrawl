@@ -5,25 +5,20 @@
 
 #include "AppHdr.h"
 
+#include "spl-transloc.h"
+
+#include <algorithm>
 #include <cmath>
 #include <vector>
-#include <algorithm>
-
-#include "spl-transloc.h"
-#include "externs.h"
 
 #include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
 #include "cloud.h"
-#include "coord.h"
 #include "coordit.h"
 #include "delay.h"
 #include "directn.h"
 #include "dungeon.h"
-#include "env.h"
-#include "fprop.h"
-#include "invent.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
@@ -31,20 +26,15 @@
 #include "message.h"
 #include "misc.h"
 #include "mon-behv.h"
-#include "mon-util.h"
 #include "orb.h"
 #include "output.h"
 #include "prompt.h"
-#include "random.h"
 #include "shout.h"
 #include "spl-util.h"
 #include "stash.h"
 #include "state.h"
-
 #include "teleport.h"
 #include "terrain.h"
-#include "throw.h"
-#include "transform.h"
 #include "traps.h"
 #include "view.h"
 #include "viewmap.h"
@@ -89,10 +79,8 @@ void disjunction()
             return;
         // blink should be isotropic
         shuffle_array(mvec);
-        for (vector<monster*>::iterator mitr = mvec.begin();
-            mitr != mvec.end(); mitr++)
+        for (auto mons : mvec)
         {
-            monster* mons = *mitr;
             if (!mons->alive() || mons->no_tele())
                 continue;
             coord_def p = mons->pos();
@@ -112,7 +100,7 @@ void disjunction()
 // a monster being at the target spot), and the player gains no
 // contamination.
 int blink(int pow, bool high_level_controlled_blink, bool wizard_blink,
-          string *pre_msg, bool safely_cancellable)
+          const string &pre_msg, bool safely_cancellable)
 {
     ASSERT(!crawl_state.game_is_arena());
 
@@ -129,14 +117,14 @@ int blink(int pow, bool high_level_controlled_blink, bool wizard_blink,
     // yes, there is a logic to this ordering {dlb}:
     if (you.no_tele(true, true, true) && !wizard_blink)
     {
-        if (pre_msg)
-            mpr(pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         canned_msg(MSG_STRANGE_STASIS);
     }
     else if (you.confused() && !wizard_blink)
     {
-        if (pre_msg)
-            mpr(pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         random_blink(false);
     }
     // The orb sometimes degrades controlled blinks to completely uncontrolled.
@@ -150,8 +138,8 @@ int blink(int pow, bool high_level_controlled_blink, bool wizard_blink,
             return -1;
         }
 
-        if (pre_msg)
-            mpr(pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         mprf(MSGCH_ORB, "The orb interferes with your control of the blink!");
         // abort still wastes the turn
         if (high_level_controlled_blink && coinflip())
@@ -168,8 +156,8 @@ int blink(int pow, bool high_level_controlled_blink, bool wizard_blink,
             return -1;
         }
 
-        if (pre_msg)
-            mpr(pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         mpr("A powerful magic interferes with your control of the blink.");
         // FIXME: cancel shouldn't waste a turn here -- need to rework Abyss handling
         if (high_level_controlled_blink)
@@ -261,8 +249,8 @@ int blink(int pow, bool high_level_controlled_blink, bool wizard_blink,
         if (!you.attempt_escape(2))
             return false;
 
-        if (pre_msg)
-            mpr(pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
 
         // Allow wizard blink to send player into walls, in case the
         // user wants to alter that grid to something else.
@@ -662,7 +650,9 @@ static bool _teleport_player(bool allow_control, bool wizard_tele,
 
         int tries = 500;
         do
+        {
             newpos = random_in_bounds();
+        }
         while (--tries > 0
                && (_cell_vetoes_teleport(newpos)
                    || (newpos - old_pos).abs() > dist_range(range)

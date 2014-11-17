@@ -229,7 +229,7 @@ static const pop_entry pop_lair[] =
   {  1,  7, 1000, FLAT, MONS_GIANT_FROG },
   { -1,  5,   52, SEMI, MONS_BLACK_BEAR },
   {  1,  8,  925, FLAT, MONS_ADDER },
-  { -2,  8,  750, SEMI, MONS_GREEN_RAT },
+  { -2,  8,  750, SEMI, MONS_RIVER_RAT },
   {  1,  8,  980, FLAT, MONS_CROCODILE },
   {  0,  6,   25, PEAK, MONS_SCORPION },
   {  0,  8,  260, SEMI, MONS_BASILISK },
@@ -407,7 +407,6 @@ static const pop_entry pop_vaults[] =
   { -2,  6,   89, PEAK, MONS_ICE_DRAGON },
   { -2,  6,   89, PEAK, MONS_HARPY },
   { -2,  6,   89, PEAK, MONS_FIRE_CRAB },
-  { -2,  6,   89, PEAK, MONS_VERY_UGLY_THING },
   { -2,  8,  245, PEAK, MONS_BOULDER_BEETLE },
   { -1,  5,   89, PEAK, MONS_GIANT_ORANGE_BRAIN },
   { -1,  9,  260, PEAK, MONS_FREEZING_WRAITH },
@@ -415,6 +414,7 @@ static const pop_entry pop_vaults[] =
   { -1,  9,   60, PEAK, MONS_FLAYED_GHOST },
   {  0,  8,   89, PEAK, MONS_REDBACK },
   {  0, 12,   89, PEAK, MONS_SPHINX },
+  {  0, 12,   89, PEAK, MONS_VERY_UGLY_THING },
   {  1,  1,  440, FLAT, MONS_HILL_GIANT },
   {  1,  1,  255, FLAT, MONS_UNSEEN_HORROR },
   {  1,  1,  185, FLAT, MONS_WRAITH },
@@ -1106,6 +1106,7 @@ static const pop_entry pop_depths[] =
   {  4, 14,   25, UP,   MONS_DEEP_ELF_SORCERER },
   {  4, 14,   25, UP,   MONS_DEEP_ELF_DEATH_MAGE },
   {  6, 14,   50, FLAT, MONS_TITAN },
+  {  6, 14,   50, FLAT, MONS_CAUSTIC_SHRIKE },
   { 10, 14,   10, FLAT, MONS_ANCIENT_LICH },
   { 0,0,0,FLAT,MONS_0 }
 };

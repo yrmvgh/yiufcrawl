@@ -125,6 +125,18 @@ enum tag_minor_version
     TAG_MINOR_CUT_CUTLASSES,       // Turn crummy cutlasses into real rapiers.
     TAG_MINOR_NO_GHOST_SPELLCASTER,// Remove an unused field in ghost_demon
     TAG_MINOR_MID_BEHOLDERS,       // you.beholders and fearmongers store mids
+    TAG_MINOR_REMOVE_ITEM_COLOUR,  // don't store item colour as state
+    TAG_MINOR_CORPSE_CRASH,        // don't crash when loading corpses
+    TAG_MINOR_INIT_RND,            // initialize rnd in more places
+    TAG_MINOR_RING_PLUSSES,        // don't generate +144 rings
+    TAG_MINOR_BLESSED_WPNS,        // Remove blessed long blade base types
+    TAG_MINOR_MON_COLOUR_LOOKUP,   // monster colour lookup when possible
+    TAG_MINOR_CONSUM_APPEARANCE,   // Stop storing item appearance in .plus
+    TAG_MINOR_NEG_IDESC,           // Fix a sign conversion error
+    TAG_MINOR_GHOST_ENERGY,        // ghost_demon has move_energy field
+    TAG_MINOR_TENTACLE_MID,        // Use mids for tentacle code
+    TAG_MINOR_CORPSE_COLOUR,       // Fix corpses with invalid colour.
+    TAG_MINOR_MANGLE_CORPSES,      // Turn NEVER_HIDE corpses into MANGLED_CORPSEs
 #endif
     NUM_TAG_MINORS,
     TAG_MINOR_VERSION = NUM_TAG_MINORS - 1

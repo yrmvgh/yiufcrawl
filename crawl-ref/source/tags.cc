@@ -12,71 +12,60 @@
 */
 
 #include "AppHdr.h"
-#include "bitary.h"
 
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>            // for memcpy
-#include <iterator>
+#include "tags.h"
+
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iterator>
 #include <vector>
-
 #ifdef UNIX
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 #endif
 
 #include "abyss.h"
-#include "art-enum.h"
+#include "act-iter.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "branch.h"
 #include "butcher.h"
 #include "colour.h"
-#include "coord.h"
 #include "coordit.h"
-#include "describe.h"
 #include "dbg-scan.h"
+#include "describe.h"
 #include "dgn-overview.h"
 #include "dungeon.h"
 #include "end.h"
-#include "enum.h"
 #include "errors.h"
-#include "map_knowledge.h"
-#include "externs.h"
-#include "files.h"
 #include "ghost.h"
 #include "godcompanions.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
 #include "mapmark.h"
 #include "misc.h"
-#include "mon-book.h"
-#include "mon-death.h"
-#include "mon-info.h"
 #if TAG_MAJOR_VERSION == 34
  #include "mon-chimera.h"
 #endif
-#include "mon-util.h"
+#include "mon-death.h"
 #if TAG_MAJOR_VERSION == 34
  #include "mon-place.h"
+ #include "mon-poly.h"
+ #include "mon-tentacle.h"
+ #include "mon-util.h"
 #endif
-#include "mon-transit.h"
 #include "place.h"
-#include "quiver.h"
 #include "religion.h"
 #include "skills.h"
-#include "skills2.h"
-#include "state.h"
-#include "env.h"
-#include "spl-util.h"
 #include "spl-wpnench.h"
+#include "state.h"
 #include "stringutil.h"
 #include "syscalls.h"
-#include "tags.h"
 #include "terrain.h"
 #include "tiledef-dngn.h"
 #include "tiledef-player.h"
@@ -86,7 +75,6 @@
  #include "tilemcache.h"
 #endif
 #include "transform.h"
-#include "travel.h"
 #include "unwind.h"
 #include "version.h"
 
@@ -329,7 +317,7 @@ static ghost_demon unmarshallGhost(reader &th);
 static void marshallSpells(writer &, const monster_spells &);
 static void unmarshallSpells(reader &, monster_spells &
 #if TAG_MAJOR_VERSION == 34
-                             , unsigned hd, bool wizard, bool priest
+                             , unsigned hd
 #endif
 );
 
@@ -1394,18 +1382,12 @@ static void tag_construct_you(writer &th)
         marshallShort(th, you.ability_letter_table[i]);
 
     marshallUByte(th, you.old_vehumet_gifts.size());
-    for (set<spell_type>::iterator it = you.old_vehumet_gifts.begin();
-         it != you.old_vehumet_gifts.end(); ++it)
-    {
-        marshallShort(th, *it);
-    }
+    for (auto spell : you.old_vehumet_gifts)
+        marshallShort(th, spell);
 
     marshallUByte(th, you.vehumet_gifts.size());
-    for (set<spell_type>::iterator it = you.vehumet_gifts.begin();
-         it != you.vehumet_gifts.end(); ++it)
-    {
-        marshallShort(th, *it);
-    }
+    for (auto spell : you.vehumet_gifts)
+        marshallShort(th, spell);
 
     CANARY;
 
@@ -1424,18 +1406,12 @@ static void tag_construct_you(writer &th)
 
     marshallBoolean(th, you.auto_training);
     marshallByte(th, you.exercises.size());
-    for (list<skill_type>::iterator it = you.exercises.begin();
-         it != you.exercises.end(); ++it)
-    {
-        marshallInt(th, *it);
-    }
+    for (auto sk : you.exercises)
+        marshallInt(th, sk);
 
     marshallByte(th, you.exercises_all.size());
-    for (list<skill_type>::iterator it = you.exercises_all.begin();
-         it != you.exercises_all.end(); ++it)
-    {
-        marshallInt(th, *it);
-    }
+    for (auto sk : you.exercises_all)
+        marshallInt(th, sk);
 
     marshallByte(th, you.skill_menu_do);
     marshallByte(th, you.skill_menu_view);
@@ -1567,20 +1543,14 @@ static void tag_construct_you(writer &th)
     CANARY;
 
     // Action counts.
-    j = 0;
-    for (map<pair<caction_type, int>, FixedVector<int, 27> >::const_iterator ac =
-         you.action_count.begin(); ac != you.action_count.end(); ++ac)
-    {
-        j++;
-    }
+    j = you.action_count.size();
     marshallShort(th, j);
-    for (map<pair<caction_type, int>, FixedVector<int, 27> >::const_iterator ac =
-         you.action_count.begin(); ac != you.action_count.end(); ++ac)
+    for (const auto &ac : you.action_count)
     {
-        marshallShort(th, ac->first.first);
-        marshallInt(th, ac->first.second);
+        marshallShort(th, ac.first.first);
+        marshallInt(th, ac.first.second);
         for (int k = 0; k < 27; k++)
-            marshallInt(th, ac->second[k]);
+            marshallInt(th, ac.second[k]);
     }
 
     marshallByte(th, NUM_BRANCHES);
@@ -1652,7 +1622,7 @@ static void tag_construct_you_items(writer &th)
     marshallUByte(th, MAX_SUBTYPES);
     for (i = 0; i < NUM_IDESC; ++i)
         for (j = 0; j < MAX_SUBTYPES; ++j)
-            marshallByte(th, you.item_description[i][j]);
+            marshallInt(th, you.item_description[i][j]);
 
     marshallUByte(th, NUM_OBJECT_CLASSES);
     for (i = 0; i < NUM_OBJECT_CLASSES; ++i)
@@ -1815,22 +1785,16 @@ static void marshall_follower_list(writer &th, const m_transit_list &mlist)
 {
     marshallShort(th, mlist.size());
 
-    for (m_transit_list::const_iterator mi = mlist.begin();
-         mi != mlist.end(); ++mi)
-    {
-        marshall_follower(th, *mi);
-    }
+    for (const auto &follower : mlist)
+        marshall_follower(th, follower);
 }
 
 static void marshall_item_list(writer &th, const i_transit_list &ilist)
 {
     marshallShort(th, ilist.size());
 
-    for (i_transit_list::const_iterator ii = ilist.begin();
-         ii != ilist.end(); ++ii)
-    {
-        marshallItem(th, *ii);
-    }
+    for (const auto &item : ilist)
+        marshallItem(th, item);
 }
 
 static m_transit_list unmarshall_follower_list(reader &th)
@@ -3166,7 +3130,23 @@ static void tag_read_you_items(reader &th)
     ASSERT(count2 <= MAX_SUBTYPES);
     for (i = 0; i < count; ++i)
         for (j = 0; j < count2; ++j)
-            you.item_description[i][j] = unmarshallByte(th);
+#if TAG_MAJOR_VERSION == 34
+        {
+            if (th.getMinorVersion() < TAG_MINOR_CONSUM_APPEARANCE)
+                you.item_description[i][j] = unmarshallUByte(th);
+            else
+#endif
+                you.item_description[i][j] = unmarshallInt(th);
+#if TAG_MAJOR_VERSION == 34
+            // We briefly had a problem where we sign-extended the old
+            // 8-bit item_descriptions on conversion.  Fix those up.
+            if (th.getMinorVersion() < TAG_MINOR_NEG_IDESC
+                && (int)you.item_description[i][j] < 0)
+            {
+                you.item_description[i][j] &= 0xff;
+            }
+        }
+#endif
     for (i = 0; i < count; ++i)
         for (j = count2; j < MAX_SUBTYPES; ++j)
             you.item_description[i][j] = 0;
@@ -3284,6 +3264,22 @@ static void tag_read_you_items(reader &th)
     }
     if (you.species == SP_FORMICID)
         remove_one_equip(EQ_HELMET, false, true);
+
+    if (th.getMinorVersion() < TAG_MINOR_CONSUM_APPEARANCE)
+    {
+        // merge scroll seeds
+        for (int subtype = 0; subtype < MAX_SUBTYPES; subtype++)
+        {
+            const int seed1 = you.item_description[IDESC_SCROLLS][subtype]
+                              & 0xff;
+            const int seed2 = you.item_description[IDESC_SCROLLS_II][subtype]
+                              & 0xff;
+            const int seed3 = OBJ_SCROLLS & 0xff;
+            you.item_description[IDESC_SCROLLS][subtype] =    seed1
+                                                           | (seed2 << 8)
+                                                           | (seed3 << 16);
+        }
+    }
 #endif
 }
 
@@ -3647,7 +3643,6 @@ void marshallItem(writer &th, const item_def &item, bool iinfo)
     marshallInt(th, item.special);
     marshallShort(th, item.quantity);
 
-    marshallByte(th, item.colour);
     marshallByte(th, item.rnd);
     marshallShort(th, item.pos.x);
     marshallShort(th, item.pos.y);
@@ -3689,8 +3684,12 @@ void unmarshallItem(reader &th, item_def &item)
     item.plus2       = unmarshallShort(th);
     item.special     = unmarshallInt(th);
     item.quantity    = unmarshallShort(th);
-    item.colour      = unmarshallUByte(th);
-    item.rnd         = unmarshallUByte(th);
+#if TAG_MAJOR_VERSION == 34
+    if (th.getMinorVersion() < TAG_MINOR_REMOVE_ITEM_COLOUR)
+        /* item.colour = */ unmarshallUByte(th);
+#endif
+
+    item.rnd          = unmarshallUByte(th);
 
     item.pos.x       = unmarshallShort(th);
     item.pos.y       = unmarshallShort(th);
@@ -3725,7 +3724,15 @@ void unmarshallItem(reader &th, item_def &item)
 
     item.props.clear();
     item.props.read(th);
-
+#if TAG_MAJOR_VERSION == 34
+    if (th.getMinorVersion() < TAG_MINOR_CORPSE_COLOUR
+        && item.base_type == OBJ_CORPSES
+        && item.props.exists(FORCED_ITEM_COLOUR_KEY)
+        && !item.props[FORCED_ITEM_COLOUR_KEY].get_int())
+    {
+        item.props[FORCED_ITEM_COLOUR_KEY] = LIGHTRED;
+    }
+#endif
     // Fixup artefact props to handle reloading items when the new version
     // of Crawl has more artefact props.
     if (is_artefact(item))
@@ -3979,6 +3986,57 @@ void unmarshallItem(reader &th, item_def &item)
     {
         if (item.base_type == OBJ_WEAPONS && item.sub_type == WPN_CUTLASS)
             item.sub_type = WPN_RAPIER;
+    }
+
+    if (th.getMinorVersion() < TAG_MINOR_INIT_RND)
+    {
+        // 0 is now reserved to indicate that rnd is uninitialized
+        if (item.rnd == 0)
+            item.rnd = 1 + random2(255);
+    }
+
+    if (th.getMinorVersion() < TAG_MINOR_RING_PLUSSES)
+        if (item.base_type == OBJ_JEWELLERY && item.plus > 6)
+            item.plus = 6;
+
+    if (th.getMinorVersion() < TAG_MINOR_BLESSED_WPNS
+        && item.base_type == OBJ_WEAPONS)
+    {
+        const int initial_type = item.sub_type;
+        switch (item.sub_type)
+        {
+        case WPN_BLESSED_FALCHION:     item.sub_type = WPN_FALCHION; break;
+        case WPN_BLESSED_LONG_SWORD:   item.sub_type = WPN_LONG_SWORD; break;
+        case WPN_BLESSED_SCIMITAR:     item.sub_type = WPN_SCIMITAR; break;
+        case WPN_BLESSED_DOUBLE_SWORD: item.sub_type = WPN_DOUBLE_SWORD; break;
+        case WPN_BLESSED_GREAT_SWORD:  item.sub_type = WPN_GREAT_SWORD; break;
+        case WPN_BLESSED_TRIPLE_SWORD: item.sub_type = WPN_TRIPLE_SWORD; break;
+        default:                       break;
+        }
+        if (initial_type != item.sub_type)
+            set_item_ego_type(item, OBJ_WEAPONS, SPWPN_HOLY_WRATH);
+    }
+
+    if (th.getMinorVersion() < TAG_MINOR_CONSUM_APPEARANCE)
+    {
+        if (item.base_type == OBJ_POTIONS)
+            item.subtype_rnd = item.plus; // was consum_desc
+        else if (item.base_type == OBJ_SCROLLS)
+        {
+            // faithfully preserve weirdness
+            item.subtype_rnd = item.subtype_rnd
+                               | (item.plus << 8) // was consum_desc
+                               | (OBJ_SCROLLS << 16);
+        }
+    }
+
+    if (th.getMinorVersion() < TAG_MINOR_MANGLE_CORPSES)
+    {
+        if (item.props.exists("never_hide"))
+        {
+            item.props.erase("never_hide");
+            item.props[MANGLED_CORPSE_KEY] = true;
+        }
     }
 #endif
 
@@ -4259,11 +4317,8 @@ void marshallMonster(writer &th, const monster& m)
     marshallInt(th, m.experience);
 
     marshallShort(th, m.enchantments.size());
-    for (mon_enchant_list::const_iterator i = m.enchantments.begin();
-         i != m.enchantments.end(); ++i)
-    {
-        marshall_mon_enchant(th, i->second);
-    }
+    for (const auto &entry : m.enchantments)
+        marshall_mon_enchant(th, entry.second);
     marshallByte(th, m.ench_countdown);
 
     marshallShort(th, min(m.hit_points, MAX_MONSTER_HP));
@@ -4339,7 +4394,7 @@ void marshallMonsterInfo(writer &th, const monster_info& mi)
     }
 #endif
     marshallUnsigned(th, mi.number);
-    marshallUnsigned(th, mi.colour);
+    marshallInt(th, mi._colour);
     marshallUnsigned(th, mi.attitude);
     marshallUnsigned(th, mi.threat);
     marshallUnsigned(th, mi.dam);
@@ -4397,6 +4452,8 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
 #if TAG_MAJOR_VERSION == 34
     mi.type = unmarshallMonType_Info(th);
     ASSERT(!invalid_monster_type(mi.type));
+    // Default value.
+    mi.draco_type = mi.type;
     mi.base_type = unmarshallMonType_Info(th);
     if (mons_genus(mi.type) == MONS_DEMONSPAWN
         && th.getMinorVersion() < TAG_MINOR_DEMONSPAWN)
@@ -4412,6 +4469,8 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
 #else
     mi.type = unmarshallMonType(th);
     ASSERT(!invalid_monster_type(mi.type));
+    // Default value.
+    mi.draco_type = mi.type;
     mi.base_type = unmarshallMonType(th);
     if (mons_genus(mi.type) == MONS_DRACONIAN
         || mons_genus(mi.type) == MONS_DEMONSPAWN)
@@ -4420,7 +4479,12 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
     }
 #endif
     unmarshallUnsigned(th, mi.number);
-    unmarshallUnsigned(th, mi.colour);
+#if TAG_MAJOR_VERSION == 34
+    if (th.getMinorVersion() < TAG_MINOR_MON_COLOUR_LOOKUP)
+        mi._colour = int(unmarshallUnsigned(th));
+    else
+#endif
+        mi._colour = unmarshallInt(th);
     unmarshallUnsigned(th, mi.attitude);
     unmarshallUnsigned(th, mi.threat);
     unmarshallUnsigned(th, mi.dam);
@@ -4486,7 +4550,7 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
         && mi.type >= MONS_MONSTROUS_DEMONSPAWN
         && mi.type <= MONS_SALAMANDER_MYSTIC)
     {
-        switch (mi.colour)
+        switch (mi.colour(true))
         {
         case BROWN:        // monstrous demonspawn, naga ritualist
             if (mi.spells[0].spell == SPELL_FORCE_LANCE)
@@ -4547,7 +4611,7 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
             break;
         default:
             die("Unexpected monster with type %d and colour %d",
-                mi.type, mi.colour);
+                mi.type, mi.colour(true));
         }
         if (mons_is_demonspawn(mi.type)
             && mons_species(mi.type) == MONS_DEMONSPAWN
@@ -5076,9 +5140,7 @@ void unmarshallMonster(reader &th, monster& m)
     {
         unmarshallSpells(th, m.spells
 #if TAG_MAJOR_VERSION == 34
-                         , m.get_experience_level(),
-                           mons_class_flag(m.type, M_ACTUAL_SPELLS),
-                           mons_class_flag(m.type, M_PRIEST)
+                         , m.get_experience_level()
 #endif
                          );
 #if TAG_MAJOR_VERSION == 34
@@ -5382,7 +5444,13 @@ void unmarshallMonster(reader &th, monster& m)
     }
 
     if (m.props.exists("no_hide"))
-        m.props[NEVER_HIDE_KEY] = true;
+        m.props.erase("no_hide");
+
+    if (m.props.exists("original_name"))
+    {
+        m.props[ORIGINAL_TYPE_KEY].get_int() =
+            get_monster_by_name(m.props["original_name"].get_string());
+    }
 #endif
 
     if (m.type != MONS_PROGRAM_BUG && mons_species(m.type) == MONS_PROGRAM_BUG)
@@ -5469,6 +5537,30 @@ static void tag_read_level_monsters(reader &th)
         && th.getMinorVersion() >= TAG_MINOR_OPTIONAL_PARTS)
     {
         _fix_missing_constrictions();
+    }
+    if (th.getMinorVersion() < TAG_MINOR_TENTACLE_MID)
+    {
+        for (monster_iterator mi; mi; ++mi)
+        {
+            if (mi->props.exists("inwards"))
+            {
+                const int old_midx = mi->props["inwards"].get_int();
+                if (invalid_monster_index(old_midx))
+                    mi->props["inwards"].get_int() = MID_NOBODY;
+                else
+                    mi->props["inwards"].get_int() = menv[old_midx].mid;
+            }
+            if (mi->props.exists("outwards"))
+            {
+                const int old_midx = mi->props["outwards"].get_int();
+                if (invalid_monster_index(old_midx))
+                    mi->props["outwards"].get_int() = MID_NOBODY;
+                else
+                    mi->props["outwards"].get_int() = menv[old_midx].mid;
+            }
+            if (mons_is_tentacle_or_tentacle_segment(mi->type))
+                mi->tentacle_connect = menv[mi->tentacle_connect].mid;
+        }
     }
 #endif
 }
@@ -5666,7 +5758,7 @@ static void marshallSpells(writer &th, const monster_spells &spells)
 
 static void unmarshallSpells(reader &th, monster_spells &spells
 #if TAG_MAJOR_VERSION == 34
-                             , unsigned hd, bool wizard, bool priest
+                             , unsigned hd
 #endif
                             )
 {
@@ -5711,8 +5803,10 @@ static void unmarshallSpells(reader &th, monster_spells &spells
     }
 
 #if TAG_MAJOR_VERSION == 34
+    // This will turn all old spells into wizard spells, which
+    // isn't right but is the simplest way to do this.
     if (th.getMinorVersion() < TAG_MINOR_MONSTER_SPELL_SLOTS)
-        fixup_spells(spells, hd, wizard, priest);
+        fixup_spells(spells, hd);
 #endif
 }
 
@@ -5731,12 +5825,12 @@ static void marshallGhost(writer &th, const ghost_demon &ghost)
     marshallShort(th, ghost.ac);
     marshallShort(th, ghost.damage);
     marshallShort(th, ghost.speed);
+    marshallShort(th, ghost.move_energy);
     marshallByte(th, ghost.see_invis);
     marshallShort(th, ghost.brand);
     marshallShort(th, ghost.att_type);
     marshallShort(th, ghost.att_flav);
     marshallInt(th, ghost.resists);
-    marshallByte(th, ghost.cycle_colours);
     marshallByte(th, ghost.colour);
     marshallShort(th, ghost.fly);
 
@@ -5759,6 +5853,18 @@ static ghost_demon unmarshallGhost(reader &th)
     ghost.ac               = unmarshallShort(th);
     ghost.damage           = unmarshallShort(th);
     ghost.speed            = unmarshallShort(th);
+#if TAG_MAJOR_VERSION == 34
+    if (th.getMinorVersion() < TAG_MINOR_GHOST_ENERGY)
+        ghost.move_energy  = 10;
+    else
+#endif
+    ghost.move_energy      = unmarshallShort(th);
+    // fix up ghost_demons that forgot to have move_energy initialized
+    if (ghost.move_energy < FASTEST_PLAYER_MOVE_SPEED
+        || ghost.move_energy > 15) // Ponderous naga
+    {
+        ghost.move_energy = 10;
+    }
     ghost.see_invis        = unmarshallByte(th);
     ghost.brand            = static_cast<brand_type>(unmarshallShort(th));
     ghost.att_type = static_cast<attack_type>(unmarshallShort(th));
@@ -5769,15 +5875,16 @@ static ghost_demon unmarshallGhost(reader &th)
         set_resist(ghost.resists, MR_RES_ACID, 3);
     if (th.getMinorVersion() < TAG_MINOR_NO_GHOST_SPELLCASTER)
         unmarshallByte(th);
+    if (th.getMinorVersion() < TAG_MINOR_MON_COLOUR_LOOKUP)
+        unmarshallByte(th);
 #endif
-    ghost.cycle_colours    = unmarshallByte(th);
     ghost.colour           = unmarshallByte(th);
 
     ghost.fly              = static_cast<flight_type>(unmarshallShort(th));
 
     unmarshallSpells(th, ghost.spells
 #if TAG_MAJOR_VERSION == 34
-                     , ghost.xl, true, false
+                     , ghost.xl
 #endif
                     );
 

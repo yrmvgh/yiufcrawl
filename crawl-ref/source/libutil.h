@@ -6,11 +6,12 @@
 #ifndef LIBUTIL_H
 #define LIBUTIL_H
 
-#include "enum.h"
 #include <cctype>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
+
+#include "enum.h"
 
 bool key_is_escape(int key);
 
@@ -106,6 +107,21 @@ struct greater_second
     }
 };
 
+template<class T>
+static void deleteAll(T& collection)
+{
+    for (auto ptr : collection)
+        delete ptr;
+    collection.clear();
+}
+
+template<class M>
+auto map_find(M &map, const typename M::key_type &obj)
+    -> decltype(&map.begin()->second)
+{
+    auto it = map.find(obj);
+    return it == map.end() ? nullptr : &it->second;
+}
 
 static inline int sqr(int x)
 {

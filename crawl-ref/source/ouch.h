@@ -8,8 +8,8 @@
 
 #define DEATH_NAME_LENGTH 10
 
-#include "enum.h"
 #include "beam.h"
+#include "enum.h"
 
 /**
  * Key for <tt>you.props</tt> indicating that the player already received a
@@ -72,8 +72,6 @@ enum kill_method_type
 void maybe_melt_player_enchantments(beam_type flavour, int damage);
 int check_your_resists(int hurted, beam_type flavour, string source,
                        bolt *beam = 0, bool doEffects = true);
-void splash_with_acid(int acid_strength, int death_source,
-                      bool allow_corrosion = true, const char* hurt_msg = nullptr);
 
 class actor;
 int actor_to_death_source(const actor* agent);
@@ -81,11 +79,11 @@ int actor_to_death_source(const actor* agent);
 string morgue_name(string char_name, time_t when_crawl_got_even);
 
 void reset_damage_counters();
-void ouch(int dam, int death_source, kill_method_type death_type,
+void ouch(int dam, kill_method_type death_type, mid_t source = MID_NOBODY,
           const char *aux = NULL, bool see_source = true,
           const char *death_source_name = NULL);
 
-void lose_level(int death_source, const char* aux);
+void lose_level();
 bool drain_player(int power = 25, bool announce_full = true,
                   bool ignore_protection = false);
 
@@ -93,4 +91,6 @@ void expose_player_to_element(beam_type flavour, int strength = 0,
                               bool slow_cold_blooded = true);
 
 int timescale_damage(const actor *act, int damage);
+bool can_shave_damage();
+int do_shave_damage(int dam);
 #endif

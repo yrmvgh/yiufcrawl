@@ -17,13 +17,12 @@
 #include "english.h"
 #include "godabil.h"
 #include "godpassive.h"
-#include "godprayer.h" // can_do_capstone_ability()
+#include "godprayer.h"
 #include "libutil.h"
 #include "macro.h"
 #include "menu.h"
-#include "player.h"
 #include "religion.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-util.h"
 #include "stringutil.h"
 #include "unicode.h"
@@ -206,8 +205,7 @@ static string _religion_help(god_type god)
                     result += " ";
 
                 result += "You can pray at an altar to have your weapon "
-                          "blessed, especially a long blade or demon "
-                          "weapon.";
+                          "blessed, especially a demon weapon.";
             }
             break;
         }
@@ -379,7 +377,7 @@ string god_title(god_type which_god, species_type which_species, int piety)
     else
         title = divine_title[which_god][_piety_level(piety)];
 
-    //XXX: unify with stuff in skills2.cc
+    //XXX: unify with stuff in skills.cc
     title = replace_all(title, "@Genus@", species_name(which_species, true, false));
     title = replace_all(title, "@Adj@", species_name(which_species, false, true));
     title = replace_all(title, "@Walking@", (species_walking_verb(which_species) + "ing"));
@@ -458,66 +456,6 @@ static string _describe_ash_skill_boost()
     }
 
     return desc.str();
-}
-
-string get_skill_description(skill_type skill, bool need_title)
-{
-    string lookup = skill_name(skill);
-    string result = "";
-
-    if (need_title)
-    {
-        result = lookup;
-        result += "\n\n";
-    }
-
-    result += getLongDescription(lookup);
-
-    switch (skill)
-    {
-        case SK_INVOCATIONS:
-            if (you.species == SP_DEMIGOD)
-            {
-                result += "\n";
-                result += "How on earth did you manage to pick this up?";
-            }
-            else if (you_worship(GOD_TROG))
-            {
-                result += "\n";
-                result += "Note that Trog doesn't use Invocations, due to its "
-                          "close connection to magic.";
-            }
-            else if (you_worship(GOD_NEMELEX_XOBEH))
-            {
-                result += "\n";
-                result += "Note that Nemelex uses Evocations rather than "
-                          "Invocations.";
-            }
-            break;
-
-        case SK_EVOCATIONS:
-            if (you_worship(GOD_NEMELEX_XOBEH))
-            {
-                result += "\n";
-                result += "This is the skill all of Nemelex's abilities rely "
-                          "on.";
-            }
-            break;
-
-        case SK_SPELLCASTING:
-            if (you_worship(GOD_TROG))
-            {
-                result += "\n";
-                result += "Keep in mind, though, that Trog will greatly "
-                          "disapprove of this.";
-            }
-            break;
-        default:
-            // No further information.
-            break;
-    }
-
-    return result;
 }
 
 // from dgn-overview.cc
@@ -1138,22 +1076,21 @@ static void _god_overview_description(god_type which_god, bool give_title)
     if (give_title)
     {
         textcolour(WHITE);
-        const int len = numcols - strlen("Religion");
-        cprintf("%sReligion\n", string(len / 2, ' ').c_str());
+        cprintf("Religion");
         textcolour(LIGHTGREY);
     }
-
-    _print_top_line(which_god, numcols);
+    // Center top line even if it already contains "Religion" (len = 8)
+    _print_top_line(which_god, numcols - (give_title ? 2*8 : 0));
 
     // Print god's description.
     string god_desc = getLongDescription(god_name(which_god));
-    cprintf("%s", get_linebreak_string(god_desc.c_str(), numcols).c_str());
+    cprintf("%s\n", get_linebreak_string(god_desc.c_str(), numcols).c_str());
 
     // Title only shown for our own god.
     if (you_worship(which_god))
     {
         // Print title based on piety.
-        cprintf("\nTitle - ");
+        cprintf("\nTitle  - ");
         textcolour(god_colour(which_god));
 
         string title = god_title(which_god, you.species, you.piety);
@@ -1165,7 +1102,7 @@ static void _god_overview_description(god_type which_god, bool give_title)
     // something better, do it.
 
     textcolour(LIGHTGREY);
-    cprintf("\n\nFavour - ");
+    cprintf("\nFavour - ");
     textcolour(god_colour(which_god));
 
     //mv: Player is praying at altar without appropriate religion.

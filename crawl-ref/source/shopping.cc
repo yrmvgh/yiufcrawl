@@ -6,29 +6,30 @@
 #include "AppHdr.h"
 
 #include "shopping.h"
-#include "message.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-#include "externs.h"
 #include "artefact.h"
 #include "branch.h"
+#include "butcher.h"
 #include "cio.h"
-#include "describe.h"
 #include "decks.h"
+#include "describe.h"
 #include "dgn-overview.h"
 #include "english.h"
+#include "env.h"
 #include "files.h"
 #include "food.h"
 #include "invent.h"
-#include "items.h"
 #include "itemname.h"
 #include "itemprop.h"
+#include "items.h"
 #include "libutil.h"
 #include "macro.h"
 #include "menu.h"
+#include "message.h"
 #include "notes.h"
 #include "output.h"
 #include "place.h"
@@ -40,12 +41,12 @@
 #include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
-#include "travel.h"
-#include "unwind.h"
-#include "env.h"
 #ifdef USE_TILE_LOCAL
 #include "tilereg-crt.h"
 #endif
+#include "travel.h"
+#include "unwind.h"
+
 #define SHOPPING_LIST_COST_KEY "shopping_list_cost_key"
 
 ShoppingList shopping_list;
@@ -909,7 +910,8 @@ static bool _purchase(int shop, int item_got, int cost, bool id)
     }
 
     // Shopkeepers will now place goods you can't carry outside the shop.
-    if (!move_item_to_inv(item_got, item.quantity, false))
+    if (item_is_stationary(mitm[item_got])
+        || !move_item_to_inv(item_got, item.quantity, false))
     {
         move_item_to_grid(&item_got, env.shop[shop].pos);
         return false;
@@ -1083,7 +1085,6 @@ unsigned int item_value(item_def item, bool ident)
             valued += 30;
             break;
 
-        case WPN_BLESSED_FALCHION:
         case WPN_WAR_AXE:
         case WPN_FLAIL:
         case WPN_LONG_SWORD:
@@ -1092,7 +1093,6 @@ unsigned int item_value(item_def item, bool ident)
             valued += 35;
             break;
 
-        case WPN_BLESSED_LONG_SWORD:
         case WPN_BROAD_AXE:
         case WPN_RAPIER:
         case WPN_DIRE_FLAIL:
@@ -1126,8 +1126,6 @@ unsigned int item_value(item_def item, bool ident)
             break;
 
         case WPN_DOUBLE_SWORD:
-        case WPN_BLESSED_GREAT_SWORD:
-        case WPN_BLESSED_SCIMITAR:
         case WPN_DEMON_WHIP:
         case WPN_DEMON_TRIDENT:
         case WPN_DEMON_BLADE:
@@ -1138,8 +1136,6 @@ unsigned int item_value(item_def item, bool ident)
             valued += 150;
             break;
 
-        case WPN_BLESSED_DOUBLE_SWORD:
-        case WPN_BLESSED_TRIPLE_SWORD:
         case WPN_EUDEMON_BLADE:
         case WPN_SACRED_SCOURGE:
         case WPN_TRISHULA:
@@ -1529,41 +1525,44 @@ unsigned int item_value(item_def item, bool ident)
 
             case POT_RESISTANCE:
             case POT_HASTE:
-                valued += 70;
+                valued += 100;
                 break;
 
             case POT_MAGIC:
             case POT_INVISIBILITY:
             case POT_CANCELLATION:
-                valued += 55;
+                valued += 80;
                 break;
 
             case POT_BERSERK_RAGE:
             case POT_HEAL_WOUNDS:
             case POT_RESTORE_ABILITIES:
-            case POT_FLIGHT:
-                valued += 30;
+                valued += 50;
                 break;
 
             case POT_MIGHT:
             case POT_AGILITY:
             case POT_BRILLIANCE:
+                valued += 40;
+                break;
+
+            case POT_CURING:
+            case POT_LIGNIFY:
+            case POT_FLIGHT:
+                valued += 30;
+                break;
+
             case POT_MUTATION:
                 valued += 25;
                 break;
 
-            case POT_CURING:
             case POT_DECAY:
             case POT_DEGENERATION:
 #if TAG_MAJOR_VERSION == 34
             case POT_STRONG_POISON:
-#endif
-            case POT_LIGNIFY:
-                valued += 20;
-                break;
-
-            case POT_BLOOD:
             case POT_PORRIDGE:
+#endif
+            case POT_BLOOD:
             case POT_CONFUSION:
             case POT_POISON:
             case POT_SLOWING:
@@ -1602,6 +1601,9 @@ unsigned int item_value(item_def item, bool ident)
                 break;
         }
         break;
+
+    case OBJ_CORPSES:
+        valued = get_max_corpse_chunks(item.mon_type) * 5;
 
     case OBJ_SCROLLS:
         if (!item_type_known(item))
@@ -1801,6 +1803,10 @@ unsigned int item_value(item_def item, bool ident)
         case MISC_PHIAL_OF_FLOODS:
         case MISC_LAMP_OF_FIRE:
             valued += 400;
+            break;
+
+        case MISC_PHANTOM_MIRROR:
+            valued += 300;
             break;
 
         case MISC_BOX_OF_BEASTS:

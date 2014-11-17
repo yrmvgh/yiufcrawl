@@ -3,7 +3,7 @@
 #ifdef USE_TILE
 #include "tilepick-p.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "artefact.h"
 #include "describe.h"
@@ -163,26 +163,6 @@ tileidx_t tilep_equ_weapon(const item_def &item)
         break;
     case WPN_EUDEMON_BLADE:
         tile = TILEP_HAND1_BLESSED_BLADE;
-        break;
-
-    // new blessed weapons
-    case WPN_BLESSED_LONG_SWORD:
-        tile = TILEP_HAND1_LONG_SWORD_SLANT;
-        break;
-    case WPN_BLESSED_GREAT_SWORD:
-        tile = TILEP_HAND1_GREAT_SWORD_SLANT;
-        break;
-    case WPN_BLESSED_SCIMITAR:
-        tile = TILEP_HAND1_SCIMITAR;
-        break;
-    case WPN_BLESSED_FALCHION:
-        tile = TILEP_HAND1_FALCHION;
-        break;
-    case WPN_BLESSED_DOUBLE_SWORD:
-        tile = TILEP_HAND1_DOUBLE_SWORD_BLESSED;
-        break;
-    case WPN_BLESSED_TRIPLE_SWORD:
-        tile = TILEP_HAND1_TRIPLE_SWORD_BLESSED;
         break;
 
     // Axe
@@ -852,14 +832,6 @@ void tilep_job_default(int job, dolls_data *doll)
             parts[TILEP_PART_BODY]  = TILEP_BODY_MESH_BLACK;
             parts[TILEP_PART_LEG]   = TILEP_LEG_PANTS_SHORT_DARKBROWN;
             parts[TILEP_PART_HELM]  = TILEP_HELM_CLOWN; // Xom
-            break;
-
-        case JOB_DEATH_KNIGHT:
-            parts[TILEP_PART_BODY]  = TILEP_BODY_SHIRT_BLACK3;
-            parts[TILEP_PART_LEG]   = TILEP_LEG_METAL_GRAY;
-            parts[TILEP_PART_HELM]  = TILEP_HELM_FHELM_OFS;
-            parts[TILEP_PART_ARM]   = TILEP_ARM_GLOVE_BLACK;
-            parts[TILEP_PART_BOOTS] = TILEP_BOOTS_SHORT_BROWN;
             break;
 
         case JOB_ABYSSAL_KNIGHT:

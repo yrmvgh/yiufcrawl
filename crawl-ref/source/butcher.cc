@@ -14,17 +14,14 @@
 #include "food.h"
 #include "itemname.h"
 #include "itemprop.h"
-#include "itemprop-enum.h"
 #include "items.h"
 #include "libutil.h"
 #include "macro.h"
 #include "makeitem.h"
 #include "message.h"
-#include "mon-death.h"
 #include "options.h"
 #include "output.h"
 #include "prompt.h"
-#include "random.h"
 #include "rot.h"
 #include "stepdown.h"
 #include "stringutil.h"
@@ -42,34 +39,16 @@ static bool _should_butcher(int corpse_id, bool bottle_blood = false)
             canned_msg(MSG_OK);
         return false;
     }
-    else if (!bottle_blood && you.species == SP_VAMPIRE
-             && (can_bottle_blood_from_corpse(corpse.mon_type)
-                 || mons_has_blood(corpse.mon_type) && !is_bad_food(corpse)))
-    {
-        bool can_bottle = can_bottle_blood_from_corpse(corpse.mon_type);
-        const string msg = make_stringf("You could drain this corpse's blood with <w>%s</w> instead%s. Continue anyway?",
-                                        command_to_string(CMD_EAT).c_str(),
-                                        can_bottle ? ", or drain it" : "");
-        if (Options.confirm_butcher != CONFIRM_NEVER)
-        {
-            if (!yesno(msg.c_str(), true, 'n'))
-            {
-                canned_msg(MSG_OK);
-                return false;
-            }
-        }
-    }
 
     return true;
 }
 
 static bool _corpse_butchery(int corpse_id,
-                             bool first_corpse = true,
-                             bool bottle_blood = false)
+                             bool first_corpse = true)
 {
     ASSERT(corpse_id != -1);
 
-    if (!_should_butcher(corpse_id, bottle_blood))
+    if (!_should_butcher(corpse_id))
         return false;
 
     // Start work on the first corpse we butcher.
@@ -78,13 +57,10 @@ static bool _corpse_butchery(int corpse_id,
 
     int work_req = max(0, 4 - mitm[corpse_id].butcher_amount);
 
-    delay_type dtype = DELAY_BUTCHER;
-    // Sanity checks.
-    if (bottle_blood
-        && can_bottle_blood_from_corpse(mitm[corpse_id].mon_type))
-    {
-        dtype = DELAY_BOTTLE_BLOOD;
-    }
+    const bool bottle_blood =
+        you.species == SP_VAMPIRE
+        && can_bottle_blood_from_corpse(mitm[corpse_id].mon_type);
+    const delay_type dtype = bottle_blood ? DELAY_BOTTLE_BLOOD : DELAY_BUTCHER;
 
     start_delay(dtype, work_req, corpse_id, mitm[corpse_id].special);
 
@@ -99,7 +75,14 @@ static string _butcher_menu_title(const Menu *menu, const string &oldt)
 }
 #endif
 
-bool butchery(int which_corpse, bool bottle_blood)
+/**
+ * Attempt to butcher a corpse.
+ *
+ * @param which_corpse      The index of the corpse. (index into what...?)
+ *                          -1 indicates that the first valid corpse should
+ *                          be chosen.
+ */
+bool butchery(int which_corpse)
 {
     if (you.visible_igrd(you.pos()) == NON_ITEM)
     {
@@ -111,39 +94,38 @@ bool butchery(int which_corpse, bool bottle_blood)
     int num_corpses = 0;
     int corpse_id   = -1;
     int best_badness = INT_MAX;
-    bool prechosen  = (which_corpse != -1);
+    const bool prechosen  = (which_corpse != -1);
+    const bool bottle_blood = you.species == SP_VAMPIRE;
     for (stack_iterator si(you.pos(), true); si; ++si)
     {
-        if (si->base_type == OBJ_CORPSES && si->sub_type == CORPSE_BODY)
+        // we only care about corpses, of course.
+        if (si->base_type != OBJ_CORPSES || si->sub_type != CORPSE_BODY)
+            continue;
+
+        // Return pre-chosen corpse if it exists.
+        if (prechosen && si->index() == which_corpse)
         {
-            if (bottle_blood && !can_bottle_blood_from_corpse(si->mon_type))
-                continue;
-
-            // Return pre-chosen corpse if it exists.
-            if (prechosen && si->index() == which_corpse)
-            {
-                corpse_id = si->index();
-                num_corpses = 1;
-                break;
-            }
-
-            const corpse_effect_type ce = determine_chunk_effect(*si);
-            // Being almost rotten away has 480 badness.
-            int badness = 3 * si->special;
-            if (ce == CE_POISONOUS)
-                badness += 600;
-            else if (ce == CE_MUTAGEN)
-                badness += 1000;
-            else if (ce == CE_ROT)
-                badness += 1000;
-
-            if (is_forbidden_food(*si))
-                badness += 10000;
-
-            if (badness < best_badness)
-                corpse_id = si->index(), best_badness = badness;
-            num_corpses++;
+            corpse_id = si->index();
+            num_corpses = 1;
+            break;
         }
+
+        const corpse_effect_type ce = determine_chunk_effect(*si);
+        // Being almost rotten away has 480 badness.
+        int badness = 3 * si->freshness;
+        if (ce == CE_POISONOUS)
+            badness += 600;
+        else if (ce == CE_MUTAGEN)
+            badness += 1000;
+        else if (ce == CE_ROT)
+            badness += 1000;
+
+        if (is_forbidden_food(*si))
+            badness += 10000;
+
+        if (badness < best_badness)
+            corpse_id = si->index(), best_badness = badness;
+        num_corpses++;
     }
 
     if (num_corpses == 0)
@@ -167,7 +149,7 @@ bool butchery(int which_corpse, bool bottle_blood)
             return false;
         }
 
-        return _corpse_butchery(corpse_id, true, bottle_blood);
+        return _corpse_butchery(corpse_id, true);
     }
 
     // Now pick what you want to butcher. This is only a problem
@@ -177,14 +159,8 @@ bool butchery(int which_corpse, bool bottle_blood)
 #ifdef TOUCH_UI
     vector<const item_def*> meat;
     for (stack_iterator si(you.pos(), true); si; ++si)
-    {
-        if (si->base_type != OBJ_CORPSES || si->sub_type != CORPSE_BODY)
-            continue;
-
-        if (bottle_blood && !can_bottle_blood_from_corpse(si->mon_type))
-            continue;
-        meat.push_back(& (*si));
-    }
+        if (si->base_type == OBJ_CORPSES && si->sub_type == CORPSE_BODY)
+            meat.push_back(& (*si));
 
     corpse_id = -1;
     vector<SelItem> selected =
@@ -195,7 +171,7 @@ bool butchery(int which_corpse, bool bottle_blood)
     for (int i = 0, count = selected.size(); i < count; ++i)
     {
         corpse_id = selected[i].item->index();
-        if (_corpse_butchery(corpse_id, first_corpse, bottle_blood))
+        if (_corpse_butchery(corpse_id, first_corpse))
         {
             success = true;
             first_corpse = false;
@@ -208,9 +184,6 @@ bool butchery(int which_corpse, bool bottle_blood)
     for (stack_iterator si(you.pos(), true); si; ++si)
     {
         if (si->base_type != OBJ_CORPSES || si->sub_type != CORPSE_BODY)
-            continue;
-
-        if (bottle_blood && !can_bottle_blood_from_corpse(si->mon_type))
             continue;
 
         if (butcher_all)
@@ -231,8 +204,10 @@ bool butchery(int which_corpse, bool bottle_blood)
             // Shall we butcher this corpse?
             do
             {
+                const bool can_bottle =
+                    can_bottle_blood_from_corpse(si->mon_type);
                 mprf(MSGCH_PROMPT, "%s %s? [(y)es/(c)hop/(n)o/(a)ll/(q)uit/?]",
-                     bottle_blood ? "Bottle" : "Butcher",
+                     can_bottle ? "Bottle" : "Butcher",
                      corpse_name.c_str());
                 repeat_prompt = false;
 
@@ -270,7 +245,7 @@ bool butchery(int which_corpse, bool bottle_blood)
 
         if (corpse_id != -1)
         {
-            if (_corpse_butchery(corpse_id, first_corpse, bottle_blood))
+            if (_corpse_butchery(corpse_id, first_corpse))
             {
                 success = true;
                 first_corpse = false;
@@ -291,10 +266,9 @@ bool butchery(int which_corpse, bool bottle_blood)
 
 static void _create_monster_hide(const item_def corpse)
 {
-    // kiku_receive_corpses() creates corpses that are easily scummed
-    // for hides.  We prevent this by setting "never_hide" as an item
-    // property of corpses it creates.
-    if (corpse.props.exists(NEVER_HIDE_KEY))
+    // make certain sources of dragon hides less scummable
+    // (kiku's corpse drop, gozag ghoul corpse shops)
+    if (corpse.props.exists(MANGLED_CORPSE_KEY))
         return;
 
     monster_type mons_class = corpse.mon_type;
@@ -372,7 +346,8 @@ bool turn_corpse_into_skeleton(item_def &item)
 
     item.sub_type = CORPSE_SKELETON;
     item.special  = FRESHEST_CORPSE; // reset rotting counter
-    item.colour   = LIGHTGREY;
+    item.rnd = 1 + random2(255); // not sure this is necessary, but...
+    item.props.erase(FORCED_ITEM_COLOUR_KEY);
     return true;
 }
 
@@ -470,17 +445,10 @@ void butcher_corpse(item_def &item, maybe_bool skeleton, bool chunks)
 
 bool can_bottle_blood_from_corpse(monster_type mons_class)
 {
-    if (you.species != SP_VAMPIRE || you.experience_level < 6
-        || !mons_has_blood(mons_class))
-    {
+    if (you.species != SP_VAMPIRE || !mons_has_blood(mons_class))
         return false;
-    }
 
-    int chunk_type = mons_corpse_effect(mons_class);
-    if (chunk_type == CE_CLEAN)
-        return true;
-
-    return false;
+    return mons_corpse_effect(mons_class) == CE_CLEAN;
 }
 
 int num_blood_potions_from_corpse(monster_type mons_class)
@@ -512,6 +480,7 @@ void turn_corpse_into_blood_potions(item_def &item)
     item.sub_type  = POT_BLOOD;
     item_colour(item);
     clear_item_pickup_flags(item);
+    item.props.clear();
 
     item.quantity = num_blood_potions_from_corpse(mons_class);
 

@@ -7,83 +7,52 @@
 
 #include "misc.h"
 
-#include <string.h>
 #include <algorithm>
-
+#include <cfloat>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #if !defined(__IBMCPP__) && !defined(TARGET_COMPILER_VC)
 #include <unistd.h>
 #endif
 
-#include <cstdlib>
-#include <cstdio>
-#include <cmath>
-#include <cfloat>
-
-#include "externs.h"
-#include "misc.h"
-
 #include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "art-enum.h"
-#include "artefact.h"
-#include "clua.h"
 #include "cloud.h"
 #include "coordit.h"
 #include "database.h"
 #include "delay.h"
 #include "dgn-shoals.h"
-#include "dgnevent.h"
+#include "directn.h"
 #include "english.h"
 #include "env.h"
-#include "feature.h"
 #include "fight.h"
-#include "files.h"
-#include "fprop.h"
 #include "food.h"
-#include "ghost.h"
-#include "godabil.h"
+#include "fprop.h"
 #include "godpassive.h"
-#include "itemname.h"
-#include "itemprop.h"
 #include "items.h"
 #include "item_use.h"
 #include "libutil.h"
-#include "losglobal.h"
-#include "makeitem.h"
 #include "mapmark.h"
 #include "message.h"
-#include "mgen_data.h"
-#include "mon-death.h"
-#include "mon-place.h"
 #include "mon-pathfind.h"
+#include "mon-place.h"
 #include "mon-tentacle.h"
-#include "mon-info.h"
 #include "ng-setup.h"
-#include "notes.h"
-#include "ouch.h"
-#include "player.h"
 #include "player-stats.h"
 #include "prompt.h"
-#include "random.h"
 #include "religion.h"
-#include "rot.h"
-#include "godconduct.h"
-#include "shopping.h"
-#include "skills.h"
-#include "skills2.h"
 #include "spl-clouds.h"
 #include "state.h"
 #include "stringutil.h"
-#include "target.h"
 #include "terrain.h"
 #include "tileview.h"
 #include "transform.h"
 #include "traps.h"
 #include "travel.h"
-#include "hints.h"
 #include "view.h"
-#include "shout.h"
 #include "xom.h"
 
 // Update the trackers after the player changed level.
@@ -189,7 +158,7 @@ static bool _mons_is_always_safe(const monster *mon)
     return mon->wont_attack()
            || mon->type == MONS_BUTTERFLY
            || mon->withdrawn()
-           || mon->type == MONS_BALLISTOMYCETE && mon->number == 0;
+           || mon->type == MONS_BALLISTOMYCETE && !mon->ballisto_activity;
 }
 
 bool mons_is_safe(const monster* mon, const bool want_move,
@@ -771,7 +740,7 @@ void revive()
         you.lives = 0;
         mpr("You are too frail to live.");
         // possible only with an extreme abuse of Borgnjor's
-        ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_DRAINING);
+        ouch(INSTANT_DEATH, KILLED_BY_DRAINING);
     }
 
     mpr("You rejoin the land of the living...");
@@ -1212,7 +1181,7 @@ void entered_malign_portal(actor* act)
 
     act->blink(false);
     if (act->is_player())
-        ouch(roll_dice(2, 4), NON_MONSTER, KILLED_BY_WILD_MAGIC, "a malign gateway");
+        ouch(roll_dice(2, 4), KILLED_BY_WILD_MAGIC, MID_NOBODY, "a malign gateway");
     else
         act->hurt(NULL, roll_dice(2, 4));
 }
@@ -1247,11 +1216,11 @@ unsigned int breakpoint_rank(int val, const int breakpoints[],
 void counted_monster_list::add(const monster* mons)
 {
     const string name = mons->name(DESC_PLAIN);
-    for (counted_list::iterator i = list.begin(); i != list.end(); ++i)
+    for (auto &entry : list)
     {
-        if (i->first->name(DESC_PLAIN) == name)
+        if (entry.first->name(DESC_PLAIN) == name)
         {
-            i->second++;
+            entry.second++;
             return;
         }
     }
@@ -1261,8 +1230,8 @@ void counted_monster_list::add(const monster* mons)
 int counted_monster_list::count()
 {
     int nmons = 0;
-    for (counted_list::const_iterator i = list.begin(); i != list.end(); ++i)
-        nmons += i->second;
+    for (const auto &entry : list)
+        nmons += entry.second;
     return nmons;
 }
 
@@ -1271,7 +1240,7 @@ string counted_monster_list::describe(description_level_type desc,
 {
     string out;
 
-    for (counted_list::const_iterator i = list.begin(); i != list.end();)
+    for (auto i = list.begin(); i != list.end();)
     {
         const counted_monster &cm(*i);
         if (i != list.begin())

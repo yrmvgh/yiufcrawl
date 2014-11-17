@@ -1990,6 +1990,10 @@ _Boris_return_rare_
 Boris unsummoned
 
 @The_monster@ says, "You can't fire me, I quit!"
+%%%%
+friendly Boris unsummoned
+
+@Boris unsummoned@
 ## END Boris ##
 %%%%
 ############ CHUCK ### An avid rock collector.
@@ -2502,7 +2506,7 @@ w:50
 @The_monster@ says, "So-called 'good' gods are just as evil as the rest. I hate hypocrisy."
 
 %%%%
-Orcish Mines Donald
+Orc Donald
 
 w:50
 @_generic_Donald_@
@@ -2537,7 +2541,7 @@ VISUAL:@The_monster@ kicks a rock and scowls.
 
 @The_monster@ says, "I hate complainers so much."
 %%%%
-Elven Halls Donald
+Elf Donald
 
 w:50
 @_generic_Donald_@
@@ -2632,7 +2636,7 @@ w:50
 
 @The_monster@ says, "This tentacle just came out of nowhere and touched me. I hate tentacles!"
 %%%%
-Spider Nest Donald
+Spider Donald
 
 w:50
 @_generic_Donald_@
@@ -2661,7 +2665,7 @@ w:50
 
 # TODO: If the Hellspider is added, you know what to do.
 %%%%
-Slime Pits Donald
+Slime Donald
 
 w:50
 @_generic_Donald_@
@@ -2710,7 +2714,7 @@ w:50
 
 @The_monster@ says, "I hate that squelching noise."
 %%%%
-Snake Pit Donald
+Snake Donald
 
 w:50
 @_generic_Donald_@
@@ -2781,7 +2785,7 @@ w:50
 
 @The_monster@ says, "I saw a dragon earlier, but I didn't get too close - it seemed pretty mercurial."
 %%%%
-Hall of Blades Donald
+Blade Donald
 
 w:50
 @_generic_Donald_@
@@ -2885,7 +2889,7 @@ w:50
 
 @The_monster@ says, "All these vampires have me hopping mad!"
 %%%%
-Labyrinth Donald
+Lab Donald
 
 w:50
 @_generic_Donald_@
@@ -5172,8 +5176,6 @@ VISUAL:@The_monster@ is caught in a moment of prayer.
 %%%%
 silenced Mennas
 
-VISUAL:@The_monster@ gestures frantically.
-
 @Mennas@
 %%%%
 ############ MURRAY ### A disembodied skull.
@@ -6523,9 +6525,9 @@ default orange crystal statue
 
 VISUAL:@The_monster@ glitters topaz in the dim dungeon light.
 %%%%
-default silver statue
+default obsidian statue
 
-VISUAL:@The_monster@ glitters argentine in the dim dungeon light.
+VISUAL:@The_monster@ slips into the dungeon's darkness for a moment.
 %%%%
 ################## Sheep ###################################
 sheep

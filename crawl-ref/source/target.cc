@@ -2,7 +2,8 @@
 
 #include "target.h"
 
-#include "beam.h"
+#include <cmath>
+
 #include "coord.h"
 #include "coordit.h"
 #include "english.h"
@@ -11,11 +12,8 @@
 #include "libutil.h"
 #include "los_def.h"
 #include "losglobal.h"
-#include "player.h"
 #include "spl-damage.h"
 #include "terrain.h"
-
-#include <math.h>
 
 #define notify_fail(x) (why_not = (x), false)
 
@@ -85,7 +83,7 @@ targetter_beam::targetter_beam(const actor *act, int range, zap_type zap,
     beam.ex_size = min_ex_rad;
     beam.aimed_at_spot = true;
 
-    penetrates_targets = beam.is_beam;
+    penetrates_targets = beam.pierce;
     range2 = dist_range(range);
 }
 
@@ -105,13 +103,12 @@ bool targetter_beam::set_aim(coord_def a)
     {
         bolt tempbeam2 = beam;
         tempbeam2.target = origin;
-        for (vector<coord_def>::const_iterator i = path_taken.begin();
-             i != path_taken.end(); ++i)
+        for (auto c : path_taken)
         {
-            if (cell_is_solid(*i) && !tempbeam.can_affect_wall(grd(*i)))
+            if (cell_is_solid(c) && !tempbeam.can_affect_wall(grd(c)))
                 break;
-            tempbeam2.target = *i;
-            if (anyone_there(*i) && !tempbeam.ignores_monster(monster_at(*i)))
+            tempbeam2.target = c;
+            if (anyone_there(c) && !tempbeam.ignores_monster(monster_at(c)))
                 break;
         }
         tempbeam2.use_target_as_pos = true;
@@ -149,24 +146,23 @@ aff_type targetter_beam::is_affected(coord_def loc)
     bool on_path = false;
     coord_def c;
     aff_type current = AFF_YES;
-    for (vector<coord_def>::const_iterator i = path_taken.begin();
-         i != path_taken.end(); ++i)
+    for (auto pc : path_taken)
     {
-        if (cell_is_solid(*i)
-            && !beam.can_affect_wall(grd(*i))
+        if (cell_is_solid(pc)
+            && !beam.can_affect_wall(grd(pc))
             && max_expl_rad > 0)
         {
             break;
         }
 
-        c = *i;
+        c = pc;
         if (c == loc)
         {
             if (max_expl_rad > 0)
                 on_path = true;
-            else if (cell_is_solid(*i))
+            else if (cell_is_solid(pc))
             {
-                bool res = beam.can_affect_wall(grd(*i));
+                bool res = beam.can_affect_wall(grd(pc));
                 if (res)
                     return current;
                 else
@@ -176,9 +172,9 @@ aff_type targetter_beam::is_affected(coord_def loc)
             else
                 return current;
         }
-        if (anyone_there(*i)
+        if (anyone_there(pc)
             && !penetrates_targets
-            && !beam.ignores_monster(monster_at(*i)))
+            && !beam.ignores_monster(monster_at(pc)))
         {
             // We assume an exploding spell will always stop here.
             if (max_expl_rad > 0)
@@ -225,13 +221,10 @@ bool targetter_imb::set_aim(coord_def a)
     if (end == origin)
         return true;
 
-    coord_def c;
     bool first = true;
 
-    for (vector<coord_def>::iterator i = path_taken.begin();
-         i != path_taken.end(); i++)
+    for (auto c : path_taken)
     {
-        c = *i;
         cur_path.push_back(c);
         if (!(anyone_there(c)
               && !beam.ignores_monster((monster_at(c))))
@@ -268,18 +261,14 @@ aff_type targetter_imb::is_affected(coord_def loc)
     if (from_path != AFF_NO)
         return from_path;
 
-    for (vector<coord_def>::const_iterator i = splash.begin();
-         i != splash.end(); ++i)
-    {
-        if (*i == loc)
-            return cell_is_solid(*i) ? AFF_NO : AFF_MAYBE;
-    }
-    for (vector<coord_def>::const_iterator i = splash2.begin();
-         i != splash2.end(); ++i)
-    {
-        if (*i == loc)
-            return cell_is_solid(*i) ? AFF_NO : AFF_TRACER;
-    }
+    for (auto c : splash)
+        if (c == loc)
+            return cell_is_solid(c) ? AFF_NO : AFF_MAYBE;
+
+    for (auto c : splash2)
+        if (c == loc)
+            return cell_is_solid(c) ? AFF_NO : AFF_TRACER;
+
     return AFF_NO;
 }
 
@@ -597,11 +586,12 @@ aff_type targetter_cloud::is_affected(coord_def loc)
     if (!valid_aim(aim))
         return AFF_NO;
 
-    map<coord_def, aff_type>::const_iterator it = seen.find(loc);
-    if (it == seen.end() || it->second <= 0) // AFF_TRACER is used privately
-        return AFF_NO;
-
-    return it->second;
+    if (aff_type *aff = map_find(seen, loc))
+    {
+        if (*aff > 0) // AFF_TRACER is used privately
+            return *aff;
+    }
+    return AFF_NO;
 }
 
 targetter_splash::targetter_splash(const actor* act)
@@ -846,20 +836,17 @@ bool targetter_spray::set_aim(coord_def a)
 
 aff_type targetter_spray::is_affected(coord_def loc)
 {
-    coord_def c;
     aff_type affected = AFF_NO;
 
     for (unsigned int n = 0; n < paths_taken.size(); ++n)
     {
         aff_type beam_affect = AFF_YES;
         bool beam_reached = false;
-        for (vector<coord_def>::const_iterator i = paths_taken[n].begin();
-         i != paths_taken[n].end(); ++i)
+        for (auto c : paths_taken[n])
         {
-            c = *i;
             if (c == loc)
             {
-                if (cell_is_solid(*i))
+                if (cell_is_solid(c))
                     beam_affect = AFF_NO;
                 else if (beam_affect != AFF_MAYBE)
                     beam_affect = AFF_YES;
@@ -867,8 +854,8 @@ aff_type targetter_spray::is_affected(coord_def loc)
                 beam_reached = true;
                 break;
             }
-            else if (anyone_there(*i)
-                && !beams[n].ignores_monster(monster_at(*i)))
+            else if (anyone_there(c)
+                     && !beams[n].ignores_monster(monster_at(c)))
             {
                 beam_affect = AFF_MAYBE;
             }
@@ -1092,14 +1079,13 @@ bool targetter_explosive_bolt::set_aim(coord_def a)
 
     bolt tempbeam = beam;
     tempbeam.target = origin;
-    for (vector<coord_def>::const_iterator i = path_taken.begin();
-         i != path_taken.end(); ++i)
+    for (auto c : path_taken)
     {
-        if (cell_is_solid(*i))
+        if (cell_is_solid(c))
             break;
 
-        tempbeam.target = *i;
-        if (anyone_there(*i))
+        tempbeam.target = c;
+        if (anyone_there(c))
         {
             tempbeam.use_target_as_pos = true;
             exp_map.init(INT_MAX);
@@ -1114,17 +1100,13 @@ bool targetter_explosive_bolt::set_aim(coord_def a)
 aff_type targetter_explosive_bolt::is_affected(coord_def loc)
 {
     bool on_path = false;
-    coord_def c;
-    for (vector<coord_def>::const_iterator i = path_taken.begin();
-         i != path_taken.end(); ++i)
+    for (auto c : path_taken)
     {
-        if (cell_is_solid(*i))
+        if (cell_is_solid(c))
             break;
-
-        c = *i;
         if (c == loc)
             on_path = true;
-        if (anyone_there(*i)
+        if (anyone_there(c)
             && !beam.ignores_monster(monster_at(c))
             && (loc - c).rdist() <= 9)
         {

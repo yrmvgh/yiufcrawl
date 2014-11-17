@@ -8,13 +8,11 @@
 // constants.
 const uint64_t M_NO_FLAGS = 0;
 
-//1<< 0;
+                                   //1<< 0;
 
-// monster is a wizard (hated by Trog; affected by silence)
-const uint64_t M_ACTUAL_SPELLS     = 1<< 1;
+                                   //1<< 1;
 
-// monster is a priest
-const uint64_t M_PRIEST            = 1<< 2;
+                                   //1<< 2;
 
 // monster is skilled fighter
 const uint64_t M_FIGHTER           = 1<< 3;

@@ -2,8 +2,8 @@
 #define SPL_SUMMONING_H
 
 #include "beam.h"
-#include "enum.h"
 #include "data-index.h"
+#include "enum.h"
 #include "itemprop-enum.h"
 #include "spl-cast.h"
 
@@ -110,7 +110,8 @@ bool trigger_battlesphere(actor* agent, bolt& beam);
 bool fire_battlesphere(monster* mons);
 void reset_battlesphere(monster* mons);
 
-spret_type cast_fulminating_prism(int pow, const coord_def& where, bool fail);
+spret_type cast_fulminating_prism(actor* caster, int pow,
+                                  const coord_def& where, bool fail);
 
 monster* find_spectral_weapon(const actor* agent);
 spret_type cast_spectral_weapon(actor *agent, int pow, god_type god, bool fail);
@@ -122,7 +123,7 @@ void reset_spectral_weapon(monster* mons);
 void grand_avatar_reset(monster* mons);
 bool grand_avatar_check_melee(monster* mons, actor* target);
 void end_grand_avatar(monster* mons, bool killed);
-void trigger_grand_avatar(monster* mons, actor* victim, spell_type spell,
+void trigger_grand_avatar(monster* mons, const actor* victim, spell_type spell,
                           const int old_hp);
 
 void summoned_monster(const monster* mons, const actor* caster,

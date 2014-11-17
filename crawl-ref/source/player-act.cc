@@ -7,12 +7,11 @@
 
 #include "player.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "act-iter.h"
 #include "areas.h"
 #include "art-enum.h"
-#include "artefact.h"
 #include "coordit.h"
 #include "dgnevent.h"
 #include "english.h"
@@ -24,13 +23,8 @@
 #include "hints.h"
 #include "itemname.h"
 #include "itemprop.h"
-#include "items.h"
 #include "item_use.h"
-#include "libutil.h"
 #include "message.h"
-#include "misc.h"
-#include "monster.h"
-#include "mon-util.h" // for decline_pronoun
 #include "player-stats.h"
 #include "religion.h"
 #include "spl-damage.h"
@@ -201,7 +195,7 @@ size_type player::body_size(size_part_type psize, bool base) const
         return species_size(species, psize);
     else
     {
-        size_type tf_size = transform_size(form);
+        size_type tf_size = get_form()->size;
         return tf_size == SIZE_CHARACTER ? species_size(species, psize)
                                          : tf_size;
     }
@@ -977,10 +971,14 @@ int player::constriction_damage() const
     return roll_dice(2, div_rand_round(strength(), 5));
 }
 
+/**
+ * How many heads does the player have, in their current form?
+ *
+ * Currently only checks for hydra form.
+ */
 int player::heads() const
 {
-    if (form != TRAN_HYDRA)
-        return 1; // not actually always true
-    ASSERT(props.exists(HYDRA_FORM_HEADS_KEY));
-    return props[HYDRA_FORM_HEADS_KEY].get_int();
+    if (props.exists(HYDRA_FORM_HEADS_KEY))
+        return props[HYDRA_FORM_HEADS_KEY].get_int();
+    return 1; // not actually always true
 }

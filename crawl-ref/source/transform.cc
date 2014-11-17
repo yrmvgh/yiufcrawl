@@ -7,40 +7,28 @@
 
 #include "transform.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
-#include "externs.h"
-
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "cloud.h"
 #include "delay.h"
 #include "english.h"
 #include "env.h"
 #include "godabil.h"
 #include "goditem.h"
-#include "item_use.h"
-#include "itemname.h" // brand_type_name
+#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
 #include "message.h"
-#include "misc.h"
-#include "mon-abil.h"
 #include "mon-death.h"
-#include "mon-enum.h" // stealing their resist flags
 #include "mutation.h"
-#include "newgame.h"
 #include "output.h"
-#include "player.h"
 #include "player-equip.h"
 #include "player-stats.h"
 #include "prompt.h"
-#include "random.h"
 #include "religion.h"
-#include "skills2.h"
-#include "species.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
@@ -1737,18 +1725,6 @@ void remove_one_equip(equipment_type eq, bool meld, bool mutation)
 }
 
 /**
- * What size is the player, when in the given form?
- *
- * @param tform     The type of transformation in question.
- * @return          The size of the player when in the given form; may be
- *                  SIZE_CHARACTER (unchanged).
- */
-size_type player::transform_size(transformation_type tform) const
-{
-    return get_form()->size;
-}
-
-/**
  * Get an monster type corresponding to the player's current form.
  *
  * (Used for console player glyphs.)
@@ -1837,11 +1813,9 @@ static bool _flying_in_new_form(transformation_type which_trans)
 
     int sources = you.evokable_flight();
     int sources_removed = 0;
-    set<equipment_type> removed = _init_equipment_removal(which_trans);
-    for (set<equipment_type>::iterator iter = removed.begin();
-         iter != removed.end(); ++iter)
+    for (auto eq : _init_equipment_removal(which_trans))
     {
-        item_def *item = you.slot_item(*iter, true);
+        item_def *item = you.slot_item(eq, true);
         if (item == NULL)
             continue;
         item_info inf = get_item_info(*item);
@@ -2174,7 +2148,7 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
         set_hydra_form_heads(div_rand_round(pow, 10));
 
     // Give the transformation message.
-    mpr(get_form(which_trans)->transform_message(previous_trans).c_str());
+    mpr(get_form(which_trans)->transform_message(previous_trans));
 
     // Update your status.
     you.form = which_trans;
@@ -2351,7 +2325,7 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
 
     if (you.hp <= 0)
     {
-        ouch(0, NON_MONSTER, KILLED_BY_FRAILTY,
+        ouch(0, KILLED_BY_FRAILTY, MID_NOBODY,
              make_stringf("gaining the %s transformation",
                           transform_name(which_trans)).c_str());
     }
@@ -2502,7 +2476,7 @@ void untransform(bool skip_move)
 
     if (you.hp <= 0)
     {
-        ouch(0, NON_MONSTER, KILLED_BY_FRAILTY,
+        ouch(0, KILLED_BY_FRAILTY, MID_NOBODY,
              make_stringf("losing the %s form",
                           transform_name(old_form)).c_str());
     }

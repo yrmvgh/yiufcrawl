@@ -6,23 +6,23 @@
 #include "AppHdr.h"
 
 #include "kills.h"
-#include "l_libs.h"
 
 #include <algorithm>
 
+#include "clua.h"
 #include "describe.h"
 #include "english.h"
-#include "mon-info.h"
 #include "files.h"
 #include "ghost.h"
 #include "libutil.h"
-#include "monster.h"
+#include "l_libs.h"
 #include "mon-death.h"
-#include "place.h"
-#include "travel.h"
-#include "tags.h"
-#include "clua.h"
+#include "mon-info.h"
+#include "monster.h"
 #include "options.h"
+#include "place.h"
+#include "tags.h"
+#include "travel.h"
 #include "unwind.h"
 #include "viewchar.h"
 
@@ -292,12 +292,11 @@ void Kills::merge(const Kills &k)
     ghosts.insert(ghosts.end(), k.ghosts.begin(), k.ghosts.end());
 
     // Regular kills are messier to merge.
-    for (kill_map::const_iterator i = k.kills.begin();
-            i != k.kills.end(); ++i)
+    for (const auto &entry : k.kills)
     {
-        const kill_monster_desc &kmd = i->first;
+        const kill_monster_desc &kmd = entry.first;
         kill_def &ki = kills[kmd];
-        const kill_def &ko = i->second;
+        const kill_def &ko = entry.second;
         bool uniq = mons_is_unique(kmd.monnum);
         ki.merge(ko, uniq);
     }
@@ -350,20 +349,16 @@ void Kills::save(writer& outf) const
     // How many kill records do we have?
     marshallInt(outf, kills.size());
 
-    for (kill_map::const_iterator iter = kills.begin();
-          iter != kills.end(); ++iter)
+    for (const auto &entry : kills)
     {
-        iter->first.save(outf);
-        iter->second.save(outf);
+        entry.first.save(outf);
+        entry.second.save(outf);
     }
 
     // How many ghosts do we have?
     marshallShort(outf, ghosts.size());
-    for (ghost_vec::const_iterator iter = ghosts.begin();
-         iter != ghosts.end(); ++iter)
-    {
-        iter->save(outf);
-    }
+    for (const auto &ghost : ghosts)
+        ghost.save(outf);
 }
 
 void Kills::load(reader& inf)
@@ -583,8 +578,7 @@ string kill_def::append_places(const kill_monster_desc &md,
     {
         string augmented = name;
         augmented += " (";
-        for (vector<level_id>::const_iterator iter = places.begin();
-             iter != places.end(); ++iter)
+        for (auto iter = places.begin(); iter != places.end(); ++iter)
         {
             if (iter != places.begin())
                 augmented += " ";
@@ -602,11 +596,8 @@ void kill_def::save(writer& outf) const
     marshallShort(outf, exp);
 
     marshallShort(outf, places.size());
-    for (vector<level_id>::const_iterator iter = places.begin();
-         iter != places.end(); ++iter)
-    {
-        iter->save(outf);
-    }
+    for (auto lvl : places)
+        lvl.save(outf);
 }
 
 void kill_def::load(reader& inf)

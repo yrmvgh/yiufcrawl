@@ -6,13 +6,11 @@
 #ifndef STASH_H
 #define STASH_H
 
-#include "shopping.h"
-#include <string>
-
 #include <map>
+#include <string>
 #include <vector>
 
-#include "externs.h"
+#include "shopping.h"
 
 class input_history;
 class reader;
@@ -25,8 +23,6 @@ class Stash
 public:
     Stash(int xp = -1, int yp = -1);
     Stash(const Stash &other) { *this = other; };
-
-    static bool is_boring_feature(dungeon_feature_type feat);
 
     static string stash_item_name(const item_def &item);
     void update();

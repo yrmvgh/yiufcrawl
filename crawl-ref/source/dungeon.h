@@ -6,13 +6,12 @@
 #ifndef DUNGEON_H
 #define DUNGEON_H
 
-#include "env.h"
-#include "externs.h"
-#include "mapdef.h"
-
-#include <vector>
-#include <set>
 #include <algorithm>
+#include <set>
+#include <vector>
+
+#include "env.h"
+#include "mapdef.h"
 
 #define BUILD_METHOD_KEY "build_method_key"
 #define LAYOUT_TYPE_KEY  "layout_type_key"
@@ -193,7 +192,6 @@ void write_level_connectivity(writer &th);
 
 bool builder(bool enable_random_maps = true,
              dungeon_feature_type dest_stairs_type = NUM_FEATURES);
-void dgn_veto_level();
 
 void dgn_clear_vault_placements(vault_placement_refv &vps);
 void dgn_erase_unused_vault_placements();
@@ -223,15 +221,14 @@ const vault_placement *dgn_safe_place_map(const map_def *map,
 void level_clear_vault_memory();
 void run_map_epilogues();
 
-struct trap_spec;
 bool place_specific_trap(const coord_def& where, trap_type trap_spec, int charges = 0);
 
 struct shop_spec;
 void place_spec_shop(const coord_def& where,
                      int force_s_type, bool representative = false);
 int greed_for_shop_type(shop_type shop, int level_number);
-void place_spec_shop(const coord_def& where,
-                     shop_spec* spec, bool representative = false);
+void place_spec_shop(const coord_def& where, shop_spec &spec,
+                     bool representative = false);
 object_class_type item_in_shop(shop_type shop_type);
 bool seen_replace_feat(dungeon_feature_type replace,
                        dungeon_feature_type feature);

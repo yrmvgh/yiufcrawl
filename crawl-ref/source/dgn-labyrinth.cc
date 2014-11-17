@@ -62,10 +62,8 @@ static void _labyrinth_maze_recurse(const coord_def &c, const dgn_region &where)
     _find_maze_neighbours(c, where, neighbours);
 
     coord_list deferred;
-    for (coord_list::iterator i = neighbours.begin();
-         i != neighbours.end(); ++i)
+    for (auto nc : neighbours)
     {
-        const coord_def &nc = *i;
         if (grd(nc) != DNGN_ROCK_WALL)
             continue;
 
@@ -78,8 +76,8 @@ static void _labyrinth_maze_recurse(const coord_def &c, const dgn_region &where)
             deferred.push_back(nc);
     }
 
-    for (coord_list::iterator i = deferred.begin(); i != deferred.end(); ++i)
-        _labyrinth_maze_recurse(*i, where);
+    for (auto dc : deferred)
+        _labyrinth_maze_recurse(dc, where);
 }
 
 static void _labyrinth_build_maze(coord_def &e, const dgn_region &lab)
@@ -87,7 +85,9 @@ static void _labyrinth_build_maze(coord_def &e, const dgn_region &lab)
     _labyrinth_maze_recurse(lab.random_point(), lab);
 
     do
+    {
         e = lab.random_point();
+    }
     while (grd(e) != DNGN_FLOOR);
 }
 

@@ -1,8 +1,11 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
+#include <algorithm> // shuffle
 #include <map>
 #include <vector>
+
+#include "asg.h" // AsgKISS::generator
 #include "hash.h"
 
 void seed_rng();
@@ -107,22 +110,13 @@ dice_def calc_dice(int num_dice, int max_damage);
 template <typename T>
 void shuffle_array(T* arr, int n)
 {
-    while (n > 1)
-    {
-        int i = random2(n);
-        n--;
-        T tmp = arr[i];
-        arr[i] = arr[n];
-        arr[n] = tmp;
-    }
+    shuffle(arr, arr+n, AsgKISS::generator(0));
 }
 
 template <typename T>
-void shuffle_array(vector<T> &vec)
+void shuffle_array(T &vec)
 {
-    // &vec[0] is undefined behaviour, and vec.data() is C++11-only.
-    if (!vec.empty())
-        shuffle_array(&vec[0], vec.size());
+    shuffle(begin(vec), end(vec), AsgKISS::generator(0));
 }
 
 /**

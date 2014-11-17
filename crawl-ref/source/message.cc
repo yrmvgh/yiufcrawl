@@ -7,44 +7,35 @@
 
 #include "message.h"
 
+#include <sstream>
+
 #include "areas.h"
-#include "cio.h"
 #include "colour.h"
 #include "delay.h"
-#include "format.h"
+#include "english.h"
 #include "hints.h"
 #include "initfile.h"
 #include "libutil.h"
+#ifdef WIZARD
+ #include "luaterp.h"
+#endif
 #include "menu.h"
-#include "mon-message.h"
+#include "monster.h"
+#include "mon-util.h"
 #include "notes.h"
-#include "options.h"
-#include "player.h"
 #include "religion.h"
-#include "stash.h"
 #include "state.h"
-#include "tags.h"
-#include "travel.h"
-#include "shout.h"
 #include "stringutil.h"
+#ifdef USE_TILE_WEB
+ #include "tileweb.h"
+#endif
 #include "unwind.h"
 #include "view.h"
-#include "viewgeom.h"
-
-#include <sstream>
-
-#ifdef WIZARD
-#include "luaterp.h"
-#endif
-
-#ifdef USE_TILE_WEB
-#include "tileweb.h"
-#endif
 
 static void _mpr(string text, msg_channel_type channel=MSGCH_PLAIN, int param=0,
                  bool nojoin=false, bool cap=true);
 
-void mpr(const char *text)
+void mpr(const string &text)
 {
     _mpr(text);
 }
@@ -453,7 +444,7 @@ public:
 
     bool first_col_more() const
     {
-        return use_first_col() && Options.small_more;
+        return Options.small_more;
     }
 
     bool use_first_col() const
@@ -1492,7 +1483,9 @@ static void readkey_more(bool user_forced)
     mouse_control mc(MOUSE_MODE_MORE);
 
     do
+    {
         keypress = getch_ck();
+    }
     while (keypress != ' ' && keypress != '\r' && keypress != '\n'
            && !key_is_escape(keypress)
 #ifdef TOUCH_UI
@@ -1671,6 +1664,41 @@ void canned_msg(canned_message_type which_message)
             mpr_nojoin(MSGCH_PLAIN, "You die...");
             break;
     }
+}
+
+// Note that this function *completely* blocks messaging for monsters
+// distant or invisible to the player ... look elsewhere for a function
+// permitting output of "It" messages for the invisible {dlb}
+// Intentionally avoids info and str_pass now. - bwr
+bool simple_monster_message(const monster* mons, const char *event,
+                            msg_channel_type channel,
+                            int param,
+                            description_level_type descrip)
+{
+    if (mons_near(mons)
+        && (channel == MSGCH_MONSTER_SPELL || channel == MSGCH_FRIEND_SPELL
+            || mons->visible_to(&you)))
+    {
+        string msg = mons->name(descrip);
+        msg += event;
+        msg = apostrophise_fixup(msg);
+
+        if (channel == MSGCH_PLAIN && mons->wont_attack())
+            channel = MSGCH_FRIEND_ACTION;
+
+        mprf(channel, param, "%s", msg.c_str());
+        return true;
+    }
+
+    return false;
+}
+
+// yet another wrapper for mpr() {dlb}:
+void simple_god_message(const char *event, god_type which_deity)
+{
+    string msg = uppercase_first(god_name(which_deity)) + event;
+    msg = apostrophise_fixup(msg);
+    god_speaks(which_deity, msg.c_str());
 }
 
 static bool is_channel_dumpworthy(msg_channel_type channel)

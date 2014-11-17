@@ -13,8 +13,6 @@
 #include "act-iter.h"
 #include "areas.h"
 #include "artefact.h"
-#include "beam.h"
-#include "branch.h"
 #include "cloud.h"
 #include "coordit.h"
 #include "database.h"
@@ -26,46 +24,34 @@
 #include "effects.h"
 #include "english.h"
 #include "env.h"
-#include "feature.h"
 #include "goditem.h"
-#include "item_use.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
+#include "item_use.h"
 #include "losglobal.h"
 #include "makeitem.h"
-#include "map_knowledge.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
 #include "mon-behv.h"
 #include "mon-death.h"
 #include "mon-place.h"
 #include "mon-poly.h"
-#include "mon-util.h"
 #include "mon-tentacle.h"
 #include "mutation.h"
 #include "notes.h"
-#include "options.h"
-#include "ouch.h"
-#include "output.h"   // for the monster list
-#include "player.h"
+#include "output.h"
 #include "player-equip.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
 #include "religion.h"
 #include "shout.h"
-#include "skills2.h"
-#include "spl-book.h"
-#include "spl-cast.h"
 #include "spl-clouds.h"
 #include "spl-goditem.h"
 #include "spl-miscast.h"
 #include "spl-monench.h"
 #include "spl-transloc.h"
-#include "spl-util.h"
 #include "stairs.h"
 #include "stash.h"
 #include "state.h"
@@ -77,8 +63,8 @@
 #include "traps.h"
 #include "travel.h"
 #include "unwind.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 
 #ifdef DEBUG_XOM
 #    define DEBUG_RELIGION
@@ -999,7 +985,7 @@ static void _do_chaos_upgrade(item_def &item, const monster* mon)
         msg += " is briefly surrounded by a scintillating aura of "
                "random colours.";
 
-        mpr(msg.c_str());
+        mpr(msg);
     }
 
     const int brand = (item.base_type == OBJ_WEAPONS) ? (int) SPWPN_CHAOS
@@ -1602,7 +1588,9 @@ static int _xom_random_stickable(const int HD)
     // Maximum snake hd is 11 (anaconda) so random2(hd) gives us 0-10, and
     // weapon_rarity also gives us 1-10.
     do
+    {
         c = random2(HD);
+    }
     while (c >= ARRAYSZ(arr)
            || random2(HD) > weapon_rarity(arr[c]) && x_chance_in_y(c, HD));
 
@@ -1743,7 +1731,7 @@ static int _xom_animate_monster_weapon(int sever, bool debug = false)
 
     dancing->inv[MSLOT_WEAPON] = wpn;
     mitm[wpn].set_holding_monster(dancing->mindex());
-    dancing->colour = mitm[wpn].colour;
+    dancing->colour = mitm[wpn].get_colour();
 
     return XOM_GOOD_ANIMATE_MON_WPN;
 }
@@ -1911,11 +1899,8 @@ static int _xom_change_scenery(bool debug = false)
                 // If it's a gate, add all doors belonging to the gate.
                 set<coord_def> all_door;
                 find_connected_identical(*ri, all_door);
-                for (set<coord_def>::const_iterator dc = all_door.begin();
-                     dc != all_door.end(); ++dc)
-                {
-                    closed_doors.push_back(*dc);
-                }
+                for (auto dc : all_door)
+                    closed_doors.push_back(dc);
             }
         }
         else if (feat == DNGN_OPEN_DOOR && !actor_at(*ri)
@@ -1939,10 +1924,9 @@ static int _xom_change_scenery(bool debug = false)
                 set<coord_def> all_door;
                 find_connected_identical(*ri, all_door);
                 bool is_blocked = false;
-                for (set<coord_def>::const_iterator dc = all_door.begin();
-                     dc != all_door.end(); ++dc)
+                for (auto dc : all_door)
                 {
-                    if (actor_at(*dc) || igrd(*dc) != NON_ITEM)
+                    if (actor_at(dc) || igrd(dc) != NON_ITEM)
                     {
                         is_blocked = true;
                         break;
@@ -1953,11 +1937,8 @@ static int _xom_change_scenery(bool debug = false)
                 // belonging to the gate.
                 if (!is_blocked)
                 {
-                    for (set<coord_def>::const_iterator dc = all_door.begin();
-                         dc != all_door.end(); ++dc)
-                    {
-                        open_doors.push_back(*dc);
-                    }
+                    for (auto dc : all_door)
+                        open_doors.push_back(dc);
                 }
             }
         }
@@ -2215,6 +2196,7 @@ static int _xom_enchant_monster(bool helpful, bool debug = false)
             BEAM_MIGHT,
             BEAM_AGILITY,
             BEAM_INVISIBILITY,
+            BEAM_RESISTANCE,
         };
         ench = RANDOM_ELEMENT(enchantments);
     }
@@ -2671,9 +2653,9 @@ static void _xom_zero_miscast()
     }
 
     if (!priority.empty() && coinflip())
-        mpr(priority[random2(priority.size())].c_str());
+        mpr(priority[random2(priority.size())]);
     else
-        mpr(messages[random2(messages.size())].c_str());
+        mpr(messages[random2(messages.size())]);
 }
 
 static void _get_hand_type(string &hand, bool &can_plural)
@@ -2806,8 +2788,9 @@ static int _xom_miscast(const int max_level, const bool nasty,
 
     god_speaks(GOD_XOM, _get_xom_speech(speech_str).c_str());
 
-    MiscastEffect(&you, -GOD_XOM, (spschool_flag_type)school, level, cause_str,
-                  NH_DEFAULT, lethality_margin, hand_str, can_plural);
+    MiscastEffect(&you, NULL, GOD_MISCAST + GOD_XOM, (spschool_flag_type)school,
+                  level, cause_str, NH_DEFAULT, lethality_margin, hand_str,
+                  can_plural);
 
     // Not worth distinguishing unless debugging.
     return XOM_BAD_MISCAST_MAJOR;

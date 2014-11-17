@@ -6,48 +6,35 @@
 #include "AppHdr.h"
 
 #include "spl-book.h"
+#include "book-data.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <iomanip>
 
 #include "artefact.h"
-#include "cio.h"
 #include "colour.h"
 #include "database.h"
 #include "delay.h"
 #include "describe.h"
-#include "directn.h"
-#include "effects.h"
 #include "end.h"
 #include "english.h"
-#include "externs.h"
-#include "food.h"
-#include "format.h"
 #include "godconduct.h"
 #include "goditem.h"
-#include "hints.h"
 #include "invent.h"
-#include "itemname.h"
 #include "itemprop.h"
-#include "itemprop-enum.h"
 #include "items.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
-#include "options.h"
 #include "output.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
-#include "species.h"
-#include "spl-cast.h"
 #include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
-#include "target.h"
 #ifdef USE_TILE
  #include "tilepick.h"
 #endif
@@ -61,9 +48,6 @@
 
 #define RANDART_BOOK_TYPE_LEVEL "level"
 #define RANDART_BOOK_TYPE_THEME "theme"
-
-// The list of spells in spellbooks:
-#include "book-data.h"
 
 static int _rod_spells[NUM_RODS][2] =
 {
@@ -260,7 +244,6 @@ int book_rarity(uint8_t which_book)
 
     case BOOK_ENCHANTMENTS:
     case BOOK_PARTY_TRICKS:
-    case BOOK_FEN: // XXX: move this to weight 12 after the honeymoon
         return 7;
 
     case BOOK_TRANSFIGURATIONS:
@@ -284,6 +267,7 @@ int book_rarity(uint8_t which_book)
     case BOOK_BURGLARY:
     case BOOK_ALCHEMY:
     case BOOK_DREAMS:
+    case BOOK_FEN:
         return 12;
 
     case BOOK_ENVENOMATIONS:
@@ -419,7 +403,7 @@ void mark_had_book(const item_def &book)
     }
 
     if (book.sub_type == BOOK_RANDART_LEVEL)
-        ASSERT_RANGE(book.plus, 1, 10); // book's level
+        ASSERT_RANGE(book.book_param, 1, 10); // book's level
 
     if (!book.props.exists(SPELL_LIST_KEY))
         mark_had_book(book.book_number());
@@ -724,10 +708,9 @@ static bool _get_mem_list(spell_list &mem_spells,
     unsigned int num_memable    = 0;
     bool         form           = false;
 
-    for (spells_to_books::iterator i = book_hash.begin();
-         i != book_hash.end(); ++i)
+    for (const auto &entry : book_hash)
     {
-        const spell_type spell = i->first;
+        const spell_type spell = entry.first;
 
         if (spell == current_spell || you.has_spell(spell))
             num_known++;
@@ -1131,7 +1114,7 @@ static bool _learn_spell_checks(spell_type specspell)
 
     if (!you_can_memorise(specspell))
     {
-        mpr(desc_cannot_memorise_reason(specspell).c_str());
+        mpr(desc_cannot_memorise_reason(specspell));
         return false;
     }
 
@@ -1417,8 +1400,17 @@ static void _make_book_randart(item_def &book)
     }
 }
 
-bool make_book_level_randart(item_def &book, int level, int num_spells,
-                             string owner)
+/**
+ * Turn the given book into a randomly-generated spellbook ("randbook"),
+ * containing only spells of a given level.
+ *
+ * @param book[out]    The book in question.
+ * @param level        The level of the spells. If -1, choose a level randomly.
+ * @param owner        An "owner" for the book; used for naming. If the empty
+ *                     string, choose randomly (may choose no owner).
+ * @return             Whether the book was successfully transformed.
+ */
+bool make_book_level_randart(item_def &book, int level, string owner)
 {
     ASSERT(book.base_type == OBJ_BOOKS);
 
@@ -1438,16 +1430,13 @@ bool make_book_level_randart(item_def &book, int level, int num_spells,
     }
     ASSERT_RANGE(level, 0 + 1, 9 + 1);
 
-    if (num_spells == -1)
-    {
-        // Book level:       1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-        // Number of spells: 5 | 5 | 5 | 6 | 6 | 6 | 4 | 2 | 1
-        num_spells = min(5 + (level - 1)/3, 18 - 2*level);
-        num_spells = max(1, num_spells);
-    }
+    // Book level:       1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+    // Number of spells: 5 | 5 | 5 | 6 | 6 | 6 | 4 | 2 | 1
+    int num_spells = max(1, min(5 + (level - 1)/3,
+                                18 - 2*level));
     ASSERT_RANGE(num_spells, 0 + 1, SPELLBOOK_SIZE + 1);
 
-    book.plus       = level;
+    book.book_param = level;
 
     book.sub_type = BOOK_RANDART_LEVEL;
     _make_book_randart(book);
@@ -1456,6 +1445,7 @@ bool make_book_level_randart(item_def &book, int level, int num_spells,
     int uncastable_discard = 0;
 
     vector<spell_type> spells;
+    // Which spells are valid choices?
     _get_spell_list(spells, level, god, !completely_random,
                     god_discard, uncastable_discard);
 
@@ -1612,22 +1602,8 @@ bool make_book_level_randart(item_def &book, int level, int num_spells,
 
         if (bookname.find("@level@", 0) != string::npos)
         {
-            string number;
-            switch (level)
-            {
-            case 1: number = "One"; break;
-            case 2: number = "Two"; break;
-            case 3: number = "Three"; break;
-            case 4: number = "Four"; break;
-            case 5: number = "Five"; break;
-            case 6: number = "Six"; break;
-            case 7: number = "Seven"; break;
-            case 8: number = "Eight"; break;
-            case 9: number = "Nine"; break;
-            default:
-                number = ""; break;
-            }
-            bookname = replace_all(bookname, "@level@", number);
+            const string level_name = uppercase_first(number_in_words(level));
+            bookname = replace_all(bookname, "@level@", level_name);
         }
     }
 
@@ -1954,7 +1930,7 @@ bool make_book_theme_randart(item_def &book,
     ASSERT(count_bits(disc1) == 1);
     ASSERT(count_bits(disc2) == 1);
 
-    book.plus       = num_spells | (max_levels << 8); // NOTE: What's this do?
+    book.book_param = num_spells | (max_levels << 8); // NOTE: What's this do?
 
     book.sub_type = BOOK_RANDART_THEME;
     _make_book_randart(book);   // NOTE: have any spells been set here?
@@ -2248,7 +2224,7 @@ bool make_book_theme_randart(item_def &book,
     set_artefact_name(book, name);
 
     // Save primary/secondary disciplines back into the book.
-    book.plus       = max1;
+    book.book_param = max1;
 
     return true;
 }

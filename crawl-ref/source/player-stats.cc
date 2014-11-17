@@ -5,28 +5,30 @@
 #include "artefact.h"
 #include "clua.h"
 #include "delay.h"
-#include "godpassive.h"
 #include "files.h"
+#include "godpassive.h"
+#include "hints.h"
 #include "item_use.h"
 #include "libutil.h"
 #include "macro.h"
+#ifdef TOUCH_UI
+#include "menu.h"
+#endif
+#include "message.h"
 #include "misc.h"
-#include "mon-util.h"
 #include "monster.h"
+#include "mon-util.h"
 #include "notes.h"
 #include "ouch.h"
 #include "player.h"
 #include "religion.h"
 #include "state.h"
 #include "stringutil.h"
-#include "transform.h"
-#include "hints.h"
-
 #ifdef TOUCH_UI
-#include "menu.h"
 #include "tiledef-gui.h"
 #include "tilepick.h"
 #endif
+#include "transform.h"
 
 // Don't make this larger than 255 without changing the type of you.stat_zero
 // in player.h as well as the associated marshalling code in tags.cc
@@ -524,7 +526,7 @@ bool lose_stat(stat_type which_stat, int stat_loss, bool force,
         if (you.stat_zero[which_stat])
         {
             mprf(MSGCH_DANGER, "You convulse from lack of %s!", stat_desc(which_stat, SD_NAME));
-            ouch(5 + random2(you.hp_max / 10), NON_MONSTER, _statloss_killtype(which_stat), cause);
+            ouch(5 + random2(you.hp_max / 10), _statloss_killtype(which_stat), MID_NOBODY, cause);
         }
         _handle_stat_change(which_stat, see_source);
         return true;

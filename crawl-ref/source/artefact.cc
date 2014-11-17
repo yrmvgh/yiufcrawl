@@ -8,30 +8,24 @@
 #include "artefact.h"
 #include "art-enum.h"
 
-#include <cstdlib>
-#include <climits>
-#include <string.h>
-#include <stdio.h>
 #include <algorithm>
-
-#include "externs.h"
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "areas.h"
 #include "branch.h"
 #include "colour.h"
 #include "coordit.h"
 #include "database.h"
-#include "english.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
 #include "makeitem.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
 #include "shout.h"
-#include "species.h"
 #include "spl-book.h"
 #include "state.h"
 #include "stringutil.h"
@@ -297,7 +291,9 @@ string replace_name_parts(const string &name_in, const item_def& item)
         else
         {
             do
+            {
                 which_god = random_god(false); // Fedhas in ZotDef only
+            }
             while (!_god_fits_artefact(which_god, item, true));
         }
 
@@ -398,16 +394,6 @@ void set_unique_item_status(const item_def& item,
 {
     if (item.flags & ISFLAG_UNRANDART)
         _set_unique_item_status(item.special, status);
-}
-
-void reveal_randapp_artefact(item_def &item)
-{
-    ASSERT(is_unrandom_artefact(item));
-    const unrandart_entry *unrand = _seekunrandart(item);
-    ASSERT(unrand);
-    ASSERT(unrand->flags & UNRAND_FLAG_RANDAPP);
-    // name and tile update themselves
-    item.colour = unrand->colour;
 }
 
 void artefact_desc_properties(const item_def &item,
@@ -1152,25 +1138,23 @@ static bool _init_artefact_book(item_def &book)
 {
     ASSERT(book.sub_type == BOOK_RANDART_LEVEL
            || book.sub_type == BOOK_RANDART_THEME);
-    ASSERT(book.plus != 0);
+    ASSERT(book.book_param != 0);
 
     god_type god;
     bool redo = (!origin_is_god_gift(book, &god) || god != GOD_XOM);
 
-    // Plus and plus2 contain parameters to make_book_foo_randart(),
-    // which might get changed after the book has been made into a
-    // randart, so reset them on each iteration of the loop.
-    const int  plus  = book.plus;
+    // plus contains a parameter to make_book_foo_randart(), which might get
+    // changed after the book has been made into a randart, so reset it on each
+    // iteration of the loop.
+    // XXX: ...is this really necessary...?
+    const int book_param = book.book_param;
     bool book_good = false;
     for (int i = 0; i < 4; i++)
     {
-        book.plus  = plus;
+        book.book_param = book_param;
 
         if (book.sub_type == BOOK_RANDART_LEVEL)
-        {
-            // The parameters to this call are in book.plus and plus2.
-            book_good = make_book_level_randart(book, book.plus);
-        }
+            book_good = make_book_level_randart(book, book.book_param);
         else
             book_good = make_book_theme_randart(book);
 
@@ -1201,7 +1185,6 @@ void setup_unrandart(item_def &item, bool creating)
     item.base_type = unrand->base_type;
     item.sub_type  = unrand->sub_type;
     item.plus      = unrand->plus;
-    item.colour    = unrand->colour;
 }
 
 static bool _init_artefact_properties(item_def &item)

@@ -4,15 +4,13 @@
 **/
 
 #include "AppHdr.h"
-#include <math.h>
 
 #include "evoke.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
-#include <string.h>
-
-#include "externs.h"
+#include <cstring>
 
 #include "act-iter.h"
 #include "areas.h"
@@ -20,6 +18,7 @@
 #include "cloud.h"
 #include "coordit.h"
 #include "decks.h"
+#include "directn.h"
 #include "dungeon.h"
 #include "effects.h"
 #include "english.h"
@@ -28,26 +27,27 @@
 #include "fight.h"
 #include "food.h"
 #include "ghost.h"
+#include "godconduct.h"
 #include "invent.h"
+#include "itemprop.h"
 #include "items.h"
 #include "item_use.h"
-#include "itemprop.h"
 #include "libutil.h"
 #include "losglobal.h"
 #include "mapmark.h"
 #include "melee_attack.h"
 #include "message.h"
-#include "mon-chimera.h"
-#include "mon-pick.h"
-#include "mon-place.h"
 #include "mgen_data.h"
 #include "misc.h"
+#include "mon-behv.h"
+#include "mon-chimera.h"
+#include "mon-clone.h"
+#include "mon-pick.h"
+#include "mon-place.h"
 #include "player.h"
 #include "player-stats.h"
-#include "godconduct.h"
 #include "shout.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
 #include "spl-cast.h"
 #include "spl-clouds.h"
@@ -57,15 +57,14 @@
 #include "target.h"
 #include "terrain.h"
 #include "throw.h"
+#ifdef USE_TILE
+ #include "tilepick.h"
+#endif
 #include "traps.h"
 #include "unicode.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 #include "xom.h"
-
-#ifdef USE_TILE
-#include "tilepick.h"
-#endif
 
 void shadow_lantern_effect()
 {
@@ -632,11 +631,11 @@ static const pop_entry pop_beasts[] =
   { 15, 27,  100, PEAK, MONS_DEATH_YAK },
   { 16, 27,  100, PEAK, MONS_ANACONDA },
   { 16, 27,   50, PEAK, MONS_RAVEN },
-  { 18, 27,   50, UP,   MONS_DIRE_ELEPHANT },
-  { 20, 27,   50, UP,   MONS_FIRE_DRAGON },
-  { 23, 27,   10, UP,   MONS_APIS },
-  { 23, 27,   10, UP,   MONS_HELLEPHANT },
-  { 23, 27,   10, UP,   MONS_GOLDEN_DRAGON },
+  { 18, 29,   50, UP,   MONS_DIRE_ELEPHANT },
+  { 20, 29,   50, UP,   MONS_FIRE_DRAGON },
+  { 23, 32,   10, UP,   MONS_APIS },
+  { 23, 32,   10, UP,   MONS_HELLEPHANT },
+  { 23, 32,   10, UP,   MONS_GOLDEN_DRAGON },
   { 0,0,0,FLAT,MONS_0 }
 };
 
@@ -678,12 +677,13 @@ static bool _box_of_beasts(item_def &box)
     if (!one_chance_in(3))
     {
         // Invoke mon-pick with the custom list
-        int pick_level = max(1, you.skill(SK_EVOCATIONS));
+        const int pick_level = you.skill(SK_EVOCATIONS) + 5;
         monster_type mon = pick_monster_from(pop_beasts, pick_level,
                                              _box_of_beasts_veto_mon);
 
         // Second monster might be only half as good
-        int pick_level_2 = random_range(max(1,div_rand_round(pick_level,2)), pick_level);
+        int pick_level_2 = random_range(max(1,div_rand_round(pick_level,2)),
+                                        pick_level);
         monster_type mon2 = pick_monster_from(pop_beasts, pick_level_2,
                                               _box_of_beasts_veto_mon);
 
@@ -1079,7 +1079,7 @@ static bool _lamp_of_fire()
             beams[n].colour     = RED;
             beams[n].source_id  = MID_PLAYER;
             beams[n].thrower    = KILL_YOU;
-            beams[n].is_beam    = true;
+            beams[n].pierce     = true;
             beams[n].name       = "trail of fire";
             beams[n].hit        = 10 + (pow/8);
             beams[n].damage     = dice_def(2, 5 + pow/4);
@@ -1149,7 +1149,7 @@ static double _angle_between(coord_def origin, coord_def p1, coord_def p2)
     return min(fabs(ang - ang0), fabs(ang - ang0 + 2 * PI));
 }
 
-void wind_blast(actor* agent, int pow, coord_def target)
+void wind_blast(actor* agent, int pow, coord_def target, bool card)
 {
     vector<actor *> act_list;
 
@@ -1173,12 +1173,12 @@ void wind_blast(actor* agent, int pow, coord_def target)
     sort(act_list.begin(), act_list.end(), sorter);
 
     bolt wind_beam;
-    wind_beam.hit = AUTOMATIC_HIT;
-    wind_beam.is_beam = true;
+    wind_beam.hit             = AUTOMATIC_HIT;
+    wind_beam.pierce          = true;
     wind_beam.affects_nothing = true;
-    wind_beam.source = agent->pos();
-    wind_beam.range = LOS_RADIUS;
-    wind_beam.is_tracer = true;
+    wind_beam.source          = agent->pos();
+    wind_beam.range           = LOS_RADIUS;
+    wind_beam.is_tracer       = true;
 
     bool player_affected = false;
     counted_monster_list affected_monsters;
@@ -1303,10 +1303,12 @@ void wind_blast(actor* agent, int pow, coord_def target)
 
     if (agent->is_player())
     {
+        const string source = card ? "card" : "fan";
+
         if (pow > 120)
-            mpr("A mighty gale blasts forth from the fan!");
+            mprf("A mighty gale blasts forth from the %s!", source.c_str());
         else
-            mpr("A fierce wind blows from the fan.");
+            mprf("A fierce wind blows from the %s.", source.c_str());
     }
 
     noisy(8, agent->pos());
@@ -1321,7 +1323,7 @@ void wind_blast(actor* agent, int pow, coord_def target)
                          affected_monsters.describe().c_str(),
                          conjugate_verb("be", affected_monsters.count() > 1).c_str());
         if (strwidth(message) < get_number_of_cols() - 2)
-            mpr(message.c_str());
+            mpr(message);
         else
             mpr("The monsters around you are blown away!");
     }
@@ -1426,7 +1428,7 @@ static bool _stone_of_tremors()
     rubble.colour     = LIGHTGREY;
     rubble.flavour    = BEAM_MMISSILE;
     rubble.thrower    = KILL_YOU;
-    rubble.is_beam    = false;
+    rubble.pierce     = false;
     rubble.loudness   = 10;
     rubble.draw_delay = 0;
 
@@ -1571,6 +1573,63 @@ static bool _phial_of_floods()
 static void _expend_xp_evoker(item_def &item)
 {
     item.evoker_debt = 10;
+}
+
+static spret_type _phantom_mirror()
+{
+    bolt beam;
+    monster* victim = NULL;
+    dist spd;
+    targetter_smite tgt(&you, LOS_RADIUS, 0, 0);
+
+    if (!spell_direction(spd, beam, DIR_TARGET, TARG_ANY,
+                         LOS_RADIUS, false, true, false, NULL,
+                         "Aiming: <white>Phantom Mirror</white>", true,
+                         &tgt))
+    {
+        return SPRET_ABORT;
+    }
+    victim = monster_at(beam.target);
+    if (!victim || !you.can_see(victim))
+    {
+        if (beam.target == you.pos())
+            mpr("You can't use the mirror on yourself.");
+        else
+            mpr("You can't see anything there to clone.");
+        return SPRET_ABORT;
+    }
+
+    if (!actor_is_illusion_cloneable(victim))
+    {
+        mpr("The mirror can't reflect that right now.");
+        return SPRET_ABORT;
+    }
+
+    monster* mon = clone_mons(victim, true);
+    if (!mon)
+    {
+        canned_msg(MSG_NOTHING_HAPPENS);
+        return SPRET_FAIL;
+    }
+
+    const int power = 5 + you.skill(SK_EVOCATIONS, 3);
+    int dur = min(6, max(1, (you.skill(SK_EVOCATIONS, 1) / 4 + 1)
+                             * (100 - victim->check_res_magic(power)) / 100));
+
+    mon->attitude = ATT_FRIENDLY;
+    mon->mark_summoned(dur, true, SPELL_PHANTOM_MIRROR);
+
+    mon->summoner = MID_PLAYER;
+    mons_add_blame(mon, "mirrored by the player character");
+    mon->add_ench(ENCH_PHANTOM_MIRROR);
+
+    mon->behaviour = BEH_SEEK;
+    set_nearest_monster_foe(mon);
+
+    mprf("You reflect %s with the mirror, and the mirror shatters!",
+         victim->name(DESC_THE).c_str());
+
+    return SPRET_SUCCESS;
 }
 
 static bool _rod_spell(item_def& irod, bool check_range)
@@ -1803,8 +1862,6 @@ bool evoke_item(int slot, bool check_range)
 
         if (is_deck(item))
         {
-            ASSERT(wielded);
-
             evoke_deck(item);
             pract = 1;
             count_action(CACT_EVOKE, EVOC_DECK);
@@ -1920,6 +1977,23 @@ bool evoke_item(int slot, bool check_range)
             ASSERT(in_inventory(item));
             dec_inv_item_quantity(item.link, 1);
             invalidate_agrid(true);
+            break;
+
+        case MISC_PHANTOM_MIRROR:
+            switch (_phantom_mirror())
+            {
+                default:
+                case SPRET_ABORT:
+                    return false;
+
+                case SPRET_SUCCESS:
+                    ASSERT(in_inventory(item));
+                    dec_inv_item_quantity(item.link, 1);
+                    // deliberate fall-through
+                case SPRET_FAIL:
+                    pract = 1;
+                    break;
+            }
             break;
 
         default:

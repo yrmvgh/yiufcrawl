@@ -20,29 +20,40 @@
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
+#ifdef USE_TILE
+ #include "mon-util.h"
+#endif
 #include "options.h"
 #include "player.h"
 #include "state.h"
 #include "stringutil.h"
-#include "unicode.h"
-
+#ifdef USE_TILE
+ #include "terrain.h"
+#endif
 #ifdef USE_TILE_LOCAL
  #include "tilebuf.h"
- #include "tilefont.h"
- #include "tilereg-crt.h"
- #include "tilereg-menu.h"
 #endif
 #ifdef USE_TILE
- #include "mon-util.h"
- #include "terrain.h"
  #include "tiledef-dngn.h"
  #include "tiledef-icons.h"
  #include "tiledef-main.h"
  #include "tiledef-player.h"
+#endif
+#ifdef USE_TILE_LOCAL
+ #include "tilefont.h"
+#endif
+#ifdef USE_TILE
  #include "tilepick.h"
  #include "tilepick-p.h"
+#endif
+#ifdef USE_TILE_LOCAL
+ #include "tilereg-crt.h"
+ #include "tilereg-menu.h"
+#endif
+#ifdef USE_TILE
  #include "travel.h"
 #endif
+#include "unicode.h"
 
 #ifdef USE_TILE_LOCAL
 Popup::Popup(string prompt) : m_prompt(prompt), m_curr(0)
@@ -214,8 +225,7 @@ void Menu::check_add_formatted_line(int firstcol, int nextcol,
 
 Menu::~Menu()
 {
-    for (int i = 0, count = items.size(); i < count; ++i)
-        delete items[i];
+    deleteAll(items);
     delete title;
     if (title2)
         delete title2;
@@ -2219,12 +2229,11 @@ bool PrecisionMenu::process_key(int key)
         else
         {
             // pick the first object possible
-            for (vector<MenuObject*>::iterator it = m_attached_objects.begin();
-                 it != m_attached_objects.end(); ++it)
+            for (auto mobj : m_attached_objects)
             {
-                if ((*it)->can_be_focused())
+                if (mobj->can_be_focused())
                 {
-                    m_active_object = *it;
+                    m_active_object = mobj;
                     break;
                 }
             }
@@ -3289,12 +3298,11 @@ MenuObject::InputReturnValue MenuFreeform::process_input(int key)
         else if (m_default_item == NULL)
         {
             // pick the first item possible
-            for (vector<MenuItem*>::iterator it = m_entries.begin();
-                 it != m_entries.end(); ++it)
+            for (auto mentry : m_entries)
             {
-                if ((*it)->can_be_highlighted())
+                if (mentry->can_be_highlighted())
                 {
-                    m_active_item = *it;
+                    m_active_item = mentry;
                     break;
                 }
             }

@@ -10,8 +10,8 @@
 #include "ability.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "butcher.h"
 #include "cloud.h"
 #include "colour.h"
@@ -19,9 +19,11 @@
 #include "decks.h"
 #include "delay.h"
 #include "describe.h"
+#include "directn.h"
 #include "effects.h"
 #include "english.h"
 #include "env.h"
+#include "evoke.h"
 #include "exercise.h"
 #include "food.h"
 #include "godabil.h"
@@ -29,36 +31,27 @@
 #include "goditem.h"
 #include "hints.h"
 #include "invent.h"
-#include "evoke.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
 #include "macro.h"
 #include "makeitem.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
 #include "mon-behv.h"
-#include "mon-place.h"
 #include "mutation.h"
-#include "options.h"
 #include "output.h"
-#include "player.h"
 #include "player-equip.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
-#include "random.h"
 #include "religion.h"
 #include "rot.h"
 #include "shout.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
 #include "spl-clouds.h"
-#include "spl-damage.h"
 #include "spl-goditem.h"
-#include "spl-miscast.h"
 #include "spl-selfench.h"
 #include "spl-summoning.h"
 #include "spl-transloc.h"
@@ -66,7 +59,6 @@
 #include "state.h"
 #include "stringutil.h"
 #include "target.h"
-#include "terrain.h"
 #include "throw.h"
 #include "transform.h"
 #include "uncancel.h"
@@ -944,11 +936,9 @@ static int _prompt_ring_to_remove(int new_ring)
     const vector<equipment_type> ring_types = _current_ring_types();
     vector<char> slot_chars;
     vector<item_def*> rings;
-    for (vector<equipment_type>::const_iterator eq_it = ring_types.begin();
-         eq_it != ring_types.end();
-         ++eq_it)
+    for (auto eq : ring_types)
     {
-        rings.push_back(you.slot_item(*eq_it, true));
+        rings.push_back(you.slot_item(eq, true));
         ASSERT(rings.back());
         slot_chars.push_back(index_to_letter(rings.back()->link));
     }
@@ -963,13 +953,13 @@ static int _prompt_ring_to_remove(int new_ring)
 
     for (size_t i = 0; i < rings.size(); i++)
     {
-        string m;
+        string m = "<w>";
         const char key = _ring_slot_key(ring_types[i]);
         m += key;
         if (key == '<')
             m += '<';
 
-        m += " or " + rings[i]->name(DESC_INVENTORY);
+        m += "</w> or " + rings[i]->name(DESC_INVENTORY);
         mprf_nocap("%s", m.c_str());
     }
     flush_prev_message();
@@ -1159,12 +1149,10 @@ static bool _swap_rings(int ring_slot)
     int available = 0;
     bool all_same = true;
     item_def* first_ring = NULL;
-    for (vector<equipment_type>::iterator eq_it = ring_types.begin();
-         eq_it != ring_types.end();
-         ++eq_it)
+    for (auto eq : ring_types)
     {
-        item_def* ring = you.slot_item(*eq_it, true);
-        if (!you_tran_can_wear(*eq_it) || you.melded[*eq_it])
+        item_def* ring = you.slot_item(eq, true);
+        if (!you_tran_can_wear(eq) || you.melded[eq])
             melded++;
         else if (ring != NULL)
         {
@@ -1185,12 +1173,12 @@ static bool _swap_rings(int ring_slot)
             else if (strstr(ring->inscription.c_str(), "=R"))
             {
                 inscribed++;
-                last_inscribed = you.equip[*eq_it];
+                last_inscribed = you.equip[eq];
             }
             else
             {
                 available++;
-                unwanted = you.equip[*eq_it];
+                unwanted = you.equip[eq];
             }
         }
     }
@@ -1259,27 +1247,25 @@ static equipment_type _choose_ring_slot()
          "Put ring on which %s? (<w>Esc</w> to cancel)", you.hand_name(false).c_str());
 
     const vector<equipment_type> slots = _current_ring_types();
-    for (vector<equipment_type>::const_iterator eq_it = slots.begin();
-         eq_it != slots.end();
-         ++eq_it)
+    for (auto eq : slots)
     {
-        string msg = "";
-        const char key = _ring_slot_key(*eq_it);
+        string msg = "<w>";
+        const char key = _ring_slot_key(eq);
         msg += key;
         if (key == '<')
             msg += '<';
 
-        item_def* ring = you.slot_item(*eq_it, true);
+        item_def* ring = you.slot_item(eq, true);
         if (ring)
-            msg += " or " + ring->name(DESC_INVENTORY);
+            msg += "</w> or " + ring->name(DESC_INVENTORY);
         else
-            msg += " - no ring";
+            msg += "</w> - no ring";
 
-        if (*eq_it == EQ_LEFT_RING)
+        if (eq == EQ_LEFT_RING)
             msg += " (left)";
-        else if (*eq_it == EQ_RIGHT_RING)
+        else if (eq == EQ_RIGHT_RING)
             msg += " (right)";
-        else if (*eq_it == EQ_RING_AMULET)
+        else if (eq == EQ_RING_AMULET)
             msg += " (amulet)";
         mprf_nocap("%s", msg.c_str());
     }
@@ -1291,15 +1277,13 @@ static equipment_type _choose_ring_slot()
     do
     {
         c = getchm();
-        for (vector<equipment_type>::const_iterator eq_it = slots.begin();
-             eq_it != slots.end();
-             ++eq_it)
+        for (auto eq : slots)
         {
-            if (c == _ring_slot_key(*eq_it)
-                || (you.slot_item(*eq_it, true)
-                    && c == index_to_letter(you.slot_item(*eq_it, true)->link)))
+            if (c == _ring_slot_key(eq)
+                || (you.slot_item(eq, true)
+                    && c == index_to_letter(you.slot_item(eq, true)->link)))
             {
-                eqslot = *eq_it;
+                eqslot = eq;
                 c = ' ';
                 break;
             }
@@ -1352,11 +1336,9 @@ static bool _puton_item(int item_slot, bool prompt_slot)
     if (!is_amulet)     // i.e. it's a ring
     {
         bool need_swap = true;
-        for (vector<equipment_type>::const_iterator eq_it = ring_types.begin();
-             eq_it != ring_types.end();
-             ++eq_it)
+        for (auto eq : ring_types)
         {
-            if (!you.slot_item(*eq_it, true))
+            if (!you.slot_item(eq, true))
             {
                 need_swap = false;
                 break;
@@ -1413,13 +1395,11 @@ static bool _puton_item(int item_slot, bool prompt_slot)
     }
     else
     {
-        for (vector<equipment_type>::const_iterator eq_it = ring_types.begin();
-             eq_it != ring_types.end();
-             ++eq_it)
+        for (auto eq : ring_types)
         {
-            if (!you.slot_item(*eq_it, true))
+            if (!you.slot_item(eq, true))
             {
-                hand_used = *eq_it;
+                hand_used = eq;
                 break;
             }
         }
@@ -1488,11 +1468,9 @@ bool remove_ring(int slot, bool announce)
     const vector<equipment_type> ring_types = _current_ring_types();
     const vector<equipment_type> jewellery_slots = _current_jewellery_types();
 
-    for (vector<equipment_type>::const_iterator eq_it = jewellery_slots.begin();
-         eq_it != jewellery_slots.end();
-         ++eq_it)
+    for (auto eq : jewellery_slots)
     {
-        if (player_wearing_slot(*eq_it))
+        if (player_wearing_slot(eq))
         {
             if (has_jewellery || Options.jewellery_prompt)
             {
@@ -1500,11 +1478,11 @@ bool remove_ring(int slot, bool announce)
                 hand_used = EQ_NONE;
             }
             else
-                hand_used = *eq_it;
+                hand_used = eq;
 
             has_jewellery = true;
         }
-        else if (you.melded[*eq_it])
+        else if (you.melded[eq])
             has_melded = true;
     }
 
@@ -2085,7 +2063,12 @@ void drink(int slot)
     const bool alreadyknown = item_type_known(potion);
 
     if (alreadyknown && you.hunger_state == HS_ENGORGED
-        && (is_blood_potion(potion) || potion.sub_type == POT_PORRIDGE))
+        && (is_blood_potion(potion)
+#if TAG_MAJOR_VERSION == 34
+            || potion.sub_type == POT_PORRIDGE
+#endif
+            )
+        )
     {
         mpr("You are much too full right now.");
         return;
@@ -2324,7 +2307,8 @@ static object_selector _enchant_selector(scroll_type scroll)
 }
 
 // Returns NULL if no weapon was chosen.
-static item_def* _scroll_choose_weapon(bool alreadyknown, string *pre_msg, scroll_type scroll)
+static item_def* _scroll_choose_weapon(bool alreadyknown, const string &pre_msg,
+                                       scroll_type scroll)
 {
     int item_slot;
     const bool branding = scroll == SCR_BRAND_WEAPON;
@@ -2365,15 +2349,15 @@ static item_def* _scroll_choose_weapon(bool alreadyknown, string *pre_msg, scrol
         }
 
         // Now we're definitely using up the scroll.
-        if (pre_msg && alreadyknown)
-            mpr(pre_msg->c_str());
+        if (alreadyknown)
+            mpr(pre_msg);
 
         return wpn;
     }
 }
 
 // Returns true if the scroll is used up.
-static bool _handle_brand_weapon(bool alreadyknown, string *pre_msg)
+static bool _handle_brand_weapon(bool alreadyknown, const string &pre_msg)
 {
     item_def* weapon = _scroll_choose_weapon(alreadyknown, pre_msg, SCR_BRAND_WEAPON);
 
@@ -2423,7 +2407,7 @@ bool enchant_weapon(item_def &wpn, bool quiet)
 }
 
 // Returns true if the scroll is used up.
-static bool _identify(bool alreadyknown, string *pre_msg)
+static bool _identify(bool alreadyknown, const string &pre_msg)
 {
     int item_slot = -1;
     while (true)
@@ -2466,8 +2450,8 @@ static bool _identify(bool alreadyknown, string *pre_msg)
             continue;
         }
 
-        if (alreadyknown && pre_msg)
-            mpr(pre_msg->c_str());
+        if (alreadyknown)
+            mpr(pre_msg);
 
         set_ident_type(item, ID_KNOWN_TYPE);
         set_ident_flags(item, ISFLAG_IDENT_MASK);
@@ -2492,7 +2476,7 @@ static bool _identify(bool alreadyknown, string *pre_msg)
     }
 }
 
-static bool _handle_enchant_weapon(bool alreadyknown, string *pre_msg)
+static bool _handle_enchant_weapon(bool alreadyknown, const string &pre_msg)
 {
     item_def* weapon = _scroll_choose_weapon(alreadyknown, pre_msg,
                                              SCR_ENCHANT_WEAPON);
@@ -2577,7 +2561,7 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm)
     return true;
 }
 
-static int _handle_enchant_armour(bool alreadyknown, string *pre_msg)
+static int _handle_enchant_armour(bool alreadyknown, const string &pre_msg)
 {
     int item_slot = -1;
     do
@@ -2619,8 +2603,8 @@ static int _handle_enchant_armour(bool alreadyknown, string *pre_msg)
         }
 
         // Okay, we may actually (attempt to) enchant something.
-        if (pre_msg && alreadyknown)
-            mpr(pre_msg->c_str());
+        if (alreadyknown)
+            mpr(pre_msg);
 
         int ac_change;
         bool result = enchant_armour(ac_change, false, arm);
@@ -2886,12 +2870,12 @@ void read_scroll(int slot)
 
     // For cancellable scrolls leave printing this message to their
     // respective functions.
-    string pre_succ_msg =
+    const string pre_succ_msg =
             make_stringf("As you read the %s, it crumbles to dust.",
                           scroll.name(DESC_QUALNAME).c_str());
     if (!_is_cancellable_scroll(which_scroll))
     {
-        mpr(pre_succ_msg.c_str());
+        mpr(pre_succ_msg);
         // Actual removal of scroll done afterwards. -- bwr
     }
 
@@ -2909,7 +2893,7 @@ void read_scroll(int slot)
 
     case SCR_BLINKING:
         cancel_scroll = (blink(1000, false, false,
-                               &pre_succ_msg, alreadyknown) == -1
+                               pre_succ_msg, alreadyknown) == -1
                         && alreadyknown);
         break;
 
@@ -2920,11 +2904,11 @@ void read_scroll(int slot)
     case SCR_REMOVE_CURSE:
         if (!alreadyknown)
         {
-            mprf("%s", pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             remove_curse(false);
         }
         else
-            cancel_scroll = !remove_curse(true, &pre_succ_msg);
+            cancel_scroll = !remove_curse(true, pre_succ_msg);
         break;
 
     case SCR_ACQUIREMENT:
@@ -3015,58 +2999,58 @@ void read_scroll(int slot)
     case SCR_ENCHANT_WEAPON:
         if (!alreadyknown)
         {
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             mpr("It is a scroll of enchant weapon.");
             // Pause to display the message before jumping to the weapon list.
             more();
         }
 
-        cancel_scroll = !_handle_enchant_weapon(alreadyknown, &pre_succ_msg);
+        cancel_scroll = !_handle_enchant_weapon(alreadyknown, pre_succ_msg);
         break;
 
     case SCR_BRAND_WEAPON:
         if (!alreadyknown)
         {
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             mpr("It is a scroll of brand weapon.");
             // Pause to display the message before jumping to the weapon list.
             more();
         }
 
-        cancel_scroll = !_handle_brand_weapon(alreadyknown, &pre_succ_msg);
+        cancel_scroll = !_handle_brand_weapon(alreadyknown, pre_succ_msg);
         break;
 
     case SCR_IDENTIFY:
         if (!alreadyknown)
         {
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             mpr("It is a scroll of identify.");
             more();
             // Do this here so it doesn't turn up in the ID menu.
             set_ident_type(scroll, ID_KNOWN_TYPE);
         }
-        cancel_scroll = !_identify(alreadyknown, &pre_succ_msg);
+        cancel_scroll = !_identify(alreadyknown, pre_succ_msg);
         break;
 
     case SCR_RECHARGING:
         if (!alreadyknown)
         {
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             mpr("It is a scroll of recharging.");
             more();
         }
-        cancel_scroll = (recharge_wand(alreadyknown, &pre_succ_msg) == -1);
+        cancel_scroll = (recharge_wand(alreadyknown, pre_succ_msg) == -1);
         break;
 
     case SCR_ENCHANT_ARMOUR:
         if (!alreadyknown)
         {
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
             mpr("It is a scroll of enchant armour.");
             more();
         }
         cancel_scroll =
-            (_handle_enchant_armour(alreadyknown, &pre_succ_msg) == -1);
+            (_handle_enchant_armour(alreadyknown, pre_succ_msg) == -1);
         break;
 
     // Should always be identified by Ashenzari.
@@ -3074,7 +3058,7 @@ void read_scroll(int slot)
     case SCR_CURSE_JEWELLERY:
     {
         const bool armour = which_scroll == SCR_CURSE_ARMOUR;
-        cancel_scroll = !curse_item(armour, &pre_succ_msg);
+        cancel_scroll = !curse_item(armour, pre_succ_msg);
         break;
     }
 
@@ -3098,13 +3082,13 @@ void read_scroll(int slot)
 
     case SCR_AMNESIA:
         if (!alreadyknown)
-            mpr(pre_succ_msg.c_str());
+            mpr(pre_succ_msg);
         if (you.spell_no == 0)
             mpr("You feel forgetful for a moment.");
         else if (!alreadyknown)
             cast_selective_amnesia();
         else
-            cancel_scroll = (cast_selective_amnesia(&pre_succ_msg) == -1);
+            cancel_scroll = (cast_selective_amnesia(pre_succ_msg) == -1);
         break;
 
     default:
@@ -3183,7 +3167,7 @@ bool stasis_blocks_effect(bool calc_unid,
                     }
                 }
                 else
-                    mpr(message.c_str());
+                    mpr(message);
             }
         }
         return true;

@@ -10,29 +10,21 @@
 #include <algorithm>
 
 #include "branch.h"
-#include "cio.h"
 #include "colour.h"
 #include "command.h"
 #include "coord.h"
 #include "coordit.h"
 #include "dgn-overview.h"
 #include "env.h"
-#include "map_knowledge.h"
-#include "message.h"
-#include "fprop.h"
-#include "exclude.h"
-#include "feature.h"
 #include "files.h"
 #include "format.h"
+#include "fprop.h"
 #include "libutil.h"
 #include "macro.h"
-#include "mon-util.h"
+#include "message.h"
 #include "options.h"
 #include "output.h"
-#include "place.h"
-#include "player.h"
 #include "showsymb.h"
-#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
@@ -1282,6 +1274,7 @@ bool emphasise(const coord_def& where)
 #ifndef USE_TILE_LOCAL
 // Get glyph for feature list; here because it's so similar
 // to get_map_col.
+// Except that that function doesn't exist...
 static cglyph_t _get_feat_glyph(const coord_def& gc)
 {
     // XXX: it's unclear whether we want to display all features

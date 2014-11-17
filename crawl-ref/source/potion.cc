@@ -7,32 +7,21 @@
 
 #include "potion.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
-#include "externs.h"
-
-#include "areas.h"
-#include "artefact.h"
-#include "beam.h"
-#include "env.h"
 #include "food.h"
 #include "godconduct.h"
 #include "hints.h"
-#include "item_use.h"
 #include "itemname.h"
 #include "itemprop.h"
-#include "libutil.h"
 #include "message.h"
 #include "misc.h"
 #include "mutation.h"
-#include "player.h"
 #include "player-stats.h"
 #include "skill_menu.h"
 #include "spl-goditem.h"
-#include "spl-miscast.h"
 #include "stringutil.h"
-#include "terrain.h"
 #include "transform.h"
 #include "xom.h"
 
@@ -167,32 +156,12 @@ bool potion_effect(potion_type pot_eff, int pow, item_def *potion, bool was_know
         }
         else
         {
-            const int value = pot_eff == POT_BLOOD ? 1040 : 840;
             const int herbivorous = player_mutation_level(MUT_HERBIVOROUS);
-
             if (herbivorous < 3 && player_likes_chunks())
-            {
-                // Likes it.
                 mpr("This tastes like blood.");
-                if (you.species == SP_GHOUL && player_rotted())
-                {
-                    mpr("You feel more resilient.");
-                    unrot_hp(1);
-                }
-                lessen_hunger(value, true);
-            }
             else
-            {
                 mpr("Yuck - this tastes like blood.");
-                if (x_chance_in_y(herbivorous + 1, 4))
-                {
-                    // Full herbivores always become ill from blood.
-                    you.sicken(50 + random2(100));
-                    xom_is_stimulated(25 / xom_factor);
-                }
-                else
-                    lessen_hunger(value, true);
-            }
+            // no actual effect, just 'flavour' ha ha ha
         }
         did_god_conduct(DID_DRINK_BLOOD, 1 + random2(3), was_known);
         break;
@@ -363,6 +332,7 @@ bool potion_effect(potion_type pot_eff, int pow, item_def *potion, bool was_know
 
         break;
 
+#if TAG_MAJOR_VERSION == 34
     case POT_PORRIDGE:
         if (you.species == SP_VAMPIRE
             || player_mutation_level(MUT_CARNIVOROUS) == 3)
@@ -375,6 +345,7 @@ bool potion_effect(potion_type pot_eff, int pow, item_def *potion, bool was_know
             lessen_hunger(6000, true);
         }
         break;
+#endif
 
     case POT_DEGENERATION:
         if (potion)

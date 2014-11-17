@@ -6,24 +6,18 @@
 #include "AppHdr.h"
 
 #include "spl-selfench.h"
-#include "externs.h"
 
 #include "areas.h"
 #include "art-enum.h"
-#include "env.h"
 #include "godconduct.h"
 #include "hints.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
-#include "misc.h"
-#include "options.h"
 #include "output.h"
 #include "religion.h"
-#include "spl-cast.h"
 #include "spl-transloc.h"
 #include "spl-util.h"
-
 #include "transform.h"
 #include "view.h"
 
@@ -260,7 +254,7 @@ spret_type cast_teleport_control(int power, bool fail)
     return SPRET_SUCCESS;
 }
 
-int cast_selective_amnesia(string *pre_msg)
+int cast_selective_amnesia(const string &pre_msg)
 {
     if (you.spell_no == 0)
     {
@@ -312,8 +306,8 @@ int cast_selective_amnesia(string *pre_msg)
             break;
     }
 
-    if (pre_msg)
-        mpr(pre_msg->c_str());
+    if (!pre_msg.empty())
+        mpr(pre_msg);
 
     del_spell_from_memory_by_slot(slot);
 

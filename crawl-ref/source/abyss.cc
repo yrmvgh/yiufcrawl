@@ -5,34 +5,30 @@
 
 #include "AppHdr.h"
 
+#include "abyss.h"
+
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <algorithm>
 #include <queue>
 
-#include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "artefact.h"
 #include "bloodspatter.h"
 #include "branch.h"
 #include "cloud.h"
 #include "colour.h"
 #include "coordit.h"
 #include "dbg-scan.h"
+#include "dgn-overview.h"
 #include "dgn-proclayouts.h"
-#include "dungeon.h"
-#include "env.h"
 #include "files.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
-#include "los.h"
-#include "makeitem.h"
 #include "mapmark.h"
 #include "maps.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
 #include "mon-cast.h"
 #include "mon-death.h"
@@ -40,12 +36,8 @@
 #include "mon-pick.h"
 #include "mon-place.h"
 #include "mon-transit.h"
-#include "mon-util.h"
 #include "notes.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
-#include "shopping.h"
 #include "stash.h"
 #include "state.h"
 #include "stringutil.h"
@@ -55,7 +47,6 @@
 #include "traps.h"
 #include "travel.h"
 #include "view.h"
-#include "viewgeom.h"
 #include "xom.h"
 
 const coord_def ABYSS_CENTRE(GXM / 2, GYM / 2);
@@ -250,7 +241,9 @@ static bool _abyss_place_rune_vault(const map_bitmask &abyss_genlevel_mask)
     bool result = false;
     int tries = 10;
     do
+    {
         result = _abyss_place_vault_tagged(abyss_genlevel_mask, "abyss_rune");
+    }
     while (!result && --tries);
 
     // Make sure the rune is linked.
@@ -464,7 +457,9 @@ static dungeon_feature_type _abyss_pick_altar()
     god_type god;
 
     do
+    {
         god = random_god();
+    }
     while (is_good_god(god));
 
     return altar_for_god(god);
@@ -712,10 +707,9 @@ static void _abyss_move_masked_vaults_by_delta(const coord_def delta)
             vault_indexes.insert(vi);
     }
 
-    for (set<int>::const_iterator i = vault_indexes.begin();
-         i != vault_indexes.end(); ++i)
+    for (auto i : vault_indexes)
     {
-        vault_placement &vp(*env.level_vaults[*i]);
+        vault_placement &vp(*env.level_vaults[i]);
 #ifdef DEBUG_DIAGNOSTICS
         const coord_def oldp = vp.pos;
 #endif
@@ -817,11 +811,8 @@ static void _abyss_identify_area_to_shift(coord_def source, int radius,
             affected_vault_indexes.insert(map_index);
     }
 
-    for (set<int>::const_iterator i = affected_vault_indexes.begin();
-         i != affected_vault_indexes.end(); ++i)
-    {
-        _abyss_expand_mask_to_cover_vault(mask, *i);
-    }
+    for (auto i : affected_vault_indexes)
+        _abyss_expand_mask_to_cover_vault(mask, i);
 }
 
 static void _abyss_invert_mask(map_bitmask *mask)
@@ -1564,8 +1555,8 @@ static void _increase_depth()
     double depth_change = delta * (0.2 + 2.8 * pow(sin(theta/2), 10.0));
     abyssal_state.depth += depth_change;
     abyssal_state.phase += delta / 100.0;
-    if (abyssal_state.phase > M_PI)
-        abyssal_state.phase -= M_PI;
+    if (abyssal_state.phase > PI)
+        abyssal_state.phase -= PI;
 }
 
 void abyss_morph()
@@ -1930,12 +1921,16 @@ static void _corrupt_choose_colours(corrupt_env *cenv)
 {
     colour_t colour = BLACK;
     do
+    {
         colour = random_uncommon_colour();
+    }
     while (colour == env.rock_colour || colour == LIGHTGREY || colour == WHITE);
     cenv->rock_colour = colour;
 
     do
+    {
         colour = random_uncommon_colour();
+    }
     while (colour == env.floor_colour || colour == LIGHTGREY
            || colour == WHITE);
     cenv->floor_colour = colour;
@@ -1949,6 +1944,7 @@ bool lugonu_corrupt_level(int power)
     simple_god_message("'s Hand of Corruption reaches out!");
     take_note(Note(NOTE_MESSAGE, 0, 0, make_stringf("Corrupted %s",
               level_id::current().describe().c_str()).c_str()));
+    mark_corrupted_level(level_id::current());
 
     flash_view(UA_PLAYER, MAGENTA);
 

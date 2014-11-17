@@ -5,38 +5,34 @@
 
 #include "AppHdr.h"
 
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
+#include "ouch.h"
+
 #include <cctype>
 #include <cmath>
-
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <string>
 #ifdef UNIX
-#include <sys/types.h>
 #include <fcntl.h>
+#include <sys/types.h>
 #include <unistd.h>
 #endif
 
-#include "ouch.h"
-
-#include "externs.h"
-#include "options.h"
-
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "beam.h"
-#include "colour.h"
 #include "chardump.h"
+#include "colour.h"
 #include "delay.h"
 #include "describe.h"
 #include "dgnevent.h"
 #include "effects.h"
 #include "end.h"
 #include "env.h"
-#include "files.h"
 #include "fight.h"
+#include "files.h"
 #include "fineff.h"
 #include "godabil.h"
 #include "godpassive.h"
@@ -52,10 +48,11 @@
 #include "mgen_data.h"
 #include "misc.h"
 #include "mon-death.h"
-#include "mon-util.h"
 #include "mon-place.h"
+#include "mon-util.h"
 #include "mutation.h"
 #include "notes.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "player-stats.h"
@@ -64,16 +61,16 @@
 #include "random.h"
 #include "religion.h"
 #include "shopping.h"
-#include "skills2.h"
+#include "shout.h"
+#include "skills.h"
 #include "spl-clouds.h"
-#include "spl-selfench.h"
 #include "spl-other.h"
+#include "spl-selfench.h"
 #include "state.h"
 #include "stringutil.h"
 #include "transform.h"
 #include "tutorial.h"
 #include "view.h"
-#include "shout.h"
 #include "xom.h"
 
 void maybe_melt_player_enchantments(beam_type flavour, int damage)
@@ -82,15 +79,6 @@ void maybe_melt_player_enchantments(beam_type flavour, int damage)
         || flavour == BEAM_HELLFIRE || flavour == BEAM_STICKY_FLAME
         || flavour == BEAM_STEAM)
     {
-        if (you.duration[DUR_CONDENSATION_SHIELD] > 0)
-        {
-            you.duration[DUR_CONDENSATION_SHIELD] -= damage * BASELINE_DELAY;
-            if (you.duration[DUR_CONDENSATION_SHIELD] <= 0)
-                remove_condensation_shield();
-            else
-                you.props[MELT_SHIELD_KEY] = true;
-        }
-
         if (you.mutation[MUT_ICEMAIL])
         {
             if (!you.duration[DUR_ICEMAIL_DEPLETED])
@@ -365,70 +353,6 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 }
 
 /**
- * Attempts to apply corrosion to the player and deals acid damage.
- *
- * Each full equipment slot gives a chance of applying the corrosion debuff,
- * and each empty equipment slot increases the amount of acid damage taken.
- *
- * @param acid_strength The strength of the acid.
- * @param death_source The monster index of the acid's source.
- * @param allow_corrosion Whether to try and apply the corrosion debuff.
- * @param hurt_msg A message to display when dealing damage.
- */
-void splash_with_acid(int acid_strength, int death_source, bool allow_corrosion,
-                      const char* hurt_msg)
-{
-    int dam = 0;
-    bool do_corrosion = false;
-    const bool wearing_cloak = player_wearing_slot(EQ_CLOAK);
-
-    for (int slot = EQ_MIN_ARMOUR; slot <= EQ_MAX_ARMOUR; slot++)
-    {
-        const bool cloak_protects = wearing_cloak && coinflip()
-                                    && slot != EQ_SHIELD && slot != EQ_CLOAK;
-
-        if (!cloak_protects)
-        {
-            item_def *item = you.slot_item(static_cast<equipment_type>(slot));
-            if (!item && slot != EQ_SHIELD)
-                dam++;
-
-            if (item && allow_corrosion && x_chance_in_y(acid_strength + 1, 30))
-                do_corrosion = true;
-        }
-    }
-
-    if (do_corrosion)
-        corrode_actor(&you);
-
-    // Covers head, hands and feet.
-    if (player_equip_unrand(UNRAND_LEAR))
-        dam = !wearing_cloak;
-
-    // Without fur, clothed people have dam 0 (+2 later), Sp/Tr/Dr/Og ~1
-    // (randomized), Fe 5.  Fur helps only against naked spots.
-    const int fur = player_mutation_level(MUT_SHAGGY_FUR);
-    dam -= fur * dam / 5;
-
-    // two extra virtual slots so players can't be immune
-    dam += 2;
-    dam = roll_dice(dam, acid_strength);
-
-    const int post_res_dam = resist_adjust_damage(&you, BEAM_ACID,
-                                                  you.res_acid(), dam);
-
-    if (post_res_dam > 0)
-    {
-        mpr(hurt_msg ? hurt_msg : "The acid burns!");
-
-        if (post_res_dam < dam)
-            canned_msg(MSG_YOU_RESIST);
-
-        ouch(post_res_dam, death_source, KILLED_BY_ACID);
-    }
-}
-
-/**
  * Handle side-effects for exposure to element other than damage.
  *
  * @param flavour The beam type.
@@ -470,13 +394,13 @@ static void _lose_level_abilities()
     }
 }
 
-void lose_level(int death_source, const char *aux)
+void lose_level()
 {
     // Because you.experience is unsigned long, if it's going to be
     // negative, must die straightaway.
     if (you.experience_level == 1)
     {
-        ouch(INSTANT_DEATH, death_source, KILLED_BY_DRAINING, aux);
+        ouch(INSTANT_DEATH, KILLED_BY_DRAINING);
         // Return in case death was cancelled via wizard mode
         return;
     }
@@ -486,7 +410,7 @@ void lose_level(int death_source, const char *aux)
     mprf(MSGCH_WARN,
          "You are now level %d!", you.experience_level);
 
-    ouch(4, death_source, KILLED_BY_DRAINING, aux);
+    ouch(4, KILLED_BY_DRAINING);
     dec_mp(1);
 
     calc_hp();
@@ -510,7 +434,7 @@ void lose_level(int death_source, const char *aux)
 
     // Kill the player if maxhp <= 0.  We can't just move the ouch() call past
     // dec_max_hp() since it would decrease hp twice, so here's another one.
-    ouch(0, death_source, KILLED_BY_DRAINING, aux);
+    ouch(0, KILLED_BY_DRAINING);
 }
 
 /**
@@ -559,7 +483,7 @@ bool drain_player(int power, bool announce_full, bool ignore_protection)
 }
 
 static void _xom_checks_damage(kill_method_type death_type,
-                               int dam, int death_source)
+                               int dam, mid_t death_source)
 {
     if (you_worship(GOD_XOM))
     {
@@ -593,13 +517,13 @@ static void _xom_checks_damage(kill_method_type death_type,
         else if (death_type != KILLED_BY_MONSTER
                     && death_type != KILLED_BY_BEAM
                     && death_type != KILLED_BY_DISINT
-                 || invalid_monster_index(death_source))
+                 || !monster_by_mid(death_source))
         {
             return;
         }
 
         int amusementvalue = 1;
-        const monster* mons = &menv[death_source];
+        const monster* mons = monster_by_mid(death_source);
 
         if (!mons->alive())
             return;
@@ -643,7 +567,7 @@ static void _xom_checks_damage(kill_method_type death_type,
     }
 }
 
-static void _yred_mirrors_injury(int dam, int death_source)
+static void _yred_mirrors_injury(int dam, mid_t death_source)
 {
     if (yred_injury_mirror())
     {
@@ -652,14 +576,15 @@ static void _yred_mirrors_injury(int dam, int death_source)
         if (you.hp < 0)
             dam += you.hp;
 
-        if (dam <= 0 || invalid_monster_index(death_source))
+        monster* mons = monster_by_mid(death_source);
+        if (dam <= 0 || !mons)
             return;
 
-        mirror_damage_fineff::schedule(&menv[death_source], &you, dam);
+        mirror_damage_fineff::schedule(mons, &you, dam);
     }
 }
 
-static void _maybe_ru_retribution(int dam, int death_source)
+static void _maybe_ru_retribution(int dam, mid_t death_source)
 {
     if (will_ru_retaliate())
     {
@@ -668,18 +593,22 @@ static void _maybe_ru_retribution(int dam, int death_source)
         if (you.hp < 0)
             dam += you.hp;
 
-        if (dam <= 0 || invalid_monster_index(death_source))
+        monster* mons = monster_by_mid(death_source);
+        if (dam <= 0 || !mons)
             return;
-        ru_retribution_fineff::schedule(&menv[death_source], &you, dam);
+
+        ru_retribution_fineff::schedule(mons, &you, dam);
     }
 }
 
 static void _maybe_spawn_monsters(int dam, const char* aux,
-                                  kill_method_type death_type, int death_source)
+                                  kill_method_type death_type,
+                                  mid_t death_source)
 {
+    monster* damager = monster_by_mid(death_source);
     // We need to exclude acid damage and similar things or this function
     // will crash later.
-    if (death_source == NON_MONSTER)
+    if (!damager)
         return;
 
     // Exclude torment damage.
@@ -713,11 +642,8 @@ static void _maybe_spawn_monsters(int dam, const char* aux,
         int count_created = 0;
         for (int i = 0; i < how_many; ++i)
         {
-            int foe = death_source;
-            if (invalid_monster_index(foe))
-                foe = MHITNOT;
             mgen_data mg(mon, BEH_FRIENDLY, &you, 2, 0, you.pos(),
-                         foe, 0, you.religion);
+                         damager->mindex(), 0, you.religion);
 
             if (create_monster(mg))
                 count_created++;
@@ -848,6 +774,27 @@ void reset_damage_counters()
     you.source_damage = 0;
 }
 
+bool can_shave_damage()
+{
+    return you.species == SP_DEEP_DWARF || you.duration[DUR_FORTITUDE];
+}
+
+int do_shave_damage(int dam)
+{
+    if (you.species == SP_DEEP_DWARF)
+    {
+        // Deep Dwarves get to shave any hp loss.
+        int shave = 1 + random2(2 + random2(1 + you.experience_level / 3));
+        dprf("HP shaved: %d.", shave);
+        dam -= shave;
+    }
+
+    if (you.duration[DUR_FORTITUDE])
+        dam -= random2(10);
+
+    return dam;
+}
+
 // Determine what's threatening for purposes of sacrifice drink and reading.
 // the statuses are guaranteed not to happen if the incoming damage is less
 // than 4% max hp. Otherwise, they scale up with damage taken and with lower
@@ -862,9 +809,17 @@ static bool _is_damage_threatening (int damage_fraction_of_hp)
                 || random2(100) < hp_fraction);
 }
 
-// death_source should be set to NON_MONSTER for non-monsters. {dlb}
-void ouch(int dam, int death_source, kill_method_type death_type,
-          const char *aux, bool see_source, const char *death_source_name)
+/** Hurt the player. Isn't it fun?
+ *
+ *  @param dam How much damage -- may be INSTANT_DEATH.
+ *  @param death_type how did you get hurt?
+ *  @param source who could do such a thing?
+ *  @param aux what did they do it with?
+ *  @param see_source whether the attacker was visible to you
+ *  @param death_source_name the attacker's name if it is already dead.
+ */
+void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
+          bool see_source, const char *death_source_name)
 {
     ASSERT(!crawl_state.game_is_arena());
     if (you.duration[DUR_TIME_STEP])
@@ -875,19 +830,10 @@ void ouch(int dam, int death_source, kill_method_type death_type,
 
     int drain_amount = 0;
 
-    if ((you.duration[DUR_FORTITUDE] || you.species == SP_DEEP_DWARF)
-         && dam != INSTANT_DEATH && death_type != KILLED_BY_POISON)
+    if (can_shave_damage() && dam != INSTANT_DEATH
+        && death_type != KILLED_BY_POISON)
     {
-        if (you.species == SP_DEEP_DWARF)
-        {
-            // Deep Dwarves get to shave any hp loss.
-            int shave = 1 + random2(2 + random2(1 + you.experience_level / 3));
-            dprf("HP shaved: %d.", shave);
-            dam -= shave;
-        }
-
-        if (you.duration[DUR_FORTITUDE])
-            dam -= random2(10);
+        dam = do_shave_damage(dam);
 
         if (dam <= 0)
         {
@@ -947,7 +893,7 @@ void ouch(int dam, int death_source, kill_method_type death_type,
     // certain effects (e.g. drowned souls) use KILLED_BY_WATER for flavour
     // reasons (morgue messages?), with regrettable consequences if we don't
     // double-check.
-    const bool env_death = death_source == NON_MONSTER
+    const bool env_death = source == MID_NOBODY
                            && (death_type == KILLED_BY_LAVA
                                || death_type == KILLED_BY_WATER);
 
@@ -984,9 +930,9 @@ void ouch(int dam, int death_source, kill_method_type death_type,
         }
 
         you.turn_damage += dam;
-        if (you.damage_source != death_source)
+        if (you.damage_source != source)
         {
-            you.damage_source = death_source;
+            you.damage_source = source;
             you.source_damage = 0;
         }
         you.source_damage += dam;
@@ -1011,7 +957,7 @@ void ouch(int dam, int death_source, kill_method_type death_type,
 
             hints_healing_check();
 
-            _xom_checks_damage(death_type, dam, death_source);
+            _xom_checks_damage(death_type, dam, source);
 
             // for note taking
             string damage_desc;
@@ -1019,7 +965,7 @@ void ouch(int dam, int death_source, kill_method_type death_type,
                 damage_desc = make_stringf("something (%d)", dam);
             else
             {
-                damage_desc = scorefile_entry(dam, death_source,
+                damage_desc = scorefile_entry(dam, source,
                                               death_type, aux, true)
                     .death_description(scorefile_entry::DDV_TERSE);
             }
@@ -1027,9 +973,9 @@ void ouch(int dam, int death_source, kill_method_type death_type,
             take_note(Note(NOTE_HP_CHANGE, you.hp, you.hp_max,
                            damage_desc.c_str()));
 
-            _yred_mirrors_injury(dam, death_source);
-            _maybe_ru_retribution(dam, death_source);
-            _maybe_spawn_monsters(dam, aux, death_type, death_source);
+            _yred_mirrors_injury(dam, source);
+            _maybe_ru_retribution(dam, source);
+            _maybe_spawn_monsters(dam, aux, death_type, source);
             _maybe_fog(dam);
             _powered_by_pain(dam);
             if (drain_amount > 0)
@@ -1090,7 +1036,7 @@ void ouch(int dam, int death_source, kill_method_type death_type,
     crawl_state.cancel_cmd_all();
 
     // Construct scorefile entry.
-    scorefile_entry se(dam, death_source, death_type, aux, false,
+    scorefile_entry se(dam, source, death_type, aux, false,
                        death_source_name);
 
 #ifdef WIZARD

@@ -4,23 +4,18 @@
 **/
 
 #include "AppHdr.h"
-#include <sstream>
-#include <math.h>
 
 #include "throw.h"
 
-#include "externs.h"
+#include <cmath>
+#include <sstream>
 
 #include "artefact.h"
-#include "cloud.h"
-#include "colour.h"
 #include "command.h"
-#include "delay.h"
+#include "directn.h"
 #include "english.h"
 #include "env.h"
 #include "exercise.h"
-#include "fight.h"
-#include "fineff.h"
 #include "godabil.h"
 #include "godconduct.h"
 #include "hints.h"
@@ -28,28 +23,24 @@
 #include "itemprop.h"
 #include "items.h"
 #include "item_use.h"
-#include "libutil.h"
 #include "macro.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-behv.h"
-#include "mutation.h"
-#include "options.h"
 #include "output.h"
 #include "prompt.h"
 #include "religion.h"
 #include "rot.h"
 #include "shout.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-summoning.h"
 #include "state.h"
 #include "stringutil.h"
-#include "teleport.h"
 #include "terrain.h"
 #include "transform.h"
 #include "traps.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 
 static int  _fire_prompt_for_item();
 static bool _fire_validate_item(int selected, string& err);
@@ -210,7 +201,7 @@ void fire_target_behaviour::pick_fire_item_from_inventory()
     }
     else if (!err.empty())
     {
-        mprf("%s", err.c_str());
+        mpr(err);
         more();
     }
     set_prompt();
@@ -263,7 +254,7 @@ static bool _fire_choose_item_and_target(int& slot, dist& target,
         string warn;
         if (!_fire_validate_item(slot, warn))
         {
-            mpr(warn.c_str());
+            mpr(warn);
             return false;
         }
         // Force item to be the prechosen one.
@@ -432,7 +423,7 @@ int get_ammo_to_shoot(int item, dist &target, bool teleport)
     string warn;
     if (!_fire_validate_item(item, warn))
     {
-        mpr(warn.c_str());
+        mpr(warn);
         return -1;
     }
     return item;
@@ -488,7 +479,7 @@ void throw_item_no_quiver()
 
     if (!_fire_validate_item(slot, warn))
     {
-        mpr(warn.c_str());
+        mpr(warn);
         return;
     }
 
@@ -542,9 +533,9 @@ static bool _setup_missile_beam(const actor *agent, bolt &beam, item_def &item,
     beam.item         = &item;
     beam.effect_known = item_ident(item, ISFLAG_KNOW_TYPE);
     beam.source       = agent->pos();
-    beam.colour       = item.colour;
+    beam.colour       = item.get_colour();
     beam.flavour      = BEAM_MISSILE;
-    beam.is_beam      = false;
+    beam.pierce       = false;
     beam.aux_source.clear();
 
     beam.name = item.name(DESC_PLAIN, false, false, false);
@@ -902,7 +893,7 @@ bool throw_it(bolt &pbolt, int throw_2, dist *target)
           ammo_name.c_str());
 
     // Ensure we're firing a 'missile'-type beam.
-    pbolt.is_beam   = false;
+    pbolt.pierce    = false;
     pbolt.is_tracer = false;
 
     pbolt.loudness = int(sqrt(item_mass(item))/3 + 0.5);
@@ -1015,7 +1006,7 @@ void setup_monster_throw_beam(monster* mons, bolt &beam)
     beam.flavour = BEAM_MISSILE;
     beam.thrower = KILL_MON_MISSILE;
     beam.aux_source.clear();
-    beam.is_beam = false;
+    beam.pierce  = false;
 }
 
 // msl is the item index of the thrown missile (or weapon).
@@ -1104,7 +1095,7 @@ bool mons_throw(monster* mons, bolt &beam, int msl, bool teleport)
     if (mons->observable())
     {
         mons->flags |= MF_SEEN_RANGED;
-        mpr(msg.c_str());
+        mpr(msg);
     }
 
     _throw_noise(mons, beam, item);

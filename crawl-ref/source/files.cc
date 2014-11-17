@@ -7,54 +7,44 @@
 
 #include "files.h"
 
-#include <errno.h>
-#include <string.h>
-#include <string>
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
-
 #include <algorithm>
+#include <cctype>
+#include <cerrno>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <functional>
-
+#include <string>
 #include <fcntl.h>
+#include <sys/stat.h>
+#ifdef HAVE_UTIMES
+#include <sys/time.h>
+#endif
+#include <sys/types.h>
 #ifdef UNIX
 #include <unistd.h>
 #endif
 
-#ifdef HAVE_UTIMES
-#include <sys/time.h>
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include "externs.h"
-
 #include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "artefact.h"
 #include "branch.h"
 #include "chardump.h"
 #include "cloud.h"
-#include "clua.h"
-#include "coord.h"
 #include "coordit.h"
-#include "delay.h"
 #include "dactions.h"
 #include "dgn-overview.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "effects.h"
 #include "end.h"
-#include "env.h"
 #include "errors.h"
 #include "fineff.h"
 #include "ghost.h"
 #include "godabil.h"
 #include "godcompanions.h"
 #include "godpassive.h"
+#include "hints.h"
 #include "initfile.h"
 #include "items.h"
 #include "jobs.h"
@@ -67,37 +57,25 @@
 #include "mon-behv.h"
 #include "mon-death.h"
 #include "mon-place.h"
-#include "mon-util.h"
-#include "mon-transit.h"
 #include "notes.h"
-#include "options.h"
 #include "output.h"
 #include "place.h"
-#include "player.h"
 #include "prompt.h"
-#include "random.h"
-#include "show.h"
-#include "shopping.h"
 #include "spl-summoning.h"
-#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
 #include "syscalls.h"
-#include "tags.h"
+#include "teleport.h"
+#include "terrain.h"
 #ifdef USE_TILE
  // TODO -- dolls
  #include "tiledef-player.h"
  #include "tilepick-p.h"
 #endif
 #include "tileview.h"
-#include "teleport.h"
-#include "terrain.h"
-#include "travel.h"
-#include "hints.h"
 #include "unwind.h"
 #include "version.h"
 #include "view.h"
-#include "viewgeom.h"
 #include "xom.h"
 
 #ifdef __ANDROID__
@@ -955,10 +933,10 @@ static void _grab_followers()
         if (fol == NULL)
             continue;
 
-        if (mons_is_duvessa(fol) && fol->alive())
+        if (mons_is_mons_class(fol, MONS_DUVESSA) && fol->alive())
             duvessa = fol;
 
-        if (mons_is_dowan(fol) && fol->alive())
+        if (mons_is_mons_class(fol, MONS_DOWAN) && fol->alive())
             dowan = fol;
 
         if (fol->wont_attack() && !mons_can_use_stairs(fol))
@@ -1215,13 +1193,17 @@ static void _make_level(dungeon_feature_type stair_taken,
         && (!player_in_branch(BRANCH_DUNGEON) || you.depth > 2)
         && one_chance_in(is_halloween ? 2 : 3))
     {
-        if (is_halloween && coinflip())
-        {
+        // are we loading more than one ghost? (or trying, anyway)
+        bool doubleghost = is_halloween && coinflip();
+        if (doubleghost)
+            doubleghost = load_ghost(true);
+
+        const bool delete_ghost = !is_halloween;
+        doubleghost = load_ghost(true, delete_ghost) && doubleghost;
+
+        // did we actually manage to load more than one ghost (file)?
+        if (doubleghost)
             mpr(_double_ghost_spookmessage());
-            load_ghost(true);
-        }
-        const bool delete_ghost = !is_halloween || one_chance_in(3);
-        load_ghost(true, delete_ghost);
     }
     env.turns_on_level = 0;
     // sanctuary
@@ -1377,13 +1359,8 @@ bool load_level(dungeon_feature_type stair_taken, load_mode_type load_mode,
     show_update_emphasis();
 
     // Shouldn't happen, but this is too unimportant to assert.
-    for (vector<final_effect *>::iterator i = env.final_effects.begin();
-         i != env.final_effects.end(); ++i)
-    {
-        if (*i)
-            delete *i;
-    }
-    env.final_effects.clear();
+    deleteAll(env.final_effects);
+
     los_changed();
 
     // Markers must be activated early, since they may rely on
@@ -1734,14 +1711,9 @@ static vector<string> _list_bones()
 
     vector<string> filenames = get_dir_files(bonefile_dir);
     vector<string> bonefiles;
-    for (std::vector<string>::iterator it = filenames.begin();
-         it != filenames.end(); ++it)
-    {
-        const string &filename = *it;
-
+    for (const auto &filename : filenames)
         if (starts_with(filename, underscored_filename))
             bonefiles.push_back(bonefile_dir + filename);
-    }
 
     string old_bonefile = _get_old_bonefile_directory() + base_filename;
     if (access(old_bonefile.c_str(), F_OK) == 0)
@@ -1868,6 +1840,7 @@ bool load_ghost(bool creating_level, bool delete_file)
     {
         mons->set_new_monster_id();
         mons->set_ghost(ghosts[0]);
+        mons->type = MONS_PLAYER_GHOST;
         mons->ghost_init();
         mons->bind_melee_flags();
         if (mons->has_spells())

@@ -5,16 +5,17 @@
 
 #include "AppHdr.h"
 
+#include "state.h"
+
 #ifndef TARGET_OS_WINDOWS
 #include <unistd.h>
 #endif
-
-#include "externs.h"
 
 #include "dbg-util.h"
 #include "delay.h"
 #include "directn.h"
 #include "exclude.h"
+#include "hints.h"
 #include "macro.h"
 #include "menu.h"
 #include "message.h"
@@ -23,36 +24,31 @@
 #include "player.h"
 #include "religion.h"
 #include "showsymb.h"
-#include "state.h"
-#include "hints.h"
 #include "unwind.h"
 
 game_state::game_state()
-    : game_crashed(false),
-      mouse_enabled(false), waiting_for_command(false),
+    : game_crashed(false), mouse_enabled(false), waiting_for_command(false),
       terminal_resized(false), last_winch(0), io_inited(false),
-      need_save(false),
-      saving_game(false), updating_scores(false), seen_hups(0),
-      map_stat_gen(false), type(GAME_TYPE_NORMAL),
-      last_type(GAME_TYPE_UNSPECIFIED), arena_suspended(false),
-      generating_level(false),
-      dump_maps(false), test(false), script(false), build_db(false),
-      tests_selected(),
+      need_save(false), saving_game(false), updating_scores(false),
+      seen_hups(0), map_stat_gen(false), obj_stat_gen(false),
+      type(GAME_TYPE_NORMAL), last_type(GAME_TYPE_UNSPECIFIED),
+      arena_suspended(false), generating_level(false), dump_maps(false),
+      test(false), script(false), build_db(false), tests_selected(),
 #ifdef DGAMELAUNCH
       throttle(true),
 #else
       throttle(false),
 #endif
-      show_more_prompt(true),
-      terminal_resize_handler(NULL), terminal_resize_check(NULL),
-      doing_prev_cmd_again(false), prev_cmd(CMD_NO_CMD),
-      repeat_cmd(CMD_NO_CMD),cmd_repeat_started_unsafe(false),
-      lua_calls_no_turn(0), stat_gain_prompt(false),
-      level_annotation_shown(false), viewport_monster_hp(false),
-      viewport_weapons(false),
+      show_more_prompt(true), terminal_resize_handler(NULL),
+      terminal_resize_check(NULL), doing_prev_cmd_again(false),
+      prev_cmd(CMD_NO_CMD), repeat_cmd(CMD_NO_CMD),
+      cmd_repeat_started_unsafe(false), lua_calls_no_turn(0),
+      stat_gain_prompt(false), level_annotation_shown(false),
+      viewport_monster_hp(false), viewport_weapons(false),
 #ifndef USE_TILE_LOCAL
       mlist_targeting(false),
 #else
+      tiles_disabled(false),
       title_screen(true),
 #endif
       darken_range(NULL), unsaved_macros(false), mon_act(NULL)
@@ -61,8 +57,6 @@ game_state::game_state()
     reset_cmd_again();
 #ifdef TARGET_OS_WINDOWS
     no_gdb = "Non-UNIX Platform -> not running gdb.";
-#elif defined DEBUG_DIAGNOSTICS
-    no_gdb = "Debug build -> run gdb yourself.";
 #else
     no_gdb = access("/usr/bin/gdb", 1) ? "GDB not installed." : 0;
 #endif
@@ -135,7 +129,7 @@ void game_state::cancel_cmd_repeat(string reason)
     reset_cmd_repeat();
 
     if (!reason.empty())
-        mpr(reason.c_str());
+        mpr(reason);
 }
 
 void game_state::cancel_cmd_again(string reason)
@@ -151,7 +145,7 @@ void game_state::cancel_cmd_again(string reason)
     reset_cmd_again();
 
     if (!reason.empty())
-        mpr(reason.c_str());
+        mpr(reason);
 }
 
 void game_state::cancel_cmd_all(string reason)

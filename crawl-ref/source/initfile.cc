@@ -12,40 +12,34 @@
 #include "AppHdr.h"
 
 #include "initfile.h"
-#include "options.h"
 
 #include <algorithm>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
 #include <string>
-#include <ctype.h>
 
 #include "chardump.h"
 #include "clua.h"
 #include "colour.h"
-#include "dlua.h"
+#include "defines.h"
 #include "delay.h"
 #include "directn.h"
+#include "dlua.h"
 #include "end.h"
 #include "errors.h"
-#include "kills.h"
 #include "files.h"
-#include "defines.h"
-#ifdef USE_TILE
-#include "tilepick.h"
-#include "tiledef-player.h"
-#ifdef USE_TILE_WEB
-#include "tileweb.h"
-#endif
-#endif
 #include "invent.h"
 #include "itemprop.h"
+#include "items.h"
+#include "jobs.h"
+#include "kills.h"
 #include "libutil.h"
 #include "macro.h"
 #include "mapdef.h"
 #include "message.h"
 #include "mon-util.h"
-#include "jobs.h"
+#include "options.h"
 #include "player.h"
 #include "prompt.h"
 #include "species.h"
@@ -57,11 +51,17 @@
 #include "tags.h"
 #include "throw.h"
 #include "travel.h"
-#include "items.h"
 #include "unwind.h"
 #include "version.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
+#ifdef USE_TILE
+#include "tilepick.h"
+#include "tiledef-player.h"
+#ifdef USE_TILE_WEB
+#include "tileweb.h"
+#endif
+#endif
 
 // For finding the executable's path
 #ifdef TARGET_OS_WINDOWS
@@ -203,44 +203,35 @@ string channel_to_str(int channel)
     return message_channel_names[channel];
 }
 
-/**
- * Populate the map used to interpret a crawlrc entry as a starting weapon
- * type.  For most entries, we can just look up which weapon has the entry as
- * its name; this map contains the exceptions.
- *
- * @return  The special starting weapon type map.
- */
-static map<string, weapon_type> _create_special_weapon_map()
-{
-    map<string, weapon_type> weapon_map;
+
+// The map used to interpret a crawlrc entry as a starting weapon
+// type.  For most entries, we can just look up which weapon has the entry as
+// its name; this map contains the exceptions.
+// This should be const, but operator[] on maps isn't const.
+static map<string, weapon_type> _special_weapon_map = {
 
     // "staff" normally refers to a magical staff, but here we want to
     // interpret it as a quarterstaff.
-    weapon_map["staff"]        = WPN_QUARTERSTAFF;
+    {"staff",       WPN_QUARTERSTAFF},
 
     // These weapons' base names have changed; we want to interpret the old
     // names correctly.
-    weapon_map["sling"]        = WPN_HUNTING_SLING;
-    weapon_map["crossbow"]     = WPN_HAND_CROSSBOW;
+    {"sling",       WPN_HUNTING_SLING},
+    {"crossbow",    WPN_HAND_CROSSBOW},
 
     // Pseudo-weapons.
-    weapon_map["unarmed"]      = WPN_UNARMED;
-    weapon_map["claws"]        = WPN_UNARMED;
+    {"unarmed",     WPN_UNARMED},
+    {"claws",       WPN_UNARMED},
 
-    weapon_map["thrown"]       = WPN_THROWN;
-    weapon_map["rocks"]        = WPN_THROWN;
-    weapon_map["javelins"]     = WPN_THROWN;
-    weapon_map["tomahawks"]    = WPN_THROWN;
+    {"thrown",      WPN_THROWN},
+    {"rocks",       WPN_THROWN},
+    {"tomahawks",   WPN_THROWN},
+    {"javelins",    WPN_THROWN},
 
-    weapon_map["random"]       = WPN_RANDOM;
+    {"random",      WPN_RANDOM},
 
-    weapon_map["viable"]       = WPN_VIABLE;
-
-    return weapon_map;
-}
-
-// This should be const, but operator[] on maps isn't const.
-static map<string, weapon_type> _special_weapon_map = _create_special_weapon_map();
+    {"viable",      WPN_VIABLE},
+};
 
 /**
  * Interpret a crawlrc entry as a starting weapon type.
@@ -1173,9 +1164,7 @@ void game_options::clear_feature_overrides()
 ucs_t get_glyph_override(int c)
 {
     if (c < 0)
-    {
         c = -c;
-    }
     if (wcwidth(c) != 1)
     {
         mprf(MSGCH_ERROR, "Invalid glyph override: %X", c);
@@ -1270,7 +1259,7 @@ cglyph_t game_options::parse_mon_glyph(const string &s) const
     {
         const string &p = phrases[i];
         const int col = str_to_colour(p, -1, false);
-        if (col != -1 && colour)
+        if (col != -1)
             md.col = col;
         else
             md.ch = p == "_"? ' ' : read_symbol(p);
@@ -1304,14 +1293,7 @@ void game_options::add_mon_glyph_override(const string &text)
         mdisp = parse_mon_glyph(override[1]);
 
     if (mdisp.ch || mdisp.col)
-    {
         mon_glyph_overrides[m] = mdisp;
-
-        // Ideally we'd not set this at game start only to have it overwritten
-        // in the monster init, but we need monster symbols to be updated when
-        // the option changes in-game.
-        update_monster_symbol(m, mdisp);
-    }
 }
 
 void game_options::add_item_glyph_override(const string &text)
@@ -1357,13 +1339,14 @@ void game_options::add_feature_override(const string &text)
             continue; // TODO: handle other object types.
 
 #define SYM(n, field) if (ucs_t s = read_symbol(iprops[n])) \
-                          feature_symbol_overrides[feat][n] = s;
+                          feature_symbol_overrides[feat][n] = s; \
+                      else \
+                          feature_symbol_overrides[feat][n] = '\0';
         SYM(0, symbol);
         SYM(1, magic_symbol);
 #undef SYM
         feature_def &fov(feature_colour_overrides[feat]);
-        init_fd(fov);
-#define COL(n, field) if (unsigned short c = str_to_colour(iprops[n], BLACK)) \
+#define COL(n, field) if (colour_t c = str_to_colour(iprops[n], BLACK)) \
                           fov.field = c;
         COL(2, colour);
         COL(3, map_colour);
@@ -1638,14 +1621,14 @@ game_options::game_options()
 {
     lang = LANG_EN;
     lang_name = 0;
-#ifndef TARGET_OS_WINDOWS
+#if 0
     if (Version::ReleaseType == VER_ALPHA)
     {
         set_lang(getenv("LC_ALL"))
         || set_lang(getenv("LC_MESSAGES"))
         || set_lang(getenv("LANG"));
     }
-#elif defined USE_TILE_LOCAL
+//#elif defined USE_TILE_LOCAL
     if (Version::ReleaseType == VER_ALPHA)
     {
         char ln[30];
@@ -1979,25 +1962,23 @@ int game_options::read_use_animations(const string &field) const
 {
     int animations = 0;
     vector<string> types = split_string(",", field);
-    for (vector<string>::const_iterator it = types.begin();
-         it != types.end();
-         ++it)
+    for (const auto &type : types)
     {
-        if (*it == "beam")
+        if (type == "beam")
             animations |= UA_BEAM;
-        else if (*it == "range")
+        else if (type == "range")
             animations |= UA_RANGE;
-        else if (*it == "hp")
+        else if (type == "hp")
             animations |= UA_HP;
-        else if (*it == "monster_in_sight")
+        else if (type == "monster_in_sight")
             animations |= UA_MONSTER_IN_SIGHT;
-        else if (*it == "pickup")
+        else if (type == "pickup")
             animations |= UA_PICKUP;
-        else if (*it == "monster")
+        else if (type == "monster")
             animations |= UA_MONSTER;
-        else if (*it == "player")
+        else if (type == "player")
             animations |= UA_PLAYER;
-        else if (*it == "branch_entry")
+        else if (type == "branch_entry")
             animations |= UA_BRANCH_ENTRY;
     }
 
@@ -2331,17 +2312,15 @@ static void _handle_list(vector<T> &value_list, string field,
         value_list.clear();
 
     vector<T> new_entries;
-    vector<string> parts = split_string(",", field);
-    for (vector<string>::iterator part = parts.begin();
-         part != parts.end(); ++part)
+    for (const auto &part : split_string(",", field))
     {
-        if (part->empty())
+        if (part.empty())
             continue;
 
         if (subtract)
-            remove_matching(value_list, *part);
+            remove_matching(value_list, part);
         else
-            new_entries.push_back(*part);
+            new_entries.push_back(part);
     }
     _merge_lists(value_list, new_entries, prepend);
 }
@@ -2397,18 +2376,17 @@ void game_options::read_option_line(const string &str, bool runscript)
 #define NEWGAME_OPTION(_opt, _conv, _type)                                     \
     if (plain)                                                                 \
         _opt.clear();                                                          \
-    vector<string> parts = split_string(",", field);                           \
-    for (vector<string>::iterator it = parts.begin(); it != parts.end(); it++) \
+    for (const auto &part : split_string(",", field))                          \
     {                                                                          \
         if (minus_equal)                                                       \
         {                                                                      \
             vector<_type>::iterator it2 =                                      \
-                find(_opt.begin(), _opt.end(), _conv(*it));                    \
+                find(_opt.begin(), _opt.end(), _conv(part));                   \
             if (it2 != _opt.end())                                             \
                 _opt.erase(it2);                                               \
         }                                                                      \
         else                                                                   \
-            _opt.push_back(_conv(*it));                                        \
+            _opt.push_back(_conv(part));                                       \
     }
     string key    = "";
     string subkey = "";
@@ -4016,7 +3994,6 @@ enum commandline_option_type
     CLO_NAME,
     CLO_RACE,
     CLO_CLASS,
-    CLO_PLAIN,
     CLO_DIR,
     CLO_RC,
     CLO_RCDIR,
@@ -4062,7 +4039,7 @@ enum commandline_option_type
 
 static const char *cmd_ops[] =
 {
-    "scores", "name", "species", "background", "plain", "dir", "rc",
+    "scores", "name", "species", "background", "dir", "rc",
     "rcdir", "tscores", "vscores", "scorefile", "morgue", "macro",
     "mapstat", "objstat", "iters", "arena", "dump-maps", "test", "script",
     "builddb", "help", "version", "seed", "save-version", "sprint",
@@ -4564,8 +4541,11 @@ bool parse_args(int argc, char **argv, bool rc_only)
         }
 
         // Disallow options specified more than once.
-        if (arg_seen[o] == true)
+        if (arg_seen[o])
+        {
+            fprintf(stderr, "Duplicate option: %s\n\n", argv[current]);
             return false;
+        }
 
         // Set arg to 'seen'.
         arg_seen[o] = true;
@@ -4618,6 +4598,9 @@ bool parse_args(int argc, char **argv, bool rc_only)
                 crawl_state.map_stat_gen = true;
             else
                 crawl_state.obj_stat_gen = true;
+#ifdef USE_TILE_LOCAL
+            crawl_state.tiles_disabled = true;
+#endif
 
             if (!SysEnv.map_gen_iters)
                 SysEnv.map_gen_iters = 100;
@@ -4704,6 +4687,9 @@ bool parse_args(int argc, char **argv, bool rc_only)
             if (next_is_param)
                 return false;
             crawl_state.build_db = true;
+#ifdef USE_TILE_LOCAL
+            crawl_state.tiles_disabled = true;
+#endif
             break;
 
         case CLO_GDB:
@@ -4760,17 +4746,6 @@ bool parse_args(int argc, char **argv, bool rc_only)
                     Options.game.job = str_to_job(string(next_arg));
             }
             nextUsed = true;
-            break;
-
-        case CLO_PLAIN:
-            if (next_is_param)
-                return false;
-
-            if (!rc_only)
-            {
-                Options.char_set = CSET_ASCII;
-                init_char_table(Options.char_set);
-            }
             break;
 
         case CLO_RCDIR:
@@ -4952,27 +4927,24 @@ bool parse_args(int argc, char **argv, bool rc_only)
 int game_options::o_int(const char *name, int def) const
 {
     int val = def;
-    opt_map::const_iterator i = named_options.find(name);
-    if (i != named_options.end())
-        val = atoi(i->second.c_str());
+    if (const string *value = map_find(named_options, name))
+        val = atoi(value->c_str());
     return val;
 }
 
 bool game_options::o_bool(const char *name, bool def) const
 {
     bool val = def;
-    opt_map::const_iterator i = named_options.find(name);
-    if (i != named_options.end())
-        val = _read_bool(i->second, val);
+    if (const string *value = map_find(named_options, name))
+        val = _read_bool(*value, val);
     return val;
 }
 
 string game_options::o_str(const char *name, const char *def) const
 {
     string val;
-    opt_map::const_iterator i = named_options.find(name);
-    if (i != named_options.end())
-        val = i->second;
+    if (const string *value = map_find(named_options, name))
+        val = *value;
     else if (def)
         val = def;
     return val;

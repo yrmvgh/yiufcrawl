@@ -7,19 +7,16 @@
 
 #include "ability.h"
 
-#include <sstream>
-#include <iomanip>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cctype>
 #include <cmath>
-
-#include "externs.h"
+#include <cstdio>
+#include <cstring>
+#include <iomanip>
+#include <sstream>
 
 #include "abyss.h"
 #include "acquire.h"
-#include "artefact.h"
-#include "beam.h"
+#include "areas.h"
 #include "branch.h"
 #include "butcher.h"
 #include "cloud.h"
@@ -28,59 +25,48 @@
 #include "decks.h"
 #include "delay.h"
 #include "describe.h"
+#include "directn.h"
 #include "dungeon.h"
 #include "effects.h"
-#include "env.h"
+#include "evoke.h"
 #include "exercise.h"
 #include "food.h"
 #include "godabil.h"
 #include "godconduct.h"
 #include "godprayer.h"
+#include "hints.h"
 #include "items.h"
 #include "item_use.h"
 #include "libutil.h"
-#include "evoke.h"
 #include "macro.h"
 #include "maps.h"
-#include "melee_attack.h"
-#include "message.h"
 #include "menu.h"
+#include "message.h"
 #include "misc.h"
 #include "mon-place.h"
-#include "mon-util.h"
-#include "mgen_data.h"
 #include "mutation.h"
 #include "notes.h"
-#include "ouch.h"
 #include "output.h"
-#include "player.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
 #include "religion.h"
-#include "shout.h"
 #include "skills.h"
-#include "skills2.h"
-#include "species.h"
-#include "spl-cast.h"
 #include "spl-clouds.h"
 #include "spl-damage.h"
 #include "spl-goditem.h"
+#include "spl-miscast.h"
 #include "spl-other.h"
-#include "spl-transloc.h"
 #include "spl-selfench.h"
 #include "spl-summoning.h"
-#include "spl-miscast.h"
+#include "spl-transloc.h"
 #include "stairs.h"
 #include "state.h"
 #include "stringutil.h"
 #include "target.h"
-#include "tilepick.h"
-#include "traps.h"
-#include "areas.h"
-#include "transform.h"
-#include "hints.h"
 #include "terrain.h"
+#include "tilepick.h"
+#include "transform.h"
 #include "traps.h"
 #include "uncancel.h"
 #include "unicode.h"
@@ -100,11 +86,11 @@ enum ability_flag_type
     ABFLAG_CONF_OK        = 0x00000100, // can use even if confused
     ABFLAG_FRUIT          = 0x00000200, // ability requires fruit
     ABFLAG_VARIABLE_FRUIT = 0x00000400, // ability requires fruit or piety
-    ABFLAG_HEX_MISCAST    = 0x00000800, // severity 3 enchantment miscast
-    ABFLAG_TLOC_MISCAST   = 0x00001000, // severity 3 translocation miscast
+                          //0x00000800,
+                          //0x00001000,
     ABFLAG_NECRO_MISCAST_MINOR = 0x00002000, // severity 2 necro miscast
-    ABFLAG_NECRO_MISCAST  = 0x00004000, // severity 3 necro miscast
-    ABFLAG_TRMT_MISCAST   = 0x00008000, // severity 3 transmutation miscast
+                          //0x00004000,
+                          //0x00008000,
     ABFLAG_LEVEL_DRAIN    = 0x00010000, // drains 2 levels
     ABFLAG_STAT_DRAIN     = 0x00020000, // stat drain
     ABFLAG_ZOTDEF         = 0x00040000, // ZotDef ability, w/ appropriate hotkey
@@ -171,7 +157,7 @@ ability_type god_abilities[NUM_GODS][MAX_GOD_ABILITIES] =
     { ABIL_TROG_BERSERK, ABIL_TROG_REGEN_MR, ABIL_NON_ABILITY,
       ABIL_TROG_BROTHERS_IN_ARMS, ABIL_NON_ABILITY },
     // Nemelex
-    { ABIL_NEMELEX_DRAW_ONE, ABIL_NEMELEX_PEEK_TWO, ABIL_NEMELEX_TRIPLE_DRAW,
+    { ABIL_NON_ABILITY, ABIL_NON_ABILITY, ABIL_NEMELEX_TRIPLE_DRAW,
       ABIL_NEMELEX_DEAL_FOUR, ABIL_NEMELEX_STACK_FIVE },
     // Elyvilon
     { ABIL_ELYVILON_LESSER_HEALING_SELF, ABIL_ELYVILON_PURIFICATION,
@@ -237,7 +223,6 @@ static const ability_def Ability_List[] =
       0, 0, 125, 0, 0, ABFLAG_BREATH},
     { ABIL_BREATHE_STEAM, "Breathe Steam", 0, 0, 75, 0, 0, ABFLAG_BREATH},
     { ABIL_TRAN_BAT, "Bat Form", 2, 0, 0, 0, 0, ABFLAG_NONE},
-    { ABIL_BOTTLE_BLOOD, "Bottle Blood", 0, 0, 0, 0, 0, ABFLAG_NONE}, // no costs
 
     { ABIL_SPIT_ACID, "Spit Acid", 0, 0, 125, 0, 0, ABFLAG_BREATH},
 
@@ -369,8 +354,6 @@ static const ability_def Ability_List[] =
       9, 0, 500, generic_cost::fixed(35), 0, ABFLAG_PAIN},
 
     // Nemelex
-    { ABIL_NEMELEX_DRAW_ONE, "Draw One", 2, 0, 0, 0, 0, ABFLAG_NONE},
-    { ABIL_NEMELEX_PEEK_TWO, "Peek at Two", 3, 0, 0, 1, 0, ABFLAG_INSTANT},
     { ABIL_NEMELEX_TRIPLE_DRAW, "Triple Draw", 2, 0, 100, 2, 0, ABFLAG_NONE},
     { ABIL_NEMELEX_DEAL_FOUR, "Deal Four", 8, 0, 200, 8, 0, ABFLAG_NONE},
     { ABIL_NEMELEX_STACK_FIVE, "Stack Five", 5, 0, 250, 10, 0, ABFLAG_NONE},
@@ -481,7 +464,7 @@ static const ability_def Ability_List[] =
     { ABIL_MAKE_OKLOB_PLANT, "Make oklob plant", 0, 0, 0, 0, 250, ABFLAG_ZOTDEF},
     { ABIL_MAKE_ICE_STATUE, "Make ice statue", 0, 0, 0, 0, 2000, ABFLAG_ZOTDEF},
     { ABIL_MAKE_OCS, "Make crystal statue", 0, 0, 0, 0, 2000, ABFLAG_ZOTDEF},
-    { ABIL_MAKE_SILVER_STATUE, "Make silver statue", 0, 0, 0, 0, 3000, ABFLAG_ZOTDEF},
+    { ABIL_MAKE_OBSIDIAN_STATUE, "Make obsidian statue", 0, 0, 0, 0, 3000, ABFLAG_ZOTDEF},
     { ABIL_MAKE_CURSE_SKULL, "Make curse skull",
       0, 0, 600, 0, 10000, ABFLAG_ZOTDEF|ABFLAG_NECRO_MISCAST_MINOR},
     { ABIL_MAKE_TELEPORT, "Zot-teleport", 0, 0, 0, 0, 2, ABFLAG_ZOTDEF},
@@ -572,7 +555,7 @@ static monster_type _monster_for_ability(const ability_def& abil)
         case ABIL_MAKE_LIGHTNING_SPIRE:  mtyp = MONS_LIGHTNING_SPIRE;  break;
         case ABIL_MAKE_ICE_STATUE:    mtyp = MONS_ICE_STATUE;    break;
         case ABIL_MAKE_OCS:           mtyp = MONS_ORANGE_STATUE; break;
-        case ABIL_MAKE_SILVER_STATUE: mtyp = MONS_SILVER_STATUE; break;
+        case ABIL_MAKE_OBSIDIAN_STATUE: mtyp = MONS_OBSIDIAN_STATUE; break;
         case ABIL_MAKE_CURSE_SKULL:   mtyp = MONS_CURSE_SKULL;   break;
         default:
             mprf("DEBUG: NO RELEVANT MONSTER FOR %d", abil.ability);
@@ -597,8 +580,8 @@ static string _zd_mons_description_for_ability(const ability_def &abil)
         return "Water vapor collects and crystallises into an icy humanoid shape.";
     case ABIL_MAKE_OCS:
         return "Quartz juts from the ground and forms a humanoid shape. You smell citrus.";
-    case ABIL_MAKE_SILVER_STATUE:
-        return "Droplets of mercury fall from the ceiling and turn to silver, congealing into a humanoid shape.";
+    case ABIL_MAKE_OBSIDIAN_STATUE:
+        return "Molten obsidian falls from the ceiling and solidifies into a vaguely humanoid shape.";
     case ABIL_MAKE_CURSE_SKULL:
         return "You sculpt a terrible being from the primitive principle of evil.";
     case ABIL_MAKE_LIGHTNING_SPIRE:
@@ -678,7 +661,7 @@ static int _zp_cost(const ability_def& abil)
             break;
 
         // Monster type 3: least generous
-        case ABIL_MAKE_SILVER_STATUE:
+        case ABIL_MAKE_OBSIDIAN_STATUE:
         case ABIL_MAKE_CURSE_SKULL:
             scale20 = _count_relevant_monsters(abil); // scale immediately
             break;
@@ -715,7 +698,7 @@ int get_gold_cost(ability_type ability)
     case ABIL_GOZAG_CALL_MERCHANT:
         return gozag_price_for_shop(true);
     case ABIL_GOZAG_POTION_PETITION:
-        return gozag_porridge_price();
+        return gozag_potion_price();
     case ABIL_GOZAG_BRIBE_BRANCH:
         return GOZAG_BRIBE_AMOUNT;
     default:
@@ -1008,7 +991,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_MAKE_BURNING_BUSH:
     case ABIL_MAKE_ICE_STATUE:
     case ABIL_MAKE_OCS:
-    case ABIL_MAKE_SILVER_STATUE:
+    case ABIL_MAKE_OBSIDIAN_STATUE:
     case ABIL_MAKE_CURSE_SKULL:
     case ABIL_MAKE_TELEPORT:
     case ABIL_MAKE_ARROW_TRAP:
@@ -1071,10 +1054,6 @@ talent get_talent(ability_type ability, bool check_confused)
 
     case ABIL_TRAN_BAT:
         failure = 45 - (2 * you.experience_level);
-        break;
-
-    case ABIL_BOTTLE_BLOOD:
-        failure = 0;
         break;
 
     case ABIL_RECHARGING:       // this is for deep dwarves {1KB}
@@ -1300,16 +1279,6 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_NEMELEX_TRIPLE_DRAW:
         invoc = true;
         failure = 60 - (you.piety / 20) - you.skill(SK_EVOCATIONS, 5);
-        break;
-
-    case ABIL_NEMELEX_PEEK_TWO:
-        invoc = true;
-        failure = 40 - (you.piety / 20) - you.skill(SK_EVOCATIONS, 5);
-        break;
-
-    case ABIL_NEMELEX_DRAW_ONE:
-        invoc = true;
-        failure = 50 - (you.piety / 20) - you.skill(SK_EVOCATIONS, 5);
         break;
 
     case ABIL_RENOUNCE_RELIGION:
@@ -1711,7 +1680,7 @@ static bool _check_ability_possible(const ability_def& abil,
             return true;
 
         if (!quiet)
-             mpr(no_tele_reason.c_str());
+             mpr(no_tele_reason);
         return false;
     }
 
@@ -1824,7 +1793,6 @@ bool activate_talent(const talent& tal)
         case ABIL_STOP_SINGING:
         case ABIL_MUMMY_RESTORATION:
         case ABIL_TRAN_BAT:
-        case ABIL_BOTTLE_BLOOD:
         case ABIL_ASHENZARI_END_TRANSFER:
         case ABIL_ZIN_VITALISATION:
         case ABIL_GOZAG_POTION_PETITION:
@@ -1991,7 +1959,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_MAKE_BURNING_BUSH:
     case ABIL_MAKE_ICE_STATUE:
     case ABIL_MAKE_OCS:
-    case ABIL_MAKE_SILVER_STATUE:
+    case ABIL_MAKE_OBSIDIAN_STATUE:
     case ABIL_MAKE_CURSE_SKULL:
     case ABIL_MAKE_LIGHTNING_SPIRE:
         fail_check();
@@ -2596,7 +2564,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_YRED_RECALL_UNDEAD_SLAVES:
         fail_check();
-        start_recall(1);
+        start_recall(RECALL_YRED);
         break;
 
     case ABIL_YRED_DRAIN_LIFE:
@@ -2902,17 +2870,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         activate_notes(note_status);
         break;
     }
-    case ABIL_NEMELEX_DRAW_ONE:
-        fail_check();
-        if (!choose_deck_and_draw())
-            return SPRET_ABORT;
-        break;
-
-    case ABIL_NEMELEX_PEEK_TWO:
-        fail_check();
-        if (!deck_peek())
-            return SPRET_ABORT;
-        break;
 
     case ABIL_NEMELEX_TRIPLE_DRAW:
         fail_check();
@@ -2948,7 +2905,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS:
         fail_check();
-        start_recall(2);
+        start_recall(RECALL_BEOGH);
         break;
 
     case ABIL_STOP_RECALL:
@@ -2992,12 +2949,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             crawl_state.zero_turns_taken();
             return SPRET_ABORT;
         }
-        break;
-
-    case ABIL_BOTTLE_BLOOD:
-        fail_check();
-        if (!butchery(-1, true))
-            return SPRET_ABORT;
         break;
 
     case ABIL_JIYVA_CALL_JELLY:
@@ -3295,29 +3246,9 @@ static void _pay_ability_costs(const ability_def& abil, int zpcost)
         you.redraw_experience = true;
     }
 
-    if (abil.flags & ABFLAG_HEX_MISCAST)
-    {
-        MiscastEffect(&you, NON_MONSTER, SPTYP_HEXES, 10, 90,
-                      "power out of control", NH_DEFAULT);
-    }
-    if (abil.flags & ABFLAG_NECRO_MISCAST)
-    {
-        MiscastEffect(&you, NON_MONSTER, SPTYP_NECROMANCY, 10, 90,
-                      "power out of control");
-    }
     if (abil.flags & ABFLAG_NECRO_MISCAST_MINOR)
     {
-        MiscastEffect(&you, NON_MONSTER, SPTYP_NECROMANCY, 5, 90,
-                      "power out of control");
-    }
-    if (abil.flags & ABFLAG_TLOC_MISCAST)
-    {
-        MiscastEffect(&you, NON_MONSTER, SPTYP_TRANSLOCATION, 10, 90,
-                      "power out of control");
-    }
-    if (abil.flags & ABFLAG_TRMT_MISCAST)
-    {
-        MiscastEffect(&you, NON_MONSTER, SPTYP_TRANSMUTATION, 10, 90,
+        MiscastEffect(&you, NULL, ABIL_MISCAST, SPTYP_NECROMANCY, 5, 90,
                       "power out of control");
     }
     if (abil.flags & ABFLAG_LEVEL_DRAIN)
@@ -3573,7 +3504,7 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         if (you.experience_level >= 19)
             _add_talent(talents, ABIL_MAKE_LIGHTNING_SPIRE, check_confused);
         if (you.experience_level >= 20)
-            _add_talent(talents, ABIL_MAKE_SILVER_STATUE, check_confused);
+            _add_talent(talents, ABIL_MAKE_OBSIDIAN_STATUE, check_confused);
         // gain bazaar and gold together
         if (you.experience_level >= 21)
             _add_talent(talents, ABIL_MAKE_BAZAAR, check_confused);
@@ -3648,9 +3579,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     {
         _add_talent(talents, ABIL_TRAN_BAT, check_confused);
     }
-
-    if (you.species == SP_VAMPIRE && you.experience_level >= 6)
-        _add_talent(talents, ABIL_BOTTLE_BLOOD, false);
 
     if ((you.species == SP_TENGU && you.experience_level >= 5
          || player_mutation_level(MUT_BIG_WINGS)) && !you.airborne()

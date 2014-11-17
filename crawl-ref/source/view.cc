@@ -6,15 +6,15 @@
 #include "AppHdr.h"
 
 #include "view.h"
-#include "shout.h"
 
-#include <string.h>
-#include <cmath>
-#include <sstream>
 #include <algorithm>
+#include <cmath>
+#include <cstring>
 #include <memory>
+#include <sstream>
 
 #include "act-iter.h"
+#include "artefact.h"
 #include "attitude-change.h"
 #include "cio.h"
 #include "cloud.h"
@@ -45,30 +45,30 @@
 #include "mon-death.h"
 #include "mon-poly.h"
 #include "mon-util.h"
-#include "options.h"
 #include "notes.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "random.h"
 #include "religion.h"
+#include "shout.h"
 #include "showsymb.h"
 #include "state.h"
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
 #include "tilemcache.h"
+#ifdef USE_TILE
+ #include "tilepick.h"
+ #include "tilepick-p.h"
+ #include "tileview.h"
+#endif
 #include "traps.h"
 #include "travel.h"
 #include "unicode.h"
 #include "viewchar.h"
 #include "viewmap.h"
 #include "xom.h"
-
-#ifdef USE_TILE
- #include "tilepick.h"
- #include "tilepick-p.h"
- #include "tileview.h"
-#endif
 
 //#define DEBUG_PANE_BOUNDS
 
@@ -92,7 +92,7 @@ bool handle_seen_interrupt(monster* mons, vector<string>* msgs_buf)
 
     if (!mons_is_safe(mons)
         && !mons_class_flag(mons->type, M_NO_EXP_GAIN)
-           || mons->type == MONS_BALLISTOMYCETE && mons->number > 0)
+           || mons->type == MONS_BALLISTOMYCETE && mons->ballisto_activity)
     {
         return interrupt_activity(AI_SEE_MONSTER, aid, msgs_buf);
     }
@@ -177,20 +177,19 @@ static string _desc_mons_type_map(map<monster_type, int> types)
 {
     string message;
     unsigned int count = 1;
-    for (map<monster_type, int>::iterator it = types.begin();
-         it != types.end(); ++it)
+    for (const auto &entry : types)
     {
         string name;
         description_level_type desc;
-        if (it->second == 1)
+        if (entry.second == 1)
             desc = DESC_A;
         else
             desc = DESC_PLAIN;
 
-        name = mons_type_name(it->first, desc);
-        if (it->second > 1)
+        name = mons_type_name(entry.first, desc);
+        if (entry.second > 1)
         {
-            name = make_stringf("%d %s", it->second,
+            name = make_stringf("%d %s", entry.second,
                                 pluralise(name).c_str());
         }
 
@@ -433,6 +432,32 @@ void update_monsters_in_view()
         xom_is_stimulated(12 * num_hostile);
     }
 }
+
+void mark_mon_equipment_seen(const monster *mons)
+{
+    // mark items as seen.
+    for (int slot = MSLOT_WEAPON; slot <= MSLOT_LAST_VISIBLE_SLOT; slot++)
+    {
+        int item_id = mons->inv[slot];
+        if (item_id == NON_ITEM)
+            continue;
+
+        item_def &item = mitm[item_id];
+
+        item.flags |= ISFLAG_SEEN;
+
+        // ID brands of non-randart weapons held by enemies.
+        if (is_artefact(item))
+            continue;
+
+        if (slot == MSLOT_WEAPON
+            || slot == MSLOT_ALT_WEAPON && mons_wields_two_weapons(mons))
+        {
+            item.flags |= ISFLAG_KNOW_TYPE;
+        }
+    }
+}
+
 
 // We logically associate a difficulty parameter with each tile on each level,
 // to make deterministic magic mapping work.  This function returns the
@@ -1103,9 +1128,11 @@ public:
         if (pos == you.pos())
             return pos;
 
-        map<coord_def, bool>::iterator found = hidden.find(pos);
-        if (found != hidden.end() && found->second)
-            return coord_def(-1, -1);
+        if (bool *found = map_find(hidden, pos))
+        {
+            if (*found)
+                return coord_def(-1, -1);
+        }
 
         if (!random2(10 - current_frame))
         {
@@ -1392,15 +1419,12 @@ void draw_cell(screen_cell_t *cell, const coord_def &gc,
     }
     else if (crawl_state.flash_monsters)
     {
-        vector<monster *> *monsters = crawl_state.flash_monsters;
         bool found = gc == you.pos();
 
         if (!found)
-            for (vector<monster *>::const_iterator it = monsters->begin();
-                it != monsters->end();
-                ++it)
+            for (auto mon : *crawl_state.flash_monsters)
             {
-                if (gc == (*it)->pos())
+                if (gc == mon->pos())
                 {
                     found = true;
                     break;

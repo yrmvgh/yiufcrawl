@@ -7,11 +7,11 @@ extern "C" {
 #include <lualib.h>
 }
 
-#include <cstdio>
 #include <cstdarg>
-#include <string>
+#include <cstdio>
 #include <map>
 #include <set>
+#include <string>
 
 #ifndef CLUA_MAX_MEMORY_USE
 #define CLUA_MAX_MEMORY_USE (6 * 1024)
@@ -237,8 +237,6 @@ private:
 #define clua (*real_clua)
 #endif
 extern CLua clua;
-
-void lua_set_exclusive_item(const item_def *item = NULL);
 
 string quote_lua_string(const string &s);
 

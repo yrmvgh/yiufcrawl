@@ -6,13 +6,11 @@
 
 #include "AppHdr.h"
 
-#include <algorithm>
-
 #include "exercise.h"
 
+#include <algorithm>
+
 #include "itemprop.h"
-#include "player.h"
-#include "random.h"
 #include "skills.h"
 #include "spl-util.h"
 
@@ -29,8 +27,6 @@ skill_type abil_skill(ability_type abil)
     case ABIL_EVOKE_TELEPORT_CONTROL:
         return SK_EVOCATIONS;
 
-    case ABIL_NEMELEX_DRAW_ONE:
-    case ABIL_NEMELEX_PEEK_TWO:
     case ABIL_NEMELEX_TRIPLE_DRAW:
     case ABIL_NEMELEX_DEAL_FOUR:
     case ABIL_NEMELEX_STACK_FIVE:
@@ -106,10 +102,6 @@ static int _abil_degree(ability_type abil)
     case ABIL_EVOKE_TELEPORT_CONTROL:
         return 1;
 
-    case ABIL_NEMELEX_DRAW_ONE:
-        return 1 + random2(2);
-    case ABIL_NEMELEX_PEEK_TWO:
-        return 2 + random2(2);
     case ABIL_NEMELEX_TRIPLE_DRAW:
         return 3 + random2(3);
     case ABIL_NEMELEX_DEAL_FOUR:

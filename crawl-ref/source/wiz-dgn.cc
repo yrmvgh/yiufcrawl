@@ -9,27 +9,19 @@
 
 #include "act-iter.h"
 #include "branch.h"
-#include "cio.h"
-#include "coord.h"
 #include "coordit.h"
-#include "delay.h"
 #include "dactions.h"
+#include "delay.h"
 #include "describe.h"
 #include "dgn-overview.h"
 #include "dungeon.h"
-#include "effects.h"
-#include "env.h"
 #include "files.h"
 #include "items.h"
-#include "l_defs.h"
 #include "libutil.h"
-#include "mapmark.h"
 #include "maps.h"
 #include "message.h"
 #include "misc.h"
-#include "options.h"
 #include "place.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
 #include "stairs.h"
@@ -37,7 +29,6 @@
 #include "stringutil.h"
 #include "terrain.h"
 #include "tileview.h"
-#include "travel.h"
 #include "traps.h"
 #include "view.h"
 #include "wiz-mon.h"
@@ -540,11 +531,10 @@ static void _free_all_vaults()
 {
     for (rectangle_iterator ri(MAPGEN_BORDER); ri; ++ri)
         env.level_map_ids(*ri) = INVALID_MAP_INDEX;
-    for (vault_placement_refv::const_iterator vp = env.level_vaults.begin();
-         vp != env.level_vaults.end(); ++vp)
-    {
-        (*vp)->seen = false;
-    }
+
+    for (auto vp : env.level_vaults)
+        vp->seen = false;
+
     dgn_erase_unused_vault_placements();
 }
 

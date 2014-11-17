@@ -16,20 +16,14 @@
 #include "env.h"
 #include "godabil.h"
 #include "godcompanions.h"
-#include "goditem.h"
 #include "libutil.h"
 #include "message.h"
 #include "mon-behv.h"
 #include "mon-death.h"
-#include "mon-util.h"
 #include "mon-tentacle.h"
-#include "monster.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
 #include "state.h"
 #include "travel.h"
-#include "transform.h"
 
 // Called whenever an already existing monster changes its attitude, possibly
 // temporarily.

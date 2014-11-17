@@ -2,22 +2,16 @@
 
 #include "colour.h"
 
+#include <cmath>
+#include <utility>
+
 #include "areas.h"
 #include "branch.h"
 #include "cloud.h"
 #include "dgn-height.h"
-#include "env.h"
-#include "libutil.h"
-#include "mon-info.h"
-#include "mon-info.h"
-#include "mon-util.h"
 #include "options.h"
-#include "player.h"
-#include "random.h"
 #include "stringutil.h"
-
-#include <utility>
-#include <math.h>
+#include "libutil.h" // map_find
 
 static element_colour_calc* element_colours[NUM_COLOURS] = {};
 static map<string, element_colour_calc*> element_colours_str;
@@ -76,7 +70,9 @@ colour_t random_uncommon_colour()
     colour_t result;
 
     do
+    {
         result = random_colour();
+    }
     while (result == LIGHTCYAN || result == CYAN || result == BROWN);
 
     return result;
@@ -121,13 +117,9 @@ static int _randomized_element_colour(int rand, const coord_def&,
                                       random_colour_map rand_vals)
 {
     int accum = 0;
-    for (random_colour_map::const_iterator it = rand_vals.begin();
-         it != rand_vals.end();
-         ++it)
-    {
-        if ((accum += it->first) > rand)
-            return it->second;
-    }
+    for (const auto &entry : rand_vals)
+        if ((accum += entry.first) > rand)
+            return entry.second;
 
     return BLACK;
 }
@@ -650,6 +642,11 @@ void init_element_colours()
     add_element_colour(new element_colour_calc(
                             ETC_ELEMENTAL, "elemental", _etc_elemental
                        ));
+    add_element_colour(_create_random_element_colour_calc(
+                            ETC_INCARNADINE, "incarnadine",
+                            60,  MAGENTA,
+                            60,  RED,
+                        0));
     // redefined by Lua later
     add_element_colour(new element_colour_calc(
                             ETC_DISCO, "disco", _etc_random
@@ -762,7 +759,7 @@ const string colour_to_str(colour_t colour)
         return cols[colour];
 }
 
-// Returns -1 if unmatched else returns 0-15.
+// Returns default_colour (default -1) if unmatched else returns 0-15.
 int str_to_colour(const string &str, int default_colour, bool accept_number)
 {
     int ret;
@@ -785,12 +782,10 @@ int str_to_colour(const string &str, int default_colour, bool accept_number)
     if (ret == 16)
     {
         // Maybe we have an element colour attribute.
-        map<string, element_colour_calc*>::const_iterator it
-            = element_colours_str.find(str);
-        if (it != element_colours_str.end())
+        if (element_colour_calc **calc = map_find(element_colours_str, str))
         {
-            ASSERT(it->second);
-            ret = it->second->type;
+            ASSERT(*calc);
+            ret = (*calc)->type;
         }
     }
 

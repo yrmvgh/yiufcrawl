@@ -729,7 +729,7 @@ CFWARN   += $(shell w=-Wmissing-declarations;echo|$(GXX) -E -x c++ - -Werror $$w
 CFWARN   += $(shell w=-Wredundant-decls;echo|$(GXX) -E -x c++ - -Werror $$w >/dev/null 2>&1 && echo $$w)
 
 CFWARN_L += -Wno-parentheses -Wno-unused-parameter -Wwrite-strings -Wshadow
-CFOTHERS_L = $(EXTERNAL_FLAGS_L) $(EXTRA_FLAGS) $(DEFINES) $(SDL_CFLAGS)
+CFOTHERS_L = -std=c++11 $(EXTERNAL_FLAGS_L) $(EXTRA_FLAGS) $(DEFINES) $(SDL_CFLAGS)
 
 ifndef NO_LUA_BINDINGS
 CFOTHERS_L += -DCLUA_BINDINGS
@@ -1541,7 +1541,7 @@ art-data.h: art-data.txt util/art-data.pl art-func.h
 	util/art-data.pl
 art-enum.h rltiles/dc-unrand.txt rltiles/tiledef-unrand.cc: art-data.h
 
-mon-mst.h: mon-spll.h util/gen-mst.pl
+mon-mst.h: mon-spell.h util/gen-mst.pl
 	$(QUIET_GEN)util/gen-mst.pl
 
 cmd-name.h: enum.h util/cmd-name.pl
@@ -1718,9 +1718,9 @@ android:
 # Canned tests
 #
 
-test: test-test test-all test-qw
-nonwiztest: test-test test-nonwiz test-qw
-nondebugtest: test-all test-qw
+test: test-test test-all
+nonwiztest: test-test test-nonwiz
+nondebugtest: test-all
 
 test-%: $(GAME) util/fake_pty builddb
 	util/fake_pty test/stress/run $*

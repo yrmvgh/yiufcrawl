@@ -5,23 +5,22 @@
 
 #include "AppHdr.h"
 
-#include <algorithm>
-
 #include "lev-pand.h"
 
-#include "externs.h"
+#include <algorithm>
+
 #include "colour.h"
 #include "env.h"
-#include "mon-place.h"
-#include "mgen_data.h"
-#include "random.h"
+#include "tileview.h"
 
 static colour_t _pan_floor_colour()
 {
     colour_t col;
 
     do
+    {
         col = random_colour();
+    }
     // Don't use silence or halo colours for floors.
     while (col == DARKGREY || col == CYAN || col == YELLOW);
 
@@ -33,7 +32,9 @@ static colour_t _pan_rock_colour()
     colour_t col;
 
     do
+    {
         col = random_colour();
+    }
     // Don't use stone or metal colours for walls.
     while (col == DARKGREY || col == LIGHTGREY || col == CYAN);
 
@@ -113,4 +114,5 @@ void init_pandemonium()
 
     env.floor_colour = _pan_floor_colour();
     env.rock_colour  = _pan_rock_colour();
+    tile_init_default_flavour();
 }

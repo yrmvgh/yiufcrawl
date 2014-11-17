@@ -6,77 +6,62 @@
 #include "AppHdr.h"
 
 #include "describe.h"
-#include "process_desc.h"
-#include "database.h"
 
-#include <stdio.h>
-#include <string>
-#include <sstream>
+#include <cstdio>
 #include <iomanip>
 #include <numeric>
+#include <set>
+#include <sstream>
+#include <string>
 
-#include "externs.h"
-#include "options.h"
-#include "species.h"
-
-#include "ability.h"
 #include "artefact.h"
 #include "branch.h"
-#include "cio.h"
+#include "butcher.h"
 #include "clua.h"
-#include "colour.h"
 #include "command.h"
+#include "database.h"
 #include "decks.h"
 #include "delay.h"
 #include "directn.h"
 #include "english.h"
+#include "env.h"
+#include "evoke.h"
 #include "fight.h"
 #include "food.h"
 #include "ghost.h"
-#include "godabil.h"
 #include "goditem.h"
-#include "godpassive.h"
-#include "godprayer.h"
+#include "hints.h"
 #include "invent.h"
-#include "item_use.h"
-#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "evoke.h"
+#include "item_use.h"
 #include "jobs.h"
 #include "libutil.h"
 #include "macro.h"
-#include "menu.h"
 #include "message.h"
 #include "mon-book.h"
 #include "mon-chimera.h"
-#include "mon-util.h"
 #include "mon-tentacle.h"
+#include "options.h"
 #include "output.h"
-#include "player.h"
+#include "process_desc.h"
 #include "prompt.h"
-#include "quiver.h"
 #include "religion.h"
-#include "rot.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-book.h"
 #include "spl-summoning.h"
-#include "state.h"
-#include "stringutil.h"
-#include "unicode.h"
-#include "env.h"
-#include "spl-cast.h"
 #include "spl-util.h"
 #include "spl-wpnench.h"
 #include "stash.h"
+#include "state.h"
 #include "terrain.h"
-#include "transform.h"
-#include "hints.h"
-#include "xom.h"
-#include "mon-info.h"
 #ifdef USE_TILE_LOCAL
-#include "tilereg-crt.h"
+ #include "tilereg-crt.h"
 #endif
+#include "unicode.h"
+
+extern const spell_type serpent_of_hell_breaths[4][3];
+
 // ========================================================================
 //      Internal Functions
 // ========================================================================
@@ -254,8 +239,8 @@ static vector<string> _randart_propnames(const item_def& item,
         { "AC",     ARTP_AC,                    0 },
         { "EV",     ARTP_EVASION,               0 },
         { "Str",    ARTP_STRENGTH,              0 },
-        { "Dex",    ARTP_DEXTERITY,             0 },
         { "Int",    ARTP_INTELLIGENCE,          0 },
+        { "Dex",    ARTP_DEXTERITY,             0 },
         { "Slay",   ARTP_SLAYING,               0 },
 
         // Qualitative attributes (and Stealth)
@@ -1580,12 +1565,6 @@ static string _describe_deck(const item_def &item)
         description += "\n";
     }
 
-    if (item.props.exists("peeked") && item.props["peeked"].get_bool())
-    {
-        description += "This deck has been peeked at and cannot be used "
-                       "with Nemelex Xobeh's abilities.\n";
-    }
-
     return description;
 }
 
@@ -1661,7 +1640,7 @@ string get_item_description(const item_def &item, bool verbose,
                     << " special: " << item.special
                     << "\n"
                     << "quant: " << item.quantity
-                    << " colour: " << static_cast<int>(item.colour)
+                    << " rnd?: " << static_cast<int>(item.rnd)
                     << " flags: " << hex << setw(8) << item.flags
                     << dec << "\n"
                     << "x: " << item.pos.x << " y: " << item.pos.y
@@ -1828,6 +1807,22 @@ string get_item_description(const item_def &item, bool verbose,
     case OBJ_CORPSES:
         if (item.sub_type == CORPSE_SKELETON)
             break;
+
+        if (mons_class_leaves_hide(item.mon_type))
+        {
+            description << "\n\n";
+            if (item.props.exists(MANGLED_CORPSE_KEY))
+            {
+                description << "This corpse is badly mangled; its hide is "
+                               "beyond any hope of recovery.";
+            }
+            else
+            {
+                description << "Butchering may allow you to recover this "
+                               "creature's hide, which can be enchanted into "
+                               "armour.";
+            }
+        }
         // intentional fall-through
     case OBJ_FOOD:
         if (item.base_type == OBJ_FOOD)
@@ -1967,15 +1962,19 @@ string get_item_description(const item_def &item, bool verbose,
         {
             item_def stack = static_cast<item_def>(item);
             CrawlHashTable &props = stack.props;
-            ASSERT(props.exists("timer"));
-            CrawlVector &timer = props["timer"].get_vector();
-            ASSERT(!timer.empty());
+            if (!props.exists("timer"))
+                description << "\nTimers not yet initialized.";
+            else
+            {
+                CrawlVector &timer = props["timer"].get_vector();
+                ASSERT(!timer.empty());
 
-            description << "\nQuantity: " << stack.quantity
-                        << "        Timer size: " << (int) timer.size();
-            description << "\nTimers:\n";
-            for (int i = 0; i < timer.size(); ++i)
-                 description << (timer[i].get_int()) << "  ";
+                description << "\nQuantity: " << stack.quantity
+                            << "        Timer size: " << (int) timer.size();
+                description << "\nTimers:\n";
+                for (int i = 0; i < timer.size(); ++i)
+                    description << (timer[i].get_int()) << "  ";
+            }
         }
 #endif
 
@@ -2314,12 +2313,10 @@ static command_type _get_action(int key, vector<command_type> actions)
         act_key_init = false;
     }
 
-    for (vector<command_type>::const_iterator at = actions.begin();
-         at < actions.end(); ++at)
-    {
-        if (key == act_key[*at])
-            return *at;
-    }
+    for (auto cmd : actions)
+        if (key == act_key[cmd])
+            return cmd;
+
     return CMD_NO_CMD;
 }
 
@@ -2431,8 +2428,7 @@ static bool _actions_prompt(item_def &item, bool allow_inscribe, bool do_prompt)
         act_str_init = false;
     }
 
-    for (vector<command_type>::const_iterator at = actions.begin();
-         at < actions.end(); ++at)
+    for (auto at = actions.begin(); at < actions.end(); ++at)
     {
 #ifdef USE_TILE_LOCAL
         tmp = new TextItem();
@@ -2713,6 +2709,67 @@ static void _append_spell_stats(const spell_type spell,
     description += "\n";
 }
 
+string get_skill_description(skill_type skill, bool need_title)
+{
+    string lookup = skill_name(skill);
+    string result = "";
+
+    if (need_title)
+    {
+        result = lookup;
+        result += "\n\n";
+    }
+
+    result += getLongDescription(lookup);
+
+    switch (skill)
+    {
+        case SK_INVOCATIONS:
+            if (you.species == SP_DEMIGOD)
+            {
+                result += "\n";
+                result += "How on earth did you manage to pick this up?";
+            }
+            else if (you_worship(GOD_TROG))
+            {
+                result += "\n";
+                result += "Note that Trog doesn't use Invocations, due to its "
+                          "close connection to magic.";
+            }
+            else if (you_worship(GOD_NEMELEX_XOBEH))
+            {
+                result += "\n";
+                result += "Note that Nemelex uses Evocations rather than "
+                          "Invocations.";
+            }
+            break;
+
+        case SK_EVOCATIONS:
+            if (you_worship(GOD_NEMELEX_XOBEH))
+            {
+                result += "\n";
+                result += "This is the skill all of Nemelex's abilities rely "
+                          "on.";
+            }
+            break;
+
+        case SK_SPELLCASTING:
+            if (you_worship(GOD_TROG))
+            {
+                result += "\n";
+                result += "Keep in mind, though, that Trog will greatly "
+                          "disapprove of this.";
+            }
+            break;
+        default:
+            // No further information.
+            break;
+    }
+
+    return result;
+}
+
+
 // Returns BOOK_MEM if you can memorise the spell BOOK_FORGET if you can
 // forget it and BOOK_NEITHER if you can do neither
 static int _get_spell_description(const spell_type spell,
@@ -2765,10 +2822,11 @@ static int _get_spell_description(const spell_type spell,
         description += "The spell is scrawled in ancient runes that are beyond "
                        "your current level of understanding.\n";
     }
-    if (spell_is_useless(spell) && you_can_memorise(spell))
+    if (spell_is_useless(spell, true, false, rod) && you_can_memorise(spell))
     {
-        description += "This spell will have no effect right now: "
-                        + spell_uselessness_reason(spell) + "\n";
+        description += "\nThis spell will have no effect right now: "
+        + spell_uselessness_reason(spell, true, false, rod)
+        + "\n";
     }
 
     _append_spell_stats(spell, description, rod);
@@ -3131,33 +3189,27 @@ static const char* _describe_attack_flavour(attack_flavour flavour)
 static string _monster_attacks_description(const monster_info& mi)
 {
     ostringstream result;
-    vector<attack_flavour> attack_flavours;
+    set<attack_flavour> attack_flavours;
     vector<string> attack_descs;
     // Weird attack types that act like attack flavours.
     bool trample = false;
     bool reach_sting = false;
 
-    for (int i = 0; i < MAX_NUM_ATTACKS; ++i)
+    for (const auto &attack : mi.attack)
     {
-        attack_flavour af = mi.attack[i].flavour;
-
-        bool match = false;
-        for (unsigned int k = 0; k < attack_flavours.size(); ++k)
-            if (attack_flavours[k] == af)
-                match = true;
-
-        if (!match)
+        attack_flavour af = attack.flavour;
+        if (!attack_flavours.count(af))
         {
-            attack_flavours.push_back(af);
-            const char* desc = _describe_attack_flavour(af);
-            if (*desc)
+            attack_flavours.insert(af);
+            const char * const desc = _describe_attack_flavour(af);
+            if (desc[0]) // non-empty
                 attack_descs.push_back(desc);
         }
 
-        if (mi.attack[i].type == AT_TRAMPLE)
+        if (attack.type == AT_TRAMPLE)
             trample = true;
 
-        if (mi.attack[i].type == AT_REACH_STING)
+        if (attack.type == AT_REACH_STING)
             reach_sting = true;
     }
 
@@ -3211,9 +3263,30 @@ static string _monster_spell_type_description(const monster_info& mi,
         for (size_t j = 0; j < book_spells.size(); ++j)
         {
             const spell_type spell = book_spells[j];
-            if (j > 0)
-                result << ", ";
-            result << spell_title(spell);
+            if (spell == SPELL_SERPENT_OF_HELL_BREATH)
+            {
+                const int idx =
+                        mi.type == MONS_SERPENT_OF_HELL          ? 0
+                      : mi.type == MONS_SERPENT_OF_HELL_COCYTUS  ? 1
+                      : mi.type == MONS_SERPENT_OF_HELL_DIS      ? 2
+                      : mi.type == MONS_SERPENT_OF_HELL_TARTARUS ? 3
+                      :                                           -1;
+                ASSERT(idx >= 0 && idx <= 3);
+                for (size_t k = 0;
+                     k < ARRAYSZ(serpent_of_hell_breaths[idx]);
+                     ++k)
+                {
+                    if (j > 0 || k > 0)
+                        result << ", ";
+                    result << spell_title(serpent_of_hell_breaths[idx][k]);
+                }
+            }
+            else
+            {
+                if (j > 0)
+                    result << ", ";
+                result << spell_title(spell);
+            }
         }
         result << "\n";
     }
@@ -3841,13 +3914,19 @@ void get_monster_db_desc(const monster_info& mi, describe_info &inf,
             inf.body << ", and it is incapable of using stairs";
         inf.body << ".\n";
     }
-
-    if (mi.is(MB_PERM_SUMMON))
+    else if (mi.is(MB_PERM_SUMMON))
     {
         inf.body << "\n" << "This monster has been summoned in a durable "
                        "way, and only partially exists. Killing it yields no "
                        "experience, nutrition or items. You cannot easily "
                        "abjure it, though.\n";
+    }
+    else if (mons_class_leaves_hide(mi.type))
+    {
+        inf.body << "\nIf " << mi.pronoun(PRONOUN_SUBJECTIVE) << " is slain "
+        "and butchered, it may be possible to recover "
+        << mi.pronoun(PRONOUN_POSSESSIVE) << " hide, which can be "
+        "enchanted into armour.\n";
     }
 
     if (mi.is(MB_SUMMONED_CAPPED))
@@ -3951,11 +4030,8 @@ void get_monster_db_desc(const monster_info& mi, describe_info &inf,
 
         const CrawlVector& blame = mons.props["blame"].get_vector();
 
-        for (CrawlVector::const_iterator it = blame.begin();
-             it != blame.end(); ++it)
-        {
-            inf.body << "    " << it->get_string() << "\n";
-        }
+        for (const auto &entry : blame)
+            inf.body << "    " << entry.get_string() << "\n";
     }
 #endif
 }

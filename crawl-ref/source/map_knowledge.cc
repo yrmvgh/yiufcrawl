@@ -3,15 +3,10 @@
 #include "map_knowledge.h"
 
 #include "coordit.h"
-#include "dgn-overview.h"
 #include "directn.h"
 #include "env.h"
-#include "feature.h"
-#include "mon-util.h"
 #include "notes.h"
-#include "options.h"
 #include "religion.h"
-#include "show.h"
 #include "terrain.h"
 #ifdef USE_TILE
  #include "tilepick.h"
@@ -141,8 +136,8 @@ void set_terrain_visible(const coord_def c)
 
 void clear_terrain_visibility()
 {
-    for (set<coord_def>::iterator i = env.visible.begin(); i != env.visible.end(); ++i)
-        env.map_knowledge(*i).flags &= ~MAP_VISIBLE_FLAG;
+    for (auto c : env.visible)
+        env.map_knowledge(c).flags &= ~MAP_VISIBLE_FLAG;
     env.visible.clear();
 }
 
@@ -152,7 +147,7 @@ void map_cell::set_detected_item()
     flags |= MAP_DETECTED_ITEM;
     _item = new item_info();
     _item->base_type = OBJ_DETECTED;
-    _item->colour    = Options.detected_item_colour;
+    _item->rnd       = 1;
 }
 
 static bool _floor_mf(map_feature mf)

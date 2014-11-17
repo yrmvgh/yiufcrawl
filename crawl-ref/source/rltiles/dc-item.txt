@@ -85,11 +85,9 @@ greatsword3
 double_sword WPN_DOUBLE_SWORD
 double_sword2
 double_sword3
-double_sword_blessed WPN_BLESSED_DOUBLE_SWORD
 triple_sword WPN_TRIPLE_SWORD
 triple_sword2
 triple_sword3
-triple_sword_blessed WPN_BLESSED_TRIPLE_SWORD
 demon_blade WPN_DEMON_BLADE
 demon_blade2
 demon_blade3
@@ -993,6 +991,7 @@ misc_box MISC_BOX_OF_BEASTS
 misc_disc MISC_DISC_OF_STORMS
 %rim 0
 misc_sack MISC_SACK_OF_SPIDERS
+misc_phantom_mirror MISC_PHANTOM_MIRROR
 misc_deck MISC_DECK
 %start
 %compose misc_deck

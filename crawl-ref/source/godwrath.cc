@@ -7,9 +7,8 @@
 
 #include "godwrath.h"
 
-#include "externs.h"
+#include <sstream>
 
-#include "act-iter.h"
 #include "artefact.h"
 #include "attitude-change.h"
 #include "coordit.h"
@@ -17,33 +16,28 @@
 #include "decks.h"
 #include "effects.h"
 #include "english.h"
-#include "enum.h"
 #include "env.h"
 #include "food.h"
 #include "ghost.h"
 #include "godabil.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
+#include "makeitem.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-behv.h"
 #include "mon-book.h"
 #include "mon-cast.h"
-#include "mon-util.h"
 #include "mon-pick.h"
-#include "mon-poly.h"
 #include "mon-place.h"
-#include "terrain.h"
-#include "mgen_data.h"
-#include "makeitem.h"
+#include "mon-poly.h"
 #include "mutation.h"
-#include "ouch.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "random-weight.h"
 #include "religion.h"
 #include "shopping.h"
+#include "shout.h"
 #include "spl-clouds.h"
 #include "spl-goditem.h"
 #include "spl-miscast.h"
@@ -52,19 +46,16 @@
 #include "spl-transloc.h"
 #include "state.h"
 #include "stringutil.h"
+#include "terrain.h"
 #include "transform.h"
-#include "shout.h"
 #include "view.h"
 #include "xom.h"
 
-#include <sstream>
-
 static void _god_smites_you(god_type god, const char *message = NULL,
                             kill_method_type death_type = NUM_KILLBY);
-static bool _beogh_idol_revenge();
 static void _tso_blasts_cleansing_flame(const char *message = NULL);
 
-static const char *_god_wrath_adjectives[NUM_GODS] =
+static const char *_god_wrath_adjectives[] =
 {
     "bugginess",        // NO_GOD
     "wrath",            // Zin
@@ -88,7 +79,9 @@ static const char *_god_wrath_adjectives[NUM_GODS] =
     "darkness",         // Dithmenos
     "greed",            // Gozag (unused)
     "adversity",        // Qazlal
+    "disappointment",   // Ru
 };
+COMPILE_CHECK(ARRAYSZ(_god_wrath_adjectives) == NUM_GODS);
 
 /**
  * Return a name associated with the given god's wrath.
@@ -419,8 +412,8 @@ static bool _elyvilon_retribution()
         break;
 
     case 2: // mostly flavour messages
-        MiscastEffect(&you, -god, SPTYP_POISON, one_chance_in(3) ? 1 : 0,
-                      _god_wrath_name(god));
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_POISON,
+                      one_chance_in(3) ? 1 : 0, _god_wrath_name(god));
         break;
 
     case 3:
@@ -465,7 +458,7 @@ static bool _cheibriados_retribution()
     // Very high tension wrath
     case 4:
         simple_god_message(" adjusts the clock.", god);
-        MiscastEffect(&you, -god, SPTYP_RANDOM, 8, 90,
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_RANDOM, 8, 90,
                       _god_wrath_name(god));
         if (one_chance_in(wrath_type - 1))
             break;
@@ -734,7 +727,7 @@ static bool _kikubaaqudgha_retribution()
         {
             for (int i = 0; i < 3; ++i)
             {
-                MiscastEffect(&you, -god, SPTYP_NECROMANCY,
+                MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_NECROMANCY,
                               2 + div_rand_round(you.experience_level, 9),
                               random2avg(88, 3), _god_wrath_name(god));
             }
@@ -745,7 +738,7 @@ static bool _kikubaaqudgha_retribution()
         // necromancy miscast, 20% chance of additional miscast
         do
         {
-            MiscastEffect(&you, -god, SPTYP_NECROMANCY,
+            MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_NECROMANCY,
                           2 + div_rand_round(you.experience_level, 9),
                           random2avg(88, 3), _god_wrath_name(god));
         }
@@ -799,7 +792,7 @@ static bool _yredelemnul_retribution()
     else
     {
         simple_god_message("'s anger turns toward you for a moment.", god);
-        MiscastEffect(&you, -god, SPTYP_NECROMANCY,
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_NECROMANCY,
                       2 + div_rand_round(you.experience_level, 9),
                       random2avg(88, 3), _god_wrath_name(god));
     }
@@ -895,8 +888,9 @@ static bool _trog_retribution()
         //    fire magic. -- bwr
         dec_penance(god, 2);
         mprf(MSGCH_WARN, "You feel Trog's fiery rage upon you!");
-        MiscastEffect(&you, -god, SPTYP_FIRE, 8 + you.experience_level,
-                      random2avg(98, 3), _god_wrath_name(god));
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_FIRE,
+                      8 + you.experience_level, random2avg(98, 3),
+                      _god_wrath_name(god));
     }
 
     return true;
@@ -1056,7 +1050,7 @@ static bool _sif_muna_retribution()
 
     case 5:
     case 6:
-        MiscastEffect(&you, -god, SPTYP_DIVINATION, 9, 90,
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_DIVINATION, 9, 90,
                       _god_wrath_name(god));
         break;
 
@@ -1096,7 +1090,8 @@ static void _lugonu_transloc_retribution()
     if (coinflip())
     {
         simple_god_message("'s wrath finds you!", god);
-        MiscastEffect(&you, -god, SPTYP_TRANSLOCATION, 9, 90, "Lugonu's touch");
+        MiscastEffect(&you, NULL, GOD_MISCAST + god, SPTYP_TRANSLOCATION, 9,
+                      90, "Lugonu's touch");
     }
     else if (coinflip())
     {
@@ -1442,8 +1437,9 @@ static void _fedhas_elemental_miscast()
     const spschool_flag_type stype = random_choose(SPTYP_ICE, SPTYP_FIRE,
                                                    SPTYP_EARTH, SPTYP_AIR,
                                                    -1);
-    MiscastEffect(&you, -god, stype, 5 + you.experience_level,
-                  random2avg(88, 3), _god_wrath_name(god));
+    MiscastEffect(&you, NULL, GOD_MISCAST + god, stype,
+                  5 + you.experience_level, random2avg(88, 3),
+                  _god_wrath_name(god));
 }
 
 /**
@@ -1707,8 +1703,7 @@ static void _qazlal_deform_terrain()
                             random2(you.experience_level * BASELINE_DELAY),
                             TERRAIN_CHANGE_FLOOD);
 
-        for (vector<coord_weight>::iterator it = candidates.begin();
-             it != candidates.end(); ++it)
+        for (auto it = candidates.begin(); it != candidates.end(); ++it)
         {
             if (it->first == *pos)
             {
@@ -1862,22 +1857,6 @@ bool divine_retribution(god_type god, bool no_bonus, bool force)
     return true;
 }
 
-bool do_god_revenge(conduct_type thing_done)
-{
-    bool retval = false;
-
-    switch (thing_done)
-    {
-    case DID_DESTROY_ORCISH_IDOL:
-        retval = _beogh_idol_revenge();
-        break;
-    default:
-        break;
-    }
-
-    return retval;
-}
-
 // Currently only used when orcish idols have been destroyed.
 static string _get_beogh_speech(const string key)
 {
@@ -1890,31 +1869,29 @@ static string _get_beogh_speech(const string key)
 }
 
 // Destroying orcish idols (a.k.a. idols of Beogh) may anger Beogh.
-static bool _beogh_idol_revenge()
+void beogh_idol_revenge()
 {
     god_acting gdact(GOD_BEOGH, true);
 
     // Beogh watches his charges closely, but for others doesn't always
     // notice.
-    if (you_worship(GOD_BEOGH)
-        || (player_genus(GENPC_ORCISH) && coinflip())
-        || one_chance_in(3))
+    if (!you_worship(GOD_BEOGH)
+        && (!player_genus(GENPC_ORCISH) || coinflip())
+        && x_chance_in_y(2, 3))
     {
-        const char *revenge;
-
-        if (you_worship(GOD_BEOGH))
-            revenge = _get_beogh_speech("idol follower").c_str();
-        else if (player_genus(GENPC_ORCISH))
-            revenge = _get_beogh_speech("idol orc").c_str();
-        else
-            revenge = _get_beogh_speech("idol other").c_str();
-
-        _god_smites_you(GOD_BEOGH, revenge);
-
-        return true;
+        return;
     }
 
-    return false;
+    const char *revenge;
+
+    if (you_worship(GOD_BEOGH))
+        revenge = _get_beogh_speech("idol follower").c_str();
+    else if (player_genus(GENPC_ORCISH))
+        revenge = _get_beogh_speech("idol orc").c_str();
+    else
+        revenge = _get_beogh_speech("idol other").c_str();
+
+    _god_smites_you(GOD_BEOGH, revenge);
 }
 
 static void _tso_blasts_cleansing_flame(const char *message)
@@ -1988,7 +1965,7 @@ static void _god_smites_you(god_type god, const char *message,
             divine_hurt += random2(you.experience_level);
 
         simple_god_message(" smites you!", god);
-        ouch(divine_hurt, NON_MONSTER, death_type, aux.c_str());
+        ouch(divine_hurt, death_type, MID_NOBODY, aux.c_str());
         dec_penance(god, 1);
     }
 }

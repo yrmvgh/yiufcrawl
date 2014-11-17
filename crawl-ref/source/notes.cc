@@ -5,28 +5,23 @@
 
 #include "AppHdr.h"
 
-#include <vector>
-#include <sstream>
-#include <iomanip>
-
 #include "notes.h"
+
+#include <iomanip>
+#include <sstream>
+#include <vector>
 
 #include "branch.h"
 #include "english.h"
-#include "files.h"
-#include "kills.h"
 #include "hiscores.h"
-#include "libutil.h"
 #include "message.h"
 #include "mutation.h"
 #include "options.h"
-#include "place.h"
 #include "religion.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
-#include "tags.h"
 #include "unicode.h"
 
 #define NOTES_VERSION_NUMBER 1002

@@ -72,7 +72,9 @@ enum ability_type
     ABIL_MUMMY_RESTORATION,
     // Vampires
     ABIL_TRAN_BAT,
+#if TAG_MAJOR_VERSION == 34
     ABIL_BOTTLE_BLOOD,
+#endif
     // Deep Dwarves
     ABIL_RECHARGING,
     // Formicids
@@ -151,9 +153,11 @@ enum ability_type
     ABIL_LUGONU_CORRUPT,
     ABIL_LUGONU_ABYSS_ENTER,
     // Nemelex
+#if TAG_MAJOR_VERSION == 34
     ABIL_NEMELEX_DRAW_ONE = 1110,
     ABIL_NEMELEX_PEEK_TWO,
-    ABIL_NEMELEX_TRIPLE_DRAW,
+#endif
+    ABIL_NEMELEX_TRIPLE_DRAW = 1112,
     ABIL_NEMELEX_DEAL_FOUR,
     ABIL_NEMELEX_STACK_FIVE,
     // Beogh
@@ -230,7 +234,7 @@ enum ability_type
 #endif
     ABIL_MAKE_ICE_STATUE,
     ABIL_MAKE_OCS,
-    ABIL_MAKE_SILVER_STATUE,
+    ABIL_MAKE_OBSIDIAN_STATUE,
     ABIL_MAKE_CURSE_SKULL,
     ABIL_MAKE_TELEPORT,
     ABIL_MAKE_ARROW_TRAP,
@@ -261,6 +265,7 @@ enum ability_type
     NUM_ABILITIES
 };
 
+// Be sure to change activity_interrupt_names in delay.cc to match!
 enum activity_interrupt_type
 {
     AI_FORCE_INTERRUPT = 0,         // Forcibly kills any activity that can be
@@ -459,7 +464,8 @@ enum beam_type                  // bolt::flavour
     BEAM_CHAOTIC_REFLECTION,
     BEAM_DRAIN_MAGIC,
     BEAM_TUKIMAS_DANCE,
-    BEAM_LAST_ENCHANTMENT = BEAM_TUKIMAS_DANCE,
+    BEAM_RESISTANCE,
+    BEAM_LAST_ENCHANTMENT = BEAM_RESISTANCE,
 
     BEAM_MEPHITIC,
     BEAM_INK,
@@ -1315,9 +1321,9 @@ enum dungeon_char_type
 // * check the feat_* functions in terrain.cc and make sure
 //      they return sane values for your new feature.
 
-// * edit dungeon.cc and add a symbol to _glyph_to_feat() for the feature,
-//      if you want vault maps to be able to use it. If you do, also update
-//      docs/develop/levels/syntax.txt with the new symbol.
+// * edit mapdef.cc and add a symbol to _glyph_to_feat() for the feature,
+//      if you want vault maps to be able to use it directly . If you do, also
+//      update docs/develop/levels/syntax.txt with the new symbol.
 enum dungeon_feature_type
 {
     DNGN_UNSEEN,
@@ -1696,6 +1702,7 @@ enum duration_type
     DUR_HORROR,
     DUR_NO_SCROLLS,
     DUR_NEGATIVE_VULN,
+    DUR_CLEAVE,
     NUM_DURATIONS
 };
 
@@ -1837,6 +1844,9 @@ enum enchant_type
     ENCH_REPEL_MISSILES,
     ENCH_DEFLECT_MISSILES,
     ENCH_NEGATIVE_VULN,
+    ENCH_CONDENSATION_SHIELD,
+    ENCH_RESISTANCE,
+    ENCH_HEXED,
     // Update enchantment names in mon-ench.cc when adding or removing
     // enchantments.
     NUM_ENCHANTMENTS
@@ -1911,16 +1921,6 @@ enum eq_type_flags
     ETF_ARMOUR = 0x4,
     ETF_JEWELS = 0x8,
     ETF_ALL    = 0xF
-};
-
-enum feature_flag_type
-{
-    FFT_NONE          = 0,
-    FFT_NOTABLE       = 1<< 0,           // should be noted for dungeon overview
-    FFT_EXAMINE_HINT  = 1<< 1,           // could get an "examine-this" hint.
-    FFT_OPAQUE        = 1<< 2,           // Does this feature block LOS?
-    FFT_WALL          = 1<< 3,           // Is this a "wall"?
-    FFT_SOLID         = 1<< 4,           // Does this feature block beams / normal movement?
 };
 
 enum flush_reason_type
@@ -2011,7 +2011,7 @@ enum item_status_flag_type  // per item flags: ie. ident status, cursed status
     ISFLAG_IDENT_MASK        = 0x0000000F,  // mask of all id related flags
 
     ISFLAG_CURSED            = 0x00000100,  // cursed
-    ISFLAG_BLESSED_WEAPON    = 0x00000200,  // personalized TSO's gift
+                             //0x00000200,  // was: ISFLAG_BLESSED
     ISFLAG_SEEN_CURSED       = 0x00000400,  // was seen being cursed
     ISFLAG_TRIED             = 0x00000800,  // tried but not (usually) ided
 
@@ -2093,7 +2093,9 @@ enum job_type
     JOB_WANDERER,
     JOB_ARTIFICER,                     //   Greenberg/Bane
     JOB_ARCANE_MARKSMAN,
+#if TAG_MAJOR_VERSION == 34
     JOB_DEATH_KNIGHT,
+#endif
     JOB_ABYSSAL_KNIGHT,
 #if TAG_MAJOR_VERSION == 34
     JOB_JESTER,
@@ -2289,7 +2291,7 @@ enum monster_type                      // menv[].type
 #if TAG_MAJOR_VERSION == 34
     MONS_GREY_RAT,
 #endif
-    MONS_GREEN_RAT,
+    MONS_RIVER_RAT,
     MONS_ORANGE_RAT,
 #if TAG_MAJOR_VERSION == 34
     MONS_LABORATORY_RAT,
@@ -2404,6 +2406,7 @@ enum monster_type                      // menv[].type
     MONS_RAVEN,
 #if TAG_MAJOR_VERSION > 34
     MONS_BENNU,
+    MONS_CAUSTIC_SHRIKE,
 
     MONS_ANUBIS_GUARD,
 #endif
@@ -2765,7 +2768,7 @@ enum monster_type                      // menv[].type
 
     // Statuary
     MONS_ORANGE_STATUE,
-    MONS_SILVER_STATUE,
+    MONS_OBSIDIAN_STATUE,
     MONS_ICE_STATUE,
     MONS_STATUE,
     MONS_TRAINING_DUMMY,
@@ -3196,6 +3199,7 @@ enum monster_type                      // menv[].type
     MONS_USHABTI,
     MONS_DEATH_SCARAB,
     MONS_ANUBIS_GUARD,
+    MONS_CAUSTIC_SHRIKE,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -3577,7 +3581,9 @@ enum potion_type
     POT_CANCELLATION,
     POT_CONFUSION,
     POT_INVISIBILITY,
+#if TAG_MAJOR_VERSION == 34
     POT_PORRIDGE,
+#endif
     POT_DEGENERATION,
     POT_DECAY,
 #if TAG_MAJOR_VERSION == 34
@@ -3723,7 +3729,7 @@ enum size_type
     SIZE_CHARACTER,         // transformations that don't change size
 };
 
-// [dshaligram] If you add a new skill, update skills2.cc, specifically
+// [dshaligram] If you add a new skill, update skills.cc, specifically
 // the skills[] array and skill_display_order[]. New skills must go at the
 // end of the list or in the unused skill numbers. NEVER rearrange this enum or
 // move existing skills to new numbers; save file compatibility depends on this
@@ -4255,6 +4261,8 @@ enum spell_type
     SPELL_DEATH_RATTLE,
     SPELL_SUMMON_SCARABS,
     SPELL_HUNTING_CRY,
+    SPELL_SEARING_BREATH,
+    SPELL_CHILLING_BREATH,
     SPELL_SCATTERSHOT,
     NUM_SPELLS
 };
@@ -4288,13 +4296,14 @@ enum targeting_type
 
 enum torment_source_type
 {
-    TORMENT_GENERIC       = -1,
+    TORMENT_LURKING_HORROR= -1,
     TORMENT_CARDS         = -2,   // Symbol of torment
-    TORMENT_SPWLD         = -3,   // Special wield torment
+    TORMENT_SCEPTRE       = -3,   // The Sceptre of Torment
     TORMENT_SCROLL        = -4,
     TORMENT_SPELL         = -5,   // SPELL_SYMBOL_OF_TORMENT
     TORMENT_XOM           = -6,   // Xom effect
     TORMENT_KIKUBAAQUDGHA = -7,   // Kikubaaqudgha effect
+    TORMENT_MISCAST       = -8,
 };
 
 enum trap_type

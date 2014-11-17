@@ -2,7 +2,6 @@
 #define MON_INFO_H
 
 #include "mon-util.h"
-#include "mon-message.h"
 
 #define SPECIAL_WEAPON_KEY "special_weapon_name"
 
@@ -132,6 +131,9 @@ enum monster_info_flags
     MB_HEAVILY_DRAINED,
     MB_REPEL_MSL,
     MB_NEGATIVE_VULN,
+    MB_CONDENSATION_SHIELD,
+    MB_RESISTANCE,
+    MB_HEXED,
     NUM_MB_FLAGS
 };
 
@@ -143,8 +145,13 @@ struct monster_info_base
     monster_type type;
     monster_type base_type;
     monster_type draco_type;
-    unsigned number;
-    unsigned colour;
+    union {
+        unsigned number; ///< General purpose number variable
+        int num_heads;   ///< # of hydra heads
+        int slime_size;  ///< # of slimes in this one
+        bool is_active;  ///< Whether this ballisto is active or not
+    };
+    int _colour;
     mon_attitude_type attitude;
     mon_threat_level_type threat;
     mon_dam_level_type dam;
@@ -199,7 +206,6 @@ struct monster_info : public monster_info_base
             if (mi.inv[i].get())
                 inv[i].reset(new item_def(*mi.inv[i]));
         }
-        props = mi.props;
     }
 
     monster_info& operator=(const monster_info& p)
@@ -216,7 +222,7 @@ struct monster_info : public monster_info_base
                    bool fullname = true, const char *adjective = nullptr) const;
 
     /* only real equipment is visible, miscellany is for mimic items */
-    Unique_ptr<item_def> inv[MSLOT_LAST_VISIBLE_SLOT + 1];
+    unique_ptr<item_def> inv[MSLOT_LAST_VISIBLE_SLOT + 1];
 
     union
     {
@@ -319,15 +325,17 @@ struct monster_info : public monster_info_base
 
     bool is_actual_spellcaster() const
     {
-        return mons_class_flag(this->type, M_ACTUAL_SPELLS) || this->props.exists("actual_spellcaster");
+        return props.exists("actual_spellcaster");
     }
 
     bool is_priest() const
     {
-        return mons_class_flag(this->type, M_PRIEST) || this->props.exists("priest");
+        return props.exists("priest");
     }
 
     bool has_spells() const;
+    unsigned colour(bool base_colour = false) const;
+    void set_colour(int colour);
 
 protected:
     string _core_name() const;

@@ -7,22 +7,16 @@
 
 #include "ranged_attack.h"
 
-#include "actor.h"
 #include "art-enum.h"
-#include "beam.h"
 #include "coord.h"
 #include "english.h"
-#include "exercise.h"
 #include "godconduct.h"
-#include "itemname.h"
 #include "itemprop.h"
-#include "libutil.h"
 #include "message.h"
 #include "mon-behv.h"
-#include "mon-message.h"
+#include "mon-util.h"
 #include "monster.h"
 #include "player.h"
-#include "random.h"
 #include "stringutil.h"
 #include "teleport.h"
 #include "traps.h"
@@ -138,8 +132,6 @@ bool ranged_attack::attack()
     }
 
     // TODO: sanctuary
-
-    // TODO: adjust_noise
 
     if (should_alert_defender)
         alert_defender();
@@ -801,7 +793,7 @@ bool ranged_attack::apply_missile_brand()
 
     if (needs_message && !special_damage_message.empty())
     {
-        mprf("%s", special_damage_message.c_str());
+        mpr(special_damage_message);
 
         special_damage_message.clear();
         // Don't do message-only miscasts along with a special
@@ -856,10 +848,6 @@ int ranged_attack::player_stab_tier()
     }
 
     return 0;
-}
-
-void ranged_attack::adjust_noise()
-{
 }
 
 void ranged_attack::set_attack_verb()

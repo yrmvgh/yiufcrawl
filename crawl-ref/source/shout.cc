@@ -7,15 +7,14 @@
 
 #include "shout.h"
 
+#include <sstream>
+
 #include "act-iter.h"
-#include "art-enum.h"
-#include "artefact.h"
 #include "areas.h"
+#include "artefact.h"
+#include "art-enum.h"
 #include "branch.h"
-#include "cluautil.h"
-#include "coord.h"
 #include "database.h"
-#include "dlua.h"
 #include "english.h"
 #include "env.h"
 #include "exercise.h"
@@ -23,27 +22,16 @@
 #include "hints.h"
 #include "jobs.h"
 #include "libutil.h"
-#include "los.h"
 #include "message.h"
-#include "misc.h"
 #include "mon-behv.h"
 #include "mon-chimera.h"
 #include "mon-place.h"
 #include "mon-poly.h"
-#include "mon-pathfind.h"
-#include "mon-util.h"
-#include "monster.h"
-#include "noise.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
-#include "skills.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
 #include "view.h"
-
-#include <sstream>
 
 extern int stealth;             // defined in main.cc
 
@@ -128,9 +116,6 @@ void handle_monster_shouts(monster* mons, bool force)
         break;
     case S_GURGLE:
         default_msg_key = "__GURGLE";
-        break;
-    case S_WHINE:
-        default_msg_key = "__WHINE";
         break;
     case S_CROAK:
         default_msg_key = "__CROAK";
@@ -946,9 +931,7 @@ coord_def noise_grid::noise_perceived_position(actor *act,
 
 #ifdef DEBUG_NOISE_PROPAGATION
 
-#include "options.h"
-#include "viewchar.h"
-#include <math.h>
+#include <cmath>
 
 // Return HTML RGB triple given a hue and assuming chroma of 0.86 (220)
 static string _hue_rgb(int hue)

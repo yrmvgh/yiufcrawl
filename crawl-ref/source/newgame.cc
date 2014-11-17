@@ -19,20 +19,14 @@
 #include "jobs.h"
 #include "libutil.h"
 #include "macro.h"
-#include "makeitem.h"
 #include "maps.h"
 #include "menu.h"
-#include "monster.h"
-#include "newgame_def.h"
 #include "ng-input.h"
 #include "ng-restr.h"
 #include "options.h"
 #include "prompt.h"
-#include "random.h"
-#include "species.h"
 #include "state.h"
 #include "stringutil.h"
-
 #ifdef USE_TILE_LOCAL
 #include "tilereg-crt.h"
 #endif
@@ -216,7 +210,9 @@ static void _resolve_species(newgame_def* ng, const newgame_def* ng_choice)
         {
             // any valid species will do
             do
+            {
                 ng->species = get_species(random2(ng_num_species()));
+            }
             while (!is_species_valid_choice(ng->species));
         }
         else
@@ -275,7 +271,9 @@ static void _resolve_job(newgame_def* ng, const newgame_def* ng_choice)
         {
             // any valid job will do
             do
+            {
                 ng->job = job_type(random2(NUM_JOBS));
+            }
             while (!is_job_valid_choice(ng->job));
         }
         else
@@ -1080,7 +1078,7 @@ static void _construct_backgrounds_menu(const newgame_def* ng,
             "Zealot",
             coord_def(15, 0), 20,
             {JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_CHAOS_KNIGHT,
-             JOB_DEATH_KNIGHT, JOB_HEALER, JOB_UNKNOWN, JOB_UNKNOWN,
+             JOB_HEALER, JOB_UNKNOWN, JOB_UNKNOWN, JOB_UNKNOWN,
              JOB_UNKNOWN, JOB_UNKNOWN}
         },
         {
@@ -1831,7 +1829,6 @@ static bool _choose_weapon(newgame_def* ng, newgame_def* ng_choice,
     case JOB_GLADIATOR:
     case JOB_BERSERKER:
     case JOB_CHAOS_KNIGHT:
-    case JOB_DEATH_KNIGHT:
     case JOB_ABYSSAL_KNIGHT:
     case JOB_SKALD:
     case JOB_WARPER:

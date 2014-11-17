@@ -7,17 +7,13 @@
 
 #include "invent.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <sstream>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
 #include <iomanip>
-
-#include "externs.h"
-#include "options.h"
+#include <sstream>
 
 #include "artefact.h"
-#include "clua.h"
 #include "colour.h"
 #include "command.h"
 #include "decks.h"
@@ -25,24 +21,21 @@
 #include "env.h"
 #include "food.h"
 #include "initfile.h"
-#include "item_use.h"
 #include "itemprop.h"
 #include "items.h"
+#include "item_use.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
+#include "options.h"
 #include "output.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
-#include "shopping.h"
 #include "showsymb.h"
 #include "spl-summoning.h"
-#include "stringutil.h"
-#include "mon-util.h"
 #include "state.h"
+#include "stringutil.h"
 #include "throw.h"
-
 #ifdef USE_TILE
  #include "tiledef-icons.h"
  #include "tiledef-main.h"
@@ -683,10 +676,9 @@ bool sort_item_charged(const InvEntry *a)
 static bool _compare_invmenu_items(const InvEntry *a, const InvEntry *b,
                                    const item_sort_comparators *cmps)
 {
-    for (item_sort_comparators::const_iterator i = cmps->begin();
-         i != cmps->end(); ++i)
+    for (const auto &comparator : *cmps)
     {
-        const int cmp = i->compare(a, b);
+        const int cmp = comparator.compare(a, b);
         if (cmp)
             return cmp < 0;
     }
@@ -1036,33 +1028,17 @@ string item_class_name(int type, bool terse)
     return "";
 }
 
-const char* item_slot_name(equipment_type type, bool terse)
+const char* item_slot_name(equipment_type type)
 {
-    if (terse)
+    switch (type)
     {
-        switch (type)
-        {
-        case EQ_CLOAK:       return "cloak";
-        case EQ_HELMET:      return "helmet";
-        case EQ_GLOVES:      return "gloves";
-        case EQ_BOOTS:       return "boots";
-        case EQ_SHIELD:      return "shield";
-        case EQ_BODY_ARMOUR: return "body";
-        default:             return "";
-        }
-    }
-    else
-    {
-        switch (type)
-        {
-        case EQ_CLOAK:       return "Cloak";
-        case EQ_HELMET:      return "Helmet";
-        case EQ_GLOVES:      return "Gloves";
-        case EQ_BOOTS:       return "Boots";
-        case EQ_SHIELD:      return "Shield";
-        case EQ_BODY_ARMOUR: return "Body";
-        default:             return "";
-        }
+    case EQ_CLOAK:       return "cloak";
+    case EQ_HELMET:      return "helmet";
+    case EQ_GLOVES:      return "gloves";
+    case EQ_BOOTS:       return "boots";
+    case EQ_SHIELD:      return "shield";
+    case EQ_BODY_ARMOUR: return "body";
+    default:             return "";
     }
 }
 
@@ -2044,9 +2020,9 @@ bool item_is_wieldable(const item_def &item)
     if (is_weapon(item))
         return you.species != SP_FELID;
 
-    // Some misc. items need to be wielded to be evoked.
-    if (is_deck(item) || item.base_type == OBJ_MISCELLANY
-                         && item.sub_type == MISC_LANTERN_OF_SHADOWS)
+    // The lantern needs to be wielded to be used.
+    if (item.base_type == OBJ_MISCELLANY
+        && item.sub_type == MISC_LANTERN_OF_SHADOWS)
     {
         return true;
     }
@@ -2094,7 +2070,7 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
                 return true;
 
             if (msg)
-                mprf("%s", error.c_str());
+                mpr(error);
 
             return false;
         }
@@ -2127,7 +2103,7 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
             if (!wielded)
             {
                 if (msg)
-                    mprf("%s", error.c_str());
+                    mpr(error);
                 return false;
             }
             return true;
@@ -2141,7 +2117,7 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
         if (!wielded)
         {
             if (msg)
-                mprf("%s", error.c_str());
+                mpr(error);
             return false;
         }
         return true;
@@ -2154,7 +2130,7 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
             if (!wielded)
             {
                 if (msg)
-                    mprf("%s", error.c_str());
+                    mpr(error);
                 return false;
             }
             return true;
@@ -2164,17 +2140,6 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
         return false;
 
     case OBJ_MISCELLANY:
-        if (is_deck(item))
-        {
-            if (!wielded)
-            {
-                if (msg)
-                    mprf("%s", error.c_str());
-                return false;
-            }
-            return true;
-        }
-
         if (item.sub_type != MISC_LANTERN_OF_SHADOWS
 #if TAG_MAJOR_VERSION == 34
             && item.sub_type != MISC_BUGGY_EBONY_CASKET

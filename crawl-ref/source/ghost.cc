@@ -7,106 +7,95 @@
 
 #include "ghost.h"
 
+#include <vector>
+
 #include "act-iter.h"
-#include "artefact.h"
 #include "colour.h"
 #include "database.h"
 #include "env.h"
-#include "externs.h"
 #include "itemname.h"
 #include "itemprop.h"
-#include "libutil.h"
-#include "ng-input.h"
-#include "random.h"
-#include "skills2.h"
-#include "spl-cast.h"
-#include "spl-util.h"
-#include "stringutil.h"
 #include "mon-book.h"
 #include "mon-cast.h"
-#include "mon-util.h"
 #include "mon-transit.h"
-#include "player.h"
-
-#include <vector>
+#include "ng-input.h"
+#include "skills.h"
+#include "spl-util.h"
+#include "stringutil.h"
 
 #define MAX_GHOST_DAMAGE     50
 #define MAX_GHOST_HP        400
 #define MAX_GHOST_EVASION    60
-#define MIN_GHOST_SPEED       6
-#define MAX_GHOST_SPEED      13
 
 vector<ghost_demon> ghosts;
 
 // Pan lord conjuration spell list.
 static spell_type search_order_conj[] =
 {
-    SPELL_LEHUDIBS_CRYSTAL_SPEAR,
     SPELL_FIRE_STORM,
     SPELL_GLACIATE,
+    SPELL_LEHUDIBS_CRYSTAL_SPEAR,
     SPELL_CHAIN_LIGHTNING,
-    SPELL_BOLT_OF_DRAINING,
-    SPELL_AGONY,
-    SPELL_DISINTEGRATE,
-    SPELL_LIGHTNING_BOLT,
-    SPELL_AIRSTRIKE,
-    SPELL_STICKY_FLAME,
-    SPELL_ISKENDERUNS_MYSTIC_BLAST,
     SPELL_IOOD,
-    SPELL_BOLT_OF_MAGMA,
-    SPELL_THROW_ICICLE,
+    SPELL_CORROSIVE_BOLT,
+    SPELL_DISINTEGRATE,
     SPELL_BOLT_OF_FIRE,
     SPELL_BOLT_OF_COLD,
-    SPELL_FIREBALL,
-    SPELL_VENOM_BOLT,
     SPELL_IRON_SHOT,
-    SPELL_LRD,
-    SPELL_STONE_ARROW,
+    SPELL_POISON_ARROW,
+    SPELL_BOLT_OF_DRAINING,
+    SPELL_QUICKSILVER_BOLT,
     SPELL_FORCE_LANCE,
-    SPELL_DISCHARGE,
+    SPELL_FIREBALL,
+    SPELL_BOLT_OF_MAGMA,
+    SPELL_LRD,
+    SPELL_LIGHTNING_BOLT,
+    SPELL_BLINKBOLT,
+    SPELL_VENOM_BOLT,
+    SPELL_AGONY,
+    SPELL_DRAIN_MAGIC,
+    SPELL_SLEEP,
+    SPELL_ISKENDERUNS_MYSTIC_BLAST,
+    SPELL_STICKY_FLAME_RANGE,
+    SPELL_STEAM_BALL,
+    SPELL_THROW_ICICLE,
+    SPELL_AIRSTRIKE,
+    SPELL_SMITING,
     SPELL_DAZZLING_SPRAY,
+    SPELL_STONE_ARROW,
+    SPELL_DISCHARGE,
+    SPELL_VAMPIRIC_DRAINING,
     SPELL_THROW_FLAME,
     SPELL_THROW_FROST,
-    SPELL_FREEZE,
-    SPELL_PAIN,
-    SPELL_STING,
-    SPELL_SHOCK,
-    SPELL_SANDBLAST,
-    SPELL_MAGIC_DART,
-    SPELL_HIBERNATION,
-    SPELL_FLAME_TONGUE,
-    SPELL_CORONA,
     SPELL_NO_SPELL,                        // end search
 };
 
 // Pan lord self-enchantment / summoning spell list.
 static spell_type search_order_selfench[] =
 {
-    SPELL_SYMBOL_OF_TORMENT,
-    SPELL_SUMMON_GREATER_DEMON,
     SPELL_SUMMON_DRAGON,
     SPELL_SUMMON_HORRIBLE_THINGS,
+    SPELL_SUMMON_GREATER_DEMON,
     SPELL_HAUNT,
     SPELL_SUMMON_HYDRA,
-    SPELL_SUMMON_DEMON,
+    SPELL_MALIGN_GATEWAY,
     SPELL_HASTE,
-    SPELL_SILENCE,
-    SPELL_BATTLESPHERE,
-    SPELL_SUMMON_BUTTERFLIES,
-    SPELL_SUMMON_SWARM,
+    SPELL_INVISIBILITY,
+    SPELL_SYMBOL_OF_TORMENT,
     SPELL_MONSTROUS_MENAGERIE,
-    SPELL_SWIFTNESS,
+    SPELL_SILENCE,
+    SPELL_SHADOW_CREATURES,
+    SPELL_SUMMON_DEMON,
+    SPELL_SUMMON_VERMIN,
+    SPELL_SUMMON_SWARM,
+    SPELL_SIMULACRUM,
+    SPELL_BATTLESPHERE,
     SPELL_SUMMON_ICE_BEAST,
     SPELL_ANIMATE_DEAD,
-    SPELL_TWISTED_RESURRECTION,
-    SPELL_INVISIBILITY,
-    SPELL_CALL_IMP,
-    SPELL_SUMMON_SMALL_MAMMAL,
-    SPELL_MALIGN_GATEWAY,
+    SPELL_SWIFTNESS,
     SPELL_BLINK,
+    SPELL_SUMMON_BUTTERFLIES,
     SPELL_NO_SPELL,                        // end search
-    // No Simulacrum: iffy for pghosts (picking up material components),
-    // largely useless on Pan lords.
 };
 
 // Pan lord misc spell list.
@@ -116,19 +105,19 @@ static spell_type search_order_misc[] =
     SPELL_SYMBOL_OF_TORMENT,
     SPELL_BANISHMENT,
     SPELL_FREEZING_CLOUD,
-    SPELL_OLGREBS_TOXIC_RADIANCE,
+    SPELL_POISONOUS_CLOUD,
     SPELL_MASS_CONFUSION,
     SPELL_ENGLACIATION,
     SPELL_DISPEL_UNDEAD,
-    SPELL_PARALYSE,
-    SPELL_CONFUSE,
-    SPELL_MEPHITIC_CLOUD,
-    SPELL_SLOW,
-    SPELL_PETRIFY,
-    SPELL_POLYMORPH,
-    SPELL_TELEPORT_OTHER,
     SPELL_DIG,
-    SPELL_CORONA,
+    SPELL_PETRIFY,
+    SPELL_OLGREBS_TOXIC_RADIANCE,
+    SPELL_PARALYSE,
+    SPELL_POLYMORPH,
+    SPELL_MEPHITIC_CLOUD,
+    SPELL_CONFUSE,
+    SPELL_TELEPORT_OTHER,
+    SPELL_SLOW,
     SPELL_NO_SPELL,                        // end search
 };
 
@@ -153,13 +142,13 @@ void ghost_demon::reset()
     ac               = 0;
     damage           = 0;
     speed            = 10;
+    move_energy      = 10;
     see_invis        = false;
     brand            = SPWPN_NORMAL;
     att_type         = AT_HIT;
     att_flav         = AF_PLAIN;
     resists          = 0;
-    cycle_colours    = false;
-    colour           = BLACK;
+    colour           = COLOUR_UNDEF;
     fly              = FL_NONE;
     acting_part      = MONS_0;
 }
@@ -193,7 +182,7 @@ static brand_type _random_special_pan_lord_brand()
             spells.push_back(slot); \
     }
 
-void ghost_demon::init_random_demon()
+void ghost_demon::init_pandemonium_lord()
 {
     mon_spell_slot slot;
     slot.flags = MON_SPELL_DEMONIC;
@@ -274,21 +263,12 @@ void ghost_demon::init_random_demon()
                                    : RANDOM_ELEMENT(search_order_selfench));
 
         if (coinflip())
-        {
-            spell_type spell = RANDOM_ELEMENT(search_order_misc);
-            if (spell != SPELL_DIG)
-                ADD_SPELL(spell);
-        }
+            ADD_SPELL(RANDOM_ELEMENT(search_order_misc));
 
         if (coinflip())
             ADD_SPELL(RANDOM_ELEMENT(search_order_misc));
 
-        ADD_SPELL(random_choose_weighted(2, SPELL_TELEPORT_SELF,
-                                         1, SPELL_BLINK,
-                                         1, SPELL_NO_SPELL,
-                                         0));
-
-        // Give demon a chance for some monster-only spells.
+        // Give demon a chance for some nasty spells.
         // Demon-summoning should be fairly common.
         if (one_chance_in(4))
         {
@@ -302,18 +282,12 @@ void ghost_demon::init_random_demon()
         }
 
         if (one_chance_in(25))
-            ADD_SPELL(SPELL_STEAM_BALL);
-        if (one_chance_in(25))
-            ADD_SPELL(SPELL_QUICKSILVER_BOLT);
-        if (one_chance_in(25))
             ADD_SPELL(SPELL_HELLFIRE);
+        if (one_chance_in(25))
+            ADD_SPELL(SPELL_HELLFIRE_BURST);
         if (one_chance_in(25))
             ADD_SPELL(SPELL_IOOD);
 
-        if (one_chance_in(25))
-            ADD_SPELL(SPELL_SMITING);
-        if (one_chance_in(25))
-            ADD_SPELL(SPELL_HELLFIRE_BURST);
         if (one_chance_in(22))
             ADD_SPELL(SPELL_SUMMON_HYDRA);
         if (one_chance_in(20))
@@ -335,40 +309,37 @@ void ghost_demon::init_random_demon()
         if (one_chance_in(15))
             ADD_SPELL(SPELL_DIG);
 
-        fixup_spells(spells, xl, true, false);
+        fixup_spells(spells, xl);
     }
 
-    // Does demon cycle colours?
-    cycle_colours = one_chance_in(10);
-
-    colour = random_colour();
-
+    colour = one_chance_in(10) ? ETC_RANDOM : random_monster_colour();
 }
 
 // Returns the movement speed for a player ghost.  Note that this is a
-// real speed, not a movement cost, so higher is better.
-static int _player_ghost_base_movement_speed()
+// a movement cost, so lower is better.
+//FIXME: deduplicate with player_movement_speed()
+static int _player_ghost_movement_energy()
 {
-    int speed = 10;
+    int energy = 10;
 
     if (int fast = player_mutation_level(MUT_FAST, false))
-        speed += fast + 1;
+        energy -= fast + 1;
     if (int slow = player_mutation_level(MUT_SLOW, false))
-        speed -= slow + 1;
+        energy += slow + 2;
 
     if (you.wearing_ego(EQ_BOOTS, SPARM_RUNNING))
-        speed += 1;
+        energy -= 1;
 
-    // Cap speeds.
-    if (speed < MIN_GHOST_SPEED)
-        speed = MIN_GHOST_SPEED;
-    else if (speed > MAX_GHOST_SPEED)
-        speed = MAX_GHOST_SPEED;
+    if (you.wearing_ego(EQ_ALL_ARMOUR, SPARM_PONDEROUSNESS))
+        energy += 1;
 
-    return speed;
+    if (energy < FASTEST_PLAYER_MOVE_SPEED)
+        energy = FASTEST_PLAYER_MOVE_SPEED;
+
+    return energy;
 }
 
-void ghost_demon::init_player_ghost()
+void ghost_demon::init_player_ghost(bool actual_ghost)
 {
     name   = you.your_name;
     max_hp = ((get_real_hp(false) >= MAX_GHOST_HP)
@@ -395,7 +366,9 @@ void ghost_demon::init_player_ghost()
     set_resist(resists, MR_RES_ASPHYX, you.res_asphyx());
     set_resist(resists, MR_RES_ROTTING, you.res_rotting());
     set_resist(resists, MR_RES_PETRIFY, you.res_petrify());
-    speed          = _player_ghost_base_movement_speed();
+
+    move_energy = _player_ghost_movement_energy();
+    speed       = 10;
 
     damage = 4;
     brand = SPWPN_NORMAL;
@@ -470,11 +443,9 @@ void ghost_demon::init_player_ghost()
     best_skill_level = you.skills[best_skill];
     xl = you.experience_level;
 
-    // These are the same as in mon-data.h.
-    colour = WHITE;
     fly = FL_LEVITATE;
 
-    add_spells();
+    add_spells(actual_ghost);
 }
 
 static colour_t _ugly_thing_assign_colour(colour_t force_colour,
@@ -482,13 +453,15 @@ static colour_t _ugly_thing_assign_colour(colour_t force_colour,
 {
     colour_t colour;
 
-    if (force_colour != BLACK)
+    if (force_colour != COLOUR_UNDEF)
         colour = force_colour;
     else
     {
         do
+        {
             colour = ugly_thing_random_colour();
-        while (force_not_colour != BLACK && colour == force_not_colour);
+        }
+        while (force_not_colour != COLOUR_UNDEF && colour == force_not_colour);
     }
 
     return colour;
@@ -555,7 +528,7 @@ static attack_flavour _ugly_thing_colour_to_flavour(colour_t u_colour)
  * @param very_ugly     Whether the ugly thing is a very ugly thing.
  * @param only_mutate   Whether to mutate the ugly thing's colour away from its
  *                      old colour (the force_colour).
- * @param force_colour  The ugly thing's colour. (Default BLACK = random)
+ * @param force_colour  The ugly thing's colour. (Default COLOUR_UNDEF = random)
  */
 void ghost_demon::init_ugly_thing(bool very_ugly, bool only_mutate,
                                   colour_t force_colour)
@@ -568,6 +541,7 @@ void ghost_demon::init_ugly_thing(bool very_ugly, bool only_mutate,
     ev = stats->ev;
     ac = stats->AC;
     damage = stats->attack[0].damage;
+    move_energy = stats->energy_usage.move;
 
     // If we're mutating an ugly thing, leave its experience level, hit
     // dice and maximum hit points as they are.
@@ -590,7 +564,7 @@ void ghost_demon::init_ugly_thing(bool very_ugly, bool only_mutate,
     // before.
     colour = _ugly_thing_assign_colour(make_low_colour(force_colour),
                                        only_mutate ? make_low_colour(colour)
-                                                   : BLACK);
+                                                   : COLOUR_UNDEF);
 
     // Pick a compatible attack flavour for this colour.
     att_flav = _ugly_thing_colour_to_flavour(colour);
@@ -657,7 +631,7 @@ void ghost_demon::init_dancing_weapon(const item_def& weapon, int power)
     if (power > 100)
         power = 100;
 
-    colour = weapon.colour;
+    colour = weapon.get_colour();
     fly = FL_LEVITATE;
 
     // We want Tukima to reward characters who invest heavily in
@@ -670,7 +644,7 @@ void ghost_demon::init_dancing_weapon(const item_def& weapon, int power)
     // Bardiche:          speed 10, 40+20 damage, 18 AC, 40 HP, 15 EV
     // Dagger:            speed 20,  8+ 4 damage,  4 AC, 20 HP, 20 EV
     // Quick blade:       speed 23, 10+ 5 damage,  5 AC, 14 HP, 22 EV
-    // Cutlass:           speed 18, 14+ 7 damage,  7 AC, 24 HP, 19 EV
+    // Rapier:            speed 18, 14+ 7 damage,  7 AC, 24 HP, 19 EV
 
     xl = 15;
 
@@ -701,7 +675,7 @@ void ghost_demon::init_spectral_weapon(const item_def& weapon,
     if (wpn_skill > 270)
         wpn_skill = 270;
 
-    colour = weapon.colour;
+    colour = weapon.get_colour();
     fly = FL_LEVITATE;
 
     // Hit dice (to hit) scales with weapon skill alone.
@@ -747,7 +721,7 @@ void ghost_demon::init_spectral_weapon(const item_def& weapon,
 // Used when creating ghosts: goes through and finds spells for the
 // ghost to cast.  Death is a traumatic experience, so ghosts only
 // remember a few spells.
-void ghost_demon::add_spells()
+void ghost_demon::add_spells(bool actual_ghost)
 {
     spells.clear();
     mon_spell_slot slot;
@@ -757,9 +731,8 @@ void ghost_demon::add_spells()
     {
         const int chance = max(0, 50 - spell_fail(you.spells[i]));
         const spell_type spell = translate_spell(you.spells[i]);
-        // XXX: this may require a more stringent check if there are
-        // player spells which don't work well as ghost spells
         if (spell != SPELL_NO_SPELL
+            && !(get_spell_flags(spell) & SPFLAG_NO_GHOST)
             && is_valid_mon_spell(spell)
             && x_chance_in_y(chance*chance, 50*50))
         {
@@ -768,11 +741,13 @@ void ghost_demon::add_spells()
         }
     }
 
-    fixup_spells(spells, xl, true, false);
+    fixup_spells(spells, xl);
 
     if (species_genus(species) == GENPC_DRACONIAN
         && species != SP_BASE_DRACONIAN
-        && species != SP_GREY_DRACONIAN)
+        && species != SP_GREY_DRACONIAN
+        // Don't give pillusions extra breath
+        && actual_ghost)
     {
         slot.spell = SPELL_BOLT_OF_DRAINING;
         slot.freq  = 33; // Not too common
@@ -834,8 +809,7 @@ void ghost_demon::find_transiting_ghosts(
     const m_transit_list *mt = get_transit_list(level_id::current());
     if (mt)
     {
-        for (m_transit_list::const_iterator i = mt->begin();
-             i != mt->end() && n > 0; ++i)
+        for (auto i = mt->begin(); i != mt->end() && n > 0; ++i)
         {
             if (i->mons.type == MONS_PLAYER_GHOST)
             {
@@ -900,8 +874,6 @@ bool debug_check_ghosts()
             return false;
         if (ghost.ev > MAX_GHOST_EVASION)
             return false;
-        if (ghost.speed < MIN_GHOST_SPEED || ghost.speed > MAX_GHOST_SPEED)
-            return false;
         if (get_resist(ghost.resists, MR_RES_ELEC) < 0)
             return false;
         if (ghost.brand < SPWPN_NORMAL || ghost.brand > MAX_GHOST_BRAND)
@@ -923,10 +895,6 @@ bool debug_check_ghosts()
         // Only (very) ugly things get non-plain attack types and
         // flavours.
         if (ghost.att_type != AT_HIT || ghost.att_flav != AF_PLAIN)
-            return false;
-
-        // Only Pandemonium lords cycle colours.
-        if (ghost.cycle_colours)
             return false;
 
         // Name validation.
@@ -1054,5 +1022,5 @@ void ghost_demon::init_spellforged_servitor(actor* caster)
         }
     }
 
-    fixup_spells(spells, 150, true, false);
+    fixup_spells(spells, 150);
 }

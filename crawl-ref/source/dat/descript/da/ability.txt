@@ -428,16 +428,6 @@ Enter the Abyss ability
 Overfører dig øjeblikkeligt til Lugonus rige. Bare det at bruge den evne vil
 tappe dit helbred og din energi.
 %%%%
-Draw One ability
-
-Vælg et hvilket som helst spil kort i din oppakning, og træk et kort fra det.
-%%%%
-Peek at Two ability
-
-Kasserer et kort fra et valgfrit spil i din oppakning for at trække to kort fra
-spillet, se på dem og blande dem ind i spillet igen. Spillet bliver indskrevet
-med de to kort, og hvis de er forskellige identificerer det spil.
-%%%%
 Triple Draw ability
 
 Træk tre kort fra en vilkårlig stak i din oppakning, se på dem og vælg, hvilket
@@ -664,7 +654,7 @@ Make lightning spire ability
 
 Bygger et lynspir, som kan udslynge elektricitet, på det valgte sted.
 %%%%
-Make silver statue ability
+Make obsidian statue ability
 
 Bygger en statue med evnen til at hidkalde venlige dæmoner på det valgte sted.
 %%%%

@@ -45,8 +45,6 @@ public:
 
     bool    apply_bleeding;
 
-    int     noise_factor;
-
     // Fetched/Calculated from the attacker, stored to save execution time
     int             ev_margin;
 
@@ -80,11 +78,6 @@ public:
     string     special_damage_message;
     string     aux_attack, aux_verb;
 
-    // Adjusted EV penalties for defender and attacker
-    int             defender_body_armour_penalty;
-    int             defender_shield_penalty;
-    int             attacker_body_armour_penalty;
-    int             attacker_shield_penalty;
     // Combined to-hit penalty from armour and shield.
     int             attacker_armour_tohit_penalty;
     int             attacker_shield_tohit_penalty;
@@ -177,7 +170,6 @@ protected:
     string attack_strength_punctuation(int dmg);
     string evasion_margin_adverb();
 
-    virtual void adjust_noise() = 0;
     virtual void set_attack_verb() = 0;
     virtual void announce_hit() = 0;
 

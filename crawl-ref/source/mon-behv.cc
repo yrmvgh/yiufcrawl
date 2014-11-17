@@ -4,42 +4,36 @@
 **/
 
 #include "AppHdr.h"
-#include "mon-behv.h"
 
-#include "externs.h"
+#include "mon-behv.h"
 
 #include "ability.h"
 #include "act-iter.h"
 #include "areas.h"
 #include "attitude-change.h"
-#include "coord.h"
 #include "coordit.h"
 #include "database.h"
 #include "dgn-overview.h"
 #include "dungeon.h"
-#include "env.h"
-#include "fprop.h"
 #include "exclude.h"
+#include "hints.h"
 #include "itemprop.h"
-#include "libutil.h"
 #include "losglobal.h"
 #include "macro.h"
+#include "message.h"
 #include "mon-act.h"
 #include "mon-death.h"
 #include "mon-movetarget.h"
-#include "mon-pathfind.h"
 #include "mon-speak.h"
 #include "ouch.h"
-#include "random.h"
 #include "religion.h"
+#include "shout.h"
 #include "spl-summoning.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
 #include "traps.h"
-#include "hints.h"
 #include "view.h"
-#include "shout.h"
 
 static void _guess_invis_foe_pos(monster* mon)
 {
@@ -287,7 +281,7 @@ void handle_behaviour(monster* mon)
                 // If the rot would reduce us to <= 0 max HP, attribute the
                 // kill to the monster.
                 if (loss >= you.hp_max)
-                    ouch(loss, mon->mindex(), KILLED_BY_ROTTING);
+                    ouch(loss, KILLED_BY_ROTTING, mon->mid);
 
                 rot_hp(loss);
             }

@@ -6,11 +6,12 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include <string>
-#include <streambuf>
 #include <iostream>
+#include <streambuf>
+#include <string>
 
 #include "enum.h"
+#include "player.h"
 
 // Write the message window contents out.
 void display_message_window();
@@ -26,15 +27,16 @@ void more(bool user_forced = false);
 
 void canned_msg(canned_message_type which_message);
 
+bool simple_monster_message(const monster* mons, const char *event,
+                            msg_channel_type channel = MSGCH_PLAIN,
+                            int param = 0,
+                            description_level_type descrip = DESC_THE);
+void simple_god_message(const char *event, god_type which_deity = you.religion);
+
 class formatted_string;
 
 void formatted_mpr(const formatted_string& fs,
                    msg_channel_type channel = MSGCH_PLAIN, int param = 0);
-
-void formatted_message_history(const string &st,
-                               msg_channel_type channel = MSGCH_PLAIN,
-                               int param = 0,
-                               int wrap_col = 0);
 
 // mpr() an arbitrarily long list of strings
 void mpr_comma_separated_list(const string &prefix,

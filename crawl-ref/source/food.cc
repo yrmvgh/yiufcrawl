@@ -7,56 +7,33 @@
 
 #include "food.h"
 
+#include <cctype>
+#include <cstdio>
+#include <cstring>
 #include <sstream>
 
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
-
-#include "externs.h"
-#include "options.h"
-
-#include "artefact.h"
 #include "butcher.h"
-#include "cio.h"
-#include "clua.h"
-#include "command.h"
 #include "database.h"
 #include "delay.h"
-#include "effects.h"
 #include "env.h"
 #include "godabil.h"
 #include "godconduct.h"
 #include "hints.h"
 #include "invent.h"
-#include "items.h"
-#include "itemname.h"
 #include "itemprop.h"
-#include "item_use.h"
+#include "items.h"
 #include "libutil.h"
 #include "macro.h"
-#include "mgen_data.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-death.h"
-#include "mon-place.h"
-#include "mon-util.h"
 #include "mutation.h"
+#include "options.h"
 #include "output.h"
-#include "player.h"
-#include "player-equip.h"
-#include "player-stats.h"
-#include "potion.h"
-#include "prompt.h"
-#include "random.h"
 #include "religion.h"
 #include "rot.h"
-#include "skills2.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
-#include "transform.h"
 #include "travel.h"
 #include "xom.h"
 
@@ -419,7 +396,7 @@ static void _describe_food_change(int food_increment)
 
     msg += _how_hungry().c_str();
     msg += ".";
-    mpr(msg.c_str());
+    mpr(msg);
 }
 
 bool eat_item(item_def &food)
@@ -1094,7 +1071,7 @@ void finished_eating_message(int food_type)
             string taste = getMiscString("eating_fruit");
             if (taste.empty())
                 taste = "Eugh, buggy fruit.";
-            mprf("%s", taste.c_str());
+            mpr(taste);
             break;
         }
         default:
@@ -1112,7 +1089,7 @@ void finished_eating_message(int food_type)
         string taste = getMiscString("eating_pizza");
         if (taste.empty())
             taste = "Bleh, bug pizza.";
-        mprf("%s", taste.c_str());
+        mpr(taste);
         break;
     }
     default:
@@ -1299,15 +1276,15 @@ bool is_preferred_food(const item_def &food)
     if (you.species == SP_VAMPIRE)
         return is_blood_potion(food);
 
+#if TAG_MAJOR_VERSION == 34
     if (food.base_type == OBJ_POTIONS && food.sub_type == POT_PORRIDGE
         && item_type_known(food)
-#if TAG_MAJOR_VERSION == 34
         && you.species != SP_DJINNI
-#endif
         )
     {
         return !player_mutation_level(MUT_CARNIVOROUS);
     }
+#endif
 
     if (food.base_type != OBJ_FOOD)
         return false;
@@ -1579,7 +1556,7 @@ void handle_starvation()
         if (you.hunger <= 0)
         {
             mprf(MSGCH_FOOD, "You have starved to death.");
-            ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_STARVATION);
+            ouch(INSTANT_DEATH, KILLED_BY_STARVATION);
             if (!you.dead) // if we're still here...
                 set_hunger(HUNGER_DEFAULT, true);
         }

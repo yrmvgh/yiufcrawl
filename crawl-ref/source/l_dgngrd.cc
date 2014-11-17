@@ -5,14 +5,12 @@
 
 #include "AppHdr.h"
 
-#include "clua.h"
-#include "cluautil.h"
 #include "l_libs.h"
 
+#include "cluautil.h"
 #include "coord.h"
 #include "directn.h"
 #include "dungeon.h"
-#include "env.h"
 #include "libutil.h"
 #include "state.h"
 #include "stringutil.h"

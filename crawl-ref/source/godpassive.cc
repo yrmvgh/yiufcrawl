@@ -1,33 +1,30 @@
 #include "AppHdr.h"
-#include <math.h>
 
 #include "godpassive.h"
 
-#include "art-enum.h"
+#include <cmath>
+
 #include "artefact.h"
+#include "art-enum.h"
 #include "branch.h"
 #include "cloud.h"
-#include "coord.h"
 #include "coordit.h"
-#include "defines.h"
 #include "env.h"
 #include "files.h"
 #include "food.h"
 #include "fprop.h"
 #include "goditem.h"
 #include "godprayer.h"
-#include "items.h"
 #include "itemname.h"
 #include "itemprop.h"
-#include "libutil.h"    // testbits
-#include "player.h"
+#include "items.h"
+#include "libutil.h"
 #include "religion.h"
 #include "shout.h"
-#include "skills2.h"
+#include "skills.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
-#include "travel.h"
 
 int chei_stat_boost(int piety)
 {
@@ -278,12 +275,11 @@ void ash_check_bondage(bool msg)
     {
         you.bondage[s] = new_bondage[s];
         map<skill_type, int8_t> boosted_skills = ash_get_boosted_skills(eq_type(s));
-        for (map<skill_type, int8_t>::iterator it = boosted_skills.begin();
-             it != boosted_skills.end(); ++it)
+        for (const auto &entry : boosted_skills)
         {
-            you.skill_boost[it->first] += it->second;
-            if (you.skill_boost[it->first] > 3)
-                you.skill_boost[it->first] = 3;
+            you.skill_boost[entry.first] += entry.second;
+            if (you.skill_boost[entry.first] > 3)
+                you.skill_boost[entry.first] = 3;
         }
 
     }
@@ -847,6 +843,12 @@ void qazlal_element_adapt(beam_type flavour, int strength)
         you.redraw_armour_class = true;
 }
 
+/**
+ * Determine whether a Ru worshipper will attempt to interfere with an attack
+ * against the player.
+ *
+ * @return bool Whether or not whether the worshipper will attempt to interfere.
+ */
 bool does_ru_wanna_redirect(monster* mon)
 {
     return you_worship(GOD_RU)
@@ -856,4 +858,26 @@ bool does_ru_wanna_redirect(monster* mon)
             && !mons_is_firewood(mon)
             && !mon->submerged()
             && !mons_is_projectile(mon->type);
+}
+
+/**
+ * Determine which, if any, action Ru takes on a possible attack.
+ *
+ * @return ru_interference
+ */
+ru_interference get_ru_attack_interference_level()
+{
+    int r = random2(100);
+    int chance = div_rand_round(you.piety, 16);
+
+    // 10% chance of stopping any attack at max piety
+    if (r < chance)
+        return DO_BLOCK_ATTACK;
+
+    // 5% chance of redirect at max piety
+    else if (r < chance + div_rand_round(chance, 2))
+        return DO_REDIRECT_ATTACK;
+
+    else
+        return DO_NOTHING;
 }

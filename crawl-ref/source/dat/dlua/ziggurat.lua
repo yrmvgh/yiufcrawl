@@ -384,7 +384,7 @@ end
 -- Function to find travel-safe squares, excluding closed doors.
 local dgn_passable = dgn.passable_excluding("closed_door")
 
-local function ziggurat_create_monsters(p, mfn)
+local function ziggurat_create_monsters(entry, exit, mfn)
   local depth = you.depth()
   local completed = you.zigs_completed() + 1
   local hd_pool = math.floor(10 + completed * completed + (depth * (depth + 8 * completed )) * math.max(1, completed * 0.75))
@@ -412,16 +412,16 @@ local function ziggurat_create_monsters(p, mfn)
   local function mons_place(point)
     if hd_pool <= 0 then
       return true
-    elseif not dgn.mons_at(point.x, point.y) then
+    elseif not dgn.mons_at(point.x, point.y) and entry ~= point then
       mons_do_place(point)
     end
   end
 
-  dgn.find_adjacent_point(p, mons_place, dgn_passable)
+  dgn.find_adjacent_point(exit, mons_place, dgn_passable)
 end
 
 local function ziggurat_create_loot_at(c)
-  -- Basically, loot grows linearly with depth finished zigs.
+  -- Basically, loot grows linearly with depth & zigs finished.
   local depth = you.depth()
   local completed = you.zigs_completed()
   local nloot = depth + crawl.random2(math.floor(depth * 0.5))
@@ -445,13 +445,16 @@ local function ziggurat_create_loot_at(c)
   end
 
   -- dgn.good_scrolls is a list of items with total weight 1000
-  local good_loot = dgn.item_spec("* no_pickup no_mimic w:7000 / " .. dgn.good_scrolls)
+  local good_loot = dgn.item_spec("* no_pickup no_mimic w:6960 /" ..
+                                  "potion of restore abilities no_pickup no_mimic w:40 /" ..
+                                  dgn.good_scrolls)
   local super_loot = dgn.item_spec("| no_pickup no_mimic w:7000 /" ..
-                                   "potion of experience no_pickup no_mimic w:200 /" ..
-                                   "potion of cure mutation no_pickup no_mimic w:200 /" ..
-                                   "potion of porridge no_pickup no_mimic w:100 /" ..
-                                   "wand of heal wounds no_pickup no_mimic w:10 / " ..
-                                   "wand of hasting no_pickup no_mimic w:10 / " ..
+                                   "potion of experience no_pickup no_mimic w:190 /" ..
+                                   "potion of cure mutation no_pickup no_mimic w:190 /" ..
+                                   "potion of beneficial mutation no_pickup no_mimic w:40 /" ..
+                                   "royal jelly q:3 no_pickup no_mimic w:80 /" ..
+                                   "wand of heal wounds no_pickup no_mimic / " ..
+                                   "wand of hasting no_pickup no_mimic / " ..
                                    dgn.good_scrolls)
 
   local loot_spots = find_free_space(nloot * 4)
@@ -658,7 +661,7 @@ local function ziggurat_furnish(centre, entry, exit)
 
   ziggurat_create_loot_at(lootspot)
 
-  ziggurat_create_monsters(exit, monster_generation.fn)
+  ziggurat_create_monsters(entry, exit, monster_generation.fn)
 
   local function needs_colour(p)
     return not dgn.in_vault(p.x, p.y)

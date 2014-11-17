@@ -7,26 +7,18 @@
 
 #include "rot.h"
 
-#include <algorithm> // sort
+#include <algorithm>
 
 #include "areas.h"
 #include "butcher.h"
 #include "delay.h"
 #include "english.h"
-#include "enum.h"
 #include "env.h"
-#include "hints.h"
 #include "itemprop.h"
 #include "items.h"
-#include "makeitem.h"
-#include "mon-death.h"
-#include "player.h"
 #include "player-equip.h"
-#include "prompt.h"
 #include "religion.h"
 #include "shopping.h"
-#include "stringutil.h"
-
 
 #define TIMER_KEY "timer"
 

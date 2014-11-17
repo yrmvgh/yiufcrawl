@@ -5,27 +5,24 @@
 
 #include "AppHdr.h"
 
+#include "startup.h"
+
 #include "abyss.h"
 #include "arena.h"
 #include "branch.h"
-#include "cio.h"
 #include "command.h"
 #include "coordit.h"
 #include "ctest.h"
 #include "database.h"
 #include "dbg-maps.h"
 #include "dbg-scan.h"
-#include "defines.h"
-#include "dlua.h"
 #include "dungeon.h"
 #include "end.h"
-#include "env.h"
 #include "exclude.h"
 #include "files.h"
 #include "food.h"
 #include "godabil.h"
 #include "godpassive.h"
-#include "hiscores.h"
 #include "hints.h"
 #include "initfile.h"
 #include "itemname.h"
@@ -39,34 +36,30 @@
 #include "misc.h"
 #include "mon-cast.h"
 #include "mon-death.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "newgame.h"
 #include "ng-input.h"
 #include "ng-setup.h"
 #include "notes.h"
-#include "options.h"
 #include "output.h"
 #include "shopping.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-book.h"
 #include "spl-util.h"
 #include "stairs.h"
-#include "startup.h"
 #include "state.h"
 #include "status.h"
 #include "stringutil.h"
 #include "terrain.h"
-#include "tileview.h"
-#include "view.h"
-#include "viewchar.h"
-
 #ifdef USE_TILE
  #include "tilepick.h"
 #endif
 #ifdef USE_TILE_LOCAL
  #include "tilereg-crt.h"
 #endif
+#include "tileview.h"
+#include "viewchar.h"
+#include "view.h"
 
 static void _cio_init();
 
@@ -122,8 +115,7 @@ static void _initialize()
     // Draw the splash screen before the database gets initialised as that
     // may take awhile and it's better if the player can look at a pretty
     // screen while this happens.
-    if (!crawl_state.map_stat_gen && !crawl_state.obj_stat_gen
-        && !crawl_state.test && crawl_state.title_screen)
+    if (!crawl_state.tiles_disabled && crawl_state.title_screen)
     {
         tiles.draw_title();
         tiles.update_title_msg("Loading databases...");
@@ -133,7 +125,7 @@ static void _initialize()
     // Initialise internal databases.
     databaseSystemInit();
 #ifdef USE_TILE_LOCAL
-    if (crawl_state.title_screen)
+    if (!crawl_state.tiles_disabled && crawl_state.title_screen)
         tiles.update_title_msg("Loading spells and features...");
 #endif
 
@@ -141,7 +133,7 @@ static void _initialize()
     init_spell_name_cache();
     init_spell_rarities();
 #ifdef USE_TILE_LOCAL
-    if (crawl_state.title_screen)
+    if (!crawl_state.tiles_disabled && crawl_state.title_screen)
         tiles.update_title_msg("Loading maps...");
 #endif
 
@@ -153,7 +145,9 @@ static void _initialize()
         end(0);
 
 #ifdef USE_TILE_LOCAL
-    if (!Options.tile_skip_title && crawl_state.title_screen)
+    if (!crawl_state.tiles_disabled
+        && !Options.tile_skip_title
+        && crawl_state.title_screen)
     {
         tiles.update_title_msg("Loading complete, press any key to start.");
         tiles.hide_title();

@@ -23,23 +23,17 @@
 #include "hiscores.h"
 #include "itemname.h"
 #include "items.h"
-#include "libutil.h"
 #include "mapmark.h"
 #include "message.h"
 #include "misc.h"
 #include "notes.h"
-#include "options.h"
-#include "ouch.h"
 #include "output.h"
-#include "place.h"
 #include "prompt.h"
-#include "random.h"
 #include "religion.h"
 #include "spl-clouds.h"
 #include "spl-damage.h"
 #include "spl-other.h"
 #include "spl-transloc.h"
-#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
@@ -208,10 +202,9 @@ static void _climb_message(dungeon_feature_type stair, bool going_up,
 
 static void _clear_golubria_traps()
 {
-    vector<coord_def> traps = find_golubria_on_level();
-    for (vector<coord_def>::const_iterator it = traps.begin(); it != traps.end(); ++it)
+    for (auto c : find_golubria_on_level())
     {
-        trap_def *trap = find_trap(*it);
+        trap_def *trap = find_trap(c);
         if (trap && trap->type == TRAP_GOLUBRIA)
             trap->destroy();
     }
@@ -369,9 +362,9 @@ void up_stairs(dungeon_feature_type force_stair, bool wizard)
 
         mprf("In your confused state, you trip and fall back %s.", fall_where);
         if (!feat_is_staircase(stair_find))
-            ouch(1, NON_MONSTER, KILLED_BY_FALLING_THROUGH_GATE);
+            ouch(1, KILLED_BY_FALLING_THROUGH_GATE);
         else
-            ouch(1, NON_MONSTER, KILLED_BY_FALLING_DOWN_STAIRS);
+            ouch(1, KILLED_BY_FALLING_DOWN_STAIRS);
         you.turn_is_over = true;
         return;
     }
@@ -401,9 +394,9 @@ void up_stairs(dungeon_feature_type force_stair, bool wizard)
         mpr("You have escaped!");
 
         if (player_has_orb())
-            ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_WINNING);
+            ouch(INSTANT_DEATH, KILLED_BY_WINNING);
 
-        ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_LEAVING);
+        ouch(INSTANT_DEATH, KILLED_BY_LEAVING);
     }
 
     _player_change_level_reset();
@@ -913,9 +906,9 @@ void down_stairs(dungeon_feature_type force_stair, bool force_known_shaft,
         // Note that this only does damage; it doesn't cancel the level
         // transition.
         if (!feat_is_staircase(stair_find))
-            ouch(1, NON_MONSTER, KILLED_BY_FALLING_THROUGH_GATE);
+            ouch(1, KILLED_BY_FALLING_THROUGH_GATE);
         else
-            ouch(1, NON_MONSTER, KILLED_BY_FALLING_DOWN_STAIRS);
+            ouch(1, KILLED_BY_FALLING_DOWN_STAIRS);
     }
 
     dungeon_feature_type stair_taken = stair_find;

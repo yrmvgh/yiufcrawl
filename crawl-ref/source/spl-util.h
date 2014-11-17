@@ -72,7 +72,6 @@ int spell_effect_noise(spell_type spell);
 const char *get_spell_target_prompt(spell_type which_spell);
 
 bool spell_is_direct_explosion(spell_type spell);
-bool spell_needs_foe(spell_type spell);
 bool spell_harms_target(spell_type spell);
 bool spell_harms_area(spell_type spell);
 int spell_levels_required(spell_type which_spell);
@@ -131,7 +130,7 @@ spell_type zap_type_to_spell(zap_type zap);
 bool spell_is_form(spell_type spell) PURE;
 
 bool spell_is_useless(spell_type spell, bool temp = true,
-                      bool prevent = false) PURE;
+                      bool prevent = false, bool evoked = false) PURE;
 string spell_uselessness_reason(spell_type spell, bool temp = true,
                                 bool prevent = false, bool evoked = false) PURE;
 

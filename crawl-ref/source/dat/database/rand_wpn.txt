@@ -1345,13 +1345,18 @@ w:1
 Testudine
 
 w:1
-Pirate
+Lacertilian
+
+w:1
+Acarine
 
 Beast
 
 Demon
 
 Goblin
+
+Imp
 %%%%
 _monster_name_
 
@@ -1533,6 +1538,8 @@ Cookie Cutter
 ETAOIN SHRDLU
 
 Lorem Ipsum
+
+Plojy
 %%%%
 _plain_weapon_name_
 

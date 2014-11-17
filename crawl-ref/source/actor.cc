@@ -1,26 +1,19 @@
 #include "AppHdr.h"
+
+#include "actor.h"
+
 #include <sstream>
 
 #include "act-iter.h"
-#include "actor.h"
 #include "areas.h"
-#include "artefact.h"
-#include "art-enum.h"
 #include "attack.h"
-#include "coord.h"
 #include "env.h"
 #include "fprop.h"
 #include "itemprop.h"
-#include "libutil.h"
 #include "los.h"
 #include "misc.h"
-#include "mon-abil.h"
 #include "mon-death.h"
-#include "ouch.h"
-#include "player.h"
 #include "religion.h"
-#include "random.h"
-#include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
 #include "terrain.h"
@@ -749,7 +742,7 @@ string actor::describe_props() const
     if (props.size() == 0)
         return "";
 
-    for (CrawlHashTable::const_iterator i = props.begin(); i != props.end(); ++i)
+    for (auto i = props.begin(); i != props.end(); ++i)
     {
         if (i != props.begin())
             oss <<  ", ";

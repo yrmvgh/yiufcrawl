@@ -7,19 +7,18 @@
 
 #include "acquire.h"
 
-#include <cstdlib>
-#include <string.h>
-#include <stdio.h>
 #include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <queue>
 #include <set>
-#include <cmath>
 
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "decks.h"
 #include "dungeon.h"
-#include "externs.h"
 #include "food.h"
 #include "goditem.h"
 #include "itemname.h"
@@ -28,15 +27,11 @@
 #include "item_use.h"
 #include "libutil.h"
 #include "macro.h"
-#include "makeitem.h"
 #include "message.h"
 #include "output.h"
-#include "player.h"
-#include "random.h"
 #include "random-weight.h"
 #include "religion.h"
-#include "rot.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-book.h"
 #include "spl-util.h"
 #include "state.h"
@@ -478,7 +473,7 @@ static int _acquirement_weapon_subtype(bool divine, int & /*quantity*/)
             continue;
         item_considered.sub_type = i;
 
-        // Can't get blessed blades through acquirement, only from TSO
+        // Can't get blessed weapons through acquirement, only from TSO
         if (is_blessed(item_considered))
             continue;
 
@@ -614,7 +609,9 @@ static int _acquirement_staff_subtype(bool /*divine*/, int & /*quantity*/)
     int result = 0;
 #if TAG_MAJOR_VERSION == 34
     do
+    {
         result = random2(NUM_STAVES);
+    }
     while (result == STAFF_ENCHANTMENT || result == STAFF_CHANNELING);
 #else
     result = random2(NUM_STAVES);
@@ -658,7 +655,9 @@ static int _acquirement_rod_subtype(bool /*divine*/, int & /*quantity*/)
 {
     int result;
     do
+    {
         result = random2(NUM_RODS);
+    }
     while (player_mutation_level(MUT_NO_LOVE)
               && (result == ROD_SWARM || result == ROD_SHADOWS)
 #if TAG_MAJOR_VERSION == 34
@@ -676,9 +675,9 @@ static int _acquirement_misc_subtype(bool /*divine*/, int & /*quantity*/)
 {
     // Total weight if none have been seen is 100.
     int result = random_choose_weighted(           // Decks given lowest weight.
-                                                   2, MISC_DECK_OF_WONDERS,
-                                                   3, MISC_DECK_OF_CHANGES,
-                                                   3, MISC_DECK_OF_DEFENCE,
+                                                   1, MISC_DECK_OF_WONDERS,
+                                                   2, MISC_DECK_OF_CHANGES,
+                                                   2, MISC_DECK_OF_DEFENCE,
                                                    // The player might want
                                                    // multiple of these.
     (you.seen_misc[MISC_LAMP_OF_FIRE] ?       8 : 15), MISC_LAMP_OF_FIRE,
@@ -688,12 +687,13 @@ static int _acquirement_misc_subtype(bool /*divine*/, int & /*quantity*/)
                                                    // These have charges, so
                                                    // give them a constant
                                                    // weight.
-    (player_mutation_level(MUT_NO_LOVE) ?     0 :  8), MISC_BOX_OF_BEASTS,
-    (player_mutation_level(MUT_NO_LOVE) ?     0 :  8), MISC_SACK_OF_SPIDERS,
+    (player_mutation_level(MUT_NO_LOVE) ?     0 :  7), MISC_BOX_OF_BEASTS,
+    (player_mutation_level(MUT_NO_LOVE) ?     0 :  7), MISC_SACK_OF_SPIDERS,
+    (player_mutation_level(MUT_NO_LOVE) ?     0 :  7), MISC_PHANTOM_MIRROR,
                                                    // The player never needs
                                                    // more than one.
-    (you.seen_misc[MISC_DISC_OF_STORMS] ?     0 :  8), MISC_DISC_OF_STORMS,
-    (you.seen_misc[MISC_LANTERN_OF_SHADOWS] ? 0 :  8), MISC_LANTERN_OF_SHADOWS,
+    (you.seen_misc[MISC_DISC_OF_STORMS] ?     0 :  7), MISC_DISC_OF_STORMS,
+    (you.seen_misc[MISC_LANTERN_OF_SHADOWS] ? 0 :  7), MISC_LANTERN_OF_SHADOWS,
                                                    0);
 
     // Give a crystal ball based on both evocations and either spellcasting or
@@ -1025,7 +1025,7 @@ static bool _do_book_acquirement(item_def &book, int agent)
     case BOOK_RANDART_LEVEL:
     {
         book.sub_type  = BOOK_RANDART_LEVEL;
-        if (!make_book_level_randart(book, level, -1, owner))
+        if (!make_book_level_randart(book, level, owner))
             return false;
         break;
     }
@@ -1550,7 +1550,7 @@ bool acquirement(object_class_type class_wanted, int agent,
             if (i == ARRAYSZ(acq_classes) / 2 - 1 || i == ARRAYSZ(acq_classes) - 1)
             {
                 line.erase(0, 1);
-                mpr(line.c_str());
+                mpr(line);
                 line.clear();
             }
         }

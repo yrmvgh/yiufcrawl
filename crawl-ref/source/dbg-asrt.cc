@@ -5,13 +5,11 @@
 
 #include "AppHdr.h"
 
-#include <errno.h>
-#include <signal.h>
+#include <cerrno>
+#include <csignal>
 
 #include "abyss.h"
 #include "chardump.h"
-#include "clua.h"
-#include "coord.h"
 #include "coordit.h"
 #include "crash.h"
 #include "dbg-scan.h"
@@ -20,24 +18,19 @@
 #include "dlua.h"
 #include "env.h"
 #include "files.h"
+#include "hiscores.h"
 #include "initfile.h"
 #include "itemname.h"
 #include "jobs.h"
-#include "libutil.h"
 #include "mapmark.h"
 #include "message.h"
-#include "monster.h"
-#include "mon-util.h"
 #include "mutation.h"
-#include "options.h"
 #include "religion.h"
-#include "skills2.h"
-#include "spl-cast.h"
+#include "skills.h"
 #include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
 #include "travel.h"
-#include "hiscores.h"
 #include "version.h"
 #include "view.h"
 #include "zotdef.h"
@@ -213,6 +206,9 @@ static void _dump_player(FILE *file)
     for (size_t i = 0; i < NUM_SKILLS; ++i)
     {
         const skill_type sk = skill_type(i);
+        if (is_useless_skill(sk))
+            continue;
+
         int needed_min = 0, needed_max = 0;
         if (sk >= 0 && you.skills[sk] <= 27)
             needed_min = skill_exp_needed(you.skills[sk], sk);

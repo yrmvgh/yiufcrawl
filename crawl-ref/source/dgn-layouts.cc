@@ -10,10 +10,8 @@
 #include "coord.h"
 #include "coordit.h"
 #include "dungeon.h"
-#include "libutil.h"
 #include "stringutil.h"
 #include "terrain.h"
-#include "traps.h"
 
 static bool _find_forbidden_in_area(dgn_region& area, unsigned int mask);
 static int _count_antifeature_in_box(int x0, int y0, int x1, int y1,
@@ -98,10 +96,10 @@ void dgn_build_basic_level()
         upstairs.push_back(begin);
     }
 
-    for (vector<coord_def>::iterator pathstart = upstairs.begin();
+    for (auto pathstart = upstairs.begin();
          pathstart != upstairs.end(); pathstart++)
     {
-        vector<coord_def>::iterator pathend = pathstart;
+        auto pathend = pathstart;
         pathend++;
         for (; pathend != upstairs.end(); pathend++)
             join_the_dots(*pathstart, *pathend, MMT_VAULT);

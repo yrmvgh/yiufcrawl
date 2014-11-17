@@ -6,22 +6,18 @@
 #include "AppHdr.h"
 
 #include "l_libs.h"
-#include "l_defs.h"
+
+#include <algorithm>
 
 #include "cluautil.h"
 #include "coord.h"
-#include "defines.h"
 #include "env.h"
-#include "libutil.h"
-#include "mon-info.h"
+#include "l_defs.h"
+#include "libutil.h" // map_find
 #include "mon-book.h"
-#include "mon-util.h"
-#include "player.h"
 #include "spl-util.h"
 #include "stringutil.h"
 #include "transform.h"
-
-#include <algorithm>
 
 #define MONINF_METATABLE "monster.info"
 
@@ -56,9 +52,15 @@ MIRET1(string, mname, mname.c_str())
 MIRET1(number, type, type)
 MIRET1(number, base_type, base_type)
 MIRET1(number, number, number)
-MIRET1(number, colour, colour)
 MIRET1(boolean, has_known_ranged_attack, is(MB_RANGED_ATTACK))
 MIRET1(string, speed_description, speed_description().c_str())
+
+static int moninf_get_colour(lua_State *ls)
+{
+    MONINF(ls, 1, mi);
+    lua_pushnumber(ls, mi->colour());
+    return 1;
+}
 
 #define MIRES1(field, resist) \
     static int moninf_get_##field(lua_State *ls) \
@@ -99,14 +101,14 @@ LUAFN(moninf_get_is)
         if (mi_flags.empty())
             _init_mi_flags();
         string flag = luaL_checkstring(ls, 2);
-        const map<string, int>::const_iterator f = mi_flags.find(lowercase(flag));
-        if (f == mi_flags.end())
+        if (int *flagnum = map_find(mi_flags, lowercase(flag)))
+            num = *flagnum;
+        else
         {
             luaL_argerror(ls, 2, (string("no such moninf flag: '")
                                   + flag + "'").c_str());
             return 0;
         }
-        num = f->second;
     }
     if (num < 0 || num >= NUM_MB_FLAGS)
     {
@@ -286,9 +288,10 @@ LUAFN(moninf_get_status)
         PLUARET(string, comma_separated_line(status.begin(),
                                              status.end(), ", ").c_str());
     }
-    for (vector<string>::const_iterator i = status.begin(); i != status.end(); ++i)
-        if (*i == which)
+    for (const auto &st : status)
+        if (st == which)
             PLUARET(boolean, true);
+
     PLUARET(boolean, false);
 }
 

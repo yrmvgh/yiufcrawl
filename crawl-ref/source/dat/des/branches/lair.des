@@ -18,29 +18,25 @@ function wad_woods_setup(e, uniq, weight, mist, delaynum, sizenum, spreadnum)
     e.mons("plant")
     e.mons("bush")
     e.mons("fungus")
-    if you.branch() == "Forest" then
-        e.mons("spriggan w:4 / w:4 spriggan rider / w:2 spriggan druid"
-                .. " / w:3 spriggan air mage / w:3 spriggan berserker")
-        e.mons("wind drake / w:5 dryad / w:1 shambling mangrove")
-        e.ftile(".t+%*|q01234567COGTU = floor_lair")
+
+    if you.branch() == "Lair" then
+       e.mons("spriggan")
+       e.mons("wolf / black bear w:4 / yak w:2")
     else
-        if you.branch() == "Lair" then
-           e.mons("spriggan")
-           e.mons("wolf / black bear w:4 / yak w:2")
+        if you.absdepth() >= 14 then
+            e.mons("centaur warrior / hill giant")
+            e.mons("orange rat")
+        elseif you.absdepth() >= 8 then
+            e.mons("centaur / troll")
+            e.mons("porcupine")
         else
-            if you.absdepth() >= 14 then
-                e.mons("centaur warrior / hill giant")
-                e.mons("orange rat")
-            elseif you.absdepth() >= 8 then
-                e.mons("centaur / troll")
-                e.mons("porcupine")
-            else
-                e.mons("gnoll / ogre w:1")
-                e.mons("green rat")
-            end
+            e.mons("gnoll / ogre w:1")
+            e.mons("river rat")
         end
-        e.ftile(".t+%*|q01234567COGTU = floor_grass")
     end
+
+    e.ftile(".t+%*|q01234567COGTU = floor_grass")
+
     e.kfeat("O = shallow_water")
     if mist then
         e.lua_marker("O", fog_machine { pow_min = 3, pow_max = 7, delay = delaynum,
@@ -216,7 +212,7 @@ ORIENT:  float
 MONS:    w:100 nothing / w:40 yak / sheep / death yak
 MONS:    w:100 nothing / w:20 iguana / w:20 crocodile /\
          komodo dragon / basilisk w:5
-MONS:    green rat / porcupine / orange rat / quokka / rat
+MONS:    river rat / porcupine / orange rat / quokka / rat
 MONS:    w:90 nothing / w:30 giant frog / blink frog / spiny frog
 SHUFFLE: 1234
 KFEAT:   O = enter_lair
@@ -296,7 +292,7 @@ MONS:   plant / bush w:2 / fungus w:2
 MONS:   crocodile / basilisk w:5
 MONS:   yak
 MONS:   sheep
-MONS:   rat w:2 / porcupine / green rat / quokka w:1
+MONS:   rat w:2 / porcupine / river rat / quokka w:1
 SUBST:  . = .:400 tt111123355
 SUBST:  ' = .:200 tt111123355
 SUBST:  3 : 334
@@ -427,7 +423,7 @@ ENDMAP
 NAME:   due_lair_maze_entry_diamond
 TAGS:   lair_entry
 MONS:   plant / fungus
-MONS:   w:100 bat / w:100 rat / w:30 green rat / crocodile /\
+MONS:   w:100 bat / w:100 rat / w:30 river rat / crocodile /\
         yak / nothing
 ORIENT: float
 SUBST:  . = G:20 B:15 .
@@ -467,7 +463,7 @@ NAME:   grunt_lair_entry_elf_guard_hut
 ORIENT: float
 TAGS:   lair_entry transparent
 MONS:   plant / fungus / nothing
-MONS:   w:100 bat / w:100 rat / w:30 green rat / crocodile / yak / w:20 nothing
+MONS:   w:100 bat / w:100 rat / w:30 river rat / crocodile / yak / w:20 nothing
 MONS:   patrolling deep elf fighter
 KFEAT:  O = enter_lair
 SUBST:  D = 1:5 2:2 .
@@ -510,7 +506,7 @@ NAME:    lemuel_ratsnest
 ORIENT:  northeast
 DEPTH:   D:5-8, Lair
 SHUFFLE: 23, 34
-MONS:    rat, rat / green rat w:5, green rat, orange rat
+MONS:    rat, rat / river rat w:5, river rat, orange rat
 ITEM:    slice of pizza w:80 / fruit
 SUBST:   d = d$..., e = d$
 : if you.branch() == "Lair" then
@@ -941,9 +937,9 @@ MAP
   """""'''"""""
  """"'''''''""""
  """'''```'''"""
- """''`...`''"""
+ """''`.%.`''"""
 """''`.222.`''"""
-"""''`%212.`''"""
+"""''`%212%`''"""
 """''`.222.`''"""
  """''`...`''"""
  """'''```'''"""
@@ -952,23 +948,6 @@ MAP
    """""""""""
     """""""""
        """
-ENDMAP
-
-##############################################################################
-# Goldilocks: three bears
-#
-NAME:   minmay_lair_goldilocks
-WEIGHT: 5
-DEPTH:  Lair
-MONS:   black bear, polar bear
-ITEM:   potion of porridge
-MAP
-.......
-.xxxxx.
-.xdddx.
-.x211x.
-.xx+xx.
-.......
 ENDMAP
 
 ###############################################################################
@@ -1575,7 +1554,7 @@ NAME:   kennysheep_rathole
 TAGS:   no_monster_gen
 DEPTH:  Lair
 ORIENT: float
-MONS:   green rat band, orange rat, green rat / rat
+MONS:   river rat band, orange rat, river rat / rat
 KMONS:  P = plant / fungus w:2
 KITEM:  d = slice of pizza / beef jerky / bread ration
 NSUBST: W = 1:1 / 2:P / 2:2 / 2:3 / 2:d
@@ -1596,7 +1575,7 @@ NAME:   kennysheep_abandoned_house
 TAGS:   ruin
 DEPTH:  Lair
 ORIENT: float
-MONS:   green rat / rat, orange rat, rat
+MONS:   river rat / rat, orange rat, rat
 KITEM:  d = slice of pizza / beef jerky / bread ration
 SUBST:  d = d123..., 2 = 2.
 NSUBST: 1 = *:1
@@ -2050,7 +2029,7 @@ KMONS:   * = spriggan rider / faun w:4
 ITEM:    fruit q:1
 KITEM:   9* = *
 KFEAT:   9 = W
-SHUFFLE: wW'"^~-_9 / ''GG''''* / '''0''''% / ``````22G
+SHUFFLE: wW'"-~-_9 / ''GG''''* / '''0''''% / ``````22G
 SUBST:   t = t.., '. = 1:49 d:36 .:405, W = WW., "w = wwW
 NSUBST:  2 = 3:2 / 2:3 / 1:4 / *:.
 MAP
@@ -2062,9 +2041,9 @@ MAP
  t..www..'.......t
 tt...w"w....'....tt
 t.....ww-._.......t
-@......-~W^_......@
+@......-~W-_......@
 @....'..W9W..'....@
-@......_^W~-......@
+@......_-W~-......@
 t.....'._.-ww.....t
 tt.........w"w...tt
  t.......'..www..t
@@ -2878,7 +2857,7 @@ KMONS:   J = death yak
 # some non-set monsters right outside the vault to make sure you don't miss
 # that there's a vault here maybe
 KMONS:   K = crocodile
-KMONS:   L = green rat
+KMONS:   L = river rat
 KMONS:   M = wolf
 KMONS:   N = wyvern
 KMONS:   P = plant w:12 / fungus w:8 / nothing
@@ -2981,7 +2960,7 @@ ENDMAP
 NAME:    hangedman_lair_tendril_chambers
 PLACE:   Lair:$
 ORIENT:  float
-MONS:    worker ant w:16 / adder w:24 / green rat w:2
+MONS:    worker ant w:16 / adder w:24 / river rat w:2
 MONS:    water moccasin / spider w:6, yellow wasp / wyvern w:6
 MONS:    spiny frog, black mamba, red wasp / redback w:5, wolf spider
 KMONS:   8 = guardian serpent

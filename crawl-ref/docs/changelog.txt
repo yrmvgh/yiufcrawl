@@ -1,4 +1,4 @@
-Stone Soup 0.16 (up to 0.16-a0-1701-gf5abbb0)
+Stone Soup 0.16 (up to 0.16-a0-2092-g20dfb3b)
 --------------------------------------------
 * New gods: Gozag Ym Sagoz the Greedy and Ru the Awakened.
 
@@ -25,14 +25,19 @@ Character
   spell memorized.
 * Wanderers can start with one elemental evoker or a box of beasts instead of
   a wand.
+* Wanderer starting equipment is noted in the game log.
 * Felids no longer have a jump-attack ability, which has been removed.
+* Worshippers of Kikubaaqudgha and Nemelex Xobeh will now have titles unique
+  to those gods displayed when their highest skill is Necromancy or Evocations
+  (respectively).
+* Removed Death Knight background.
 
 Monsters
 --------
 * The Great Lords of Pandemonium (Cerebov, et al) will reappear on later floors
   of Pandemonium if their rune is stolen, unless and until they are slain.
 * The Serpent of Hell is considerably tougher; it now has three heads which
-  can attack and/or breathe separately and can also summon backup.
+  can attack and/or breathe separately, and can also summon backup.
 * Mnoleg now has more and more exciting attack types.
 * Mimics now cackle and vanish (forever) when discovered.
 * Mermaids have been renamed to sirens; sirens have been renamed to merfolk
@@ -41,6 +46,8 @@ Monsters
 * Changed monster: iron devils have been upgraded to rust devils, which do less
   damage but corrode with their touch.
 * New monsters:
+  - Caustic shrikes, appearing in Depths. Metallic birds that travel in flocks,
+    attacking with acid-dripping claws that sear through armour & flesh alike.
   - Elemental wellsprings, appearing in Cocytus. They fire powerful waves of
     water which produce hostile water elementals - but deplete their own
     'health' in the process.
@@ -54,12 +61,14 @@ Monsters
     howl to alert other guards.
   - Death scarabs, swarming insects appearing in Tomb. They trail miasma and
     bite to drain life, speed, and skill. Their bite can also apply rN-.
+* Silver statues have been renamed to obsidian statues.
 * The "misshapen and mutated" status (from Malmutate and the new Irradiate
   spell) is now temporary, but more significant.
 * Player ghosts & spellforged servitors can now have more than six spells.
 * Player ghosts now have their weapon brands displayed.
 * Xtahua's breath now creates a cloud of flames, like red draconians'.
 * Tiamat can now be any colour of draconian, except grey.
+* Fannar can now cast Condensation Shield.
 * Frederick is now a demigod.
 * Sense invisibility has been simplified; monsters that had it now have see
   invisible + blindness immunity instead.
@@ -68,10 +77,10 @@ Monsters
 Spells
 ------
 * New spells:
-    - Hydra Form (L6 Transmutation), a short-duration form that attacks all
-      adjacent foes & devours slain foes for nutrition and healing.
-    - Irradiate (L5 Transmutation/Conjuration), which deals heavy damage &
-      malmutates nearby enemies, but also contaminates the caster.
+  - Hydra Form (L6 Transmutation), a short-duration form that attacks all
+    adjacent foes & devours slain foes for nutrition and healing.
+  - Irradiate (L5 Transmutation/Conjuration), which deals heavy damage &
+    malmutates nearby enemies, but also contaminates the caster.
 * Ice, Dragon, Tree and Fungus forms no longer meld octopode rings.
 * Dragon Form now provides a spell power & success chance enhancer for Dragon's
   Call.
@@ -94,6 +103,8 @@ Items
     in place of rElec.
   - Quicksilver Dragon Armour: slightly heavier than Mottled Dragon Armour,
     with much better AC & MR+, but unenchantable. (Always +0.)
+  - Phantom mirrors: one-use evocables that create a temporary friendly clone
+    of targeted monsters.
 * Regeneration has been moved from rings to amulets.
 * Corrosion resistance can now occur on artefact armour.
 * Scale mail now only has 10 ER, down from 11.
@@ -103,15 +114,71 @@ Items
   - The Hat of the Alchemist is now -2 (rElec rPois rF rC rN MR rMut rCorr).
 * All food other than rations, chunks, and royal jellies now takes one turn
   to eat.
+* Potions of blood no longer give nutrition for non-vampires.
 * All short blades now do piercing damage.
+* The Box of Beasts and Rod of Shadows are now considerably stronger.
 * Renamed items:
-    - Cutlasses are now rapiers.
-    - Bastard swords are now double swords.
-    - Claymores are now triple swords.
-    - Cloaks of darkness are now cloaks of invisibility.
-* Removed items
-    - Boots of jumping.
-    - Potions of coagulated blood.
+  - Cutlasses are now rapiers.
+  - Bastard swords are now double swords.
+  - Claymores are now triple swords.
+  - Cloaks of darkness are now cloaks of invisibility.
+* Removed items:
+  - Boots of jumping.
+  - Potions of porridge and coagulated blood.
+  - Blessed Blades.
+
+
+Cards
+-----
+* All characters can now evoke decks from the inventory.
+* If one's god would disapprove of a card's effects, they will block the
+  blasphemous effects in question as it is drawn.
+* New cards.
+  - Elements, which summons three beasts of the four elements.
+  - Rangers, which summons two or three ranged-missile users.
+  - Placid Magic, which removes all status effects and applies heavy antimagic
+    to all creatures in sight, including the user.
+* Revamped destruction cards:
+  - Storm has replaced rain and swiftness with summoning air elementals,
+    an elemental wellspring, or thunder clouds alongside a wind blast.
+  - Pain has lost Torment and can now summon a flayed ghost to instantly apply
+    its flaying effect to living targets.
+  - Venom has lost Sting for earlier Venom Bolts and Poison Arrows, but at low
+    power will briefly make the user vulnerable to poison.
+  - Degeneration now applies a temporary malmutated effect to targets alongside
+    the polymorphing targets down HD.
+  - Vitriol now can provide Corrosive Bolts at higher power.
+* Revamped battle cards:
+  - Potion has strictly-negative effects taken out, and will also apply the same
+    effects to any allies if possible.
+  - Blade now solely gives a cleaving status (which does not stack with the
+    reaching of polearms or the original cleaving of axes, but will otherwise
+    apply to all forms of weapon / unarmed attack.)
+  - Helm can apply Stoneskin or Shroud of Golubria effects to allies at high
+    power.
+  - Elixir gives a small amount of temporary vitality to your allies, alongside
+    its restorative effects to the user.
+  - Shadow gives the darkness status (shrinking LOS) instead of invisibility.
+  - Dowsing is now significantly stronger in duration and range.
+* Revamped summoning cards:
+  - Pentagram now summons a more constrained set of demons (stronger at
+    lower power and weaker at high power), and an additional accompanying
+    hell hound, rakshasa, or pandemonium lord.
+  - Dance has replaced its short swords with quarterstaves and its dire flails
+    with executioner's axes. It also has a chance for summoning a randart.
+  - Foxfire has lost butterflies and gained ravens.
+  - Repulsiveness can now summon both an ugly thing and a very ugly thing.
+* Revamped emergency cards:
+  - Cloud surrounds all hostile monsters with variating types of clouds,
+    instead of randomly scattering clouds in all valid places in sight.
+  - Shaft now randomly places shafts under other monsters as well.
+  - Tomb can now raise rock walls on stone stairs and deep water.
+  - Velocity will always apply a overall-positive effect (with allies present).
+  - Banshee now drains targets alongside the fear effect.
+* Dowsing is no longer in the deck of battle.
+* Decks of war have lost their set of destruction cards.
+* The Cloud card has moved from decks of destruction to decks of emergency.
+* Removed cards: Metamorphosis, Herd, Bones.
 
 Gods
 ----
@@ -147,6 +214,11 @@ Gods
   effects of blurry vision mutations.
 * Dithmenos now specifically hates fire; Corona and related effects are now
   permitted to Dithmenos's worshippers.
+* Nemelex Xobeh:
+  - Draw One and Peek at Two are no more.
+  - Cards have been changed thoroughly over once more.
+  - Nemelex now grants destruction decks again.
+* Okawaru no longer supports corpse sacrifice.
 * TSO's Divine Shield no longer benefits from Shields skill.
 * Zin:
    - Hell effect protection halved; now capping out at 50%, down from 100%.

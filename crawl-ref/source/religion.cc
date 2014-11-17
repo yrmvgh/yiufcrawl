@@ -8,82 +8,61 @@
 #include "religion.h"
 
 #include <algorithm>
-#include <sstream>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <functional>
-
-#include "externs.h"
+#include <sstream>
 
 #include "ability.h"
-#include "act-iter.h"
-#include "branch.h"
 #include "acquire.h"
+#include "act-iter.h"
 #include "areas.h"
-#include "artefact.h"
 #include "attitude-change.h"
-#include "beam.h"
+#include "branch.h"
 #include "chardump.h"
 #include "coordit.h"
+#include "dactions.h"
 #include "database.h"
 #include "decks.h"
 #include "delay.h"
 #include "describe-god.h"
-#include "dactions.h"
 #include "dgnevent.h"
 #include "dlua.h"
-#include "effects.h"
 #include "english.h"
 #include "env.h"
-#include "enum.h"
 #include "exercise.h"
-#include "files.h"
 #include "godabil.h"
-#include "goditem.h"
 #include "godcompanions.h"
+#include "goditem.h"
 #include "godpassive.h"
 #include "godprayer.h"
 #include "godwrath.h"
+#include "hints.h"
 #include "hiscores.h"
 #include "invent.h"
 #include "itemprop.h"
-#include "item_use.h"
 #include "items.h"
 #include "libutil.h"
 #include "makeitem.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
-#include "mon-behv.h"
-#include "mon-gear.h"
 #include "mon-place.h"
-#include "mon-util.h"
-#include "mgen_data.h"
 #include "mutation.h"
 #include "notes.h"
-#include "options.h"
-#include "ouch.h"
 #include "output.h"
-#include "player.h"
 #include "player-stats.h"
 #include "prompt.h"
-#include "rot.h"
-#include "shopping.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
 #include "spl-miscast.h"
-#include "spl-selfench.h"
 #include "sprint.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
 #include "transform.h"
-#include "hints.h"
 #include "view.h"
-#include "xom.h"
 
 #ifdef DEBUG_RELIGION
 #    define DEBUG_DIAGNOSTICS
@@ -306,8 +285,8 @@ const char* god_gain_power_messages[NUM_GODS][MAX_GOD_ABILITIES] =
       "call in reinforcements",
       "" },
     // Nemelex
-    { "draw cards from decks in your inventory",
-      "peek at the top two cards from a deck",
+    { "",
+      "",
       "choose one out of three cards",
       "deal four cards at a time",
       "order the top five cards of a deck, losing the rest" },
@@ -451,8 +430,8 @@ const char* god_lose_power_messages[NUM_GODS][MAX_GOD_ABILITIES] =
       "call in reinforcements",
       "" },
     // Nemelex
-    { "draw cards from decks in your inventory",
-      "peek at cards",
+    { "",
+      "",
       "choose one out of three cards",
       "deal four cards at a time",
       "stack decks" },
@@ -591,7 +570,9 @@ god_type random_god(bool available)
     god_type god;
 
     do
+    {
         god = static_cast<god_type>(random2(NUM_GODS - 1) + 1);
+    }
     while (available && is_unavailable_god(god));
 
     return god;
@@ -1402,12 +1383,11 @@ int yred_random_servants(unsigned int threshold, bool force_hostile)
     if (!force_hostile && _yred_high_level_servant(mon_type))
     {
         int current_high_level = 0;
-        for (map<mid_t, companion>::iterator i = companion_list.begin();
-             i != companion_list.end(); ++i)
+        for (auto &entry : companion_list)
         {
-            monster* mons = monster_by_mid(i->first);
+            monster* mons = monster_by_mid(entry.first);
             if (!mons)
-                mons = &i->second.mons.mons;
+                mons = &entry.second.mons.mons;
             if (_yred_high_level_servant(mons->type))
                 current_high_level++;
         }
@@ -1476,7 +1456,8 @@ static bool _give_nemelex_gift(bool forced = false)
     {
 
         misc_item_type gift_type = random_choose_weighted(
-                                        8, MISC_DECK_OF_WAR,
+                                        4, MISC_DECK_OF_WAR,
+                                        4, MISC_DECK_OF_DESTRUCTION,
                                         2, MISC_DECK_OF_ESCAPE,
                                         0);
 
@@ -1500,11 +1481,11 @@ static bool _give_nemelex_gift(bool forced = false)
             //   160:  23.00%, 49.00%, 28.00%
             //   180:  14.00%, 54.50%, 31.50%
             //   200:   5.00%, 60.00%, 35.00%
-            int common_weight = 95 - (90 * you.piety / MAX_PIETY);
-            int rare_weight   = 5  + (55 * you.piety / MAX_PIETY);
-            int legend_weight = 0  + (35 * you.piety / MAX_PIETY);
+            const int common_weight = 95 - (90 * you.piety / MAX_PIETY);
+            const int rare_weight   = 5  + (55 * you.piety / MAX_PIETY);
+            const int legend_weight = 0  + (35 * you.piety / MAX_PIETY);
 
-            deck_rarity_type rarity = random_choose_weighted(
+            const deck_rarity_type rarity = random_choose_weighted(
                 common_weight, DECK_RARITY_COMMON,
                 rare_weight,   DECK_RARITY_RARE,
                 legend_weight, DECK_RARITY_LEGENDARY,
@@ -1512,8 +1493,7 @@ static bool _give_nemelex_gift(bool forced = false)
 
             item_def &deck(mitm[thing_created]);
 
-            deck.special = rarity;
-            deck.colour  = deck_rarity_to_colour(rarity);
+            deck.deck_rarity = rarity;
             deck.flags |= ISFLAG_KNOW_TYPE;
 
             simple_god_message(" grants you a gift!");
@@ -1741,13 +1721,12 @@ static spell_type _vehumet_find_spell_gift(set<spell_type> excluded_spells)
     spell_type spell = SPELL_NO_SPELL;
     int total_weight = 0;
     int this_weight = 0;
-    for (set<spell_type>::iterator it = eligible_spells.begin();
-         it != eligible_spells.end(); ++it)
+    for (auto elig : eligible_spells)
     {
-        this_weight = _vehumet_weighting(*it);
+        this_weight = _vehumet_weighting(elig);
         total_weight += this_weight;
         if (x_chance_in_y(this_weight, total_weight))
-            spell = *it;
+            spell = elig;
     }
     return spell;
 }
@@ -1980,8 +1959,7 @@ bool do_god_gift(bool forced)
                 {
                     you.vehumet_gifts = offers;
                     string prompt = " offers you knowledge of ";
-                    for (set<spell_type>::iterator it = offers.begin();
-                         it != offers.end(); ++it)
+                    for (auto it = offers.begin(); it != offers.end(); ++it)
                     {
                         if (it != offers.begin())
                         {
@@ -3129,11 +3107,11 @@ void nemelex_death_message()
     const piety_gain_t piety_gain = static_cast<piety_gain_t>
             (min(random2(you.piety) / 30, (int)PIETY_LOTS));
 
-    mprf("%s", _sacrifice_message(nemelex_death_glow_message(piety_gain),
-               "Your body", you.backlit(), false, piety_gain).c_str());
+    mpr(_sacrifice_message(nemelex_death_glow_message(piety_gain),
+                           "Your body", you.backlit(), false, piety_gain));
 }
 
-bool god_hates_attacking_friend(god_type god, const actor *fr)
+bool god_hates_attacking_friend(god_type god, const monster *fr)
 {
     if (!fr || fr->kill_alignment() != KC_FRIENDLY)
         return false;
@@ -3409,7 +3387,11 @@ void join_religion(god_type which_god, bool immediate)
         _make_empty_vec(you.props["current_purity_sacrifice"], SV_INT);
         _make_empty_vec(you.props["current_arcane_sacrifices"], SV_INT);
         you.props["ru_progress_to_next_sacrifice"] = 0;
-        you.props["ru_sacrifice_delay"] = 50; // offer the first sacrifice fast
+        // offer the first sacrifice faster than normal;
+        int delay = 50;
+        if (crawl_state.game_is_sprint())
+          delay /= SPRINT_MULTIPLIER;
+        you.props["ru_sacrifice_delay"] = delay;
     }
     else
     {
@@ -3637,7 +3619,7 @@ void join_religion(god_type which_god, bool immediate)
         else
             simple_god_message(" waives the service fee.");
 
-        for (int i = 0; i < MAX_GOD_ABILITIES; ++i)
+        for (size_t i = 0; i < abilities.size(); ++i)
         {
             if (you.gold >= get_gold_cost(abilities[i])
                 && _abil_chg_message(god_gain_power_messages[you.religion][i],
@@ -3908,8 +3890,7 @@ bool god_likes_fresh_corpses(god_type god)
     if (god == GOD_LUGONU)
         return !player_in_branch(BRANCH_ABYSS);
 
-    return god == GOD_OKAWARU
-           || god == GOD_MAKHLEB
+    return god == GOD_MAKHLEB
            || god == GOD_TROG;
 }
 
@@ -4080,12 +4061,12 @@ void handle_god_time(int time_delta)
         int delay;
         switch (you.religion)
         {
-        case GOD_OKAWARU:
         case GOD_TROG:
             if (one_chance_in(14))
                 lose_piety(1);
             break;
 
+        case GOD_OKAWARU:
         case GOD_MAKHLEB:
         case GOD_BEOGH:
         case GOD_LUGONU:
@@ -4164,14 +4145,6 @@ void handle_god_time(int time_delta)
         if (you.piety < 1)
             excommunication();
     }
-}
-
-// yet another wrapper for mpr() {dlb}:
-void simple_god_message(const char *event, god_type which_deity)
-{
-    string msg = uppercase_first(god_name(which_deity)) + event;
-    msg = apostrophise_fixup(msg);
-    god_speaks(which_deity, msg.c_str());
 }
 
 int god_colour(god_type god) // mv - added

@@ -4,13 +4,11 @@
 **/
 
 #include "AppHdr.h"
+
 #include "tutorial.h"
 
-#include "externs.h"
 #include "hints.h"
 #include "message.h"
-#include "mpr.h"
-#include "player.h"
 #include "skills.h"
 #include "state.h"
 

@@ -4,48 +4,45 @@
 **/
 
 #include "AppHdr.h"
+
 #include "mon-death.h"
 
 #include "act-iter.h"
 #include "areas.h"
 #include "arena.h"
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "attitude-change.h"
-#include "beam.h"
 #include "bloodspatter.h"
 #include "butcher.h"
-#include "cluautil.h"
 #include "cloud.h"
+#include "cluautil.h"
+#include "colour.h"
 #include "coordit.h"
 #include "dactions.h"
 #include "database.h"
 #include "delay.h"
 #include "describe.h"
-#include "dlua.h"
 #include "dgn-overview.h"
 #include "effects.h"
+#include "english.h"
 #include "env.h"
 #include "fineff.h"
 #include "food.h"
-#include "fprop.h"
 #include "godabil.h"
 #include "godblessing.h"
-#include "godconduct.h"
 #include "godcompanions.h"
+#include "godconduct.h"
 #include "hints.h"
 #include "hiscores.h"
-#include "items.h"
 #include "itemname.h"
 #include "itemprop.h"
+#include "items.h"
 #include "kills.h"
 #include "libutil.h"
-#include "los_def.h"
-#include "mapdef.h" // NEVER_CORPSE_KEY
+#include "mapdef.h"
 #include "mapmark.h"
-#include "makeitem.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
 #include "mon-abil.h"
 #include "mon-behv.h"
@@ -54,25 +51,21 @@
 #include "mon-poly.h"
 #include "mon-speak.h"
 #include "mon-tentacle.h"
-#include "mon-util.h"
 #include "notes.h"
-#include "random.h"
 #include "religion.h"
 #include "rot.h"
 #include "spl-damage.h"
 #include "spl-miscast.h"
 #include "spl-summoning.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
-#include "transform.h"
 #include "traps.h"
-#include "view.h"
-#include "viewchar.h"
 #include "unwind.h"
+#include "viewchar.h"
+#include "view.h"
 
 // Initialises a corpse item using the given monster and monster type.
 // The monster pointer is optional; you may pass in NULL to bypass
@@ -123,6 +116,11 @@ monster_type fill_out_corpse(const monster* mons,
             mtype = corpse_class = MONS_GLOWING_SHAPESHIFTER;
         else if (mons->has_ench(ENCH_SHAPESHIFTER))
             mtype = corpse_class = MONS_SHAPESHIFTER;
+        else if (mons->props.exists(ORIGINAL_TYPE_KEY))
+        {
+            mtype = (monster_type) mons->props[ORIGINAL_TYPE_KEY].get_int();
+            corpse_class = mons_species(mtype);
+        }
     }
 
     // Doesn't leave a corpse.
@@ -136,33 +134,35 @@ monster_type fill_out_corpse(const monster* mons,
     corpse.sub_type       = CORPSE_BODY;
     corpse.freshness      = FRESHEST_CORPSE;  // rot time
     corpse.quantity       = 1;
+    corpse.rnd            = 1 + random2(255);
     corpse.orig_monnum    = mtype;
 
     if (mons)
     {
         corpse.props[MONSTER_HIT_DICE] = short(mons->get_experience_level());
         corpse.props[MONSTER_NUMBER]   = short(mons->number);
+        if (mons->props.exists("old_heads"))
+            corpse.props[MONSTER_NUMBER] = short(mons->props["old_heads"].get_int());
         // XXX: Appears to be a safe conversion?
         corpse.props[MONSTER_MID]      = int(mons->mid);
-        if (mons->props.exists(NEVER_HIDE_KEY))
-            corpse.props[NEVER_HIDE_KEY] = true;
     }
 
-    corpse.colour = mons_class_colour(corpse_class);
-    if (corpse.colour == BLACK)
+    monster_info minfo(corpse_class);
+    int col = int(minfo.colour());
+    if (col == COLOUR_UNDEF && mons)
     {
-        if (mons)
-            corpse.colour = mons->colour;
+        // XXX hack to avoid crashing in wiz mode.
+        if (mons_is_ghost_demon(mons->type) && !mons->ghost.get())
+            col = LIGHTRED;
         else
         {
-            // [ds] Ick: no easy way to get a monster's colour
-            // otherwise:
-            monster m;
-            m.type = mtype;
-            define_monster(&m);
-            corpse.colour = m.colour;
+            minfo = *(new monster_info(mons));
+            col = int(minfo.colour());
         }
     }
+    if (col == COLOUR_UNDEF)
+        col = int(random_colour());
+    corpse.props[FORCED_ITEM_COLOUR_KEY] = col;
 
     if (mons && !mons->mname.empty() && !(mons->flags & MF_NAME_NOCORPSE))
     {
@@ -439,35 +439,36 @@ int place_monster_corpse(const monster* mons, bool silent, bool force)
     item_def corpse;
     const monster_type corpse_class = fill_out_corpse(mons, mons->type,
                                                       corpse);
-
-    bool vault_forced = false;
+    if (corpse_class == MONS_NO_MONSTER)
+        return -1;
 
     // Don't place a corpse?  If a zombified monster is somehow capable
     // of leaving a corpse, then always place it.
     if (mons_class_is_zombified(mons->type))
         force = true;
 
-    // "always_corpse" forces monsters to always generate a corpse upon
-    // their deaths.
-    if (mons->props.exists("always_corpse")
+    const bool vault_forced =
+        mons->props.exists("always_corpse")
         || mons_class_flag(mons->type, M_ALWAYS_CORPSE)
         || mons_is_demonspawn(mons->type)
            && mons_class_flag(draco_or_demonspawn_subspecies(mons),
-                              M_ALWAYS_CORPSE))
-    {
-        vault_forced = true;
-    }
+                              M_ALWAYS_CORPSE);
 
-    if (corpse_class == MONS_NO_MONSTER
-        || (!force && !vault_forced && coinflip()))
-    {
+    // 50/50 chance of getting a corpse, unless it's forced by the caller or
+    // the monster's flags.
+    // gozag always gets a "corpse". (gold.)
+    if (!force && !vault_forced && !in_good_standing(GOD_GOZAG) && coinflip())
         return -1;
-    }
 
     if (!force && in_good_standing(GOD_GOZAG))
     {
         const monsterentry* me = get_monster_data(corpse_class);
-        const int base_gold = max(3, (me->weight - 200) / 27);
+        const int min_base_gold = 7;
+        // monsters weighing more than this give more than base gold
+        const int baseline_weight = 550; // MONS_HUMAN
+        const int base_gold = max(min_base_gold,
+                                  (me->weight - baseline_weight) / 80
+                                    + min_base_gold);
         corpse.clear();
         corpse.base_type = OBJ_GOLD;
         corpse.quantity = base_gold / 2 + random2avg(base_gold, 2);
@@ -560,10 +561,6 @@ void record_monster_defeat(monster* mons, killer_type killer)
                        mons->full_name(DESC_A).c_str(),
                        _milestone_kill_verb(killer).c_str()));
     }
-    // XXX: See comment in monster_polymorph.
-    bool is_unique = mons_is_unique(mons->type);
-    if (mons->props.exists("original_was_unique"))
-        is_unique = mons->props["original_was_unique"].get_bool();
     if (mons->type == MONS_PLAYER_GHOST)
     {
         monster_info mi(mons);
@@ -573,7 +570,7 @@ void record_monster_defeat(monster* mons, killer_type killer)
         mark_milestone("ghost", milestone);
     }
     // Or summoned uniques, which a summoned ghost is treated as {due}
-    else if (is_unique && !mons->is_summoned())
+    else if (mons_is_or_was_unique(*mons) && !mons->is_summoned())
     {
         mark_milestone("uniq",
                        _milestone_kill_verb(killer)
@@ -861,7 +858,7 @@ void fire_monster_death_event(monster* mons,
 
     los_monster_died(mons);
 
-    if (type == MONS_ROYAL_JELLY && !polymorph)
+    if (type == MONS_ROYAL_JELLY && !mons->is_summoned() && !polymorph)
     {
         you.royal_jelly_dead = true;
 
@@ -946,8 +943,10 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
             mprf(MSGCH_MONSTER_SPELL, "A malignant aura surrounds %s.",
                  target->name(DESC_THE).c_str());
         }
-        MiscastEffect(target, mons->mindex(), SPTYP_NECROMANCY,
-                      pow, random2avg(88, 3), "a mummy death curse");
+        const string cause = make_stringf("%s death curse",
+                                apostrophise(mons->name(DESC_A)).c_str());
+        MiscastEffect(target, mons, MUMMY_MISCAST, SPTYP_NECROMANCY,
+                      pow, random2avg(88, 3), cause.c_str());
     }
 }
 
@@ -1056,7 +1055,7 @@ static void _activate_ballistomycetes(monster* mons, const coord_def& origin,
     // its count to others on the level.
     int activation_count = 1;
     if (mons->type == MONS_BALLISTOMYCETE)
-        activation_count += mons->number;
+        activation_count += mons->ballisto_activity;
     if (mons->type == MONS_HYPERACTIVE_BALLISTOMYCETE)
         activation_count = 0;
 
@@ -1147,11 +1146,11 @@ static void _activate_ballistomycetes(monster* mons, const coord_def& origin,
         // have to mess with spore production on anything
         if (spawner && !fedhas_mode)
         {
-            spawner->number++;
+            spawner->ballisto_activity++;
 
             // Change color and start the spore production timer if we
             // are moving from 0 to 1.
-            if (spawner->number == 1)
+            if (spawner->ballisto_activity == 1)
             {
                 spawner->colour = LIGHTMAGENTA;
                 // Reset the spore production timer.
@@ -1223,12 +1222,12 @@ static void _setup_prism_explosion(bolt& beam, const monster& origin)
 {
     _setup_base_explosion(beam, origin);
     beam.flavour = BEAM_MMISSILE;
-    beam.damage  = (origin.number == 2 ?
+    beam.damage  = (origin.prism_charge == 2 ?
                         dice_def(3, 6 + origin.get_hit_dice() * 7 / 4)
                         : dice_def(2, 6 + origin.get_hit_dice() * 7 / 4));
     beam.name    = "blast of energy";
     beam.colour  = MAGENTA;
-    beam.ex_size = origin.number;
+    beam.ex_size = origin.prism_charge;
 }
 
 static void _setup_bennu_explosion(bolt& beam, const monster& origin)
@@ -1362,7 +1361,7 @@ static bool _explode_monster(monster* mons, killer_type killer,
 
     // Explosion side-effects.
     if (type == MONS_LURKING_HORROR)
-        torment(mons, mons->mindex(), mons->pos());
+        torment(mons, TORMENT_LURKING_HORROR, mons->pos());
     else if (mons->has_ench(ENCH_INNER_FLAME))
     {
         for (adjacent_iterator ai(mons->pos(), false); ai; ++ai)
@@ -1423,7 +1422,7 @@ static void _monster_die_cloud(const monster* mons, bool corpse, bool silent,
     string prefix = " ";
     if (corpse)
     {
-        if (mons_weight(mons_species(mons->type)) == 0)
+        if (!mons_class_can_leave_corpse(mons_species(mons->type)))
             return;
 
         prefix = "'s corpse ";
@@ -1682,11 +1681,11 @@ int monster_die(monster* mons, killer_type killer,
 
     ASSERT(!(YOU_KILL(killer) && crawl_state.game_is_arena()));
 
-    if (mons->props.exists("monster_dies_lua_key"))
+    if (mons->props.exists(MONSTER_DIES_LUA_KEY))
     {
         lua_stack_cleaner clean(dlua);
 
-        dlua_chunk &chunk = mons->props["monster_dies_lua_key"];
+        dlua_chunk &chunk = mons->props[MONSTER_DIES_LUA_KEY];
 
         if (!chunk.load(dlua))
         {
@@ -1804,14 +1803,14 @@ int monster_die(monster* mons, killer_type killer,
     if (mons->type == MONS_GIANT_SPORE
         || mons->type == MONS_BALL_LIGHTNING
         || mons->type == MONS_LURKING_HORROR
-        || (mons->type == MONS_FULMINANT_PRISM && mons->number > 0)
+        || (mons->type == MONS_FULMINANT_PRISM && mons->prism_charge > 0)
         || mons->type == MONS_BENNU
         || mons->has_ench(ENCH_INNER_FLAME))
     {
         did_death_message =
             _explode_monster(mons, killer, killer_index, pet_kill, wizard);
     }
-    else if (mons->type == MONS_FULMINANT_PRISM && mons->number == 0)
+    else if (mons->type == MONS_FULMINANT_PRISM && mons->prism_charge == 0)
     {
         if (!silent && !hard_reset && !was_banished)
         {
@@ -2240,11 +2239,14 @@ int monster_die(monster* mons, killer_type killer,
             if (mons->friendly() && !mons_is_object(mons->type))
             {
                 const int mon_intel = mons_class_intel(mons->type) - I_ANIMAL;
+                // plant HD aren't very meaningful. (fedhas hack)
+                const int severity = mons->holiness() == MH_PLANT ?
+                                     1 :
+                                     1 + (mons->get_experience_level() / 4);
 
                 did_god_conduct(mon_intel > 0 ? DID_SOULED_FRIEND_DIED
                                               : DID_FRIEND_DIED,
-                                1 + (mons->get_experience_level() / 2),
-                                true, mons);
+                                severity, true, mons);
             }
 
             if (pet_kill && fedhas_protects(mons))
@@ -2587,23 +2589,25 @@ int monster_die(monster* mons, killer_type killer,
     }
     if (mons->type == MONS_JORY && !in_transit)
         blood_spray(mons->pos(), MONS_JORY, 50);
-    else if (mons_is_kirke(mons)
+    else if (mons_is_mons_class(mons, MONS_KIRKE)
              && !in_transit
              && !testbits(mons->flags, MF_WAS_NEUTRAL))
     {
         hogs_to_humans();
     }
-    else if ((mons_is_natasha(mons) || mons_genus(mons->type) == MONS_FELID)
+    else if ((mons_is_mons_class(mons, MONS_NATASHA)
+              || mons_genus(mons->type) == MONS_FELID)
              && !in_transit && !mons->pacified() && mons_felid_can_revive(mons))
     {
         drop_items = false;
 
         // Like Boris, but her vault can't come back
-        if (mons_is_natasha(mons))
+        if (mons_is_mons_class(mons, MONS_NATASHA))
             you.unique_creatures.set(MONS_NATASHA, false);
-        mons_felid_revive(mons);
+        if (!mons_reset && !wizard)
+            mons_felid_revive(mons);
     }
-    else if (mons_is_pikel(mons))
+    else if (mons_is_mons_class(mons, MONS_PIKEL))
     {
         // His slaves don't care if he's dead or not, just whether or not
         // he goes away.
@@ -2643,13 +2647,8 @@ int monster_die(monster* mons, killer_type killer,
     else if (mons->type == MONS_ELDRITCH_TENTACLE_SEGMENT
              && killer != KILL_MISC)
     {
-        if (!invalid_monster_index(mons->number)
-             && mons_base_type(&menv[mons->number]) == MONS_ELDRITCH_TENTACLE
-             && menv[mons->number].alive())
-        {
-            monster_die(&menv[mons->number], killer, killer_index, silent,
-                        wizard, fake);
-        }
+       monster_die(monster_by_mid(mons->tentacle_connect), killer,
+                   killer_index, silent, wizard, fake);
     }
     else if (mons_is_elven_twin(mons))
         elven_twin_died(mons, in_transit, killer, killer_index);
@@ -2684,7 +2683,7 @@ int monster_die(monster* mons, killer_type killer,
                                  YOU_KILL(killer) || pet_kill);
     }
 
-    if (!wizard && !mons_reset && !submerged && !was_banished)
+    if (!wizard && !submerged && !was_banished)
     {
         _monster_die_cloud(mons, !mons_reset && !fake_abjuration && !unsummoned
                                  && !timeout, silent, summoned);
@@ -2798,11 +2797,31 @@ int monster_die(monster* mons, killer_type killer,
         && !fake_abjuration
         && !timeout
         && !unsummoned
-        && !(mons->flags & MF_KNOWN_SHIFTER)
-        && mons->is_shapeshifter())
+        && !(mons->flags & MF_KNOWN_SHIFTER))
+
     {
-        simple_monster_message(mons, "'s shape twists and changes as "
-                               "it dies.");
+        if (mons->is_shapeshifter())
+        {
+            const string message = "'s shape twists and changes as " +
+                                   mons->pronoun(PRONOUN_SUBJECTIVE) + " dies.";
+            simple_monster_message(mons, message.c_str());
+        }
+        else if (mons->props.exists(ORIGINAL_TYPE_KEY))
+        {
+            // Avoid "Sigmund returns to its original shape as it dies.".
+            unwind_var<monster_type> mt(mons->type,
+                                        (monster_type) mons->props[ORIGINAL_TYPE_KEY].get_int());
+            int num = mons->mons_species() == MONS_HYDRA
+                                        ? mons->props["old_heads"].get_int()
+                                        : mons->number;
+            unwind_var<unsigned int> number(mons->number, num);
+            const string message = " returns to " +
+                                   mons->pronoun(PRONOUN_POSSESSIVE) +
+                                   " original shape as " +
+                                   mons->pronoun(PRONOUN_SUBJECTIVE) +
+                                   " dies.";
+            simple_monster_message(mons, message.c_str());
+        }
     }
 
     if (mons->is_divine_companion()
@@ -3159,14 +3178,6 @@ string summoned_poof_msg(const monster* mons, bool plural)
     return msg;
 }
 
-string summoned_poof_msg(const int midx, const item_def &item)
-{
-    if (midx == NON_MONSTER)
-        return summoned_poof_msg(static_cast<const monster* >(NULL), item);
-    else
-        return summoned_poof_msg(&menv[midx], item);
-}
-
 string summoned_poof_msg(const monster* mons, const item_def &item)
 {
     ASSERT(item.flags & ISFLAG_SUMMONED);
@@ -3175,19 +3186,20 @@ string summoned_poof_msg(const monster* mons, const item_def &item)
 }
 
 /**
- * Determine if a specified monster is Pikel.
+ * Determine if a specified monster is or was a specified monster type.
  *
- * Checks both the monster type and the "original_name" prop, thus allowing
- * Pikelness to be transferred through polymorph.
+ * Checks both the monster type and the ORIGINAL_TYPE_KEY prop, thus allowing
+ * the type to be transferred through polymorph.
  *
  * @param mons    The monster to be checked.
- * @return        True if the monster is Pikel, otherwise false.
+ * @param type    The type it might be.
+ * @return        True if the monster was or is the type, otherwise false.
 **/
-bool mons_is_pikel(monster* mons)
+bool mons_is_mons_class(const monster* mons, monster_type type)
 {
-    return mons->type == MONS_PIKEL
-           || (mons->props.exists("original_name")
-               && mons->props["original_name"].get_string() == "Pikel");
+    return mons->type == type
+           || mons->props.exists(ORIGINAL_TYPE_KEY)
+              && mons->props[ORIGINAL_TYPE_KEY].get_int() == type;
 }
 
 /**
@@ -3218,22 +3230,6 @@ void pikel_band_neutralise()
         final_msg = "With Pikel's spell broken, the former slaves thank you for their freedom.";
 
     delayed_action_fineff::schedule(DACT_PIKEL_SLAVES, final_msg);
-}
-
-/**
- * Determine if a monster is Kirke.
- *
- * As with mons_is_pikel, tracks Kirke via type and original name, thus allowing
- * tracking through polymorph.
- *
- * @param mons    The monster to check.
- * @return        True if Kirke, false otherwise.
-**/
-bool mons_is_kirke(monster* mons)
-{
-    return mons->type == MONS_KIRKE
-           || (mons->props.exists("original_name")
-               && mons->props["original_name"].get_string() == "Kirke");
 }
 
 /**
@@ -3299,48 +3295,19 @@ void hogs_to_humans()
 }
 
 /**
- * Determine if a monster is Dowan.
- *
- * Tracks through type and original_name, thus tracking through polymorph.
- *
- * @param mons    The monster to check.
- * @return        True if Dowan, otherwise false.
-**/
-bool mons_is_dowan(const monster* mons)
-{
-    return mons->type == MONS_DOWAN
-           || (mons->props.exists("original_name")
-               && mons->props["original_name"].get_string() == "Dowan");
-}
-
-/**
- * Determine if a monster is Duvessa.
- *
- * Tracks through type and original_name, thus tracking through polymorph.
- *
- * @param mons    The monster to check.
- * @return        True if Duvessa, otherwise false.
-**/
-bool mons_is_duvessa(const monster* mons)
-{
-    return mons->type == MONS_DUVESSA
-           || (mons->props.exists("original_name")
-               && mons->props["original_name"].get_string() == "Duvessa");
-}
-
-/**
  * Determine if a monster is either Dowan or Duvessa.
  *
- * Tracks through type and original_name, thus tracking through polymorph. A
- * wrapper around mons_is_dowan and mons_is_duvessa. Used to determine if a
- * death function should be called for the monster in question.
+ * Tracks through type and ORIGINAL_TYPE_KEY, thus tracking through polymorph.
+ * Used to determine if a death function should be called for the monster
+ * in question.
  *
  * @param mons    The monster to check.
  * @return        True if either Dowan or Duvessa, otherwise false.
 **/
 bool mons_is_elven_twin(const monster* mons)
 {
-    return mons_is_dowan(mons) || mons_is_duvessa(mons);
+    return mons_is_mons_class(mons, MONS_DOWAN)
+           || mons_is_mons_class(mons, MONS_DUVESSA);
 }
 
 /**
@@ -3376,12 +3343,7 @@ void elven_twin_died(monster* twin, bool in_transit, killer_type killer, int kil
         if ((*mi)->good_neutral())
             continue;
 
-        if (mons_is_duvessa(*mi))
-        {
-            mons = *mi;
-            break;
-        }
-        else if (mons_is_dowan(*mi))
+        if (mons_is_elven_twin(*mi))
         {
             mons = *mi;
             break;
@@ -3431,11 +3393,11 @@ void elven_twin_died(monster* twin, bool in_transit, killer_type killer, int kil
     if (mons_near(mons) && !death_message.empty() && mons->can_speak())
         mons_speaks_msg(mons, death_message, MSGCH_TALK, silenced(you.pos()));
     else if (mons->can_speak())
-        mprf("%s", death_message.c_str());
+        mpr(death_message);
 
     // Upgrade the spellbook here, as elven_twin_energize
     // may not be called due to lack of visibility.
-    if (mons_is_dowan(mons))
+    if (mons_is_mons_class(mons, MONS_DOWAN))
     {
         mons->spells[0].spell = SPELL_THROW_ICICLE;
         mons->spells[1].spell = SPELL_BLINK;
@@ -3456,11 +3418,11 @@ void elven_twin_died(monster* twin, bool in_transit, killer_type killer, int kil
 
 void elven_twin_energize(monster* mons)
 {
-    if (mons_is_duvessa(mons))
+    if (mons_is_mons_class(mons, MONS_DUVESSA))
         mons->go_berserk(true);
     else
     {
-        ASSERT(mons_is_dowan(mons));
+        ASSERT(mons_is_mons_class(mons, MONS_DOWAN));
         if (mons->observable())
             simple_monster_message(mons, " seems to find hidden reserves of power!");
 
@@ -3490,12 +3452,7 @@ void elven_twins_pacify(monster* twin)
         if ((*mi)->neutral())
             continue;
 
-        if (mons_is_duvessa(*mi))
-        {
-            mons = *mi;
-            break;
-        }
-        else if (mons_is_dowan(*mi))
+        if (mons_is_elven_twin(*mi))
         {
             mons = *mi;
             break;
@@ -3539,12 +3496,7 @@ void elven_twins_unpacify(monster* twin)
         if (!(*mi)->neutral())
             continue;
 
-        if (mons_is_duvessa(*mi))
-        {
-            mons = *mi;
-            break;
-        }
-        else if (mons_is_dowan(*mi))
+        if (mons_is_elven_twin(*mi))
         {
             mons = *mi;
             break;
@@ -3555,13 +3507,6 @@ void elven_twins_unpacify(monster* twin)
         return;
 
     behaviour_event(mons, ME_WHACK, &you, you.pos(), false);
-}
-
-bool mons_is_natasha(const monster* mons)
-{
-    return mons->type == MONS_NATASHA
-           || (mons->props.exists("original_name")
-               && mons->props["original_name"].get_string() == "Natasha");
 }
 
 bool mons_felid_can_revive(const monster* mons)
@@ -3595,10 +3540,8 @@ void mons_felid_revive(monster* mons)
     if (tries == 0)
         return;
 
-    // XXX: this will need to be extended if we get more types of enemy
-    // felids
-    monster_type type = (mons_is_natasha(mons)) ? MONS_NATASHA
-                                                : MONS_FELID;
+    monster_type type = mons_is_mons_class(mons, MONS_NATASHA) ? MONS_NATASHA
+                                                               : mons->type;
     monsterentry* me = get_monster_data(type);
     ASSERT(me);
 

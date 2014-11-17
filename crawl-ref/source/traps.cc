@@ -9,52 +9,37 @@
 #include "trap_def.h"
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 #include "areas.h"
-#include "artefact.h"
-#include "beam.h"
 #include "bloodspatter.h"
 #include "branch.h"
 #include "cloud.h"
-#include "clua.h"
-#include "coord.h"
 #include "coordit.h"
 #include "delay.h"
 #include "describe.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "english.h"
-#include "env.h"
 #include "exercise.h"
 #include "hints.h"
-#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
-#include "makeitem.h"
-#include "map_knowledge.h"
 #include "mapmark.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-death.h"
 #include "mon-transit.h"
-#include "mon-util.h"
-#include "ouch.h"
 #include "output.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
 #include "shout.h"
-#include "skills.h"
 #include "spl-miscast.h"
-#include "spl-util.h"
 #include "stash.h"
 #include "state.h"
 #include "stringutil.h"
-#include "travel.h"
 #include "terrain.h"
-#include "transform.h"
+#include "travel.h"
 #include "view.h"
 #include "xom.h"
 
@@ -703,7 +688,7 @@ void trap_def::trigger(actor& triggerer, bool flat_footed)
                 mpr("A huge blade swings out and slices into you!");
                 const int damage = you.apply_ac(48 + random2avg(29, 2));
                 string n = name(DESC_A);
-                ouch(damage, NON_MONSTER, KILLED_BY_TRAP, n.c_str());
+                ouch(damage, KILLED_BY_TRAP, MID_NOBODY, n.c_str());
                 bleed_onto_floor(you.pos(), MONS_PLAYER, damage, true);
             }
         }
@@ -741,7 +726,7 @@ void trap_def::trigger(actor& triggerer, bool flat_footed)
                         msg += m->name(DESC_THE);
                     }
                     msg += "!";
-                    mpr(msg.c_str());
+                    mpr(msg);
                 }
 
                 int damage_taken = m->apply_ac(10 + random2avg(29, 2));
@@ -942,7 +927,7 @@ void trap_def::trigger(actor& triggerer, bool flat_footed)
             if (!trig_knows)
                 xom_is_stimulated(25);
 
-            MiscastEffect(&you, ZOT_TRAP_MISCAST, SPTYP_RANDOM,
+            MiscastEffect(&you, NULL, ZOT_TRAP_MISCAST, SPTYP_RANDOM,
                            3, name(DESC_A));
         }
         else if (m)
@@ -975,7 +960,7 @@ void trap_def::trigger(actor& triggerer, bool flat_footed)
                     mprf("The power of Zot is invoked against %s!",
                          targ->name(DESC_THE).c_str());
                 }
-                MiscastEffect(targ, ZOT_TRAP_MISCAST, SPTYP_RANDOM,
+                MiscastEffect(targ, NULL, ZOT_TRAP_MISCAST, SPTYP_RANDOM,
                               3, "the power of Zot");
             }
         }
@@ -1706,7 +1691,7 @@ void trap_def::shoot_ammo(actor& act, bool was_known)
             if (poison)
                 poison_player(1 + roll_dice(2, 9), "", n);
 
-            ouch(damage_taken, NON_MONSTER, KILLED_BY_TRAP, n.c_str());
+            ouch(damage_taken, KILLED_BY_TRAP, MID_NOBODY, n.c_str());
         }
         else
         {

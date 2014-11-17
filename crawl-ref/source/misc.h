@@ -7,15 +7,12 @@
 #define MISC_H
 
 #include "coord.h"
-#include "directn.h"
-#include "externs.h"
+#include "target.h"
 
 #include <algorithm>
 #include <queue>
 
-struct bolt;
-class dist;
-struct activity_interrupt_data;
+extern const struct coord_def Compass[9];
 
 void trackers_init_new_level(bool transit);
 
@@ -66,9 +63,6 @@ void revive();
 
 int speed_to_duration(int speed);
 
-bool interrupt_cmd_repeat(activity_interrupt_type ai,
-                          const activity_interrupt_data &at);
-
 bool bad_attack(const monster *mon, string& adj, string& suffix,
                 bool& would_cause_penance,
                 coord_def attack_pos = coord_def(0, 0),
@@ -86,7 +80,6 @@ bool stop_attack_prompt(targetter &hitfunc, const char* verb,
 
 void swap_with_monster(monster *mon_to_swap);
 
-bool maybe_id_weapon(item_def &item, const char *msg = 0);
 void auto_id_inventory();
 
 int apply_chunked_AC(int dam, int ac);
@@ -314,4 +307,10 @@ struct counted_monster_list
 };
 
 bool today_is_halloween();
+
+template<class C, class P>
+void erase_if(C &container, P pred) {
+    container.erase(remove_if(begin(container), end(container), pred),
+                    end(container));
+}
 #endif

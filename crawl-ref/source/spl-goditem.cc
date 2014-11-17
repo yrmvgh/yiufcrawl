@@ -5,16 +5,12 @@
 
 #include "AppHdr.h"
 
-#include "externs.h"
 #include "spl-goditem.h"
 
-#include "artefact.h"
-#include "attitude-change.h"
 #include "cloud.h"
-#include "coord.h"
 #include "coordit.h"
 #include "database.h"
-#include "decks.h"
+#include "directn.h"
 #include "env.h"
 #include "godconduct.h"
 #include "godpassive.h"
@@ -22,7 +18,6 @@
 #include "invent.h"
 #include "itemprop.h"
 #include "items.h"
-#include "map_knowledge.h"
 #include "mapdef.h"
 #include "mapmark.h"
 #include "message.h"
@@ -31,18 +26,12 @@
 #include "mon-cast.h"
 #include "mon-death.h"
 #include "mon-tentacle.h"
-#include "mon-util.h"
-#include "options.h"
-#include "random.h"
 #include "religion.h"
 #include "spl-util.h"
 #include "state.h"
 #include "status.h"
-
 #include "terrain.h"
 #include "tiledef-dngn.h"
-#include "tilepick.h"
-#include "transform.h"
 #include "traps.h"
 #include "view.h"
 
@@ -433,7 +422,21 @@ void debuff_monster(monster* mon)
         ENCH_STICKY_FLAME,
         ENCH_TP,
         ENCH_INNER_FLAME,
-        ENCH_OZOCUBUS_ARMOUR
+        ENCH_OZOCUBUS_ARMOUR,
+        ENCH_INJURY_BOND,
+        ENCH_DIMENSION_ANCHOR,
+        ENCH_CONTROL_WINDS,
+        ENCH_TOXIC_RADIANCE,
+        ENCH_AGILE,
+        ENCH_EPHEMERAL_INFUSION,
+        ENCH_BLACK_MARK,
+        ENCH_SHROUD,
+        ENCH_SAP_MAGIC,
+        ENCH_REPEL_MISSILES,
+        ENCH_DEFLECT_MISSILES,
+        ENCH_CONDENSATION_SHIELD,
+        ENCH_RESISTANCE,
+        ENCH_HEXED,
     };
 
     bool dispelled = false;
@@ -597,7 +600,7 @@ int detect_creatures(int pow, bool telepathic)
 
     for (radius_iterator ri(you.pos(), map_radius, C_ROUND); ri; ++ri)
     {
-        discover_mimic(*ri, false);
+        discover_mimic(*ri);
         if (monster* mon = monster_at(*ri))
         {
             // If you can see the monster, don't "detect" it elsewhere.
@@ -612,7 +615,7 @@ int detect_creatures(int pow, bool telepathic)
     return creatures_found;
 }
 
-static bool _selectively_remove_curse(string *pre_msg)
+static bool _selectively_remove_curse(const string &pre_msg)
 {
     bool used = false;
 
@@ -640,15 +643,15 @@ static bool _selectively_remove_curse(string *pre_msg)
             continue;
         }
 
-        if (!used && pre_msg)
-            mprf("%s", pre_msg->c_str());
+        if (!used && !pre_msg.empty())
+            mpr(pre_msg);
 
         do_uncurse_item(item, true, false, false);
         used = true;
     }
 }
 
-bool remove_curse(bool alreadyknown, string *pre_msg)
+bool remove_curse(bool alreadyknown, const string &pre_msg)
 {
     if (you_worship(GOD_ASHENZARI) && alreadyknown)
     {
@@ -687,8 +690,8 @@ bool remove_curse(bool alreadyknown, string *pre_msg)
 
     if (success)
     {
-        if (pre_msg)
-            mprf("%s", pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         mpr("You feel as if something is helping you.");
         learned_something_new(HINT_REMOVED_CURSE);
     }
@@ -696,15 +699,15 @@ bool remove_curse(bool alreadyknown, string *pre_msg)
         mprf(MSGCH_PROMPT, "None of your equipped items are cursed.");
     else
     {
-        if (pre_msg)
-            mprf("%s", pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         mpr("You feel blessed for a moment.");
     }
 
     return success;
 }
 
-static bool _selectively_curse_item(bool armour, string *pre_msg)
+static bool _selectively_curse_item(bool armour, const string &pre_msg)
 {
     while (1)
     {
@@ -728,15 +731,15 @@ static bool _selectively_curse_item(bool armour, string *pre_msg)
             continue;
         }
 
-        if (pre_msg)
-            mprf("%s", pre_msg->c_str());
+        if (!pre_msg.empty())
+            mpr(pre_msg);
         do_curse_item(item, false);
         learned_something_new(HINT_YOU_CURSED);
         return true;
     }
 }
 
-bool curse_item(bool armour, string *pre_msg)
+bool curse_item(bool armour, const string &pre_msg)
 {
     // Make sure there's something to curse first.
     bool found = false;
@@ -770,7 +773,7 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
 
     const dungeon_feature_type safe_tiles[] =
     {
-        DNGN_SHALLOW_WATER, DNGN_FLOOR, DNGN_OPEN_DOOR
+        DNGN_SHALLOW_WATER, DNGN_DEEP_WATER, DNGN_FLOOR, DNGN_OPEN_DOOR
     };
 
     bool proceed;
@@ -851,8 +854,11 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
         if (!zin && !monster_at(*ai))
         {
             for (unsigned int i = 0; i < ARRAYSZ(safe_tiles) && !proceed; ++i)
-                if (grd(*ai) == safe_tiles[i] || feat_is_trap(grd(*ai), true))
+                if (grd(*ai) == safe_tiles[i] || feat_is_trap(grd(*ai), true)
+                    || feat_is_stone_stair(grd(*ai)))
+                {
                     proceed = true;
+                }
         }
         else if (zin && !cell_is_solid(*ai))
             proceed = true;

@@ -6,19 +6,18 @@
 
 #include "AppHdr.h"
 
+#include "fineff.h"
+
 #include "act-iter.h"
 #include "bloodspatter.h"
-#include "coord.h"
 #include "coordit.h"
 #include "dactions.h"
 #include "directn.h"
-#include "effects.h"
 #include "english.h"
 #include "env.h"
-#include "fineff.h"
 #include "godabil.h"
 #include "libutil.h"
-#include "mgen_data.h"
+#include "message.h"
 #include "mon-abil.h"
 #include "mon-act.h"
 #include "mon-behv.h"
@@ -33,12 +32,11 @@
 
 /*static*/ void final_effect::schedule(final_effect *eff)
 {
-    for (vector<final_effect *>::iterator fi = env.final_effects.begin();
-         fi != env.final_effects.end(); ++fi)
+    for (auto fe : env.final_effects)
     {
-        if ((*fi)->mergeable(*eff))
+        if (fe->mergeable(*eff))
         {
-            (*fi)->merge(*eff);
+            fe->merge(*eff);
             delete eff;
             return;
         }
@@ -185,7 +183,7 @@ void mirror_damage_fineff::fire()
     if (att == MID_PLAYER)
     {
         mpr("Your damage is reflected back at you!");
-        ouch(damage, NON_MONSTER, KILLED_BY_MIRROR_DAMAGE);
+        ouch(damage, KILLED_BY_MIRROR_DAMAGE);
     }
     else if (def == MID_PLAYER)
     {
@@ -348,7 +346,7 @@ static bool _do_merge_masses(monster* initial_mass, monster* merge_to)
     // Combine enchantment durations.
     merge_ench_durations(initial_mass, merge_to);
 
-    merge_to->number += initial_mass->number;
+    merge_to->blob_size += initial_mass->blob_size;
     merge_to->max_hit_points += initial_mass->max_hit_points;
     merge_to->hit_points += initial_mass->hit_points;
 
@@ -520,11 +518,8 @@ void fire_final_effects()
     while (!env.final_effects.empty())
     {
         // Remove it first so nothing can merge with it.
-        final_effect *eff = env.final_effects.back();
+        unique_ptr<final_effect> eff(env.final_effects.back());
         env.final_effects.pop_back();
-
         eff->fire();
-
-        delete eff;
     }
 }

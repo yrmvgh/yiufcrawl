@@ -8,24 +8,29 @@
  */
 #include "AppHdr.h"
 
-#include "artefact.h"
+#include "travel.h"
+
+#include <algorithm>
+#include <cctype>
+#include <cstdarg>
+#include <cstdio>
+#include <memory>
+#include <set>
+#include <sstream>
+
 #include "branch.h"
-#include "cio.h"
 #include "cloud.h"
 #include "clua.h"
 #include "command.h"
-#include "coord.h"
 #include "coordit.h"
 #include "dactions.h"
+#include "directn.h"
 #include "delay.h"
 #include "dgn-overview.h"
-#include "directn.h"
 #include "english.h"
 #include "env.h"
-#include "exclude.h"
 #include "fight.h"
 #include "files.h"
-#include "fixedarray.h"
 #include "food.h"
 #include "godabil.h"
 #include "godprayer.h"
@@ -35,36 +40,21 @@
 #include "items.h"
 #include "libutil.h"
 #include "macro.h"
-#include "map_knowledge.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-death.h"
-#include "mon-util.h"
-#include "options.h"
 #include "output.h"
 #include "place.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
 #include "stairs.h"
-#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
-#include "tags.h"
 #include "terrain.h"
 #include "traps.h"
-#include "travel.h"
 #include "unicode.h"
 #include "unwind.h"
 #include "view.h"
-
-#include <algorithm>
-#include <cctype>
-#include <cstdarg>
-#include <cstdio>
-#include <memory>
-#include <set>
-#include <sstream>
 
 enum IntertravelDestination
 {
@@ -365,7 +355,7 @@ struct cell_travel_safety
 };
 
 typedef FixedArray<cell_travel_safety, GXM, GYM> travel_safe_grid;
-static Unique_ptr<travel_safe_grid> _travel_safe_grid;
+static unique_ptr<travel_safe_grid> _travel_safe_grid;
 
 class precompute_travel_safety_grid
 {
@@ -378,7 +368,7 @@ public:
         if (!_travel_safe_grid.get())
         {
             did_compute = true;
-            Unique_ptr<travel_safe_grid> tsgrid(new travel_safe_grid);
+            unique_ptr<travel_safe_grid> tsgrid(new travel_safe_grid);
             travel_safe_grid &safegrid(*tsgrid);
             for (rectangle_iterator ri(1); ri; ++ri)
             {
@@ -388,7 +378,7 @@ public:
                 ts.safe_if_ignoring_hostile_terrain =
                     _is_travelsafe_square(p, true);
             }
-            _travel_safe_grid = Move(tsgrid);
+            _travel_safe_grid = move(tsgrid);
         }
     }
     ~precompute_travel_safety_grid()
@@ -623,11 +613,10 @@ static int _slowest_ally_speed()
 {
     vector<monster* > followers = get_on_level_followers();
     int min_speed = INT_MAX;
-    for (vector<monster* >::iterator fol = followers.begin();
-         fol != followers.end(); ++fol)
+    for (auto fol : followers)
     {
-        int speed = (*fol)->speed * BASELINE_DELAY
-                    / (*fol)->action_energy(EUT_MOVE);
+        int speed = fol->speed * BASELINE_DELAY
+                    / fol->action_energy(EUT_MOVE);
         if (speed < min_speed)
             min_speed = speed;
     }
@@ -1874,11 +1863,16 @@ static void _find_parent_branch(branch_type br, int depth,
                                 branch_type *pb, int *pd)
 {
     *pb = parent_branch(br);   // Check depth before using *pb.
-    map<branch_type, set<level_id> >::iterator i = stair_level.find(br);
-    if (i == stair_level.end() || i->second.size() == 0)
-        *pd = 0;
-    else
-        *pd = i->second.begin()->depth;
+
+    if (auto levels = map_find(stair_level, br))
+    {
+        if (levels->size() > 0)
+        {
+            *pd = levels->begin()->depth;
+            return;
+        }
+    }
+    *pd = 0;
 }
 
 // Appends the passed in branch/depth to the given vector, then attempts to
@@ -2141,7 +2135,7 @@ static int _prompt_travel_branch(int prompt_flags)
                 if (linec == 4)
                 {
                     linec = 0;
-                    mpr(line.c_str());
+                    mpr(line);
                     line = "";
                 }
                 line += make_stringf("(%c) %-14s ",
@@ -2149,7 +2143,7 @@ static int _prompt_travel_branch(int prompt_flags)
                                      branches[br[i]].shortname);
             }
             if (!line.empty())
-                mpr(line.c_str());
+                mpr(line);
         }
 
         string shortcuts = "(";
@@ -2346,12 +2340,10 @@ static level_pos _find_entrance(const level_pos &from)
     if (new_lid.is_valid()) {
         LevelInfo &li = travel_cache.get_level_info(new_lid);
         vector<stair_info> &stairs = li.get_stairs();
-        for (vector<stair_info>::const_iterator sit = stairs.begin();
-                sit != stairs.end();
-                ++sit)
-            if (sit->destination.id.branch == target_branch)
+        for (const auto &stair : stairs)
+            if (stair.destination.id.branch == target_branch)
             {
-                pos = sit->position;
+                pos = stair.position;
                 break;
             }
 
@@ -2361,12 +2353,10 @@ static level_pos _find_entrance(const level_pos &from)
     {
         LevelInfo &li = travel_cache.get_level_info(lid);
         vector<stair_info> &stairs = li.get_stairs();
-        for (vector<stair_info>::const_iterator sit = stairs.begin();
-                sit != stairs.end();
-                ++sit)
-            if (!sit->destination.id.is_valid())
+        for (const auto &stair : stairs)
+            if (!stair.destination.id.is_valid())
             {
-                pos = sit->position;
+                pos = stair.position;
                 break;
             }
 
@@ -3727,12 +3717,12 @@ void TravelCache::list_waypoints() const
         line += choice;
         if (!(++count % 5))
         {
-            mpr(line.c_str());
+            mpr(line);
             line = "";
         }
     }
     if (!line.empty())
-        mpr(line.c_str());
+        mpr(line);
 }
 
 uint8_t TravelCache::is_waypoint(const level_pos &lp) const
@@ -4481,7 +4471,7 @@ template <class C> void explore_discoveries::say_any(
     if (strwidth(message) >= get_number_of_cols())
         mprf("Found %s %s.", number_in_words(size).c_str(), category);
     else
-        mprf("%s", message.c_str());
+        mpr(message);
 }
 
 vector<string> explore_discoveries::apply_quantities(
@@ -4514,7 +4504,7 @@ bool explore_discoveries::prompt_stop() const
     const bool marker_stop = !marker_msgs.empty() || !marked_feats.empty();
 
     for (unsigned int i = 0; i < marker_msgs.size(); i++)
-        mprf("%s", marker_msgs[i].c_str());
+        mpr(marker_msgs[i]);
 
     for (unsigned int i = 0; i < marked_feats.size(); i++)
         mprf("Found %s", marked_feats[i].c_str());

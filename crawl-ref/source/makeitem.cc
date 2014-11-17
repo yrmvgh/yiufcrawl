@@ -5,33 +5,22 @@
 
 #include "AppHdr.h"
 
-#include <algorithm>
-
-#include "enum.h"
-#include "externs.h"
 #include "makeitem.h"
-#include "message.h"
+
+#include <algorithm>
 
 #include "artefact.h"
 #include "colour.h"
-#include "coord.h"
 #include "decks.h"
 #include "describe.h"
 #include "dungeon.h"
-#include "env.h"
-#include "food.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
-#include "mon-util.h"
-#include "player.h"
-#include "random.h"
 #include "spl-book.h"
 #include "state.h"
-#include "stringutil.h"
 #include "stepdown.h"
-#include "travel.h"
+#include "stringutil.h"
 
 static armour_type _get_random_armour_type(int item_level);
 
@@ -65,638 +54,56 @@ bool got_curare_roll(const int item_level)
                          (364 - 7 * item_level) / 25);
 }
 
-static int _exciting_colour()
-{
-    switch (random2(3))
-    {
-        case 0:  return YELLOW;
-        case 1:  return LIGHTGREEN;
-        case 2:  return LIGHTRED;
-        default: return LIGHTMAGENTA;
-    }
-}
-
-static int _weapon_colour(const item_def &item)
-{
-    // fixed artefacts get predefined colours
-
-    string itname = item.name(DESC_PLAIN);
-    lowercase(itname);
-
-    if (is_artefact(item))
-        return _exciting_colour();
-
-    if (is_demonic(item))
-        return LIGHTRED;
-
-    switch (item_attack_skill(item))
-    {
-    case SK_BOWS:
-        return BLUE;
-    case SK_CROSSBOWS:
-        return LIGHTBLUE;
-    case SK_THROWING:
-        return WHITE;
-    case SK_SLINGS:
-        return BROWN;
-    case SK_SHORT_BLADES:
-        return CYAN;
-    case SK_LONG_BLADES:
-        return LIGHTCYAN;
-    case SK_AXES:
-        return MAGENTA;
-    case SK_MACES_FLAILS:
-        return LIGHTGREY;
-    case SK_POLEARMS:
-        return RED;
-    case SK_STAVES:
-        return GREEN;
-    default:
-        // huh?
-        return LIGHTGREEN;
-    }
-}
-
-static int _missile_colour(const item_def &item)
-{
-    int item_colour = BLACK;
-    switch (item.sub_type)
-    {
-    case MI_STONE:
-        item_colour = BROWN;
-        break;
-#if TAG_MAJOR_VERSION == 34
-    case MI_DART:
-#endif
-    case MI_SLING_BULLET:
-        item_colour = CYAN;
-        break;
-    case MI_LARGE_ROCK:
-        item_colour = LIGHTGREY;
-        break;
-    case MI_ARROW:
-        item_colour = BLUE;
-        break;
-    case MI_NEEDLE:
-        item_colour = WHITE;
-        break;
-    case MI_BOLT:
-        item_colour = LIGHTBLUE;
-        break;
-    case MI_JAVELIN:
-        item_colour = RED;
-        break;
-    case MI_THROWING_NET:
-        item_colour = MAGENTA;
-        break;
-    case MI_TOMAHAWK:
-        item_colour = GREEN;
-        break;
-    case NUM_SPECIAL_MISSILES:
-    case NUM_REAL_SPECIAL_MISSILES:
-        die("invalid missile type");
-    }
-    return item_colour;
-}
-
-static int _armour_colour(const item_def &item)
-{
-    int item_colour = BLACK;
-    string itname = item.name(DESC_PLAIN);
-    lowercase(itname);
-
-    switch (item.sub_type)
-    {
-    case ARM_CLOAK:
-        item_colour = WHITE;
-        break;
-    case ARM_NAGA_BARDING:
-    case ARM_CENTAUR_BARDING:
-        item_colour = GREEN;
-        break;
-    case ARM_ROBE:
-        item_colour = RED;
-        break;
-#if TAG_MAJOR_VERSION == 34
-    case ARM_CAP:
-#endif
-    case ARM_HAT:
-    case ARM_HELMET:
-        item_colour = MAGENTA;
-        break;
-    case ARM_BOOTS:
-        item_colour = BLUE;
-        break;
-    case ARM_GLOVES:
-        item_colour = LIGHTBLUE;
-        break;
-    case ARM_LEATHER_ARMOUR:
-        item_colour = BROWN;
-        break;
-    case ARM_ANIMAL_SKIN:
-        item_colour = LIGHTGREY;
-        break;
-    case ARM_CRYSTAL_PLATE_ARMOUR:
-        item_colour = WHITE;
-        break;
-    case ARM_SHIELD:
-    case ARM_LARGE_SHIELD:
-    case ARM_BUCKLER:
-        item_colour = CYAN;
-        break;
-    default:
-        item_colour = LIGHTCYAN;
-        break;
-    }
-
-    return item_colour;
-}
-
+/**
+ * Initialize the randomized appearance of a given item.
+ *
+ * For e.g. wand names, potions colors, helmet tiles...
+ *
+ * XXX: could this be moved into a constructor or reset method...?
+ *
+ * @param item  The item to have its appearance initialized.
+ */
 void item_colour(item_def &item)
 {
+    // Compute random tile/colour choice.
+    item.rnd = 1 + random2(255); // reserve 0 for uninitialized
+
     if (is_unrandom_artefact(item) && !is_randapp_artefact(item))
-        return; // unrandarts have already been coloured
+        return; // don't stomp on item.special!
 
-    static const COLOURS potion_colours[] =
-    {
-#if TAG_MAJOR_VERSION == 34
-        // clear
-        LIGHTGREY,
-#endif
-        // blue, black, silvery, cyan, purple, orange
-        BLUE, LIGHTGREY, WHITE, CYAN, MAGENTA, LIGHTRED,
-        // inky, red, yellow, green, brown, pink, white
-        BLUE, RED, YELLOW, GREEN, BROWN, LIGHTMAGENTA, WHITE,
-        // emerald, grey, pink, copper, gold, dark, puce
-        LIGHTGREEN, LIGHTGREY, LIGHTRED, YELLOW, YELLOW, BROWN, BROWN,
-        // amethyst, sapphire
-        MAGENTA, BLUE
-    };
-    COMPILE_CHECK(ARRAYSZ(potion_colours) == NDSC_POT_PRI);
+    // initialize item appearance.
+    // we don't actually *need* to store this now, but we *do* need to store
+    // it in appearance at some point, since sub_type isn't public information
+    // for un-id'd items, and therefore can't be used to do a lookup at the
+    // time item names/colours are calculated.
+    // it would probably be better to store this at the time that item_info is
+    // generated (get_item_info), but that requires some save compat work (and
+    // would be wrong if we ever try to get item colour/names directly...?)
+    // possibly a todo for a later date.
 
-    // Compute random tile choice.
-    item.rnd = random2(256);
-
-    int switchnum = 0;
-    colour_t temp_value;
-
+    // TODO: move this into a lookup table
     switch (item.base_type)
     {
-    case OBJ_WEAPONS:
-        item.colour = _weapon_colour(item);
-        break;
-
-    case OBJ_MISSILES:
-        item.colour = _missile_colour(item);
-        break;
-
-    case OBJ_ARMOUR:
-        if (is_artefact(item))
-        {
-            item.colour = _exciting_colour();
-            break;
-        }
-
-        switch (item.sub_type)
-        {
-        case ARM_FIRE_DRAGON_HIDE:
-        case ARM_FIRE_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_FIRE_DRAGON);
-            break;
-        case ARM_TROLL_HIDE:
-        case ARM_TROLL_LEATHER_ARMOUR:
-            item.colour = mons_class_colour(MONS_TROLL);
-            break;
-        case ARM_ICE_DRAGON_HIDE:
-        case ARM_ICE_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_ICE_DRAGON);
-            break;
-        case ARM_STEAM_DRAGON_HIDE:
-        case ARM_STEAM_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_STEAM_DRAGON);
-            break;
-        case ARM_MOTTLED_DRAGON_HIDE:
-        case ARM_MOTTLED_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_MOTTLED_DRAGON);
-            break;
-        case ARM_STORM_DRAGON_HIDE:
-        case ARM_STORM_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_STORM_DRAGON);
-            break;
-        case ARM_GOLD_DRAGON_HIDE:
-        case ARM_GOLD_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_GOLDEN_DRAGON);
-            break;
-        case ARM_SWAMP_DRAGON_HIDE:
-        case ARM_SWAMP_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_SWAMP_DRAGON);
-            break;
-        case ARM_PEARL_DRAGON_HIDE:
-        case ARM_PEARL_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_PEARL_DRAGON);
-            break;
-        case ARM_SHADOW_DRAGON_HIDE:
-        case ARM_SHADOW_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_SHADOW_DRAGON);
-            break;
-        case ARM_QUICKSILVER_DRAGON_HIDE:
-        case ARM_QUICKSILVER_DRAGON_ARMOUR:
-            item.colour = mons_class_colour(MONS_QUICKSILVER_DRAGON);
-            break;
-        default:
-            item.colour = _armour_colour(item);
-            break;
-        }
-        break;
-
     case OBJ_WANDS:
-        item.special = you.item_description[IDESC_WANDS][item.sub_type];
-
-        switch (item.special % NDSC_WAND_PRI)
-        {
-        case 0:         //"iron wand"
-            item.colour = CYAN;
-            break;
-        case 1:         //"brass wand"
-        case 5:         //"gold wand"
-            item.colour = YELLOW;
-            break;
-        case 2:         //"bone wand"
-        case 8:         //"ivory wand"
-        case 9:         //"glass wand"
-        case 10:        //"lead wand"
-        default:
-            item.colour = LIGHTGREY;
-            break;
-        case 3:         //"wooden wand"
-        case 4:         //"copper wand"
-        case 7:         //"bronze wand"
-            item.colour = BROWN;
-            break;
-        case 6:         //"silver wand"
-            item.colour = WHITE;
-            break;
-        case 11:        //"fluorescent wand"
-            item.colour = LIGHTGREEN;
-            break;
-        }
-
+        item.subtype_rnd = you.item_description[IDESC_WANDS][item.sub_type];
         break;
 
     case OBJ_POTIONS:
-        item.plus = you.item_description[IDESC_POTIONS][item.sub_type];
-        item.colour = potion_colours[item.plus % NDSC_POT_PRI];
-        break;
-
-    case OBJ_FOOD:
-        switch (item.sub_type)
-        {
-        case FOOD_BEEF_JERKY:
-        case FOOD_BREAD_RATION:
-        case FOOD_MEAT_RATION:
-            item.colour = BROWN;
-            break;
-        case FOOD_ROYAL_JELLY:
-        case FOOD_PIZZA:
-            item.colour = YELLOW;
-            break;
-        case FOOD_FRUIT:
-            item.colour = LIGHTGREEN;
-            break;
-        case FOOD_CHUNK:
-            // Set the appropriate colour of the meat:
-            temp_value  = mons_class_colour(item.mon_type);
-            item.colour = (temp_value == BLACK) ? LIGHTRED : temp_value;
-            break;
-        default:
-            item.colour = BROWN;
-        }
+        item.subtype_rnd = you.item_description[IDESC_POTIONS][item.sub_type];
         break;
 
     case OBJ_JEWELLERY:
-        // unrandarts have already been coloured
-        if (is_unrandom_artefact(item))
-            break;
-        //randarts are bright, normal jewellery is dark
-        else if (is_random_artefact(item))
-        {
-            item.colour = random_range(LIGHTBLUE, WHITE);
-            break;
-        }
-
-        item.colour  = BROWN;
-        item.special = you.item_description[IDESC_RINGS][item.sub_type];
-
-        switchnum = item.special % NDSC_JEWEL_PRI;
-
-        switch (switchnum)
-        {
-        case 0:                 // "wooden ring"
-        case 2:                 // "golden ring"
-        case 6:                 // "brass ring"
-        case 7:                 // "copper ring"
-        case 25:                // "gilded ring"
-        case 27:                // "bronze ring"
-            item.colour = BROWN;
-            break;
-        case 1:                 // "silver ring"
-        case 8:                 // "granite ring"
-        case 9:                 // "ivory ring"
-        case 15:                // "bone ring"
-        case 16:                // "diamond ring"
-        case 20:                // "opal ring"
-        case 21:                // "pearl ring"
-        case 26:                // "onyx ring"
-            item.colour = LIGHTGREY;
-            break;
-        case 3:                 // "iron ring"
-        case 4:                 // "steel ring"
-        case 13:                // "glass ring"
-            item.colour = CYAN;
-            break;
-        case 5:                 // "tourmaline ring"
-        case 22:                // "coral ring"
-            item.colour = MAGENTA;
-            break;
-        case 10:                // "ruby ring"
-        case 19:                // "garnet ring"
-            item.colour = RED;
-            break;
-        case 11:                // "marble ring"
-        case 12:                // "jade ring"
-        case 14:                // "agate ring"
-        case 17:                // "emerald ring"
-        case 18:                // "peridot ring"
-            item.colour = GREEN;
-            break;
-        case 23:                // "sapphire ring"
-        case 24:                // "cabochon ring"
-        case 28:                // "moonstone ring"
-            item.colour = BLUE;
-            break;
-        }
-
-        if (item.sub_type >= AMU_FIRST_AMULET)
-        {
-            switch (switchnum)
-            {
-            case 0:             // "zirconium amulet"
-            case 9:             // "ivory amulet"
-            case 10:            // "bone amulet"
-            case 11:            // "platinum amulet"
-            case 16:            // "pearl amulet"
-            case 20:            // "diamond amulet"
-            case 24:            // "silver amulet"
-                item.colour = LIGHTGREY;
-                break;
-            case 1:             // "sapphire amulet"
-            case 17:            // "blue amulet"
-            case 26:            // "lapis lazuli amulet"
-                item.colour = BLUE;
-                break;
-            case 2:             // "golden amulet"
-            case 5:             // "bronze amulet"
-            case 6:             // "brass amulet"
-            case 7:             // "copper amulet"
-                item.colour = BROWN;
-                break;
-            case 3:             // "emerald amulet"
-            case 12:            // "jade amulet"
-            case 18:            // "peridot amulet"
-            case 21:            // "malachite amulet"
-            case 25:            // "soapstone amulet"
-            case 28:            // "beryl amulet"
-                item.colour = GREEN;
-                break;
-            case 4:             // "garnet amulet"
-            case 8:             // "ruby amulet"
-            case 19:            // "jasper amulet"
-            case 15:            // "cameo amulet"
-                item.colour = RED;
-                break;
-            case 22:            // "steel amulet"
-            case 23:            // "cabochon amulet"
-            case 27:            // "filigree amulet"
-                item.colour = CYAN;
-                break;
-            case 13:            // "fluorescent amulet"
-            case 14:            // "crystal amulet"
-                item.colour = MAGENTA;
-            }
-        }
-
+        item.subtype_rnd = you.item_description[IDESC_RINGS][item.sub_type];
         break;
 
     case OBJ_SCROLLS:
-        item.colour  = LIGHTGREY;
-        item.special = you.item_description[IDESC_SCROLLS][item.sub_type];
-        item.plus = you.item_description[IDESC_SCROLLS_II][item.sub_type];
-        break;
-
-    case OBJ_BOOKS:
-        if (item.sub_type == BOOK_MANUAL)
-        {
-            item.colour = WHITE;
-            break;
-        }
-        switch (item.special % NDSC_BOOK_PRI)
-        {
-        case 0:
-        case 1:
-        default:
-            do item.colour = random_colour();
-                while (item.colour == DARKGREY || item.colour == WHITE);
-            break;
-        case 2:
-            item.colour = BROWN;
-            break;
-        case 3:
-            item.colour = CYAN;
-            break;
-        case 4:
-            item.colour = LIGHTGREY;
-            break;
-        }
-        break;
-
-    case OBJ_RODS:
-        item.colour = YELLOW;
+        item.subtype_rnd = you.item_description[IDESC_SCROLLS][item.sub_type];
         break;
 
     case OBJ_STAVES:
-        item.colour  = BROWN;
-        item.special = you.item_description[IDESC_STAVES][item.sub_type];
+        item.subtype_rnd = you.item_description[IDESC_STAVES][item.sub_type];
         break;
 
-    case OBJ_ORBS:
-        item.colour = ETC_MUTAGENIC;
-        break;
-
-    case OBJ_MISCELLANY:
-        if (is_deck(item))
-            break;
-
-        switch (item.sub_type)
-        {
-        case MISC_LANTERN_OF_SHADOWS:
-            item.colour = BLUE;
-            break;
-
-        // GREEN is for plain decks
-
-        case MISC_FAN_OF_GALES:
-            item.colour = CYAN;
-            break;
-
-#if TAG_MAJOR_VERSION == 34
-        case MISC_BOTTLED_EFREET:
-            item.colour = RED;
-            break;
-#endif
-
-        // MAGENTA is for ornate decks
-
-        case MISC_STONE_OF_TREMORS:
-            item.colour = BROWN;
-            break;
-
-        case MISC_DISC_OF_STORMS:
-            item.colour = LIGHTGREY;
-            break;
-
-        case MISC_PHIAL_OF_FLOODS:
-            item.colour = LIGHTBLUE;
-            break;
-
-        case MISC_BOX_OF_BEASTS:
-            item.colour = LIGHTGREEN; // ugh, but we're out of other options
-            break;
-
-        case MISC_CRYSTAL_BALL_OF_ENERGY:
-            item.colour = LIGHTCYAN;
-            break;
-
-        case MISC_HORN_OF_GERYON:
-            item.colour = LIGHTRED;
-            break;
-
-        case MISC_LAMP_OF_FIRE:
-            item.colour = YELLOW;
-            break;
-
-        case MISC_SACK_OF_SPIDERS:
-            item.colour = WHITE;
-            break;
-
-        case MISC_RUNE_OF_ZOT:
-            switch (item.plus)
-            {
-            case RUNE_DIS:                      // iron
-                item.colour = ETC_IRON;
-                break;
-
-            case RUNE_COCYTUS:                  // icy
-                item.colour = ETC_ICE;
-                break;
-
-            case RUNE_TARTARUS:                 // bone
-            case RUNE_SPIDER:
-                item.colour = ETC_BONE;
-                break;
-
-            case RUNE_SLIME:                    // slimy
-                item.colour = ETC_SLIME;
-                break;
-
-            case RUNE_SNAKE:                    // serpentine
-                item.colour = ETC_POISON;
-                break;
-
-            case RUNE_ELF:                      // elven
-                item.colour = ETC_ELVEN;
-                break;
-
-            case RUNE_VAULTS:                   // silver
-                item.colour = ETC_SILVER;
-                break;
-
-            case RUNE_TOMB:                     // golden
-                item.colour = ETC_GOLD;
-                break;
-
-            case RUNE_SWAMP:                    // decaying
-                item.colour = ETC_DECAY;
-                break;
-
-            case RUNE_SHOALS:                   // barnacled
-                item.colour = ETC_WATER;
-                break;
-
-            // This one is hardly unique, but colour isn't used for
-            // stacking, so we don't have to worry too much about this.
-            // - bwr
-            case RUNE_DEMONIC:                  // random Pandemonium lords
-            {
-                const element_type types[] =
-                    {ETC_EARTH, ETC_ELECTRICITY, ETC_ENCHANT, ETC_HEAL,
-                     ETC_BLOOD, ETC_DEATH, ETC_UNHOLY, ETC_VEHUMET, ETC_BEOGH,
-                     ETC_CRYSTAL, ETC_SMOKE, ETC_DWARVEN, ETC_ORCISH, ETC_FLASH,
-                     ETC_KRAKEN};
-
-                item.colour = RANDOM_ELEMENT(types);
-                item.special = random_int();
-                break;
-            }
-
-            case RUNE_ABYSSAL:
-                item.colour = ETC_RANDOM;
-                break;
-
-            case RUNE_MNOLEG:                   // glowing
-                item.colour = ETC_MUTAGENIC;
-                break;
-
-            case RUNE_LOM_LOBON:                // magical
-                item.colour = ETC_MAGIC;
-                break;
-
-            case RUNE_CEREBOV:                  // fiery
-                item.colour = ETC_FIRE;
-                break;
-
-            case RUNE_GEHENNA:                  // obsidian
-            case RUNE_GLOORX_VLOQ:              // dark
-            default:
-                item.colour = ETC_DARK;
-                break;
-            }
-            break;
-
-#if TAG_MAJOR_VERSION == 34
-        case MISC_BUGGY_EBONY_CASKET:
-            item.colour = DARKGREY;
-            break;
-#endif
-
-        case MISC_QUAD_DAMAGE:
-            item.colour = ETC_DARK;
-            break;
-
-        default:
-            item.colour = LIGHTGREEN;
-            break;
-        }
-        break;
-
-    case OBJ_CORPSES:
-        // Set the appropriate colour of the body:
-        temp_value  = mons_class_colour(item.mon_type);
-        item.colour = (temp_value == BLACK) ? LIGHTRED : temp_value;
-        break;
-
-    case OBJ_GOLD:
-        item.colour = YELLOW;
-        break;
     default:
         break;
     }
@@ -847,17 +254,19 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
     if (item.special != 0)
         return static_cast<brand_type>(item.special);
 
-    const bool force_good = item_level >= MAKE_GIFT_ITEM;
-    const int tries       = force_good ? 5 : 1;
+    int tries;
+
+    if (item_level >= MAKE_GIFT_ITEM)
+        tries =  5;
+    else if (is_demonic(item) || x_chance_in_y(101 + item_level, 300))
+        tries = 1;
+    else
+        tries = 0;
+
     brand_type rc         = SPWPN_NORMAL;
 
     for (int count = 0; count < tries && rc == SPWPN_NORMAL; ++count)
     {
-        if (!force_good && !is_demonic(item)
-            && !x_chance_in_y(101 + item_level, 300))
-        {
-            continue;
-        }
 
         // We are not guaranteed to have a special set by the end of
         // this.
@@ -905,120 +314,83 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
             break;
 
         case WPN_DAGGER:
-            if (one_chance_in(10))
-                rc = SPWPN_PAIN;
-
-            if (one_chance_in(3))
-                rc = SPWPN_VENOM;
-            // **** intentional fall through here ****
+                                    // total weight 100
+            rc = random_choose_weighted(28, SPWPN_VENOM,
+                                        20, SPWPN_NORMAL,
+                                        10, SPWPN_SPEED,
+                                         9, SPWPN_DRAINING,
+                                         6, SPWPN_PROTECTION,
+                                         6, SPWPN_ELECTROCUTION,
+                                         5, SPWPN_HOLY_WRATH,
+                                         4, SPWPN_VAMPIRISM,
+                                         4, SPWPN_FLAMING,
+                                         4, SPWPN_FREEZING,
+                                         2, SPWPN_PAIN,
+                                         1, SPWPN_DISTORTION,
+                                         1, SPWPN_ANTIMAGIC,
+                                         0);
+            break;
 
         case WPN_SHORT_SWORD:
         case WPN_RAPIER:
-            if (one_chance_in(25))
-                rc = SPWPN_ANTIMAGIC;
-
-            if (one_chance_in(25))
-                rc = SPWPN_DISTORTION;
-
-            if (one_chance_in(10))
-                rc = SPWPN_VAMPIRISM;
-
-            if (one_chance_in(8))
-                rc = SPWPN_ELECTROCUTION;
-
-            if (one_chance_in(8))
-                rc = SPWPN_PROTECTION;
-
-            if (one_chance_in(8))
-                rc = coinflip() ? SPWPN_FLAMING : SPWPN_FREEZING;
-
-            if (one_chance_in(12))
-                rc = SPWPN_HOLY_WRATH;
-
-            if (one_chance_in(8))
-                rc = SPWPN_DRAINING;
-
-            if (one_chance_in(8))
-                rc = SPWPN_SPEED;
-
-            if (one_chance_in(6))
-                rc = SPWPN_VENOM;
+                                    // total weight 100
+            rc = random_choose_weighted(33, SPWPN_NORMAL,
+                                        17, SPWPN_VENOM,
+                                        10, SPWPN_SPEED,
+                                         9, SPWPN_DRAINING,
+                                         6, SPWPN_PROTECTION,
+                                         6, SPWPN_ELECTROCUTION,
+                                         5, SPWPN_HOLY_WRATH,
+                                         4, SPWPN_VAMPIRISM,
+                                         4, SPWPN_FLAMING,
+                                         4, SPWPN_FREEZING,
+                                         1, SPWPN_DISTORTION,
+                                         1, SPWPN_ANTIMAGIC,
+                                         0);
             break;
 
         case WPN_FALCHION:
         case WPN_LONG_SWORD:
-            if (one_chance_in(12))
-                rc = SPWPN_VENOM;
-            // **** intentional fall through here ****
         case WPN_SCIMITAR:
-            if (one_chance_in(25))
-                rc = SPWPN_PAIN;
-            // **** intentional fall through here ****
         case WPN_GREAT_SWORD:
         case WPN_DOUBLE_SWORD:
         case WPN_TRIPLE_SWORD:
-            if (one_chance_in(25))
-                rc = SPWPN_ANTIMAGIC;
-
-            if (one_chance_in(10))
-                rc = SPWPN_VAMPIRISM;
-
-            if (one_chance_in(25))
-                rc = SPWPN_DISTORTION;
-
-            if (one_chance_in(5))
-                rc = coinflip() ? SPWPN_FLAMING : SPWPN_FREEZING;
-
-            if (one_chance_in(7))
-                rc = SPWPN_PROTECTION;
-
-            if (one_chance_in(12))
-                rc = SPWPN_DRAINING;
-
-            if (one_chance_in(7))
-                rc = SPWPN_ELECTROCUTION;
-
-            if (one_chance_in(4))
-                rc = SPWPN_HOLY_WRATH;
-
-            if (one_chance_in(4) && (rc == SPWPN_NORMAL || one_chance_in(3)))
-                rc = SPWPN_VORPAL;
+                                    // total weight 100
+            rc = random_choose_weighted(23, SPWPN_HOLY_WRATH,
+                                        19, SPWPN_NORMAL,
+                                        15, SPWPN_VORPAL,
+                                        10, SPWPN_ELECTROCUTION,
+                                         8, SPWPN_PROTECTION,
+                                         5, SPWPN_FREEZING,
+                                         5, SPWPN_FLAMING,
+                                         5, SPWPN_DRAINING,
+                                         4, SPWPN_VAMPIRISM,
+                                         2, SPWPN_VENOM,
+                                         2, SPWPN_DISTORTION,
+                                         1, SPWPN_PAIN,
+                                         1, SPWPN_ANTIMAGIC,
+                                         0);
             break;
 
         case WPN_WAR_AXE:
+        case WPN_HAND_AXE:
         case WPN_BROAD_AXE:
         case WPN_BATTLEAXE:
         case WPN_EXECUTIONERS_AXE:
-            if (one_chance_in(25))
-                rc = SPWPN_HOLY_WRATH;
-
-            if (one_chance_in(14))
-                rc = SPWPN_DRAINING;
-            // **** intentional fall through here ****
-        case WPN_HAND_AXE:
-            if (one_chance_in(25))
-                rc = SPWPN_ANTIMAGIC;
-
-            if (one_chance_in(30))
-                rc = SPWPN_PAIN;
-
-            if (one_chance_in(10))
-                rc = SPWPN_VAMPIRISM;
-
-            if (one_chance_in(25))
-                rc = SPWPN_DISTORTION;
-
-            if (one_chance_in(3) && (rc == SPWPN_NORMAL || one_chance_in(5)))
-                rc = SPWPN_VORPAL;
-
-            if (one_chance_in(4))
-                rc = coinflip() ? SPWPN_FLAMING : SPWPN_FREEZING;
-
-            if (one_chance_in(8))
-                rc = SPWPN_ELECTROCUTION;
-
-            if (one_chance_in(12))
-                rc = SPWPN_VENOM;
+                                    // total weight 100
+            rc = random_choose_weighted(31, SPWPN_NORMAL,
+                                        16, SPWPN_VORPAL,
+                                        11, SPWPN_ELECTROCUTION,
+                                        10, SPWPN_FREEZING,
+                                        10, SPWPN_FLAMING,
+                                         8, SPWPN_VENOM,
+                                         5, SPWPN_VAMPIRISM,
+                                         3, SPWPN_DRAINING,
+                                         2, SPWPN_DISTORTION,
+                                         2, SPWPN_ANTIMAGIC,
+                                         1, SPWPN_PAIN,
+                                         1, SPWPN_HOLY_WRATH,
+                                         0);
             break;
 
         case WPN_WHIP:
@@ -1140,13 +512,7 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
                                          0);
             break;
 
-        case WPN_BLESSED_FALCHION:      // special gifts of TSO
-        case WPN_BLESSED_LONG_SWORD:
-        case WPN_BLESSED_SCIMITAR:
-        case WPN_EUDEMON_BLADE:
-        case WPN_BLESSED_DOUBLE_SWORD:
-        case WPN_BLESSED_GREAT_SWORD:
-        case WPN_BLESSED_TRIPLE_SWORD:
+        case WPN_EUDEMON_BLADE:      // special gifts of TSO
         case WPN_SACRED_SCOURGE:
         case WPN_TRISHULA:
             rc = SPWPN_HOLY_WRATH;
@@ -1284,6 +650,7 @@ static void _generate_weapon_item(item_def& item, bool allow_uniques,
                 {
                     force_type = item.sub_type;
                     item.clear();
+                    item.quantity = 1;
                     item.base_type = OBJ_WEAPONS;
                     item.sub_type = force_type;
                     continue;
@@ -2053,7 +1420,7 @@ static monster_type _choose_random_monster_corpse()
                                         random2(NUM_MONSTERS)));
         if (mons_class_flag(spc, M_NO_POLY_TO | M_CANT_SPAWN))
             continue;
-        if (mons_weight(spc) > 0)        // drops a corpse
+        if (mons_class_can_leave_corpse(spc))
             return spc;
     }
 
@@ -2104,7 +1471,9 @@ static void _generate_wand_item(item_def& item, int force_type, int item_level)
     else
     {
         do
+        {
             item.sub_type = _random_wand_subtype();
+        }
         while (item_level < 2 && is_high_tier_wand(item.sub_type));
     }
 
@@ -2182,7 +1551,7 @@ static void _generate_potion_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-            // total weight is 1075
+            // total weight is 1065
             stype = random_choose_weighted(191, POT_CURING,
                                             95, POT_HEAL_WOUNDS,
                                             75, POT_RESTORE_ABILITIES,
@@ -2203,7 +1572,6 @@ static void _generate_potion_item(item_def& item, int force_type,
                                             25, POT_DEGENERATION,
                                             23, POT_CURE_MUTATION,
                                             12, POT_BENEFICIAL_MUTATION,
-                                            10, POT_PORRIDGE,
                                              2, POT_EXPERIENCE,
                                              2, POT_DECAY,
                                              0);
@@ -2412,7 +1780,9 @@ static void _generate_staff_item(item_def& item, bool allow_uniques, int force_t
     {
 #if TAG_MAJOR_VERSION == 34
         do
+        {
             item.sub_type = random2(NUM_STAVES);
+        }
         while (item.sub_type == STAFF_ENCHANTMENT
                || item.sub_type == STAFF_CHANNELING);
 #else
@@ -2437,7 +1807,9 @@ static void _generate_rod_item(item_def& item, int force_type, int item_level)
 #if TAG_MAJOR_VERSION == 34
     {
         do
+        {
             item.sub_type = random2(NUM_RODS);
+        }
         while (item.sub_type == ROD_WARDING || item.sub_type == ROD_VENOM);
     }
 #else
@@ -2475,11 +1847,9 @@ static int _determine_ring_plus(int subtype)
 
     switch (subtype)
     {
-    case RING_SLAYING:
-        if (coinflip())
-            rc += random2(3);
     case RING_PROTECTION:
     case RING_STRENGTH:
+    case RING_SLAYING:
     case RING_EVASION:
     case RING_DEXTERITY:
     case RING_INTELLIGENCE:
@@ -2491,7 +1861,7 @@ static int _determine_ring_plus(int subtype)
                 rc -= random2(4);
         }
         else
-            rc += 1 + (one_chance_in(3) ? random2(3) : random2avg(6, 2));
+            rc = 1 + (one_chance_in(3) ? random2(3) : random2avg(6, 2));
         break;
 
     default:
@@ -2565,7 +1935,9 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
     else
     {
         do
+        {
             item.sub_type = random2(NUM_MISCELLANY);
+        }
         while
             // never randomly generated
             (item.sub_type == MISC_RUNE_OF_ZOT
@@ -2598,7 +1970,7 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
         if (force_ego >= DECK_RARITY_COMMON
             && force_ego <= DECK_RARITY_LEGENDARY)
         {
-            item.deck_rarity = force_ego;
+            item.deck_rarity = static_cast<deck_rarity_type>(force_ego);
         }
         else
         {
@@ -2830,7 +2202,11 @@ int items(bool allow_uniques,
     item.link = NON_ITEM;
 
     // Note that item might be invalidated now, since p could have changed.
-    ASSERT(mitm[p].is_valid());
+    ASSERTM(mitm[p].is_valid(),
+            "idx: %d, qty: %hd, base: %d, sub: %d, spe: %d, col: %d, rnd: %d",
+            item.index(), item.quantity,
+            (int)item.base_type, (int)item.sub_type, item.special,
+            (int)item.get_colour(), (int)item.rnd);
     return p;
 }
 
@@ -2940,7 +2316,9 @@ jewellery_type get_random_amulet_type()
 #if TAG_MAJOR_VERSION == 34
     int res;
     do
+    {
         res = (AMU_FIRST_AMULET + random2(NUM_JEWELLERY - AMU_FIRST_AMULET));
+    }
     // Do not generate cFly or Cons
     while (res == AMU_CONTROLLED_FLIGHT || res == AMU_CONSERVATION);
 

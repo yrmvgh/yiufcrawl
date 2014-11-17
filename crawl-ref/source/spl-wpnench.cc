@@ -6,17 +6,14 @@
 #include "AppHdr.h"
 
 #include "spl-wpnench.h"
-#include "externs.h"
 
 #include "areas.h"
-#include "artefact.h"
 #include "itemprop.h"
 #include "makeitem.h"
 #include "message.h"
 #include "prompt.h"
 #include "religion.h"
 #include "shout.h"
-#include "skills2.h"
 #include "spl-miscast.h"
 
 // We need to know what brands equate with what missile brands to know if
@@ -252,7 +249,7 @@ spret_type brand_weapon(brand_type which_brand, int power, bool fail)
             canned_msg(MSG_OK);
             return SPRET_ABORT;
         }
-        MiscastEffect(&you, WIELD_MISCAST, SPTYP_TRANSLOCATION,
+        MiscastEffect(&you, NULL, WIELD_MISCAST, SPTYP_TRANSLOCATION,
                       9, 90, "rebranding a weapon of distortion");
     }
 
@@ -289,7 +286,7 @@ spret_type brand_weapon(brand_type which_brand, int power, bool fail)
     }
 
     if (emit_special_message)
-        mpr(msg.c_str());
+        mpr(msg);
     else
         mprf("%s flashes.", weapon.name(DESC_YOUR).c_str());
 

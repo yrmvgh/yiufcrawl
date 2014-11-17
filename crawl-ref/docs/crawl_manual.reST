@@ -587,6 +587,30 @@ kind of threat from melee fighters. Learn from past deaths and remember which
 monsters pose the most problems. If particular monsters are giving you
 trouble, try to alter your tactics for future encounters.
 
+You can obtain information about a monster by using the 'x' (examine) command,
+moving the cursor over the monster in question, and pressing 'v' to view the
+monster's details; or by searching for a monster by name or symbol with '?/m'.
+The details screen shows:
+
+- The monster's name and description.
+- Bars indicating its:
+  * AC: armour class; how well it ignores most damage
+  * EV: evasion; how well it avoids being hit
+  * MR: magic resistance; how well it resists most Hexes and similar
+    enchantments.
+- Its difficulty level, speed (if different from average speed), size,
+  resistances, and special attacks.
+- Its spells and special abilities.  Monster spells and abilities are
+  of five types:
+  * Special abilities are innate, non-magical effects.
+  * Magical abilities are innate magical effects.  They are affected
+    by antimagic.
+  * Demonic abilities are similar to magical abilities.
+  * Divine abilities call upon the monster's god for a magical effect.
+    They are prevented by silence, but not affected by antimagic.
+  * Spells are cast using memorized magical words.  They are both
+    prevented by silence and affected by antimagic.
+
 ****************************************
 G. Items
 ****************************************
@@ -1976,8 +2000,7 @@ Enchanters
   The Enchanter specialises in the subtle art of hexes. Instead of directly
   damaging foes, hexes disable and debilitate them, allowing the Enchanter to
   finish the helpless creatures in combat. The Enchanter begins with lightly
-  enchanted weapons and armour, as well as the Corona spell and some darts,
-  which should help them out until they can use the higher level hexes.
+  enchanted weapons and armour, as well as the Corona spell.
 
 Summoners
   The Summoner specialises in calling creatures from this and other worlds to
@@ -2091,10 +2114,11 @@ There are a number of individual weapon skills for missile weapons:
   * Slings
 
 Throwing is the skill for all things hurled without a launcher: tomahawks,
-javelins, darts, nets, etc. The other skills refer to various types of missiles
-shot with a launcher. An exception to this are needles: these are launched
-using blowguns, an action which uses the Throwing skill. Since stones can be
-thrown without launchers to some effect, these skills crosstrain:
+javelins, tomahawks, nets, etc. The other skills refer to various types of
+missiles shot with a launcher. An exception to this are needles: these are
+launched using blowguns, an action which uses the Throwing skill. Since
+stones can be thrown without launchers to some effect, these skills
+crosstrain:
 
   * Throwing and Slings
 

@@ -1284,14 +1284,14 @@ MONS:    oklob plant
 MONS:    jelly
 MONS:    trapdoor spider / wolf spider
 MONS:    guardian serpent
-MONS:    silver statue
+MONS:    obsidian statue
 # Randomise wall type: in 50% of maps, you cannot dig to the stairs.
 SUBST:   x : xxxxxxvvvccb
 KFEAT:   = = closed_door
 COLOUR:  ' = red
 FTILE:   ' = floor_rough_red
 SUBST:   ' = .
-# With 25% chance, have lava and silver statue instead of water and oklobs:
+# With 25% chance, have lava and obsidian statue instead of water and oklobs:
 SUBST:   w : Ww.
 SUBST:   w = W.
 SHUFFLE: wU3 / wU3 / wU3 / l7L
@@ -1616,7 +1616,7 @@ ORIENT: northwest
 DEPTH:  D:2-4
 KMONS:  O = Ijyb / hobgoblin w:1, hobgoblin
 MONS:   goblin, goblin ; hunting sling . stone, jackal
-NSUBST: . = 1:6 / 3:3 / *:.
+NSUBST: . = 1:0 / 3:3 / *:.
 MAP
 xxxxxxxxxxxxxxxxxxx
 x...+....1..x%%*xww
@@ -1648,7 +1648,7 @@ TILE:   c = dngn_stone_dark
 SUBST:  *=*|
 MONS:   blue devil w:1 / hellwing w:3 / rust devil w:1 / orange demon w:1 /\
         red devil w:1 / demonic crawler / sixfirhy w:1
-MONS:   lesser demon, green rat / giant cockroach
+MONS:   lesser demon, river rat / giant cockroach
 NSUBST: . = 6:3 / 6:! / 56:' / .
 KPROP:  !' = bloody
 : dgn.delayed_decay(_G, '!', 'human corpse / human skeleton')
@@ -1770,7 +1770,7 @@ DEPTH:   D:13-, !D:$
 TAGS:    no_monster_gen
 ORIENT:  northwest
 MONS:    big kobold, patrolling kobold demonologist, kobold, plant
-MONS:    lesser demon, silver statue
+MONS:    lesser demon, obsidian statue
 : dgn.delayed_decay(_G, 'C', 'halfling corpse / halfling skeleton')
 KMONS:   g = bush
 SHUFFLE: !'

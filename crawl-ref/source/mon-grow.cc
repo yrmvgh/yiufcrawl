@@ -5,13 +5,12 @@
 
 #include "AppHdr.h"
 
-#include "enum.h"
 #include "mon-grow.h"
-#include "mon-message.h"
-#include "mon-util.h"
+
+#include "message.h"
 #include "mon-place.h"
 #include "monster.h"
-#include "random.h"
+#include "mon-util.h"
 
 // Base experience required by a monster to reach HD 1.
 const int monster_xp_base       = 15;

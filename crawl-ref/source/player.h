@@ -7,17 +7,16 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "actor.h"
-#include "beam.h"
-#include "bitary.h"
-#include "quiver.h"
-#include "place-info.h"
-#include "religion-enum.h"
-#include "species.h"
-
 #include <list>
 #include <vector>
 
+#include "actor.h"
+#include "beam.h"
+#include "bitary.h"
+#include "place-info.h"
+#include "quiver.h"
+#include "religion-enum.h"
+#include "species.h"
 #ifdef USE_TILE
 #include "tiledoll.h"
 #endif
@@ -171,7 +170,7 @@ public:
 
   int exp_docked, exp_docked_total; // Ashenzari's wrath
 
-  FixedArray<uint8_t, 6, MAX_SUBTYPES> item_description;
+  FixedArray<uint32_t, 6, MAX_SUBTYPES> item_description;
   FixedVector<unique_item_status_type, MAX_UNRANDARTS> unique_items;
   FixedBitVector<NUM_MONSTERS> unique_creatures;
 
@@ -374,7 +373,7 @@ public:
   string escaped_death_aux;
 
   int turn_damage;   // cumulative damage per turn
-  int damage_source; // death source of last damage done to player
+  mid_t damage_source; // death source of last damage done to player
   int source_damage; // cumulative damage for you.damage_source
 
   // When other levels are loaded (e.g. viewing), is the player on this level?
@@ -495,7 +494,6 @@ public:
 
     bool has_spell(spell_type spell) const;
 
-    size_type transform_size(transformation_type tform) const;
     string shout_verb(bool directed = false) const;
     int shout_volume() const;
 
@@ -628,6 +626,9 @@ public:
     bool heal(int amount, bool max_too = false);
     bool drain_exp(actor *, bool quiet = false, int pow = 3);
     bool rot(actor *, int amount, int immediate = 0, bool quiet = false);
+    void splash_with_acid(const actor* evildoer, int acid_strength,
+                          bool allow_corrosion = true,
+                          const char* hurt_msg = NULL);
     void sentinel_mark(bool trap = false);
     int hurt(const actor *attacker, int amount,
              beam_type flavour = BEAM_MISSILE,
@@ -851,7 +852,6 @@ bool swap_check(monster* mons, coord_def &loc, bool quiet = false);
 void move_player_to_grid(const coord_def& p, bool stepped);
 
 bool is_map_persistent();
-bool player_in_mappable_area();
 bool player_in_connected_branch();
 bool player_in_hell();
 
@@ -872,8 +872,6 @@ bool player_effectively_in_light_armour();
 
 int player_energy();
 
-int player_raw_body_armour_evasion_penalty();
-int player_adjusted_shield_evasion_penalty(int scale);
 int player_armour_shield_spell_penalty();
 int player_evasion(ev_ignore_type evit = EV_IGNORE_NONE);
 
@@ -963,8 +961,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain = NULL);
 
 bool player_can_open_doors();
 
-void level_change(int source = NON_MONSTER, const char *aux = NULL,
-                  bool skip_attribute_increase = false);
+void level_change(bool skip_attribute_increase = false);
 void adjust_level(int diff, bool just_xp = false);
 
 bool player_genus(genus_type which_genus,
@@ -1056,8 +1053,6 @@ bool player_weapon_wielded();
 // Determines if the given grid is dangerous for the player to enter.
 bool is_feat_dangerous(dungeon_feature_type feat, bool permanently = false,
                        bool ignore_flight = false);
-
-void run_macro(const char *macroname = NULL);
 
 int count_worn_ego(int which_ego);
 bool need_expiration_warning(duration_type dur, dungeon_feature_type feat);

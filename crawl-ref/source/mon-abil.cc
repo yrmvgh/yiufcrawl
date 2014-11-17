@@ -4,27 +4,37 @@
 **/
 
 #include "AppHdr.h"
+
 #include "mon-abil.h"
 
-#include "externs.h"
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <queue>
+#include <set>
 
-#include "actor.h"
 #include "act-iter.h"
+#include "actor.h"
+#include "areas.h"
 #include "arena.h"
 #include "beam.h"
 #include "bloodspatter.h"
+#include "cloud.h"
 #include "colour.h"
 #include "coordit.h"
 #include "delay.h"
 #include "directn.h"
 #include "english.h"
-#include "exclude.h" //XXX
+#include "env.h"
+#include "exclude.h"
 #include "fight.h"
 #include "fprop.h"
 #include "itemprop.h"
-#include "losglobal.h"
+#include "items.h"
 #include "libutil.h"
+#include "losglobal.h"
 #include "message.h"
+#include "mgen_data.h"
 #include "misc.h"
 #include "mon-act.h"
 #include "mon-behv.h"
@@ -36,34 +46,23 @@
 #include "mon-place.h"
 #include "mon-poly.h"
 #include "mon-project.h"
-#include "mon-util.h"
-#include "terrain.h"
-#include "mgen_data.h"
-#include "cloud.h"
 #include "mon-speak.h"
 #include "mon-tentacle.h"
+#include "mon-util.h"
+#include "ouch.h"
 #include "random.h"
 #include "religion.h"
+#include "shout.h"
 #include "spl-damage.h"
 #include "spl-miscast.h"
 #include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
-#include "env.h"
-#include "areas.h"
-#include "view.h"
-#include "shout.h"
-#include "viewchar.h"
-#include "ouch.h"
 #include "target.h"
-#include "items.h"
 #include "teleport.h"
-
-#include <algorithm>
-#include <queue>
-#include <map>
-#include <set>
-#include <cmath>
+#include "terrain.h"
+#include "viewchar.h"
+#include "view.h"
 
 static bool _slime_split_merge(monster* thing);
 
@@ -230,8 +229,8 @@ void merge_ench_durations(monster* initial, monster* merge_to, bool usehd)
 {
     mon_enchant_list::iterator i;
 
-    int initial_count = usehd ? initial->get_hit_dice() : initial->number;
-    int merge_to_count = usehd ? merge_to->get_hit_dice() : merge_to->number;
+    int initial_count = usehd ? initial->get_hit_dice() : initial->blob_size;
+    int merge_to_count = usehd ? merge_to->get_hit_dice() : merge_to->blob_size;
     int total_count = initial_count + merge_to_count;
 
     for (i = initial->enchantments.begin();
@@ -274,8 +273,8 @@ void merge_ench_durations(monster* initial, monster* merge_to, bool usehd)
 static void _stats_from_blob_count(monster* slime, float max_per_blob,
                                    float current_per_blob)
 {
-    slime->max_hit_points = (int)(slime->number * max_per_blob);
-    slime->hit_points = (int)(slime->number * current_per_blob);
+    slime->max_hit_points = (int)(slime->blob_size * max_per_blob);
+    slime->hit_points = (int)(slime->blob_size * current_per_blob);
 }
 
 // Create a new slime creature at 'target', and split 'thing''s hp and
@@ -318,12 +317,12 @@ static monster* _do_split(monster* thing, coord_def & target)
     if (thing->props.exists("blame"))
         new_slime->props["blame"] = thing->props["blame"].get_vector();
 
-    int split_off = thing->number / 2;
-    float max_per_blob = thing->max_hit_points / float(thing->number);
-    float current_per_blob = thing->hit_points / float(thing->number);
+    int split_off = thing->blob_size / 2;
+    float max_per_blob = thing->max_hit_points / float(thing->blob_size);
+    float current_per_blob = thing->hit_points / float(thing->blob_size);
 
-    thing->number -= split_off;
-    new_slime->number = split_off;
+    thing->blob_size -= split_off;
+    new_slime->blob_size = split_off;
 
     new_slime->set_hit_dice(thing->get_experience_level());
 
@@ -506,7 +505,7 @@ static bool _do_merge_slimes(monster* initial_slime, monster* merge_to)
     // Combine enchantment durations.
     merge_ench_durations(initial_slime, merge_to);
 
-    merge_to->number += initial_slime->number;
+    merge_to->blob_size += initial_slime->blob_size;
     merge_to->max_hit_points += initial_slime->max_hit_points;
     merge_to->hit_points += initial_slime->hit_points;
 
@@ -585,7 +584,7 @@ static bool _slime_merge(monster* thing)
 
     int max_slime_merge = 5;
     int compass_idx[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-    shuffle_array(compass_idx, 8);
+    shuffle_array(compass_idx);
     coord_def origin = thing->pos();
 
     int target_distance = grid_distance(thing->target, thing->pos());
@@ -618,13 +617,14 @@ static bool _slime_merge(monster* thing)
             && other_thing->type == MONS_SLIME_CREATURE
             && other_thing->attitude == thing->attitude
             && other_thing->has_ench(ENCH_CHARM) == thing->has_ench(ENCH_CHARM)
+            && other_thing->has_ench(ENCH_HEXED) == thing->has_ench(ENCH_HEXED)
             && other_thing->is_summoned() == thing->is_summoned()
             && !other_thing->is_shapeshifter()
             && !_disabled_merge(other_thing))
         {
             // We can potentially merge if doing so won't take us over
             // the merge cap.
-            int new_blob_count = other_thing->number + thing->number;
+            int new_blob_count = other_thing->blob_size + thing->blob_size;
             if (new_blob_count <= max_slime_merge)
                 merge_target = other_thing;
         }
@@ -664,7 +664,7 @@ static bool _crawling_corpse_merge(monster *crawlie)
         return false;
 
     int compass_idx[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-    shuffle_array(compass_idx, 8);
+    shuffle_array(compass_idx);
     coord_def origin = crawlie->pos();
 
     monster* merge_target = NULL;
@@ -696,7 +696,7 @@ static bool _slime_can_spawn(const coord_def target)
 // we can find a square to place the new slime creature on.
 static monster *_slime_split(monster* thing, bool force_split)
 {
-    if (!thing || thing->number <= 1 || thing->hit_points < 4
+    if (!thing || thing->blob_size <= 1 || thing->hit_points < 4
         || (coinflip() && !force_split) // Don't make splitting quite so reliable. (jpeg)
         || _disabled_merge(thing))
     {
@@ -725,7 +725,7 @@ static monster *_slime_split(monster* thing, bool force_split)
     }
 
     int compass_idx[] = {0, 1, 2, 3, 4, 5, 6, 7};
-    shuffle_array(compass_idx, 8);
+    shuffle_array(compass_idx);
 
     // Anywhere we can place an offspring?
     for (int i = 0; i < 8; ++i)
@@ -774,10 +774,10 @@ bool slime_creature_polymorph(monster* slime)
 {
     ASSERT(slime->type == MONS_SLIME_CREATURE);
 
-    if (slime->number > 1 && x_chance_in_y(4, 5))
+    if (slime->blob_size > 1 && x_chance_in_y(4, 5))
     {
         int count = 0;
-        while (slime->number > 1 && count <= 10)
+        while (slime->blob_size > 1 && count <= 10)
         {
             if (monster *splinter = _slime_split(slime, true))
                 slime_creature_polymorph(splinter);
@@ -793,7 +793,7 @@ bool slime_creature_polymorph(monster* slime)
 static bool _starcursed_split(monster* mon)
 {
     if (!mon
-        || mon->number <= 1
+        || mon->blob_size <= 1
         || mon->type != MONS_STARCURSED_MASS)
     {
         return false;
@@ -802,7 +802,7 @@ static bool _starcursed_split(monster* mon)
     const coord_def origin = mon->pos();
 
     int compass_idx[] = {0, 1, 2, 3, 4, 5, 6, 7};
-    shuffle_array(compass_idx, 8);
+    shuffle_array(compass_idx);
 
     // Anywhere we can place an offspring?
     for (int i = 0; i < 8; ++i)
@@ -878,7 +878,7 @@ static void _starcursed_scream(monster* mon, actor* target)
     else
     {
         mprf(MSGCH_MONSTER_SPELL, "%s", message);
-        ouch(dam, mon->mindex(), KILLED_BY_BEAM, "accursed screaming");
+        ouch(dam, KILLED_BY_BEAM, mon->mid, "accursed screaming");
     }
 
     if (stun && target->alive())
@@ -1049,7 +1049,7 @@ bool lost_soul_revive(monster* mons)
 
 void treant_release_fauna(monster* mons)
 {
-    int count = mons->number;
+    int count = mons->mangrove_pests;
     bool created = false;
 
     monster_type base_t = (one_chance_in(3) ? MONS_YELLOW_WASP
@@ -1078,7 +1078,7 @@ void treant_release_fauna(monster* mons)
                 fauna->add_ench(abj);
 
             created = true;
-            mons->number--;
+            mons->mangrove_pests--;
         }
     }
 
@@ -1121,43 +1121,6 @@ void check_grasping_roots(actor* act, bool quiet)
         else
             act->as_monster()->del_ench(ENCH_GRASPING_ROOTS);
     }
-}
-
-static bool _swoop_attack(monster* mons, actor* defender)
-{
-    coord_def target = defender->pos();
-
-    bolt tracer;
-    tracer.source = mons->pos();
-    tracer.target = target;
-    tracer.is_tracer = true;
-    tracer.range = LOS_RADIUS;
-    tracer.fire();
-
-    for (unsigned int j = 0; j < tracer.path_taken.size(); ++j)
-    {
-        if (tracer.path_taken[j] == target)
-        {
-            if (tracer.path_taken.size() > j + 1)
-            {
-                if (monster_habitable_grid(mons, grd(tracer.path_taken[j+1]))
-                    && !actor_at(tracer.path_taken[j+1]))
-                {
-                    if (you.can_see(mons))
-                    {
-                        mprf("%s swoops through the air toward %s!",
-                             mons->name(DESC_THE).c_str(),
-                             defender->name(DESC_THE).c_str());
-                    }
-                    mons->move_to_pos(tracer.path_taken[j+1]);
-                    fight_melee(mons, defender);
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
 }
 
 static inline void _mons_cast_abil(monster* mons, bolt &pbolt,
@@ -1302,7 +1265,7 @@ bool mon_special_ability(monster* mons, bolt & beem)
         break;
 
     case MONS_STARCURSED_MASS:
-        if (x_chance_in_y(mons->number,8) && x_chance_in_y(2,3)
+        if (x_chance_in_y(mons->blob_size,8) && x_chance_in_y(2,3)
             && mons->hit_points >= 8)
         {
             _starcursed_split(mons), used = true;
@@ -1343,85 +1306,6 @@ bool mon_special_ability(monster* mons, bolt & beem)
                 used = true;
     }
     break;
-
-    case MONS_BLUE_DEVIL:
-        if (mons->confused() || !mons->can_see(mons->get_foe()))
-            break;
-
-        if (mons->foe_distance() < 5 && mons->foe_distance() > 1)
-        {
-            if (one_chance_in(4))
-            {
-                if (mons->props.exists("swoop_cooldown")
-                    && (you.elapsed_time < mons->props["swoop_cooldown"].get_int()))
-                {
-                    break;
-                }
-
-                if (_swoop_attack(mons, mons->get_foe()))
-                {
-                    used = true;
-                    mons->props["swoop_cooldown"].get_int() = you.elapsed_time
-                                                              + 40 + random2(51);
-                }
-            }
-        }
-        break;
-
-    case MONS_RED_DEVIL:
-        if (mons->confused() || !mons->can_see(mons->get_foe()))
-            break;
-
-        if (mons->foe_distance() == 1 && mons->reach_range() == REACH_TWO
-            && x_chance_in_y(3, 5))
-        {
-            coord_def foepos = mons->get_foe()->pos();
-            coord_def hopspot = mons->pos() - (foepos - mons->pos()).sgn();
-
-            bool found = false;
-            if (!monster_habitable_grid(mons, grd(hopspot)) ||
-                actor_at(hopspot))
-            {
-                for (adjacent_iterator ai(mons->pos()); ai; ++ai)
-                {
-                    if (ai->distance_from(foepos) != 2)
-                        continue;
-                    else
-                    {
-                        if (monster_habitable_grid(mons, grd(*ai))
-                            && !actor_at(*ai))
-                        {
-                            hopspot = *ai;
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-                found = true;
-
-            if (found)
-            {
-                const bool could_see = you.can_see(mons);
-
-                fight_melee(mons, mons->get_foe());
-                if (!mons->alive())
-                    return true;
-
-                if (mons->move_to_pos(hopspot))
-                {
-                    if (could_see || you.can_see(mons))
-                    {
-                        mprf("%s hops backward while attacking.",
-                             mons->name(DESC_THE, true).c_str());
-                    }
-                    mons->speed_increment -= 2; // Add a small extra delay
-                }
-                return true; // Energy has already been deducted via melee
-            }
-        }
-        break;
 
     case MONS_THORN_HUNTER:
     {
@@ -1495,7 +1379,8 @@ bool mon_special_ability(monster* mons, bolt & beem)
 
     case MONS_SHAMBLING_MANGROVE:
     {
-        if (mons->hit_points * 2 < mons->max_hit_points && mons->number > 0)
+        if (mons->hit_points * 2 < mons->max_hit_points
+            && mons->mangrove_pests > 0)
         {
             treant_release_fauna(mons);
             // Intentionally takes no energy; the creatures are flying free

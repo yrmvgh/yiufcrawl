@@ -5,29 +5,26 @@
 
 #include "AppHdr.h"
 
-#include <string>
 #include <algorithm>
+#include <cerrno>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <iostream>
+#include <list>
+#include <sstream>
+#include <string>
+#include <fcntl.h>
 
-#include <errno.h>
 #ifndef TARGET_OS_WINDOWS
 # ifndef __ANDROID__
 #  include <langinfo.h>
 # endif
 #endif
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <list>
-#include <sstream>
-#include <iostream>
-
 #ifdef USE_UNIX_SIGNALS
-#include <signal.h>
+#include <csignal>
 #endif
-
-#include "externs.h"
 
 #include "ability.h"
 #include "abyss.h"
@@ -35,8 +32,8 @@
 #include "act-iter.h"
 #include "areas.h"
 #include "arena.h"
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "beam.h"
 #include "bloodspatter.h"
 #include "branch.h"
@@ -55,10 +52,14 @@
 #include "dbg-scan.h"
 #include "dbg-util.h"
 #include "delay.h"
-#include "describe.h"
 #include "describe-god.h"
+#include "describe.h"
+#ifdef DGL_SIMPLE_MESSAGING
+#include "dgl-message.h"
+#endif
 #include "dgn-overview.h"
 #include "dgn-shoals.h"
+#include "directn.h"
 #include "dlua.h"
 #include "dungeon.h"
 #include "effects.h"
@@ -82,10 +83,10 @@
 #include "hiscores.h"
 #include "initfile.h"
 #include "invent.h"
-#include "item_use.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
+#include "item_use.h"
 #include "libutil.h"
 #include "luaterp.h"
 #include "macro.h"
@@ -107,9 +108,9 @@
 #include "options.h"
 #include "output.h"
 #include "player-equip.h"
+#include "player.h"
 #include "player-reacts.h"
 #include "player-stats.h"
-#include "player.h"
 #include "prompt.h"
 #include "quiver.h"
 #include "random.h"
@@ -117,7 +118,6 @@
 #include "shopping.h"
 #include "shout.h"
 #include "skills.h"
-#include "skills2.h"
 #include "species.h"
 #include "spl-book.h"
 #include "spl-cast.h"
@@ -137,14 +137,18 @@
 #include "target.h"
 #include "terrain.h"
 #include "throw.h"
+#ifdef USE_TILE
+ #include "tiledef-dngn.h"
+ #include "tilepick.h"
+#endif
 #include "transform.h"
 #include "traps.h"
 #include "travel.h"
 #include "uncancel.h"
 #include "version.h"
-#include "view.h"
 #include "viewchar.h"
 #include "viewgeom.h"
+#include "view.h"
 #include "viewmap.h"
 #include "wiz-dgn.h"
 #include "wiz-dump.h"
@@ -154,15 +158,6 @@
 #include "wiz-you.h"
 #include "xom.h"
 #include "zotdef.h"
-
-#ifdef USE_TILE
- #include "tiledef-dngn.h"
- #include "tilepick.h"
-#endif
-
-#ifdef DGL_SIMPLE_MESSAGING
-#include "dgl-message.h"
-#endif
 
 // ----------------------------------------------------------------------
 // Globals whose construction/destruction order needs to be managed
@@ -484,7 +479,6 @@ static void _show_commandline_options_help()
     puts("  -name <string>        character name");
     puts("  -species <arg>        preselect character species (by letter, abbreviation, or name)");
     puts("  -background <arg>     preselect character background (by letter, abbreviation, or name)");
-    puts("  -plain                don't use IBM extended characters");
     puts("  -dir <path>           crawl directory");
     puts("  -rc <file>            init file name");
     puts("  -rcdir <dir>          directory that contains (included) rc files");
@@ -569,6 +563,26 @@ static void _wanderer_startup_message()
     }
 }
 
+static void _wanderer_note_items()
+{
+    ostringstream equip_str;
+    equip_str << you.your_name
+            << " set off with: ";
+    bool first_item = true;
+
+    for (int i = 0; i < ENDOFPACK; ++i)
+    {
+        item_def& item(you.inv[i]);
+        if (item.defined()) {
+            if (!first_item)
+                equip_str << ", ";
+            equip_str << item.name(DESC_A, false, true);
+            first_item = false;
+        }
+    }
+    take_note(Note(NOTE_MESSAGE, 0, 0, equip_str.str().c_str()));
+}
+
 /**
  * The suffix to apply to welcome_spam when looking up an entry name from the
  * database.
@@ -640,6 +654,9 @@ static void _take_starting_note()
     }
 #endif
 
+    if (you.char_class == JOB_WANDERER)
+        _wanderer_note_items();
+
     notestr << "HP: " << you.hp << "/" << you.hp_max
             << " MP: " << you.magic_points << "/" << you.max_magic_points;
 
@@ -675,6 +692,7 @@ static void _set_removed_types_as_identified()
     you.type_ids[OBJ_POTIONS][POT_GAIN_INTELLIGENCE] = ID_KNOWN_TYPE;
     you.type_ids[OBJ_POTIONS][POT_WATER] = ID_KNOWN_TYPE;
     you.type_ids[OBJ_POTIONS][POT_STRONG_POISON] = ID_KNOWN_TYPE;
+    you.type_ids[OBJ_POTIONS][POT_PORRIDGE] = ID_KNOWN_TYPE;
     you.type_ids[OBJ_SCROLLS][SCR_ENCHANT_WEAPON_II] = ID_KNOWN_TYPE;
     you.type_ids[OBJ_SCROLLS][SCR_ENCHANT_WEAPON_III] = ID_KNOWN_TYPE;
 #endif
@@ -930,7 +948,7 @@ static void _handle_wizard_command()
         mprf(MSGCH_WARN, "If you continue, your game will not be scored!");
 #endif
 
-        if (!yesno("Do you really want to enter wizard mode?", false, 'n'))
+        if (!yes_or_no("Do you really want to enter wizard mode?"))
         {
             canned_msg(MSG_OK);
             return;
@@ -2149,7 +2167,7 @@ void process_command(command_type cmd)
         if (crawl_state.disables[DIS_CONFIRMATIONS]
             || yes_or_no("Are you sure you want to abandon this character and quit the game?"))
         {
-            ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_QUITTING);
+            ouch(INSTANT_DEATH, KILLED_BY_QUITTING);
         }
         else
             canned_msg(MSG_OK);
@@ -2298,19 +2316,19 @@ static void _update_mold()
 static void _update_golubria_traps()
 {
     vector<coord_def> traps = find_golubria_on_level();
-    for (vector<coord_def>::const_iterator it = traps.begin(); it != traps.end(); ++it)
+    for (auto c : traps)
     {
-        trap_def *trap = find_trap(*it);
+        trap_def *trap = find_trap(c);
         if (trap && trap->type == TRAP_GOLUBRIA)
         {
             if (--trap->ammo_qty <= 0)
             {
-                if (you.see_cell(*it))
+                if (you.see_cell(c))
                     mpr("Your passage of Golubria closes with a snap!");
                 else
                     mprf(MSGCH_SOUND, "You hear a snapping sound.");
                 trap->destroy();
-                noisy(spell_effect_noise(SPELL_GOLUBRIAS_PASSAGE), *it);
+                noisy(spell_effect_noise(SPELL_GOLUBRIAS_PASSAGE), c);
             }
         }
     }
@@ -2386,7 +2404,7 @@ void world_reacts()
         // Please do not give it a custom ktyp or make it cool in any way
         // whatsoever, because players are insane.  Usually, not being dragged
         // down by sanity is good, but this is not the case here.
-        ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_QUITTING);
+        ouch(INSTANT_DEATH, KILLED_BY_QUITTING);
     }
 
     handle_time();
@@ -2756,7 +2774,7 @@ static void _open_door(coord_def move, bool check_confused)
         // This doesn't ever seem to be triggered.
         case DNGN_OPEN_DOOR:
             if (!door_already_open.empty())
-                mpr(door_already_open.c_str());
+                mpr(door_already_open);
             else
                 mpr("It's already open!");
             break;
@@ -2776,7 +2794,7 @@ static void _open_door(coord_def move, bool check_confused)
         if (door_veto_message.empty())
             mpr("The door is shut tight!");
         else
-            mpr(door_veto_message.c_str());
+            mpr(door_veto_message);
 
         return;
     }
@@ -3498,8 +3516,13 @@ static void _move_player(coord_def move)
             _swap_places(targ_monst, mon_swap_dest);
         else if (you.duration[DUR_COLOUR_SMOKE_TRAIL])
         {
-            check_place_cloud(CLOUD_MAGIC_TRAIL, you.pos(),
-                random_range(3, 10), &you, 0, ETC_RANDOM);
+            if (cell_is_solid(you.pos()))
+                ASSERT(you.wizmode_teleported_into_rock);
+            else
+            {
+                check_place_cloud(CLOUD_MAGIC_TRAIL, you.pos(),
+                                  random_range(3, 10), &you, 0, ETC_RANDOM);
+            }
         }
 
         if (delay_is_run(current_delay_action()) && env.travel_trail.empty())
@@ -3519,8 +3542,7 @@ static void _move_player(coord_def move)
         {
             mprf(MSGCH_WARN,"The barbed spikes dig painfully into your body "
             "as you move.");
-            ouch(roll_dice(2, you.attribute[ATTR_BARBS_POW]), NON_MONSTER,
-                 KILLED_BY_BARBS);
+            ouch(roll_dice(2, you.attribute[ATTR_BARBS_POW]), KILLED_BY_BARBS);
             bleed_onto_floor(you.pos(), MONS_PLAYER, 2, false);
 
             // Sometimes decrease duration even when we move.
@@ -3862,8 +3884,7 @@ static void _update_replay_state()
             crawl_state.prev_cmd_keys = repeat_again_rec.keys;
     }
 
-    if (!is_processing_macro())
-        repeat_again_rec.clear();
+    repeat_again_rec.clear();
 }
 
 static void _compile_time_asserts()

@@ -7,76 +7,45 @@
 
 #include "melee_attack.h"
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <algorithm>
-
-#include "externs.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "areas.h"
 #include "art-enum.h"
 #include "attitude-change.h"
-#include "beam.h"
 #include "bloodspatter.h"
 #include "butcher.h"
 #include "cloud.h"
 #include "coordit.h"
-#include "database.h"
 #include "delay.h"
 #include "effects.h"
 #include "english.h"
 #include "env.h"
 #include "exercise.h"
 #include "fineff.h"
-#include "fight.h"
-#include "fprop.h"
 #include "food.h"
+#include "godconduct.h"
 #include "goditem.h"
-#include "invent.h"
-#include "items.h"
-#include "itemname.h"
+#include "hints.h"
 #include "itemprop.h"
-#include "item_use.h"
-#include "libutil.h"
-#include "makeitem.h"
+#include "mapdef.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-abil.h"
 #include "mon-behv.h"
-#include "mon-cast.h"
-#include "mon-clone.h"
-#include "mon-death.h"
-#include "mon-place.h"
 #include "mon-poly.h"
-#include "terrain.h"
-#include "mapdef.h" // NEVER_CORPSE_KEY
-#include "mgen_data.h"
-#include "mon-util.h"
-#include "mutation.h"
-#include "options.h"
-#include "ouch.h"
-#include "player.h"
-#include "random-var.h"
 #include "religion.h"
-#include "godconduct.h"
-#include "shopping.h"
-#include "skills.h"
-#include "species.h"
-#include "spl-clouds.h"
-#include "spl-miscast.h"
+#include "shout.h"
 #include "spl-summoning.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
 #include "target.h"
+#include "terrain.h"
 #include "transform.h"
 #include "traps.h"
-#include "travel.h"
-#include "hints.h"
 #include "unwind.h"
 #include "view.h"
-#include "shout.h"
 #include "xom.h"
 
 #ifdef NOTE_DEBUG_CHAOS_BRAND
@@ -354,7 +323,8 @@ static bool _flavour_triggers_damageless(attack_flavour flavour)
            || flavour == AF_PURE_FIRE
            || flavour == AF_SHADOWSTAB
            || flavour == AF_DROWN
-           || flavour == AF_CORRODE;
+           || flavour == AF_CORRODE
+           || flavour == AF_SCARAB;
 }
 
 void melee_attack::apply_black_mark_effects()
@@ -904,7 +874,6 @@ bool melee_attack::attack()
     if (attacker->is_player())
         do_miscast();
 
-    adjust_noise();
     // don't crash on banishment
     if (!defender->pos().origin())
         handle_noise(defender->pos());
@@ -930,99 +899,6 @@ bool melee_attack::attack()
     enable_attack_conducts(conducts);
 
     return attack_occurred;
-}
-
-/* Initialises the noise_factor
- *
- * For both players and monsters, separately sets the noise_factor for weapon
- * attacks based on damage type or attack_type/attack_flavour respectively.
- * Sets an average noise value for unarmed combat regardless of atype().
- */
-// TODO: Unify attack_type and unarmed_attack_type, the former includes the latter
-// however formerly, attack_type was mons_attack_type and used exclusively for monster use.
-void melee_attack::adjust_noise()
-{
-    if (attacker->is_player() && weapon != NULL)
-    {
-        switch (single_damage_type(*weapon))
-        {
-        case DAM_BLUDGEON:
-        case DAM_WHIP:
-            noise_factor = 125;
-            break;
-        case DAM_SLICE:
-            noise_factor = 100;
-            break;
-        case DAM_PIERCE:
-            noise_factor = 75;
-            break;
-        }
-    }
-    else if (attacker->is_monster() && weapon == NULL)
-    {
-        switch (attk_type)
-        {
-        case AT_HEADBUTT:
-        case AT_TENTACLE_SLAP:
-        case AT_TAIL_SLAP:
-        case AT_TRAMPLE:
-        case AT_TRUNK_SLAP:
-            noise_factor = 150;
-            break;
-
-        case AT_HIT:
-        case AT_PUNCH:
-        case AT_KICK:
-        case AT_CLAW:
-        case AT_GORE:
-#if TAG_MAJOR_VERSION == 34
-        case AT_SNAP:
-        case AT_SPLASH:
-#endif
-        case AT_CHERUB:
-            noise_factor = 125;
-            break;
-
-        case AT_BITE:
-        case AT_PECK:
-        case AT_CONSTRICT:
-        case AT_POUNCE:
-            noise_factor = 100;
-            break;
-
-        case AT_STING:
-        case AT_SPORE:
-        case AT_ENGULF:
-        case AT_REACH_STING:
-            noise_factor = 75;
-            break;
-
-        case AT_TOUCH:
-            noise_factor = 0;
-            break;
-
-        case AT_WEAP_ONLY:
-            break;
-
-        // To prevent compiler warnings.
-        case AT_NONE:
-        case AT_RANDOM:
-#if TAG_MAJOR_VERSION == 34
-        case AT_SHOOT:
-#endif
-            die("Invalid attack type for noise_factor");
-            break;
-
-        default:
-            die("%d Unhandled attack type for noise_factor", attk_type);
-            break;
-        }
-
-        if (attk_flavour == AF_ELEC)
-            noise_factor += 100;
-    }
-    else if (weapon == NULL)
-        noise_factor = 150;
 }
 
 void melee_attack::check_autoberserk()
@@ -1079,20 +955,18 @@ bool melee_attack::check_unrand_effects()
     return false;
 }
 
-
-
 class AuxConstrict: public AuxAttackType
 {
 public:
     AuxConstrict()
-    : AuxAttackType(0, 10, "grab") { };
+    : AuxAttackType(0, "grab") { };
 };
 
 class AuxKick: public AuxAttackType
 {
 public:
     AuxKick()
-    : AuxAttackType(-1, 100, "kick") { };
+    : AuxAttackType(-1, "kick") { };
 
     int get_damage() const
     {
@@ -1134,7 +1008,7 @@ class AuxHeadbutt: public AuxAttackType
 {
 public:
     AuxHeadbutt()
-    : AuxAttackType(5, 100, "headbutt") { };
+    : AuxAttackType(5, "headbutt") { };
 
     int get_damage() const
     {
@@ -1146,14 +1020,14 @@ class AuxPeck: public AuxAttackType
 {
 public:
     AuxPeck()
-    : AuxAttackType(6, 75, "peck") { };
+    : AuxAttackType(6, "peck") { };
 };
 
 class AuxTailslap: public AuxAttackType
 {
 public:
     AuxTailslap()
-    : AuxAttackType(6, 125, "tail-slap") { };
+    : AuxAttackType(6, "tail-slap") { };
 
     int get_damage() const
     {
@@ -1170,7 +1044,7 @@ class AuxPunch: public AuxAttackType
 {
 public:
     AuxPunch()
-    : AuxAttackType(5, 100, "punch") { };
+    : AuxAttackType(5, "punch") { };
 
     int get_damage() const
     {
@@ -1199,23 +1073,13 @@ public:
         return name;
     }
 
-    int get_noise_factor() const
-    {
-        if (you.form == TRAN_BLADE_HANDS)
-            return 75;
-
-        if (you.has_usable_tentacles())
-            return 125;
-
-        return noise_factor;
-    }
 };
 
 class AuxBite: public AuxAttackType
 {
 public:
     AuxBite()
-    : AuxAttackType(0, 75, "bite") { };
+    : AuxAttackType(0, "bite") { };
 
     int get_damage() const
     {
@@ -1247,7 +1111,7 @@ class AuxPseudopods: public AuxAttackType
 {
 public:
     AuxPseudopods()
-    : AuxAttackType(4, 125, "bludgeon") { };
+    : AuxAttackType(4, "bludgeon") { };
 
     int get_damage() const { return damage * you.has_usable_pseudopods(); }
 };
@@ -1256,7 +1120,7 @@ class AuxTentacles: public AuxAttackType
 {
 public:
     AuxTentacles()
-    : AuxAttackType(12, 100, "squeeze") { };
+    : AuxAttackType(12, "squeeze") { };
 };
 
 
@@ -1301,7 +1165,6 @@ void melee_attack::player_aux_setup(unarmed_attack_type atk)
 
     aux_damage = aux->get_damage();
     damage_brand = (brand_type)aux->get_brand();
-    noise_factor = aux->get_noise_factor();
     aux_attack = aux->get_name();
     aux_verb = aux->get_verb();
 
@@ -1521,7 +1384,7 @@ bool melee_attack::player_aux_apply(unarmed_attack_type atk)
         {
             mprf("%s is splashed with acid.",
                  defender->name(DESC_THE).c_str());
-            defender->as_monster()->splash_with_acid(&you);
+            defender->splash_with_acid(&you);
         }
 
         // TODO: remove this? Unarmed poison attacks?
@@ -2070,48 +1933,21 @@ void melee_attack::rot_defender(int amount, int immediate)
     }
 }
 
-// XXX:
-//  * Noise should probably scale non-linearly with damage_done, and
-//    maybe even non-linearly with noise_factor.
-//
-//  * Damage reduction via armour of the defender reduces noise,
-//    but shouldn't.
-//
-//  * Damage reduction because of negative damage modifiers on the
-//    weapon reduce noise, but probably shouldn't.
-//
-//  * Might want a different formula for noise generated by the
-//    player.
-//
-//  Ideas:
-//  * Each weapon type has a noise rating, like it does an accuracy
-//    rating and base delay.
-//
-//  * For player, stealth skill and/or weapon skill reducing noise.
-//
-//  * Randart property to make randart weapons louder or softer when
-//    they hit.
 void melee_attack::handle_noise(const coord_def & pos)
 {
     // Successful stabs make no noise.
     if (stab_attempt)
-    {
-        noise_factor = 0;
         return;
-    }
 
-    int level = noise_factor * damage_done / 100 / 4;
+    int loudness = damage_done / 4;
 
-    if (noise_factor > 0)
-        level = max(1, level);
+    // All non-stab melee attacks make some noise.
+    loudness = max(1, loudness);
 
     // Cap melee noise at shouting volume.
-    level = min(12, level);
+    loudness = min(12, loudness);
 
-    if (level > 0)
-        noisy(level, pos, attacker->mid);
-
-    noise_factor = 0;
+    noisy(loudness, pos, attacker->mid);
 }
 
 /**
@@ -2164,7 +2000,7 @@ bool melee_attack::consider_decapitation(int dam, int damage_type)
     if (defender->is_monster())
     {
         simple_monster_message(defender->as_monster(), " grows two more!");
-        defender->as_monster()->number += 2;
+        defender->as_monster()->num_heads += 2;
         defender->heal(8 + random2(8), true);
     }
     else
@@ -2312,7 +2148,7 @@ void melee_attack::decapitate(int dam_type)
     if (defender->is_player())
         set_hydra_form_heads(heads - 1);
     else
-        defender->as_monster()->number--;
+        defender->as_monster()->num_heads--;
 }
 
 /**
@@ -2347,7 +2183,7 @@ void melee_attack::attacker_sustain_passive_damage()
     else if (attacker->is_player())
     {
         mprf("Your %s burn!", you.hand_name(true).c_str());
-        ouch(roll_dice(1, acid_strength), defender->mindex(), KILLED_BY_ACID);
+        ouch(roll_dice(1, acid_strength), KILLED_BY_ACID, defender->mid);
     }
     else
     {
@@ -2673,6 +2509,8 @@ string melee_attack::mons_attack_verb()
 #endif
         "pounce on",
         "sting",
+        "kite",  // should never display
+        "swoop", // ditto
     };
     COMPILE_CHECK(ARRAYSZ(attack_types) == AT_LAST_REAL_ATTACK);
 
@@ -2808,17 +2646,14 @@ void melee_attack::mons_do_napalm()
 void melee_attack::splash_defender_with_acid(int strength)
 {
     if (defender->is_player())
-    {
         mpr("You are splashed with acid!");
-        splash_with_acid(strength, attacker->mindex());
-    }
     else
     {
         special_damage += roll_dice(2, 4);
         if (defender_visible)
             mprf("%s is splashed with acid.", defender->name(DESC_THE).c_str());
-        defender->as_monster()->splash_with_acid(attacker);
     }
+    defender->splash_with_acid(attacker, strength);
 }
 
 static void _print_resist_messages(actor* defender, int base_damage,
@@ -2855,7 +2690,7 @@ bool melee_attack::mons_attack_effects()
         mons_apply_attack_flavour();
 
         if (needs_message && !special_damage_message.empty())
-            mprf("%s", special_damage_message.c_str());
+            mpr(special_damage_message);
 
         if (special_damage > 0)
         {
@@ -2868,7 +2703,7 @@ bool melee_attack::mons_attack_effects()
         apply_staff_damage();
 
         if (needs_message && !special_damage_message.empty())
-            mprf("%s", special_damage_message.c_str());
+            mpr(special_damage_message);
 
         if (special_damage > 0
             && inflict_damage(special_damage, special_damage_flavour))
@@ -3651,7 +3486,7 @@ void melee_attack::do_spines()
                                                         : "spines");
             }
             if (attacker->is_player())
-                ouch(hurt, defender->mindex(), KILLED_BY_SPINES);
+                ouch(hurt, KILLED_BY_SPINES, defender->mid);
             else
                 attacker->hurt(defender, hurt);
         }
@@ -3716,7 +3551,7 @@ void melee_attack::do_minotaur_retaliation()
             if (hurt > 0)
             {
                 if (attacker->is_player())
-                    ouch(hurt, defender->mindex(), KILLED_BY_HEADBUTT);
+                    ouch(hurt, KILLED_BY_HEADBUTT, defender->mid);
                 else
                     attacker->hurt(defender, hurt);
             }
@@ -3764,69 +3599,58 @@ void melee_attack::do_minotaur_retaliation()
 
 bool melee_attack::do_knockback(bool trample)
 {
-    do
-    {
-        if (defender->is_stationary())
-            return false; // don't even print a message
+    if (defender->is_stationary())
+        return false; // don't even print a message
 
-        int size_diff =
-            attacker->body_size(PSIZE_BODY) - defender->body_size(PSIZE_BODY);
-        if (!x_chance_in_y(size_diff + 3, 6))
-            break;
+    const int size_diff =
+        attacker->body_size(PSIZE_BODY) - defender->body_size(PSIZE_BODY);
+    const coord_def old_pos = defender->pos();
+    const coord_def new_pos = old_pos + old_pos - attack_position;
 
-        coord_def old_pos = defender->pos();
-        coord_def new_pos = defender->pos() + defender->pos() - attack_position;
-
+    if (!x_chance_in_y(size_diff + 3, 6)
         // need a valid tile
-        if (!feat_has_solid_floor(grd(new_pos))
-            && !defender->is_habitable_feat(grd(new_pos)))
-        {
-            break;
-        }
-
+        || !feat_has_solid_floor(grd(new_pos))
+           && !defender->is_habitable_feat(grd(new_pos))
         // don't trample into a monster - or do we want to cause a chain
         // reaction here?
-        if (actor_at(new_pos))
-            break;
-
+        || actor_at(new_pos)
         // Prevent trample/drown combo when flight is expiring
-        if (defender->is_player() && need_expiration_warning(new_pos))
-            break;
-
+        || defender->is_player() && need_expiration_warning(new_pos))
+    {
         if (needs_message)
         {
-            mprf("%s %s backwards!",
+            mprf("%s %s %s ground!",
                  defender_name(false).c_str(),
-                 defender->conj_verb("stumble").c_str());
+                 defender->conj_verb("hold").c_str(),
+                 defender->pronoun(PRONOUN_POSSESSIVE).c_str());
         }
 
-        // Schedule following _before_ actually trampling -- if the defender
-        // is a player, a shaft trap will unload the level.  If trampling will
-        // somehow fail, move attempt will be ignored.
-        if (trample)
-            trample_follow_fineff::schedule(attacker, old_pos);
-
-        if (defender->as_player())
-            move_player_to_grid(new_pos, false);
-        else
-            defender->move_to_pos(new_pos);
-
-        // Interrupt stair travel and passwall.
-        if (defender->is_player())
-            stop_delay(true);
-
-        return true;
-    } while (0);
+        return false;
+    }
 
     if (needs_message)
     {
-        mprf("%s %s %s ground!",
+        mprf("%s %s backwards!",
              defender_name(false).c_str(),
-             defender->conj_verb("hold").c_str(),
-             defender->pronoun(PRONOUN_POSSESSIVE).c_str());
+             defender->conj_verb("stumble").c_str());
     }
 
-    return false;
+    // Schedule following _before_ actually trampling -- if the defender
+    // is a player, a shaft trap will unload the level.  If trampling will
+    // somehow fail, move attempt will be ignored.
+    if (trample)
+        trample_follow_fineff::schedule(attacker, old_pos);
+
+    if (defender->is_player())
+    {
+        move_player_to_grid(new_pos, false);
+        // Interrupt stair travel and passwall.
+        stop_delay(true);
+    }
+    else
+        defender->move_to_pos(new_pos);
+
+    return true;
 }
 
 /**
@@ -3862,7 +3686,7 @@ void melee_attack::chaos_affect_actor(actor *victim)
     if (!attk.special_damage_message.empty()
         && you.can_see(victim))
     {
-        mprf("%s", attk.special_damage_message.c_str());
+        mpr(attk.special_damage_message);
     }
 }
 

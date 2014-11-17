@@ -9,9 +9,8 @@
 
 #include "cluautil.h"
 #include "coord.h"
-#include "libutil.h"
-#include "los.h"
 #include "losglobal.h"
+#include "los.h"
 #include "ray.h"
 #include "stringutil.h"
 

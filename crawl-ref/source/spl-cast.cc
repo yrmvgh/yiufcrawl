@@ -5,17 +5,15 @@
 
 #include "AppHdr.h"
 
-#include <sstream>
-#include <iomanip>
-
 #include "spl-cast.h"
 
-#include "externs.h"
-#include "options.h"
+#include <iomanip>
+#include <sstream>
 
 #include "areas.h"
 #include "art-enum.h"
 #include "beam.h"
+#include "branch.h"
 #include "cloud.h"
 #include "colour.h"
 #include "describe.h"
@@ -34,8 +32,8 @@
 #include "libutil.h"
 #include "macro.h"
 #include "menu.h"
-#include "misc.h"
 #include "message.h"
+#include "misc.h"
 #include "mon-behv.h"
 #include "mon-book.h"
 #include "mon-cast.h"
@@ -43,6 +41,7 @@
 #include "mon-project.h"
 #include "mon-util.h"
 #include "mutation.h"
+#include "options.h"
 #include "ouch.h"
 #include "output.h"
 #include "player.h"
@@ -1028,7 +1027,7 @@ static bool _spellcasting_aborted(spell_type spell,
     }
 
     if (uncastable)
-        mprf("%s", msg.c_str());
+        mpr(msg);
 
     return uncastable;
 }
@@ -1134,7 +1133,7 @@ static void _spellcasting_corruption(spell_type spell)
     const char * source = NULL;
     if (player_equip_unrand(UNRAND_MAJIN))
         source = "the Majin-Bo"; // for debugging
-    ouch(hp_cost, NON_MONSTER, KILLED_BY_SOMETHING, source);
+    ouch(hp_cost, KILLED_BY_SOMETHING, MID_NOBODY, source);
 }
 
 /**
@@ -1289,7 +1288,8 @@ spret_type your_spells(spell_type spell, int powc,
                                "death!", GOD_KIKUBAAQUDGHA);
 
             // The spell still goes through, but you get a miscast anyway.
-            MiscastEffect(&you, -GOD_KIKUBAAQUDGHA, SPTYP_NECROMANCY,
+            MiscastEffect(&you, NULL, GOD_MISCAST + GOD_KIKUBAAQUDGHA,
+                          SPTYP_NECROMANCY,
                           (you.experience_level / 2) + (spell_difficulty(spell) * 2),
                           random2avg(88, 3), "the malice of Kikubaaqudgha");
         }
@@ -1303,7 +1303,8 @@ spret_type your_spells(spell_type spell, int powc,
                                "destruction!", GOD_VEHUMET);
 
             // The spell still goes through, but you get a miscast anyway.
-            MiscastEffect(&you, -GOD_VEHUMET, SPTYP_CONJURATION,
+            MiscastEffect(&you, NULL, GOD_MISCAST + GOD_VEHUMET,
+                          SPTYP_CONJURATION,
                           (you.experience_level / 2) + (spell_difficulty(spell) * 2),
                           random2avg(88, 3), "the malice of Vehumet");
         }
@@ -1379,7 +1380,8 @@ spret_type your_spells(spell_type spell, int powc,
         // miscasts are uncontrolled
         contaminate_player(cont_points, true);
 
-        MiscastEffect(&you, NON_MONSTER, spell, spell_difficulty(spell), fail);
+        MiscastEffect(&you, NULL, SPELL_MISCAST, spell,
+                      spell_difficulty(spell), fail);
 
         return SPRET_FAIL;
     }
@@ -1692,8 +1694,16 @@ static spret_type _do_cast(spell_type spell, int powc,
 
     case SPELL_WEAVE_SHADOWS:
     {
-        level_id place(BRANCH_DUNGEON,
-                       min(27, max(1, div_rand_round(powc, 3))));
+        level_id place(BRANCH_DUNGEON, 1);
+        const int level = 5 + div_rand_round(powc, 3);
+        const int depthsabs = branches[BRANCH_DEPTHS].absdepth;
+        if (level >= depthsabs && x_chance_in_y(level + 1 - depthsabs, 5))
+        {
+            place.branch = BRANCH_DEPTHS;
+            place.depth = level  + 1 - depthsabs;
+        }
+        else
+            place.depth = level;
         return cast_shadow_creatures(spell, god, place, fail);
     }
 
@@ -1834,7 +1844,7 @@ static spret_type _do_cast(spell_type spell, int powc,
         return cast_controlled_blink(powc, fail);
 
     case SPELL_CONJURE_FLAME:
-        return conjure_flame(powc, beam.target, fail);
+        return conjure_flame(&you, powc, beam.target, fail);
 
     case SPELL_PASSWALL:
         return cast_passwall(spd.delta, powc, fail);
@@ -1867,7 +1877,7 @@ static spret_type _do_cast(spell_type spell, int powc,
         return cast_shroud_of_golubria(powc, fail);
 
     case SPELL_FULMINANT_PRISM:
-        return cast_fulminating_prism(powc, beam.target, fail);
+        return cast_fulminating_prism(&you, powc, beam.target, fail);
 
     case SPELL_SEARING_RAY:
         return cast_searing_ray(powc, beam, fail);

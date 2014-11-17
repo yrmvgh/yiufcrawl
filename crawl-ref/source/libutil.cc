@@ -5,24 +5,21 @@
 
 #include "AppHdr.h"
 
-#include "colour.h"
-#include "defines.h"
-#include "itemname.h" // is_vowel()
 #include "libutil.h"
-#include "externs.h"
+
+#include <cctype>
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
+#include <sstream>
+
+#include "colour.h"
 #include "files.h"
 #include "message.h"
 #include "state.h"
 #include "stringutil.h"
 #include "unicode.h"
-#include "version.h"
 #include "viewgeom.h"
-
-#include <sstream>
-#include <stdio.h>
-#include <ctype.h>
-#include <stdarg.h>
-#include <string.h>
 
 #ifdef TARGET_OS_WINDOWS
     #undef ARRAYSZ
@@ -35,7 +32,7 @@
 #endif
 
 #ifdef UNIX
-    #include <signal.h>
+    #include <csignal>
 #endif
 
 #ifdef DGL_ENABLE_CORE_DUMP

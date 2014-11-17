@@ -8,11 +8,11 @@
 #include "goditem.h"
 
 #include <algorithm>
-#include <sstream>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <sstream>
 
 #include "artefact.h"
 #include "art-enum.h"
@@ -20,9 +20,8 @@
 #include "itemprop.h"
 #include "items.h"
 #include "religion.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-book.h"
-#include "spl-cast.h"
 #include "spl-util.h"
 
 static bool _is_bookrod_type(const item_def& item,

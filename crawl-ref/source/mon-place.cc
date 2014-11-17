@@ -5,10 +5,10 @@
 
 #include "AppHdr.h"
 
-#include <algorithm>
-
 #include "mon-place.h"
 #include "mgen_data.h"
+
+#include <algorithm>
 
 #include "abyss.h"
 #include "areas.h"
@@ -20,11 +20,10 @@
 #include "coordit.h"
 #include "directn.h"
 #include "dungeon.h"
+#include "env.h"
 #include "fprop.h"
-#include "godabil.h"
-#include "externs.h"
-#include "options.h"
 #include "ghost.h"
+#include "godabil.h"
 #include "godabil.h"
 #include "lev-pand.h"
 #include "libutil.h"
@@ -36,24 +35,24 @@
 #include "mon-pick.h"
 #include "mon-poly.h"
 #include "mon-tentacle.h"
+#include "options.h"
 #include "random.h"
 #include "religion.h"
 #include "shopping.h"
 #include "spl-clouds.h"
 #include "spl-damage.h"
-#include "state.h"
-#include "env.h"
 #include "spl-summoning.h"
+#include "state.h"
 #include "terrain.h"
+#ifdef USE_TILE
+ #include "tiledef-player.h"
+#endif
 #include "tilepick.h"
 #include "traps.h"
 #include "travel.h"
 #include "unwind.h"
-#include "view.h"
 #include "viewchar.h"
-#ifdef USE_TILE
- #include "tiledef-player.h"
-#endif
+#include "view.h"
 
 band_type active_monster_band = BAND_NO_BAND;
 
@@ -905,7 +904,7 @@ monster* place_monster(mgen_data mg, bool force_pos, bool dont_place)
     band_monsters[0] = mg.cls;
 
     // The (very) ugly thing band colour.
-    static colour_t ugly_colour = BLACK;
+    static colour_t ugly_colour = COLOUR_UNDEF;
 
     if (create_band)
     {
@@ -922,7 +921,7 @@ monster* place_monster(mgen_data mg, bool force_pos, bool dont_place)
             // ugly things in a band will start with it.
             if ((band_monsters[i] == MONS_UGLY_THING
                 || band_monsters[i] == MONS_VERY_UGLY_THING)
-                    && ugly_colour == BLACK)
+                    && ugly_colour == COLOUR_UNDEF)
             {
                 ugly_colour = ugly_thing_random_colour();
             }
@@ -930,7 +929,7 @@ monster* place_monster(mgen_data mg, bool force_pos, bool dont_place)
     }
 
     // Set the (very) ugly thing band colour.
-    if (ugly_colour != BLACK)
+    if (ugly_colour != COLOUR_UNDEF)
         mg.colour = ugly_colour;
 
     // Returns 2 if the monster is placed near player-occupied stairs.
@@ -1053,8 +1052,8 @@ monster* place_monster(mgen_data mg, bool force_pos, bool dont_place)
     }
 
     // Reset the (very) ugly thing band colour.
-    if (ugly_colour != BLACK)
-        ugly_colour = BLACK;
+    if (ugly_colour != COLOUR_UNDEF)
+        ugly_colour = COLOUR_UNDEF;
 
     monster* mon = _place_monster_aux(mg, 0, place, force_pos, dont_place);
 
@@ -1284,7 +1283,6 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     mon->set_new_monster_id();
     mon->type         = mg.cls;
     mon->base_monster = mg.base_type;
-    mon->number       = mg.number;
 
     // Set pos and link monster into monster grid.
     if (!dont_place && !mon->move_to_pos(fpos))
@@ -1440,11 +1438,18 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
 
     // If the caller requested a specific colour for this monster, apply
     // it now.
-    if (mg.colour != BLACK)
+    if ((mg.colour == COLOUR_INHERIT
+         && mons_class_colour(mon->type) != COLOUR_UNDEF)
+        || mg.colour > COLOUR_UNDEF)
+    {
         mon->colour = mg.colour;
+    }
 
     if (mg.mname != "")
         mon->mname = mg.mname;
+
+    if (mg.number != 0)
+        mon->number = mg.number;
 
     if (mg.hd != 0)
     {
@@ -1487,6 +1492,10 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
 
     // Store the extra flags here.
     mon->flags       |= mg.extra_flags;
+
+    // "Prince Ribbit returns to his original shape as he dies."
+    if (mg.cls == MONS_PRINCE_RIBBIT)
+        mon->props[ORIGINAL_TYPE_KEY].get_int() = MONS_PRINCE_RIBBIT;
 
     // The return of Boris is now handled in monster_die().  Not setting
     // this for Boris here allows for multiple Borises in the dungeon at
@@ -1548,6 +1557,13 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     if (mon->has_spell(SPELL_DEFLECT_MISSILES))
         mon->add_ench(ENCH_DEFLECT_MISSILES);
 
+    if (mon->has_spell(SPELL_CONDENSATION_SHIELD))
+    {
+        const int power = (mon->spell_hd(SPELL_CONDENSATION_SHIELD) * 15) / 10;
+        mon->add_ench(mon_enchant(ENCH_CONDENSATION_SHIELD, 15 + random2(power),
+                                  mon));
+    }
+
     mon->flags |= MF_JUST_SUMMONED;
 
     // Don't leave shifters in their starting shape.
@@ -1584,7 +1600,7 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
             return 0;
         }
         else
-            mon->colour = wpn->colour;
+            mon->colour = wpn->get_colour();
     }
     else if (mons_class_itemuse(mg.cls) >= MONUSE_STARTING_EQUIPMENT)
     {
@@ -1737,11 +1753,8 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
             if (sum->props.exists("blame"))
             {
                 const CrawlVector& oldblame = sum->props["blame"].get_vector();
-                for (CrawlVector::const_iterator i = oldblame.begin();
-                     i != oldblame.end(); ++i)
-                {
-                    mons_add_blame(mon, i->get_string());
-                }
+                for (const auto &bl : oldblame)
+                    mons_add_blame(mon, bl.get_string());
             }
         }
     }
@@ -1751,8 +1764,13 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
         || mon->type == MONS_VERY_UGLY_THING)
     {
         ghost_demon ghost;
+        colour_t force_colour;
+        if (mg.colour < COLOUR_UNDEF)
+            force_colour = COLOUR_UNDEF;
+        else
+            force_colour = mg.colour;
         ghost.init_ugly_thing(mon->type == MONS_VERY_UGLY_THING, false,
-                              mg.colour);
+                              force_colour);
         mon->set_ghost(ghost);
         mon->uglything_init();
     }
@@ -1898,14 +1916,38 @@ bool zombie_picker::veto(monster_type mt)
         return true;
     if (mons_class_holiness(corpse_type) != MH_NATURAL)
         return true;
+    if (!_good_zombie(corpse_type, zombie_kind, pos))
+        return true;
+    return positioned_monster_picker::veto(mt);
+}
 
-    return !_good_zombie(corpse_type, zombie_kind, pos);
+static bool _mc_too_slow_for_zombies(monster_type mon)
+{
+    // zombies slower than the player are boring!
+    return mons_class_zombie_base_speed(mons_species(mon)) < BASELINE_DELAY;
+}
+
+/**
+ * Pick a local monster type that's suitable for turning into a corpse.
+ *
+ * @param place     The branch/level that the monster type should come from,
+ *                  if possible. (Not guaranteed for e.g. branches with no
+ *                  corpses.)
+ * @return          A monster type that can be used to fill out a corpse.
+ */
+monster_type pick_local_corpsey_monster(level_id place)
+{
+    return pick_local_zombifiable_monster(place, MONS_NO_MONSTER, coord_def(),
+                                          true);
 }
 
 monster_type pick_local_zombifiable_monster(level_id place,
                                             monster_type cs,
-                                            const coord_def& pos)
+                                            const coord_def& pos,
+                                            bool for_corpse)
 {
+    const bool really_in_d = place.branch == BRANCH_DUNGEON;
+
     if (crawl_state.game_is_zotdef())
     {
         place = level_id(BRANCH_DUNGEON,
@@ -1928,14 +1970,19 @@ monster_type pick_local_zombifiable_monster(level_id place,
 
     place.depth = max(1, min(place.depth, branch_ood_cap(place.branch)));
 
-    if (monster_type mt =
-            picker.pick_with_veto(zombie_population(place.branch),
-                                  place.depth, MONS_0))
-    {
-        return mt;
-    }
+    const bool need_veto = really_in_d && !for_corpse;
+    mon_pick_vetoer veto = need_veto ? _mc_too_slow_for_zombies : NULL;
 
-    return pick_monster_all_branches(place.absdepth(), picker);
+    // try to grab a proper zombifiable monster
+    monster_type mt = picker.pick_with_veto(zombie_population(place.branch),
+                                            place.depth, MONS_0, veto);
+    // there might not be one in this branch - if we can't find one, try
+    // elsewhere
+    if (!mt)
+        mt = pick_monster_all_branches(place.absdepth(), picker);
+
+    ASSERT(mons_class_can_be_zombified(mons_species(mt)));
+    return mt;
 }
 
 void roll_zombie_hp(monster* mon)
@@ -2013,7 +2060,7 @@ void define_zombie(monster* mon, monster_type ztype, monster_type cs)
     mon->type         = cs;
     mon->base_monster = ztype;
 
-    mon->colour       = mons_class_colour(mon->type);
+    mon->colour       = COLOUR_INHERIT;
     mon->speed        = (cs == MONS_SPECTRAL_THING
                             ? mons_class_base_speed(mon->base_monster)
                             : mons_class_zombie_base_speed(mon->base_monster));
@@ -2039,9 +2086,7 @@ bool downgrade_zombie_to_skeleton(monster* mon)
     const int old_maxhp = mon->max_hit_points;
 
     mon->type           = MONS_SKELETON;
-    mon->colour         = mons_class_colour(mon->type);
     mon->speed          = mons_class_zombie_base_speed(mon->base_monster);
-
     roll_zombie_hp(mon);
 
     // Scale the skeleton HP to the zombie HP.
@@ -2109,6 +2154,11 @@ static band_type _choose_band(monster_type mon_type, int &band_size,
         band_size = 2 + random2(4);
         break;
 
+    case MONS_CAUSTIC_SHRIKE:
+        band = BAND_CAUSTIC_SHRIKE;
+        band_size = 2 + random2(4);
+        break;
+
     case MONS_FLYING_SKULL:
         band = BAND_FLYING_SKULLS;
         band_size = 2 + random2(4);
@@ -2124,7 +2174,9 @@ static band_type _choose_band(monster_type mon_type, int &band_size,
     case MONS_VERY_UGLY_THING:
         if (env.absdepth0 < 19)
             break;
-        // fallthrough to ugly things...
+        band = BAND_VERY_UGLY_THINGS;
+        band_size = 2 + random2(4);
+        break;
     case MONS_UGLY_THING:
         if (env.absdepth0 < 13)
             break;
@@ -2323,7 +2375,7 @@ static band_type _choose_band(monster_type mon_type, int &band_size,
         band_size = 2 + random2(4);
         break;
 
-    case MONS_GREEN_RAT:
+    case MONS_RIVER_RAT:
         band = BAND_GREEN_RATS;
         band_size = 4 + random2(6);
         break;
@@ -2946,6 +2998,9 @@ static monster_type _band_member(band_type band, int which)
     case BAND_KILLER_BEES:
         return MONS_KILLER_BEE;
 
+    case BAND_CAUSTIC_SHRIKE:
+        return MONS_CAUSTIC_SHRIKE;
+
     case BAND_FLYING_SKULLS:
         return MONS_FLYING_SKULL;
 
@@ -2959,8 +3014,10 @@ static monster_type _band_member(band_type band, int which)
         return MONS_HARPY;
 
     case BAND_UGLY_THINGS:
-        return (env.absdepth0 > 21 && one_chance_in(4)) ?
-                   MONS_VERY_UGLY_THING : MONS_UGLY_THING;
+        return MONS_UGLY_THING;
+
+    case BAND_VERY_UGLY_THINGS:
+        return one_chance_in(4) ? MONS_VERY_UGLY_THING : MONS_UGLY_THING;
 
     case BAND_HELL_HOUNDS:
         return MONS_HELL_HOUND;
@@ -3116,7 +3173,7 @@ static monster_type _band_member(band_type band, int which)
     case BAND_WOLVES:
         return MONS_WOLF;
     case BAND_GREEN_RATS:
-        return MONS_GREEN_RAT;
+        return MONS_RIVER_RAT;
     case BAND_ORANGE_RATS:
         return MONS_ORANGE_RAT;
     case BAND_SHEEP:

@@ -17,15 +17,11 @@
 #include "itemname.h"
 #include "libutil.h"
 #include "maps.h"
-#include "player.h"
-#include "random.h"
 #include "random-weight.h"
 #include "religion.h"
 #include "spl-util.h"
 #include "state.h"
-#include "store.h"
 #include "stringutil.h"
-#include "version.h"
 #include "unicode.h"
 
 #ifdef DEBUG_DIAGNOSTICS
@@ -271,12 +267,11 @@ void initialise_temples()
         if (!maps.empty())
         {
             int chance = 0;
-            for (mapref_vector::iterator map = maps.begin();
-                 map != maps.end(); map++)
+            for (auto map : maps)
             {
                 // XXX: this should handle level depth better
-                chance += (*map)->weight(level_id(BRANCH_DUNGEON,
-                                                  MAX_OVERFLOW_LEVEL));
+                chance += map->weight(level_id(BRANCH_DUNGEON,
+                                               MAX_OVERFLOW_LEVEL));
             }
             overflow_weights[i] = chance;
         }
@@ -322,11 +317,10 @@ multi_overflow:
         if (overflow_weights[num] > 0)
         {
             int chance = 0;
-            for (mapref_vector::iterator map = maps.begin(); map != maps.end();
-                 map++)
+            for (auto map : maps)
             {
-                chance += (*map)->weight(level_id(BRANCH_DUNGEON,
-                                                  MAX_OVERFLOW_LEVEL));
+                chance += map->weight(level_id(BRANCH_DUNGEON,
+                                               MAX_OVERFLOW_LEVEL));
             }
             if (!x_chance_in_y(chance, overflow_weights[num] + chance))
                 continue;
@@ -377,13 +371,13 @@ multi_overflow:
     }
 }
 
+#if TAG_MAJOR_VERSION == 34
 static int _get_random_porridge_desc()
 {
     return PDESCQ(PDQ_GLUGGY, one_chance_in(3) ? PDC_BROWN
                                                : PDC_WHITE);
 }
 
-#if TAG_MAJOR_VERSION == 34
 static int _get_random_coagulated_blood_desc()
 {
     potion_description_qualifier_type qualifier = PDQ_NONE;
@@ -407,7 +401,7 @@ static int _get_random_coagulated_blood_desc()
         potion_description_colour_type colour = (coinflip() ? PDC_RED
                                                             : PDC_BROWN);
 
-        int desc = PDESCQ(qualifier, colour);
+        uint32_t desc = PDESCQ(qualifier, colour);
 
         if (you.item_description[IDESC_POTIONS][POT_BLOOD] != desc)
             return desc;
@@ -427,13 +421,13 @@ void initialise_item_descriptions()
     // Must remember to check for already existing colours/combinations.
     you.item_description.init(255);
 
-    you.item_description[IDESC_POTIONS][POT_PORRIDGE]
-        = _get_random_porridge_desc();
     you.item_description[IDESC_POTIONS][POT_BLOOD]
         = _get_random_blood_desc();
 #if TAG_MAJOR_VERSION == 34
     you.item_description[IDESC_POTIONS][POT_BLOOD_COAGULATED]
         = _get_random_coagulated_blood_desc();
+    you.item_description[IDESC_POTIONS][POT_PORRIDGE]
+        = _get_random_porridge_desc();
 #endif
 
     // The order here must match that of IDESC in describe.h
@@ -469,10 +463,21 @@ void initialise_item_descriptions()
                     you.item_description[i][j] = _random_potion_description();
                     break;
 
+
+#if TAG_MAJOR_VERSION == 34
+                case IDESC_SCROLLS_II: // unused but validated
+#endif
                 case IDESC_SCROLLS: // scrolls: random seed for the name
-                case IDESC_SCROLLS_II:
-                    you.item_description[i][j] = random2(151);
+                {
+                    // this is very weird and probably a linleyism.
+                    const int seed_1 = random2(151); // why 151?
+                    const int seed_2 = random2(151);
+                    const int seed_3 = OBJ_SCROLLS; // yes, really
+                    you.item_description[i][j] =   seed_1
+                                                | (seed_2 << 8)
+                                                | (seed_3 << 16);
                     break;
+                }
 
                 case IDESC_RINGS: // rings and amulets
                     you.item_description[i][j] = random2(NDSC_JEWEL_PRI
@@ -512,7 +517,9 @@ void initialise_item_descriptions()
 void fix_up_jiyva_name()
 {
     do
+    {
         you.jiyva_second_name = make_name(random_int(), false, 8, 'J');
+    }
     while (strncmp(you.jiyva_second_name.c_str(), "J", 1) != 0);
 
     you.jiyva_second_name = replace_all(you.jiyva_second_name, " ", "");

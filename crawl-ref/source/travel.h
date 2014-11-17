@@ -5,15 +5,13 @@
 #ifndef TRAVEL_H
 #define TRAVEL_H
 
-#include "exclude.h"
-
-// For travel_distance_col and travel_distance_grid_t
-#include "travel_defs.h"
-
-#include <stdio.h>
+#include <cstdio>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
+
+#include "exclude.h"
+#include "travel_defs.h"
 
 class reader;
 class writer;
@@ -94,8 +92,6 @@ void start_translevel_travel(const level_pos &pos);
 void start_travel(const coord_def& p);
 
 command_type travel();
-
-int travel_direction(uint8_t branch, int subdungeondepth);
 
 void prevent_travel_to(const string &dungeon_feature_name);
 

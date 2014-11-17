@@ -5,51 +5,41 @@
 
 #include "AppHdr.h"
 
-#include "artefact.h"
-#include "chardump.h"
-#include "cio.h"
-#include "clua.h"
-#include "cluautil.h"
-#include "command.h"
-#include "coord.h"
-#include "coordit.h"
-#include "describe.h"
-#include "directn.h"
-#include "itemname.h"
-#include "itemprop.h"
-#include "godpassive.h"
-#include "godprayer.h"
-#include "invent.h"
-#include "items.h"
-#include "kills.h"
-#include "libutil.h"
-#include "menu.h"
-#include "message.h"
-#include "mon-util.h"
-#include "notes.h"
-#include "output.h"
-#include "place.h"
-#include "religion.h"
-#include "rot.h"
-#include "shopping.h"
-#include "spl-book.h"
 #include "stash.h"
-#include "state.h"
-#include "stringutil.h"
-#include "syscalls.h"
-#include "env.h"
-#include "tags.h"
-#include "terrain.h"
-#include "traps.h"
-#include "travel.h"
-#include "hints.h"
-#include "unicode.h"
-#include "viewmap.h"
 
+#include <algorithm>
 #include <cctype>
 #include <cstdio>
 #include <sstream>
-#include <algorithm>
+
+#include "chardump.h"
+#include "clua.h"
+#include "cluautil.h"
+#include "command.h"
+#include "coordit.h"
+#include "describe.h"
+#include "directn.h"
+#include "env.h"
+#include "feature.h"
+#include "godpassive.h"
+#include "hints.h"
+#include "invent.h"
+#include "itemprop.h"
+#include "items.h"
+#include "message.h"
+#include "notes.h"
+#include "output.h"
+#include "religion.h"
+#include "rot.h"
+#include "spl-book.h"
+#include "state.h"
+#include "stringutil.h"
+#include "syscalls.h"
+#include "terrain.h"
+#include "traps.h"
+#include "travel.h"
+#include "unicode.h"
+#include "viewmap.h"
 
 // Global
 StashTracker StashTrack;
@@ -192,7 +182,7 @@ bool Stash::are_items_same(const item_def &a, const item_def &b, bool exact)
                              || a.base_type == OBJ_RODS && !exact)
         && a.plus2 == b.plus2
         && a.special == b.special
-        && a.colour == b.colour
+        && a.get_colour() == b.get_colour() // ????????
         && a.flags == b.flags
         && a.quantity == b.quantity;
 
@@ -239,34 +229,6 @@ bool Stash::needs_stop() const
     return false;
 }
 
-bool Stash::is_boring_feature(dungeon_feature_type feature)
-{
-    switch (feature)
-    {
-    // Discard spammy dungeon features.
-    case DNGN_SHALLOW_WATER:
-    case DNGN_DEEP_WATER:
-    case DNGN_LAVA:
-    case DNGN_OPEN_DOOR:
-    case DNGN_STONE_STAIRS_DOWN_I:
-    case DNGN_STONE_STAIRS_DOWN_II:
-    case DNGN_STONE_STAIRS_DOWN_III:
-    case DNGN_STONE_STAIRS_UP_I:
-    case DNGN_STONE_STAIRS_UP_II:
-    case DNGN_STONE_STAIRS_UP_III:
-    case DNGN_ESCAPE_HATCH_DOWN:
-    case DNGN_ESCAPE_HATCH_UP:
-    case DNGN_SEALED_STAIRS_UP:
-    case DNGN_SEALED_STAIRS_DOWN:
-    case DNGN_ENTER_SHOP:
-    case DNGN_ABANDONED_SHOP:
-    case DNGN_UNDISCOVERED_TRAP:
-        return true;
-    default:
-        return feat_is_solid(feature);
-    }
-}
-
 static bool _grid_has_perceived_item(const coord_def& pos)
 {
     return you.visible_igrd(pos) != NON_ITEM;
@@ -285,9 +247,9 @@ static bool _grid_has_perceived_multiple_items(const coord_def& pos)
 bool Stash::unmark_trapping_nets()
 {
     bool changed = false;
-    for (vector<item_def>::iterator i = items.begin(); i != items.end(); i++)
-        if (item_is_stationary_net(*i))
-            i->net_placed = false, changed = true;
+    for (auto &item : items)
+        if (item_is_stationary_net(item))
+            item.net_placed = false, changed = true;
     return changed;
 }
 
@@ -297,15 +259,14 @@ void Stash::update()
     feat = grd(p);
     trap = NUM_TRAPS;
 
-    if (is_boring_feature(feat))
-        feat = DNGN_FLOOR;
-
     if (feat_is_trap(feat))
     {
         trap = get_trap_type(p);
         if (trap == TRAP_WEB)
             feat = DNGN_FLOOR, trap = TRAP_UNASSIGNED;
     }
+    else if (!is_notable_terrain(feat))
+        feat = DNGN_FLOOR;
 
     if (feat == DNGN_FLOOR)
         feat_desc = "";
@@ -1351,12 +1312,10 @@ int LevelStashes::_num_enabled_stashes() const
     if (!rawcount)
         return 0;
 
-    for (stashes_t::const_iterator iter = m_stashes.begin();
-            iter != m_stashes.end(); ++iter)
-    {
-        if (!iter->second.enabled)
+    for (const auto &entry : m_stashes)
+        if (!entry.second.enabled)
             --rawcount;
-    }
+
     return rawcount;
 }
 
@@ -1396,13 +1355,12 @@ void LevelStashes::get_matching_stashes(
         return;
     }
 
-    for (stashes_t::const_iterator iter = m_stashes.begin();
-            iter != m_stashes.end(); ++iter)
+    for (const auto &entry : m_stashes)
     {
-        if (iter->second.enabled)
+        if (entry.second.enabled)
         {
             stash_search_result res;
-            if (iter->second.matches_search(lplace, search, res))
+            if (entry.second.matches_search(lplace, search, res))
             {
                 res.pos.id = m_place;
                 results.push_back(res);
@@ -1423,20 +1381,14 @@ void LevelStashes::get_matching_stashes(
 
 void LevelStashes::_update_corpses(int rot_time)
 {
-    for (stashes_t::iterator iter = m_stashes.begin();
-            iter != m_stashes.end(); ++iter)
-    {
-        iter->second._update_corpses(rot_time);
-    }
+    for (auto &entry : m_stashes)
+        entry.second._update_corpses(rot_time);
 }
 
 void LevelStashes::_update_identification()
 {
-    for (stashes_t::iterator iter = m_stashes.begin();
-            iter != m_stashes.end(); ++iter)
-    {
-        iter->second._update_identification();
-    }
+    for (auto &entry : m_stashes)
+        entry.second._update_identification();
 }
 
 void LevelStashes::write(FILE *f, bool identify) const
@@ -1455,11 +1407,8 @@ void LevelStashes::write(FILE *f, bool identify) const
         const Stash &s = m_stashes.begin()->second;
         int refx = s.getX(), refy = s.getY();
         string levname = short_level_name();
-        for (stashes_t::const_iterator iter = m_stashes.begin();
-             iter != m_stashes.end(); ++iter)
-        {
-            iter->second.write(f, refx, refy, levname, identify);
-        }
+        for (const auto &entry : m_stashes)
+            entry.second.write(f, refx, refy, levname, identify);
     }
     fprintf(f, "\n");
 }
@@ -1472,11 +1421,8 @@ void LevelStashes::save(writer& outf) const
     m_place.save(outf);
 
     // And write the individual stashes
-    for (stashes_t::const_iterator iter = m_stashes.begin();
-         iter != m_stashes.end(); ++iter)
-    {
-        iter->second.save(outf);
-    }
+    for (const auto &entry : m_stashes)
+        entry.second.save(outf);
 
     marshallShort(outf, (short) m_shops.size());
     for (unsigned i = 0; i < m_shops.size(); ++i)
@@ -1601,11 +1547,8 @@ void StashTracker::write(FILE *f, bool identify) const
         fprintf(f, "  You have no stashes.\n");
     else
     {
-        for (stash_levels_t::const_iterator iter = levels.begin();
-             iter != levels.end(); ++iter)
-        {
-            iter->second.write(f, identify);
-        }
+        for (const auto &entry : levels)
+            entry.second.write(f, identify);
     }
 }
 
@@ -1618,9 +1561,8 @@ void StashTracker::save(writer& outf) const
     marshallShort(outf, (short) levels.size());
 
     // And ask each level to write itself to the tag
-    stash_levels_t::const_iterator iter = levels.begin();
-    for (; iter != levels.end(); ++iter)
-        iter->second.save(outf);
+    for (const auto &entry : levels)
+        entry.second.save(outf);
 }
 
 void StashTracker::load(reader& inf)
@@ -1650,7 +1592,7 @@ void StashTracker::update_visible_stashes()
 
         if ((!lev || !lev->update_stash(*ri))
             && (_grid_has_perceived_item(*ri)
-                || !Stash::is_boring_feature(feat)))
+                || is_notable_terrain(feat)))
         {
             if (!lev)
                 lev = &get_current_level();
@@ -2267,11 +2209,8 @@ void StashTracker::update_corpses()
 
     last_corpse_update = you.elapsed_time;
 
-    for (stash_levels_t::iterator iter = levels.begin();
-            iter != levels.end(); ++iter)
-    {
-        iter->second._update_corpses(rot_time);
-    }
+    for (auto &entry : levels)
+        entry.second._update_corpses(rot_time);
 }
 
 void StashTracker::update_identification()
@@ -2279,11 +2218,8 @@ void StashTracker::update_identification()
     if (!you_worship(GOD_ASHENZARI))
         return;
 
-    for (stash_levels_t::iterator iter = levels.begin();
-            iter != levels.end(); ++iter)
-    {
-        iter->second._update_identification();
-    }
+    for (auto &entry : levels)
+        entry.second._update_identification();
 }
 
 //////////////////////////////////////////////

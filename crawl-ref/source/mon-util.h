@@ -6,7 +6,6 @@
 #ifndef MONUTIL_H
 #define MONUTIL_H
 
-#include "externs.h"
 #include "enum.h"
 #include "mon-enum.h"
 #include "player.h"
@@ -147,7 +146,6 @@ struct monsterentry
     int8_t ev; // evasion
     int sec;   // actually mon_spellbook_type
     corpse_effect_type corpse_thingy;
-    zombie_size_type   zombie_size;
     shout_type         shouts;
     mon_intel_type     intel;
     habitat_type     habitat;
@@ -220,6 +218,7 @@ shout_type mons_shouts(monster_type mclass, bool demon_shout = false);
 
 bool mons_is_ghost_demon(monster_type mc);
 bool mons_is_unique(monster_type mc);
+bool mons_is_or_was_unique(const monster& mon);
 bool mons_is_pghost(monster_type mc);
 bool mons_is_draconian_job(monster_type mc);
 bool mons_is_demonspawn_job(monster_type mc);
@@ -244,7 +243,7 @@ bool mons_class_flag(monster_type mc, uint64_t bf);
 
 mon_holy_type mons_class_holiness(monster_type mc);
 
-void discover_mimic(const coord_def& pos, bool wake = true);
+void discover_mimic(const coord_def& pos);
 void discover_shifter(monster* shifter);
 
 bool mons_is_statue(monster_type mc);
@@ -280,6 +279,7 @@ bool mons_zombifiable(monster_type mc);
 int mons_weight(monster_type mc);
 int mons_class_base_speed(monster_type mc);
 mon_energy_usage mons_class_energy(monster_type mc);
+mon_energy_usage mons_energy(const monster* mon);
 int mons_class_zombie_base_speed(monster_type zombie_base_mc);
 int mons_base_speed(const monster* mon);
 
@@ -408,6 +408,8 @@ bool invalid_monster(const monster* mon);
 bool invalid_monster_type(monster_type mt);
 bool invalid_monster_index(int i);
 
+void mons_load_spells(monster* mon);
+
 void mons_remove_from_grid(const monster* mon);
 
 bool monster_shover(const monster* m);
@@ -460,7 +462,6 @@ bool mons_is_recallable(actor* caller, monster* targ);
 void init_anon();
 actor *find_agent(mid_t m, kill_category kc);
 const char* mons_class_name(monster_type mc);
-void check_clinging();
 mon_threat_level_type mons_threat_level(const monster *mon,
                                         bool real = false);
 int count_monsters(monster_type mtyp, bool friendly_only);
@@ -489,5 +490,25 @@ monster *choose_random_monster_on_level(
         choose_any_monster);
 void update_monster_symbol(monster_type mtype, cglyph_t md);
 
-void fixup_spells(monster_spells &spells, int hd, bool wizard, bool priest);
+void fixup_spells(monster_spells &spells, int hd);
+
+enum mon_dam_level_type
+{
+    MDAM_OKAY,
+    MDAM_LIGHTLY_DAMAGED,
+    MDAM_MODERATELY_DAMAGED,
+    MDAM_HEAVILY_DAMAGED,
+    MDAM_SEVERELY_DAMAGED,
+    MDAM_ALMOST_DEAD,
+    MDAM_DEAD,
+};
+
+void print_wounds(const monster* mons);
+bool wounded_damaged(mon_holy_type holi);
+
+mon_dam_level_type mons_get_damage_level(const monster* mons);
+
+string get_damage_level_string(mon_holy_type holi, mon_dam_level_type mdam);
+bool mons_class_can_display_wounds(monster_type mc);
+bool mons_can_display_wounds(const monster* mon);
 #endif

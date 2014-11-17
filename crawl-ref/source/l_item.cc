@@ -5,29 +5,29 @@
 
 #include "AppHdr.h"
 
-#include <sstream>
-
-#include "cluautil.h"
 #include "l_libs.h"
+
+#include <sstream>
 
 #include "artefact.h"
 #include "cluautil.h"
+#include "cluautil.h"
 #include "colour.h"
-#include "coord.h"
 #include "command.h"
-#include "env.h"
+#include "coord.h"
 #include "enum.h"
+#include "env.h"
 #include "food.h"
 #include "invent.h"
-#include "item_use.h"
 #include "itemprop.h"
 #include "items.h"
+#include "item_use.h"
 #include "l_defs.h"
 #include "libutil.h"
 #include "output.h"
 #include "player.h"
 #include "prompt.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-book.h"
 #include "spl-summoning.h"
 #include "spl-util.h"
@@ -282,7 +282,7 @@ static int l_item_do_subtype(lua_State *ls)
 
     const char *s = NULL;
     if (item->base_type == OBJ_ARMOUR)
-        s = item_slot_name(get_armour_slot(*item), true);
+        s = item_slot_name(get_armour_slot(*item));
     if (item->base_type == OBJ_BOOKS)
     {
         if (item->sub_type == BOOK_MANUAL)
@@ -301,12 +301,8 @@ static int l_item_do_subtype(lua_State *ls)
 #if TAG_MAJOR_VERSION == 34
             else if (item->sub_type == POT_BLOOD_COAGULATED)
                 s = "coagulated blood";
-#endif
             else if (item->sub_type == POT_PORRIDGE)
                 s = "porridge";
-            else if (item->sub_type == POT_BERSERK_RAGE)
-                s = "berserk";
-#if TAG_MAJOR_VERSION == 34
             else if (item->sub_type == POT_GAIN_STRENGTH
                         || item->sub_type == POT_GAIN_DEXTERITY
                         || item->sub_type == POT_GAIN_INTELLIGENCE)
@@ -314,6 +310,8 @@ static int l_item_do_subtype(lua_State *ls)
                 s = "gain ability";
             }
 #endif
+            else if (item->sub_type == POT_BERSERK_RAGE)
+                s = "berserk";
             else if (item->sub_type == POT_CURE_MUTATION)
                 s = "cure mutation";
         }
@@ -1156,10 +1154,9 @@ static int l_item_get_items_at(lua_State *ls)
 
     const vector<item_def> items = item_list_in_stash(p);
     int index = 0;
-    for (vector<item_def>::const_iterator i = items.begin();
-         i != items.end(); ++i)
+    for (const auto &item : items)
     {
-        _clua_push_item_temp(ls, *i);
+        _clua_push_item_temp(ls, item);
         lua_rawseti(ls, -2, ++index);
     }
 

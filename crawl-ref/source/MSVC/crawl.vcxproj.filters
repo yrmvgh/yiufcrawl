@@ -165,7 +165,6 @@
     <ClCompile Include="..\mon-gear.cc" />
     <ClCompile Include="..\mon-grow.cc" />
     <ClCompile Include="..\mon-info.cc" />
-    <ClCompile Include="..\mon-message.cc" />
     <ClCompile Include="..\mon-movetarget.cc" />
     <ClCompile Include="..\mon-pathfind.cc" />
     <ClCompile Include="..\mon-pick.cc" />
@@ -203,7 +202,6 @@
     <ClCompile Include="..\show.cc" />
     <ClCompile Include="..\showsymb.cc" />
     <ClCompile Include="..\skills.cc" />
-    <ClCompile Include="..\skills2.cc" />
     <ClCompile Include="..\skill_menu.cc" />
     <ClCompile Include="..\species.cc" />
     <ClCompile Include="..\spl-book.cc" />
@@ -475,7 +473,6 @@
     <ClInclude Include="..\mon-gear.h" />
     <ClInclude Include="..\mon-grow.h" />
     <ClInclude Include="..\mon-info.h" />
-    <ClInclude Include="..\mon-message.h" />
     <ClInclude Include="..\mon-movetarget.h" />
     <ClInclude Include="..\mon-pathfind.h" />
     <ClInclude Include="..\mon-pick.h" />
@@ -483,7 +480,7 @@
     <ClInclude Include="..\mon-poly.h" />
     <ClInclude Include="..\mon-project.h" />
     <ClInclude Include="..\mon-speak.h" />
-    <ClInclude Include="..\mon-spll.h" />
+    <ClInclude Include="..\mon-spell.h" />
     <ClInclude Include="..\mon-tentacle.h" />
     <ClInclude Include="..\mon-transit.h" />
     <ClInclude Include="..\mon-util.h" />
@@ -517,12 +514,12 @@
     <ClInclude Include="..\rltiles\tiledef-wall.h" />
     <ClInclude Include="..\rltiles\tiledef_defines.h" />
     <ClInclude Include="..\SDLMain.h" />
+    <ClInclude Include="..\sacrifice-data.h" />
     <ClInclude Include="..\shopping.h" />
     <ClInclude Include="..\shout.h" />
     <ClInclude Include="..\show.h" />
     <ClInclude Include="..\showsymb.h" />
     <ClInclude Include="..\skills.h" />
-    <ClInclude Include="..\skills2.h" />
     <ClInclude Include="..\skill_menu.h" />
     <ClInclude Include="..\species.h" />
     <ClInclude Include="..\spl-book.h" />

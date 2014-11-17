@@ -7,53 +7,40 @@
 
 #include "effects.h"
 
-#include <cstdlib>
-#include <string.h>
-#include <stdio.h>
 #include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <queue>
 #include <set>
-#include <cmath>
-
-#include "externs.h"
-#include "options.h"
 
 #include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "artefact.h"
-#include "beam.h"
 #include "bloodspatter.h"
 #include "branch.h"
-#include "butcher.h"
 #include "cloud.h"
-#include "colour.h"
 #include "coordit.h"
 #include "database.h"
 #include "delay.h"
-#include "dgn-shoals.h"
 #include "dgnevent.h"
+#include "dgn-shoals.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "english.h"
-#include "env.h"
 #include "exercise.h"
 #include "fight.h"
-#include "fprop.h"
 #include "godabil.h"
 #include "godpassive.h"
-#include "hints.h"
 #include "hiscores.h"
 #include "invent.h"
-#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
 #include "losglobal.h"
 #include "macro.h"
-#include "makeitem.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "misc.h"
 #include "mon-behv.h"
 #include "mon-cast.h"
@@ -61,31 +48,22 @@
 #include "mon-pathfind.h"
 #include "mon-place.h"
 #include "mon-project.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "notes.h"
-#include "ouch.h"
-#include "player-equip.h"
 #include "player-stats.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
 #include "rot.h"
-#include "shopping.h"
 #include "shout.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-clouds.h"
 #include "spl-miscast.h"
 #include "spl-summoning.h"
-#include "spl-util.h"
 #include "stairs.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
 #include "throw.h"
-#include "transform.h"
-#include "traps.h"
 #include "travel.h"
 #include "unwind.h"
 #include "viewchar.h"
@@ -130,7 +108,7 @@ static void _holy_word_player(int pow, holy_word_source_type source, actor *atta
         break;
     }
 
-    ouch(hploss, NON_MONSTER, type, aux);
+    ouch(hploss, type, MID_NOBODY, aux);
 
     return;
 }
@@ -200,7 +178,7 @@ void holy_word(int pow, holy_word_source_type source, const coord_def& where,
         holy_word_monsters(*ri, pow, source, attacker);
 }
 
-int torment_player(actor *attacker, int taux)
+void torment_player(actor *attacker, torment_source_type taux)
 {
     ASSERT(!crawl_state.game_is_arena());
 
@@ -241,73 +219,70 @@ int torment_player(actor *attacker, int taux)
     if (!hploss)
     {
         mpr("You feel a surge of unholy energy.");
-        return 0;
+        return;
     }
 
     mpr("Your body is wracked with pain!");
 
-    const char *aux = "by torment";
 
     kill_method_type type = KILLED_BY_BEAM;
-    if (invalid_monster_index(taux))
+    if (crawl_state.is_god_acting())
+        type = KILLED_BY_DIVINE_WRATH;
+    else if (taux == TORMENT_MISCAST)
+        type = KILLED_BY_WILD_MAGIC;
+
+    const char *aux = "";
+
+    switch (taux)
     {
-        type = KILLED_BY_SOMETHING;
-        if (crawl_state.is_god_acting())
-            type = KILLED_BY_DIVINE_WRATH;
+    case TORMENT_CARDS:
+    case TORMENT_SPELL:
+        aux = "Symbol of Torment";
+        break;
 
-        switch (taux)
-        {
-        case TORMENT_CARDS:
-        case TORMENT_SPELL:
-            aux = "Symbol of Torment";
-            break;
+    case TORMENT_SCEPTRE:
+        aux = "Sceptre of Torment";
+        break;
 
-        case TORMENT_SPWLD:
-            // XXX: If we ever make any other weapon / randart eligible
-            // to torment, this will be incorrect.
-            aux = "Sceptre of Torment";
-            break;
+    case TORMENT_SCROLL:
+        aux = "a scroll of torment";
+        break;
 
-        case TORMENT_SCROLL:
-            aux = "a scroll of torment";
-            break;
+    case TORMENT_XOM:
+        type = KILLED_BY_XOM;
+        aux = "Xom's torment";
+        break;
 
-        case TORMENT_XOM:
-            type = KILLED_BY_XOM;
-            aux = "Xom's torment";
-            break;
+    case TORMENT_KIKUBAAQUDGHA:
+        aux = "Kikubaaqudgha's torment";
+        break;
 
-        case TORMENT_KIKUBAAQUDGHA:
-            aux = "Kikubaaqudgha's torment";
-            break;
-        }
+    case TORMENT_LURKING_HORROR:
+        type = KILLED_BY_SPORE;
+        aux = "an exploding lurking horror";
+
+    case TORMENT_MISCAST:
+        aux = "by torment";
+        break;
     }
 
-    ouch(hploss, attacker? attacker->mindex() : MHITNOT, type, aux);
+    ouch(hploss, type, attacker? attacker->mid : MID_NOBODY, aux);
 
-    return 1;
+    return;
 }
 
-// torment_monsters() is called with power 0 because torment is
-// UNRESISTABLE except for having torment resistance!  Even if we used
-// maximum power of 1000, high level monsters and characters would save
-// too often.  (GDL)
-
-int torment_monsters(coord_def where, actor *attacker, int taux)
+static void _torment_stuff_at(coord_def where, actor *attacker,
+                       torment_source_type taux)
 {
-    int retval = 0;
-
     // Is the player in this cell?
     if (where == you.pos())
-        retval = torment_player(attacker, taux);
+        torment_player(attacker, taux);
+    // Don't return, since you could be standing on a monster.
 
     // Is a monster in this cell?
     monster* mons = monster_at(where);
-    if (mons == NULL)
-        return retval;
-
-    if (!mons->alive() || mons->res_torment())
-        return retval;
+    if (!mons || !mons->alive() || mons->res_torment())
+        return;
 
     int hploss = max(0, mons->hit_points * (50 - mons->res_negative_energy() * 5) / 100 - 1);
 
@@ -326,19 +301,12 @@ int torment_monsters(coord_def where, actor *attacker, int taux)
     }
 
     mons->hurt(attacker, hploss, BEAM_TORMENT_DAMAGE);
-
-    if (hploss)
-        retval = 1;
-
-    return retval;
 }
 
-int torment(actor *attacker, int taux, const coord_def& where)
+void torment(actor *attacker, torment_source_type taux, const coord_def& where)
 {
-    int r = 0;
     for (radius_iterator ri(where, LOS_NO_TRANS); ri; ++ri)
-        r += torment_monsters(*ri, attacker, taux);
-    return r;
+        _torment_stuff_at(*ri, attacker, taux);
 }
 
 void cleansing_flame(int pow, int caster, coord_def where,
@@ -556,17 +524,17 @@ void direct_effect(monster* source, spell_type spell,
     case SPELL_CHAOTIC_MIRROR:
         if (x_chance_in_y(4, 10))
         {
-            pbolt.name = "reflection of chaos";
-            pbolt.source_id = source->mid;
-            pbolt.aux_source = "chaotic mirror";
-            pbolt.hit = AUTOMATIC_HIT;
-            pbolt.is_beam = true;
-            pbolt.ench_power = MAG_IMMUNE;
-            pbolt.real_flavour = BEAM_CHAOTIC_REFLECTION;
+            pbolt.name                  = "reflection of chaos";
+            pbolt.source_id             = source->mid;
+            pbolt.aux_source            = "chaotic mirror";
+            pbolt.hit                   = AUTOMATIC_HIT;
+            pbolt.pierce                = true;
+            pbolt.ench_power            = MAG_IMMUNE;
+            pbolt.real_flavour          = BEAM_CHAOTIC_REFLECTION;
             pbolt.fake_flavour();
-            pbolt.real_flavour = pbolt.flavour;
-            pbolt.damage = dice_def(1, 6);
-            pbolt.use_target_as_pos = true;
+            pbolt.real_flavour          = pbolt.flavour;
+            pbolt.damage                = dice_def(1, 6);
+            pbolt.use_target_as_pos     = true;
             pbolt.source = pbolt.target = defender->pos();
             pbolt.affect_actor(defender);
             pbolt.source = pbolt.target = source->pos();
@@ -636,7 +604,7 @@ void direct_effect(monster* source, spell_type spell,
         if (defender->is_player())
         {
             // Bypassing ::hurt so that flay damage can ignore guardian spirit
-            ouch(damage_taken, source->mindex(), KILLED_BY_MONSTER,
+            ouch(damage_taken, KILLED_BY_MONSTER, source->mid,
                  "flay_damage", you.can_see(source));
         }
         else
@@ -713,9 +681,8 @@ void direct_effect(monster* source, spell_type spell,
         if (def)
             def->hurt(source, damage_taken);
         else
-            ouch(damage_taken,
-                 actor_to_death_source(actor_by_mid(pbolt.source_id)),
-                 KILLED_BY_BEAM, pbolt.aux_source.c_str());
+            ouch(damage_taken, KILLED_BY_BEAM, pbolt.source_id,
+                 pbolt.aux_source.c_str());
     }
 }
 
@@ -788,7 +755,7 @@ void random_uselessness(int scroll_slot)
     }
 }
 
-int recharge_wand(bool known, string *pre_msg)
+int recharge_wand(bool known, const string &pre_msg)
 {
     int item_slot = -1;
     do
@@ -854,8 +821,8 @@ int recharge_wand(bool known, string *pre_msg)
                 desc = info;
             }
 
-            if (known && pre_msg)
-                mpr(pre_msg->c_str());
+            if (known && !pre_msg.empty())
+                mpr(pre_msg);
 
             mprf("%s %s for a moment%s.",
                  wand.name(DESC_YOUR).c_str(),
@@ -904,8 +871,8 @@ int recharge_wand(bool known, string *pre_msg)
             if (!work)
                 return 0;
 
-            if (known && pre_msg)
-                mpr(pre_msg->c_str());
+            if (known && !pre_msg.empty())
+                mpr(pre_msg);
 
             mprf("%s glows for a moment.", wand.name(DESC_YOUR).c_str());
         }
@@ -1287,7 +1254,7 @@ static void _hell_effects(int time_delta)
         else                // 1 in 8 odds {dlb}
             which_miscast = coinflip() ? SPTYP_HEXES : SPTYP_CHARMS;
 
-        MiscastEffect(&you, HELL_EFFECT_MISCAST, which_miscast,
+        MiscastEffect(&you, NULL, HELL_EFFECT_MISCAST, which_miscast,
                       4 + random2(6), random2avg(97, 3),
                       "the effects of Hell");
     }
@@ -1330,7 +1297,7 @@ static void _hell_effects(int time_delta)
         }
         else
         {
-            MiscastEffect(&you, HELL_EFFECT_MISCAST, which_miscast,
+            MiscastEffect(&you, NULL, HELL_EFFECT_MISCAST, which_miscast,
                           4 + random2(6), random2avg(97, 3),
                           "the effects of Hell");
         }
@@ -2067,7 +2034,9 @@ static void _jiyva_effects(int time_delta)
             // Spread jellies around the level.
             coord_def newpos;
             do
+            {
                 newpos = random_in_bounds();
+            }
             while (grd(newpos) != DNGN_FLOOR
                        && grd(newpos) != DNGN_SHALLOW_WATER
                    || monster_at(newpos)
@@ -2728,7 +2697,7 @@ static int _mushroom_ring(item_def &corpse, int & seen_count,
                    GOD_NO_GOD,
                    MONS_NO_MONSTER,
                    0,
-                   corpse.colour);
+                   corpse.get_colour());
 
     float target_arc_len = 2 * sqrtf(2.0f);
 
@@ -2827,7 +2796,7 @@ int spawn_corpse_mushrooms(item_def& corpse,
                                   GOD_NO_GOD,
                                   MONS_NO_MONSTER,
                                   0,
-                                  corpse.colour),
+                                  corpse.get_colour()),
                                   false);
 
             if (mushroom)
@@ -3073,9 +3042,9 @@ void slime_wall_damage(actor* act, int delay)
     {
         if (!you_worship(GOD_JIYVA) || you.penance[GOD_JIYVA])
         {
-            splash_with_acid(strength, NON_MONSTER, false,
-                             (walls > 1) ? "The walls burn you!"
-                                         : "The wall burns you!");
+            you.splash_with_acid(NULL, strength, false,
+                                (walls > 1) ? "The walls burn you!"
+                                            : "The wall burns you!");
         }
     }
     else

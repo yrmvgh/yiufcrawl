@@ -6,8 +6,8 @@
 #ifndef INITFILE_H
 #define INITFILE_H
 
-#include <string>
 #include <cstdio>
+#include <string>
 
 #include "enum.h"
 #include "itemprop-enum.h"
@@ -56,7 +56,7 @@ public:
     vector<string> cmd_args;
 
     int map_gen_iters;
-    Unique_ptr<depth_ranges> map_gen_range;
+    unique_ptr<depth_ranges> map_gen_range;
 
     vector<string> extra_opts_first;
     vector<string> extra_opts_last;

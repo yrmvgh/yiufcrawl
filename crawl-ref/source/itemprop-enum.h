@@ -186,6 +186,7 @@ enum jewellery_type
     // RINGS after num_rings are for unique types for artefacts
     //   (no non-artefact version).
     // Currently none.
+    // XXX: trying to add one doesn't actually work
 
     AMU_RAGE = 35,
     AMU_FIRST_AMULET = AMU_RAGE,
@@ -253,7 +254,10 @@ enum misc_item_type
     MISC_PHIAL_OF_FLOODS,
     MISC_SACK_OF_SPIDERS,
 
-    NUM_MISCELLANY, // mv: used for random generation
+    MISC_PHANTOM_MIRROR,
+
+    NUM_MISCELLANY,
+    MISC_DECK_UNKNOWN = NUM_MISCELLANY,
     MISC_FIRST_DECK = MISC_DECK_OF_ESCAPE,
     MISC_LAST_DECK  = MISC_DECK_OF_DEFENCE,
 };
@@ -527,15 +531,17 @@ enum weapon_type
 
 #if TAG_MAJOR_VERSION == 34
     WPN_HUNTING_SLING,
-#endif
 
     WPN_BLESSED_FALCHION,
     WPN_BLESSED_LONG_SWORD,
     WPN_BLESSED_SCIMITAR,
     WPN_BLESSED_GREAT_SWORD,
+#endif
     WPN_EUDEMON_BLADE,
+#if TAG_MAJOR_VERSION == 34
     WPN_BLESSED_DOUBLE_SWORD,
     WPN_BLESSED_TRIPLE_SWORD,
+#endif
     WPN_SACRED_SCOURGE,
     WPN_TRISHULA,
 

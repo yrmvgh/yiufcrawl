@@ -6,29 +6,29 @@
 #include "AppHdr.h"
 
 #include "items.h"
+
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+#include "areas.h"
+#include "arena.h"
+#include "artefact.h"
+#include "art-enum.h"
+#include "beam.h"
 #include "bitary.h"
+#include "butcher.h"
 #include "cio.h"
 #include "clua.h"
-
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
-
-#include "externs.h"
-
-#include "arena.h"
-#include "art-enum.h"
-#include "artefact.h"
-#include "beam.h"
 #include "colour.h"
 #include "coord.h"
 #include "coordit.h"
 #include "dactions.h"
-#include "describe.h"
 #include "dbg-util.h"
 #include "decks.h"
 #include "delay.h"
+#include "describe.h"
 #include "dgnevent.h"
 #include "directn.h"
 #include "dungeon.h"
@@ -39,11 +39,12 @@
 #include "godprayer.h"
 #include "godwrath.h"
 #include "hints.h"
+#include "hints.h"
 #include "hiscores.h"
 #include "invent.h"
-#include "item_use.h"
 #include "itemname.h"
 #include "itemprop.h"
+#include "item_use.h"
 #include "libutil.h"
 #include "macro.h"
 #include "makeitem.h"
@@ -55,8 +56,8 @@
 #include "orb.h"
 #include "output.h"
 #include "place.h"
-#include "player.h"
 #include "player-equip.h"
+#include "player.h"
 #include "prompt.h"
 #include "quiver.h"
 #include "religion.h"
@@ -65,18 +66,16 @@
 #include "showsymb.h"
 #include "spl-book.h"
 #include "spl-util.h"
-#include "state.h"
-#include "stringutil.h"
-#include "areas.h"
 #include "stash.h"
 #include "state.h"
+#include "state.h"
+#include "stringutil.h"
 #include "terrain.h"
 #include "throw.h"
 #include "travel.h"
-#include "hints.h"
 #include "unwind.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 #include "xom.h"
 
 static void _autoinscribe_item(item_def& item);
@@ -633,8 +632,6 @@ void item_was_lost(const item_def &item)
 
 void item_was_destroyed(const item_def &item)
 {
-    if (item.props.exists("destroy_xp"))
-        gain_exp(item.props["destroy_xp"].get_int());
     _handle_gone_item(item);
     xom_check_destroyed_item(item);
 }
@@ -926,7 +923,7 @@ void pickup_menu(int item_link)
 
     if (!pickup_warning.empty())
     {
-        mpr(pickup_warning.c_str());
+        mpr(pickup_warning);
         learned_something_new(HINT_FULL_INVENTORY);
     }
 
@@ -1375,7 +1372,7 @@ void pickup(bool partial_quantity)
         }
 
         if (!pickup_warning.empty())
-            mpr(pickup_warning.c_str());
+            mpr(pickup_warning);
     }
     if (you.last_pickup.empty())
         you.last_pickup = tmp_l_p;
@@ -1391,6 +1388,12 @@ bool is_stackable_item(const item_def &item)
         || item.base_type == OBJ_SCROLLS
         || item.base_type == OBJ_POTIONS
         || item.base_type == OBJ_GOLD)
+    {
+        return true;
+    }
+
+    if (item.base_type == OBJ_MISCELLANY
+        && item.sub_type == MISC_PHANTOM_MIRROR)
     {
         return true;
     }
@@ -1418,6 +1421,13 @@ bool items_similar(const item_def &item1, const item_def &item2)
     // Missiles with different egos shouldn't merge.
     if (item1.base_type == OBJ_MISSILES && item1.special != item2.special)
         return false;
+
+    // Don't merge trapping nets with other nets.
+    if (item1.base_type == OBJ_MISSILES && item1.sub_type == MI_THROWING_NET
+        && item1.net_placed != item2.net_placed)
+    {
+        return false;
+    }
 
     if (item1.base_type == OBJ_FOOD && item2.sub_type == FOOD_CHUNK
         && determine_chunk_effect(item1, true) !=
@@ -2372,12 +2382,11 @@ void drop_last()
 {
     vector<SelItem> items_to_drop;
 
-    for (map<int,int>::iterator it = you.last_pickup.begin();
-        it != you.last_pickup.end(); ++it)
+    for (const auto &entry : you.last_pickup)
     {
-        const item_def* item = &you.inv[it->first];
+        const item_def* item = &you.inv[entry.first];
         if (item->quantity > 0)
-            items_to_drop.push_back(SelItem(it->first, it->second, item));
+            items_to_drop.push_back(SelItem(entry.first, entry.second, item));
     }
 
     if (items_to_drop.empty())
@@ -2649,7 +2658,9 @@ static int _autopickup_subtype(const item_def &item)
     case OBJ_STAVES:
         return item_type_known(item) ? item.sub_type : max_type;
     case OBJ_MISCELLANY:
-        return (item.sub_type == MISC_RUNE_OF_ZOT) ? item.sub_type : max_type;
+        return (item.sub_type == MISC_RUNE_OF_ZOT
+                || item.sub_type == MISC_PHANTOM_MIRROR)
+               ? item.sub_type : max_type;
     case OBJ_BOOKS:
         if (item.sub_type == BOOK_MANUAL || item_type_known(item))
             return item.sub_type;
@@ -3008,7 +3019,7 @@ static void _do_autopickup()
     }
 
     if (!pickup_warning.empty())
-        mpr(pickup_warning.c_str());
+        mpr(pickup_warning);
 
     if (did_pickup)
         you.turn_is_over = true;
@@ -3233,6 +3244,646 @@ bool item_def::defined() const
 {
     return base_type != OBJ_UNASSIGNED && quantity > 0;
 }
+/**
+ * Has this item's appearance been initialized?
+ */
+bool item_def::appearance_initialized() const
+{
+    return rnd != 0 || is_unrandom_artefact(*this);
+}
+
+
+/**
+ * Assuming this item is a randart weapon/armour, what colour is it?
+ */
+colour_t item_def::randart_colour() const
+{
+    ASSERT(is_artefact(*this));
+    static colour_t colours[] = { YELLOW, LIGHTGREEN, LIGHTRED, LIGHTMAGENTA };
+    return colours[rnd % ARRAYSZ(colours)];
+}
+
+/**
+ * Assuming this item is a weapon, what colour is it?
+ */
+colour_t item_def::weapon_colour() const
+{
+    ASSERT(base_type == OBJ_WEAPONS);
+
+    // random artefact
+    if (is_artefact(*this))
+        return randart_colour();
+
+    if (is_demonic(*this))
+        return LIGHTRED;
+
+    switch (item_attack_skill(*this))
+    {
+        case SK_BOWS:
+            return BLUE;
+        case SK_CROSSBOWS:
+            return LIGHTBLUE;
+        case SK_THROWING:
+            return WHITE;
+        case SK_SLINGS:
+            return BROWN;
+        case SK_SHORT_BLADES:
+            return CYAN;
+        case SK_LONG_BLADES:
+            return LIGHTCYAN;
+        case SK_AXES:
+            return MAGENTA;
+        case SK_MACES_FLAILS:
+            return LIGHTGREY;
+        case SK_POLEARMS:
+            return RED;
+        case SK_STAVES:
+            return GREEN;
+        default:
+            die("Unknown weapon attack skill %d", item_attack_skill(*this));
+            // XXX: give more info!
+    }
+}
+
+/**
+ * Assuming this item is a missile (stone/arrow/bolt/etc), what colour is it?
+ */
+colour_t item_def::missile_colour() const
+{
+    ASSERT(base_type == OBJ_MISSILES);
+
+    // TODO: move this into itemprop.cc
+    switch (sub_type)
+    {
+        case MI_STONE:
+            return BROWN;
+#if TAG_MAJOR_VERSION == 34
+        case MI_DART:
+#endif
+        case MI_SLING_BULLET:
+            return CYAN;
+        case MI_LARGE_ROCK:
+            return LIGHTGREY;
+        case MI_ARROW:
+            return BLUE;
+        case MI_NEEDLE:
+            return WHITE;
+        case MI_BOLT:
+            return LIGHTBLUE;
+        case MI_JAVELIN:
+            return RED;
+        case MI_THROWING_NET:
+            return MAGENTA;
+        case MI_TOMAHAWK:
+            return GREEN;
+        case NUM_SPECIAL_MISSILES:
+        case NUM_REAL_SPECIAL_MISSILES:
+        default:
+            die("invalid missile type");
+    }
+}
+
+/**
+ * Assuming this item is a piece of armour, what colour is it?
+ */
+colour_t item_def::armour_colour() const
+{
+    ASSERT(base_type == OBJ_ARMOUR);
+
+    if (is_artefact(*this))
+        return randart_colour();
+
+    // TODO: move (some of?) this into itemprop.cc
+    switch (sub_type)
+    {
+        case ARM_FIRE_DRAGON_HIDE:
+        case ARM_FIRE_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_FIRE_DRAGON);
+        case ARM_TROLL_HIDE:
+        case ARM_TROLL_LEATHER_ARMOUR:
+            return mons_class_colour(MONS_TROLL);
+        case ARM_ICE_DRAGON_HIDE:
+        case ARM_ICE_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_ICE_DRAGON);
+        case ARM_STEAM_DRAGON_HIDE:
+        case ARM_STEAM_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_STEAM_DRAGON);
+        case ARM_MOTTLED_DRAGON_HIDE:
+        case ARM_MOTTLED_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_MOTTLED_DRAGON);
+        case ARM_STORM_DRAGON_HIDE:
+        case ARM_STORM_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_STORM_DRAGON);
+        case ARM_GOLD_DRAGON_HIDE:
+        case ARM_GOLD_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_GOLDEN_DRAGON);
+        case ARM_SWAMP_DRAGON_HIDE:
+        case ARM_SWAMP_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_SWAMP_DRAGON);
+        case ARM_PEARL_DRAGON_HIDE:
+        case ARM_PEARL_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_PEARL_DRAGON);
+        case ARM_SHADOW_DRAGON_HIDE:
+        case ARM_SHADOW_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_SHADOW_DRAGON);
+        case ARM_QUICKSILVER_DRAGON_HIDE:
+        case ARM_QUICKSILVER_DRAGON_ARMOUR:
+            return mons_class_colour(MONS_QUICKSILVER_DRAGON);
+        case ARM_CLOAK:
+            return WHITE;
+        case ARM_NAGA_BARDING:
+        case ARM_CENTAUR_BARDING:
+            return GREEN;
+        case ARM_ROBE:
+            return RED;
+#if TAG_MAJOR_VERSION == 34
+        case ARM_CAP:
+#endif
+        case ARM_HAT:
+        case ARM_HELMET:
+            return MAGENTA;
+        case ARM_BOOTS:
+            return BLUE;
+        case ARM_GLOVES:
+            return LIGHTBLUE;
+        case ARM_LEATHER_ARMOUR:
+            return BROWN;
+        case ARM_ANIMAL_SKIN:
+            return LIGHTGREY;
+        case ARM_CRYSTAL_PLATE_ARMOUR:
+            return WHITE;
+        case ARM_SHIELD:
+        case ARM_LARGE_SHIELD:
+        case ARM_BUCKLER:
+            return CYAN;
+        default:
+            return LIGHTCYAN;
+    }
+}
+
+/**
+ * Assuming this item is a wand, what colour is it?
+ */
+colour_t item_def::wand_colour() const
+{
+    ASSERT(base_type == OBJ_WANDS);
+
+    // this is very odd... a linleyism?
+    // TODO: associate colours directly with names
+    // (use an array of [name, colour] tuples/structs)
+    switch (subtype_rnd % NDSC_WAND_PRI)
+    {
+        case 0:         //"iron wand"
+            return CYAN;
+        case 1:         //"brass wand"
+        case 5:         //"gold wand"
+            return YELLOW;
+        case 3:         //"wooden wand"
+        case 4:         //"copper wand"
+        case 7:         //"bronze wand"
+            return BROWN;
+        case 6:         //"silver wand"
+            return WHITE;
+        case 11:        //"fluorescent wand"
+            return LIGHTGREEN;
+        case 2:         //"bone wand"
+        case 8:         //"ivory wand"
+        case 9:         //"glass wand"
+        case 10:        //"lead wand"
+        default:
+            return LIGHTGREY;
+    }
+}
+
+/**
+ * Assuming this item is a potion, what colour is it?
+ */
+colour_t item_def::potion_colour() const
+{
+    ASSERT(base_type == OBJ_POTIONS);
+
+    // TODO: associate colours directly with names
+    // (use an array of [name, colour] tuples/structs)
+    static const COLOURS potion_colours[] =
+    {
+#if TAG_MAJOR_VERSION == 34
+        // clear
+        LIGHTGREY,
+#endif
+        // blue, black, silvery, cyan, purple, orange
+        BLUE, LIGHTGREY, WHITE, CYAN, MAGENTA, LIGHTRED,
+        // inky, red, yellow, green, brown, pink, white
+        BLUE, RED, YELLOW, GREEN, BROWN, LIGHTMAGENTA, WHITE,
+        // emerald, grey, pink, copper, gold, dark, puce
+        LIGHTGREEN, LIGHTGREY, LIGHTRED, YELLOW, YELLOW, BROWN, BROWN,
+        // amethyst, sapphire
+        MAGENTA, BLUE
+    };
+    COMPILE_CHECK(ARRAYSZ(potion_colours) == NDSC_POT_PRI);
+    return potion_colours[subtype_rnd % NDSC_POT_PRI];
+}
+
+/**
+ * Assuming this item is a piece of food, what colour is it?
+ */
+colour_t item_def::food_colour() const
+{
+    ASSERT(base_type == OBJ_FOOD);
+
+    switch (sub_type)
+    {
+        case FOOD_ROYAL_JELLY:
+        case FOOD_PIZZA:
+            return YELLOW;
+        case FOOD_FRUIT:
+            return LIGHTGREEN;
+        case FOOD_CHUNK:
+        {
+            const colour_t class_colour = mons_class_colour(mon_type);
+            if (class_colour == BLACK)
+                return LIGHTRED;
+            return class_colour;
+        }
+        case FOOD_BEEF_JERKY:
+        case FOOD_BREAD_RATION:
+        case FOOD_MEAT_RATION:
+        default:
+            return BROWN;
+    }
+}
+
+/**
+ * Assuming this item is a ring, what colour is it?
+ */
+colour_t item_def::ring_colour() const
+{
+    ASSERT(!jewellery_is_amulet(*this));
+    // jewellery_is_amulet asserts base type
+
+    // TODO: associate colours directly with names
+    // (use an array of [name, colour] tuples/structs)
+    switch (subtype_rnd % NDSC_JEWEL_PRI)
+    {
+        case 1:                 // "silver ring"
+        case 8:                 // "granite ring"
+        case 9:                 // "ivory ring"
+        case 15:                // "bone ring"
+        case 16:                // "diamond ring"
+        case 20:                // "opal ring"
+        case 21:                // "pearl ring"
+        case 26:                // "onyx ring"
+            return LIGHTGREY;
+        case 3:                 // "iron ring"
+        case 4:                 // "steel ring"
+        case 13:                // "glass ring"
+            return CYAN;
+        case 5:                 // "tourmaline ring"
+        case 22:                // "coral ring"
+            return MAGENTA;
+        case 10:                // "ruby ring"
+        case 19:                // "garnet ring"
+            return RED;
+        case 11:                // "marble ring"
+        case 12:                // "jade ring"
+        case 14:                // "agate ring"
+        case 17:                // "emerald ring"
+        case 18:                // "peridot ring"
+            return GREEN;
+        case 23:                // "sapphire ring"
+        case 24:                // "cabochon ring"
+        case 28:                // "moonstone ring"
+            return BLUE;
+        case 0:                 // "wooden ring"
+        case 2:                 // "golden ring"
+        case 6:                 // "brass ring"
+        case 7:                 // "copper ring"
+        case 25:                // "gilded ring"
+        case 27:                // "bronze ring"
+        default:
+            return BROWN;
+    }
+}
+
+/**
+ * Assuming this item is an amulet, what colour is it?
+ */
+colour_t item_def::amulet_colour() const
+{
+    ASSERT(jewellery_is_amulet(*this));
+    // jewellery_is_amulet asserts base type
+
+    // TODO: associate colours directly with names
+    // (use an array of [name, colour] tuples/structs)
+    switch (subtype_rnd % NDSC_JEWEL_PRI)
+    {
+        case 0:             // "zirconium amulet"
+        case 9:             // "ivory amulet"
+        case 10:            // "bone amulet"
+        case 11:            // "platinum amulet"
+        case 16:            // "pearl amulet"
+        case 20:            // "diamond amulet"
+        case 24:            // "silver amulet"
+            return LIGHTGREY;
+        case 1:             // "sapphire amulet"
+        case 17:            // "blue amulet"
+        case 26:            // "lapis lazuli amulet"
+            return BLUE;
+        case 3:             // "emerald amulet"
+        case 12:            // "jade amulet"
+        case 18:            // "peridot amulet"
+        case 21:            // "malachite amulet"
+        case 25:            // "soapstone amulet"
+        case 28:            // "beryl amulet"
+            return GREEN;
+        case 4:             // "garnet amulet"
+        case 8:             // "ruby amulet"
+        case 19:            // "jasper amulet"
+        case 15:            // "cameo amulet"
+            return RED;
+        case 22:            // "steel amulet"
+        case 23:            // "cabochon amulet"
+        case 27:            // "filigree amulet"
+            return CYAN;
+        case 13:            // "fluorescent amulet"
+        case 14:            // "crystal amulet"
+            return MAGENTA;
+        case 2:             // "golden amulet"
+        case 5:             // "bronze amulet"
+        case 6:             // "brass amulet"
+        case 7:             // "copper amulet"
+        default:
+            return BROWN;
+    }
+}
+
+/**
+ * Assuming this is a piece of jewellery (ring or amulet), what colour is it?
+ */
+colour_t item_def::jewellery_colour() const
+{
+    ASSERT(base_type == OBJ_JEWELLERY);
+
+    //randarts are bright, normal jewellery is dark
+    if (is_random_artefact(*this))
+        return LIGHTGREEN + (rnd % (WHITE - LIGHTGREEN + 1));
+
+    if (jewellery_is_amulet(*this))
+        return amulet_colour();
+    return ring_colour();
+}
+
+/**
+ * Assuming this item is a book, what colour is it?
+ */
+colour_t item_def::book_colour() const
+{
+    ASSERT(base_type == OBJ_BOOKS);
+
+    if (sub_type == BOOK_MANUAL)
+        return WHITE;
+
+    switch (rnd % NDSC_BOOK_PRI)
+    {
+        case 0:
+            return BROWN;
+        case 1:
+            return CYAN;
+        case 2:
+            return LIGHTGREY;
+        case 3:
+        case 4:
+        default:
+        {
+            /// everything but BLACK, WHITE (manuals), and DARKGREY (useless)
+            static const colour_t colours[] = {
+                BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGREY, LIGHTBLUE,
+                LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW
+            };
+            return colours[rnd % ARRAYSZ(colours)];
+        }
+    }
+}
+
+/**
+ * Assuming this item is a Rune of Zot, what colour is it?
+ */
+colour_t item_def::rune_colour() const
+{
+    ASSERT(item_is_rune(*this));
+
+    switch (rune_enum)
+    {
+        case RUNE_DIS:                      // iron
+            return ETC_IRON;
+
+        case RUNE_COCYTUS:                  // icy
+            return ETC_ICE;
+
+        case RUNE_TARTARUS:                 // bone
+        case RUNE_SPIDER:
+            return ETC_BONE;
+
+        case RUNE_SLIME:                    // slimy
+            return ETC_SLIME;
+
+        case RUNE_SNAKE:                    // serpentine
+            return ETC_POISON;
+
+        case RUNE_ELF:                      // elven
+            return ETC_ELVEN;
+
+        case RUNE_VAULTS:                   // silver
+            return ETC_SILVER;
+
+        case RUNE_TOMB:                     // golden
+            return ETC_GOLD;
+
+        case RUNE_SWAMP:                    // decaying
+            return ETC_DECAY;
+
+        case RUNE_SHOALS:                   // barnacled
+            return ETC_WATER;
+
+            // This one is hardly unique, but colour isn't used for
+            // stacking, so we don't have to worry too much about this.
+            // - bwr
+        case RUNE_DEMONIC:                  // random Pandemonium lords
+        {
+            static const element_type types[] =
+            {ETC_EARTH, ETC_ELECTRICITY, ETC_ENCHANT, ETC_HEAL, ETC_BLOOD,
+             ETC_DEATH, ETC_UNHOLY, ETC_VEHUMET, ETC_BEOGH, ETC_CRYSTAL,
+             ETC_SMOKE, ETC_DWARVEN, ETC_ORCISH, ETC_FLASH, ETC_KRAKEN};
+
+            return types[rnd % ARRAYSZ(types)];
+        }
+
+        case RUNE_ABYSSAL:
+            return ETC_RANDOM;
+
+        case RUNE_MNOLEG:                   // glowing
+            return ETC_MUTAGENIC;
+
+        case RUNE_LOM_LOBON:                // magical
+            return ETC_MAGIC;
+
+        case RUNE_CEREBOV:                  // fiery
+            return ETC_FIRE;
+
+        case RUNE_GEHENNA:                  // obsidian
+        case RUNE_GLOORX_VLOQ:              // dark
+        default:
+            return ETC_DARK;
+    }
+}
+
+/**
+ * Assuming this item is a miscellaneous item (evocations item or a rune), what
+ * colour is it?
+ */
+colour_t item_def::miscellany_colour() const
+{
+    ASSERT(base_type == OBJ_MISCELLANY);
+
+    if (is_deck(*this) || sub_type == MISC_DECK_UNKNOWN)
+        return deck_rarity_to_colour(deck_rarity);
+
+    if (item_is_rune(*this))
+        return rune_colour();
+
+    switch (sub_type)
+    {
+        case MISC_LANTERN_OF_SHADOWS:
+            return BLUE;
+        case MISC_FAN_OF_GALES:
+            return CYAN;
+#if TAG_MAJOR_VERSION == 34
+        case MISC_BOTTLED_EFREET:
+            return RED;
+#endif
+        case MISC_PHANTOM_MIRROR:
+            return RED;
+        case MISC_STONE_OF_TREMORS:
+            return BROWN;
+        case MISC_DISC_OF_STORMS:
+            return LIGHTGREY;
+        case MISC_PHIAL_OF_FLOODS:
+            return LIGHTBLUE;
+        case MISC_BOX_OF_BEASTS:
+            return LIGHTGREEN; // ugh, but we're out of other options
+        case MISC_CRYSTAL_BALL_OF_ENERGY:
+            return LIGHTCYAN;
+        case MISC_HORN_OF_GERYON:
+            return LIGHTRED;
+        case MISC_LAMP_OF_FIRE:
+            return YELLOW;
+        case MISC_SACK_OF_SPIDERS:
+            return WHITE;
+#if TAG_MAJOR_VERSION == 34
+        case MISC_BUGGY_EBONY_CASKET:
+            return DARKGREY;
+#endif
+        case MISC_QUAD_DAMAGE:
+            return ETC_DARK;
+        default:
+            return LIGHTGREEN;
+    }
+}
+
+/**
+ * Assuming this item is a corpse, what colour is it?
+ */
+colour_t item_def::corpse_colour() const
+{
+    ASSERT(base_type == OBJ_CORPSES);
+
+    switch (sub_type)
+    {
+        case CORPSE_SKELETON:
+            return LIGHTGREY;
+        case CORPSE_BODY:
+        {
+            const colour_t class_colour = mons_class_colour(mon_type);
+#if TAG_MAJOR_VERSION == 34
+            if (class_colour == COLOUR_UNDEF)
+                return LIGHTRED;
+#else
+            ASSERT(class_colour != COLOUR_UNDEF);
+#endif
+            return class_colour;
+        }
+        default:
+            die("Unknown corpse type: %d", sub_type); // XXX: add more info
+    }
+}
+
+/**
+ * What colour is this item?
+ *
+ * @return The colour that the item should be displayed as.
+ *         Used for console glyphs.
+ */
+colour_t item_def::get_colour() const
+{
+    // props take first priority
+    if (props.exists(FORCED_ITEM_COLOUR_KEY))
+    {
+        const colour_t colour = props[FORCED_ITEM_COLOUR_KEY].get_int();
+        ASSERT(colour);
+        return colour;
+    }
+
+    // unrands get to override everything else (wrt colour)
+    // ...except for un-ID'd random-appearance artefacts (Misfortune)
+    if (is_unrandom_artefact(*this) && !is_randapp_artefact(*this))
+    {
+        const unrandart_entry *unrand = get_unrand_entry(
+                                            find_unrandart_index(*this));
+        ASSERT(unrand);
+        ASSERT(unrand->colour);
+        return unrand->colour;
+    }
+
+    switch (base_type)
+    {
+        case OBJ_WEAPONS:
+            return weapon_colour();
+        case OBJ_MISSILES:
+            return missile_colour();
+        case OBJ_ARMOUR:
+            return armour_colour();
+        case OBJ_WANDS:
+            return wand_colour();
+        case OBJ_POTIONS:
+            return potion_colour();
+        case OBJ_FOOD:
+            return food_colour();
+        case OBJ_JEWELLERY:
+            return jewellery_colour();
+        case OBJ_SCROLLS:
+            return LIGHTGREY;
+        case OBJ_BOOKS:
+            return book_colour();
+        case OBJ_RODS:
+            return YELLOW;
+        case OBJ_STAVES:
+            return BROWN;
+        case OBJ_ORBS:
+            return ETC_MUTAGENIC;
+        case OBJ_CORPSES:
+            return corpse_colour();
+        case OBJ_MISCELLANY:
+            return miscellany_colour();
+        case OBJ_GOLD:
+            return YELLOW;
+        case OBJ_DETECTED:
+            return Options.detected_item_colour;
+        case NUM_OBJECT_CLASSES:
+        case OBJ_UNASSIGNED:
+        case OBJ_RANDOM: // not sure what to do with these three
+        default:
+            return LIGHTGREY;
+    }
+}
 
 bool item_type_has_unidentified(object_class_type base_type)
 {
@@ -3251,17 +3902,40 @@ bool item_type_has_unidentified(object_class_type base_type)
 bool item_def::is_valid(bool iinfo) const
 {
     if (base_type == OBJ_DETECTED)
+    {
+        if (!iinfo)
+            dprf("weird detected item");
         return iinfo;
+    }
     else if (!defined())
+    {
+        dprf("undefined");
         return false;
+    }
     const int max_sub = get_max_subtype(base_type);
     if (max_sub != -1 && sub_type >= max_sub)
     {
         if (!iinfo || sub_type > max_sub || !item_type_has_unidentified(base_type))
+        {
+            if (!iinfo)
+                dprf("weird subtype and no info");
+            if (sub_type > max_sub)
+                dprf("huge subtype");
+            if (!item_type_has_unidentified(base_type))
+                dprf("unided item of a type that can't be");
             return false;
+        }
     }
-    if (colour == 0)
+    if (get_colour() == 0)
+    {
+        dprf("black item");
         return false; // No black items.
+    }
+    if (!appearance_initialized())
+    {
+        dprf("no rnd");
+        return false; // no items with uninitialized rnd
+    }
     return true;
 }
 
@@ -3414,15 +4088,15 @@ static void _deck_from_specs(const char* _specs, item_def &item)
         MISC_DECK_OF_WAR,
         MISC_DECK_OF_CHANGES,
         MISC_DECK_OF_DEFENCE,
-        NUM_MISCELLANY
+        MISC_DECK_UNKNOWN,
     };
 
     item.special  = DECK_RARITY_COMMON;
-    item.sub_type = NUM_MISCELLANY;
+    item.sub_type = MISC_DECK_UNKNOWN;
 
     if (!type_str.empty())
     {
-        for (int i = 0; types[i] != NUM_MISCELLANY; ++i)
+        for (int i = 0; types[i] != MISC_DECK_UNKNOWN; ++i)
         {
             item.sub_type = types[i];
             item.plus     = 1;
@@ -3436,7 +4110,7 @@ static void _deck_from_specs(const char* _specs, item_def &item)
         }
     }
 
-    if (item.sub_type == NUM_MISCELLANY)
+    if (item.sub_type == MISC_DECK_UNKNOWN)
     {
         while (true)
         {
@@ -3602,7 +4276,7 @@ bool get_item_by_name(item_def *item, char* specs,
                 if (pos < best_index)
                 {
                     if (create_for_real)
-                        mpr(item->name(DESC_PLAIN).c_str());
+                        mpr(item->name(DESC_PLAIN));
                     type_wanted = i;
                     best_index = pos;
                 }
@@ -3703,7 +4377,7 @@ bool get_item_by_name(item_def *item, char* specs,
                     if (pos < best_index)
                     {
                         if (create_for_real)
-                            mpr(item->name(DESC_PLAIN).c_str());
+                            mpr(item->name(DESC_PLAIN));
                         special_wanted = i;
                         best_index = pos;
                     }
@@ -3846,10 +4520,9 @@ item_info get_item_info(const item_def& item)
 
     ii.base_type = item.base_type;
     ii.quantity = item.quantity;
-    ii.colour = item.colour;
     ii.inscription = item.inscription;
     ii.flags = item.flags & (0
-            | ISFLAG_IDENT_MASK | ISFLAG_BLESSED_WEAPON | ISFLAG_SEEN_CURSED
+            | ISFLAG_IDENT_MASK | ISFLAG_SEEN_CURSED
             | ISFLAG_ARTEFACT_MASK | ISFLAG_DROPPED | ISFLAG_THROWN
             | ISFLAG_COSMETIC_MASK);
 
@@ -3861,6 +4534,10 @@ item_info get_item_info(const item_def& item)
     }
     else
         ii.pos = item.pos;
+
+    ii.rnd = item.rnd; // XXX: may (?) leak cosmetic (?) info...?
+    if (ii.rnd == 0)
+        ii.rnd = 1; // don't leave "uninitialized" item infos around
 
     // keep god number
     if (item.orig_monnum < 0)
@@ -3902,14 +4579,13 @@ item_info get_item_info(const item_def& item)
             ii.plus = item.plus;
         if (item_type_known(item))
             ii.brand = item.brand;
-        ii.rnd = item.rnd; // used for appearance
         break;
     case OBJ_WANDS:
         if (item_type_known(item))
             ii.sub_type = item.sub_type;
         else
             ii.sub_type = NUM_WANDS;
-        ii.appearance = item.appearance;
+        ii.subtype_rnd = item.subtype_rnd;
         if (item_ident(ii, ISFLAG_KNOW_PLUSES))
             ii.charges = item.charges;
         ii.used_count = item.used_count; // num zapped/recharged or empty
@@ -3919,7 +4595,7 @@ item_info get_item_info(const item_def& item)
             ii.sub_type = item.sub_type;
         else
             ii.sub_type = NUM_POTIONS;
-        ii.consum_desc = item.consum_desc; // appearance
+        ii.subtype_rnd = item.subtype_rnd;
         break;
     case OBJ_FOOD:
         ii.sub_type = item.sub_type;
@@ -3928,8 +4604,6 @@ item_info get_item_info(const item_def& item)
             ii.mon_type = item.mon_type;
             ii.freshness = 100;
         }
-        if (ii.sub_type == FOOD_FRUIT)
-            ii.rnd = item.rnd; //appearance
         break;
     case OBJ_CORPSES:
         ii.sub_type = item.sub_type;
@@ -3941,8 +4615,7 @@ item_info get_item_info(const item_def& item)
             ii.sub_type = item.sub_type;
         else
             ii.sub_type = NUM_SCROLLS;
-        ii.appearance = item.appearance;    // name seed, part 1
-        ii.consum_desc = item.consum_desc;  // name seed, part 2
+        ii.subtype_rnd = item.subtype_rnd;    // name seed
         break;
     case OBJ_JEWELLERY:
         if (item_type_known(item))
@@ -3951,15 +4624,14 @@ item_info get_item_info(const item_def& item)
             ii.sub_type = jewellery_is_amulet(item) ? NUM_JEWELLERY : NUM_RINGS;
         if (item_ident(ii, ISFLAG_KNOW_PLUSES))
             ii.plus = item.plus;   // str/dex/int/ac/ev ring plus
-        ii.appearance = item.appearance;
-        ii.rnd = item.rnd; // randart appearance
+        ii.subtype_rnd = item.subtype_rnd;
         break;
     case OBJ_BOOKS:
         if (item_type_known(item) || !item_is_spellbook(item))
             ii.sub_type = item.sub_type;
         else
             ii.sub_type = NUM_BOOKS;
-        ii.appearance = item.appearance;
+        ii.subtype_rnd = item.subtype_rnd;
         if (item.sub_type == BOOK_MANUAL && item_type_known(item))
             ii.skill = item.skill; // manual skill
         break;
@@ -3976,11 +4648,10 @@ item_info get_item_info(const item_def& item)
         }
         else
             ii.sub_type = NUM_RODS;
-        ii.rnd = item.rnd; // appearance
         break;
     case OBJ_STAVES:
         ii.sub_type = item_type_known(item) ? item.sub_type : NUM_STAVES;
-        ii.appearance = item.appearance;
+        ii.subtype_rnd = item.subtype_rnd;
         break;
     case OBJ_MISCELLANY:
         if (item_type_known(item))
@@ -3992,7 +4663,7 @@ item_info get_item_info(const item_def& item)
             {
                 // Needs to be changed if we add other miscellaneous items
                 // that can be non-identified.
-                ii.sub_type = NUM_MISCELLANY;
+                ii.sub_type = MISC_DECK_UNKNOWN;
             }
             else
                 ii.sub_type = item.sub_type;
@@ -4001,7 +4672,7 @@ item_info get_item_info(const item_def& item)
         if (ii.sub_type == MISC_RUNE_OF_ZOT)
             ii.rune_enum = item.rune_enum; // which rune
 
-        if (ii.sub_type == NUM_MISCELLANY)
+        if (ii.sub_type == MISC_DECK_UNKNOWN)
             ii.deck_rarity = item.deck_rarity;
 
         // Preserve inert/charged state but not the actual numbers.
@@ -4071,11 +4742,13 @@ item_info get_item_info(const item_def& item)
     else if (item_type_tried(item))
         ii.flags |= ISFLAG_TRIED;
 
-    const char* copy_props[] = {ARTEFACT_APPEAR_KEY, KNOWN_PROPS_KEY,
-                                CORPSE_NAME_KEY, CORPSE_NAME_TYPE_KEY,
-                                "drawn_cards", "item_tile", "item_tile_name",
-                                "worn_tile", "worn_tile_name",
-                                "needs_autopickup"};
+    static const char* copy_props[] =
+    {
+        ARTEFACT_APPEAR_KEY, KNOWN_PROPS_KEY, CORPSE_NAME_KEY,
+        CORPSE_NAME_TYPE_KEY, "drawn_cards", "item_tile", "item_tile_name",
+        "worn_tile", "worn_tile_name", "needs_autopickup",
+        FORCED_ITEM_COLOUR_KEY, MANGLED_CORPSE_KEY
+    };
     for (unsigned i = 0; i < ARRAYSZ(copy_props); ++i)
     {
         if (item.props.exists(copy_props[i]))

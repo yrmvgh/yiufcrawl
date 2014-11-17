@@ -5,8 +5,6 @@
 #include "libutil.h"
 #include "random.h"
 
-#include "version.h"
-
 // March 2008: change order of species and jobs on character selection
 // screen as suggested by Markus Maier.
 // We have subsequently added a few new categories.

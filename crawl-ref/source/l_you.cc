@@ -1,6 +1,5 @@
 #include "AppHdr.h"
 
-#include "cluautil.h"
 #include "l_libs.h"
 
 #include "ability.h"
@@ -8,7 +7,7 @@
 #include "areas.h"
 #include "branch.h"
 #include "chardump.h"
-#include "coord.h"
+#include "cluautil.h"
 #include "delay.h"
 #include "english.h"
 #include "env.h"
@@ -17,22 +16,18 @@
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
-#include "ng-setup.h"
+#include "jobs.h"
 #include "mapmark.h"
 #include "misc.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "newgame_def.h"
-#include "jobs.h"
+#include "ng-setup.h"
 #include "ouch.h"
 #include "place.h"
 #include "prompt.h"
 #include "religion.h"
 #include "shopping.h"
-#include "species.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
 #include "spl-transloc.h"
 #include "spl-util.h"
@@ -679,7 +674,7 @@ static int _you_uniques(lua_State *ls)
     return 1;
 }
 
-LUAWRAP(_you_die,ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_SOMETHING))
+LUAWRAP(_you_die,ouch(INSTANT_DEATH, KILLED_BY_SOMETHING))
 
 static int _you_piety(lua_State *ls)
 {

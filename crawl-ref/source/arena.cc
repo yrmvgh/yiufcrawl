@@ -8,32 +8,25 @@
 #include "arena.h"
 
 #include "act-iter.h"
-#include "cio.h"
 #include "colour.h"
 #include "command.h"
 #include "dungeon.h"
 #include "end.h"
-#include "env.h"
-#include "externs.h"
 #include "food.h"
+#include "itemname.h"
 #include "items.h"
-#include "itemname.h" // for make_name()
 #include "libutil.h"
 #include "los.h"
 #include "macro.h"
 #include "maps.h"
 #include "message.h"
-#include "mon-behv.h"
+#include "misc.h"
+#include "mgen_data.h"
 #include "mon-death.h"
 #include "mon-pick.h"
-#include "mon-util.h"
-#include "mon-place.h"
 #include "mon-tentacle.h"
-#include "mgen_data.h"
 #include "ng-init.h"
-#include "options.h"
 #include "spl-miscast.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
 #include "teleport.h"
@@ -44,7 +37,6 @@
 #include "unicode.h"
 #include "version.h"
 #include "view.h"
-#include "viewgeom.h"
 
 #define ARENA_VERBOSE
 
@@ -142,17 +134,10 @@ namespace arena
     static void adjust_spells(monster* mons, bool no_summons, bool no_animate)
     {
         monster_spells &spells(mons->spells);
-        for (monster_spells::iterator it = spells.begin();
-             it != spells.end(); it++)
-        {
-            spell_type sp = it->spell;
-            if (no_summons && spell_typematch(sp, SPTYP_SUMMONING)
-                || no_animate && sp == SPELL_ANIMATE_DEAD)
-            {
-                spells.erase(it);
-                it = spells.begin() - 1;
-            }
-        }
+        erase_if(spells, [&](const mon_spell_slot &t) {
+            return (no_summons && spell_typematch(t.spell, SPTYP_SUMMONING))
+                || (no_animate && t.spell == SPELL_ANIMATE_DEAD);
+        });
     }
 
     static void adjust_monsters()
@@ -375,10 +360,9 @@ namespace arena
             }
         }
 
-        const string glyphs = strip_tag_prefix(spec, "ban_glyphs:");
-        for (unsigned int i = 0; i < glyphs.size(); i++)
-            if (!(glyphs[i] & !127))
-                banned_glyphs[static_cast<int>(glyphs[i])] = true;
+        for (unsigned char gly : strip_tag_prefix(spec, "ban_glyphs:"))
+            if (gly < ARRAYSZ(banned_glyphs))
+                banned_glyphs[gly] = true;
 
         vector<string> factions = split_string(" v ", spec);
 
@@ -683,7 +667,7 @@ namespace arena
             if (mon->type == MONS_TEST_SPAWNER)
                 continue;
 
-            MiscastEffect(*mon, mon->mindex(), SPTYP_RANDOM,
+            MiscastEffect(*mon, *mon, WIZARD_MISCAST, SPTYP_RANDOM,
                           random_range(1, 3), "arena miscast", NH_NEVER);
         }
     }
@@ -900,7 +884,7 @@ namespace arena
             msg = "---------- " + msg + " ----------";
 
         if (was_tied)
-            mpr(msg.c_str());
+            mpr(msg);
         else
             mprf(msg.c_str(),
                  faction_a.won ? faction_a.desc.c_str()
@@ -1149,12 +1133,6 @@ void arena_placed_monster(monster* mons)
             item_def &item(mitm[it]);
             item.flags |= ISFLAG_IDENT_MASK;
 
-            // Don't leak info on wands or potions.
-            if (item.base_type == OBJ_WANDS
-                || item.base_type == OBJ_POTIONS)
-            {
-                item.colour = random_colour();
-            }
             // Set the "drop" time here in case the monster drops the
             // item without dying, like being polymorphed.
             arena::item_drop_times[it] = arena::turns;
@@ -1270,7 +1248,7 @@ void arena_monster_died(monster* mons, killer_type killer,
                 && (fac->members.get_monster(member_idx).type
                     == MONS_SLIME_CREATURE))
             {
-                for (unsigned int i = 1; i < mons->number; i++)
+                for (int i = 1; i < mons->blob_size; i++)
                 {
                     fac->respawn_list.push_back(member_idx);
                     fac->respawn_pos.push_back(mons->pos());

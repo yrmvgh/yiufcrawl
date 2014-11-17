@@ -7,54 +7,41 @@
 #include "AppHdr.h"
 
 #include "spl-damage.h"
-#include "externs.h"
 
 #include "act-iter.h"
 #include "areas.h"
-#include "art-enum.h"
-#include "beam.h"
 #include "butcher.h"
 #include "cloud.h"
 #include "colour.h"
-#include "coord.h"
 #include "coordit.h"
 #include "directn.h"
 #include "english.h"
 #include "env.h"
-#include "feature.h"
 #include "fight.h"
 #include "food.h"
 #include "fprop.h"
 #include "godabil.h"
 #include "godconduct.h"
 #include "itemname.h"
-#include "itemprop.h"
 #include "items.h"
-#include "libutil.h"
 #include "losglobal.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-behv.h"
 #include "mon-death.h"
-#include "options.h"
 #include "ouch.h"
-#include "options.h"
-#include "player-equip.h"
 #include "prompt.h"
 #include "shout.h"
 #include "spl-summoning.h"
 #include "spl-util.h"
-#include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"
 #include "target.h"
-#include "teleport.h"
 #include "terrain.h"
 #include "transform.h"
-#include "traps.h"
 #include "unicode.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 
 // This spell has two main advantages over Fireball:
 //
@@ -111,12 +98,13 @@ void setup_fire_storm(const actor *source, int pow, bolt &beam)
         source->is_player() ? KILL_YOU_MISSILE : KILL_MON;
     beam.aux_source.clear();
     beam.obvious_effect = false;
-    beam.is_beam      = false;
+    beam.pierce       = false;
     beam.is_tracer    = false;
     beam.is_explosion = true;
     beam.ench_power   = pow;      // used for radius
     beam.hit          = 20 + pow / 10;
     beam.damage       = calc_dice(8, 5 + pow);
+    beam.origin_spell = SPELL_FIRE_STORM;
 }
 
 spret_type cast_fire_storm(int pow, bolt &beam, bool fail)
@@ -170,7 +158,7 @@ bool cast_hellfire_burst(int pow, bolt &beam)
     beam.source_id         = MID_PLAYER;
     beam.thrower           = KILL_YOU;
     beam.obvious_effect    = false;
-    beam.is_beam           = false;
+    beam.pierce            = false;
     beam.is_explosion      = true;
     beam.ench_power        = pow;      // used for radius
     beam.hit               = 20 + pow / 10;
@@ -228,9 +216,10 @@ spret_type cast_chain_spell(spell_type spell_cast, int pow,
     beam.range          = 8;
     beam.hit            = AUTOMATIC_HIT;
     beam.obvious_effect = true;
-    beam.is_beam        = false;       // since we want to stop at our target
+    beam.pierce         = false;       // since we want to stop at our target
     beam.is_explosion   = false;
     beam.is_tracer      = false;
+    beam.origin_spell   = spell_cast;
 
     if (const monster* mons = caster->as_monster())
         beam.source_name = mons->name(DESC_PLAIN, true);
@@ -390,12 +379,8 @@ static counted_monster_list _counted_monster_list_from_vector(
     vector<monster *> affected_monsters)
 {
     counted_monster_list mons;
-    for (vector<monster *>::iterator it = affected_monsters.begin();
-         it != affected_monsters.end(); it++)
-    {
-        mons.add(*it);
-    }
-
+    for (auto mon : affected_monsters)
+        mons.add(mon);
     return mons;
 }
 
@@ -433,7 +418,7 @@ static void _pre_refrigerate(actor* agent, bool player,
                             mons_list.describe(DESC_THE, true).c_str(),
                             conjugate_verb("be", mons_list.count() > 1).c_str());
             if (strwidth(message) < get_number_of_cols() - 2)
-                mpr(message.c_str());
+                mpr(message);
             else
             {
                 // Exclamation mark to suggest that a lot of creatures were
@@ -464,7 +449,7 @@ static int _refrigerate_player(actor* agent, int pow, int avg,
         mpr("You feel very cold.");
         if (agent && !agent->is_player())
         {
-            ouch(hurted, agent->as_monster()->mindex(), KILLED_BY_BEAM,
+            ouch(hurted, KILLED_BY_BEAM, agent->mid,
                  "by Ozocubu's Refrigeration", true,
                  agent->as_monster()->name(DESC_A).c_str());
             expose_player_to_element(BEAM_COLD, 5, added_effects);
@@ -475,7 +460,7 @@ static int _refrigerate_player(actor* agent, int pow, int avg,
         }
         else
         {
-            ouch(hurted, NON_MONSTER, KILLED_BY_FREEZING);
+            ouch(hurted, KILLED_BY_FREEZING);
             you.increase_duration(DUR_NO_POTIONS, 7 + random2(9), 15);
         }
     }
@@ -547,8 +532,8 @@ static int _drain_player(actor* agent, int pow, int avg,
     if (actual)
     {
         monster* mons = agent ? agent->as_monster() : 0;
-        ouch(avg, mons ? mons->mindex() : NON_MONSTER,
-             KILLED_BY_BEAM, "by drain life");
+        ouch(avg, KILLED_BY_BEAM, mons ? mons->mid : MID_NOBODY,
+             "by drain life");
     }
 
     return avg;
@@ -719,13 +704,13 @@ spret_type cast_los_attack_spell(spell_type spell, int pow, actor* agent,
             {
                 beam.friend_info.count++;
                 beam.friend_info.power +=
-                    (you.get_experience_level() * this_damage / hurted);
+                    (you.get_experience_level() * total_damage / hurted);
             }
             else
             {
                 beam.foe_info.count++;
                 beam.foe_info.power +=
-                    (you.get_experience_level() * this_damage / hurted);
+                    (you.get_experience_level() * total_damage / hurted);
             }
         }
     }
@@ -733,11 +718,8 @@ spret_type cast_los_attack_spell(spell_type spell, int pow, actor* agent,
     if (actual && pre_hook)
         (*pre_hook)(agent, affects_you, affected_monsters);
 
-    for (vector<monster *>::iterator it = affected_monsters.begin();
-         it != affected_monsters.end(); it++)
+    for (auto m : affected_monsters)
     {
-        monster* m = (monster *)(*it);
-
         // Watch out for invalidation. Example: Ozocubu's refrigeration on
         // a bunch of giant spores that blow each other up.
         if (!m->alive())
@@ -802,7 +784,7 @@ void sonic_damage(bool scream)
                          affected_monsters.describe().c_str(),
                          conjugate_verb("be", affected_monsters.count() > 1).c_str());
         if (strwidth(message) < get_number_of_cols() - 2)
-            mpr(message.c_str());
+            mpr(message);
         else
         {
             // Exclamation mark to suggest that a lot of creatures were
@@ -1099,7 +1081,7 @@ static int _shatter_mon_dice(const monster *mon)
     case MONS_IRON_GOLEM:
     case MONS_WAR_GARGOYLE:
     case MONS_CRYSTAL_GUARDIAN:
-    case MONS_SILVER_STATUE:
+    case MONS_OBSIDIAN_STATUE:
     case MONS_ORANGE_STATUE:
     case MONS_ROXANNE:
         return 6;
@@ -1325,9 +1307,9 @@ static int _shatter_player(int pow, actor *wielder, bool devastator = false)
         mpr(damage > 15 ? "You shudder from the earth-shattering force."
                         : "You shudder.");
         if (devastator)
-            ouch(damage, wielder->mindex(), KILLED_BY_MONSTER);
+            ouch(damage, KILLED_BY_MONSTER, wielder->mid);
         else
-            ouch(damage, wielder->mindex(), KILLED_BY_BEAM, "by Shatter");
+            ouch(damage, KILLED_BY_BEAM, wielder->mid, "by Shatter");
     }
 
     return damage;
@@ -1433,7 +1415,7 @@ void shillelagh(actor *wielder, coord_def where, int pow)
                          affected_monsters.describe().c_str(),
                          affected_monsters.count() == 1? "s" : "");
         if (strwidth(message) < get_number_of_cols() - 2)
-            mpr(message.c_str());
+            mpr(message);
         else
             mpr("There is a shattering impact!");
     }
@@ -1467,7 +1449,7 @@ static int _irradiate_cell(coord_def where, int pow, int aux, actor *agent)
     }
 
     const int dice = 6;
-    const int max_dam = 15 + div_rand_round(pow * 3, 4);
+    const int max_dam = 30 + div_rand_round(pow, 2);
     const dice_def dam_dice = calc_dice(dice, max_dam);
     const int dam = dam_dice.roll();
     dprf("irr for %d (%d pow, max %d)", dam, pow, max_dam);
@@ -1477,7 +1459,7 @@ static int _irradiate_cell(coord_def where, int pow, int aux, actor *agent)
     else
         mons->hurt(agent, dam, BEAM_MMISSILE);
 
-    if (mons->alive() && coinflip())
+    if (mons->alive())
         mons->malmutate("");
 
     return 1;
@@ -1767,7 +1749,7 @@ static int _ignite_poison_player(coord_def where, int pow, int, actor *agent)
             else
                 mpr("The poison in your system burns!");
 
-            ouch(damage, agent->as_monster()->mindex(), KILLED_BY_MONSTER,
+            ouch(damage, KILLED_BY_MONSTER, agent->mid,
                 agent->as_monster()->name(DESC_A).c_str());
 
             if (you.duration[DUR_POISONING] > 0)
@@ -1942,8 +1924,7 @@ int discharge_monsters(coord_def where, int pow, int, actor *agent)
         dprf("You: static discharge damage: %d", damage);
         damage = check_your_resists(damage, BEAM_ELECTRICITY,
                                     "static discharge");
-        ouch(damage, agent->mindex(), KILLED_BY_BEAM, "by static electricity",
-             true,
+        ouch(damage, KILLED_BY_BEAM, agent->mid, "by static electricity", true,
              agent->is_player() ? "you" : agent->name(DESC_A).c_str());
     }
     else if (victim->res_elec() > 0)
@@ -2128,16 +2109,16 @@ bool setup_fragmentation_beam(bolt &beam, int pow, const actor *caster,
             beam.damage.num = 3;
             break;
 
-        case MONS_SILVER_STATUE:
+        case MONS_OBSIDIAN_STATUE:
         case MONS_ORANGE_STATUE:
         case MONS_CRYSTAL_GUARDIAN:
         case MONS_ROXANNE:
             beam.ex_size    = 2;
             beam.damage.num = 4;
-            if (mon->type == MONS_SILVER_STATUE)
+            if (mon->type == MONS_OBSIDIAN_STATUE)
             {
-                beam.name       = "blast of silver fragments";
-                beam.colour     = WHITE;
+                beam.name       = "blast of obsidian shards";
+                beam.colour     = DARKGREY;
             }
             else if (mon->type == MONS_ORANGE_STATUE)
             {
@@ -2162,8 +2143,9 @@ bool setup_fragmentation_beam(bolt &beam, int pow, const actor *caster,
             // Petrifying or petrified monsters can be exploded.
             if (petrified)
             {
+                monster_info minfo(mon);
                 beam.name       = "blast of petrified fragments";
-                beam.colour     = mon->colour;
+                beam.colour     = minfo.colour();
                 beam.damage.num = 3;
                 break;
             }
@@ -2385,7 +2367,7 @@ spret_type cast_fragmentation(int pow, const actor *caster,
     {
         mpr("You shatter!");
 
-        ouch(beam.damage.roll(), caster->mindex(), KILLED_BY_BEAM,
+        ouch(beam.damage.roll(), KILLED_BY_BEAM, caster->mid,
              "by Lee's Rapid Deconstruction", true,
              caster->is_player() ? "you"
                                  : caster->name(DESC_A).c_str());
@@ -2502,34 +2484,32 @@ spret_type cast_thunderbolt(actor *caster, int pow, coord_def aim, bool fail)
 #endif
     beam.draw_delay = 0;
 
-    for (map<coord_def, aff_type>::const_iterator p = hitfunc.zapped.begin();
-         p != hitfunc.zapped.end(); ++p)
+    for (const auto &entry : hitfunc.zapped)
     {
-        if (p->second <= 0)
+        if (entry.second <= 0)
             continue;
 
-        beam.draw(p->first);
+        beam.draw(entry.first);
     }
 
     scaled_delay(200);
 
     beam.glyph = 0; // FIXME: a hack to avoid "appears out of thin air"
 
-    for (map<coord_def, aff_type>::const_iterator p = hitfunc.zapped.begin();
-         p != hitfunc.zapped.end(); ++p)
+    for (const auto &entry : hitfunc.zapped)
     {
-        if (p->second <= 0)
+        if (entry.second <= 0)
             continue;
 
         // beams are incredibly spammy in debug mode
-        if (!actor_at(p->first))
+        if (!actor_at(entry.first))
             continue;
 
-        int arc = hitfunc.arc_length[p->first.range(hitfunc.origin)];
+        int arc = hitfunc.arc_length[entry.first.range(hitfunc.origin)];
         ASSERT(arc > 0);
-        dprf("at distance %d, arc length is %d", p->first.range(hitfunc.origin),
-                                                 arc);
-        beam.source = beam.target = p->first;
+        dprf("at distance %d, arc length is %d",
+             entry.first.range(hitfunc.origin), arc);
+        beam.source = beam.target = entry.first;
         beam.source.x -= sgn(beam.source.x - hitfunc.origin.x);
         beam.source.y -= sgn(beam.source.y - hitfunc.origin.y);
         beam.damage = dice_def(div_rand_round(juice, ROD_CHARGE_MULT),
@@ -2646,14 +2626,14 @@ void forest_damage(const actor *mon)
                     "@foe@", foe->name(DESC_THE)),
                     "@is@", foe->conj_verb("be"));
                 if (you.see_cell(foe->pos()))
-                    mpr(msg.c_str());
+                    mpr(msg);
 
                 if (dmg <= 0)
                     break;
 
                 if (foe->is_player())
                 {
-                    ouch(dmg, mon->mindex(), KILLED_BY_BEAM,
+                    ouch(dmg, KILLED_BY_BEAM, mon->mid,
                          "by angry trees", true);
                 }
                 else
@@ -2901,7 +2881,7 @@ void toxic_radiance_effect(actor* agent, int mult)
             // still get poisoned
             if (!agent->is_player())
             {
-                ouch(dam, agent->as_monster()->mindex(), KILLED_BY_BEAM,
+                ouch(dam, KILLED_BY_BEAM, agent->mid,
                     "by Olgreb's Toxic Radiance", true,
                     agent->as_monster()->name(DESC_A).c_str());
 
@@ -3025,6 +3005,7 @@ spret_type cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
     beam.hit               = AUTOMATIC_HIT;
     beam.source_id         = caster->mid;
     beam.hit_verb          = "engulfs";
+    beam.origin_spell      = SPELL_GLACIATE;
     beam.set_agent(caster);
 #ifdef USE_TILE
     beam.tile_beam = -1;
@@ -3033,14 +3014,12 @@ spret_type cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
 
     for (int i = 1; i <= range; i++)
     {
-        for (map<coord_def, aff_type>::const_iterator p =
-                 hitfunc.sweep[i].begin();
-             p != hitfunc.sweep[i].end(); ++p)
+        for (const auto &entry : hitfunc.sweep[i])
         {
-            if (p->second <= 0)
+            if (entry.second <= 0)
                 continue;
 
-            beam.draw(p->first);
+            beam.draw(entry.first);
         }
         scaled_delay(25);
     }
@@ -3058,11 +3037,9 @@ spret_type cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
 
     for (int i = 1; i <= range; i++)
     {
-        for (map<coord_def, aff_type>::const_iterator p =
-                 hitfunc.sweep[i].begin();
-             p != hitfunc.sweep[i].end(); ++p)
+        for (const auto &entry : hitfunc.sweep[i])
         {
-            if (p->second <= 0)
+            if (entry.second <= 0)
                 continue;
 
             const int eff_range = max(3, (6 * i / LOS_RADIUS));
@@ -3074,14 +3051,14 @@ spret_type cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
                     ? calc_dice(7, (66 + 3 * pow) / eff_range)
                     : calc_dice(10, (54 + 3 * pow / 2) / eff_range);
 
-            if (actor_at(p->first))
+            if (actor_at(entry.first))
             {
-                beam.source = beam.target = p->first;
+                beam.source = beam.target = entry.first;
                 beam.source.x -= sgn(beam.source.x - hitfunc.origin.x);
                 beam.source.y -= sgn(beam.source.y - hitfunc.origin.y);
                 beam.fire();
             }
-            place_cloud(CLOUD_COLD, p->first,
+            place_cloud(CLOUD_COLD, entry.first,
                         (18 + random2avg(45,2)) / eff_range, caster);
         }
     }

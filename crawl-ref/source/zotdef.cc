@@ -4,37 +4,28 @@
 **/
 
 #include "AppHdr.h"
-#include "bitary.h"
+
+#include "zotdef.h"
+
 #include <functional>
 
 #include "branch.h"
 #include "coordit.h"
 #include "describe.h"
 #include "directn.h"
-#include "dungeon.h" // for Zotdef unique placement
-#include "env.h"
-#include "externs.h"
+#include "dungeon.h"
 #include "files.h"
-#include "godprayer.h"
-#include "items.h"
-#include "itemname.h" // for make_name
+#include "itemname.h"
 #include "itemprop.h"
-#include "makeitem.h"
+#include "items.h"
 #include "message.h"
-#include "mgen_data.h"
-#include "mon-place.h"
 #include "mon-pick.h"
-#include "mon-util.h"
+#include "mon-place.h"
 #include "place.h"
-#include "player.h"
-#include "random.h"
 #include "religion.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
-#include "traps.h"
-#include "libutil.h"
-#include "zotdef.h"
 
 // Size of the mons_alloc array (or at least the bit of
 // it that we use).
@@ -104,7 +95,9 @@ static branch_type _zotdef_random_branch()
     branch_type pb;
 
     do
+    {
          pb = static_cast<branch_type>(random2(NUM_BRANCHES));
+    }
     while (!_is_branch_fitting(pb, wavenum));
 
     // strong bias to main dungeon and depths
@@ -260,7 +253,7 @@ static void _gnoll_wave(int power)
 static void _rat_wave(int power)
 {
     wave_name("RAT WAVE");
-    monster_type rats[] = {MONS_RAT, MONS_GREEN_RAT, MONS_ORANGE_RAT, END};
+    monster_type rats[] = {MONS_RAT, MONS_RIVER_RAT, MONS_ORANGE_RAT, END};
     monster_type boss[] = {MONS_ORANGE_RAT, END};
     _zotdef_fill_from_list(rats, 0, power); // full power
     _zotdef_choose_boss(boss, power);

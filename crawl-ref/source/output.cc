@@ -7,61 +7,44 @@
 
 #include "output.h"
 
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sstream>
-#include <math.h>
-
-#include "externs.h"
-#include "options.h"
-#include "species.h"
 
 #include "ability.h"
-#include "areas.h"
-#include "artefact.h"
 #include "branch.h"
-#include "cio.h"
 #include "colour.h"
-#include "coord.h"
 #include "describe.h"
+#ifndef USE_TILE_LOCAL
+#include "directn.h"
+#endif
 #include "english.h"
 #include "env.h"
 #include "files.h"
-#include "format.h"
 #include "godabil.h"
 #include "godpassive.h"
 #include "initfile.h"
 #include "itemname.h"
-#include "itemprop.h"
-#include "items.h"
 #include "jobs.h"
 #include "lang-fake.h"
 #include "libutil.h"
 #include "menu.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-info.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "notes.h"
-#include "ouch.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
-#include "skills2.h"
+#include "showsymb.h"
+#include "skills.h"
 #include "state.h"
 #include "status.h"
 #include "stringutil.h"
 #include "throw.h"
 #include "transform.h"
-#include "travel.h"
-#include "view.h"
 #include "viewchar.h"
-#include "viewgeom.h"
-#include "showsymb.h"
+#include "view.h"
 
-#ifndef USE_TILE_LOCAL
-#include "directn.h"
-#endif
 
 #ifdef USE_TILE_LOCAL
 #include "tilesdl.h"
@@ -1151,7 +1134,7 @@ static bool _need_stats_printed()
 static void _redraw_title(const string &your_name, const string &job_name)
 {
     const unsigned int WIDTH = crawl_view.hudsz.x;
-    string title = your_name + " the " + job_name;
+    string title = your_name + " " + job_name;
 
 #ifdef USE_TILE_LOCAL
     if (tiles.is_using_small_layout())
@@ -1410,9 +1393,6 @@ static string _level_description_string_hud()
 
     if (brdepth[place.branch] > 1)
         short_name += make_stringf(":%d", you.depth);
-    // Definite articles
-    else if (place.branch == BRANCH_ABYSS)
-        short_name.insert(0, "The ");
     // Indefinite articles
     else if (place.branch != BRANCH_PANDEMONIUM && !is_connected_branch(place.branch))
         short_name = article_a(short_name);
@@ -2042,7 +2022,7 @@ static void _print_overview_screen_equip(column_composer& cols,
 static string _overview_screen_title(int sw)
 {
     char title[50];
-    snprintf(title, sizeof title, " the %s ", player_title().c_str());
+    snprintf(title, sizeof title, " %s ", player_title().c_str());
 
     char species_job[50];
     snprintf(species_job, sizeof species_job,
@@ -2695,8 +2675,7 @@ static string _status_mut_abilities(int sw)
         break;
 
     case SP_VAMPIRE:
-        if (you.experience_level >= 6)
-            mutations.push_back("bottle blood");
+        mutations.push_back("bottle blood");
         break;
 
     case SP_DEEP_DWARF:
@@ -2814,16 +2793,13 @@ static string _status_mut_abilities(int sw)
         if (!you.mutation[i])
             continue;
 
-        int level = player_mutation_level((mutation_type) i);
+        const mutation_type mut = (mutation_type) i;
+        const int level = player_mutation_level(mut);
+        const bool lowered = level < you.mutation[mut];
 
-        const bool lowered = (level < you.mutation[i]);
-        const mutation_def& mdef = get_mutation_def((mutation_type) i);
+        current = mutation_name(mut);
 
-        current = "";
-
-        current += mdef.short_desc;
-
-        if (mdef.levels > 1)
+        if (mutation_max_levels(mut) > 1)
         {
             ostringstream ostr;
             ostr << ' ' << level;

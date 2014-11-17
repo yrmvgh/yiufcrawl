@@ -9,10 +9,12 @@
 
 #include "mon-info.h"
 
+#include <algorithm>
+#include <sstream>
+
 #include "act-iter.h"
-#include "areas.h"
 #include "artefact.h"
-#include "coord.h"
+#include "colour.h"
 #include "coordit.h"
 #include "english.h"
 #include "env.h"
@@ -28,22 +30,16 @@
 #include "mon-chimera.h"
 #include "mon-death.h" // ELVEN_IS_ENERGIZED_KEY
 #include "mon-tentacle.h"
-#include "mon-util.h"
-#include "monster.h"
 #include "options.h"
 #include "religion.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-summoning.h"
 #include "state.h"
 #include "stringutil.h"
-#include "terrain.h"
 #ifdef USE_TILE
 #include "tilepick.h"
 #endif
 #include "traps.h"
-
-#include <algorithm>
-#include <sstream>
 
 static monster_info_flags ench_to_mb(const monster& mons, enchant_type ench)
 {
@@ -212,6 +208,12 @@ static monster_info_flags ench_to_mb(const monster& mons, enchant_type ench)
         return MB_DEFLECT_MSL;
     case ENCH_NEGATIVE_VULN:
         return MB_NEGATIVE_VULN;
+    case ENCH_CONDENSATION_SHIELD:
+        return MB_CONDENSATION_SHIELD;
+    case ENCH_RESISTANCE:
+        return MB_RESISTANCE;
+    case ENCH_HEXED:
+        return MB_HEXED;
     default:
         return NUM_MB_FLAGS;
     }
@@ -328,12 +330,9 @@ static void _translate_tentacle_ref(monster_info& mi, const monster* m,
     if (!m->props.exists(key))
         return;
 
-    const int h_idx = m->props[key].get_int();
-    monster *other = NULL; // previous or next segment
-    if (h_idx != -1)
+    const monster* other = monster_by_mid(m->props[key].get_int());
+    if (other)
     {
-        ASSERT(!invalid_monster_index(h_idx));
-        other = &menv[h_idx];
         coord_def h_pos = other->pos();
         // If the tentacle and the other segment are no longer adjacent
         // (distortion etc.), just treat them as not connected.
@@ -362,8 +361,12 @@ monster_info::monster_info(monster_type p_type, monster_type p_base_type)
                  mons_genus(type) == MONS_DEMONSPAWN ? MONS_DEMONSPAWN
                                                      : type;
 
-    number = 0;
-    colour = mons_class_colour(type);
+    if (mons_genus(type) == MONS_HYDRA || mons_genus(base_type) == MONS_HYDRA)
+        num_heads = 1;
+    else
+        number = 0;
+
+    _colour = COLOUR_INHERIT;
 
     holi = mons_class_holiness(type);
 
@@ -485,24 +488,24 @@ monster_info::monster_info(const monster* m, int milev)
     if (base_type == MONS_NO_MONSTER)
         base_type = type;
 
-    // these use number for internal information
-    if (type == MONS_SIXFIRHY
-        || type == MONS_JIANGSHI
-        || type == MONS_KRAKEN_TENTACLE
-        || type == MONS_KRAKEN_TENTACLE_SEGMENT
-        || type == MONS_ELDRITCH_TENTACLE_SEGMENT
-        || type == MONS_STARSPAWN_TENTACLE
-        || type == MONS_STARSPAWN_TENTACLE_SEGMENT)
+    if (type == MONS_SLIME_CREATURE)
+        slime_size = m->blob_size;
+    else if (type == MONS_BALLISTOMYCETE)
+        is_active = !!m->ballisto_activity;
+    else if (mons_genus(type) == MONS_HYDRA
+             || mons_genus(base_type) == MONS_HYDRA)
     {
-        number = 0;
+        num_heads = m->num_heads;
     }
+    // others use number for internal information
     else
-        number = m->number;
-    colour = m->colour;
+        number = 0;
+
+    _colour = m->colour;
 
     int stype = 0;
     if (m->is_summoned(0, &stype)
-        && !m->has_ench(ENCH_PHANTOM_MIRROR))
+        && (!m->has_ench(ENCH_PHANTOM_MIRROR) || m->friendly()))
     {
         mb.set(MB_SUMMONED);
         if (stype > 0 && stype < NUM_SPELLS
@@ -594,7 +597,7 @@ monster_info::monster_info(const monster* m, int milev)
     mresists = get_mons_resists(m);
     mitemuse = mons_itemuse(m);
     mbase_speed = mons_base_speed(m);
-    menergy = mons_class_energy(m->type);
+    menergy = mons_energy(m);
     fly = mons_flies(m);
 
     if (mons_wields_two_weapons(m))
@@ -647,10 +650,9 @@ monster_info::monster_info(const monster* m, int milev)
         }
     }
 
-    for (mon_enchant_list::const_iterator e = m->enchantments.begin();
-         e != m->enchantments.end(); ++e)
+    for (auto &entry : m->enchantments)
     {
-        monster_info_flags flag = ench_to_mb(*m, e->first);
+        monster_info_flags flag = ench_to_mb(*m, entry.first);
         if (flag != NUM_MB_FLAGS)
             mb.set(flag);
     }
@@ -715,14 +717,11 @@ monster_info::monster_info(const monster* m, int milev)
     // book loading for player ghost and vault monsters
     spells.clear();
     if (m->props.exists("custom_spells") || mons_is_pghost(type))
-    {
         spells = m->spells;
-        // XXX handle here special cases for sources of magic (magic, divine, other)
-        if (m->is_priest())
-            props["priest"] = true;
-        else if (m->is_actual_spellcaster())
-            props["actual_spellcaster"] = true;
-    }
+    if (m->is_priest())
+        props["priest"] = true;
+    else if (m->is_actual_spellcaster())
+        props["actual_spellcaster"] = true;
 
     for (int i = 0; i < MAX_NUM_ATTACKS; ++i)
     {
@@ -882,12 +881,12 @@ string monster_info::_core_name() const
         switch (type)
         {
         case MONS_SLIME_CREATURE:
-            ASSERT(number <= ARRAYSZ(slime_sizes));
-            s = slime_sizes[number] + s;
+            ASSERT((size_t) slime_size <= ARRAYSZ(slime_sizes));
+            s = slime_sizes[slime_size] + s;
             break;
         case MONS_UGLY_THING:
         case MONS_VERY_UGLY_THING:
-            s = ugly_thing_colour_name(colour) + " " + s;
+            s = ugly_thing_colour_name(_colour) + " " + s;
             break;
 
         case MONS_DRACONIAN_CALLER:
@@ -937,7 +936,8 @@ string monster_info::_core_name() const
         }
     }
 
-    if (is(MB_NAME_SUFFIX))
+    //XXX: Hack to get poly'd TLH's name on death to look right.
+    if (is(MB_NAME_SUFFIX) && type != MONS_LERNAEAN_HYDRA)
         s += " " + mname;
     else if (is(MB_NAME_ADJECTIVE))
         s = mname + " " + s;
@@ -986,15 +986,18 @@ string monster_info::common_name(description_level_type desc) const
         ss << "sensed ";
 
     if (type == MONS_BALLISTOMYCETE)
-        ss << (number ? "active " : "");
+        ss << (is_active ? "active " : "");
 
     if ((mons_genus(type) == MONS_HYDRA || mons_genus(base_type) == MONS_HYDRA)
-        && number > 0)
+        && type != MONS_SENSED
+        && type != MONS_BLOCK_OF_ICE
+        && type != MONS_PILLAR_OF_SALT)
     {
-        if (number < 11)
-            ss << number_in_words(number);
+        ASSERT(num_heads > 0);
+        if (num_heads < 11)
+            ss << number_in_words(num_heads);
         else
-            ss << make_stringf("%d", number);
+            ss << make_stringf("%d", num_heads);
 
         ss << "-headed ";
     }
@@ -1169,10 +1172,10 @@ bool monster_info::less_than(const monster_info& m1, const monster_info& m2,
         return false;
 
     if (m1.type == MONS_SLIME_CREATURE)
-        return m1.number > m2.number;
+        return m1.slime_size > m2.slime_size;
 
     if (m1.type == MONS_BALLISTOMYCETE)
-        return m1.number > 0 && m2.number <= 0;
+        return m1.is_active && !m2.is_active;
 
     // Shifters after real monsters of the same type.
     if (m1.is(MB_SHAPESHIFTER) != m2.is(MB_SHAPESHIFTER))
@@ -1207,9 +1210,9 @@ bool monster_info::less_than(const monster_info& m1, const monster_info& m2,
         // Both monsters are hydras or hydra zombies, sort by number of heads.
         if (mons_genus(m1.type) == MONS_HYDRA || mons_genus(m1.base_type) == MONS_HYDRA)
         {
-            if (m1.number > m2.number)
+            if (m1.num_heads > m2.num_heads)
                 return true;
-            else if (m1.number < m2.number)
+            else if (m1.num_heads < m2.num_heads)
                 return false;
         }
     }
@@ -1576,6 +1579,12 @@ vector<string> monster_info::attributes() const
         v.push_back("heavily drained");
     if (is(MB_NEGATIVE_VULN))
         v.push_back("more vulnerable to negative energy");
+    if (is(MB_OZOCUBUS_ARMOUR))
+        v.push_back("protected by a disc of dense vapour");
+    if (is(MB_RESISTANCE))
+        v.push_back("unusually resistant");
+    if (is(MB_HEXED))
+        v.push_back("control wrested from you");
     return v;
 }
 
@@ -1753,13 +1762,13 @@ size_type monster_info::body_size() const
     // Slime creature size is increased by the number merged.
     if (type == MONS_SLIME_CREATURE)
     {
-        if (number == 2)
+        if (slime_size == 2)
             ret = SIZE_MEDIUM;
-        else if (number == 3)
+        else if (slime_size == 3)
             ret = SIZE_LARGE;
-        else if (number == 4)
+        else if (slime_size == 4)
             ret = SIZE_BIG;
-        else if (number == 5)
+        else if (slime_size == 5)
             ret = SIZE_GIANT;
     }
 
@@ -1814,6 +1823,28 @@ bool monster_info::has_spells() const
     return true;
 }
 
+unsigned monster_info::colour(bool base_colour) const
+{
+    if (!base_colour && Options.mon_glyph_overrides.count(type)
+        && Options.mon_glyph_overrides[type].col)
+    {
+        return Options.mon_glyph_overrides[type].col;
+    }
+    else if (_colour == COLOUR_INHERIT)
+        return mons_class_colour(type);
+    else
+    {
+        ASSERT_RANGE(_colour, 0, NUM_COLOURS);
+        return _colour;
+    }
+}
+
+void monster_info::set_colour(int col)
+{
+    ASSERT_RANGE(col, -1, NUM_COLOURS);
+    _colour = col;
+}
+
 void get_monster_info(vector<monster_info>& mons)
 {
     vector<monster* > visible;
@@ -1830,7 +1861,7 @@ void get_monster_info(vector<monster_info>& mons)
         if (!mons_class_flag(visible[i]->type, M_NO_EXP_GAIN)
             || visible[i]->is_child_tentacle()
             || visible[i]->type == MONS_BALLISTOMYCETE
-                && visible[i]->number > 0)
+                && visible[i]->ballisto_activity > 0)
         {
             mons.push_back(monster_info(visible[i]));
         }

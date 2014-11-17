@@ -11,61 +11,53 @@
  */
 
 #include "AppHdr.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
+
+#include "hiscores.h"
+
 #include <algorithm>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
 #include <memory>
 #ifndef TARGET_COMPILER_VC
 #include <unistd.h>
 #endif
 
-#include "hiscores.h"
-
 #include "branch.h"
 #include "chardump.h"
-#include "files.h"
 #include "dungeon.h"
 #include "end.h"
 #include "english.h"
+#include "files.h"
 #include "initfile.h"
-#include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
+#include "jobs.h"
 #include "kills.h"
 #include "libutil.h"
-#include "message.h"
 #include "menu.h"
 #include "misc.h"
-#include "mon-util.h"
-#include "jobs.h"
 #include "options.h"
 #include "ouch.h"
 #include "place.h"
-#include "player.h"
 #include "religion.h"
-#include "shopping.h"
-#include "species.h"
+#include "skills.h"
 #include "state.h"
 #include "status.h"
 #include "stringutil.h"
-#include "env.h"
-#include "tags.h"
-#include "unwind.h"
-#include "version.h"
-
 #ifdef USE_TILE
  #include "tilepick.h"
 #endif
 #ifdef USE_TILE_LOCAL
  #include "tilereg-crt.h"
 #endif
+#include "unwind.h"
+#include "version.h"
 
-#include "skills2.h"
 #define SCORE_VERSION "0.1"
 
 // enough memory allocated to snarf in the scorefile entries
-static Unique_ptr<scorefile_entry> hs_list[SCORE_FILE_ENTRIES];
+static unique_ptr<scorefile_entry> hs_list[SCORE_FILE_ENTRIES];
 
 // hackish: scorefile position of newest entry.  Will be highlit during
 // highscore printing (always -1 when run from command line).
@@ -135,7 +127,7 @@ void hiscores_new_entry(const scorefile_entry &ne)
             // Fixed a nasty overflow bug here -- Sharp
             if (i+1 < SCORE_FILE_ENTRIES)
             {
-                hs_list[i + 1] = Move(hs_list[i]);
+                hs_list[i + 1] = move(hs_list[i]);
                 hs_list[i].reset(new scorefile_entry(ne));
                 i++;
             }
@@ -652,7 +644,7 @@ static kill_method_type _str_to_kill_method(const string &s)
 //////////////////////////////////////////////////////////////////////////
 // scorefile_entry
 
-scorefile_entry::scorefile_entry(int dam, int dsource, int dtype,
+scorefile_entry::scorefile_entry(int dam, mid_t dsource, int dtype,
                                  const char *aux, bool death_cause_only,
                                  const char *dsource_name, time_t dt)
 {
@@ -1182,7 +1174,7 @@ static bool _strip_to(string &str, const char *infix)
     return false;
 }
 
-void scorefile_entry::init_death_cause(int dam, int dsrc,
+void scorefile_entry::init_death_cause(int dam, mid_t dsrc,
                                        int dtype, const char *aux,
                                        const char *dsrc_name)
 {
@@ -1190,8 +1182,7 @@ void scorefile_entry::init_death_cause(int dam, int dsrc,
     death_type   = dtype;
     damage       = dam;
 
-    const monster *source_monster =
-        !invalid_monster_index(death_source) ? &menv[death_source] : NULL;
+    const monster *source_monster = monster_by_mid(death_source);
     if (source_monster)
         killer_map = source_monster->originating_map();
 
@@ -1202,14 +1193,6 @@ void scorefile_entry::init_death_cause(int dam, int dsrc,
     else
         auxkilldata = aux;
 
-    if (!invalid_monster_index(death_source)
-        && !env.mons[death_source].alive()
-        && death_type != KILLED_BY_SPORE
-        && death_type != KILLED_BY_WATER
-        && auxkilldata != "exploding inner flame")
-    {
-        death_source = NON_MONSTER;
-    }
     // for death by monster
     if ((death_type == KILLED_BY_MONSTER
             || death_type == KILLED_BY_HEADBUTT
@@ -1226,10 +1209,9 @@ void scorefile_entry::init_death_cause(int dam, int dsrc,
             || death_type == KILLED_BY_SPINES
             || death_type == KILLED_BY_WATER
             || death_type == KILLED_BY_BEING_THROWN)
-        && !invalid_monster_index(death_source)
-        && menv[death_source].type != MONS_NO_MONSTER)
+        && monster_by_mid(death_source))
     {
-        const monster* mons = &menv[death_source];
+        const monster* mons = monster_by_mid(death_source);
 
         // Previously the weapon was only used for dancing weapons,
         // but now we pass it in as a string through the scorefile
@@ -1290,11 +1272,8 @@ void scorefile_entry::init_death_cause(int dam, int dsrc,
 
             killerpath = "";
 
-            for (CrawlVector::const_iterator it = blame.begin();
-                 it != blame.end(); ++it)
-            {
-                killerpath = killerpath + ":" + _xlog_escape(it->get_string());
-            }
+            for (const auto &bl : blame)
+                killerpath = killerpath + ":" + _xlog_escape(bl.get_string());
 
             killerpath.erase(killerpath.begin());
         }
@@ -1358,7 +1337,7 @@ void scorefile_entry::reset()
     best_skill_lvl       = 0;
     title.clear();
     death_type           = KILLED_BY_SOMETHING;
-    death_source         = NON_MONSTER;
+    death_source         = MID_NOBODY;
     death_source_name.clear();
     auxkilldata.clear();
     indirectkiller.clear();
@@ -1460,7 +1439,7 @@ void scorefile_entry::init(time_t dt)
     name    = you.your_name;
 
     /*
-     *  old scoring system:
+     *  old scoring system (0.1-0.3):
      *
      *    Gold
      *    + 0.7 * Experience
@@ -1468,7 +1447,7 @@ void scorefile_entry::init(time_t dt)
      *    + value of Inventory, for winners only
      *
      *
-     *  new scoring system, as suggested by Lemuel:
+     *  0.4 scoring system, as suggested by Lemuel:
      *
      *    Gold
      *    + 0.7 * Experience up to 250,000
@@ -1477,9 +1456,14 @@ void scorefile_entry::init(time_t dt)
      *    + 0.1 * Experience above 3,000,000
      *    + (distinct Runes +2)^2 * 1000, winners with distinct runes >= 3 only
      *    + value of Inventory, for winners only
-     *      changed to 250k (Orb) + 10k per rune
      *    + (250,000 * d. runes) * (25,000/(turns/d. runes)), for winners only
      *
+     *  current scoring system (mostly the same as above):
+     *
+     *    Experience terms as above
+     *    + runes * (runes + 12) * 1000        (for everyone)
+     *    + (250000 + 2 * (runes + 2) * 1000)  (winners only)
+     *    + 250000 * 25000 * runes^2 / turns   (winners only)
      */
 
     // do points first.
@@ -1525,7 +1509,7 @@ void scorefile_entry::init(time_t dt)
     lvl            = you.experience_level;
     best_skill     = ::best_skill(SK_FIRST_SKILL, SK_LAST_SKILL);
     best_skill_lvl = you.skills[ best_skill ];
-    title          = player_title();
+    title          = player_title(false);
 
     // Note all skills at level 27, and also all skills at level >= 15.
     for (int i = SK_FIRST_SKILL; i < NUM_SKILLS; ++i)
@@ -2602,16 +2586,15 @@ string scorefile_entry::death_description(death_desc_verbosity verbosity) const
             {
                 vector<string> summoners = _xlog_split_fields(killerpath);
 
-                for (vector<string>::iterator it = summoners.begin();
-                     it != summoners.end(); ++it)
+                for (const auto &sumname : summoners)
                 {
                     if (!semiverbose)
                     {
-                        desc += "... " + *it;
+                        desc += "... " + sumname;
                         desc += _hiscore_newline_string();
                     }
                     else
-                        desc += " (" + *it;
+                        desc += " (" + sumname;
                 }
 
                 if (semiverbose)
@@ -2752,11 +2735,10 @@ void xlog_fields::add_field(const string &key, const char *format, ...)
 
 string xlog_fields::str_field(const string &s) const
 {
-    xl_map::const_iterator i = fieldmap.find(s);
-    if (i == fieldmap.end())
+    if (string *value = map_find(fieldmap, s))
+        return *value;
+    else
         return "";
-
-    return i->second;
 }
 
 int xlog_fields::int_field(const string &s) const
@@ -2832,7 +2814,7 @@ void mark_milestone(const string &type, const string &milestone,
 
     const string milestone_file =
         (Options.save_dir + "milestones" + crawl_state.game_type_qualifier());
-    const scorefile_entry se(0, 0, KILL_MISC, NULL);
+    const scorefile_entry se(0, MID_NOBODY, KILL_MISC, NULL);
     se.set_base_xlog_fields();
     xlog_fields xl = se.get_fields();
     if (!origin_level.empty())
@@ -2860,7 +2842,7 @@ void mark_milestone(const string &type, const string &milestone,
 #ifdef DGL_WHEREIS
 string xlog_status_line()
 {
-    const scorefile_entry se(0, 0, KILL_MISC, NULL);
+    const scorefile_entry se(0, MID_NOBODY, KILL_MISC, NULL);
     se.set_base_xlog_fields();
     xlog_fields xl = se.get_fields();
     xl.add_field("time", "%s", make_date_string(time(NULL)).c_str());

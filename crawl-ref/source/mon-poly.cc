@@ -4,36 +4,32 @@
 **/
 
 #include "AppHdr.h"
+
 #include "mon-poly.h"
 
 #include "artefact.h"
 #include "attitude-change.h"
-#include "butcher.h"
 #include "delay.h"
 #include "describe.h"
 #include "dgn-overview.h"
 #include "dungeon.h"
-#include "env.h"
 #include "exclude.h"
 #include "godconduct.h"
 #include "hints.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
-#include "monster.h"
-#include "mon-flags.h"
+#include "message.h"
 #include "mon-death.h"
-#include "mon-message.h"
 #include "mon-place.h"
 #include "mon-tentacle.h"
-#include "mon-util.h"
 #include "notes.h"
-#include "player.h"
 #include "religion.h"
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
 #include "traps.h"
+#include "view.h"
 #include "xom.h"
 
 bool feature_mimic_at(const coord_def &c)
@@ -160,8 +156,6 @@ static bool _valid_morph(monster* mons, monster_type new_mclass)
         || mons_is_projectile(new_mclass)
         || mons_is_tentacle_or_tentacle_segment(new_mclass)
 
-        // Don't polymorph things without Gods into priests.
-        || mons_class_flag(new_mclass, M_PRIEST) && mons->god == GOD_NO_GOD
         // The spell on Prince Ribbit can't be broken so easily.
         || (new_mclass == MONS_HUMAN
             && (mons->type == MONS_PRINCE_RIBBIT
@@ -302,15 +296,13 @@ void change_monster_type(monster* mons, monster_type targetc)
     const bool old_mon_caught     = mons->caught();
     const char old_ench_countdown = mons->ench_countdown;
 
-    // XXX: mons_is_unique should be converted to monster::is_unique, and that
-    // function should be testing the value of props["original_was_unique"]
-    // which would make things a lot simpler.
-    // See also record_monster_defeat.
-    bool old_mon_unique           = mons_is_unique(mons->type);
-    if (mons->props.exists("original_was_unique")
-        && mons->props["original_was_unique"].get_bool())
+    const bool old_mon_unique = mons_is_or_was_unique(*mons);
+
+    if (!mons->props.exists(ORIGINAL_TYPE_KEY))
     {
-        old_mon_unique = true;
+        mons->props[ORIGINAL_TYPE_KEY].get_int() = mons->type;
+        if (mons->mons_species() == MONS_HYDRA)
+            mons->props["old_heads"].get_int() = mons->num_heads;
     }
 
     mon_enchant abj       = mons->get_ench(ENCH_ABJ);
@@ -323,6 +315,7 @@ void change_monster_type(monster* mons, monster_type targetc)
     mon_enchant tp        = mons->get_ench(ENCH_TP);
     mon_enchant vines     = mons->get_ench(ENCH_AWAKEN_VINES);
     mon_enchant forest    = mons->get_ench(ENCH_AWAKEN_FOREST);
+    mon_enchant hexed     = mons->get_ench(ENCH_HEXED);
 
     monster_spells spl    = mons->spells;
     const bool need_save_spells
@@ -343,8 +336,6 @@ void change_monster_type(monster* mons, monster_type targetc)
     }
 
     mons->mname = name;
-    mons->props["original_name"] = name;
-    mons->props["original_was_unique"] = old_mon_unique;
     mons->props["no_annotate"] = slimified && old_mon_unique;
     mons->god   = god;
     mons->props.erase("dbname");
@@ -356,9 +347,6 @@ void change_monster_type(monster* mons, monster_type targetc)
 
     // Forget various speech/shout Lua functions.
     mons->props.erase("speech_prefix");
-
-    // Don't allow polymorphing monsters for hides.
-    mons->props[NEVER_HIDE_KEY] = true;
 
     // Keep spells for named monsters, but don't override innate ones
     // for dragons and the like. This means that Sigmund polymorphed
@@ -380,6 +368,7 @@ void change_monster_type(monster* mons, monster_type targetc)
     mons->add_ench(tp);
     mons->add_ench(vines);
     mons->add_ench(forest);
+    mons->add_ench(hexed);
 
     // Allows for handling of submerged monsters which polymorph into
     // monsters that can't submerge on this square.
@@ -656,17 +645,10 @@ void seen_monster(monster* mons)
     item_def* weapon = mons->weapon();
     if (weapon && is_range_weapon(*weapon))
         mons->flags |= MF_SEEN_RANGED;
+    mark_mon_equipment_seen(mons);
 
     // Monster was viewed this turn
     mons->flags |= MF_WAS_IN_VIEW;
-
-    // mark items as seen.
-    for (int slot = MSLOT_WEAPON; slot <= MSLOT_LAST_VISIBLE_SLOT; slot++)
-    {
-        int item_id = mons->inv[slot];
-        if (item_id != NON_ITEM)
-            mitm[item_id].flags |= ISFLAG_SEEN;
-    }
 
     if (mons->flags & MF_SEEN)
         return;

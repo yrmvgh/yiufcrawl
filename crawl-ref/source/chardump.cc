@@ -6,29 +6,24 @@
 #include "AppHdr.h"
 
 #include "chardump.h"
-#include "clua.h"
 
 #include <string>
-#include <stdio.h>
-#include <string.h>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <fcntl.h>
-#include <stdlib.h>
 #if !defined(__IBMCPP__) && !defined(TARGET_COMPILER_VC)
 #include <unistd.h>
 #endif
-#include <ctype.h>
-
-#include "externs.h"
-#include "options.h"
 
 #include "ability.h"
-#include "art-enum.h"
 #include "artefact.h"
+#include "art-enum.h"
 #include "branch.h"
 #include "describe.h"
 #include "dgn-overview.h"
 #include "dungeon.h"
-#include "env.h"
 #include "fight.h"
 #include "files.h"
 #include "godprayer.h"
@@ -36,34 +31,27 @@
 #include "initfile.h"
 #include "invent.h"
 #include "itemprop.h"
-#include "itemname.h"
 #include "items.h"
 #include "kills.h"
 #include "libutil.h"
 #include "message.h"
-#include "menu.h"
 #include "mutation.h"
 #include "notes.h"
 #include "output.h"
 #include "place.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
-#include "shopping.h"
 #include "showsymb.h"
-#include "skills2.h"
-#include "spl-book.h"
-#include "spl-cast.h"
+#include "skills.h"
 #include "spl-util.h"
-#include "stash.h"
 #include "state.h"
 #include "stringutil.h"
 #include "transform.h"
 #include "travel.h"
 #include "unicode.h"
 #include "version.h"
-#include "view.h"
 #include "viewchar.h"
+#include "view.h"
 #include "xom.h"
 
 struct dump_params;
@@ -718,59 +706,53 @@ static void _sdump_inventory(dump_params &par)
         {
             i = inv_order[obj];
 
-            if (inv_class2[i] != 0)
+            if (inv_class2[i] == 0)
+                continue;
+
+            switch (i)
             {
-                switch (i)
+            case OBJ_WEAPONS:    text += "Hand weapons";    break;
+            case OBJ_MISSILES:   text += "Missiles";        break;
+            case OBJ_ARMOUR:     text += "Armour";          break;
+            case OBJ_WANDS:      text += "Magical devices"; break;
+            case OBJ_FOOD:       text += "Comestibles";     break;
+            case OBJ_SCROLLS:    text += "Scrolls";         break;
+            case OBJ_JEWELLERY:  text += "Jewellery";       break;
+            case OBJ_POTIONS:    text += "Potions";         break;
+            case OBJ_BOOKS:      text += "Books";           break;
+            case OBJ_STAVES:     text += "Magical staves";  break;
+            case OBJ_RODS:       text += "Rods";            break;
+            case OBJ_ORBS:       text += "Orbs of Power";   break;
+            case OBJ_MISCELLANY: text += "Miscellaneous";   break;
+            case OBJ_CORPSES:    text += "Carrion";         break;
+
+            default:
+                die("Bad item class");
+            }
+            text += "\n";
+
+            for (j = 0; j < ENDOFPACK; j++)
+            {
+                if (!you.inv[j].defined() || you.inv[j].base_type != i)
+                    continue;
+
+                text += " ";
+                text += you.inv[j].name(DESC_INVENTORY_EQUIP);
+
+                inv_count--;
+
+                if (origin_describable(you.inv[j]) && _dump_item_origin(you.inv[j]))
+                    text += "\n" "   (" + origin_desc(you.inv[j]) + ")";
+
+                if (is_dumpable_artefact(you.inv[j])
+                    || Options.dump_book_spells
+                       && you.inv[j].base_type == OBJ_BOOKS)
                 {
-                case OBJ_WEAPONS:    text += "Hand weapons";    break;
-                case OBJ_MISSILES:   text += "Missiles";        break;
-                case OBJ_ARMOUR:     text += "Armour";          break;
-                case OBJ_WANDS:      text += "Magical devices"; break;
-                case OBJ_FOOD:       text += "Comestibles";     break;
-                case OBJ_SCROLLS:    text += "Scrolls";         break;
-                case OBJ_JEWELLERY:  text += "Jewellery";       break;
-                case OBJ_POTIONS:    text += "Potions";         break;
-                case OBJ_BOOKS:      text += "Books";           break;
-                case OBJ_STAVES:     text += "Magical staves";  break;
-                case OBJ_RODS:       text += "Rods";            break;
-                case OBJ_ORBS:       text += "Orbs of Power";   break;
-                case OBJ_MISCELLANY: text += "Miscellaneous";   break;
-                case OBJ_CORPSES:    text += "Carrion";         break;
-
-                default:
-                    die("Bad item class");
+                    text2 = get_item_description(you.inv[j], false, true);
+                    text += munge_description(text2);
                 }
-                text += "\n";
-
-                for (j = 0; j < ENDOFPACK; j++)
-                {
-                    if (you.inv[j].defined() && you.inv[j].base_type == i)
-                    {
-                        text += " ";
-                        text += you.inv[j].name(DESC_INVENTORY_EQUIP);
-
-                        inv_count--;
-
-                        if (origin_describable(you.inv[j])
-                            && _dump_item_origin(you.inv[j]))
-                        {
-                            text += "\n" "   (" + origin_desc(you.inv[j]) + ")";
-                        }
-
-                        if (is_dumpable_artefact(you.inv[j])
-                            || Options.dump_book_spells
-                               && you.inv[j].base_type == OBJ_BOOKS)
-                        {
-                            text2 = get_item_description(you.inv[j],
-                                                          false,
-                                                          true);
-
-                            text += munge_description(text2);
-                        }
-                        else
-                            text += "\n";
-                    }
-                }
+                else
+                    text += "\n";
             }
         }
     }
@@ -1195,24 +1177,22 @@ static void _sdump_action_counts(dump_params &par)
     for (int cact = 0; cact < NUM_CACTIONS; cact++)
     {
         vector<pair<int, FixedVector<int, 28> > > action_vec;
-        for (map<pair<caction_type, int>, FixedVector<int, 27> >::const_iterator
-              ac = you.action_count.begin(); ac != you.action_count.end(); ++ac)
+        for (const auto &entry : you.action_count)
         {
-            if (ac->first.first != cact)
+            if (entry.first.first != cact)
                 continue;
             FixedVector<int, 28> v;
             v[27] = 0;
             for (int i = 0; i < 27; i++)
             {
-                v[i] = ac->second[i];
+                v[i] = entry.second[i];
                 v[27] += v[i];
             }
-            action_vec.push_back(pair<int, FixedVector<int, 28> >(ac->first.second, v));
+            action_vec.push_back(pair<int, FixedVector<int, 28> >(entry.first.second, v));
         }
         sort(action_vec.begin(), action_vec.end(), _sort_by_first);
 
-        for (vector<pair<int, FixedVector<int, 28> > >::const_iterator ac =
-                action_vec.begin(); ac != action_vec.end(); ++ac)
+        for (auto ac = action_vec.begin(); ac != action_vec.end(); ++ac)
         {
             if (ac == action_vec.begin())
             {

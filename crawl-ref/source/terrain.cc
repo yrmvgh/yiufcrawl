@@ -5,7 +5,6 @@
 
 #include "AppHdr.h"
 
-#include "externs.h"
 #include "terrain.h"
 
 #include <algorithm>
@@ -14,22 +13,24 @@
 #include "areas.h"
 #include "branch.h"
 #include "cloud.h"
+#include "coord.h"
 #include "coordit.h"
-#include "dgn-overview.h"
 #include "dgnevent.h"
+#include "dgn-overview.h"
 #include "directn.h"
 #include "dungeon.h"
-#include "map_knowledge.h"
+#include "env.h"
 #include "feature.h"
 #include "fprop.h"
 #include "godabil.h"
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
+#include "map_knowledge.h"
+#include "mapmark.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-place.h"
-#include "coord.h"
 #include "mon-util.h"
 #include "ouch.h"
 #include "player.h"
@@ -37,16 +38,14 @@
 #include "religion.h"
 #include "species.h"
 #include "spl-transloc.h"
-#include "env.h"
 #include "state.h"
 #include "stringutil.h"
 #include "tileview.h"
-#include "travel.h"
 #include "transform.h"
 #include "traps.h"
-#include "view.h"
+#include "travel.h"
 #include "viewchar.h"
-#include "mapmark.h"
+#include "view.h"
 
 static bool _revert_terrain_to(coord_def pos, dungeon_feature_type newfeat);
 
@@ -601,6 +600,9 @@ bool feat_is_mimicable(dungeon_feature_type feat, bool strict)
     if (feat_is_branch_exit(feat))
         return false;
 
+    if (feat == DNGN_ENTER_ZIGGURAT)
+        return false;
+
     if (feat_is_portal(feat) || feat_is_gate(feat))
         return true;
 
@@ -697,7 +699,7 @@ coord_def get_random_stair()
     return st[random2(st.size())];
 }
 
-static Unique_ptr<map_mask_boolean> _slime_wall_precomputed_neighbour_mask;
+static unique_ptr<map_mask_boolean> _slime_wall_precomputed_neighbour_mask;
 
 static void _precompute_slime_wall_neighbours()
 {
@@ -793,11 +795,8 @@ static coord_def _dgn_find_nearest_square(
     {
         // Iterate each layer of BFS in random order to avoid bias.
         shuffle_array(points[iter]);
-        for (vector<coord_def>::iterator i = points[iter].begin();
-             i != points[iter].end(); ++i)
+        for (const auto &p : points[iter])
         {
-            const coord_def &p = *i;
-
             if (p != pos && acceptable(p, thing))
                 return p;
 
@@ -1170,7 +1169,7 @@ static void _announce_swap_real(coord_def orig_pos, coord_def dest_pos)
             str << " to " << prep << " " << dest_actor;
     }
     str << "!";
-    mpr(str.str().c_str());
+    mpr(str.str());
 }
 
 static void _announce_swap(coord_def pos1, coord_def pos2)
@@ -1468,7 +1467,7 @@ void fall_into_a_pool(dungeon_feature_type terrain)
             mpr("You burn to ash...");
         else
             mpr("The lava burns you to a cinder!");
-        ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_LAVA);
+        ouch(INSTANT_DEATH, KILLED_BY_LAVA);
     }
     else if (terrain == DNGN_DEEP_WATER)
     {
@@ -1479,7 +1478,7 @@ void fall_into_a_pool(dungeon_feature_type terrain)
         else
             mpr("You drown...");
 
-        ouch(INSTANT_DEATH, NON_MONSTER, KILLED_BY_WATER);
+        ouch(INSTANT_DEATH, KILLED_BY_WATER);
     }
 }
 

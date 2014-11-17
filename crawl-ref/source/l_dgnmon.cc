@@ -5,17 +5,14 @@
 
 #include "AppHdr.h"
 
-#include "branch.h"
+#include "l_libs.h"
+
 #include "cluautil.h"
 #include "coord.h"
-#include "l_libs.h"
 #include "dungeon.h"
-#include "env.h"
-#include "libutil.h"
-#include "mapdef.h"
 #include "mon-death.h"
+#include "mon-pick.h"
 #include "mon-place.h"
-#include "mon-util.h"
 #include "stringutil.h"
 
 #define MONSLIST_METATABLE "crawldgn.monster_list"
@@ -153,7 +150,7 @@ static int dgn_set_random_mon_list(lua_State *ls)
                  name.c_str());
         }
 
-        if (mon.colour != BLACK)
+        if (mon.colour != COLOUR_INHERIT)
         {
             mprf(MSGCH_ERROR, "dgn.set_random_mon_list() : colour for "
                  "%s being ignored.",

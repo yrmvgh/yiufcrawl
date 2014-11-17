@@ -6,19 +6,18 @@
 #ifndef EXTERNS_H
 #define EXTERNS_H
 
-#include <vector>
-#include <list>
-#include <string>
-#include <map>
-#include <set>
-#include <memory>
-#include <cstdlib>
-#include <deque>
-
-#include <time.h>
-#include <stdint.h>
 #define __STDC_FORMAT_MACROS
-#include <inttypes.h>
+#include <cinttypes>
+#include <cstdint>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "bitary.h"
 #include "enum.h"
@@ -26,7 +25,6 @@
 #include "mpr.h"
 #include "pattern.h"
 #include "store.h"
-
 #include "tiledef_defines.h"
 
 struct tile_flavour
@@ -532,10 +530,9 @@ struct item_def
         short charges;              ///< # of charges held by a wand, etc
                                     // for rods, is charge * ROD_CHARGE_MULT
         short initial_cards;        ///< the # of cards a deck *started* with
-        short consum_desc;          ///< consumable (potion/scroll) names
-                                    // scrolls also use 'appearance'
         short rune_enum;            ///< rune_type; enum for runes of zot
         short net_durability;       ///< damage dealt to a net
+        short book_param;           ///< level of spells in a monolevel book
     };
     union {
         short plus2;        ///< legacy/generic name for this union
@@ -553,15 +550,17 @@ struct item_def
     union
     {
         int special;        ///< special stuff
-        int deck_rarity;    ///< deck rarity (plain, ornate, legendary)
-        int rod_plus;       ///< rate at which a rod recharges; +slay
-        int appearance;     ///< book, jewellery, scroll, staff, wand appearance
-                            // scrolls also use 'consum_desc'
+        deck_rarity_type deck_rarity;    ///< plain, ornate, legendary
+        int rod_plus;           ///< rate at which a rod recharges; +slay
+        uint32_t subtype_rnd;   ///< appearance of un-ID'd items, by subtype.
+                                /// jewellery, scroll, staff, wand, potions
+                                // see comment in item_colour()
         int brand;          ///< weapon and armour brands; also marks artefacts
         int freshness;      ///< remaining time until a corpse rots
     };
-    colour_t       colour;         ///< item colour
-    uint8_t        rnd;            ///< random number, used for tile choice
+    uint8_t        rnd;            ///< random number, used for tile choice,
+                                   /// randart colours, and other per-item
+                                   /// random cosmetics. 0 = uninitialized
     short          quantity;       ///< number of items
     iflags_t       flags;          ///< item status flags
 
@@ -586,7 +585,7 @@ struct item_def
 
 public:
     item_def() : base_type(OBJ_UNASSIGNED), sub_type(0), plus(0), plus2(0),
-                 special(0), colour(0), rnd(0), quantity(0), flags(0),
+                 special(0), rnd(0), quantity(0), flags(0),
                  pos(), link(NON_ITEM), slot(0), orig_place(),
                  orig_monnum(0), inscription()
     {
@@ -598,6 +597,7 @@ public:
                 iflags_t ignore_flags = 0x0) const;
     bool has_spells() const;
     bool cursed() const;
+    colour_t get_colour() const;
     int book_number() const;
     zap_type zap() const; ///< what kind of beam it shoots (if wand).
 
@@ -638,6 +638,7 @@ public:
     bool held_by_monster() const;
 
     bool defined() const;
+    bool appearance_initialized() const;
     bool is_valid(bool info = false) const;
 
     /** Should this item be preserved as far as possible? */
@@ -652,6 +653,24 @@ public:
 private:
     string name_aux(description_level_type desc, bool terse, bool ident,
                     bool with_inscription, iflags_t ignore_flags) const;
+
+    colour_t randart_colour() const;
+
+    colour_t ring_colour() const;
+    colour_t amulet_colour() const;
+
+    colour_t rune_colour() const;
+
+    colour_t weapon_colour() const;
+    colour_t missile_colour() const;
+    colour_t armour_colour() const;
+    colour_t wand_colour() const;
+    colour_t food_colour() const;
+    colour_t jewellery_colour() const;
+    colour_t potion_colour() const;
+    colour_t book_colour() const;
+    colour_t miscellany_colour() const;
+    colour_t corpse_colour() const;
 };
 
 typedef item_def item_info;

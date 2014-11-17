@@ -3,12 +3,12 @@
 #include "feature.h"
 
 #include "colour.h"
+#include "libutil.h"
 #include "options.h"
-#include "show.h"
-#include "terrain.h"
 #include "viewchar.h"
 
 #include "feature-data.h"
+
 static FixedVector<feature_def, NUM_SHOW_ITEMS> item_defs;
 static int feat_index[NUM_FEATURES];
 static feature_def invis_fd, cloud_fd;
@@ -20,13 +20,11 @@ static feature_def invis_fd, cloud_fd;
  */
 ucs_t feature_def::symbol() const
 {
-    typedef map<dungeon_feature_type, FixedVector<ucs_t, 2> > fso_t;
-    const fso_t &fso = Options.feature_symbol_overrides;
-    fso_t::const_iterator i;
-    if (feat && (i = fso.find(feat)) != fso.end() && i->second[0])
-        return get_glyph_override(i->second[0]);
-    else
-        return dchar_glyph(dchar);
+    auto over = map_find(Options.feature_symbol_overrides, feat);
+    if (over && (*over)[0])
+        return get_glyph_override((*over)[0]);
+
+    return dchar_glyph(dchar);
 }
 
 /** What symbol should be used for this feature when magic mapped?
@@ -37,34 +35,14 @@ ucs_t feature_def::symbol() const
  */
 ucs_t feature_def::magic_symbol() const
 {
-    typedef map<dungeon_feature_type, FixedVector<ucs_t, 2> > fso_t;
-    const fso_t &fso = Options.feature_symbol_overrides;
-    fso_t::const_iterator i;
-    if (feat && (i = fso.find(feat)) != fso.end() && i->second[1])
-        return get_glyph_override(i->second[1]);
-    else if (magic_dchar != NUM_DCHAR_TYPES)
+    auto over = map_find(Options.feature_symbol_overrides, feat);
+    if (over && (*over)[1])
+        return get_glyph_override((*over)[1]);
+
+    if (magic_dchar != NUM_DCHAR_TYPES)
         return dchar_glyph(magic_dchar);
     else
         return symbol();
-}
-
-/** Give a feature_def some reasonable defaults.
- *
- *  XXX: This is kind of what a default constructor is for, but until
- *  we allow C++11-only features we can't have aggregate initialisation
- *  (in feature-data.h) as well as a constructor.
- *
- *  @param[out] fd The new feature_def to be given values.
- */
-void init_fd(feature_def &fd)
-{
-    fd.feat = DNGN_UNSEEN;
-    fd.name = fd.vaultname = "";
-    fd.dchar = fd.magic_dchar = NUM_DCHAR_TYPES;
-    fd.colour = fd.seen_colour = fd.em_colour = fd.seen_em_colour = BLACK;
-    fd.map_colour = DARKGREY;
-    fd.flags = FFT_NONE;
-    fd.minimap = MF_UNSEEN;
 }
 
 /** Do the default colour relations on a feature_def.
@@ -88,14 +66,11 @@ static void _create_colours(feature_def &f)
  */
 static void _apply_feature_overrides()
 {
-    for (map<dungeon_feature_type, feature_def>::const_iterator fo
-         = Options.feature_colour_overrides.begin();
-         fo != Options.feature_colour_overrides.end();
-         ++fo)
+    for (const auto &entry : Options.feature_colour_overrides)
     {
-        const feature_def           &ofeat  = fo->second;
+        const feature_def &ofeat  = entry.second;
         // Replicating get_feature_def since we need not-const.
-        feature_def                 &feat   = feat_defs[feat_index[fo->first]];
+        feature_def       &feat   = feat_defs[feat_index[entry.first]];
 
         if (ofeat.colour)
             feat.colour = ofeat.colour;
@@ -137,19 +112,16 @@ void init_show_table()
         show_item_type si = static_cast<show_item_type>(i);
         // SHOW_ITEM_NONE is bogus, but "invis exposed" is an ok placeholder
         COMPILE_CHECK(DCHAR_ITEM_AMULET - DCHAR_ITEM_DETECTED + 2 == NUM_SHOW_ITEMS);
-        init_fd(item_defs[si]);
         item_defs[si].minimap = MF_ITEM;
         item_defs[si].dchar = static_cast<dungeon_char_type>(i
             + DCHAR_ITEM_DETECTED - SHOW_ITEM_DETECTED);
         _create_colours(item_defs[si]);
     }
 
-    init_fd(invis_fd);
     invis_fd.dchar = DCHAR_INVIS_EXPOSED;
     invis_fd.minimap = MF_MONS_HOSTILE;
     _create_colours(invis_fd);
 
-    init_fd(cloud_fd);
     cloud_fd.dchar = DCHAR_CLOUD;
     cloud_fd.minimap = MF_SKIP;
     _create_colours(cloud_fd);

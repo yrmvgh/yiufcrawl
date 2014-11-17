@@ -38,7 +38,7 @@ void collect_radius_points(vector<vector<coord_def> > &radius_points,
 
 void random_uselessness(int scroll_slot = -1);
 
-int recharge_wand(bool known = true, string *pre_msg = NULL);
+int recharge_wand(bool known = true, const string &pre_msg = "");
 
 void direct_effect(monster* src, spell_type spl, bolt &pbolt, actor *defender);
 
@@ -50,9 +50,8 @@ void holy_word(int pow, holy_word_source_type source, const coord_def& where,
 void holy_word_monsters(coord_def where, int pow, holy_word_source_type source,
                         actor *attacker = NULL);
 
-int torment(actor *attacker, int taux, const coord_def& where);
-int torment_player(actor *attacker, int taux);
-int torment_monsters(coord_def where, actor *attacker, int taux);
+void torment(actor *attacker, torment_source_type taux, const coord_def& where);
+void torment_player(actor *attacker, torment_source_type taux);
 
 void cleansing_flame(int pow, int caster, coord_def where,
                      actor *attacker = NULL);

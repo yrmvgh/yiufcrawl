@@ -6,8 +6,6 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 
-#include "externs.h"
-
 // Ways to get items, other than finding them on the ground or looting them
 // from slain monsters.
 enum item_source_type
@@ -27,6 +25,9 @@ enum item_source_type
 
     AQ_WIZMODE    = 200,
 };
+
+/// top-priority item override colour
+#define FORCED_ITEM_COLOUR_KEY "forced_item_colour"
 
 int get_max_subtype(object_class_type base_type);
 bool item_type_has_unidentified(object_class_type base_type);

@@ -1,6 +1,7 @@
 #include "AppHdr.h"
 
 #include "status.h"
+#include "duration-data.h"
 
 #include "areas.h"
 #include "branch.h"
@@ -9,22 +10,15 @@
 #include "evoke.h"
 #include "food.h"
 #include "godabil.h"
-#include "godpassive.h"
-#include "libutil.h"
-#include "misc.h"
+#include "itemprop.h"
 #include "mutation.h"
 #include "options.h"
-#include "player.h"
 #include "player-stats.h"
 #include "religion.h"
-#include "skills2.h"
 #include "spl-transloc.h"
 #include "stringutil.h"
-#include "terrain.h"
 #include "transform.h"
 #include "traps.h"
-
-#include "duration-data.h"
 
 static int duration_index[NUM_DURATIONS];
 
@@ -614,6 +608,16 @@ bool fill_status_info(int status, status_info* inf)
             inf->light_colour =
                 is_damaging_cloud(cloud, true, cloud_is_yours_at(you.pos())) ? LIGHTRED : DARKGREY;
         }
+        break;
+    }
+
+    case DUR_CLEAVE:
+    {
+        const item_def* weapon = you.weapon();
+
+        if (weapon && item_attack_skill(*weapon) == SK_AXES)
+            inf->light_colour = DARKGREY;
+
         break;
     }
 

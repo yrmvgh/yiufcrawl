@@ -8,19 +8,15 @@
 #include "dbg-util.h"
 
 #include "artefact.h"
-#include "cio.h"
-#include "coord.h"
 #include "directn.h"
 #include "dungeon.h"
-#include "env.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
-#include "mon-util.h"
 #include "options.h"
 #include "religion.h"
 #include "shopping.h"
-#include "skills2.h"
+#include "skills.h"
 #include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
@@ -326,8 +322,7 @@ void debug_dump_mon(const monster* mon, bool recurse)
 
     fprintf(stderr, "colour: %d, foe_memory: %d, shield_blocks:%d, "
                   "experience: %u\n",
-            mon->colour, mon->foe_memory, mon->shield_blocks,
-            mon->experience);
+            mon->colour, mon->foe_memory, mon->shield_blocks, mon->experience);
 
     fprintf(stderr, "god: %s, seen_context: %d\n",
             god_name(mon->god).c_str(), mon->seen_context);

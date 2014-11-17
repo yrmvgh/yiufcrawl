@@ -6,7 +6,6 @@
 #ifndef BEAM_H
 #define BEAM_H
 
-#include "externs.h"
 #include "random.h"
 #include "ray.h"
 #include "spl-cast.h"
@@ -79,7 +78,8 @@ struct bolt
     int         loudness;              // Noise level on hitting or exploding.
     string      noise_msg;             // Message to give player if the hit
                                        // or explosion isn't in view.
-    bool        is_beam;               // beam? (can hit multiple targets?)
+    bool        pierce;                // Can the beam pass through a target and
+                                       // hit another target behind the first?
     bool        is_explosion;
     bool        is_big_cloud;          // expands into big_cloud at endpoint
     bool        aimed_at_spot;         // aimed at (x, y), should not cross
@@ -104,6 +104,8 @@ struct bolt
 #ifdef DEBUG_DIAGNOSTICS
     bool        quiet_debug;           // Disable any debug spam.
 #endif
+    bool        drac_breath;           // Whether to give special draconian
+                                       // effects.
 
     // OUTPUT parameters (tracing, ID)
     bool        obvious_effect;        // did an 'obvious' effect happen?
@@ -214,6 +216,7 @@ private:
     void emit_message(const char* msg);
     void step();
     bool hit_wall();
+    void hit_shield(actor* victim) const;
 
     int apply_AC(const actor* victim, int hurted);
 
@@ -314,6 +317,8 @@ spret_type zapping(zap_type ztype, int power, bolt &pbolt,
                    bool needs_tracer = false, const char* msg = NULL,
                    bool fail = false);
 bool player_tracer(zap_type ztype, int power, bolt &pbolt, int range = 0);
+
+void create_feat_splash(coord_def center, int radius, int nattempts);
 
 void init_zap_index();
 void clear_zap_info_on_exit();

@@ -4,9 +4,10 @@
  **/
 
 #include "AppHdr.h"
+
 #include "end.h"
 
-#include <errno.h>
+#include <cerrno>
 
 #include "abyss.h"
 #include "chardump.h"
@@ -15,17 +16,12 @@
 #include "database.h"
 #include "describe.h"
 #include "dungeon.h"
-#include "env.h"
 #include "hints.h"
-#include "hiscores.h"
 #include "invent.h"
-#include "itemname.h"
 #include "itemprop.h"
-#include "libutil.h"
 #include "los.h"
 #include "macro.h"
 #include "message.h"
-#include "ouch.h"
 #include "prompt.h"
 #include "religion.h"
 #include "state.h"

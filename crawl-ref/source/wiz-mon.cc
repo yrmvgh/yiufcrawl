@@ -4,22 +4,20 @@
 **/
 
 #include "AppHdr.h"
-#include <sstream>
 
 #include "wiz-mon.h"
+
+#include <sstream>
 
 #include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
-#include "artefact.h"
-#include "cio.h"
 #include "colour.h"
 #include "dbg-util.h"
 #include "delay.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "english.h"
-#include "env.h"
 #include "files.h"
 #include "ghost.h"
 #include "godblessing.h"
@@ -29,28 +27,22 @@
 #include "jobs.h"
 #include "libutil.h"
 #include "macro.h"
-#include "mapdef.h"
 #include "message.h"
-#include "mgen_data.h"
 #include "mon-death.h"
 #include "mon-pathfind.h"
-#include "mon-poly.h"
 #include "mon-place.h"
+#include "mon-poly.h"
 #include "mon-speak.h"
-#include "mon-util.h"
 #include "output.h"
 #include "prompt.h"
 #include "religion.h"
 #include "shout.h"
 #include "spl-miscast.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stringutil.h"
-#include "terrain.h"
 #include "unwind.h"
 #include "view.h"
 #include "viewmap.h"
-#include "wiz-dgn.h"
 
 #ifdef WIZARD
 // Creates a specific monster by mon type number.
@@ -104,7 +96,7 @@ void wizard_create_spec_monster_name()
 
         if (!newerr.empty())
         {
-            mpr(err.c_str());
+            mpr(err);
             return;
         }
     }
@@ -1202,7 +1194,7 @@ void debug_pathfind(int idx)
             snprintf(info, INFO_SIZE, "(%d, %d)  ", path[i].x, path[i].y);
             path_str += info;
         }
-        mpr(path_str.c_str());
+        mpr(path_str);
         mprf("-> path length: %u", (unsigned int)path.size());
 
         mpr("");
@@ -1215,7 +1207,7 @@ void debug_pathfind(int idx)
             snprintf(info, INFO_SIZE, "(%d, %d)  ", path[i].x, path[i].y);
             path_str += info;
         }
-        mpr(path_str.c_str());
+        mpr(path_str);
         mprf("-> #waypoints: %u", (unsigned int)path.size());
     }
 }
@@ -1364,20 +1356,20 @@ void debug_miscast(int target_index)
 
     if (spell != SPELL_NO_SPELL)
     {
-        miscast = new MiscastEffect(target, target_index, spell, pow, fail,
-                                    "", nothing);
+        miscast = new MiscastEffect(target, target, WIZARD_MISCAST, spell, pow,
+                                    fail, "", nothing);
     }
     else
     {
         if (level != -1)
         {
-            miscast = new MiscastEffect(target, target_index, school,
+            miscast = new MiscastEffect(target, target, WIZARD_MISCAST, school,
                                         level, "wizard testing miscast",
                                         nothing);
         }
         else
         {
-            miscast = new MiscastEffect(target, target_index, school,
+            miscast = new MiscastEffect(target, target, WIZARD_MISCAST, school,
                                         pow, fail, "wizard testing miscast",
                                         nothing);
         }

@@ -5,11 +5,10 @@
 
 #include "AppHdr.h"
 
-#include "externs.h"
-#include "options.h"
+#include "delay.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #include "ability.h"
 #include "areas.h"
@@ -20,23 +19,25 @@
 #include "command.h"
 #include "coord.h"
 #include "database.h"
-#include "delay.h"
 #include "describe.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "effects.h"
-#include "exercise.h"
 #include "enum.h"
-#include "fprop.h"
+#include "env.h"
 #include "exclude.h"
+#include "exercise.h"
 #include "food.h"
+#include "fprop.h"
 #include "godabil.h"
+#include "godconduct.h"
 #include "godpassive.h"
 #include "godprayer.h"
 #include "godwrath.h"
+#include "hints.h"
 #include "invent.h"
-#include "items.h"
 #include "itemprop.h"
+#include "items.h"
 #include "item_use.h"
 #include "libutil.h"
 #include "macro.h"
@@ -45,28 +46,26 @@
 #include "mon-behv.h"
 #include "mon-util.h"
 #include "notes.h"
+#include "options.h"
 #include "ouch.h"
 #include "output.h"
-#include "player.h"
 #include "player-equip.h"
+#include "player.h"
 #include "prompt.h"
 #include "random.h"
 #include "religion.h"
 #include "rot.h"
-#include "godconduct.h"
 #include "spl-other.h"
-#include "spl-util.h"
 #include "spl-selfench.h"
+#include "spl-util.h"
 #include "stairs.h"
 #include "stash.h"
 #include "state.h"
 #include "stringutil.h"
-#include "env.h"
 #include "teleport.h"
 #include "transform.h"
 #include "traps.h"
 #include "travel.h"
-#include "hints.h"
 #include "view.h"
 #include "xom.h"
 
@@ -108,8 +107,7 @@ static bool _is_parent_delay(delay_type delay)
 
 static int _push_delay(const delay_queue_item &delay)
 {
-    for (delay_queue_type::iterator i = you.delay_queue.begin();
-         i != you.delay_queue.end(); ++i)
+    for (auto i = you.delay_queue.begin(); i != you.delay_queue.end(); ++i)
     {
         if (_is_parent_delay(i->type))
         {
@@ -1216,13 +1214,12 @@ static void _handle_macro_delay()
 
 static void _decrement_delay(delay_type delay)
 {
-    for (delay_queue_type::iterator i = you.delay_queue.begin();
-         i != you.delay_queue.end(); ++i)
+    for (auto &delay_item : you.delay_queue)
     {
-        if (i->type == delay)
+        if (delay_item.type == delay)
         {
-            if (i->duration > 0)
-                --i->duration;
+            if (delay_item.duration > 0)
+                --delay_item.duration;
             break;
         }
     }
@@ -1515,6 +1512,8 @@ static inline bool _monster_warning(activity_interrupt_type ai,
         bool zin_id = false;
         string god_warning;
 
+        mark_mon_equipment_seen(mon);
+
         if (you_worship(GOD_ZIN)
             && mon->is_shapeshifter()
             && !(mon->flags & MF_KNOWN_SHIFTER))
@@ -1530,7 +1529,6 @@ static inline bool _monster_warning(activity_interrupt_type ai,
                 god_warning += "glowing ";
             god_warning += "shapeshifter.";
         }
-
 
         monster_info mi(mon);
 
@@ -1700,6 +1698,7 @@ bool interrupt_activity(activity_interrupt_type ai,
     return false;
 }
 
+// Must match the order of activity_interrupt_type in enum.h!
 static const char *activity_interrupt_names[] =
 {
     "force", "keypress", "full_hp", "full_mp", "statue", "hungry", "message",

@@ -15,23 +15,16 @@
 #include "items.h"
 #include "item_use.h"
 #include "jobs.h"
-#include "maps.h"
 #include "mutation.h"
-#include "newgame.h"
 #include "ng-init.h"
 #include "ng-wanderer.h"
 #include "options.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
-#include "rot.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
 #include "spl-util.h"
 #include "state.h"
-
-#include "tutorial.h"
 
 #define MIN_START_STAT       3
 
@@ -141,7 +134,6 @@ static void _jobs_stat_init(job_type which_job)
 
     case JOB_SKALD:             s =  4; i =  4; d =  4; break;
     case JOB_CHAOS_KNIGHT:      s =  4; i =  4; d =  4; break;
-    case JOB_DEATH_KNIGHT:      s =  5; i =  3; d =  4; break;
     case JOB_ABYSSAL_KNIGHT:    s =  4; i =  4; d =  4; break;
 
     case JOB_HEALER:            s =  4; i =  4; d =  4; break;
@@ -584,12 +576,6 @@ static void _give_items_skills(const newgame_def& ng)
         you.skills[SK_UNARMED_COMBAT] = 4;
         you.skills[SK_DODGING]        = 3;
         you.skills[SK_STEALTH]        = 2;
-
-        if (you.species == SP_FELID)
-        {
-            you.skills[SK_FIGHTING]       = 2;
-            you.skills[SK_UNARMED_COMBAT] = 3;
-        }
         break;
 
     case JOB_BERSERKER:
@@ -638,23 +624,6 @@ static void _give_items_skills(const newgame_def& ng)
         else
             you.skills[SK_ARMOUR]++;
         weap_skill = 3;
-        break;
-
-    case JOB_DEATH_KNIGHT:
-        you.religion = GOD_YREDELEMNUL;
-        you.piety = 35;
-
-        newgame_make_item(0, EQ_WEAPON, OBJ_WEAPONS, WPN_SHORT_SWORD, -1, 1, +1);
-        _update_weapon(ng);
-
-        newgame_make_item(1, EQ_BODY_ARMOUR, OBJ_ARMOUR, ARM_LEATHER_ARMOUR,
-                              ARM_ROBE);
-
-        you.skills[SK_FIGHTING]    = 2;
-        you.skills[SK_ARMOUR]      = 1;
-        you.skills[SK_DODGING]     = 1;
-        you.skills[SK_INVOCATIONS] = 3;
-        weap_skill = 2;
         break;
 
     case JOB_ABYSSAL_KNIGHT:
@@ -1026,12 +995,7 @@ static void _give_starting_food()
 
     item_def item;
     item.quantity = 1;
-    if (you.species == SP_SPRIGGAN)
-    {
-        item.base_type = OBJ_POTIONS;
-        item.sub_type  = POT_PORRIDGE;
-    }
-    else if (you.species == SP_VAMPIRE)
+    if (you.species == SP_VAMPIRE)
     {
         item.base_type = OBJ_POTIONS;
         item.sub_type  = POT_BLOOD;
@@ -1172,8 +1136,8 @@ static void _give_basic_knowledge(job_type which_job)
     you.type_ids[OBJ_POTIONS][POT_BLOOD] = ID_KNOWN_TYPE;
 #if TAG_MAJOR_VERSION == 34
     you.type_ids[OBJ_POTIONS][POT_BLOOD_COAGULATED] = ID_KNOWN_TYPE;
-#endif
     you.type_ids[OBJ_POTIONS][POT_PORRIDGE] = ID_KNOWN_TYPE;
+#endif
 
     // Won't appear unidentified anywhere.
     you.type_ids[OBJ_SCROLLS][SCR_CURSE_WEAPON] = ID_KNOWN_TYPE;

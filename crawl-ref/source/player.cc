@@ -7,27 +7,24 @@
 
 #include "player.h"
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <math.h>
-
-#include <sstream>
 #include <algorithm>
+#include <cctype>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <sstream>
 
 #include "ability.h"
 #include "act-iter.h"
 #include "areas.h"
 #include "art-enum.h"
-#include "branch.h"
 #include "bloodspatter.h"
+#include "branch.h"
 #ifdef DGL_WHEREIS
  #include "chardump.h"
 #endif
 #include "cloud.h"
-#include "clua.h"
-#include "coord.h"
 #include "coordit.h"
 #include "delay.h"
 #include "dgnevent.h"
@@ -45,39 +42,25 @@
 #include "hints.h"
 #include "hiscores.h"
 #include "invent.h"
-#include "item_use.h"
-#include "itemname.h"
 #include "itemprop.h"
-#include "items.h"
+#include "item_use.h"
 #include "kills.h"
 #include "libutil.h"
 #include "macro.h"
 #include "melee_attack.h"
 #include "message.h"
 #include "misc.h"
-#include "mon-abil.h"
-#include "mon-death.h"
 #include "mon-place.h"
-#include "mon-util.h"
 #include "mutation.h"
 #include "notes.h"
-#include "options.h"
-#include "ouch.h"
 #include "output.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
-#include "quiver.h"
-#include "random.h"
 #include "religion.h"
-#include "shopping.h"
 #include "shout.h"
 #include "skills.h"
-#include "skills2.h"
-#include "species.h"
 #include "spl-damage.h"
-#include "spl-other.h"
-#include "spl-selfench.h"
 #include "spl-transloc.h"
 #include "spl-util.h"
 #include "sprint.h"
@@ -88,16 +71,14 @@
 #include "stepdown.h"
 #include "stringutil.h"
 #include "terrain.h"
-#include "throw.h"
 #ifdef USE_TILE
- #include "tileview.h"
  #include "tiledef-feat.h"
+ #include "tileview.h"
 #endif
 #include "transform.h"
 #include "traps.h"
 #include "travel.h"
 #include "view.h"
-#include "viewgeom.h"
 #include "xom.h"
 
 #if TAG_MAJOR_VERSION == 34
@@ -230,7 +211,7 @@ static bool _check_moveto_dangerous(const coord_def& p, const string& msg)
     }
 
     if (msg != "")
-        mpr(msg.c_str());
+        mpr(msg);
     else if (species_likes_water(you.species) && feat_is_water(env.grid(p)))
         mpr("You cannot enter water in your current form.");
     else if (species_likes_lava(you.species) && feat_is_lava(env.grid(p)))
@@ -2924,14 +2905,14 @@ static void _felid_extra_life()
  *                                stat gains. Currently only used by wizmode
  *                                commands.
  */
-void level_change(int source, const char* aux, bool skip_attribute_increase)
+void level_change(bool skip_attribute_increase)
 {
     // necessary for the time being, as level_change() is called
     // directly sometimes {dlb}
     you.redraw_experience = true;
 
     while (you.experience < exp_needed(you.experience_level))
-        lose_level(source, aux);
+        lose_level();
 
     while (you.experience_level < 27
            && you.experience >= exp_needed(you.experience_level + 1))
@@ -3093,9 +3074,6 @@ void level_change(int source, const char* aux, bool skip_attribute_increase)
                              "You can now transform into a vampire bat.");
                     }
                 }
-                else if (you.experience_level == 6)
-                    mprf(MSGCH_INTRINSIC_GAIN,
-                         "You can now bottle potions of blood from corpses.");
                 break;
 
             case SP_NAGA:
@@ -3421,7 +3399,7 @@ void level_change(int source, const char* aux, bool skip_attribute_increase)
             if (you.experience_level == 19)
                 mprf(MSGCH_INTRINSIC_GAIN, "Your Zot abilities now extend through the making of lightning spires.");
             if (you.experience_level == 20)
-                mprf(MSGCH_INTRINSIC_GAIN, "Your Zot abilities now extend through the making of silver statues.");
+                mprf(MSGCH_INTRINSIC_GAIN, "Your Zot abilities now extend through the making of obsidian statues.");
             // gold and bazaars gained together
             if (you.experience_level == 21)
                 mprf(MSGCH_INTRINSIC_GAIN, "Your Zot abilities now extend through the making of bazaars.");
@@ -3710,8 +3688,9 @@ int check_stealth()
     stealth += (STEALTH_PIP / 2)
                 * player_mutation_level(MUT_THIN_SKELETAL_STRUCTURE);
     stealth += STEALTH_PIP * player_mutation_level(MUT_CAMOUFLAGE);
-    if (player_mutation_level(MUT_TRANSLUCENT_SKIN) > 1)
-        stealth += 20 * (player_mutation_level(MUT_TRANSLUCENT_SKIN) - 1);
+    const int how_transparent = player_mutation_level(MUT_TRANSLUCENT_SKIN);
+    if (how_transparent)
+        stealth += 15 * (how_transparent);
 
     // it's easier to be stealthy when there's a lot of background noise
     stealth += 2 * current_level_ambient_noise();
@@ -3902,7 +3881,7 @@ static void _display_vampire_status()
     if (!attrib.empty())
     {
         msg += comma_separated_line(attrib.begin(), attrib.end());
-        mpr(msg.c_str());
+        mpr(msg);
     }
 }
 
@@ -4038,11 +4017,11 @@ void display_char_status()
     for (unsigned i = 0; i <= STATUS_LAST_STATUS; ++i)
     {
         if (fill_status_info(i, &inf) && !inf.long_text.empty())
-            mprf("%s", inf.long_text.c_str());
+            mpr(inf.long_text);
     }
     string cinfo = _constriction_description();
     if (!cinfo.empty())
-        mpr(cinfo.c_str());
+        mpr(cinfo);
 
     _display_movement_speed();
     _display_tohit();
@@ -4250,7 +4229,7 @@ void dec_hp(int hp_loss, bool fatal, const char *aux)
     // fatal, somebody else is doing the bookkeeping, and we don't want to mess
     // with that.
     if (!fatal && aux)
-        ouch(hp_loss, NON_MONSTER, KILLED_BY_SOMETHING, aux);
+        ouch(hp_loss, KILLED_BY_SOMETHING, MID_NOBODY, aux);
     else
         you.hp -= hp_loss;
 
@@ -4459,7 +4438,7 @@ void rot_hp(int hp_loss)
     calc_hp();
 
     // Kill the player if they reached 0 maxhp.
-    ouch(0, NON_MONSTER, KILLED_BY_ROTTING);
+    ouch(0, KILLED_BY_ROTTING);
 
     if (you.species != SP_GHOUL)
         xom_is_stimulated(hp_loss * 25);
@@ -4712,7 +4691,7 @@ void contaminate_player(int change, bool controlled, bool msg)
         dprf("change: %d  radiation: %d", change, you.magic_contamination);
 
     if (msg && new_level >= 1 && old_level <= 1 && new_level != old_level)
-        mprf("%s", describe_contamination(new_level).c_str());
+        mpr(describe_contamination(new_level));
     else if (msg && new_level != old_level)
     {
         if (old_level == 1 && new_level == 0)
@@ -4817,7 +4796,7 @@ bool curare_hits_player(int death_source, int levels, string name,
             you.increase_duration(DUR_BREATH_WEAPON, hurted,
                                   10*levels + random2(10*levels));
             mpr("You have difficulty breathing.");
-            ouch(hurted, death_source, KILLED_BY_CURARE,
+            ouch(hurted, KILLED_BY_CURARE, menv[death_source].mid,
                  "curare-induced apnoea");
         }
     }
@@ -4989,7 +4968,7 @@ void handle_player_poison(int delay)
     if (do_dmg && dmg > 0)
     {
         int oldhp = you.hp;
-        ouch(dmg, NON_MONSTER, KILLED_BY_POISON);
+        ouch(dmg, KILLED_BY_POISON);
         if (you.hp < oldhp)
             mprf(channel, "You feel %ssick.", adj);
     }
@@ -5170,7 +5149,7 @@ void dec_napalm_player(int delay)
     const int hurted = resist_adjust_damage(&you, BEAM_FIRE, player_res_fire(),
                                             random2avg(9, 2) + 1);
 
-    ouch(hurted * delay / BASELINE_DELAY, NON_MONSTER, KILLED_BY_BURNING);
+    ouch(hurted * delay / BASELINE_DELAY, KILLED_BY_BURNING);
 
     you.duration[DUR_LIQUID_FLAMES] -= delay;
     if (you.duration[DUR_LIQUID_FLAMES] <= 0)
@@ -5512,7 +5491,7 @@ void handle_player_drowning(int delay)
                 div_rand_round((28 + stepdown((float)you.duration[DUR_WATER_HOLD], 28.0))
                                 * delay,
                                 BASELINE_DELAY * 10);
-            ouch(dam, mons->mindex(), KILLED_BY_WATER);
+            ouch(dam, KILLED_BY_WATER, mons->mid);
             mprf(MSGCH_WARN, "Your lungs strain for air!");
         }
     }
@@ -6887,18 +6866,17 @@ string player::no_tele_reason(bool calc_unid, bool blinking) const
         bool found_nonartefact = false;
         bool found_stasis = false;
 
-        for (vector<item_def>::iterator it=notele_items.begin();
-             it < notele_items.end(); ++it)
+        for (const auto &item : notele_items)
         {
-            if (it->base_type == OBJ_WEAPONS)
+            if (item.base_type == OBJ_WEAPONS)
             {
                 problems.push_back(make_stringf("wielding %s",
-                                                it->name(DESC_A).c_str()));
+                                                item.name(DESC_A).c_str()));
             }
             else
-                worn_notele.push_back(it->name(DESC_A).c_str());
+                worn_notele.push_back(item.name(DESC_A).c_str());
 
-            if (it->base_type == OBJ_JEWELLERY && jewellery_is_amulet(*it))
+            if (item.base_type == OBJ_JEWELLERY && jewellery_is_amulet(item))
                 amulet_handled = true;
         }
 
@@ -6962,7 +6940,7 @@ bool player::no_tele_print_reason(bool calc_unid, bool blinking) const
     if (reason.empty())
         return false;
 
-    mpr(reason.c_str());
+    mpr(reason);
     return true;
 }
 
@@ -7118,15 +7096,15 @@ int player::hurt(const actor *agent, int amount, beam_type flavour,
         // to a player from a dead monster.  We should probably not do that,
         // but it could be tricky to fix, so for now let's at least avoid
         // a crash even if it does mean funny death messages.
-        ouch(amount, NON_MONSTER, KILLED_BY_MONSTER, "",
+        ouch(amount, KILLED_BY_MONSTER, MID_NOBODY, "",
              false, "posthumous revenge");
     }
     else if (agent->is_monster())
     {
         const monster* mon = agent->as_monster();
-        ouch(amount, mon->mindex(),
+        ouch(amount,
              flavour == BEAM_WATER ? KILLED_BY_WATER : KILLED_BY_MONSTER,
-             "", mon->visible_to(this), NULL);
+             mon->mid, "", mon->visible_to(this), NULL);
     }
     else
     {
@@ -7193,6 +7171,71 @@ bool player::rot(actor *who, int amount, int immediate, bool quiet)
         sicken(50 + random2(100));
 
     return true;
+}
+
+/**
+ * Attempts to apply corrosion to the player and deals acid damage.
+ *
+ * Each full equipment slot gives a chance of applying the corrosion debuff,
+ * and each empty equipment slot increases the amount of acid damage taken.
+ *
+ * @param evildoer the cause of this acid splash.
+ * @param acid_strength The strength of the acid.
+ * @param allow_corrosion Whether to try and apply the corrosion debuff.
+ * @param hurt_msg A message to display when dealing damage.
+ */
+void player::splash_with_acid(const actor* evildoer, int acid_strength,
+                              bool allow_corrosion, const char* hurt_msg)
+{
+    int dam = 0;
+    bool do_corrosion = false;
+    const bool wearing_cloak = player_wearing_slot(EQ_CLOAK);
+
+    for (int slot = EQ_MIN_ARMOUR; slot <= EQ_MAX_ARMOUR; slot++)
+    {
+        const bool cloak_protects = wearing_cloak && coinflip()
+                                    && slot != EQ_SHIELD && slot != EQ_CLOAK;
+
+        if (!cloak_protects)
+        {
+            item_def *item = you.slot_item(static_cast<equipment_type>(slot));
+            if (!item && slot != EQ_SHIELD)
+                dam++;
+
+            if (item && allow_corrosion && x_chance_in_y(acid_strength + 1, 30))
+                do_corrosion = true;
+        }
+    }
+
+    if (do_corrosion)
+        corrode_actor(&you);
+
+    // Covers head, hands and feet.
+    if (player_equip_unrand(UNRAND_LEAR))
+        dam = !wearing_cloak;
+
+    // Without fur, clothed people have dam 0 (+2 later), Sp/Tr/Dr/Og ~1
+    // (randomized), Fe 5.  Fur helps only against naked spots.
+    const int fur = player_mutation_level(MUT_SHAGGY_FUR);
+    dam -= fur * dam / 5;
+
+    // two extra virtual slots so players can't be immune
+    dam += 2;
+    dam = roll_dice(dam, acid_strength);
+
+    const int post_res_dam = resist_adjust_damage(&you, BEAM_ACID,
+                                                  you.res_acid(), dam);
+
+    if (post_res_dam > 0)
+    {
+        mpr(hurt_msg ? hurt_msg : "The acid burns!");
+
+        if (post_res_dam < dam)
+            canned_msg(MSG_YOU_RESIST);
+
+        ouch(post_res_dam, KILLED_BY_ACID,
+             evildoer ? evildoer->mid : MID_NOBODY);
+    }
 }
 
 bool player::drain_exp(actor *who, bool quiet, int pow)
@@ -7995,7 +8038,7 @@ void player::set_gold(int amount)
         if (you_worship(GOD_GOZAG))
         {
             vector<ability_type> abilities = get_god_abilities(true, true);
-            for (int i = 0; i < MAX_GOD_ABILITIES; i++)
+            for (size_t i = 0; i < abilities.size(); i++)
             {
                 const int cost = get_gold_cost(abilities[i]);
                 if (gold >= cost && old_gold < cost)
@@ -8655,9 +8698,8 @@ void player_open_door(coord_def doorpos, bool check_confused)
     }
 
     vector<coord_def> excludes;
-    for (set<coord_def>::iterator i = all_door.begin(); i != all_door.end(); ++i)
+    for (const auto &dc : all_door)
     {
-        const coord_def& dc = *i;
         // Even if some of the door is out of LOS, we want the entire
         // door to be updated.  Hitting this case requires a really big
         // door!

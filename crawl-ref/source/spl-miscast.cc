@@ -7,47 +7,39 @@
 
 #include "spl-miscast.h"
 
-#include "externs.h"
-
 #include <sstream>
 
-#include "beam.h"
+#include "areas.h"
 #include "branch.h"
-#include "colour.h"
 #include "cloud.h"
+#include "colour.h"
 #include "directn.h"
 #include "effects.h"
 #include "english.h"
 #include "env.h"
 #include "food.h"
 #include "itemprop.h"
-#include "kills.h"
-#include "libutil.h"
 #include "mapmark.h"
 #include "message.h"
 #include "misc.h"
 #include "mon-cast.h"
 #include "mon-death.h"
 #include "mon-place.h"
-#include "mgen_data.h"
-#include "mon-util.h"
 #include "mutation.h"
-#include "player.h"
 #include "player-stats.h"
 #include "potion.h"
 #include "religion.h"
+#include "shout.h"
 #include "spl-clouds.h"
 #include "spl-goditem.h"
 #include "spl-summoning.h"
 #include "state.h"
 #include "stringutil.h"
-#include "areas.h"
 #include "terrain.h"
 #include "transform.h"
-#include "view.h"
-#include "shout.h"
 #include "unwind.h"
 #include "viewchar.h"
+#include "view.h"
 #include "xom.h"
 
 // This determines how likely it is that more powerful wild magic
@@ -57,13 +49,15 @@
 
 #define MAX_RECURSE 100
 
-MiscastEffect::MiscastEffect(actor* _target, int _source, spell_type _spell,
+MiscastEffect::MiscastEffect(actor* _target, actor* _act_source,
+                             int _source, spell_type _spell,
                              int _pow, int _fail, string _cause,
                              nothing_happens_when_type _nothing_happens,
                              int _lethality_margin, string _hand_str,
                              bool _can_plural) :
-    target(_target), source(_source), cause(_cause), spell(_spell),
-    school(SPTYP_NONE), pow(_pow), fail(_fail), level(-1), kc(KC_NCATEGORIES),
+    target(_target), act_source(_act_source),
+    special_source(_source), cause(_cause), spell(_spell),
+    school(SPTYP_NONE), pow(_pow), fail(_fail), level(-1),
     kt(KILL_NONE), nothing_happens_when(_nothing_happens),
     lethality_margin(_lethality_margin), hand_str(_hand_str),
     can_plural_hand(_can_plural)
@@ -77,14 +71,15 @@ MiscastEffect::MiscastEffect(actor* _target, int _source, spell_type _spell,
     do_miscast();
 }
 
-MiscastEffect::MiscastEffect(actor* _target, int _source,
+MiscastEffect::MiscastEffect(actor* _target, actor* _act_source, int _source,
                              spschool_flag_type _school, int _level,
                              string _cause,
                              nothing_happens_when_type _nothing_happens,
                              int _lethality_margin, string _hand_str,
                              bool _can_plural) :
-    target(_target), source(_source), cause(_cause), spell(SPELL_NO_SPELL),
-    school(_school), pow(-1), fail(-1), level(_level), kc(KC_NCATEGORIES),
+    target(_target), act_source(_act_source),
+    special_source(_source), cause(_cause),
+    spell(SPELL_NO_SPELL), school(_school), pow(-1), fail(-1), level(_level),
     kt(KILL_NONE), nothing_happens_when(_nothing_happens),
     lethality_margin(_lethality_margin), hand_str(_hand_str),
     can_plural_hand(_can_plural)
@@ -98,14 +93,15 @@ MiscastEffect::MiscastEffect(actor* _target, int _source,
     do_miscast();
 }
 
-MiscastEffect::MiscastEffect(actor* _target, int _source,
+MiscastEffect::MiscastEffect(actor* _target, actor* _act_source, int _source,
                              spschool_flag_type _school, int _pow, int _fail,
                              string _cause,
                              nothing_happens_when_type _nothing_happens,
                              int _lethality_margin, string _hand_str,
                              bool _can_plural) :
-    target(_target), source(_source), cause(_cause), spell(SPELL_NO_SPELL),
-    school(_school), pow(_pow), fail(_fail), level(-1), kc(KC_NCATEGORIES),
+    target(_target), act_source(_act_source),
+    special_source(_source), cause(_cause),
+    spell(SPELL_NO_SPELL), school(_school), pow(_pow), fail(_fail), level(-1),
     kt(KILL_NONE), nothing_happens_when(_nothing_happens),
     lethality_margin(_lethality_margin), hand_str(_hand_str),
     can_plural_hand(_can_plural)
@@ -139,106 +135,56 @@ void MiscastEffect::init()
 
     source_known = target_known = false;
 
-    act_source = guilty = NULL;
-
-    const bool death_curse = (cause.find("death curse") != string::npos);
-
     if (target->is_monster())
         target_known = you.can_see(target);
     else
         target_known = true;
 
-    kill_source = source;
-    if (source == WIELD_MISCAST || source == MELEE_MISCAST)
+    if (act_source && act_source->is_player())
     {
-        if (target->is_monster())
-            kill_source = target->mindex();
-        else
-            kill_source = NON_MONSTER;
-    }
-
-    if (kill_source == NON_MONSTER || kill_source == MHITYOU)
-    {
-        kc           = KC_YOU;
         kt           = KILL_YOU_MISSILE;
-        act_source   = &you;
-        guilty       = &you;
         source_known = true;
     }
-    else if (!invalid_monster_index(kill_source))
+    else if (act_source && act_source->is_monster())
     {
-        monster* mon_source = &menv[kill_source];
-        ASSERT(mon_source->type != MONS_NO_MONSTER);
-
-        act_source = guilty = mon_source;
-
-        if (death_curse && target->is_monster()
-            && target_as_monster()->confused_by_you())
-        {
-            kt = KILL_YOU_CONF;
-        }
-        else if (!death_curse && mon_source->confused_by_you()
-                 && !mon_source->friendly())
+        if (act_source->as_monster()->confused_by_you()
+            && !act_source->as_monster()->friendly())
         {
             kt = KILL_YOU_CONF;
         }
         else
             kt = KILL_MON_MISSILE;
 
-        if (mon_source->friendly())
-            kc = KC_FRIENDLY;
-        else
-            kc = KC_OTHER;
+        source_known = you.can_see(act_source);
 
-        source_known = you.can_see(mon_source);
-
-        if (target_known && death_curse)
+        if (target_known && special_source == MUMMY_MISCAST)
             source_known = true;
     }
     else
     {
-        ASSERT(source == ZOT_TRAP_MISCAST
-               || source == HELL_EFFECT_MISCAST
-               || source == MISC_MISCAST
-               || (source < 0 && -source < NUM_GODS));
+        ASSERT(special_source != MELEE_MISCAST);
 
-        act_source = target;
-
-        kc = KC_OTHER;
         kt = KILL_MISCAST;
 
-        if (source == ZOT_TRAP_MISCAST)
+        if (special_source == ZOT_TRAP_MISCAST)
         {
             source_known = target_known;
 
             if (target->is_monster()
-                && target_as_monster()->confused_by_you())
+                && target->as_monster()->confused_by_you())
             {
                 kt = KILL_YOU_CONF;
             }
         }
-        else if (source == MISC_MISCAST)
-            source_known = true, guilty = &you;
         else
             source_known = true;
     }
 
-    ASSERT(kc != KC_NCATEGORIES);
     ASSERT(kt != KILL_NONE);
-
-    if (death_curse && !invalid_monster_index(kill_source))
-    {
-        if (starts_with(cause, "a "))
-            cause.replace(cause.begin(), cause.begin() + 1, "an indirect");
-        else if (starts_with(cause, "an "))
-            cause.replace(cause.begin(), cause.begin() + 2, "an indirect");
-        else
-            cause = replace_all(cause, "death curse", "indirect death curse");
-    }
 
     // source_known = false for MELEE_MISCAST so that melee miscasts
     // won't give a "nothing happens" message.
-    if (source == MELEE_MISCAST)
+    if (special_source == MELEE_MISCAST)
         source_known = false;
 
     if (hand_str.empty())
@@ -252,10 +198,8 @@ void MiscastEffect::init()
     if (cause.empty())
         cause = get_default_cause(false);
     beam.aux_source  = cause;
-    if (!invalid_monster_index(kill_source))
-        beam.source_id = menv[kill_source].mid;
-    else if (kill_source == MHITYOU)
-        beam.source_id = MID_PLAYER;
+    if (act_source)
+        beam.source_id = act_source->mid;
     else
         beam.source_id = MID_NOBODY;
     beam.thrower     = kt;
@@ -265,25 +209,12 @@ string MiscastEffect::get_default_cause(bool attribute_to_user) const
 {
     // This is only for true miscasts, which means both a spell and that
     // the source of the miscast is the same as the target of the miscast.
-    ASSERT_RANGE(source, 0, NON_MONSTER + 1);
+    ASSERT(special_source == SPELL_MISCAST);
     ASSERT(spell != SPELL_NO_SPELL);
     ASSERT(school == SPTYP_NONE);
+    ASSERT(target->is_player());
 
-    if (source == NON_MONSTER)
-    {
-        ASSERT(target->is_player());
-        string str = "miscasting ";
-        str += spell_title(spell);
-        return str;
-    }
-
-    ASSERT(act_source->is_monster());
-    ASSERT(act_source == target);
-
-    if (attribute_to_user)
-        return act_source->name(DESC_A) + " miscasting " + spell_title(spell);
-    else
-        return string("miscast of ") + spell_title(spell);
+    return string("miscasting ") + spell_title(spell);
 }
 
 bool MiscastEffect::neither_end_silenced()
@@ -383,7 +314,7 @@ void MiscastEffect::do_miscast()
     msg_ch         = MSGCH_PLAIN;
     sound_loudness = 0;
 
-    if (source == ZOT_TRAP_MISCAST)
+    if (special_source == ZOT_TRAP_MISCAST)
     {
         _zot();
         if (target->is_player())
@@ -426,7 +357,7 @@ void MiscastEffect::do_msg(bool suppress_nothing_happens)
 {
     ASSERT(!did_msg);
 
-    if (target->is_monster() && !mons_near(target_as_monster()))
+    if (target->is_monster() && !mons_near(target->as_monster()))
         return;
 
     did_msg = true;
@@ -492,8 +423,8 @@ void MiscastEffect::do_msg(bool suppress_nothing_happens)
 
     if (target->is_monster())
     {
-        msg = do_mon_str_replacements(msg, target_as_monster(), S_SILENT);
-        if (!mons_has_body(target_as_monster()))
+        msg = do_mon_str_replacements(msg, target->as_monster(), S_SILENT);
+        if (!mons_has_body(target->as_monster()))
             msg = replace_all(msg, "'s body", "");
     }
 
@@ -504,7 +435,7 @@ void MiscastEffect::do_msg(bool suppress_nothing_happens)
         // Those monsters of normal or greater intelligence will realize that they
         // were the source of the sound.
         mid_t src = target->is_player() ? MID_PLAYER
-                    : mons_intel(target_as_monster()) >= I_NORMAL ? target->mid
+                    : mons_intel(target->as_monster()) >= I_NORMAL ? target->mid
                     : MID_NOBODY;
         noisy(sound_loudness, target->pos(), src);
     }
@@ -515,7 +446,7 @@ bool MiscastEffect::_ouch(int dam, beam_type flavour)
     // Delay do_msg() until after avoid_lethal().
     if (target->is_monster())
     {
-        monster* mon_target = target_as_monster();
+        monster* mon_target = target->as_monster();
 
         do_msg(true);
 
@@ -523,10 +454,10 @@ bool MiscastEffect::_ouch(int dam, beam_type flavour)
 
         beem.flavour = flavour;
         dam = mons_adjust_flavoured(mon_target, beem, dam, true);
-        mon_target->hurt(guilty, dam, BEAM_MISSILE, false);
+        mon_target->hurt(act_source, dam, BEAM_MISSILE, false);
 
         if (!mon_target->alive())
-            monster_die(mon_target, kt, kill_source);
+            monster_die(mon_target, kt, actor_to_death_source(act_source));
     }
     else
     {
@@ -539,13 +470,13 @@ bool MiscastEffect::_ouch(int dam, beam_type flavour)
 
         kill_method_type method;
 
-        if (source == NON_MONSTER && spell != SPELL_NO_SPELL)
+        if (special_source == SPELL_MISCAST && spell != SPELL_NO_SPELL)
             method = KILLED_BY_WILD_MAGIC;
-        else if (source == ZOT_TRAP_MISCAST)
+        else if (special_source == ZOT_TRAP_MISCAST)
             method = KILLED_BY_TRAP;
-        else if (source < 0 && -source < NUM_GODS)
+        else if (special_source >= GOD_MISCAST)
         {
-            god_type god = static_cast<god_type>(-source);
+            god_type god = static_cast<god_type>(special_source - GOD_MISCAST);
 
             if (god == GOD_XOM && !player_under_penance(GOD_XOM))
                 method = KILLED_BY_XOM;
@@ -556,7 +487,8 @@ bool MiscastEffect::_ouch(int dam, beam_type flavour)
             method = KILLED_BY_SOMETHING;
 
         bool see_source = act_source && you.can_see(act_source);
-        ouch(dam, kill_source, method, cause.c_str(), see_source);
+        ouch(dam, method, act_source ? act_source->mid : MID_NOBODY,
+             cause.c_str(), see_source);
     }
 
     return true;
@@ -587,7 +519,7 @@ bool MiscastEffect::_big_cloud(cloud_type cl_type, int cloud_pow, int size,
         return false;
 
     do_msg(true);
-    big_cloud(cl_type, guilty, target->pos(), cloud_pow, size, spread_rate);
+    big_cloud(cl_type, act_source, target->pos(), cloud_pow, size, spread_rate);
 
     return true;
 }
@@ -628,7 +560,7 @@ void MiscastEffect::_potion_effect(potion_type pot_eff, int pot_pow)
 
 bool MiscastEffect::_paralyse(int dur)
 {
-    if (source != HELL_EFFECT_MISCAST)
+    if (special_source != HELL_EFFECT_MISCAST)
     {
         target->paralyse(act_source, dur, cause);
         return true;
@@ -639,7 +571,7 @@ bool MiscastEffect::_paralyse(int dur)
 
 bool MiscastEffect::_sleep(int dur)
 {
-    if (!target->can_sleep() || source == HELL_EFFECT_MISCAST)
+    if (!target->can_sleep() || special_source == HELL_EFFECT_MISCAST)
         return false;
 
     if (target->is_player())
@@ -652,7 +584,7 @@ bool MiscastEffect::_sleep(int dur)
 bool MiscastEffect::_send_to_abyss()
 {
     if ((player_in_branch(BRANCH_ABYSS) && x_chance_in_y(you.depth, brdepth[BRANCH_ABYSS]))
-        || source == HELL_EFFECT_MISCAST)
+        || special_source == HELL_EFFECT_MISCAST)
     {
         return _malign_gateway(); // attempt to degrade to malign gateway
     }
@@ -733,16 +665,16 @@ bool MiscastEffect::_create_monster(monster_type what, int abj_deg,
     mgen_data data = mgen_data::hostile_at(what, cause, alert,
                                            abj_deg, 0, target->pos(), 0, god);
 
-    if (source != HELL_EFFECT_MISCAST)
+    if (special_source != HELL_EFFECT_MISCAST)
         data.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
 
     // hostile_at() assumes the monster is hostile to the player,
     // but should be hostile to the target monster unless the miscast
     // is a result of either divine wrath or a Zot trap.
     if (target->is_monster() && !player_under_penance(god)
-        && source != ZOT_TRAP_MISCAST)
+        && special_source != ZOT_TRAP_MISCAST)
     {
-        monster* mon_target = target_as_monster();
+        monster* mon_target = target->as_monster();
 
         switch (mon_target->temp_attitude())
         {
@@ -771,7 +703,7 @@ bool MiscastEffect::_create_monster(monster_type what, int abj_deg,
             data.summon_type = SPELL_SHADOW_CREATURES;
         else if (player_under_penance(god))
             data.summon_type = MON_SUMM_WRATH;
-        else if (source == ZOT_TRAP_MISCAST)
+        else if (special_source == ZOT_TRAP_MISCAST)
             data.summon_type = MON_SUMM_ZOT;
         else
             data.summon_type = MON_SUMM_MISCAST;
@@ -1044,8 +976,8 @@ void MiscastEffect::_hexes(int severity)
             if (target->is_player())
                 you.backlight();
             else
-                target_as_monster()->add_ench(mon_enchant(ENCH_CORONA, 20,
-                                                          guilty));
+                target->as_monster()->add_ench(mon_enchant(ENCH_CORONA, 20,
+                                                           act_source));
             break;
         case 1:
             random_uselessness();
@@ -1198,8 +1130,8 @@ void MiscastEffect::_charms(int severity)
             if (target->is_player())
                 you.backlight();
             else
-                target_as_monster()->add_ench(mon_enchant(ENCH_CORONA, 20,
-                                                          guilty));
+                target->as_monster()->add_ench(mon_enchant(ENCH_CORONA, 20,
+                                                           act_source));
             break;
         case 1:
             random_uselessness();
@@ -1263,8 +1195,8 @@ void MiscastEffect::_charms(int severity)
                 }
                 else if (target->is_monster())
                 {
-                    debuff_monster(target_as_monster());
-                    enchant_actor_with_flavour(target_as_monster(), NULL,
+                    debuff_monster(target->as_monster());
+                    enchant_actor_with_flavour(target->as_monster(), NULL,
                                                BEAM_DRAIN_MAGIC, 50 + random2avg(51, 2));
                 }
                 do_msg();
@@ -1400,12 +1332,8 @@ void MiscastEffect::_translocation(int severity)
         case 5:
         {
             bool success = false;
-
-            for (int i = 1 + random2(3); i >= 0; --i)
-            {
-                if (_create_monster(MONS_SPATIAL_VORTEX, 3))
-                    success = true;
-            }
+            for (int i = 1 + random2(3); i > 0; --i)
+                success |= _create_monster(MONS_SPATIAL_VORTEX, 3);
 
             if (success)
                 all_msg = "Space twists in upon itself!";
@@ -1430,7 +1358,10 @@ void MiscastEffect::_translocation(int severity)
             mon_msg_seen   = "@The_monster@ is crushed and pinned by an extremely "
                              "strong localised spatial distortion!";
             mon_msg_unseen = "A rift temporarily opens in the fabric of space!";
+
             _ouch(15 + random2avg(29, 2));
+            if (!target->alive())
+                break;
 
             if (target->is_player())
                 you.increase_duration(DUR_DIMENSION_ANCHOR, 20 + random2(11), 50);
@@ -1562,12 +1493,8 @@ void MiscastEffect::_summoning(int severity)
         case 0:
         {
             bool success = false;
-
-            for (int i = 1 + random2(3); i >= 0; --i)
-            {
-                if (_create_monster(MONS_SPATIAL_VORTEX, 3))
-                    success = true;
-            }
+            for (int i = 1 + random2(3); i > 0; --i)
+                success |= _create_monster(MONS_SPATIAL_VORTEX, 3);
 
             if (success)
                 all_msg = "Space twists in upon itself!";
@@ -1587,12 +1514,8 @@ void MiscastEffect::_summoning(int severity)
         case 5:
         {
             bool success = false;
-
-            for (int i = 2 + random2(3); i >= 0; --i)
-            {
-                if (_create_monster(MONS_ABOMINATION_SMALL, 5, true))
-                    success = true;
-            }
+            for (int i = 2 + random2(2); i > 0; --i)
+                success |= _create_monster(MONS_ABOMINATION_SMALL, 5, true);
 
             if (success && neither_end_silenced())
             {
@@ -1617,12 +1540,8 @@ void MiscastEffect::_summoning(int severity)
             case 0:
             {
                 bool success = false;
-
-                for (int i = 1 + random2(3); i >= 0; --i)
-                {
-                    if (_create_monster(MONS_WORLDBINDER, 5, true))
-                        success = true;
-                }
+                for (int i = 1 + random2(3); i > 0; --i)
+                    success |= _create_monster(MONS_WORLDBINDER, 5, true);
 
                 if (success)
                     all_msg = "Desperate hands claw out from thin air!";
@@ -1640,12 +1559,8 @@ void MiscastEffect::_summoning(int severity)
             case 2:
             {
                 bool success = false;
-
-                for (int i = 1 + random2(2); i >= 0; --i)
-                {
-                    if (_create_monster(summon_any_demon(RANDOM_DEMON_COMMON), 3, true))
-                        success = true;
-                }
+                for (int i = 1 + random2(2); i > 0; --i)
+                    success |= _create_monster(summon_any_demon(RANDOM_DEMON_COMMON), 3, true);
 
                 if (success)
                 {
@@ -1798,7 +1713,7 @@ void MiscastEffect::_divination_you(int severity)
 void MiscastEffect::_divination_mon(int severity)
 {
     // Nothing is appropriate for unmoving plants.
-    if (mons_is_firewood(target_as_monster()))
+    if (mons_is_firewood(target->as_monster()))
         return;
 
     switch (severity)
@@ -1817,7 +1732,7 @@ void MiscastEffect::_divination_mon(int severity)
             mon_msg_seen = "@The_monster@ looks disoriented.";
             target->confuse(
                 act_source,
-                1 + random2(3 + act_source->get_hit_dice()));
+                1 + random2(3 + (act_source ? act_source->get_hit_dice() : 13)));
             break;
         }
         break;
@@ -1826,16 +1741,16 @@ void MiscastEffect::_divination_mon(int severity)
         mon_msg_seen = "@The_monster@ shudders.";
         target->confuse(
             act_source,
-            5 + random2(3 + act_source->get_hit_dice()));
+            5 + random2(3 + (act_source ? act_source->get_hit_dice() : 13)));
         break;
 
     case 3:         // nasty
         mon_msg_seen = "@The_monster@ reels.";
         if (one_chance_in(7))
-            target_as_monster()->forget_random_spell();
+            target->as_monster()->forget_random_spell();
         target->confuse(
             act_source,
-            8 + random2(3 + act_source->get_hit_dice()));
+            8 + random2(3 + (act_source ? act_source->get_hit_dice() : 13)));
         break;
     }
     do_msg();
@@ -1845,8 +1760,6 @@ void MiscastEffect::_necromancy(int severity)
 {
     if (target->is_player() && in_good_standing(GOD_KIKUBAAQUDGHA, 1))
     {
-        const bool death_curse = (cause.find("death curse") != string::npos);
-
         if (spell != SPELL_NO_SPELL)
         {
             // An actual necromancy miscast.
@@ -1857,7 +1770,7 @@ void MiscastEffect::_necromancy(int severity)
                 return;
             }
         }
-        else if (death_curse)
+        else if (special_source == MUMMY_MISCAST)
         {
             if (coinflip())
             {
@@ -1981,12 +1894,8 @@ void MiscastEffect::_necromancy(int severity)
         case 0:
         {
             bool success = false;
-
-            for (int i = random2(2); i >= 0; --i)
-            {
-                if (_create_monster(MONS_SHADOW, 2, true))
-                    success = true;
-            }
+            for (int i = 0; i < 2; ++i)
+                success |= _create_monster(MONS_SHADOW, 2, true);
 
             if (success)
             {
@@ -2046,7 +1955,7 @@ void MiscastEffect::_necromancy(int severity)
                 do_msg();
             }
             else
-                torment_monsters(target->pos(), 0, TORMENT_GENERIC);
+                torment(NULL, TORMENT_MISCAST, target->pos());
             break;
 
         case 1:
@@ -2174,16 +2083,12 @@ void MiscastEffect::_transmutation(int severity)
             break;
         case 5:
         {
+            // Should be actual monsters and not durable summons,
+            // but there's a bunch of problems there (corpses,
+            // piety, perma-allies-on-hostiles-somehow, etc)
             bool success = false;
-
-            for (int i = 2 + random2(2); i >= 0; --i)
-            {
-                // Should be actual monsters and not durable summons,
-                // but there's a bunch of problems there (corpses,
-                // piety, perma-allies-on-hostiles-somehow, etc)
-                if (_create_monster(MONS_GIANT_MITE, 0, true))
-                    success = true;
-            }
+            for (int i = 2 + random2(3); i > 0; --i)
+                success |= _create_monster(MONS_GIANT_MITE, 0, true);
 
             if (success)
             {
@@ -2367,11 +2272,9 @@ void MiscastEffect::_fire(int severity)
         case 0:
         {
             bool success = false;
-            for (int i = 1 + random2(2); i >= 0; --i)
-            {
-                if (_create_monster(MONS_FIRE_VORTEX, 2, true))
-                    success = true;
-            }
+            for (int i = 1 + random2(2); i > 0; --i)
+                success |= _create_monster(MONS_FIRE_VORTEX, 2, true);
+
             if (success)
             {
                 you_msg        = "Fire whirls out from your @hands@!";
@@ -2437,8 +2340,11 @@ void MiscastEffect::_fire(int severity)
                              "The searing flames burn away @possessive@ fire resistance!";
             mon_msg_unseen = "A large flame burns hotly for a moment in the "
                              "thin air.";
+
             if (_ouch(9 + random2avg(33, 2), BEAM_FIRE) && target->alive())
                 target->expose_to_element(BEAM_FIRE, 10);
+            if (!target->alive())
+                break;
 
             if (target->is_player())
                 you.increase_duration(DUR_FIRE_VULN, 15 + random2(11), 50);
@@ -2468,10 +2374,10 @@ void MiscastEffect::_fire(int severity)
                 napalm_player(random2avg(7,3) + 1, cause);
             else
             {
-                monster* mon_target = target_as_monster();
+                monster* mon_target = target->as_monster();
                 mon_target->add_ench(mon_enchant(ENCH_STICKY_FLAME,
                     min(4, 1 + random2(mon_target->get_hit_dice()) / 2),
-                    guilty));
+                    act_source));
             }
             break;
         }
@@ -2616,8 +2522,11 @@ void MiscastEffect::_ice(int severity)
             you_msg        = "You are encased in ice!";
             mon_msg_seen   = "@The_monster@ is encased in ice!";
             mon_msg_unseen = "An unseen figure is encased in ice!";
+
             if (_ouch(9 + random2avg(23, 2), BEAM_ICE) && target->alive())
                 target->expose_to_element(BEAM_COLD, 9);
+            if (!target->alive())
+                break;
 
             if (target->is_player())
                 you.increase_duration(DUR_FROZEN, 6 + random2(11), 50);
@@ -2794,7 +2703,7 @@ void MiscastEffect::_earth(int severity)
             break;
 
         case 4:
-            target->petrify(guilty);
+            target->petrify(act_source);
         }
         break;
     }
@@ -3075,7 +2984,8 @@ void MiscastEffect::_poison(int severity)
             mon_msg_seen   = "Noxious gasses pour from @the_monster@'s "
                              "@hands@!";
             mon_msg_unseen = "Noxious gasses pour forth from the thin air!";
-            place_cloud(CLOUD_MEPHITIC, target->pos(), 2 + random2(4), guilty);
+            place_cloud(CLOUD_MEPHITIC, target->pos(), 2 + random2(4),
+                        act_source);
             break;
         }
         break;
@@ -3233,11 +3143,9 @@ void MiscastEffect::_zot()
             break;
         case 3:
         case 4:
-            for (int i = 1 + random2(2); i >= 0; --i)
-            {
-                if (_create_monster(summon_any_demon(RANDOM_DEMON_COMMON), 0, true))
-                    success = true;
-            }
+            for (int i = 1 + random2(2); i > 0; --i)
+                success |= _create_monster(summon_any_demon(RANDOM_DEMON_COMMON), 0, true);
+
             if (success)
             {
                 you_msg = "Something turns its malign attention towards "
@@ -3247,11 +3155,9 @@ void MiscastEffect::_zot()
             }
             break;
         case 5:
-            for (int i = 1 + random2(3); i >= 0; --i)
-            {
-                if (_create_monster(MONS_ABOMINATION_SMALL, 5, true))
-                    success = true;
-            }
+            for (int i = 2 + random2(2); i > 0; --i)
+                success |= _create_monster(MONS_ABOMINATION_SMALL, 5, true);
+
             if (success && neither_end_silenced())
             {
                 you_msg        = "A chorus of moans calls out to you!";
@@ -3263,11 +3169,9 @@ void MiscastEffect::_zot()
             break;
         case 6:
         case 7:
-            for (int i = 2 + random2(3); i >= 0; --i)
-            {
-                if (_create_monster(RANDOM_MOBILE_MONSTER, 4, true))
-                    success = true;
-            }
+            for (int i = 2 + random2(4); i > 0; --i)
+                success |= _create_monster(RANDOM_MOBILE_MONSTER, 4, true);
+
             if (success)
             {
                 all_msg = "Wisps of shadow whirl around...";
@@ -3290,7 +3194,7 @@ void MiscastEffect::_zot()
             target->paralyse(act_source, 2 + random2(4), cause);
             break;
         case 1:
-            target->petrify(guilty);
+            target->petrify(act_source);
             break;
         case 2:
             target->rot(act_source, 0, 3 + random2(3));

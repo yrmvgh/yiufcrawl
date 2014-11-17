@@ -7,28 +7,22 @@
 
 #include "mon-speak.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <algorithm>
-
-#include "externs.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "areas.h"
-#include "beam.h"
 #include "branch.h"
-#include "cluautil.h"
 #include "database.h"
-#include "dlua.h"
 #include "ghost.h"
 #include "libutil.h"
 #include "message.h"
 #include "mon-death.h"
-#include "mon-util.h"
 #include "monster.h"
-#include "player.h"
+#include "mon-util.h"
 #include "religion.h"
-#include "skills2.h"
+#include "skills.h"
 #include "state.h"
 #include "stringutil.h"
 #include "view.h"
@@ -83,8 +77,7 @@ static string __try_exact_string(const vector<string> &prefixes,
                 continue;
             religion = true;
         }
-        else if (str_to_branch(prefixes[i]) != NUM_BRANCHES
-                 || prefixes[i] == "Dungeon")
+        else if (str_to_branch(prefixes[i]) != NUM_BRANCHES)
         {
             if (ignore_branch)
                 continue;
@@ -298,8 +291,10 @@ static string _get_speak_string(const vector<string> &prefixes,
     if (mons->hit_points <= 0)
     {
         //separate death/permadeath lines for resurrection monsters
-        if (mons_is_natasha(mons) && !mons_felid_can_revive(mons) ||
-           (mons->type == MONS_BENNU) && !mons_bennu_can_revive(mons))
+        if (mons_is_mons_class(mons, MONS_NATASHA)
+               && !mons_felid_can_revive(mons)
+            || mons->type == MONS_BENNU
+               && !mons_bennu_can_revive(mons))
         {
             key += " permanently";
         }
@@ -543,7 +538,7 @@ bool mons_speaks(monster* mons)
 
     // Include our current branch, too. It can make speech vary by branch for
     // uniques and other monsters! Specifically, Donald.
-    prefixes.push_back(string(branches[you.where_are_you].shortname));
+    prefixes.push_back(string(branches[you.where_are_you].abbrevname));
 
 #ifdef DEBUG_MONSPEAK
     {

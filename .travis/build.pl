@@ -17,7 +17,12 @@ $ENV{TRAVIS} = 1;
 $ENV{FORCE_CC} = $ENV{CC};
 $ENV{FORCE_CXX} = $ENV{CXX};
 
-try("make -j2");
+if ($ENV{FULLDEBUG}) {
+    try("make -j2 debug");
+}
+else {
+    try("make -j2");
+}
 
 if (!$ENV{TILES}) {
     if ($ENV{FULLDEBUG}) {
@@ -31,6 +36,25 @@ if (!$ENV{TILES}) {
 sub try {
     my ($cmd) = @_;
     print "$cmd\n";
-    my $exit = system $cmd;
-    exit $exit if $exit;
+    if (system $cmd) {
+        if ($? == -1) {
+            print "failed to execute '$cmd': $!\n";
+            error(1);
+        }
+        elsif ($? & 127) {
+            printf "'$cmd' died with signal %d", ($? & 127);
+            error(1);
+        }
+        elsif ($?) {
+            my $exit = $? >> 8;
+            printf "'$cmd' returned exit value %d", $exit;
+            error($exit);
+        }
+    }
+}
+
+sub error {
+    my ($exitcode) = @_;
+    system "cat morgue/crash-*.txt";
+    exit $exitcode;
 }

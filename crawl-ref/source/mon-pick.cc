@@ -6,19 +6,16 @@
 #include "AppHdr.h"
 
 #include "mon-pick.h"
+#include "mon-pick-data.h"
 
-#include "externs.h"
 #include "branch.h"
 #include "coord.h"
 #include "env.h"
 #include "errors.h"
 #include "libutil.h"
 #include "mon-place.h"
-#include "mon-util.h"
 #include "place.h"
 #include "stringutil.h"
-
-#include "mon-pick-data.h"
 
 int branch_ood_cap(branch_type branch)
 {
@@ -145,7 +142,7 @@ bool positioned_monster_picker::veto(monster_type mon)
 {
     // Actually pick a monster that is happy where we want to put it.
     // Fish zombies on land are helpless and uncool.
-    if (!in_bounds(pos) || !monster_habitable_grid(mon, grd(pos)))
+    if (in_bounds(pos) && !monster_habitable_grid(mon, grd(pos)))
         return true;
     // Optional positional veto
     if (posveto && posveto(mon, pos)) return true;

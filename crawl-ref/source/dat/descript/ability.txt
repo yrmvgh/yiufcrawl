@@ -1,3 +1,4 @@
+
 %%%%
 No ability ability
 
@@ -446,18 +447,6 @@ Transfer yourself to Lugonu's realm instantly. The effort of even using the
 ability will leave your health and magic depleted.
 %%%%
 # Nemelex Xobeh
-Draw One ability
-
-Choose any deck in your inventory and draw a card from it.
-%%%%
-Peek at Two ability
-
-Discard one card from any deck in your inventory to draw two cards from the
-deck, look at them, and place them back on top of the deck. The deck will be
-identified and inscribed as containing those two cards. Note that once
-peeked at, a deck cannot be used with any of Nemelex's other abilities
-(except Draw One).
-%%%%
 Triple Draw ability
 
 Draw three cards from any deck in your inventory, look at them, and decide
@@ -605,9 +594,8 @@ your skills will be further drained when taking damage.
 Potion Petition ability
 
 Petition Gozag to sell you the effects of a set of potions. Gozag will offer
-four lists at a time, with varying prices. One of the potion sets will always
-solely consist of a potion of porridge, which will always be affordable if the
-ability is usable. Prices will slowly increase as you purchase potions.
+three lists at a time, with varying prices. Prices will slowly increase as you
+purchase potions.
 %%%%
 Call Merchant ability
 
@@ -615,6 +603,10 @@ Through Gozag, send funds to a merchant to help them set up shop in the
 dungeon. The shop may appear in an unvisited area of the dungeon, or near your
 location if there are no other appropriate locations for a store. The cost of
 funding a shop increases with the number of shops funded.
+
+You will always have the option to fund a food shop, provided you are a race
+that requires food. Ghouls and vampires will find corpses and blood in their
+respective food shops.
 %%%%
 Bribe Branch ability
 
@@ -655,7 +647,7 @@ Using this ability exhausts and slightly drains you.
 Power Leap ability
 
 Use the power that infuses you to perform an incredibly fast leap. On landing,
-that power explodes outward, damaging everything adjacent to you. The amount of
+that power explodes outward, damaging all foes adjacent to you. The amount of
 damage done increases with your piety and experience level.
 
 Using this ability exhausts you.
@@ -744,7 +736,9 @@ Sacrifices cannot be taken back.
 Sacrifice Love ability
 
 Adherents who choose to sacrifice love are despised by all. All creatures,
-even those summoned by the adherent, become hostile.
+even those summoned by the adherent, become hostile. Monsters that are spell
+residue and which do not act independently, such as orbs of destruction and
+spectral weapons, are the only things which can remain friendly.
 
 If you make this sacrifice, your powers granted by Ru will become stronger in
 proportion to the value of the sacrifice, and you may gain new powers as well.
@@ -912,7 +906,7 @@ Make lightning spire ability
 Construct a lightning spire with the ability to throw electricity at the
 targeted location.
 %%%%
-Make silver statue ability
+Make obsidian statue ability
 
 Construct a statue with the ability to summon friendly demons at the targeted
 location.

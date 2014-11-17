@@ -7,10 +7,8 @@
 #define RELIGION_H
 
 #include "enum.h"
-#include "externs.h"
-#include "player.h"
 #include "mgen_data.h"
-
+#include "player.h"
 #include "religion-enum.h"
 
 #define MAX_PIETY      200
@@ -31,7 +29,6 @@ bool is_unavailable_god(god_type god);
 
 god_type random_god(bool available = true);
 
-void simple_god_message(const char *event, god_type which_deity = you.religion);
 int piety_breakpoint(int i);
 string god_name(god_type which_god, bool long_name = false);
 string god_name_jiyva(bool second_name = false);
@@ -96,7 +93,6 @@ bool god_hates_killing(god_type god, const monster* mon);
 bool god_hates_eating(god_type god, monster_type mc);
 
 bool god_likes_fresh_corpses(god_type god);
-bool god_likes_butchery(god_type god);
 bool god_likes_spell(spell_type spell, god_type god);
 bool god_hates_spell(spell_type spell, god_type god,
                      bool rod_spell = false);
@@ -128,7 +124,7 @@ bool is_follower(const monster* mon);
 bool vehumet_is_offering(spell_type spell);
 void vehumet_accept_gift(spell_type spell);
 
-bool god_hates_attacking_friend(god_type god, const actor *fr);
+bool god_hates_attacking_friend(god_type god, const monster *fr);
 bool god_likes_item(god_type god, const item_def& item);
 bool god_likes_items(god_type god, bool greedy_explore = false);
 

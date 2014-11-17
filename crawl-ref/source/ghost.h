@@ -22,14 +22,13 @@ public:
     short best_skill_level;
     short xl;
 
-    short max_hp, ev, ac, damage, speed;
+    short max_hp, ev, ac, damage, speed, move_energy;
     bool see_invis;
     brand_type brand;
     attack_type att_type;
     attack_flavour att_flav;
     resists_t resists;
 
-    bool cycle_colours;
     colour_t colour;
     flight_type fly;
 
@@ -42,8 +41,8 @@ public:
     ghost_demon();
     bool has_spells() const;
     void reset();
-    void init_random_demon();
-    void init_player_ghost();
+    void init_pandemonium_lord();
+    void init_player_ghost(bool actual_ghost = true);
     void init_ugly_thing(bool very_ugly, bool only_mutate = false,
                          colour_t force_colour = BLACK);
     void init_dancing_weapon(const item_def& weapon, int power);
@@ -66,7 +65,7 @@ private:
     static void announce_ghost(const ghost_demon &g);
 
 private:
-    void add_spells();
+    void add_spells(bool actual_ghost);
     spell_type translate_spell(spell_type playerspell) const;
     void ugly_thing_add_resistance(bool very_ugly,
                                    attack_flavour u_att_flav);

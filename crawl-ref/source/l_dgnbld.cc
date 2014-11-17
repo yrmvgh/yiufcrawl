@@ -5,22 +5,19 @@
 
 #include "AppHdr.h"
 
+#include "l_libs.h"
+
 #include <cmath>
 #include <vector>
 
-#include "dungeon.h"
+#include "cluautil.h"
+#include "coordit.h"
 #include "dgn-delve.h"
 #include "dgn-irregular-box.h"
+#include "dgn-layouts.h"
 #include "dgn-shoals.h"
 #include "dgn-swamp.h"
-#include "dgn-layouts.h"
-#include "cluautil.h"
-#include "coord.h"
-#include "coordit.h"
-#include "l_libs.h"
-#include "mapdef.h"
-#include "random.h"
-#include "stringutil.h"
+#include "dungeon.h"
 
 static const char *exit_glyphs = "{}()[]<>@";
 

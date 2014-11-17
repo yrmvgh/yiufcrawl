@@ -9,21 +9,19 @@
 
 #include "attack.h"
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "art-enum.h"
 #include "delay.h"
-#include "exercise.h"
-#include "externs.h"
 #include "english.h"
-#include "enum.h"
 #include "env.h"
-#include "godconduct.h"
+#include "exercise.h"
 #include "fight.h"
 #include "fineff.h"
+#include "godconduct.h"
 #include "itemname.h"
 #include "itemprop.h"
 #include "message.h"
@@ -32,17 +30,11 @@
 #include "mon-clone.h"
 #include "mon-death.h"
 #include "mon-poly.h"
-#include "mon-util.h" // for decline_pronoun
-#include "monster.h"
-#include "libutil.h"
-#include "player.h"
 #include "spl-miscast.h"
-#include "spl-util.h"
 #include "state.h"
-#include "stringutil.h"
 #include "stepdown.h"
+#include "stringutil.h"
 #include "transform.h"
-
 #include "xom.h"
 
 /*
@@ -58,13 +50,11 @@ attack::attack(actor *attk, actor *defn, actor *blame)
       damage_done(0), special_damage(0), aux_damage(0), min_delay(0),
       final_attack_delay(0), special_damage_flavour(BEAM_NONE),
       stab_attempt(false), stab_bonus(0), apply_bleeding(false),
-      noise_factor(0), ev_margin(0), weapon(NULL),
+      ev_margin(0), weapon(NULL),
       damage_brand(SPWPN_NORMAL), wpn_skill(SK_UNARMED_COMBAT),
       shield(NULL), art_props(0), unrand_entry(NULL),
       attacker_to_hit_penalty(0), attack_verb("bug"), verb_degree(),
       no_damage_message(), special_damage_message(), aux_attack(), aux_verb(),
-      defender_body_armour_penalty(0), defender_shield_penalty(0),
-      attacker_body_armour_penalty(0), attacker_shield_penalty(0),
       attacker_armour_tohit_penalty(0), attacker_shield_tohit_penalty(0),
       defender_shield(NULL), miscast_level(-1), miscast_type(SPTYP_NONE),
       miscast_target(NULL), fake_chaos_attack(false), simu(false),
@@ -305,11 +295,9 @@ int attack::calc_to_hit(bool random)
     else
     {
         // This can only help if you're visible!
-        if (defender->is_player()
-            && player_mutation_level(MUT_TRANSLUCENT_SKIN) >= 3)
-        {
-            mhit -= 5;
-        }
+        const int how_transparent = player_mutation_level(MUT_TRANSLUCENT_SKIN);
+        if (defender->is_player() && how_transparent)
+            mhit -= 2 * how_transparent;
 
         if (defender->backlit(false))
             mhit += 2 + random2(8);
@@ -421,9 +409,6 @@ void attack::init_attack(skill_type unarmed_skill, int attack_number)
     defender_visible   = defender && defender->observable();
     needs_message      = (attacker_visible || defender_visible);
 
-    attacker_body_armour_penalty = attacker->adjusted_body_armour_penalty(20);
-    attacker_shield_penalty = attacker->adjusted_shield_penalty(20);
-
     if (attacker->is_monster())
     {
         mon_attack_def mon_attk = mons_attack_spec(attacker->as_monster(),
@@ -455,6 +440,8 @@ void attack::init_attack(skill_type unarmed_skill, int attack_number)
             // Elephant trunks have no bones inside.
             attk_type = AT_NONE;
         }
+        else if (attk_type == AT_KITE || attk_type == AT_SWOOP)
+            attk_type = AT_HIT; // special handling of these two elsewhere
     }
     else
     {
@@ -1025,13 +1012,11 @@ void attack::do_miscast()
     string hand_str;
 
     string cause = atk_name(DESC_THE);
-    int    source;
 
     const int ignore_mask = ISFLAG_KNOW_CURSE | ISFLAG_KNOW_PLUSES;
 
     if (attacker->is_player())
     {
-        source = NON_MONSTER;
         if (chaos_brand)
         {
             cause = "a chaos effect from ";
@@ -1046,8 +1031,6 @@ void attack::do_miscast()
     }
     else
     {
-        source = attacker->mindex();
-
         if (chaos_brand && miscast_target == attacker
             && you.can_see(attacker))
         {
@@ -1055,8 +1038,9 @@ void attack::do_miscast()
         }
     }
 
-    MiscastEffect(miscast_target, source, (spschool_flag_type) miscast_type,
-                  miscast_level, cause, NH_NEVER, 0, hand_str, false);
+    MiscastEffect(miscast_target, attacker, MELEE_MISCAST,
+                  (spschool_flag_type) miscast_type, miscast_level, cause,
+                  NH_NEVER, 0, hand_str, false);
 
     // Don't do miscast twice for one attack.
     miscast_level = -1;
@@ -1098,7 +1082,7 @@ void attack::drain_defender_speed()
     {
         if (needs_message)
         {
-            mprf("%s %s %s vigor!",
+            mprf("%s %s %s vigour!",
                  atk_name(DESC_THE).c_str(),
                  attacker->conj_verb("drain").c_str(),
                  def_name(DESC_ITS).c_str());
@@ -1124,7 +1108,7 @@ int attack::inflict_damage(int dam, beam_type flavour, bool clean)
     }
     if (defender->is_player())
     {
-        ouch(dam, responsible->mindex(), kill_type, aux_source.c_str(),
+        ouch(dam, kill_type, responsible->mid, aux_source.c_str(),
              you.can_see(attacker));
         return dam;
     }
@@ -1569,9 +1553,6 @@ int attack::apply_defender_ac(int damage, int damage_max, bool half_ac)
  */
 bool attack::attack_shield_blocked(bool verbose)
 {
-    if (!defender_shield && !defender->is_player())
-        return false;
-
     if (defender->incapacitated())
         return false;
 
@@ -1869,12 +1850,7 @@ bool attack::apply_damage_brand(const char *what)
         }
 
         if (responsible->is_player())
-        {
-            // If your god objects to using chaos, then it makes the
-            // brand obvious.
-            if (did_god_conduct(DID_CHAOS, 2 + random2(3), brand_was_known))
-                obvious_effect = true;
-        }
+            did_god_conduct(DID_CHAOS, 2 + random2(3), brand_was_known);
     }
 
     if (!obvious_effect)
@@ -1882,7 +1858,7 @@ bool attack::apply_damage_brand(const char *what)
 
     if (needs_message && !special_damage_message.empty())
     {
-        mprf("%s", special_damage_message.c_str());
+        mpr(special_damage_message);
 
         special_damage_message.clear();
         // Don't do message-only miscasts along with a special

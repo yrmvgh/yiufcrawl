@@ -10,8 +10,6 @@
 #include "options.h"
 #include "viewgeom.h"
 
-void init_monsters_seens();
-
 bool mons_near(const monster* mons);
 bool mon_enemies_around(const monster* mons);
 void seen_monsters_react();
@@ -19,7 +17,6 @@ void seen_monsters_react();
 bool magic_mapping(int map_radius, int proportion, bool suppress_msg,
                    bool force = false, bool deterministic = false,
                    coord_def origin = coord_def(-1, -1));
-void reautomap_level();
 void fully_map_level();
 
 string screenshot();
@@ -74,7 +71,7 @@ void draw_cell(screen_cell_t *cell, const coord_def &gc,
 void update_monsters_in_view();
 bool handle_seen_interrupt(monster* mons, vector<string>* msgs_buf = NULL);
 void flush_comes_into_view();
-
+void mark_mon_equipment_seen(const monster *mons);
 void toggle_show_terrain();
 void reset_show_terrain();
 

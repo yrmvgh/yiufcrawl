@@ -7,19 +7,18 @@
 
 #ifdef USE_TILE_LOCAL
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "cio.h"
 #include "defines.h"
 #include "env.h"
-#include "externs.h"
-#include "tilereg-text.h"
 #include "message.h"
 #include "state.h"
 #include "terrain.h"
 #include "tiledef-main.h"
+#include "tilereg-text.h"
 #include "travel.h"
 #include "viewgeom.h"
 #include "windowmanager.h"
@@ -189,11 +188,15 @@ void delay(unsigned int ms)
 
 void update_screen()
 {
+    if (crawl_state.tiles_disabled)
+        return;
     tiles.set_need_redraw();
 }
 
 bool kbhit()
 {
+    if (crawl_state.tiles_disabled)
+        return false;
     // Look for the presence of any keyboard events in the queue.
     int count = wm->get_event_count(WME_KEYDOWN);
     return count > 0;

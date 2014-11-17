@@ -12,12 +12,9 @@
 #include "colour.h"
 #include "env.h"
 #include "itemname.h"
-#include "map_knowledge.h"
-#include "mon-util.h"
-#include "monster.h"
+#include "libutil.h" // map_find
 #include "options.h"
 #include "religion.h"
-#include "show.h"
 #include "stash.h"
 #include "state.h"
 #include "stringutil.h"
@@ -151,7 +148,7 @@ static unsigned short _cell_feat_show_colour(const map_cell& cell,
 
 static monster_type _show_mons_type(const monster_info& mi)
 {
-    if (mi.type == MONS_SLIME_CREATURE && mi.number > 1)
+    if (mi.type == MONS_SLIME_CREATURE && mi.slime_size > 1)
         return MONS_MERGED_SLIME_CREATURE;
     else if (mi.type == MONS_ZOMBIE)
     {
@@ -184,7 +181,7 @@ static int _get_mons_colour(const monster_info& mi)
         return dam_colour(mi) | COLFLAG_ITEM_HEAP;
     }
 
-    int col = mi.colour;
+    int col = mi.colour();
 
     // We really shouldn't store unmodified colour.  This hack compares
     // effective type, but really, all redefinitions should work instantly,
@@ -261,25 +258,22 @@ static cglyph_t _get_item_override(const item_def &item)
 
     {
         // Check the cache...
-        map<string, cglyph_t>::const_iterator ir = Options.item_glyph_cache.find(name);
-        if (ir != Options.item_glyph_cache.end())
-            return ir->second;
+        if (cglyph_t *gly = map_find(Options.item_glyph_cache, name))
+            return *gly;
     }
 
-    for (vector<pair<string, cglyph_t> >::const_iterator ir =
-         Options.item_glyph_overrides.begin();
-         ir != Options.item_glyph_overrides.end(); ++ir)
+    for (auto ir : Options.item_glyph_overrides)
     {
-        text_pattern tpat(ir->first);
+        text_pattern tpat(ir.first);
         if (tpat.matches(name))
         {
             // You may have a rule that sets the glyph but not colour for
             // axes, then another that sets colour only for artefacts
             // (useless items, etc).  Thus, apply only parts that apply.
-            if (ir->second.ch)
-                g.ch = ir->second.ch;
-            if (ir->second.col)
-                g.col = ir->second.col;
+            if (ir.second.ch)
+                g.ch = ir.second.ch;
+            if (ir.second.col)
+                g.col = ir.second.col;
         }
     }
 
@@ -406,7 +400,7 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
             show = *weapon;
             g = _get_item_override(*weapon);
             if (!g.col)
-                g.col = weapon->colour;
+                g.col = weapon->get_colour();
         }
 
         break;
@@ -452,7 +446,7 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
         if (feat_is_water(cell.feat()))
             g.col = _cell_feat_show_colour(cell, loc, coloured);
         else if (!g.col)
-            g.col = eitem->colour;
+            g.col = eitem->get_colour();
 
         // monster(mimic)-owned items have link = NON_ITEM+1+midx
         if (cell.flags & MAP_MORE_ITEMS)
@@ -506,7 +500,7 @@ cglyph_t get_item_glyph(const item_def *item)
     if (!g.ch)
         g.ch = get_feature_def(show_type(*item)).symbol();
     if (!g.col)
-        g.col = item->colour;
+        g.col = item->get_colour();
     return g;
 }
 

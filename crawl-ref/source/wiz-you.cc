@@ -11,41 +11,28 @@
 #include <functional>
 
 #include "abyss.h"
-
-#include "chardump.h"
-#include "cio.h"
 #include "dbg-util.h"
-#include "env.h"
 #include "food.h"
 #include "godabil.h"
-#include "godprayer.h"
 #include "godwrath.h"
-#include "itemname.h"
-#include "items.h"
 #include "jobs.h"
 #include "libutil.h"
 #include "macro.h"
-#include "makeitem.h"
 #include "message.h"
 #include "mutation.h"
-#include "newgame.h"
 #include "ng-setup.h"
 #include "output.h"
-#include "player.h"
 #include "prompt.h"
 #include "religion.h"
 #include "skills.h"
-#include "skills2.h"
 #include "spl-book.h"
-#include "spl-cast.h"
 #include "spl-util.h"
 #include "state.h"
 #include "status.h"
 #include "stringutil.h"
-#include "terrain.h"
 #include "transform.h"
-#include "view.h"
 #include "unicode.h"
+#include "view.h"
 #include "xom.h"
 
 #ifdef WIZARD
@@ -932,7 +919,7 @@ static void debug_uptick_xl(int newxl, bool train)
         train_skills();
     }
     you.experience = exp_needed(newxl);
-    level_change(NON_MONSTER, NULL, true);
+    level_change(true);
 }
 
 /**
