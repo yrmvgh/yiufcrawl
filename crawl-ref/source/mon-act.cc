@@ -1333,6 +1333,7 @@ static bool _handle_rod(monster *mons, bolt &beem)
     {
     case SPELL_BOLT_OF_INACCURACY:
     case SPELL_CLOUD_CONE:
+    case SPELL_SCATTERSHOT:
     // Handled in mons_spell_beam
     case SPELL_RANDOM_BOLT:
         break;
@@ -1405,6 +1406,8 @@ static bool _handle_rod(monster *mons, bolt &beem)
             cast_thunderbolt(mons, power, beem.target);
         else if (mzap == SPELL_CLOUD_CONE)
             cast_cloud_cone(mons, power, beem.target);
+        else if (mzap == SPELL_SCATTERSHOT)
+            cast_scattershot(mons, power, beem.target);
         else
         {
             beem.is_tracer = false;
