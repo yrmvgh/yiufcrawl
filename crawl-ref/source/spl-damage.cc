@@ -3130,21 +3130,27 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
     if (!caster->is_player())
         beam.damage   = dice_def(3, 4 + (pow / 18));
 
+    vector<size_t> beams;
+    beams.resize(beam_count);
+    for (size_t i = 0; i < beam_count; i++)
+        beams[random2avg(beam_count, 3)]++;
+
     map<mid_t, int> hit_count;
 
     for (size_t i = 0; i < beam_count; i++)
-    {
-        bolt tempbeam = beam;
-        tempbeam.draw_delay = 0;
-        ray_def ray = hitfunc.rays[random2avg(beam_count, 3)];
-        for (size_t j = 0; j < range; j++)
-            ray.advance();
-        tempbeam.target = ray.pos();
-        tempbeam.fire();
-        scaled_delay(5);
-        for (auto it : tempbeam.hit_count)
-            hit_count[it.first] += it.second;
-    }
+        for (size_t j = 0; j < beams[i]; j++)
+        {
+            bolt tempbeam = beam;
+            tempbeam.draw_delay = 0;
+            ray_def ray = hitfunc.rays[i];
+            for (size_t k = 0; k < range; k++)
+                ray.advance();
+            tempbeam.target = ray.pos();
+            tempbeam.fire();
+            scaled_delay(5);
+            for (auto it : tempbeam.hit_count)
+               hit_count[it.first] += it.second;
+        }
 
     for (auto it : hit_count)
     {
