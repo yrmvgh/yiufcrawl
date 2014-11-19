@@ -3541,4 +3541,15 @@ static const struct spell_desc spelldata[] =
      NULL,
 },
 
+{
+    SPELL_CLEANSING_FLAME, "Cleansing Flame",
+     SPTYP_NONE,
+     SPFLAG_AREA | SPFLAG_MONSTER,
+     8,
+     200,
+     -1, -1,
+     20, 0,
+     NULL,
+},
+
 };
