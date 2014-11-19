@@ -1392,6 +1392,7 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_AWAKEN_FOREST:
     case SPELL_DRUIDS_CALL:
     case SPELL_SUMMON_SPECTRAL_ORCS:
+    case SPELL_SUMMON_HOLIES:
     case SPELL_REGENERATION:
     case SPELL_CORPSE_ROT:
     case SPELL_LEDAS_LIQUEFACTION:
@@ -5445,9 +5446,29 @@ void mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
         _cast_ephemeral_infusion(mons);
         return;
 
-    // TODO: Outsource the cantrip messages and allow specification of
-    //       special cantrip spells per monster, like for speech, both as
-    //       "self buffs" and "player enchantments".
+
+
+    case SPELL_SUMMON_HOLIES: // Holy monsters.
+        if (_mons_abjured(mons, monsterNearby))
+            return;
+
+        sumcount2 = 1 + random2(2)
+                      + random2(mons->spell_hd(spell_cast) / 4 + 1);
+
+        duration  = min(2 + mons->spell_hd(spell_cast) / 5, 6);
+        for (int i = 0; i < sumcount2; ++i)
+        {
+            create_monster(
+                mgen_data(random_choose_weighted(
+                            100, MONS_ANGEL,     80,  MONS_CHERUB,
+                            50,  MONS_DAEVA,      1,  MONS_OPHAN,
+                             0),
+                          SAME_ATTITUDE(mons),
+                          mons, duration, spell_cast, mons->pos(),
+                          mons->foe, 0, god));
+        }
+        return;
+
     case SPELL_CANTRIP:
     {
         // Monster spell of uselessness, just prints a message.

@@ -1388,6 +1388,10 @@ Summon Hell Beast spell
 
 Using his horn, Geryon can summon a deadly hell beast against his foes.
 %%%%
+Summon Holies spell
+
+Calls forth a divine warrior to aid the caster.
+%%%%
 Summon Horrible Things spell
 
 This spell opens a gate to the Abyss and calls through one or more hideous
