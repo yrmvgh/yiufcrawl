@@ -22,7 +22,9 @@
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h"
+#include "los.h"
 #include "losglobal.h"
+#include "losparam.h"
 #include "message.h"
 #include "mgen_data.h"
 #include "misc.h"
@@ -1164,7 +1166,10 @@ spret_type cast_singularity(int pow, const coord_def& where, bool fail)
                                           0, SPELL_SINGULARITY,
                                           where, MHITYOU, MG_FORCE_PLACE,
                                           GOD_NO_GOD, MONS_NO_MONSTER,
-                                          pow / 20));
+                                          pow / 20, COLOUR_INHERIT,
+                                          PROX_ANYWHERE,
+                                          level_id::current(),
+                                          (pow / 10) + 1));
 
     if (singularity)
         mpr("Space collapses on itself with a satisfying crunch.");
@@ -1180,24 +1185,28 @@ static void _move_creature_to_singularity(const monster* singularity,
     coord_def dir(coord_def(0,0));
     for (int i = 0; i < strength; i++)
     {
-        //XXX: maybe use rays?
-        dir = coord_def(0,0);
-        if (singularity->pos().x < mon->pos().x)
-            dir.x = -1;
-        else if (singularity->pos().x > mon->pos().x)
-            dir.x = 1;
-        if (singularity->pos().y < mon->pos().y)
-            dir.y = -1;
-        else if (singularity->pos().y > mon->pos().y)
-            dir.y = 1;
+        ray_def ray;
+        if (!find_ray(singularity->pos(), mon->pos(), ray, opc_solid))
+        {
+            // This probably shouldn't ever happen, but just in case:
+            if (you.can_see(mon))
+                mprf("%s violently stops moving!", mon->name(DESC_THE).c_str());
+            mon->hurt(singularity, roll_dice(2, 10));
+            break;
+        }
 
-        const coord_def newpos = mon->pos() + dir;
+        ray.advance();
+        const coord_def newpos = ray.pos();
 
         if (!mon->can_pass_through_feat(grd(newpos)))
         {
-            mprf("%s slams against the %s!",
-                 mon->name(DESC_THE).c_str(),
-                 feature_description_at(newpos).c_str());
+            if (you.can_see(mon))
+            {
+                mprf("%s slams against the %s!",
+                     mon->name(DESC_THE).c_str(),
+                     feature_description_at(newpos, false, DESC_THE, false)
+                         .c_str());
+            }
             mon->hurt(singularity, roll_dice(2, 10));
             break;
         }
@@ -1205,11 +1214,14 @@ static void _move_creature_to_singularity(const monster* singularity,
             break;
         else if (monster* mon_at_space = monster_at(newpos))
         {
-            if (mon_at_space->type != MONS_SINGULARITY)
+            if (mon != mon_at_space && mon_at_space->type != MONS_SINGULARITY)
             {
-                mprf("%s collides with %s!",
-                     mon->name(DESC_THE).c_str(),
-                     mon_at_space->name(DESC_THE).c_str());
+                if (you.can_see(mon) || you.can_see(mon_at_space))
+                {
+                    mprf("%s collides with %s!",
+                         mon->name(DESC_THE).c_str(),
+                         mon_at_space->name(DESC_THE).c_str());
+                }
                 mon->hurt(mon_at_space, roll_dice(2, 10));
                 mon_at_space->hurt(mon, roll_dice(2, 10));
             }
@@ -1222,39 +1234,37 @@ static void _move_creature_to_singularity(const monster* singularity,
 
 void singularity_pull(const monster *singularity)
 {
-    for (monster_near_iterator mi(singularity->pos(), LOS_NO_TRANS); mi; ++mi)
+    for (monster_near_iterator mi(singularity, LOS_NO_TRANS); mi; ++mi)
     {
-        const int range = grid_distance(singularity->pos(), mi->pos());
-        // Distance 4 has strength 1, 3->2, etc.
-        const int strength = 5 - range;
-        switch (range)
-        {
-            case 1:
-                mprf("%s is twisting %s apart!",
-                     singularity->name(DESC_THE).c_str(),
-                     mi->name(DESC_THE).c_str());
-                break;
-            case 2:
-                mprf("%s violently warps %s!",
-                     singularity->name(DESC_THE).c_str(),
-                     mi->name(DESC_THE).c_str());
-                break;
-            case 3:
-                mprf("%s crushes %s!",
-                     singularity->name(DESC_THE).c_str(),
-                     mi->name(DESC_THE).c_str());
-                break;
-            case 4:
-                mprf("%s pulls at %s.",
-                     singularity->name(DESC_THE).c_str(),
-                     mi->name(DESC_THE).c_str());
-                break;
-            default:
-                break;
-        }
+        if (*mi == singularity)
+            continue;
 
-        if (strength > 1)
-            mi->hurt(singularity, roll_dice(strength + 1, 20));
+        const int range = grid_distance(singularity->pos(), mi->pos());
+        const int strength =
+            max(0, min(5, (singularity->get_hit_dice()) / (4 + range)));
+        static const char *messages[] =
+        {
+            "%s pulls at %s.",
+            "%s crushes %s!",
+            "%s violently warps %s!",
+            "%s twists %s apart!",
+        };
+
+        if (strength >= 1)
+        {
+            if (you.can_see(*mi))
+            {
+                // Note that we don't care if you see the singularity if
+                // you can see its impact on the monster; "Something
+                // violently warps Sigmund!" is perfectly acceptable,
+                // after all.
+                mprf(messages[strength - 1],
+                     singularity->name(DESC_THE).c_str(),
+                     mi->name(DESC_THE).c_str());
+            }
+            mi->hurt(singularity, roll_dice(strength + 1,
+                                            singularity->get_hit_dice() / 2));
+        }
 
         if (mi->alive())
             _move_creature_to_singularity(singularity, *mi, strength);
