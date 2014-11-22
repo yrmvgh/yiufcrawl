@@ -108,11 +108,12 @@ spret_type ice_armour(int pow, bool fail)
 }
 
 /**
- * Reap all non-animate skeletons (and the skeletons of all corpses) in LOS.
+ * Destroy all corpses in LOS.
  *
- * @return  The total number of skeletons reaped.
+ * @return  The total number of corpses destroyed. Non-skeleton corpses count
+ *          double.
  */
-static int _harvest_skeletons()
+static int _harvest_corpses()
 {
     int harvested = 0;
 
@@ -121,19 +122,10 @@ static int _harvest_skeletons()
         for (stack_iterator si(*ri, true); si; ++si)
         {
             item_def &item = *si;
-            if (item.base_type != OBJ_CORPSES || !mons_skeleton(item.mon_type))
+            if (item.base_type != OBJ_CORPSES)
                 continue;
 
-            if (item.sub_type != CORPSE_SKELETON)
-            {
-                butcher_corpse(item, MB_TRUE);
-                // XXX: do something about autopickup...?
-            }
-
-            // butcher_corpse() is guaranteed to turn the item into a skeleton
-            // if its skeleton param is set to MB_TRUE, which we do.
-            ASSERT(item.sub_type == CORPSE_SKELETON);
-            ++harvested;
+            harvested += item.sub_type == CORPSE_SKELETON ? 1 : 2;
             destroy_item(item.index());
         }
     }
@@ -143,8 +135,8 @@ static int _harvest_skeletons()
 
 
 /**
- * Casts the player spell "Borgnjor's Embrace", ripping the bones from all
- * corpses & non-animate skeletons in LOS and turning them into armour.
+ * Casts the player spell "Borgnjor's Embrace", pulling all corpses into LOS
+ * around the caster to serve as armour.
  *
  * @param pow   The spellpower at which the spell is being cast.
  * @param fail  Whether the casting failed.
@@ -159,7 +151,7 @@ spret_type bone_armour(int pow, bool fail)
     // player's perspective.
     fail_check();
 
-    const int harvested = _harvest_skeletons();
+    const int harvested = _harvest_corpses();
     dprf("Harvested: %d", harvested);
 
     if (!harvested)
@@ -171,7 +163,7 @@ spret_type bone_armour(int pow, bool fail)
     you.attribute[ATTR_BONE_ARMOUR] = max(2,
                                           min(pow / 10,
                                               you.attribute[ATTR_BONE_ARMOUR]
-                                              + div_rand_round(harvested, 2)));
+                                              + div_rand_round(harvested, 3)));
     you.redraw_armour_class = true;
 
     return SPRET_SUCCESS;

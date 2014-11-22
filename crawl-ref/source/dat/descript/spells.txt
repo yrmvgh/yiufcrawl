@@ -174,10 +174,10 @@ physical damage even to highly fire-resistant enemies.
 %%%%
 Borgnjor's Embrace spell
 
-This spell violently wrenches the bones from all nearby corpses, wrapping them
-around the caster to serve as both armour and shield. As they take hits, the
-bones will gradually fall away, though increased spellpower will tighten their
-grasp on the caster's body.
+This spell violently mutilates all nearby corpses, wrapping them around the
+caster to serve as both armour and shield. As it takes hits, the carrion will
+gradually fall away, though increased spellpower will tighten its grasp on the
+caster's body.
 %%%%
 Borgnjor's Revivification spell
 
