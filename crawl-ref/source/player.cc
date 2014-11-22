@@ -8918,8 +8918,8 @@ void player::maybe_degrade_bone_armour()
 
     --you.attribute[ATTR_BONE_ARMOUR];
     if (you.attribute[ATTR_BONE_ARMOUR] <= 0)
-        mpr("The last of your bone armour falls away.");
+        mpr("The last of your corpse armour falls away.");
     else
-        mpr("Part of your bone armour falls away.");
+        mpr("A chunk of your corpse armour falls away.");
     redraw_armour_class = true;
 }
