@@ -148,7 +148,7 @@ static int _harvest_corpses()
  * @return      SPRET_ABORT if you already have an incompatible buff running,
  *              SPRET_FAIL if fail is true, and SPRET_SUCCESS otherwise.
  */
-spret_type bone_armour(int pow, bool fail)
+spret_type corpse_armour(int pow, bool fail)
 {
     if (player_stoneskin() || you.form == TRAN_STATUE)
     {
@@ -172,15 +172,30 @@ spret_type bone_armour(int pow, bool fail)
     dprf("Harvested: %d", harvested);
 
     if (!harvested)
+    {
+        canned_msg(MSG_NOTHING_HAPPENS);
         return SPRET_SUCCESS; // still takes a turn, etc
+    }
+
+    const int corpse_bonus = div_rand_round(harvested, 3);
+
+    if (you.attribute[ATTR_BONE_ARMOUR] <= 0)
+        mpr("The dead rush to embrace you!");
+    else if (corpse_bonus)
+        mpr("Your shell of carrion and bone grows thicker.");
+    else
+        mpr("Your shell of carrion and bone grows imperceptibly thicker.");
 
     // 1 point of ac&sh per two skeletons, plus whatever you had already
     // don't give more than spellpower/10 ac&sh. (5 at 50 power, etc)
-    // but if you got any corpses at all, always give at least 2 ac&sh.
+    // but if you got any corpses at all, always give at least 2 ac&sh
+    // and never reduce it below what you had before casting!
+    const int corpse_armour = min(pow / 10,
+                                  you.attribute[ATTR_BONE_ARMOUR]
+                                  + corpse_bonus);
     you.attribute[ATTR_BONE_ARMOUR] = max(2,
-                                          min(pow / 10,
-                                              you.attribute[ATTR_BONE_ARMOUR]
-                                              + div_rand_round(harvested, 3)));
+                                          max(you.attribute[ATTR_BONE_ARMOUR],
+                                              corpse_armour));
     you.redraw_armour_class = true;
 
     return SPRET_SUCCESS;

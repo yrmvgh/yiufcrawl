@@ -1800,7 +1800,7 @@ static spret_type _do_cast(spell_type spell, int powc,
         return ice_armour(powc, fail);
 
     case SPELL_BONE_ARMOUR:
-        return bone_armour(powc, fail);
+        return corpse_armour(powc, fail);
 
     case SPELL_PHASE_SHIFT:
         return cast_phase_shift(powc, fail);
