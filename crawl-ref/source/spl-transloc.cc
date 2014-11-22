@@ -1205,6 +1205,7 @@ spret_type cast_singularity(actor* agent, int pow, const coord_def& where,
                  friendly ? "satisfying" : "horrifying",
                  friendly ? "." : "!");
         }
+        invalidate_agrid(true);
     }
     else
         canned_msg(MSG_NOTHING_HAPPENS);

@@ -1936,6 +1936,7 @@ int monster_die(monster* mons, killer_type killer,
     else if (mons->type == MONS_SINGULARITY && mons->countdown <= 0)
     {
         simple_monster_message(mons, " implodes!");
+        invalidate_agrid();
         silent = true;
     }
     else if (mons->type == MONS_FIRE_VORTEX
