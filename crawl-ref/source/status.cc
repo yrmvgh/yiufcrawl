@@ -385,8 +385,8 @@ bool fill_status_info(int status, status_info* inf)
     case STATUS_BONE_ARMOUR:
         if (you.attribute[ATTR_BONE_ARMOUR] > 0)
         {
-            inf->short_text = "bone armour";
-            inf->long_text = "You are wrapped in skeletal armour.";
+            inf->short_text = "corpse armour";
+            inf->long_text = "You are enveloped in carrion and bones.";
         }
         break;
 
