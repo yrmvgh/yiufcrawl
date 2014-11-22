@@ -2162,6 +2162,12 @@ void handle_monster_move(monster* mons)
 
     if (mons->type == MONS_SINGULARITY)
     {
+        const actor * const summoner = actor_by_mid(mons->summoner);
+        if (!summoner || !summoner->alive())
+        {
+            mons->suicide();
+            return;
+        }
         if (--mons->countdown <= 0)
             mons->suicide();
         else
