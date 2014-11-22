@@ -1180,66 +1180,78 @@ spret_type cast_singularity(int pow, const coord_def& where, bool fail)
 }
 
 static void _move_creature_to_singularity(const monster* singularity,
-                                          monster* mon, int strength)
+                                          actor* victim, int strength)
 {
     coord_def dir(coord_def(0,0));
     for (int i = 0; i < strength; i++)
     {
         ray_def ray;
-        if (!find_ray(singularity->pos(), mon->pos(), ray, opc_solid))
+        if (!find_ray(singularity->pos(), victim->pos(), ray, opc_solid))
         {
             // This probably shouldn't ever happen, but just in case:
-            if (you.can_see(mon))
-                mprf("%s violently stops moving!", mon->name(DESC_THE).c_str());
-            mon->hurt(singularity, roll_dice(2, 10));
+            if (you.can_see(victim))
+            {
+                mprf("%s violently %s moving!",
+                     victim->name(DESC_THE).c_str(),
+                     victim->conj_verb("stop").c_str());
+            }
+            victim->hurt(singularity, roll_dice(2, 10));
             break;
         }
 
         ray.advance();
         const coord_def newpos = ray.pos();
 
-        if (!mon->can_pass_through_feat(grd(newpos)))
+        if (!victim->can_pass_through_feat(grd(newpos)))
         {
-            if (you.can_see(mon))
+            if (you.can_see(victim))
             {
-                mprf("%s slams against the %s!",
-                     mon->name(DESC_THE).c_str(),
+                mprf("%s %s against the %s!",
+                     victim->name(DESC_THE).c_str(),
+                     victim->conj_verb("slam").c_str(),
                      feature_description_at(newpos, false, DESC_THE, false)
                          .c_str());
             }
-            mon->hurt(singularity, roll_dice(2, 10));
+            victim->hurt(singularity, roll_dice(2, 10));
             break;
         }
         else if (you.pos() == newpos)
             break;
-        else if (monster* mon_at_space = monster_at(newpos))
+        else if (actor* act_at_space = monster_at(newpos))
         {
-            if (mon != mon_at_space && mon_at_space->type != MONS_SINGULARITY)
+            if (victim != act_at_space
+                && act_at_space->type != MONS_SINGULARITY)
             {
-                if (you.can_see(mon) || you.can_see(mon_at_space))
+                if (you.can_see(victim) || you.can_see(act_at_space))
                 {
-                    mprf("%s collides with %s!",
-                         mon->name(DESC_THE).c_str(),
-                         mon_at_space->name(DESC_THE).c_str());
+                    mprf("%s %s with %s!",
+                         victim->name(DESC_THE).c_str(),
+                         victim->conj_verb("collide").c_str(),
+                         act_at_space->name(DESC_THE).c_str());
                 }
-                mon->hurt(mon_at_space, roll_dice(2, 10));
-                mon_at_space->hurt(mon, roll_dice(2, 10));
+                victim->hurt(act_at_space, roll_dice(2, 10));
+                act_at_space->hurt(victim, roll_dice(2, 10));
             }
             break;
         }
         else
-            mon->move_to_pos(newpos, false);
+            victim->move_to_pos(newpos, false);
     }
 }
 
 void singularity_pull(const monster *singularity)
 {
-    for (monster_near_iterator mi(singularity, LOS_NO_TRANS); mi; ++mi)
-    {
-        if (*mi == singularity)
-            continue;
+    actor *agent = actor_by_mid(singularity->summoner);
 
-        const int range = grid_distance(singularity->pos(), mi->pos());
+    for (actor_near_iterator ai(singularity, LOS_NO_TRANS); ai; ++ai)
+    {
+        if (*ai == singularity
+            || agent && mons_aligned(*ai, agent))
+        {
+            continue;
+        }
+
+        const int range = grid_distance(singularity->pos(), ai->pos());
         const int strength =
             max(0, min(5, (singularity->get_hit_dice()) / (4 + range)));
         static const char *messages[] =
@@ -1252,7 +1264,7 @@ void singularity_pull(const monster *singularity)
 
         if (strength >= 1)
         {
-            if (you.can_see(*mi))
+            if (you.can_see(*ai))
             {
                 // Note that we don't care if you see the singularity if
                 // you can see its impact on the monster; "Something
@@ -1260,13 +1272,13 @@ void singularity_pull(const monster *singularity)
                 // after all.
                 mprf(messages[strength - 1],
                      singularity->name(DESC_THE).c_str(),
-                     mi->name(DESC_THE).c_str());
+                     ai->name(DESC_THE).c_str());
             }
-            mi->hurt(singularity, roll_dice(strength + 1,
+            ai->hurt(singularity, roll_dice(strength + 1,
                                             singularity->get_hit_dice() / 2));
         }
 
-        if (mi->alive())
-            _move_creature_to_singularity(singularity, *mi, strength);
+        if (ai->alive())
+            _move_creature_to_singularity(singularity, *ai, strength);
     }
 }
