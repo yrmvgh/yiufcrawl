@@ -1213,6 +1213,9 @@ spret_type cast_singularity(actor* agent, int pow, const coord_def& where,
     return SPRET_SUCCESS;
 }
 
+#define COLLISION_DAMAGE \
+    roll_dice(strength / 2, singularity->get_hit_dice() / 2)
+
 static void _move_creature_to_singularity(const monster* singularity,
                                           actor* victim, int strength)
 {
@@ -1229,7 +1232,7 @@ static void _move_creature_to_singularity(const monster* singularity,
                      victim->name(DESC_THE).c_str(),
                      victim->conj_verb("stop").c_str());
             }
-            victim->hurt(singularity, roll_dice(2, 10));
+            victim->hurt(singularity, COLLISION_DAMAGE);
             break;
         }
 
@@ -1246,7 +1249,7 @@ static void _move_creature_to_singularity(const monster* singularity,
                      feature_description_at(newpos, false, DESC_THE, false)
                          .c_str());
             }
-            victim->hurt(singularity, roll_dice(2, 10));
+            victim->hurt(singularity, COLLISION_DAMAGE);
             break;
         }
         else if (you.pos() == newpos)
@@ -1263,8 +1266,8 @@ static void _move_creature_to_singularity(const monster* singularity,
                          victim->conj_verb("collide").c_str(),
                          act_at_space->name(DESC_THE).c_str());
                 }
-                victim->hurt(act_at_space, roll_dice(2, 10));
-                act_at_space->hurt(victim, roll_dice(2, 10));
+                victim->hurt(act_at_space, COLLISION_DAMAGE);
+                act_at_space->hurt(victim, COLLISION_DAMAGE);
             }
             break;
         }
