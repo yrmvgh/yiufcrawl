@@ -1285,7 +1285,7 @@ void singularity_pull(const monster *singularity)
             continue;
         }
 
-        const int range = grid_distance(singularity->pos(), ai->pos());
+        const int range = isqrt((singularity->pos() - ai->pos()).abs());
         const int strength =
             max(0, min(5, (singularity->get_hit_dice()) / (4 + range)));
         static const char *messages[] =
