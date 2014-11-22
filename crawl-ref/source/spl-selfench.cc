@@ -98,6 +98,11 @@ spret_type ice_armour(int pow, bool fail)
     else
         mpr("A film of ice covers your body!");
 
+    if (you.attribute[ATTR_BONE_ARMOUR] > 0)
+    {
+        you.attribute[ATTR_BONE_ARMOUR] = 0;
+        mpr("Your corpse armour falls away.");
+    }
 
     you.increase_duration(DUR_ICY_ARMOUR, 20 + random2(pow) + random2(pow), 50,
                           NULL);
@@ -140,11 +145,23 @@ static int _harvest_corpses()
  *
  * @param pow   The spellpower at which the spell is being cast.
  * @param fail  Whether the casting failed.
- * @return      SPRET_ABORT if there are no possible valid targets in LOS,
+ * @return      SPRET_ABORT if you already have an incompatible buff running,
  *              SPRET_FAIL if fail is true, and SPRET_SUCCESS otherwise.
  */
 spret_type bone_armour(int pow, bool fail)
 {
+    if (player_stoneskin() || you.form == TRAN_STATUE)
+    {
+        mpr("The corpses won't embrace your stony flesh.");
+        return SPRET_ABORT;
+    }
+
+    if (you.duration[DUR_ICY_ARMOUR])
+    {
+        mpr("The corpses won't embrace your icy flesh.");
+        return SPRET_ABORT;
+    }
+
     // Could check carefully to see if it's even possible that there are any
     // valid corpses/skeletons in LOS (any piles with stuff under them, etc)
     // before failing, but it's better to be simple + predictable from the

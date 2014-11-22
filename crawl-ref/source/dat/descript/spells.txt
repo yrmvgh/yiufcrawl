@@ -177,7 +177,8 @@ Borgnjor's Embrace spell
 This spell violently mutilates all nearby corpses, wrapping them around the
 caster to serve as both armour and shield. As it takes hits, the carrion will
 gradually fall away, though increased spellpower will tighten its grasp on the
-caster's body.
+caster's body. It cannot grip ice or stone; only that which lives, or once
+lived.
 %%%%
 Borgnjor's Revivification spell
 
