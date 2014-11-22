@@ -172,6 +172,13 @@ Bolt of Magma spell
 This spell hurls a penetrating bolt of molten rock, capable of dealing some
 physical damage even to highly fire-resistant enemies.
 %%%%
+Borgnjor's Embrace spell
+
+This spell violently wrenches the bones from all nearby corpses, wrapping them
+around the caster to serve as both armour and shield. As they take hits, the
+bones will gradually fall away, though increased spellpower will tighten their
+grasp on the caster's body.
+%%%%
 Borgnjor's Revivification spell
 
 This spell instantly heals any and all wounds suffered by the caster, but also

@@ -500,6 +500,8 @@ public:
 
     item_def *slot_item(equipment_type eq, bool include_melded=false) const;
 
+    void maybe_degrade_bone_armour();
+
     // actor
     int mindex() const;
     int get_hit_dice() const;

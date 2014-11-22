@@ -9,8 +9,11 @@
 
 #include "areas.h"
 #include "art-enum.h"
+#include "butcher.h" // butcher_corpse
+#include "coordit.h" // radius_iterator
 #include "godconduct.h"
 #include "hints.h"
+#include "items.h" // stack_iterator
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
@@ -99,6 +102,76 @@ spret_type ice_armour(int pow, bool fail)
     you.increase_duration(DUR_ICY_ARMOUR, 20 + random2(pow) + random2(pow), 50,
                           NULL);
     you.props[ICY_ARMOUR_KEY] = pow;
+    you.redraw_armour_class = true;
+
+    return SPRET_SUCCESS;
+}
+
+/**
+ * Reap all non-animate skeletons (and the skeletons of all corpses) in LOS.
+ *
+ * @return  The total number of skeletons reaped.
+ */
+static int _harvest_skeletons()
+{
+    int harvested = 0;
+
+    for (radius_iterator ri(you.pos(), LOS_NO_TRANS); ri; ++ri)
+    {
+        for (stack_iterator si(*ri, true); si; ++si)
+        {
+            item_def &item = *si;
+            if (item.base_type != OBJ_CORPSES || !mons_skeleton(item.mon_type))
+                continue;
+
+            if (item.sub_type != CORPSE_SKELETON)
+            {
+                butcher_corpse(item, MB_TRUE);
+                // XXX: do something about autopickup...?
+            }
+
+            // butcher_corpse() is guaranteed to turn the item into a skeleton
+            // if its skeleton param is set to MB_TRUE, which we do.
+            ASSERT(item.sub_type == CORPSE_SKELETON);
+            ++harvested;
+            destroy_item(item.index());
+        }
+    }
+
+    return harvested;
+}
+
+
+/**
+ * Casts the player spell "Borgnjor's Embrace", ripping the bones from all
+ * corpses & non-animate skeletons in LOS and turning them into armour.
+ *
+ * @param pow   The spellpower at which the spell is being cast.
+ * @param fail  Whether the casting failed.
+ * @return      SPRET_ABORT if there are no possible valid targets in LOS,
+ *              SPRET_FAIL if fail is true, and SPRET_SUCCESS otherwise.
+ */
+spret_type bone_armour(int pow, bool fail)
+{
+    // Could check carefully to see if it's even possible that there are any
+    // valid corpses/skeletons in LOS (any piles with stuff under them, etc)
+    // before failing, but it's better to be simple + predictable from the
+    // player's perspective.
+    fail_check();
+
+    const int harvested = _harvest_skeletons();
+    dprf("Harvested: %d", harvested);
+
+    if (!harvested)
+        return SPRET_SUCCESS; // still takes a turn, etc
+
+    // 1 point of ac&sh per two skeletons, plus whatever you had already
+    // don't give more than spellpower/10 ac&sh. (5 at 50 power, etc)
+    // but if you got any corpses at all, always give at least 2 ac&sh.
+    you.attribute[ATTR_BONE_ARMOUR] = max(2,
+                                          min(pow / 10,
+                                              you.attribute[ATTR_BONE_ARMOUR]
+                                              + div_rand_round(harvested, 2)));
     you.redraw_armour_class = true;
 
     return SPRET_SUCCESS;

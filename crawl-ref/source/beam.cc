@@ -4653,6 +4653,8 @@ void bolt::hit_shield(actor* blocker) const
                 you.props[MELT_SHIELD_KEY] = true;
         }
     }
+    if (blocker->is_player())
+        you.maybe_degrade_bone_armour();
 }
 
 // Return true if the block succeeded (including reflections.)

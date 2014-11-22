@@ -2597,6 +2597,7 @@ int player_shield_class()
 
     shield += qazlal_sh_boost() * 100;
     shield += tso_sh_boost() * 100;
+    shield += you.attribute[ATTR_BONE_ARMOUR] * 200;
 
     return (shield + 50) / 100;
 }
@@ -6086,6 +6087,8 @@ bool player::liquefied_ground() const
 
 /**
  * Returns whether the player currently has any kind of shield.
+ *
+ * XXX: why does this function exist?
  */
 bool player::shielded() const
 {
@@ -6094,7 +6097,8 @@ bool player::shielded() const
            || duration[DUR_MAGIC_SHIELD]
            || duration[DUR_DIVINE_SHIELD]
            || player_mutation_level(MUT_LARGE_BONE_PLATES) > 0
-           || qazlal_sh_boost() > 0;
+           || qazlal_sh_boost() > 0
+           || attribute[ATTR_BONE_ARMOUR] > 0;
 }
 
 int player::shield_block_penalty() const
@@ -6386,8 +6390,10 @@ int player::armour_class(bool /*calc_unid*/) const
     if (duration[DUR_QAZLAL_AC])
         AC += 300;
 
-    if (you.duration[DUR_CORROSION])
+    if (duration[DUR_CORROSION])
         AC -= 500 * you.props["corrosion_amount"].get_int();
+
+    AC += attribute[ATTR_BONE_ARMOUR] * 100;
 
     AC += get_form()->get_ac_bonus();
 
@@ -8890,4 +8896,30 @@ string player::hands_act(const string &plural_verb,
                          const string &subject) const
 {
     return "Your " + hands_verb(plural_verb) + " " + subject;
+}
+
+/**
+ * Possibly drop a point of bone armour (from Borgnjor's Embrace) when hit.
+ *
+ * Chance increase with current amount of bone armour & decreases with
+ * spellpower.
+ */
+void player::maybe_degrade_bone_armour()
+{
+    if (attribute[ATTR_BONE_ARMOUR] <= 0)
+        return;
+
+    const int power = calc_spell_power(SPELL_BONE_ARMOUR, true);
+    const int power_mult = (1 + div_rand_round(power, 100));
+    const int min_chance = 9 * power_mult;
+    if (!one_chance_in(min(min_chance, 2 * 20 * power_mult
+                                       / attribute[ATTR_BONE_ARMOUR])))
+        return;
+
+    --you.attribute[ATTR_BONE_ARMOUR];
+    if (you.attribute[ATTR_BONE_ARMOUR] <= 0)
+        mpr("The last of your bone armour falls away.");
+    else
+        mpr("Part of your bone armour falls away.");
+    redraw_armour_class = true;
 }
