@@ -1133,6 +1133,17 @@ spret_type cast_dispersal(int pow, bool fail)
     return SPRET_SUCCESS;
 }
 
+int singularity_max_range(int pow)
+{
+    // XXX: unify some of this functionality.
+    // A singularity is HD (pow / 10) + 1; its strength is
+    // (HD / (4 + range)) for a given range, and the singularity needs
+    // to have a strength of at least 1 to do something at a given
+    // range; thus, range <= hit_dice - 4 = (pow / 10) - 3.
+
+    return max(0, min(LOS_RADIUS, (pow / 10) - 3));
+}
+
 spret_type cast_singularity(int pow, const coord_def& where, bool fail)
 {
     if (cell_is_solid(where))

@@ -1061,7 +1061,7 @@ static targetter* _spell_targetter(spell_type spell, int pow, int range)
     case SPELL_FULMINANT_PRISM:
         return new targetter_smite(&you, range, 0, 2);
     case SPELL_SINGULARITY:
-        return new targetter_smite(&you, range, 0, 0);
+        return new targetter_smite(&you, range, 0, singularity_max_range(pow));
     case SPELL_DAZZLING_SPRAY:
         return new targetter_spray(&you, range, ZAP_DAZZLING_SPRAY);
     case SPELL_EXPLOSIVE_BOLT:
