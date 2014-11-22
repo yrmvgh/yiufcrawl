@@ -75,7 +75,9 @@ description_level_type description_type_by_name(const char *desc);
 
 bool shell_safe(const char *file);
 
+#ifdef USE_SOUND
 void play_sound(const char *file);
+#endif
 
 string unwrap_desc(string desc);
 
@@ -122,6 +124,17 @@ auto map_find(M &map, const typename M::key_type &obj)
 {
     auto it = map.find(obj);
     return it == map.end() ? nullptr : &it->second;
+}
+
+// Only intended for use with simple map values where copying is not
+// a concern; use map_find above if the returned value should not be
+// copied.
+template<class M>
+typename M::mapped_type lookup(M &map, const typename M::key_type &key,
+                               const typename M::mapped_type &unfound)
+{
+    auto it = map.find(key);
+    return it == map.end() ? unfound : it->second;
 }
 
 static inline int sqr(int x)

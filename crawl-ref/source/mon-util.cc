@@ -1426,26 +1426,16 @@ bool mons_class_fast_regen(monster_type mc)
     return mons_class_flag(mc, M_FAST_REGEN);
 }
 
+/**
+ * Do monsters of the given type ever leave a hide?
+ *
+ * @param mc      The class of monster in question.
+ * @return        Whether the monster has a chance of dropping a hide when
+ *                butchered.
+ */
 bool mons_class_leaves_hide(monster_type mc)
 {
-    if (mons_genus(mc) == MONS_TROLL)
-        return true;
-    switch (mons_species(mc))
-    {
-    case MONS_FIRE_DRAGON:
-    case MONS_ICE_DRAGON:
-    case MONS_STEAM_DRAGON:
-    case MONS_MOTTLED_DRAGON:
-    case MONS_STORM_DRAGON:
-    case MONS_GOLDEN_DRAGON:
-    case MONS_SWAMP_DRAGON:
-    case MONS_PEARL_DRAGON:
-    case MONS_SHADOW_DRAGON:
-    case MONS_QUICKSILVER_DRAGON:
-        return true;
-    default:
-        return false;
-    }
+    return hide_for_monster(mc) != NUM_ARMOURS;
 }
 
 int mons_zombie_size(monster_type mc)
@@ -2389,20 +2379,6 @@ colour_t random_monster_colour()
     return col;
 }
 
-// Butterflies
-static colour_t _random_butterfly_colour()
-{
-    colour_t col;
-    // Restricted to 'light' colours.
-    do
-    {
-        col = random_monster_colour();
-    }
-    while (is_low_colour(col));
-
-    return col;
-}
-
 bool init_abomination(monster* mon, int hd)
 {
     if (mon->type == MONS_CRAWLING_CORPSE
@@ -2447,10 +2423,6 @@ void define_monster(monster* mons)
 
     switch (mcls)
     {
-    case MONS_BUTTERFLY:
-        col = _random_butterfly_colour();
-        break;
-
     case MONS_ABOMINATION_SMALL:
         hd = 4 + random2(4);
         mons->props["speed"] = 7 + random2avg(9, 2);
@@ -3665,7 +3637,7 @@ static const spell_type smitey_spells[] = {
 static bool _mons_has_smite_attack(const monster* mons)
 {
     return any_of(begin(smitey_spells), end(smitey_spells),
-                  bind(mem_fn(&monster::has_spell), *mons, placeholders::_1));
+                  [=] (spell_type sp) { return mons->has_spell(sp); });
 }
 
 /**
@@ -4464,19 +4436,22 @@ bool monster_nearby()
     return false;
 }
 
-actor *actor_by_mid(mid_t m)
+actor *actor_by_mid(mid_t m, bool require_valid)
 {
     if (m == MID_PLAYER)
         return &you;
-    return monster_by_mid(m);
+    return monster_by_mid(m, require_valid);
 }
 
-monster *monster_by_mid(mid_t m)
+monster *monster_by_mid(mid_t m, bool require_valid)
 {
-    if (m == MID_ANON_FRIEND)
-        return &menv[ANON_FRIENDLY_MONSTER];
-    if (m == MID_YOU_FAULTLESS)
-        return &menv[YOU_FAULTLESS];
+    if (!require_valid)
+    {
+        if (m == MID_ANON_FRIEND)
+            return &menv[ANON_FRIENDLY_MONSTER];
+        if (m == MID_YOU_FAULTLESS)
+            return &menv[YOU_FAULTLESS];
+    }
 
     if (unsigned short *mc = map_find(env.mid_cache, m))
         return &menv[*mc];

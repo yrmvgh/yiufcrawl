@@ -17,6 +17,7 @@
 #include "itemname.h"
 #include "itemprop.h"
 #include "items.h"
+#include "libutil.h" // map_find
 #include "spl-book.h"
 #include "state.h"
 #include "stepdown.h"
@@ -54,6 +55,15 @@ bool got_curare_roll(const int item_level)
                          (364 - 7 * item_level) / 25);
 }
 
+/// A mapping from randomly-described object types to their per-game descript
+static map<object_class_type, item_description_type> _type_to_idesc = {
+    {OBJ_WANDS, IDESC_WANDS},
+    {OBJ_POTIONS, IDESC_POTIONS},
+    {OBJ_JEWELLERY, IDESC_RINGS},
+    {OBJ_SCROLLS, IDESC_SCROLLS},
+    {OBJ_STAVES, IDESC_STAVES},
+};
+
 /**
  * Initialize the randomized appearance of a given item.
  *
@@ -81,32 +91,8 @@ void item_colour(item_def &item)
     // would be wrong if we ever try to get item colour/names directly...?)
     // possibly a todo for a later date.
 
-    // TODO: move this into a lookup table
-    switch (item.base_type)
-    {
-    case OBJ_WANDS:
-        item.subtype_rnd = you.item_description[IDESC_WANDS][item.sub_type];
-        break;
-
-    case OBJ_POTIONS:
-        item.subtype_rnd = you.item_description[IDESC_POTIONS][item.sub_type];
-        break;
-
-    case OBJ_JEWELLERY:
-        item.subtype_rnd = you.item_description[IDESC_RINGS][item.sub_type];
-        break;
-
-    case OBJ_SCROLLS:
-        item.subtype_rnd = you.item_description[IDESC_SCROLLS][item.sub_type];
-        break;
-
-    case OBJ_STAVES:
-        item.subtype_rnd = you.item_description[IDESC_STAVES][item.sub_type];
-        break;
-
-    default:
-        break;
-    }
+    if (auto idesc = map_find(_type_to_idesc, item.base_type))
+        item.subtype_rnd = you.item_description[*idesc][item.sub_type];
 }
 
 // Does Xom consider an item boring?
@@ -270,44 +256,51 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
         switch (item.sub_type)
         {
         case WPN_EVENINGSTAR:
-            if (coinflip())
-                rc = SPWPN_DRAINING;
-            // **** intentional fall through here ****
+            rc = random_choose_weighted(30, SPWPN_PROTECTION,
+                                        19, SPWPN_DRAINING,
+                                        15, SPWPN_HOLY_WRATH,
+                                        8, SPWPN_NORMAL,
+                                        6, SPWPN_VORPAL,
+                                        6, SPWPN_VENOM,
+                                        4, SPWPN_FLAMING,
+                                        4, SPWPN_FREEZING,
+                                        2, SPWPN_DISTORTION,
+                                        2, SPWPN_ANTIMAGIC,
+                                        2, SPWPN_PAIN,
+                                        2, SPWPN_VAMPIRISM,
+                                        0);
+            break;
+
         case WPN_MORNINGSTAR:
-            if (one_chance_in(4))
-                rc = SPWPN_VENOM;
+            rc = random_choose_weighted(30, SPWPN_PROTECTION,
+                                        15, SPWPN_NORMAL,
+                                        15, SPWPN_HOLY_WRATH,
+                                        10, SPWPN_DRAINING,
+                                        9, SPWPN_VORPAL,
+                                        5, SPWPN_VENOM,
+                                        4, SPWPN_FLAMING,
+                                        4, SPWPN_FREEZING,
+                                        2, SPWPN_DISTORTION,
+                                        2, SPWPN_ANTIMAGIC,
+                                        2, SPWPN_PAIN,
+                                        2, SPWPN_VAMPIRISM,
+                                        0);
+            break;
 
-            if (one_chance_in(4))
-                rc = coinflip() ? SPWPN_FLAMING : SPWPN_FREEZING;
-
-            if (one_chance_in(20))
-                rc = SPWPN_VAMPIRISM;
-            // **** intentional fall through here ****
         case WPN_MACE:
         case WPN_GREAT_MACE:
         case WPN_FLAIL:
         case WPN_DIRE_FLAIL:
         case WPN_HAMMER:
-            if (one_chance_in(25))
-                rc = SPWPN_ANTIMAGIC;
-
-            if (one_chance_in(25))
-                rc = SPWPN_PAIN;
-
-            if (one_chance_in(25))
-                rc = SPWPN_DISTORTION;
-
-            if (one_chance_in(3) && (rc == SPWPN_NORMAL || one_chance_in(5)))
-                rc = SPWPN_VORPAL;
-
-            if (one_chance_in(4))
-                rc = SPWPN_HOLY_WRATH;
-
-            if (one_chance_in(3))
-                rc = SPWPN_PROTECTION;
-
-            if (one_chance_in(10))
-                rc = SPWPN_DRAINING;
+            rc = random_choose_weighted(30, SPWPN_PROTECTION,
+                                        28, SPWPN_NORMAL,
+                                        15, SPWPN_HOLY_WRATH,
+                                        14, SPWPN_VORPAL,
+                                        10, SPWPN_DRAINING,
+                                        1, SPWPN_DISTORTION,
+                                        1, SPWPN_ANTIMAGIC,
+                                        1, SPWPN_PAIN,
+                                        0);
             break;
 
         case WPN_DAGGER:
@@ -411,33 +404,33 @@ static brand_type _determine_weapon_brand(const item_def& item, int item_level)
         case WPN_SCYTHE:
         case WPN_TRIDENT:
         case WPN_BARDICHE:
-            if (one_chance_in(30))
-                rc = SPWPN_HOLY_WRATH;
+                                    // total weight 100
+            rc = random_choose_weighted(36, SPWPN_NORMAL,
+                                        17, SPWPN_VENOM,
+                                        12, SPWPN_PROTECTION,
+                                        9, SPWPN_VORPAL,
+                                        7, SPWPN_FLAMING,
+                                        7, SPWPN_FREEZING,
+                                        5, SPWPN_VAMPIRISM,
+                                        2, SPWPN_DISTORTION,
+                                        2, SPWPN_PAIN,
+                                        2, SPWPN_ANTIMAGIC,
+                                        1, SPWPN_HOLY_WRATH,
+                                        0);
+            break;
 
-            if (one_chance_in(4))
-                rc = SPWPN_PROTECTION;
-            // **** intentional fall through here ****
         case WPN_SPEAR:
-            if (one_chance_in(25))
-                rc = SPWPN_ANTIMAGIC;
-
-            if (one_chance_in(25))
-                rc = SPWPN_PAIN;
-
-            if (one_chance_in(10))
-                rc = SPWPN_VAMPIRISM;
-
-            if (one_chance_in(25))
-                rc = SPWPN_DISTORTION;
-
-            if (one_chance_in(5) && (rc == SPWPN_NORMAL || one_chance_in(6)))
-                rc = SPWPN_VORPAL;
-
-            if (one_chance_in(6))
-                rc = coinflip() ? SPWPN_FLAMING : SPWPN_FREEZING;
-
-            if (one_chance_in(6))
-                rc = SPWPN_VENOM;
+                                    // total weight 100
+            rc = random_choose_weighted(46, SPWPN_NORMAL,
+                                        17, SPWPN_VENOM,
+                                        12, SPWPN_VORPAL,
+                                         7, SPWPN_FLAMING,
+                                         7, SPWPN_FREEZING,
+                                         5, SPWPN_VAMPIRISM,
+                                         2, SPWPN_DISTORTION,
+                                         2, SPWPN_PAIN,
+                                         2, SPWPN_ANTIMAGIC,
+                                         0);
             break;
 
         case WPN_HUNTING_SLING:

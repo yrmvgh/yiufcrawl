@@ -25,6 +25,7 @@
 
 #include "branch.h"
 #include "chardump.h"
+#include "cio.h"
 #include "dungeon.h"
 #include "end.h"
 #include "english.h"
@@ -468,6 +469,9 @@ void show_hiscore_table()
         menu.draw_menu();
         textcolour(WHITE);
         const int keyn = getch_ck();
+
+        if (keyn == CK_REDRAW)
+            continue;
 
         if (key_is_escape(keyn))
         {
@@ -2738,10 +2742,7 @@ void xlog_fields::add_field(const string &key, const char *format, ...)
 
 string xlog_fields::str_field(const string &s) const
 {
-    if (string *value = map_find(fieldmap, s))
-        return *value;
-    else
-        return "";
+    return lookup(fieldmap, s, "");
 }
 
 int xlog_fields::int_field(const string &s) const

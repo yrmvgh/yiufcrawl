@@ -340,7 +340,7 @@ static monsterentry mondata[] =
 },
 
 {
-    MONS_BUTTERFLY, 'b', COLOUR_UNDEF, "butterfly",
+    MONS_BUTTERFLY, 'b', ETC_JEWEL, "butterfly",
     M_CONFUSED | M_NO_EXP_GAIN,
     MR_VUL_POISON,
     150, 10, MONS_BUTTERFLY, MONS_BUTTERFLY, MH_NATURAL, 10,
@@ -1018,7 +1018,7 @@ static monsterentry mondata[] =
     MONS_BOGGART, 'g', MAGENTA, "boggart",
     M_SEE_INVIS | M_WARM_BLOOD,
     MR_NO_FLAGS,
-    300, 14, MONS_BOGGART, MONS_BOGGART, MH_NATURAL, 60,
+    300, 14, MONS_BOGGART, MONS_BOGGART, MH_NATURAL, 40,
     { {AT_HIT, AF_PLAIN, 5}, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
     { 4, 3, 4, 0 },
     0, 12, MST_BOGGART, CE_NOCORPSE, S_SHOUT,

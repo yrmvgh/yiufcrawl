@@ -21,6 +21,7 @@
 #include "invent.h"
 #include "items.h"
 #include "item_use.h"
+#include "libutil.h" // map_find
 #include "message.h"
 #include "misc.h"
 #include "notes.h"
@@ -939,62 +940,88 @@ special_armour_type get_armour_ego_type(const item_def &item)
     return static_cast<special_armour_type>(item.brand);
 }
 
+/// A map between monster species & their hides.
+static map<monster_type, armour_type> _monster_hides = {
+    { MONS_TROLL,               ARM_TROLL_HIDE },
+    { MONS_DEEP_TROLL,          ARM_TROLL_HIDE },
+    { MONS_IRON_TROLL,          ARM_TROLL_HIDE },
+
+    { MONS_FIRE_DRAGON,         ARM_FIRE_DRAGON_HIDE },
+    { MONS_ICE_DRAGON,          ARM_ICE_DRAGON_HIDE },
+    { MONS_STEAM_DRAGON,        ARM_STEAM_DRAGON_HIDE },
+    { MONS_MOTTLED_DRAGON,      ARM_MOTTLED_DRAGON_HIDE },
+    { MONS_STORM_DRAGON,        ARM_STORM_DRAGON_HIDE },
+    { MONS_GOLDEN_DRAGON,       ARM_GOLD_DRAGON_HIDE },
+    { MONS_SWAMP_DRAGON,        ARM_SWAMP_DRAGON_HIDE },
+    { MONS_PEARL_DRAGON,        ARM_PEARL_DRAGON_HIDE },
+    { MONS_SHADOW_DRAGON,       ARM_SHADOW_DRAGON_HIDE },
+    { MONS_QUICKSILVER_DRAGON,  ARM_QUICKSILVER_DRAGON_HIDE },
+};
+
+/**
+ * If a monster of the given type is butchered, what kind of hide can it leave?
+ *
+ * @param mc    The class of monster in question.
+ * @return      The armour_type of the given monster's hide, or NUM_ARMOURS if
+ *              the monster does not leave a hide.
+ */
+armour_type hide_for_monster(monster_type mc)
+{
+    return lookup(_monster_hides, mons_species(mc), NUM_ARMOURS);
+}
+
+// in principle, you can imagine specifying something that would generate this
+// & _monster_hides from a set of { monster_type, hide_type, armour_type }
+// triples. possibly loading from a file? ideally in a way that's nicer than
+// the horror that is art-data.*
+
+/// A map between hide & armour types.
+static map<armour_type, armour_type> _hide_armours = {
+    { ARM_TROLL_HIDE,               ARM_TROLL_LEATHER_ARMOUR },
+    { ARM_FIRE_DRAGON_HIDE,         ARM_FIRE_DRAGON_ARMOUR },
+    { ARM_ICE_DRAGON_HIDE,          ARM_ICE_DRAGON_ARMOUR },
+    { ARM_STEAM_DRAGON_HIDE,        ARM_STEAM_DRAGON_ARMOUR },
+    { ARM_MOTTLED_DRAGON_HIDE,      ARM_MOTTLED_DRAGON_ARMOUR },
+    { ARM_STORM_DRAGON_HIDE,        ARM_STORM_DRAGON_ARMOUR },
+    { ARM_GOLD_DRAGON_HIDE,         ARM_GOLD_DRAGON_ARMOUR },
+    { ARM_SWAMP_DRAGON_HIDE,        ARM_SWAMP_DRAGON_ARMOUR },
+    { ARM_PEARL_DRAGON_HIDE,        ARM_PEARL_DRAGON_ARMOUR },
+    { ARM_SHADOW_DRAGON_HIDE,       ARM_SHADOW_DRAGON_ARMOUR },
+    { ARM_QUICKSILVER_DRAGON_HIDE,  ARM_QUICKSILVER_DRAGON_ARMOUR },
+};
+
+/**
+ * If a hide of the given type is enchanted, what kind of armour will it turn
+ * into?
+ *
+ * @param hide_type     The type of hide armour in question.
+ * @return              The corresponding enchanted armour, or NUM_ARMOURS if
+ *                      the given armour does not change types when enchanted.
+ */
+armour_type armour_for_hide(armour_type hide_type)
+{
+    return lookup(_hide_armours, hide_type, NUM_ARMOURS);
+}
+
 // Armour information and checking functions.
+
+/**
+ * Attempt to turn a piece of armour into a new type upon enchanting it.
+ *
+ * @param item      The armour being enchanted.
+ * @return          Whether the armour was transformed.
+ */
 bool hide2armour(item_def &item)
 {
     if (item.base_type != OBJ_ARMOUR)
         return false;
 
-    switch (item.sub_type)
-    {
-    default:
+    const armour_type new_type = armour_for_hide(static_cast<armour_type>
+                                                 (item.sub_type));
+    if (new_type == NUM_ARMOURS)
         return false;
 
-    case ARM_FIRE_DRAGON_HIDE:
-        item.sub_type = ARM_FIRE_DRAGON_ARMOUR;
-        break;
-
-    case ARM_TROLL_HIDE:
-        item.sub_type = ARM_TROLL_LEATHER_ARMOUR;
-        break;
-
-    case ARM_ICE_DRAGON_HIDE:
-        item.sub_type = ARM_ICE_DRAGON_ARMOUR;
-        break;
-
-    case ARM_MOTTLED_DRAGON_HIDE:
-        item.sub_type = ARM_MOTTLED_DRAGON_ARMOUR;
-        break;
-
-    case ARM_STORM_DRAGON_HIDE:
-        item.sub_type = ARM_STORM_DRAGON_ARMOUR;
-        break;
-
-    case ARM_GOLD_DRAGON_HIDE:
-        item.sub_type = ARM_GOLD_DRAGON_ARMOUR;
-        break;
-
-    case ARM_SWAMP_DRAGON_HIDE:
-        item.sub_type = ARM_SWAMP_DRAGON_ARMOUR;
-        break;
-
-    case ARM_STEAM_DRAGON_HIDE:
-        item.sub_type = ARM_STEAM_DRAGON_ARMOUR;
-        break;
-
-    case ARM_PEARL_DRAGON_HIDE:
-        item.sub_type = ARM_PEARL_DRAGON_ARMOUR;
-        break;
-
-    case ARM_SHADOW_DRAGON_HIDE:
-        item.sub_type = ARM_SHADOW_DRAGON_ARMOUR;
-        break;
-
-    case ARM_QUICKSILVER_DRAGON_HIDE:
-        item.sub_type = ARM_QUICKSILVER_DRAGON_ARMOUR;
-        break;
-    }
-
+    item.sub_type = new_type;
     return true;
 }
 
@@ -1027,44 +1054,42 @@ int armour_max_enchant(const item_def &item)
     return max_plus;
 }
 
-// Doesn't include animal skin (only skins we can make and enchant).
+/**
+ * Find the set of all armours made from hides.
+ */
+static set<armour_type> _make_hide_armour_set()
+{
+    set<armour_type> _hide_armour_set;
+    // iter over armours created from hides
+    for (auto it: _hide_armours)
+        _hide_armour_set.insert(it.second);
+    return _hide_armour_set;
+}
+static set<armour_type> _hide_armour_set = _make_hide_armour_set();
+
+/**
+ * Is the given armour a type that changes when enchanted (i.e. dragon or troll
+ * hide?
+ *
+ * @param item      The armour in question.
+ * @param inc_made  Whether to also accept armour that has already been
+ *                  enchanted & transformed (e.g. fda in addition to fire
+ *                  dragon hides, etc)
+ * @return          Whether the given item is (or was?) a hide.
+ *                  (Note that ARM_ANIMAL_SKIN cannot be enchanted & so doesn't
+ *                  count.)
+ */
 bool armour_is_hide(const item_def &item, bool inc_made)
 {
     ASSERT(item.base_type == OBJ_ARMOUR);
 
-    switch (item.sub_type)
-    {
-    case ARM_TROLL_LEATHER_ARMOUR:
-    case ARM_FIRE_DRAGON_ARMOUR:
-    case ARM_ICE_DRAGON_ARMOUR:
-    case ARM_STEAM_DRAGON_ARMOUR:
-    case ARM_MOTTLED_DRAGON_ARMOUR:
-    case ARM_STORM_DRAGON_ARMOUR:
-    case ARM_GOLD_DRAGON_ARMOUR:
-    case ARM_SWAMP_DRAGON_ARMOUR:
-    case ARM_PEARL_DRAGON_ARMOUR:
-    case ARM_SHADOW_DRAGON_ARMOUR:
-    case ARM_QUICKSILVER_DRAGON_ARMOUR:
-        return inc_made;
+    const armour_type type = static_cast<armour_type>(item.sub_type);
 
-    case ARM_TROLL_HIDE:
-    case ARM_FIRE_DRAGON_HIDE:
-    case ARM_ICE_DRAGON_HIDE:
-    case ARM_STEAM_DRAGON_HIDE:
-    case ARM_MOTTLED_DRAGON_HIDE:
-    case ARM_STORM_DRAGON_HIDE:
-    case ARM_GOLD_DRAGON_HIDE:
-    case ARM_SWAMP_DRAGON_HIDE:
-    case ARM_PEARL_DRAGON_HIDE:
-    case ARM_SHADOW_DRAGON_HIDE:
-    case ARM_QUICKSILVER_DRAGON_HIDE:
+    // actual hides?
+    if (_hide_armours.count(type))
         return true;
-
-    default:
-        break;
-    }
-
-    return false;
+    // armour made from hides?
+    return inc_made && _hide_armour_set.count(type);
 }
 
 /**
@@ -2146,7 +2171,7 @@ bool get_armour_see_invisible(const item_def &arm, bool check_artp)
     ASSERT(arm.base_type == OBJ_ARMOUR);
 
     // check for ego resistance
-    if (get_armour_ego_type(arm) == SPARM_POSITIVE_ENERGY)
+    if (get_armour_ego_type(arm) == SPARM_SEE_INVISIBLE)
         return true;
 
     if (check_artp && is_artefact(arm))
