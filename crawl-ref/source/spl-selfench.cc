@@ -143,6 +143,8 @@ static int _harvest_corpses()
  * Casts the player spell "Cigotuvi's Embrace", pulling all corpses into LOS
  * around the caster to serve as armour.
  *
+ * One point of (ac+sh) per for every 1.5 corpses or 3 skeletons.
+ *
  * @param pow   The spellpower at which the spell is being cast.
  * @param fail  Whether the casting failed.
  * @return      SPRET_ABORT if you already have an incompatible buff running,
@@ -177,25 +179,16 @@ spret_type corpse_armour(int pow, bool fail)
         return SPRET_SUCCESS; // still takes a turn, etc
     }
 
-    const int corpse_bonus = div_rand_round(harvested, 3);
-
     if (you.attribute[ATTR_BONE_ARMOUR] <= 0)
         mpr("The dead rush to embrace you!");
-    else if (corpse_bonus)
-        mpr("Your shell of carrion and bone grows thicker.");
     else
-        mpr("Your shell of carrion and bone grows imperceptibly thicker.");
+        mpr("Your shell of carrion and bone grows thicker.");
 
     // 1 point of ac&sh per two skeletons, plus whatever you had already
     // don't give more than spellpower/10 ac&sh. (5 at 50 power, etc)
     // but if you got any corpses at all, always give at least 2 ac&sh
     // and never reduce it below what you had before casting!
-    const int corpse_armour = min(pow / 10,
-                                  you.attribute[ATTR_BONE_ARMOUR]
-                                  + corpse_bonus);
-    you.attribute[ATTR_BONE_ARMOUR] = max(2,
-                                          max(you.attribute[ATTR_BONE_ARMOUR],
-                                              corpse_armour));
+    you.attribute[ATTR_BONE_ARMOUR] += harvested;
     you.redraw_armour_class = true;
 
     return SPRET_SUCCESS;
