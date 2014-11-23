@@ -5741,7 +5741,7 @@ DUMMY(MONS_GOLEM, '8', LIGHTGREY, "golem")
 },
 
 { // not an actual monster, used by a spell
-    MONS_SINGULARITY, '*', DARKGRAY, "singularity",
+    MONS_SINGULARITY, '*', ETC_DISJUNCTION, "singularity",
     M_NO_POLY_TO | M_STATIONARY | M_SPELL_PROXY,
     mrd(MR_RES_POISON, 3) | mrd(MR_RES_FIRE | MR_RES_COLD | MR_RES_ELEC, 3),
     300, 0, MONS_SINGULARITY, MONS_SINGULARITY,
