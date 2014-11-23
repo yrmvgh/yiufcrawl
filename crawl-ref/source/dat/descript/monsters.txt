@@ -2184,7 +2184,7 @@ An ice replica of a monster, animated by the powers of necromancy.
 %%%%
 singularity
 
-A gravitational singularity, which pulls enemies of its creator in and
+A gravitational singularity, which pulls in enemies of its creator and
 violently warps them in the process.
 %%%%
 siren
