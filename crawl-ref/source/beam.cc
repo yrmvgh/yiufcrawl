@@ -4581,7 +4581,7 @@ void bolt::beam_hits_actor(actor *act)
 
     const int distance =
         (origin_spell == SPELL_FORCE_LANCE)
-            ? 1 + div_rand_round(ench_power, 20) :
+            ? 1 + div_rand_round(ench_power, 40) :
         (origin_spell == SPELL_CHILLING_BREATH) ? 2 : 1;
 
     if (knockback_actor(act, distance, newpos))
@@ -5769,6 +5769,11 @@ bool bolt::knockback_actor(actor *act, int distance, coord_def &newpos)
     if (act->is_stationary())
         return false;
 
+    const int roll = origin_spell == SPELL_FORCE_LANCE
+                     ? 1000 + 40 * ench_power
+                     : 2500;
+    const int weight = act->body_weight() / (act->airborne() ? 2 : 1);
+
     bool moved = false;
 
     ASSERT(ray.pos() == act->pos());
@@ -5777,7 +5782,7 @@ bool bolt::knockback_actor(actor *act, int distance, coord_def &newpos)
     while (distance-- > 0)
     {
         // Save is based on target's body weight.
-        if (random2(2500) < act->body_weight())
+        if (random2(roll) < weight)
             continue;
 
         const ray_def ray_copy(ray);
