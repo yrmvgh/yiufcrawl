@@ -172,14 +172,6 @@ Bolt of Magma spell
 This spell hurls a penetrating bolt of molten rock, capable of dealing some
 physical damage even to highly fire-resistant enemies.
 %%%%
-Borgnjor's Embrace spell
-
-This spell violently mutilates all nearby corpses, wrapping them around the
-caster to serve as both armour and shield. As it takes hits, the carrion will
-gradually fall away, though increased spellpower will tighten its grasp on the
-caster's body. It cannot grip ice or stone; only that which lives, or once
-lived.
-%%%%
 Borgnjor's Revivification spell
 
 This spell instantly heals any and all wounds suffered by the caster, but also
@@ -258,6 +250,14 @@ Chilling Breath spell
 
 This creatue can breath a blast of frost that bypasses any armour the unfortunate
 victim may have, and might even knock it backwards if in flight.
+%%%%
+Cigotuvi's Embrace spell
+
+This spell violently mutilates all nearby corpses, wrapping them around the
+caster to serve as both armour and shield. As it takes hits, the carrion will
+gradually fall away, though increased spellpower will tighten its grasp on the
+caster's body. It cannot grip ice or stone; only that which lives, or once
+lived.
 %%%%
 Cleansing Flame spell
 

@@ -3559,7 +3559,7 @@ static const struct spell_desc spelldata[] =
 },
 
 {
-    SPELL_BONE_ARMOUR, "Borgnjor's Embrace",
+    SPELL_BONE_ARMOUR, "Cigotuvi's Embrace",
     SPTYP_NECROMANCY,
     SPFLAG_CHAOTIC | SPFLAG_CORPSE_VIOLATING | SPFLAG_UTILITY,
     5,

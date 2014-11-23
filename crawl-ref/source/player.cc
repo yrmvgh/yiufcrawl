@@ -8899,7 +8899,7 @@ string player::hands_act(const string &plural_verb,
 }
 
 /**
- * Possibly drop a point of bone armour (from Borgnjor's Embrace) when hit.
+ * Possibly drop a point of bone armour (from Cigotuvi's Embrace) when hit.
  *
  * Chance increase with current amount of bone armour & decreases with
  * spellpower.

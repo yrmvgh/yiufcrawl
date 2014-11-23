@@ -140,7 +140,7 @@ static int _harvest_corpses()
 
 
 /**
- * Casts the player spell "Borgnjor's Embrace", pulling all corpses into LOS
+ * Casts the player spell "Cigotuvi's Embrace", pulling all corpses into LOS
  * around the caster to serve as armour.
  *
  * @param pow   The spellpower at which the spell is being cast.
