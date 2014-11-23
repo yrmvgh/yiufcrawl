@@ -428,11 +428,10 @@ void zappy(zap_type z_type, int power, bolt &pbolt)
 
     ASSERT(zinfo->is_enchantment == pbolt.is_enchantment());
 
+    pbolt.ench_power = (zinfo->tohit ? (*zinfo->tohit)(power) : power);
+
     if (zinfo->is_enchantment)
-    {
-        pbolt.ench_power = (zinfo->tohit ? (*zinfo->tohit)(power) : power);
         pbolt.hit = AUTOMATIC_HIT;
-    }
     else
     {
         pbolt.hit = (*zinfo->tohit)(power);
@@ -442,9 +441,6 @@ void zappy(zap_type z_type, int power, bolt &pbolt)
 
     if (zinfo->damage)
         pbolt.damage = (*zinfo->damage)(power);
-
-    if (z_type == ZAP_EXPLOSIVE_BOLT)
-        pbolt.ench_power = power;
 
     pbolt.origin_spell = zap_to_spell(z_type);
 
@@ -4584,9 +4580,9 @@ void bolt::beam_hits_actor(actor *act)
     coord_def newpos(act->pos());
 
     const int distance =
-        (origin_spell == SPELL_CHILLING_BREATH)           ? 2 :
-        (origin_spell == SPELL_FORCE_LANCE && coinflip()) ? 2
-                                                          : 1;
+        (origin_spell == SPELL_FORCE_LANCE)
+            ? 1 + div_rand_round(ench_power, 20) :
+        (origin_spell == SPELL_CHILLING_BREATH) ? 2 : 1;
 
     if (knockback_actor(act, distance, newpos))
     {
