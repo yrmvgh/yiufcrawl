@@ -1253,9 +1253,7 @@ static void _move_creature_to_singularity(const monster* singularity,
             victim->hurt(singularity, COLLISION_DAMAGE);
             break;
         }
-        else if (you.pos() == newpos)
-            break;
-        else if (actor* act_at_space = monster_at(newpos))
+        else if (actor* act_at_space = actor_at(newpos))
         {
             if (victim != act_at_space
                 && act_at_space->type != MONS_SINGULARITY)
