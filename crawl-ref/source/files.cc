@@ -991,9 +991,8 @@ static void _grab_followers()
             }
         }
         memset(travel_point_distance, 0, sizeof(travel_distance_grid_t));
-        vector<coord_def> places[2];
+        vector<coord_def> places[2] = { { you.pos() }, {} };
         int place_set = 0;
-        places[place_set].push_back(you.pos());
         while (!places[place_set].empty())
         {
             for (int i = 0, size = places[place_set].size(); i < size; ++i)
@@ -1241,11 +1240,18 @@ static void _place_player(dungeon_feature_type stair_taken,
     if (mon && !fedhas_passthrough(mon))
     {
         for (distance_iterator di(you.pos()); di; ++di)
+        {
             if (!monster_at(*di) && mon->is_habitable(*di))
             {
                 mon->move_to_pos(*di);
-                break;
+                return;
             }
+        }
+
+        dprf("%s under player and can't be moved anywhere; killing",
+             mon->name(DESC_PLAIN).c_str());
+        monster_die(mon, KILL_DISMISSED, NON_MONSTER);
+        // XXX: do we need special handling for uniques...?
     }
 }
 

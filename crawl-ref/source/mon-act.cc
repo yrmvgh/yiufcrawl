@@ -2926,7 +2926,7 @@ priority_queue<pair<monster *, int>,
 // this round)
 void queue_monster_for_action(monster* mons)
 {
-    monster_queue.push(pair<monster *, int>(mons, mons->speed_increment));
+    monster_queue.emplace(mons, mons->speed_increment);
 }
 
 static void _clear_monster_flags()
@@ -2968,7 +2968,7 @@ void handle_monsters(bool with_noise)
     {
         _pre_monster_move(*mi);
         if (!invalid_monster(*mi) && mi->alive() && mi->has_action_energy())
-            monster_queue.push(pair<monster *, int>(*mi, mi->speed_increment));
+            monster_queue.emplace(*mi, mi->speed_increment);
     }
 
     int tries = 0; // infinite loop protection, shouldn't be ever needed
@@ -3004,10 +3004,7 @@ void handle_monsters(bool with_noise)
         }
 
         if (mon->has_action_energy())
-        {
-            monster_queue.push(
-                pair<monster *, int>(mon, mon->speed_increment));
-        }
+            monster_queue.emplace(mon, mon->speed_increment);
 
         // If the player got banished, discard pending monster actions.
         if (you.banished)

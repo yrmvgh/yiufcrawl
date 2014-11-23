@@ -3,6 +3,7 @@
 #include "target.h"
 
 #include <cmath>
+#include <utility> // swap
 
 #include "coord.h"
 #include "coordit.h"
@@ -546,7 +547,7 @@ bool targetter_cloud::set_aim(coord_def a)
 
     seen.clear();
     queue.clear();
-    queue.push_back(vector<coord_def>());
+    queue.emplace_back();
 
     int placed = 0;
     queue[0].push_back(a);
@@ -759,7 +760,7 @@ bool targetter_thunderbolt::set_aim(coord_def a)
     coord_def a1 = prev - origin;
     coord_def a2 = aim - origin;
     if (left_of(a2, a1))
-        swapv(a1, a2);
+        swap(a1, a2);
 
     for (int x = -LOS_RADIUS; x <= LOS_RADIUS; ++x)
         for (int y = -LOS_RADIUS; y <= LOS_RADIUS; ++y)
@@ -1169,7 +1170,7 @@ bool targetter_cone::set_aim(coord_def a)
     coord_def a1 = l - origin;
     coord_def a2 = r - origin;
     if (left_of(a2, a1))
-        swapv(a1, a2);
+        swap(a1, a2);
 
     for (int x = -LOS_RADIUS; x <= LOS_RADIUS; ++x)
         for (int y = -LOS_RADIUS; y <= LOS_RADIUS; ++y)
@@ -1216,7 +1217,7 @@ targetter_shotgun::targetter_shotgun(const actor* act, size_t beam_count,
     origin = act->pos();
     num_beams = beam_count;
     for (size_t i = 0; i < num_beams; i++)
-        rays.push_back(ray_def());
+        rays.emplace_back();
     range2 = dist_range(range);
 }
 

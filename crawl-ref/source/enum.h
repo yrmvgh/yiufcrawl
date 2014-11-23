@@ -734,7 +734,6 @@ enum command_type
 {
     CMD_NO_CMD = 2000,
     CMD_NO_CMD_DEFAULT, // hack to allow assignment of keys to CMD_NO_CMD
-    CMD_MOVE_NOWHERE,
     CMD_MOVE_LEFT,
     CMD_MOVE_DOWN,
     CMD_MOVE_UP,
@@ -1128,9 +1127,9 @@ enum delay_type
     DELAY_ARMOUR_OFF,
     DELAY_JEWELLERY_ON,
     DELAY_MEMORISE,
+#if TAG_MAJOR_VERSION == 34
     DELAY_BUTCHER,
     DELAY_BOTTLE_BLOOD,
-#if TAG_MAJOR_VERSION == 34
     DELAY_WEAPON_SWAP,
 #endif
     DELAY_PASSWALL,
@@ -2005,7 +2004,7 @@ enum item_status_flag_type  // per item flags: ie. ident status, cursed status
 
     ISFLAG_CURSED            = 0x00000100,  // cursed
                              //0x00000200,  // was: ISFLAG_BLESSED
-    ISFLAG_SEEN_CURSED       = 0x00000400,  // was seen being cursed
+                             //0x00000400,  // was: ISFLAG_SEEN_CURSED
     ISFLAG_TRIED             = 0x00000800,  // tried but not (usually) ided
 
     ISFLAG_RANDART           = 0x00001000,  // special value is seed

@@ -519,7 +519,7 @@ static int _zin_check_recite_to_single_monster(const monster *mon,
     eligibility.init(0);
 
     // Too high HD to ever be affected.
-    if (mon->get_hit_dice() + 5 > zin_recite_power())
+    if (mon->get_hit_dice() >= zin_recite_power())
         return 0;
 
     // Anti-chaos prayer: Hits things vulnerable to silver, or with chaotic spells/gods.
@@ -2220,9 +2220,10 @@ spret_type fedhas_sunlight(bool fail)
                 erase_any(env.sunlight, i);
                 break;
             }
-        env.sunlight.push_back(pair<coord_def, int>(*ai,
-            you.elapsed_time + (distance2(*ai, base) <= 1 ? SUNLIGHT_DURATION
-                                : SUNLIGHT_DURATION / 2)));
+        const int expiry = you.elapsed_time + (distance2(*ai, base) <= 1
+                                               ? SUNLIGHT_DURATION
+                                               : SUNLIGHT_DURATION / 2);
+        env.sunlight.emplace_back(*ai, expiry);
 
         temp_bolt.explosion_draw_cell(*ai);
 
@@ -2521,7 +2522,7 @@ static int _collect_fruit(vector<pair<int,int> >& available_fruit)
         if (you.inv[i].defined() && is_fruit(you.inv[i]))
         {
             total += you.inv[i].quantity;
-            available_fruit.push_back(make_pair(you.inv[i].quantity, i));
+            available_fruit.emplace_back(you.inv[i].quantity, i);
         }
     }
     sort(available_fruit.begin(), available_fruit.end());
@@ -3143,10 +3144,8 @@ void fedhas_evolve_flora()
         plant->add_ench(ENCH_EXPLODING);
     else if (plant->type == MONS_OKLOB_PLANT)
     {
-        plant->spells.clear();
-        plant->spells.push_back(mon_spell_slot());
-        plant->spells[0].spell = SPELL_SPIT_ACID;
-        plant->spells[0].flags = MON_SPELL_NATURAL;
+        // frequency will be set by set_hit_dice below
+        plant->spells = { { SPELL_SPIT_ACID, 0, MON_SPELL_NATURAL } };
     }
 
     plant->set_hit_dice(plant->get_experience_level()
@@ -3966,7 +3965,7 @@ bool gozag_potion_petition()
                                        faith_price);
             vector<string> pot_names;
             for (int j = 0; j < pots[i]->size(); j++)
-                pot_names.push_back(potion_type_name((*pots[i])[j].get_int()));
+                pot_names.emplace_back(potion_type_name((*pots[i])[j].get_int()));
             line += comma_separated_line(pot_names.begin(), pot_names.end());
             mpr_nojoin(MSGCH_PLAIN, line.c_str());
         }

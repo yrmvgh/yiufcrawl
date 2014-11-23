@@ -1120,12 +1120,12 @@ static const char* rod_type_name(int type)
     }
 }
 
-string base_type_string(const item_def &item)
+const char *base_type_string(const item_def &item)
 {
     return base_type_string(item.base_type);
 }
 
-string base_type_string(object_class_type type)
+const char *base_type_string(object_class_type type)
 {
     switch (type)
     {
@@ -2413,9 +2413,9 @@ void check_item_knowledge(bool unknown_items)
                     items.push_back(ptmp);
 
                     if (you.force_autopickup[i][j] == 1)
-                        selected_items.push_back(SelItem(0,1,ptmp));
+                        selected_items.emplace_back(0,1,ptmp);
                     if (you.force_autopickup[i][j] == -1)
-                        selected_items.push_back(SelItem(0,2,ptmp));
+                        selected_items.emplace_back(0,2,ptmp);
                 }
             }
             else
@@ -2444,9 +2444,9 @@ void check_item_knowledge(bool unknown_items)
                 items.push_back(ptmp);
 
                 if (you.force_autopickup[i][ptmp->sub_type] == 1)
-                    selected_items.push_back(SelItem(0,1,ptmp));
+                    selected_items.emplace_back(0,1,ptmp);
                 if (you.force_autopickup[i][ptmp->sub_type ] == -1)
-                    selected_items.push_back(SelItem(0,2,ptmp));
+                    selected_items.emplace_back(0,2,ptmp);
             }
         }
         // Missiles
@@ -2466,9 +2466,9 @@ void check_item_knowledge(bool unknown_items)
                 items_missile.push_back(ptmp);
 
                 if (you.force_autopickup[OBJ_MISSILES][i] == 1)
-                    selected_items.push_back(SelItem(0,1,ptmp));
+                    selected_items.emplace_back(0,1,ptmp);
                 if (you.force_autopickup[OBJ_MISSILES][i] == -1)
-                    selected_items.push_back(SelItem(0,2,ptmp));
+                    selected_items.emplace_back(0,2,ptmp);
             }
         }
         // Misc.
@@ -2515,9 +2515,9 @@ void check_item_knowledge(bool unknown_items)
                 items_other.push_back(ptmp);
 
                 if (you.force_autopickup[misc_list[i]][ptmp->sub_type] == 1)
-                    selected_items.push_back(SelItem(0,1,ptmp));
+                    selected_items.emplace_back(0,1,ptmp);
                 if (you.force_autopickup[misc_list[i]][ptmp->sub_type] == -1)
-                    selected_items.push_back(SelItem(0,2,ptmp));
+                    selected_items.emplace_back(0,2,ptmp);
             }
         }
     }
@@ -3637,7 +3637,7 @@ bool is_useless_item(const item_def &item, bool temp)
 
 string item_prefix(const item_def &item, bool temp)
 {
-    vector<string> prefixes;
+    vector<const char *> prefixes;
 
     if (!item.defined())
         return "";
