@@ -333,7 +333,7 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
     beam.colour       = 255;
     beam.hit          = -1;
     beam.damage       = dice_def(1, 0);
-    beam.ench_power   = -1;
+    beam.ench_power   = power;
     beam.glyph        = 0;
     beam.flavour      = BEAM_NONE;
     beam.thrower      = KILL_MISC;
@@ -838,7 +838,6 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
         beam.colour   = GREEN;
         beam.flavour  = BEAM_MEPHITIC;
         beam.hit      = 14 + power / 30;
-        beam.ench_power = power; // probably meaningless
         beam.is_explosion = true;
         break;
 
