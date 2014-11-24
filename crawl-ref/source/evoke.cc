@@ -1221,10 +1221,7 @@ void wind_blast(actor* agent, int pow, coord_def target, bool card)
 
                     // If no luck, they slam into something.
                     if (!success)
-                    {
-                        collisions.insert(pair<actor *, coord_def>
-                                          (act, newpos));
-                    }
+                        collisions.insert(make_pair(act, newpos));
                 }
             }
         }
