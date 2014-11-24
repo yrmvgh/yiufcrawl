@@ -113,16 +113,20 @@ spret_type ice_armour(int pow, bool fail)
 }
 
 /**
- * Destroy all corpses in LOS.
+ * Iterate over all corpses in LOS and harvest them (unless it's just a test
+ * run)
  *
- * @return  The total number of corpses destroyed. Non-skeleton corpses count
- *          double.
+ * @param harvester   The entity planning to do the harvesting.
+ * @param dry_run     Whether this is a test run & no corpses should be
+ *                    actually destroyed.
+ * @return            The total number of corpses (available to be) destroyed.
+ *                    Non-skeleton corpses count double.
  */
-static int _harvest_corpses()
+int harvest_corpses(const actor &harvester, bool dry_run)
 {
     int harvested = 0;
 
-    for (radius_iterator ri(you.pos(), LOS_NO_TRANS); ri; ++ri)
+    for (radius_iterator ri(harvester.pos(), LOS_NO_TRANS); ri; ++ri)
     {
         for (stack_iterator si(*ri, true); si; ++si)
         {
@@ -131,7 +135,10 @@ static int _harvest_corpses()
                 continue;
 
             harvested += item.sub_type == CORPSE_SKELETON ? 1 : 2;
-            destroy_item(item.index());
+            if (!dry_run)
+                destroy_item(item.index());
+
+            // XXX: fire an animation toward the harvester?
         }
     }
 
@@ -170,7 +177,7 @@ spret_type corpse_armour(int pow, bool fail)
     // player's perspective.
     fail_check();
 
-    const int harvested = _harvest_corpses();
+    const int harvested = harvest_corpses(you);
     dprf("Harvested: %d", harvested);
 
     if (!harvested)
@@ -193,6 +200,7 @@ spret_type corpse_armour(int pow, bool fail)
 
     return SPRET_SUCCESS;
 }
+
 
 spret_type missile_prot(int pow, bool fail)
 {
