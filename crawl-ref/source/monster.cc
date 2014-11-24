@@ -4444,7 +4444,7 @@ bool monster::drain_exp(actor *agent, bool quiet, int pow)
         mprf("%s is drained!", name(DESC_THE).c_str());
 
     // If quiet, don't clean up the monster in order to credit properly.
-    hurt(agent, 2 + random2(3), BEAM_NEG, !quiet);
+    hurt(agent, 2 + random2(3), BEAM_NEG, KILLED_BY_DRAINING, "", "", !quiet);
 
     if (alive())
     {
@@ -4476,7 +4476,7 @@ bool monster::rot(actor *agent, int amount, int immediate, bool quiet)
     {
         // If quiet, don't clean up the monster in order to credit
         // properly.
-        hurt(agent, immediate, BEAM_MISSILE, !quiet);
+        hurt(agent, immediate, BEAM_MISSILE, KILLED_BY_BEAM, "", "", !quiet);
 
         if (alive())
         {
@@ -4517,7 +4517,8 @@ void monster::splash_with_acid(const actor* evildoer, int /*acid_strength*/,
 }
 
 int monster::hurt(const actor *agent, int amount, beam_type flavour,
-                   bool cleanup_dead, bool attacker_effects)
+                   kill_method_type /*kill_type*/, string /*source*/,
+                   string /*aux*/, bool cleanup_dead, bool attacker_effects)
 {
     if (mons_is_projectile(type) || mindex() == ANON_FRIENDLY_MONSTER
         || mindex() == YOU_FAULTLESS || type == MONS_DIAMOND_OBELISK
