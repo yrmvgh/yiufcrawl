@@ -187,7 +187,7 @@ spret_type corpse_armour(int pow, bool fail)
     }
 
     if (you.attribute[ATTR_BONE_ARMOUR] <= 0)
-        mpr("The dead rush to embrace you!");
+        mpr("The bodies of the dead rush to embrace you!");
     else
         mpr("Your shell of carrion and bone grows thicker.");
 
