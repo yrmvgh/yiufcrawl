@@ -22,7 +22,9 @@
 #include "spl-transloc.h"
 #include "spl-util.h"
 #include "transform.h"
+#include "tilepick.h"
 #include "view.h"
+#include "viewchar.h"
 
 int allowed_deaths_door_hp()
 {
@@ -136,9 +138,20 @@ int harvest_corpses(const actor &harvester, bool dry_run)
 
             harvested += item.sub_type == CORPSE_SKELETON ? 1 : 2;
             if (!dry_run)
+            {
+                bolt beam;
+                beam.source = *ri;
+                beam.target = harvester.pos();
+                beam.glyph = dchar_glyph(DCHAR_FIRED_CHUNK);
+                beam.colour = item.get_colour();
+                beam.range = LOS_RADIUS;
+                beam.aimed_at_spot = true;
+                beam.item = &item;
+                beam.flavour = BEAM_VISUAL;
+                beam.draw_delay = 3;
+                beam.fire();
                 destroy_item(item.index());
-
-            // XXX: fire an animation toward the harvester?
+            }
         }
     }
 
