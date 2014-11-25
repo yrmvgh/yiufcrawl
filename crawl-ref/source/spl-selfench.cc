@@ -155,6 +155,10 @@ int harvest_corpses(const actor &harvester, bool dry_run)
         }
     }
 
+    // don't cover the screen with corpses if we get a more()
+    if (harvested)
+        viewwindow();
+
     return harvested;
 }
 
