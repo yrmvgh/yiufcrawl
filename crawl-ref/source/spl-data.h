@@ -145,8 +145,8 @@ static const struct spell_desc spelldata[] =
 {
     SPELL_BLINKBOLT, "Blinkbolt",
      SPTYP_AIR | SPTYP_TRANSLOCATION,
-     SPFLAG_DIR_OR_TARGET | SPFLAG_MONSTER | SPFLAG_NOISY | SPFLAG_NEEDS_TRACER,
-     5,
+     SPFLAG_DIR_OR_TARGET | SPFLAG_NOISY | SPFLAG_NEEDS_TRACER,
+     6,
      200,
      5, 12,
      3, 0,

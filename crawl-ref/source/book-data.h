@@ -249,9 +249,9 @@ static spell_type spellbook_template_array[][SPELLBOOK_SIZE] =
     SPELL_AIRSTRIKE,
     SPELL_SILENCE,
     SPELL_DEFLECT_MISSILES,
+    SPELL_BLINKBOLT,
     SPELL_CONJURE_BALL_LIGHTNING,
     SPELL_TORNADO,
-    SPELL_NO_SPELL,
     SPELL_NO_SPELL,
 },
 
@@ -262,7 +262,7 @@ static spell_type spellbook_template_array[][SPELLBOOK_SIZE] =
     SPELL_PHASE_SHIFT,
     SPELL_WARP_BRAND,
     SPELL_SUMMON_FOREST,
-    SPELL_NO_SPELL,
+    SPELL_BLINKBOLT,
     SPELL_NO_SPELL,
 },
 

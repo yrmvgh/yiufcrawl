@@ -82,7 +82,7 @@ targetter_beam::targetter_beam(const actor *act, int range, zap_type zap,
     beam.friend_info.dont_stop = true;
     beam.foe_info.dont_stop = true;
     beam.ex_size = min_ex_rad;
-    beam.aimed_at_spot = true;
+    beam.aimed_at_spot = zap != ZAP_BLINKBOLT;
 
     penetrates_targets = beam.pierce;
     range2 = dist_range(range);

@@ -4776,6 +4776,7 @@ tileidx_t tileidx_spell(spell_type spell)
     case SPELL_GOLUBRIAS_PASSAGE:        return TILEG_PASSAGE_OF_GOLUBRIA;
     case SPELL_SHROUD_OF_GOLUBRIA:       return TILEG_SHROUD_OF_GOLUBRIA;
     case SPELL_SINGULARITY:              return TILEG_SINGULARITY;
+    case SPELL_BLINKBOLT:                return TILEG_BLINKBOLT;
 
     // Summoning
     case SPELL_SUMMON_BUTTERFLIES:       return TILEG_SUMMON_BUTTERFLIES;
@@ -4886,7 +4887,6 @@ tileidx_t tileidx_spell(spell_type spell)
     case SPELL_AWAKEN_FOREST:            return TILEG_AWAKEN_FOREST;
     case SPELL_AWAKEN_VINES:             return TILEG_AWAKEN_VINES;
     case SPELL_BLACK_MARK:               return TILEG_BLACK_MARK;
-    case SPELL_BLINKBOLT:                return TILEG_BLINKBOLT;
     case SPELL_BLINK_ALLIES_AWAY:        return TILEG_BLINK_ALLIES_AWAY;
     case SPELL_BLINK_ALLIES_ENCIRCLE:    return TILEG_BLINK_ALLIES_ENCIRCLE;
     case SPELL_BLINK_AWAY:               return TILEG_BLINK_AWAY;

@@ -1103,6 +1103,7 @@ static targetter* _spell_targetter(spell_type spell, int pow, int range)
     case SPELL_DISPEL_UNDEAD:
     case SPELL_CRYSTAL_BOLT:
     case SPELL_TUKIMAS_DANCE:
+    case SPELL_BLINKBOLT:
         return new targetter_beam(&you, range, spell_to_zap(spell), pow, 0, 0);
     case SPELL_RANDOM_BOLT:
         return new targetter_beam(&you, range, ZAP_CRYSTAL_BOLT, pow, 0, 0);
@@ -1177,11 +1178,37 @@ spret_type your_spells(spell_type spell, int powc,
     if (!powc)
         powc = calc_spell_power(spell, true);
 
+    // XXX: handle this more gracefully
+    if (spell == SPELL_BLINKBOLT
+        && (orb_haloed(you.pos()) || !allow_control_teleport(true)))
+    {
+        if (!yesno("Your blink will be uncontrolled - continue anyway?",
+                   false, 'n'))
+        {
+            canned_msg(MSG_OK);
+            return SPRET_ABORT;
+        }
+        const int range = calc_spell_range(spell, powc);
+        beam.range = range;
+        do
+        {
+            beam.target = you.pos() + coord_def(random_range(-range, range),
+                                                random_range(-range, range));
+        }
+        while (beam.target == you.pos());
+        if (orb_haloed(you.pos()))
+        {
+            mprf(MSGCH_ORB,
+                 "The orb interferes with your control of the blink!");
+        }
+        else
+            mpr("A powerful magic interferes with your control of the blink.");
+    }
     // XXX: This handles only some of the cases where spells need
     // targeting.  There are others that do their own that will be
     // missed by this (and thus will not properly ESC without cost
     // because of it).  Hopefully, those will eventually be fixed. - bwr
-    if (flags & SPFLAG_TARGETING_MASK)
+    else if (flags & SPFLAG_TARGETING_MASK)
     {
         targ_mode_type targ =
               (testbits(flags, SPFLAG_HELPFUL) ? TARG_FRIEND : TARG_HOSTILE);

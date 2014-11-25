@@ -155,6 +155,7 @@ teleport_other TELEPORT_OTHER
 warp_weapon WARP_WEAPON
 shroud_of_golubria SHROUD_OF_GOLUBRIA
 singularity SINGULARITY
+blinkbolt BLINKBOLT
 
 %sdir gui/spells/transmutation
 blade_hands BLADE_HANDS
@@ -194,7 +195,6 @@ blink_other BLINK_OTHER
 %sdir misc
 error BLINK_OTHER_CLOSE
 error BLINK_RANGE
-error BLINKBOLT
 %sdir gui/spells/monster
 brain_feed BRAIN_FEED
 %sdir misc

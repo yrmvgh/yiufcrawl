@@ -247,6 +247,13 @@ spret_type zapping(zap_type ztype, int power, bolt &pbolt,
         pbolt.heard = true;
     }
 
+    if (ztype == ZAP_BLINKBOLT)
+    {
+        noisy(spell_effect_noise(SPELL_BLINKBOLT), you.pos());
+        pbolt.heard = true;
+        pbolt.aimed_at_spot = false;
+    }
+
     if (ztype == ZAP_DIG)
         pbolt.aimed_at_spot = false;
 
@@ -2584,8 +2591,9 @@ void bolt::affect_endpoint()
             for (vector<coord_def>::reverse_iterator citr = path_taken.rbegin();
                  citr != path_taken.rend(); ++citr)
             {
-                if (agent()->is_habitable(*citr) &&
-                    agent()->blink_to(*citr, false))
+                if (agent()->is_habitable(*citr)
+                    && (!actor_at(*citr) || actor_at(*citr)->shove())
+                    && agent()->blink_to(*citr, false))
                 {
                     return;
                 }
