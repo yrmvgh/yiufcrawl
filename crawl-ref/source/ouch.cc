@@ -907,6 +907,8 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
 
     if (dam != INSTANT_DEATH)
     {
+        you.maybe_degrade_bone_armour();
+
         if (you.spirit_shield() && death_type != KILLED_BY_POISON
             && !(aux && strstr(aux, "flay_damage")))
         {

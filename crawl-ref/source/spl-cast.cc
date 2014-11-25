@@ -1645,8 +1645,11 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_SIMULACRUM:
         return cast_simulacrum(powc, god, fail);
 
+#if TAG_MAJOR_VERSION == 34
     case SPELL_TWISTED_RESURRECTION:
-        return cast_twisted_resurrection(powc, god, fail);
+        mpr("Sorry, this spell is gone!");
+        return SPRET_ABORT;
+#endif
 
     case SPELL_HAUNT:
         return cast_haunt(powc, beam.target, god, fail);
@@ -1800,6 +1803,9 @@ static spret_type _do_cast(spell_type spell, int powc,
 
     case SPELL_OZOCUBUS_ARMOUR:
         return ice_armour(powc, fail);
+
+    case SPELL_BONE_ARMOUR:
+        return corpse_armour(powc, fail);
 
     case SPELL_PHASE_SHIFT:
         return cast_phase_shift(powc, fail);

@@ -2698,8 +2698,6 @@ int spawn_corpse_mushrooms(item_def& corpse,
     if (target_count == 0)
         return 0;
 
-    int permutation[] = {0, 1, 2, 3, 4, 5, 6, 7};
-
     int placed_targets = 0;
 
     queue<coord_def> fringe;
@@ -2809,21 +2807,13 @@ int spawn_corpse_mushrooms(item_def& corpse,
         if (placed_targets == target_count)
             break;
 
-        // Wish adjacent_iterator had a random traversal.
-        shuffle_array(permutation);
-
-        for (int idx : permutation)
+        for (fair_adjacent_iterator ai(current); ai; ++ai)
         {
-            coord_def temp = current + Compass[idx];
-
-            int index = temp.x + temp.y * X_WIDTH;
-
-            if (!visited_indices.count(index)
-                && in_bounds(temp)
-                && mons_class_can_pass(MONS_TOADSTOOL, grd(temp)))
+            if (in_bounds(*ai) && mons_class_can_pass(MONS_TOADSTOOL, grd(*ai)))
             {
-                visited_indices.insert(index);
-                fringe.push(temp);
+                const int index = ai->x + ai->y * X_WIDTH;
+                if (visited_indices.insert(index).second)
+                    fringe.push(*ai); // Not previously visited.
             }
         }
     }

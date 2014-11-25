@@ -178,7 +178,7 @@ bool check_moveto_trap(const coord_def& p, const string &move_verb,
         if (!yes_or_no("%s", prompt.c_str()))
         {
             canned_msg(MSG_OK);
-                return false;
+            return false;
         }
     }
     else if (!trap->is_safe() && !crawl_state.disables[DIS_CONFIRMATIONS])
@@ -2597,6 +2597,9 @@ int player_shield_class()
 
     shield += qazlal_sh_boost() * 100;
     shield += tso_sh_boost() * 100;
+    // make sure bone armour always gives at least one point of displayed sh.
+    if (you.attribute[ATTR_BONE_ARMOUR])
+        shield += (you.attribute[ATTR_BONE_ARMOUR] + 2) * 200 / BONE_ARMOUR_DIV;
 
     return (shield + 50) / 100;
 }
@@ -4195,7 +4198,8 @@ int player::scan_artefacts(artefact_prop_type which_property,
 
         bool known;
         int val = artefact_wpn_property(inv[eq], which_property, known);
-        if (calc_unid || known) {
+        if (calc_unid || known)
+        {
             retval += val;
             if (matches && val)
                 matches->push_back(inv[eq]);
@@ -6095,6 +6099,8 @@ bool player::liquefied_ground() const
 
 /**
  * Returns whether the player currently has any kind of shield.
+ *
+ * XXX: why does this function exist?
  */
 bool player::shielded() const
 {
@@ -6103,7 +6109,8 @@ bool player::shielded() const
            || duration[DUR_MAGIC_SHIELD]
            || duration[DUR_DIVINE_SHIELD]
            || player_mutation_level(MUT_LARGE_BONE_PLATES) > 0
-           || qazlal_sh_boost() > 0;
+           || qazlal_sh_boost() > 0
+           || attribute[ATTR_BONE_ARMOUR] > 0;
 }
 
 int player::shield_block_penalty() const
@@ -6395,8 +6402,12 @@ int player::armour_class(bool /*calc_unid*/) const
     if (duration[DUR_QAZLAL_AC])
         AC += 300;
 
-    if (you.duration[DUR_CORROSION])
+    if (duration[DUR_CORROSION])
         AC -= 500 * you.props["corrosion_amount"].get_int();
+
+    // make sure bone armour always gives at least one point of ac.
+    if (attribute[ATTR_BONE_ARMOUR])
+        AC += (attribute[ATTR_BONE_ARMOUR] + 2) * 100 / BONE_ARMOUR_DIV;
 
     AC += get_form()->get_ac_bonus();
 
@@ -6734,13 +6745,8 @@ bool player::res_wind() const
 
 bool player::res_petrify(bool temp) const
 {
-    if (player_mutation_level(MUT_PETRIFICATION_RESISTANCE))
-        return true;
-
-    if (temp && (form == TRAN_STATUE || form == TRAN_WISP))
-        return true;
-
-    return false;
+    return player_mutation_level(MUT_PETRIFICATION_RESISTANCE)
+           || temp && get_form()->res_petrify();
 }
 
 int player::res_constrict() const
@@ -8899,4 +8905,36 @@ string player::hands_act(const string &plural_verb,
                          const string &subject) const
 {
     return "Your " + hands_verb(plural_verb) + " " + subject;
+}
+
+/**
+ * Possibly drop a point of bone armour (from Cigotuvi's Embrace) when hit.
+ *
+ * Chance of losing a point of ac/sh (BONE_ARMOUR_DIV) increases with current
+ * number of corpses (ATTR_BONE_ARMOUR) and decreases with spellpower, both
+ * linearly. 50->100 power halves the chance; 1->5 corpses (roughly) doubles it.
+ * at 50 power and 5 SH+EV, there's a 1/5 chance of losing a point on hit.
+ * chance floored at 1/27.
+ */
+void player::maybe_degrade_bone_armour()
+{
+    if (attribute[ATTR_BONE_ARMOUR] <= 0)
+        return;
+
+    const int numerator = attribute[ATTR_BONE_ARMOUR] + 5 * BONE_ARMOUR_DIV;
+    const int power = max(1, calc_spell_power(SPELL_BONE_ARMOUR, true));
+    const int denom = min(power * 3, numerator * 27);
+    const bool degrade_armour = x_chance_in_y(numerator, denom);
+    if (!degrade_armour)
+        return;
+
+    you.attribute[ATTR_BONE_ARMOUR]
+        = max(0, you.attribute[ATTR_BONE_ARMOUR] - BONE_ARMOUR_DIV);
+
+    if (you.attribute[ATTR_BONE_ARMOUR])
+        mpr("A chunk of your corpse armour falls away.");
+    else
+        mpr("The last of your corpse armour falls away.");
+
+    redraw_armour_class = true;
 }

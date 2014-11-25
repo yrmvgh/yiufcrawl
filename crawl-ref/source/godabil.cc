@@ -5475,7 +5475,7 @@ void ru_offer_new_sacrifices()
         return;
 
     simple_god_message(" believes you are ready to make a new sacrifice.");
-                    more();
+    more();
 
     // try to get three distinct sacrifices
     int lesser_sacrifice;
@@ -6120,7 +6120,8 @@ static int _apply_apocalypse(coord_def where, int pow, int dummy, actor* agent)
     }
     mons->hurt(agent, dmg, BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
 
-    if (mons->alive() && enchantment != ENCH_NONE) {
+    if (mons->alive() && enchantment != ENCH_NONE)
+    {
         simple_monster_message(mons, message.c_str());
         mons->add_ench(mon_enchant(enchantment, 1, agent, duration));
     }

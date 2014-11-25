@@ -54,6 +54,7 @@
 #include "spl-clouds.h"
 #include "spl-damage.h"
 #include "spl-monench.h"
+#include "spl-selfench.h"
 #include "spl-summoning.h"
 #include "spl-transloc.h"
 #include "spl-util.h"
@@ -1332,6 +1333,7 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_MONSTROUS_MENAGERIE:
     case SPELL_ANIMATE_DEAD:
     case SPELL_TWISTED_RESURRECTION:
+    case SPELL_BONE_ARMOUR:
     case SPELL_SIMULACRUM:
     case SPELL_CALL_IMP:
     case SPELL_SUMMON_MINOR_DEMON:
@@ -2829,26 +2831,13 @@ monster* cast_phantom_mirror(monster* mons, monster* targ, int hp_perc, int summ
     mirror->hit_points = mirror->hit_points * 100 / hp_perc;
     mirror->max_hit_points = mirror->max_hit_points * 100 / hp_perc;
 
-    // Sometimes swap the two monsters, so as to disguise the original and the copy.
+    // Sometimes swap the two monsters, so as to disguise the original and the
+    // copy.
+    // Possibly constriction should be preserved so as to not sometimes leak
+    // info on whether the clone or the original is adjacent to you, but
+    // there's a fair amount of complication in this for very narrow benefit.
     if (coinflip())
-    {
-        // We can skip some habitability checks here, since the monsters are
-        // known to be identical.
-        coord_def p1 = targ->pos();
-        coord_def p2 = mirror->pos();
-
-        targ->set_position(p2);
-        mirror->set_position(p1);
-
-        mgrd(p1) = mirror->mindex();
-        mgrd(p2) = targ->mindex();
-
-        // Possibly constriction should be preserved so as to not sometimes leak
-        // info on whether the clone or the original is adjacent to you, but
-        // there's a fair amount of complication in this for very narrow benefit.
-        targ->clear_far_constrictions();
-        mirror->clear_far_constrictions();
-    }
+        targ->swap_with(mirror);
 
     return mirror;
 }
@@ -4493,8 +4482,8 @@ static coord_def _mons_fragment_target(monster *mons)
     {
         bool temp;
         bolt beam;
-                if (!setup_fragmentation_beam(beam, pow, mons, mons->target, false,
-                                              true, true, NULL, temp, temp))
+        if (!setup_fragmentation_beam(beam, pow, mons, mons->target, false,
+                                      true, true, NULL, temp, temp))
         {
             return target;
         }
@@ -5281,22 +5270,29 @@ void mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
                              mons->foe, god);
         return;
 
+    case SPELL_BONE_ARMOUR:
+        harvest_corpses(*mons);
+        mprf("The bodies of the dead form a shell around %s.",
+             mons->name(DESC_THE).c_str());
+        mons->add_ench(ENCH_BONE_ARMOUR);
+        return;
+
     case SPELL_SIMULACRUM:
         monster_simulacrum(mons, true);
         return;
 
     case SPELL_CALL_IMP:
         duration  = min(2 + mons->spell_hd(spell_cast) / 5, 6);
-            create_monster(
-                mgen_data(random_choose_weighted(
-                            1, MONS_IRON_IMP,
-                            2, MONS_SHADOW_IMP,
-                            2, MONS_WHITE_IMP,
-                            4, MONS_CRIMSON_IMP,
-                            0),
-                          SAME_ATTITUDE(mons), mons,
-                          duration, spell_cast, mons->pos(), mons->foe, 0,
-                          god));
+        create_monster(
+            mgen_data(random_choose_weighted(
+                        1, MONS_IRON_IMP,
+                        2, MONS_SHADOW_IMP,
+                        2, MONS_WHITE_IMP,
+                        4, MONS_CRIMSON_IMP,
+                        0),
+                      SAME_ATTITUDE(mons), mons,
+                      duration, spell_cast, mons->pos(), mons->foe, 0,
+                      god));
         return;
 
     case SPELL_SUMMON_MINOR_DEMON: // class 5 demons
@@ -7914,6 +7910,13 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
                                            mon->foe, mon->god, false)
                || monspell == SPELL_SIMULACRUM
                   && !monster_simulacrum(mon, false);
+
+    case SPELL_BONE_ARMOUR:
+        if (friendly && !_animate_dead_okay(monspell))
+            return true;
+        if (mon->has_ench(ENCH_BONE_ARMOUR))
+            return true;
+        return !harvest_corpses(*mon, true);
 
     //XXX: unify with the other SPELL_FOO_OTHER spells?
     case SPELL_BERSERK_OTHER:

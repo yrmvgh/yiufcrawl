@@ -578,7 +578,8 @@ static void _wanderer_note_items()
     for (int i = 0; i < ENDOFPACK; ++i)
     {
         item_def& item(you.inv[i]);
-        if (item.defined()) {
+        if (item.defined())
+        {
             if (!first_item)
                 equip_str << ", ";
             equip_str << item.name(DESC_A, false, true);
@@ -2884,9 +2885,7 @@ static void _do_searing_ray()
     }
 
     if (crawl_state.prev_cmd == CMD_WAIT)
-    {
         handle_searing_ray();
-    }
     else
         end_searing_ray();
 }
@@ -2921,15 +2920,9 @@ static void _swap_places(monster* mons, const coord_def &loc)
 
     mpr("You swap places.");
 
-    mgrd(mons->pos()) = NON_MONSTER;
-
     const coord_def old_loc = mons->pos();
-    mons->moveto(loc);
+    mons->move_to_pos(loc);
     mons->apply_location_effects(old_loc);
-
-    if (mons->alive())
-        mgrd(mons->pos()) = mons->mindex();
-
     return;
 }
 
