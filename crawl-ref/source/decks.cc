@@ -2052,7 +2052,7 @@ static void _potion_card(int power, deck_rarity_type rarity)
         return;
     }
 
-    potion_effect(pot, random2(power/4));
+    potion_effect(pot,nullptr,true);
 
     for (radius_iterator ri(you.pos(), LOS_NO_TRANS); ri; ++ri)
     {

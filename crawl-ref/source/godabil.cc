@@ -3993,8 +3993,7 @@ bool gozag_potion_petition()
     you.attribute[ATTR_GOZAG_GOLD_USED] += faith_price;
     for (int j = 0; j < pots[keyin]->size(); j++)
     {
-        potion_effect(static_cast<potion_type>((*pots[keyin])[j].get_int()),
-                      40);
+        potion_effect(static_cast<potion_type>((*pots[keyin])[j].get_int()),nullptr);
     }
 
     you.attribute[ATTR_GOZAG_POTIONS]++;

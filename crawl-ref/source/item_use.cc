@@ -2115,7 +2115,7 @@ void drink(int slot)
     }
 
     if (!potion_effect(static_cast<potion_type>(potion.sub_type),
-                       40, &potion, alreadyknown))
+                       &potion, alreadyknown))
     {
         return;
     }
