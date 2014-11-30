@@ -168,6 +168,69 @@ typename M::mapped_type lookup(M &map, const typename M::key_type &key,
     return it == map.end() ? unfound : it->second;
 }
 
+template<class I, class P>
+class filtered_iterator
+{
+public:
+    filtered_iterator(const I &begin, const I &_end, P _pred)
+        : iter(begin), end(_end), pred(_pred)
+    {
+        // Advance the iterator until it is on a true element.
+        while (iter != end && !pred(*iter))
+            ++iter;
+    }
+
+    filtered_iterator(filtered_iterator<I,P> &&other)
+        : iter(move(other.iter)), end(move(other.end)), pred(move(other.pred))
+    {}
+
+    filtered_iterator<I,P> &operator=(filtered_iterator<I,P> &&other)
+    {
+        if (this != &other)
+        {
+            iter = move(other.iter);
+            end = move(other.end);
+            pred = move(other.pred);
+        }
+        return *this;
+    }
+
+    operator bool() const { return iter != end; }
+    bool operator!=(const I &other) const { return iter != other; }
+    bool operator!=(const filtered_iterator<I,P> &other) const
+    {
+        return iter != other.iter;
+    }
+
+    typename I::value_type &operator*() { return *iter; }
+    typename I::value_type const &operator*() const { return *iter; }
+    typename I::value_type *operator->() { return &**this; }
+    typename I::value_type const *operator->() const { return &**this; }
+
+    filtered_iterator<I,P> &operator++()
+    {
+        ASSERT(iter != end);
+        do
+        {
+            ++iter;
+        }
+        while (iter != end && !pred(*iter));
+        return *this;
+    }
+
+    filtered_iterator<I,P> operator++(bool)
+    {
+        filtered_iterator<I,P> orig = *this;
+        ++*this;
+        return orig;
+    }
+
+private:
+    I iter;
+    I end;
+    P pred;
+};
+
 static inline int sqr(int x)
 {
     return x * x;
