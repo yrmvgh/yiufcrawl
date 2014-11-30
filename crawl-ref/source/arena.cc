@@ -1017,7 +1017,7 @@ monster_type arena_pick_random_monster(const level_id &place)
     {
         const vector<monster_type> &uniques = arena::uniques_list;
 
-        const monster_type type = uniques[random2(uniques.size())];
+        const monster_type type = *random_iterator(uniques);
         you.unique_creatures.set(type, false);
 
         return type;

@@ -48,22 +48,6 @@ T random_choose(T first, Ts... rest)
     return elts[random2(1 + sizeof...(rest))];
 }
 
-template <typename C>
-auto random_iterator(C &container) -> decltype(begin(container))
-{
-    int pos = random2(container.size());
-    auto it = begin(container);
-    advance(it, pos);
-    return it;
-}
-
-template <typename C>
-auto random_element(C &container) -> decltype(*begin(container))
-{
-    ASSERT(container.size() > 0);
-    return *random_iterator(container);
-}
-
 template <typename I, typename P>
 I random_if(I curr, const I &end, P pred)
 {
@@ -89,6 +73,36 @@ I random_if(I curr, P pred)
 
     // If no matches, return the past-the-end iterator curr.
     return count ? chosen : curr;
+}
+
+template <typename C>
+auto random_iterator_impl(C &container, random_access_iterator_tag)
+    -> decltype(begin(container))
+{
+    return begin(container) + random2(begin(container) - end(container));
+}
+
+template <typename C>
+auto random_iterator_impl(C &container, input_iterator_tag)
+    -> decltype(begin(container))
+{
+    // Use a lambda to avoid pulling in libutil.h
+    return random_if(begin(container), end(container),
+                     [](const typename C::value_type &) { return true; });
+}
+
+template <typename C>
+auto random_iterator(C &container) -> decltype(begin(container))
+{
+    return random_iterator_impl(container,
+            typename iterator_traits<decltype(begin(container))>::iterator_category());
+}
+
+template <typename C>
+auto random_element(C &container) -> decltype(*begin(container))
+{
+    ASSERT(begin(container) != end(container));
+    return *random_iterator(container);
 }
 
 template <typename T>
