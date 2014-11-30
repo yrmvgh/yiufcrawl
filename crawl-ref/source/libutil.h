@@ -170,7 +170,7 @@ typename M::mapped_type lookup(M &map, const typename M::key_type &key,
 }
 
 template<class I>
-using filtered_iterator_pred = function<bool(const typename I::value_type &)>;
+using filtered_iterator_pred = function<bool(const typename iterator_traits<I>::value_type &)>;
 
 template<class I, class P>
 class filtered_iterator
