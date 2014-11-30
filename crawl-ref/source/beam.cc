@@ -3481,14 +3481,14 @@ void bolt::affect_player_enchantment(bool resistible)
         break;
 
     case BEAM_HEALING:
-        get_potion_effect(POT_HEAL_WOUNDS)->effect(ench_power);
+        potionlike_effect(POT_HEAL_WOUNDS, ench_power);
         obvious_effect = true;
         nasty = false;
         nice  = true;
         break;
 
     case BEAM_MIGHT:
-        get_potion_effect(POT_MIGHT)->effect(ench_power);
+        potionlike_effect(POT_MIGHT, ench_power);
         obvious_effect = true;
         nasty = false;
         nice  = true;
@@ -3496,7 +3496,7 @@ void bolt::affect_player_enchantment(bool resistible)
 
     case BEAM_INVISIBILITY:
         you.attribute[ATTR_INVIS_UNCANCELLABLE] = 1;
-        get_potion_effect(POT_INVISIBILITY)->effect(ench_power);
+        potionlike_effect(POT_INVISIBILITY, ench_power);
         contaminate_player(1000 + random2(1000), blame_player);
         obvious_effect = true;
         nasty = false;
@@ -3706,7 +3706,7 @@ void bolt::affect_player_enchantment(bool resistible)
         break;
 
     case BEAM_AGILITY:
-        get_potion_effect(POT_AGILITY)->effect(ench_power);
+        potionlike_effect(POT_AGILITY, ench_power);
         obvious_effect = true;
         nasty = false;
         nice  = true;
@@ -3756,7 +3756,7 @@ void bolt::affect_player_enchantment(bool resistible)
         break;
 
     case BEAM_RESISTANCE:
-        get_potion_effect(POT_RESISTANCE)->effect(ench_power);
+        potionlike_effect(POT_RESISTANCE, ench_power);
         obvious_effect = true;
         nasty = false;
         nice  = true;
