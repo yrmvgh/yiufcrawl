@@ -172,6 +172,12 @@ template<class I, class P>
 class filtered_iterator
 {
 public:
+    typedef typename iterator_traits<I>::value_type value_type;
+    typedef typename iterator_traits<I>::difference_type difference_type;
+    typedef typename iterator_traits<I>::pointer pointer;
+    typedef typename iterator_traits<I>::reference reference;
+    typedef forward_iterator_tag iterator_category; // XXX
+
     filtered_iterator(const I &begin, const I &_end, P _pred)
         : iter(begin), end(_end), pred(_pred)
     {
@@ -196,16 +202,21 @@ public:
     }
 
     operator bool() const { return iter != end; }
+    bool operator==(const I &other) const { return iter == other; }
+    bool operator==(const filtered_iterator<I,P> &other) const
+    {
+        return iter == other.iter;
+    }
     bool operator!=(const I &other) const { return iter != other; }
     bool operator!=(const filtered_iterator<I,P> &other) const
     {
         return iter != other.iter;
     }
 
-    typename I::value_type &operator*() { return *iter; }
-    typename I::value_type const &operator*() const { return *iter; }
-    typename I::value_type *operator->() { return &**this; }
-    typename I::value_type const *operator->() const { return &**this; }
+    value_type &operator*() { return *iter; }
+    value_type const &operator*() const { return *iter; }
+    value_type *operator->() { return &**this; }
+    value_type const *operator->() const { return &**this; }
 
     filtered_iterator<I,P> &operator++()
     {
@@ -230,6 +241,12 @@ private:
     I end;
     P pred;
 };
+
+template<class I>
+filtered_iterator<I, function<bool(const typename iterator_traits<I>::value_type &)> > make_filtered_iterator(I begin, I end, function<bool(const typename iterator_traits<I>::value_type &)> pred = _always_true<const typename iterator_traits<I>::value_type &>)
+{
+    return filtered_iterator<I, function<bool(const typename iterator_traits<I>::value_type &)> >(begin, end, pred);
+}
 
 static inline int sqr(int x)
 {
