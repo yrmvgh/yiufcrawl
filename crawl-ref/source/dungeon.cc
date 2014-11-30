@@ -3504,18 +3504,11 @@ static coord_def _dgn_random_point_in_bounds(dungeon_feature_type searchfeat,
 
         // Exhaustive search; will never fail if a suitable place is
         // available, but is also far more expensive.
-        int nfound = 0;
-        for (rectangle_iterator ri(1); ri; ++ri)
-        {
-            const coord_def c(*ri);
-            if (_point_matches_feat(c, searchfeat, mapmask, adjacent_feat,
-                                    monster_free)
-                && one_chance_in(++nfound))
-            {
-                chosen = c;
-            }
-        }
-        return chosen;
+        auto it = random_if(rectangle_iterator(1),
+                            bind(_point_matches_feat, placeholders::_1,
+                                 searchfeat, mapmask, adjacent_feat,
+                                 monster_free));
+        return it ? *it : coord_def(0, 0);
     }
     else
     {

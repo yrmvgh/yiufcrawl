@@ -2469,19 +2469,17 @@ void handle_monster_move(monster* mons)
                         else if (interference == DO_REDIRECT_ATTACK)
                         {
                             // get a target
-                            int pfound = 0;
-                            for (adjacent_iterator ai(mons->pos(), false); ai; ++ai)
+                            if (auto it = random_if(adjacent_iterator(
+                                                        mons->pos(), false),
+                                    [] (coord_def c)
+                                    {
+                                        monster *cand = monster_at(c);
+                                        return cand
+                                            && !mons_is_projectile(cand->type)
+                                            && !mons_is_firewood(cand);
+                                    }))
                             {
-                                monster* candidate = monster_at(*ai);
-                                if (candidate == nullptr
-                                    || mons_is_projectile(candidate->type)
-                                    || mons_is_firewood(candidate))
-                                {
-                                    continue;
-                                }
-                                ASSERT(candidate);
-                                if (one_chance_in(++pfound))
-                                    new_target = candidate;
+                                new_target = monster_at(*it);
                             }
                         }
                     }
@@ -3013,17 +3011,15 @@ static bool _jelly_divide(monster* parent)
 
     monster* child = nullptr;
     coord_def child_spot;
-    int num_spots = 0;
 
     // First, find a suitable spot for the child {dlb}:
-    for (adjacent_iterator ai(parent->pos()); ai; ++ai)
-        if (actor_at(*ai) == nullptr && parent->can_pass_through(*ai)
-            && one_chance_in(++num_spots))
-        {
-            child_spot = *ai;
-        }
-
-    if (num_spots == 0)
+    if (auto it = random_if(adjacent_iterator(parent->pos()),
+                [parent] (coord_def c)
+                { return !actor_at(c) && parent->can_pass_through(c); }))
+    {
+        child_spot = *it;
+    }
+    else
         return false;
 
     // Now that we have a spot, find a monster slot {dlb}:

@@ -4398,30 +4398,17 @@ int monster::skill(skill_type sk, int scale, bool real, bool drained) const
 //---------------------------------------------------------------
 bool monster::shift(coord_def p)
 {
-    coord_def result;
-
-    int count = 0;
-
     if (p.origin())
         p = pos();
 
-    for (adjacent_iterator ai(p); ai; ++ai)
+    if (auto it = random_if(adjacent_iterator(p), [] (coord_def c)
+                { return grd(c) == DNGN_FLOOR && !actor_at(c); }))
     {
-        // Don't drop on anything but vanilla floor right now.
-        if (grd(*ai) != DNGN_FLOOR)
-            continue;
-
-        if (actor_at(*ai))
-            continue;
-
-        if (one_chance_in(++count))
-            result = *ai;
+        move_to_pos(*it);
+        return true;
     }
-
-    if (count > 0)
-        move_to_pos(result);
-
-    return count > 0;
+    else
+        return false;
 }
 void monster::blink(bool)
 {

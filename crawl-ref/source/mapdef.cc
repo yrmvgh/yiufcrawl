@@ -2978,28 +2978,19 @@ bool map_def::is_overwritable_layout() const
 // similar to setting the orientation, it doesn't affect 'orient'.
 coord_def map_def::float_dock()
 {
-    const map_section_type orients[] =
+    static const map_section_type orients[] =
         { MAP_NORTH, MAP_SOUTH, MAP_EAST, MAP_WEST,
           MAP_NORTHEAST, MAP_SOUTHEAST, MAP_NORTHWEST, MAP_SOUTHWEST };
-    map_section_type which_orient = MAP_NONE;
-    int norients = 0;
 
-    for (map_section_type sec : orients)
-    {
-        if (map.solid_borders(sec) && can_dock(sec)
-            && one_chance_in(++norients))
-        {
-            which_orient = sec;
-        }
-    }
+    auto it = random_if(begin(orients), end(orients),
+                        [this] (map_section_type sec)
+                        { return map.solid_borders(sec) && can_dock(sec); });
 
-    if (which_orient == MAP_NONE || which_orient == MAP_FLOAT)
+    if (it == end(orients))
         return coord_def(-1, -1);
 
-    dprf(DIAG_DNGN, "Docking floating vault to %s",
-         map_section_name(which_orient));
-
-    return dock_pos(which_orient);
+    dprf(DIAG_DNGN, "Docking floating vault to %s", map_section_name(*it));
+    return dock_pos(*it);
 }
 
 coord_def map_def::dock_pos(map_section_type norient) const

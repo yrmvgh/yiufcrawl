@@ -3366,16 +3366,14 @@ bool handle_mon_spell(monster* mons, bolt &beem)
         // get here... even if the monster is on its last HP.  That
         // way we don't have to worry about monsters infinitely casting
         // Healing on themselves (e.g. orc high priests).
-        int found_spell = 0;
-        for (const mon_spell_slot &slot : hspell_pass)
+        auto it = random_if(begin(hspell_pass), end(hspell_pass),
+                      bind(_ms_low_hitpoint_cast, mons, placeholders::_1));
+
+        if (it != end(hspell_pass))
         {
-            if (_ms_low_hitpoint_cast(mons, slot)
-                && one_chance_in(++found_spell))
-            {
-                spell_cast = slot.spell;
-                flags = slot.flags;
-                finalAnswer = true;
-            }
+            spell_cast = it->spell;
+            flags = it->flags;
+            finalAnswer = true;
         }
     }
 
@@ -3410,28 +3408,19 @@ bool handle_mon_spell(monster* mons, bolt &beem)
         {
             mprf(MSGCH_GOD, "You redirect %s's attack!",
                     mons->name(DESC_THE).c_str());
-            int pfound = 0;
-            for (radius_iterator ri(you.pos(),
-                LOS_DEFAULT); ri; ++ri)
+            if (auto it = random_if(radius_iterator(you.pos(), LOS_DEFAULT),
+                        [] (coord_def c)
+                        {
+                            const monster * const mon = monster_at(c);
+                            return mon && !mons_is_projectile(mon->type)
+                                       && !mons_is_firewood(mon);
+                        }))
             {
-                monster* new_target = monster_at(*ri);
-
-                if (new_target == nullptr
-                    || mons_is_projectile(new_target->type)
-                    || mons_is_firewood(new_target))
-                {
-                    continue;
-                }
-
-                ASSERT(new_target);
-
-                if (one_chance_in(++pfound))
-                {
-                    mons->target = new_target->pos();
-                    mons->foe = new_target->mindex();
-                    beem.target = mons->target;
-                    ignore_good_idea = true;
-                }
+                monster * const new_target = monster_at(*it);
+                mons->target = new_target->pos();
+                mons->foe = new_target->mindex();
+                beem.target = mons->target;
+                ignore_good_idea = true;
             }
         }
     }

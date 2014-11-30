@@ -10,6 +10,7 @@
 #include "act-iter.h"
 #include "arena.h"
 #include "artefact.h"
+#include "coordit.h"
 #include "directn.h"
 #include "env.h"
 #include "items.h"
@@ -281,21 +282,14 @@ monster* clone_mons(const monster* orig, bool quiet, bool* obvious,
     if (!in_bounds(pos))
     {
         // Find an adjacent square.
-        int squares = 0;
-        for (int i = 0; i < 8; i++)
+        if (auto it = random_if(adjacent_iterator(orig->pos()),
+                    [orig] (coord_def p)
+                    { return in_bounds(p) && !actor_at(p)
+                          && monster_habitable_grid(orig, grd(p)); }))
         {
-            const coord_def p = orig->pos() + Compass[i];
-
-            if (in_bounds(p)
-                && !actor_at(p)
-                && monster_habitable_grid(orig, grd(p)))
-            {
-                if (one_chance_in(++squares))
-                    pos = p;
-            }
+            pos = *it;
         }
-
-        if (squares == 0)
+        else
             return 0;
     }
 

@@ -1665,14 +1665,11 @@ void change_labyrinth(bool msg)
         {
             if (one_chance_in(4))
             {
-                int wall_count = 0;
-                coord_def old_adj(c);
-                for (adjacent_iterator ai(c); ai; ++ai)
-                    if (feat_is_wall(grd(*ai)) && one_chance_in(++wall_count))
-                        old_adj = *ai;
+                auto it = random_if(adjacent_iterator(c), [] (coord_def adj)
+                                    { return feat_is_wall(grd(adj)); });
 
-                if (old_adj != c && maybe_bloodify_square(old_adj))
-                    env.pgrid(c) &= (~FPROP_BLOODY);
+                if (it && maybe_bloodify_square(*it))
+                    env.pgrid(*it) &= (~FPROP_BLOODY);
             }
         }
         else if (one_chance_in(500))
@@ -1715,14 +1712,11 @@ void change_labyrinth(bool msg)
         {
             if (one_chance_in(4))
             {
-                int floor_count = 0;
-                coord_def new_adj(p);
-                for (adjacent_iterator ai(c); ai; ++ai)
-                    if (feat_has_solid_floor(grd(*ai)) && one_chance_in(++floor_count))
-                        new_adj = *ai;
+                auto it = random_if(adjacent_iterator(c), [] (coord_def adj)
+                                    { return feat_has_solid_floor(grd(adj)); });
 
-                if (new_adj != p && maybe_bloodify_square(new_adj))
-                    env.pgrid(p) &= (~FPROP_BLOODY);
+                if (it && *it != p && maybe_bloodify_square(*it))
+                    env.pgrid(*it) &= (~FPROP_BLOODY);
             }
         }
         else if (one_chance_in(100))

@@ -1417,14 +1417,11 @@ bool slide_feature_over(const coord_def &src, coord_def preferred_dest,
     }
     else
     {
-        int squares = 0;
-        for (adjacent_iterator ai(src); ai; ++ai)
+        if (auto it = random_if(adjacent_iterator(src),
+                    bind(_ok_dest_cell, orig_actor, orig_feat,
+                         placeholders::_1)))
         {
-            if (_ok_dest_cell(orig_actor, orig_feat, *ai)
-                && one_chance_in(++squares))
-            {
-                preferred_dest = *ai;
-            }
+            preferred_dest = *it;
         }
     }
 

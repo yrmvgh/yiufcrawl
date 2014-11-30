@@ -1598,20 +1598,12 @@ static bool _slot_conflict(equipment_type eq)
 
 static mutation_type _beastly_appendage()
 {
-    mutation_type chosen = NUM_MUTATIONS;
-    int count = 0;
+    auto it = random_if(begin(appendages), end(appendages),
+                        [] (mutation_type app)
+                        { return !_slot_conflict(beastly_slot(app))
+                              && !physiology_mutation_conflict(app); });
 
-    for (mutation_type app : appendages)
-    {
-        if (_slot_conflict(beastly_slot(app)))
-            continue;
-        if (physiology_mutation_conflict(app))
-            continue;
-
-        if (one_chance_in(++count))
-            chosen = app;
-    }
-    return chosen;
+    return it == end(appendages) ? NUM_MUTATIONS : *it;
 }
 
 static bool _transformation_is_safe(transformation_type which_trans,

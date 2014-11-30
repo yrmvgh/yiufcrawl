@@ -2911,16 +2911,16 @@ bool move_stair(coord_def stair_pos, bool away, bool allow_under)
             // find any matching grid, try again without that restriction.
             for (int tries = 0; tries < 2; ++tries)
             {
-                int adj_count = 0;
-                for (adjacent_iterator ai(stair_pos); ai; ++ai)
-                    if (grd(*ai) == DNGN_FLOOR
-                        && (tries || _valid_floor_grid(*ai + *ai - stair_pos))
-                        && one_chance_in(++adj_count))
-                    {
-                        new_pos = *ai;
-                    }
-
-                if (!tries && new_pos != stair_pos)
+                if (auto it = random_if(adjacent_iterator(stair_pos),
+                            [tries, stair_pos] (coord_def c)
+                            { return grd(c) == DNGN_FLOOR
+                                  && (tries
+                                      || _valid_floor_grid(c + c - stair_pos));
+                            }))
+                {
+                    new_pos = *it;
+                }
+                else if (new_pos == stair_pos)
                     break;
             }
 

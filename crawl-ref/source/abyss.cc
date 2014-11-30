@@ -260,34 +260,25 @@ static bool _abyss_place_rune(const map_bitmask &abyss_genlevel_mask,
     if (use_vaults && _abyss_place_rune_vault(abyss_genlevel_mask))
         return true;
 
-    coord_def chosen_spot;
-    int places_found = 0;
-
     // Pick a random spot to drop the rune. We specifically do not use
     // random_in_bounds and similar, because we may be dealing with a
     // non-rectangular region, and we want to place the rune fairly.
-    for (rectangle_iterator ri(MAPGEN_BORDER); ri; ++ri)
-    {
-        const coord_def p(*ri);
-        if (abyss_genlevel_mask(p)
-            && grd(p) == DNGN_FLOOR && igrd(p) == NON_ITEM
-            && one_chance_in(++places_found))
-        {
-            chosen_spot = p;
-        }
-    }
 
-    if (places_found)
+    if (auto it = random_if(rectangle_iterator(MAPGEN_BORDER),
+                            [&abyss_genlevel_mask] (coord_def p)
+                            { return abyss_genlevel_mask(p)
+                                     && grd(p) == DNGN_FLOOR
+                                     && igrd(p) == NON_ITEM; }))
     {
         dprf(DIAG_ABYSS, "Placing abyssal rune at (%d,%d)",
-             chosen_spot.x, chosen_spot.y);
+             it->x, it->y);
         int item_ind  = items(true, OBJ_MISCELLANY, MISC_RUNE_OF_ZOT, 0);
         if (item_ind != NON_ITEM)
         {
             mitm[item_ind].plus = RUNE_ABYSSAL;
             item_colour(mitm[item_ind]);
         }
-        move_item_to_grid(&item_ind, chosen_spot);
+        move_item_to_grid(&item_ind, *it);
         return item_ind != NON_ITEM;
     }
 

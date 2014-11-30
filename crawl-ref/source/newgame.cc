@@ -1787,17 +1787,14 @@ static void _resolve_weapon(newgame_def* ng, newgame_def* ng_choice,
     {
     case WPN_VIABLE:
     {
-        int good_choices = 0;
-        for (weapon_choice choice : weapons)
+        auto it = random_if(begin(weapons), end(weapons),
+                [] (weapon_choice choice)
+                { return choice.second == CC_UNRESTRICTED; });
+        if (it != end(weapons))
         {
-            if (choice.second == CC_UNRESTRICTED
-                && one_chance_in(++good_choices))
-            {
-                ng->weapon = choice.first;
-            }
-        }
-        if (good_choices)
+            ng->weapon = it->first;
             return;
+        }
     }
         // intentional fall-through
     case WPN_RANDOM:

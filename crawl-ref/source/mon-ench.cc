@@ -409,19 +409,11 @@ static bool _prepare_del_ench(monster* mon, const mon_enchant &me)
     // Monster un-submerging while under player or another monster.  Try to
     // move to an adjacent square in which the monster could have been
     // submerged and have it unsubmerge from there.
-    coord_def target_square;
-    int       okay_squares = 0;
-
-    for (adjacent_iterator ai(mon->pos()); ai; ++ai)
-        if (!actor_at(*ai)
-            && monster_can_submerge(mon, grd(*ai))
-            && one_chance_in(++okay_squares))
-        {
-            target_square = *ai;
-        }
-
-    if (okay_squares > 0)
-        return mon->move_to_pos(target_square);
+    if (auto it = random_if(adjacent_iterator(mon->pos()), [mon] (coord_def c)
+                { return !actor_at(c) && monster_can_submerge(mon, grd(c)); }))
+    {
+        return mon->move_to_pos(*it);
+    }
 
     // No available adjacent squares from which the monster could also
     // have unsubmerged.  Can it just stay submerged where it is?
@@ -430,19 +422,12 @@ static bool _prepare_del_ench(monster* mon, const mon_enchant &me)
 
     // The terrain changed and the monster can't remain submerged.
     // Try to move to an adjacent square where it would be happy.
-    for (adjacent_iterator ai(mon->pos()); ai; ++ai)
+    if (auto it = random_if(adjacent_iterator(mon->pos()), [mon] (coord_def c)
+                { return !actor_at(c) && monster_habitable_grid(mon, grd(c))
+                      && !find_trap(c); }))
     {
-        if (!actor_at(*ai)
-            && monster_habitable_grid(mon, grd(*ai))
-            && !find_trap(*ai))
-        {
-            if (one_chance_in(++okay_squares))
-                target_square = *ai;
-        }
+        return mon->move_to_pos(*it);
     }
-
-    if (okay_squares > 0)
-        return mon->move_to_pos(target_square);
 
     return true;
 }

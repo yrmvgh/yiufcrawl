@@ -1644,19 +1644,14 @@ static void _warpwright_card(int power, deck_rarity_type rarity)
         return;
     }
 
-    int count = 0;
-    coord_def f;
-    for (adjacent_iterator ai(you.pos()); ai; ++ai)
-        if (grd(*ai) == DNGN_FLOOR && !find_trap(*ai) && one_chance_in(++count))
-            f = *ai;
-
-    if (count > 0)              // found a spot
+    if (auto it = random_if(adjacent_iterator(you.pos()), [] (coord_def c)
+                            { return grd(c) == DNGN_FLOOR && !find_trap(c); }))
     {
-        if (place_specific_trap(f, TRAP_TELEPORT, 1 + random2(5 * power_level)))
+        if (place_specific_trap(*it, TRAP_TELEPORT, 1 + random2(5 * power_level)))
         {
             // Mark it discovered if enough power.
             if (x_chance_in_y(power_level, 2))
-                find_trap(f)->reveal();
+                find_trap(*it)->reveal();
         }
     }
 }

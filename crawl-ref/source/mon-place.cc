@@ -4076,29 +4076,20 @@ bool find_habitable_spot_near(const coord_def& where, monster_type mon_type,
 {
     // XXX: A lot of hacks that could be avoided by passing the
     //      monster generation data through.
-
-    int good_count = 0;
-
-    for (radius_iterator ri(where, radius, C_ROUND, !allow_centre);
-         ri; ++ri)
+    if (auto it = random_if(radius_iterator(where, radius, C_ROUND,
+                            !allow_centre),
+            [where, mon_type, viable_mon] (coord_def c)
+            {
+                return !actor_at(c) && cell_see_cell(where, c, LOS_NO_TRANS)
+                    && monster_habitable_grid(mon_type, grd(c))
+                    && !(viable_mon
+                         && mons_avoids_cloud(viable_mon, env.cgrid(c), true));
+            }))
     {
-        bool success = false;
-
-        if (actor_at(*ri))
-            continue;
-
-        if (!cell_see_cell(where, *ri, LOS_NO_TRANS))
-            continue;
-
-        success = monster_habitable_grid(mon_type, grd(*ri));
-        if (success && viable_mon)
-            success = !mons_avoids_cloud(viable_mon, env.cgrid(*ri), true);
-
-        if (success && one_chance_in(++good_count))
-            empty = *ri;
+        empty = *it;
+        return true;
     }
-
-    return good_count > 0;
+    return false;
 }
 
 static void _get_vault_mon_list(vector<mons_spec> &list);
