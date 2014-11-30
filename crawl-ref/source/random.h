@@ -49,12 +49,46 @@ T random_choose(T first, Ts... rest)
 }
 
 template <typename C>
-auto random_iterator(C &container) -> decltype(container.begin())
+auto random_iterator(C &container) -> decltype(begin(container))
 {
     int pos = random2(container.size());
-    auto it = container.begin();
+    auto it = begin(container);
     advance(it, pos);
     return it;
+}
+
+template <typename C>
+auto random_element(C &container) -> decltype(*begin(container))
+{
+    ASSERT(container.size() > 0);
+    return *random_iterator(container);
+}
+
+template <typename I, typename P>
+I random_if(I curr, const I &end, P pred)
+{
+    int count = 0;
+    // If no matches, return end.
+    I chosen = end;
+    for (; curr != end; ++curr)
+        if (pred(*curr) && one_chance_in(++count))
+            chosen = curr;
+
+    return chosen;
+}
+
+// Version for bool-castable iterators like adjacent_iterator.
+template <typename I, typename P>
+I random_if(I curr, P pred)
+{
+    int count = 0;
+    I chosen = curr; // There might not be a default constructor.
+    for (; curr; ++curr)
+        if (pred(*curr) && one_chance_in(++count))
+            chosen = curr;
+
+    // If no matches, return the past-the-end iterator curr.
+    return count ? chosen : curr;
 }
 
 template <typename T>
