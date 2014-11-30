@@ -7,6 +7,7 @@
 #define LIBUTIL_H
 
 #include <cctype>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
@@ -168,6 +169,9 @@ typename M::mapped_type lookup(M &map, const typename M::key_type &key,
     return it == map.end() ? unfound : it->second;
 }
 
+template<class I>
+using filtered_iterator_pred = function<bool(const typename I::value_type &)>;
+
 template<class I, class P>
 class filtered_iterator
 {
@@ -243,9 +247,11 @@ private:
 };
 
 template<class I>
-filtered_iterator<I, function<bool(const typename iterator_traits<I>::value_type &)> > make_filtered_iterator(I begin, I end, function<bool(const typename iterator_traits<I>::value_type &)> pred = _always_true<const typename iterator_traits<I>::value_type &>)
+filtered_iterator<I, filtered_iterator_pred<I>>
+make_filtered_iterator(I begin, I end,
+                       filtered_iterator_pred<I> pred = _always_true)
 {
-    return filtered_iterator<I, function<bool(const typename iterator_traits<I>::value_type &)> >(begin, end, pred);
+    return filtered_iterator<I, filtered_iterator_pred<I>>(begin, end, pred);
 }
 
 static inline int sqr(int x)
