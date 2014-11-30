@@ -79,7 +79,7 @@ template <typename C>
 auto random_iterator_impl(C &container, random_access_iterator_tag)
     -> decltype(begin(container))
 {
-    return begin(container) + random2(begin(container) - end(container));
+    return begin(container) + random2(end(container) - begin(container));
 }
 
 template <typename C>
