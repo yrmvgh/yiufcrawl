@@ -255,51 +255,34 @@ make_filtered_iterator(I begin, I end,
 }
 
 template<class I>
-class drop_wrapper
+class for_loop_wrapper
 {
 public:
-    drop_wrapper(I _begin, I _end, size_t _count)
-        : begin_it(_begin), end_it(_end), count(_count)
+    for_loop_wrapper(I _begin, I _end)
+        : begin_it(_begin), end_it(_end)
     { }
 
-    I begin() const { return begin_it + count; }
+    I begin() const { return begin_it; }
     I end() const { return end_it; }
 
 private:
     I begin_it, end_it;
-    size_t count;
 };
 
 template<class C>
-drop_wrapper<typename C::const_iterator> drop_iterator(const C &container,
-                                                       size_t count)
+for_loop_wrapper<typename C::const_iterator> drop_iterator(const C &container,
+                                                           size_t n)
 {
-    return drop_wrapper<typename C::const_iterator>(container.begin(),
-                                                    container.end(), count);
+    return for_loop_wrapper<typename C::const_iterator>(begin(container) + n,
+                                                        end(container));
 }
 
-template<class I>
-class take_wrapper
-{
-public:
-    take_wrapper(I _begin, I _end, size_t _count)
-        : begin_it(_begin), end_it(_end), count(_count)
-    { }
-
-    I begin() const { return begin_it; }
-    I end() const { return begin_it + count; }
-
-private:
-    I begin_it, end_it;
-    size_t count;
-};
-
 template<class C>
-take_wrapper<typename C::const_iterator> take_iterator(const C &container,
-                                                       size_t count)
+for_loop_wrapper<typename C::const_iterator> take_iterator(const C &container,
+                                                           size_t n)
 {
-    return take_wrapper<typename C::const_iterator>(container.begin(),
-                                                    container.end(), count);
+    return for_loop_wrapper<typename C::const_iterator>(container.begin(),
+                                                        container.begin() + n);
 }
 
 static inline int sqr(int x)
