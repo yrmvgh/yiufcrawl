@@ -233,7 +233,7 @@ public:
         return *this;
     }
 
-    filtered_iterator<I,P> operator++(bool)
+    filtered_iterator<I,P> operator++(int)
     {
         filtered_iterator<I,P> orig = *this;
         ++*this;
