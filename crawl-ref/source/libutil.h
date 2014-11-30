@@ -254,6 +254,54 @@ make_filtered_iterator(I begin, I end,
     return filtered_iterator<I, filtered_iterator_pred<I>>(begin, end, pred);
 }
 
+template<class I>
+class drop_wrapper
+{
+public:
+    drop_wrapper(I _begin, I _end, size_t _count)
+        : begin_it(_begin), end_it(_end), count(_count)
+    { }
+
+    I begin() const { return begin_it + count; }
+    I end() const { return end_it; }
+
+private:
+    I begin_it, end_it;
+    size_t count;
+};
+
+template<class C>
+drop_wrapper<typename C::const_iterator> drop_iterator(const C &container,
+                                                       size_t count)
+{
+    return drop_wrapper<typename C::const_iterator>(container.begin(),
+                                                    container.end(), count);
+}
+
+template<class I>
+class take_wrapper
+{
+public:
+    take_wrapper(I _begin, I _end, size_t _count)
+        : begin_it(_begin), end_it(_end), count(_count)
+    { }
+
+    I begin() const { return begin_it; }
+    I end() const { return begin_it + count; }
+
+private:
+    I begin_it, end_it;
+    size_t count;
+};
+
+template<class C>
+take_wrapper<typename C::const_iterator> take_iterator(const C &container,
+                                                       size_t count)
+{
+    return take_wrapper<typename C::const_iterator>(container.begin(),
+                                                    container.end(), count);
+}
+
 static inline int sqr(int x)
 {
     return x * x;
