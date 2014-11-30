@@ -14,7 +14,7 @@ private:
 protected:
     PotionEffect(potion_type);
 public:
-    bool can_quaff() const;
+    virtual bool can_quaff() const;
 
     /**
      * Elsewhere in the code there are things that can have the effect
@@ -33,7 +33,7 @@ public:
     // Quaff also handles god-conduct and potion-specific
     // uncancellability
     // Returns whether or not the potion was actually quaffed
-    bool quaff(bool was_known) const;
+    virtual bool quaff(bool was_known) const;
 
     const string potion_name;
     const potion_type kind;

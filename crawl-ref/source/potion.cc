@@ -31,22 +31,6 @@ PotionEffect::PotionEffect(const potion_type pot)
     : potion_name(potion_type_name(pot)), kind(pot)
 { }
 
-bool PotionEffect::can_quaff() const
-{
-    return true;
-}
-
-bool PotionEffect::quaff(bool was_known) const
-{
-    dprf("running default quaff");
-    if (was_known && !can_quaff())
-    {
-        mpr("You shouldn't drink that now.");
-        return false;
-    }
-    return true;
-}
-
 class PotionCuring : public PotionEffect
 {
 private:
@@ -254,6 +238,8 @@ public:
         did_god_conduct(DID_DRINK_BLOOD, 1 + random2(3), was_known);
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 
@@ -316,6 +302,9 @@ public:
             notify_stat_change(STAT_STR, 5, true);
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionBrilliance : public PotionEffect
@@ -343,6 +332,9 @@ public:
 
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionAgility : public PotionEffect
@@ -369,6 +361,9 @@ public:
             notify_stat_change(STAT_DEX, 5, true);
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 
@@ -433,6 +428,8 @@ public:
             xom_is_stimulated(100 / _xom_factor(was_known));
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionCancellation : public PotionEffect
@@ -452,6 +449,9 @@ public:
         mpr("You feel magically purged.");
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionConfusion : public PotionEffect
@@ -477,6 +477,8 @@ public:
 
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionInvisibility : public PotionEffect
@@ -577,6 +579,9 @@ public:
         skill_menu(SKMF_EXPERIENCE_POTION, 750 * you.experience_level);
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionMagic : public PotionEffect
@@ -590,7 +595,7 @@ public:
         static PotionMagic inst; return inst;
     }
 
-    bool can_quaff()
+    bool can_quaff() const
     {
 #if TAG_MAJOR_VERSION == 34
         if (you.species == SP_DJINNI)
@@ -614,6 +619,8 @@ public:
         mpr("Magic courses through your body.");
         return true;
     }
+
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionRestoreAbilities : public PotionEffect
@@ -642,6 +649,9 @@ public:
             mpr("You feel refreshed.");
         return nothing_happens;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionBerserk : public PotionEffect
@@ -849,6 +859,9 @@ public:
         you.increase_duration(DUR_RESISTANCE, random2(pow) + 35);
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionDegeneration : public PotionEffect
@@ -875,6 +888,8 @@ public:
             xom_is_stimulated( 50 / _xom_factor(was_known));
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionDecay : public PotionEffect
@@ -899,6 +914,8 @@ public:
             xom_is_stimulated( 50 / _xom_factor(was_known));
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionLignify : public PotionEffect
@@ -973,6 +990,8 @@ public:
         did_god_conduct(DID_DRINK_BLOOD, 1 + random2(3), was_known);
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionGainStrength : public PotionEffect
@@ -998,6 +1017,8 @@ public:
             learned_something_new(HINT_YOU_MUTATED);
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionGainDexterity : public PotionEffect
@@ -1021,6 +1042,8 @@ public:
             learned_something_new(HINT_YOU_MUTATED);
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionGainIntelligence : public PotionEffect
@@ -1044,6 +1067,8 @@ public:
             learned_something_new(HINT_YOU_MUTATED);
         return true;
     }
+
+    bool can_quaff() const { return true; }
 };
 
 class PotionPorridge : public PotionEffect
@@ -1070,6 +1095,9 @@ public:
         }
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionWater : public PotionEffect
@@ -1090,6 +1118,9 @@ public:
             mpr("This tastes like water.");
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 #endif
 
@@ -1117,6 +1148,8 @@ public:
     {
         return slow_player(10 + random2(pow));
     }
+
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 class PotionStale : public PotionEffect
@@ -1134,6 +1167,9 @@ public:
         mpr("That potion was far past its expiry date.");
         return true;
     }
+
+    bool can_quaff() const { return true; }
+    bool quaff(bool was_known) const { effect(was_known); return true; }
 };
 
 static const PotionEffect* potion_effects[] =
