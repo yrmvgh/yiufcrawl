@@ -8044,6 +8044,19 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
         return !mons_should_fire(tracer);
     }
 
+    case SPELL_GRAVITAS:
+        if (!foe)
+            return true;
+
+        for (actor_near_iterator ai(foe); ai; ++ai)
+            if (*ai != mon && *ai != foe && !ai->is_stationary()
+                && mon->can_see(*ai))
+            {
+                return false;
+            }
+
+        return true;
+
 #if TAG_MAJOR_VERSION == 34
     case SPELL_SUMMON_TWISTER:
     case SPELL_SHAFT_SELF:
