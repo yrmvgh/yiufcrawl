@@ -114,6 +114,7 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_LEDAS_LIQUEFACTION,
     SPELL_ENGLACIATION,
     SPELL_SUMMON_MANA_VIPER,
+    SPELL_FATAL_ATTRACTION,
 },
 
 {   // Book of Changes
