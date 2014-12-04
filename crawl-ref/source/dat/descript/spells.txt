@@ -626,7 +626,7 @@ and unleashes it after a short while as a violent explosion of arcane force. Be
 warned that the prism is extremely fragile and any damage caused to it may
 result in premature detonation!
 %%%%
-Gell's Fatal Attraction spell
+Gell's Gravitas spell
 
 For the briefest of instants, this spell increases the mass of the target by
 several orders of magnitude, causing it to pull nearby creatures towards it.

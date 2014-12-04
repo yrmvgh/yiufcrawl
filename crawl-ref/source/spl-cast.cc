@@ -1073,7 +1073,7 @@ static targetter* _spell_targetter(spell_type spell, int pow, int range)
         return new targetter_shotgun(&you, CLOUD_CONE_BEAM_COUNT, range);
     case SPELL_SCATTERSHOT:
         return new targetter_shotgun(&you, shotgun_beam_count(pow), range);
-    case SPELL_FATAL_ATTRACTION:
+    case SPELL_GRAVITAS:
         return new targetter_beam(&you, range, spell_to_zap(spell), pow,
                                   singularity_range(pow, 2),
                                   singularity_range(pow));

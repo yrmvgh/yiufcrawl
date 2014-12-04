@@ -1221,7 +1221,7 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
         beam.pierce   = true;
         break;
 
-    case SPELL_FATAL_ATTRACTION:
+    case SPELL_GRAVITAS:
         beam.flavour  = BEAM_ATTRACT;
         beam.pierce   = true;
         break;

@@ -1196,7 +1196,7 @@ static const zap_info zap_data[] =
 },
 
 {
-    ZAP_FATAL_ATTRACTION,
+    ZAP_GRAVITAS,
     "",
     200,
     nullptr,

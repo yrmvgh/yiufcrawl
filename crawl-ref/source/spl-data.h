@@ -3581,7 +3581,7 @@ static const struct spell_desc spelldata[] =
 },
 
 {
-    SPELL_FATAL_ATTRACTION, "Gell's Fatal Attraction",
+    SPELL_GRAVITAS, "Gell's Gravitas",
     SPTYP_TRANSLOCATION | SPTYP_HEXES,
     SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER,
     6,
