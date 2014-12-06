@@ -6621,7 +6621,7 @@ KMONS: D = 0 band
 KMONS: 9 = 9 band
 KMONS: E = 0 band patrolling
 KMONS: F = 0 patrolling
-KMONS: G = 9 band patrolling
+KMONS: H = 9 band patrolling
 KMONS: 8 = 8 patrolling
 #loot
 KITEM: 8 = acquire any
