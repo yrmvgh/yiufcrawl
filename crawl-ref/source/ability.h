@@ -97,5 +97,6 @@ string print_abilities();
 void set_god_ability_slots();
 vector<ability_type> get_god_abilities(bool include_unusable = false,
                                        bool ignore_piety = false);
+void swap_ability_slots(int index1, int index2, bool silent = false);
 
 #endif

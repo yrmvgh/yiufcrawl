@@ -45,6 +45,7 @@
 #include "mon-place.h"
 #include "mutation.h"
 #include "notes.h"
+#include "options.h"
 #include "output.h"
 #include "player-stats.h"
 #include "potion.h"
@@ -3839,6 +3840,48 @@ void set_god_ability_slots()
     }
 }
 
+/**
+ * Maybe move an ability to the slot given by the ability_slot option.
+ *
+ * @param[in] abil the ability to be checked
+ * @param[in] slot current slot of the ability
+ * @returns the new slot of the ability if it was moved, slot otherwise.
+ */
+static int _auto_assign_ability_slot(const ability_def& abil, int slot)
+{
+    string abilname(ability_name(abil.ability));
+    // FIXME I have no idea how to get lowercase string from char* properly, algorithm::transform or whatever
+    abilname = lowercase_string(abilname);
+    // check to see whether we've chosen an automatic label:
+    for (auto& mapping : Options.auto_ability_letters)
+    {
+        if (!mapping.first.matches(abilname))
+            continue;
+        for (char i : mapping.second)
+        {
+            if (isaalpha(i))
+            {
+                const int index = letter_to_index(i);
+                ability_type existing_ability = you.ability_letter_table[index];
+                if (existing_ability != ABIL_NON_ABILITY && existing_ability != abil.ability)
+                {
+                    string str(ability_name(you.ability_letter_table[index]));
+    // FIXME I have no idea how to get lowercase string from char* properly, algorithm::transform or whatever
+                    str = lowercase_string(str);
+                    if (mapping.first.matches(str))
+                        continue;
+                    you.ability_letter_table[slot] = abil.ability;
+                    swap_ability_slots(slot, index, true);
+                }
+                else
+                    you.ability_letter_table[index] = abil.ability;
+                return index;
+            }
+        }
+    }
+    return slot;
+}
+
 // Returns an index (0-51) if successful, -1 if you should
 // just use the next one.
 static int _find_ability_slot(const ability_def &abil)
@@ -3850,7 +3893,7 @@ static int _find_ability_slot(const ability_def &abil)
         // its corresponding ability before comparing the two, so that
         // we'll find the placeholder's index properly.
         if (_fixup_ability(you.ability_letter_table[slot]) == abil.ability)
-            return slot;
+            return _auto_assign_ability_slot(abil, slot);
 
     // No requested slot, find new one and make it preferred.
 
@@ -3889,7 +3932,7 @@ static int _find_ability_slot(const ability_def &abil)
         if (you.ability_letter_table[slot] == ABIL_NON_ABILITY)
         {
             you.ability_letter_table[slot] = abil.ability;
-            return slot;
+            return _auto_assign_ability_slot(abil, slot);
         }
     }
 
@@ -3899,7 +3942,7 @@ static int _find_ability_slot(const ability_def &abil)
         if (you.ability_letter_table[slot] == ABIL_NON_ABILITY)
         {
             you.ability_letter_table[slot] = abil.ability;
-            return slot;
+            return _auto_assign_ability_slot(abil, slot);
         }
     }
 
@@ -3984,6 +4027,32 @@ vector<ability_type> get_god_abilities(bool include_unusable, bool ignore_piety)
 
     return abilities;
 }
+
+void swap_ability_slots(int index1, int index2, bool silent)
+{
+    if (index1 == index2)
+    {
+        mpr("That would be singularly pointless.");
+        return;
+    }
+
+    if (!silent)
+    {
+        // See if we moved something out.
+        if (you.ability_letter_table[index2] == ABIL_NON_ABILITY)
+            mprf("Moving to: %c - %s", index_to_letter(index2),
+                ability_name(you.ability_letter_table[index1]));
+        else
+            mprf("Swapping with: %c - %s", index_to_letter(index2),
+                ability_name(you.ability_letter_table[index2]));
+    }
+
+    // Swap references in the letter table.
+    ability_type tmp = you.ability_letter_table[index2];
+    you.ability_letter_table[index2] = you.ability_letter_table[index1];
+    you.ability_letter_table[index1] = tmp;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 // generic_cost

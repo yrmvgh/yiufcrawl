@@ -403,35 +403,8 @@ static void _adjust_ability()
     }
 
     const int index2 = letter_to_index(keyin);
-    if (index1 == index2)
-    {
-        mpr("That would be singularly pointless.");
-        return;
-    }
 
-    // See if we moved something out.
-    bool printed_message = false;
-    for (unsigned int i = 0; i < talents.size(); ++i)
-    {
-        if (talents[i].hotkey == keyin)
-        {
-            mprf("Swapping with: %c - %s", static_cast<char>(keyin),
-                 ability_name(talents[i].which));
-            printed_message = true;
-            break;
-        }
-    }
-
-    if (!printed_message)
-    {
-        mprf("Moving to: %c - %s", static_cast<char>(keyin),
-             ability_name(talents[selected].which));
-    }
-
-    // Swap references in the letter table.
-    ability_type tmp = you.ability_letter_table[index2];
-    you.ability_letter_table[index2] = you.ability_letter_table[index1];
-    you.ability_letter_table[index1] = tmp;
+    swap_ability_slots(index1, index2);
 }
 
 void list_armour()
