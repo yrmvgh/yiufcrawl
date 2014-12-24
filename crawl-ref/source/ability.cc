@@ -3850,6 +3850,7 @@ void set_god_ability_slots()
 static int _auto_assign_ability_slot(ability_type abil_type, int slot)
 {
     const string abilname = lowercase_string(ability_name(abil_type));
+    bool overwrite = false;
     // check to see whether we've chosen an automatic label:
     for (auto& mapping : Options.auto_ability_letters)
     {
@@ -3857,21 +3858,33 @@ static int _auto_assign_ability_slot(ability_type abil_type, int slot)
             continue;
         for (char i : mapping.second)
         {
-            if (isaalpha(i))
+            if (i == '+')
+                overwrite = true;
+            else if (i == '-')
+                overwrite = false;
+            else if (isaalpha(i))
             {
                 const int index = letter_to_index(i);
                 ability_type existing_ability = you.ability_letter_table[index];
-                if (existing_ability != ABIL_NON_ABILITY && existing_ability != abil_type)
+
+                if (existing_ability == ABIL_NON_ABILITY
+                    || existing_ability == abil_type)
                 {
-                    const string str = lowercase_string(ability_name(you.ability_letter_table[index]));
+                    // Unassigned or already assigned to this ability.
+                    you.ability_letter_table[index] = abil_type;
+                    return index;
+                }
+                else if (overwrite)
+                {
+                    const string str = lowercase_string(ability_name(existing_ability));
+                    // Don't overwrite an ability matched by the same rule.
                     if (mapping.first.matches(str))
                         continue;
                     you.ability_letter_table[slot] = abil_type;
                     swap_ability_slots(slot, index, true);
+                    return index;
                 }
-                else
-                    you.ability_letter_table[index] = abil_type;
-                return index;
+                // else occupied, continue to the next mapping.
             }
         }
     }

@@ -1866,6 +1866,7 @@ item_def *auto_assign_item_slot(item_def& item)
         return nullptr;
 
     int newslot = -1;
+    bool overwrite = true;
     // check to see whether we've chosen an automatic label:
     for (auto& mapping : Options.auto_item_letters)
     {
@@ -1873,13 +1874,23 @@ item_def *auto_assign_item_slot(item_def& item)
             continue;
         for (char i : mapping.second)
         {
-            const int index = letter_to_index(i);
-            if (isaalpha(i)
-                && !(you.inv[index].defined()
-                     && mapping.first.matches(you.inv[index].name(DESC_QUALNAME))))
+            if (i == '+')
+                overwrite = true;
+            else if (i == '-')
+                overwrite = false;
+            else if (isaalpha(i))
             {
-                newslot = index;
-                break;
+                const int index = letter_to_index(i);
+
+                // Slot is empty, or overwrite is on and the rule doesn't
+                // match the item already there.
+                if (!you.inv[index].defined()
+                    || overwrite && !mapping.first.matches(
+                                         you.inv[index].name(DESC_QUALNAME)))
+                {
+                    newslot = index;
+                    break;
+                }
             }
         }
         if (newslot != -1 && newslot != item.link)
