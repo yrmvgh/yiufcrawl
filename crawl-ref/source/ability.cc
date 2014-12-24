@@ -3843,15 +3843,13 @@ void set_god_ability_slots()
 /**
  * Maybe move an ability to the slot given by the ability_slot option.
  *
- * @param[in] abil the ability to be checked
+ * @param[in] abil_type the ability to be checked
  * @param[in] slot current slot of the ability
  * @returns the new slot of the ability if it was moved, slot otherwise.
  */
-static int _auto_assign_ability_slot(const ability_def& abil, int slot)
+static int _auto_assign_ability_slot(ability_type abil_type, int slot)
 {
-    string abilname(ability_name(abil.ability));
-    // FIXME I have no idea how to get lowercase string from char* properly, algorithm::transform or whatever
-    abilname = lowercase_string(abilname);
+    const string abilname = lowercase_string(ability_name(abil_type));
     // check to see whether we've chosen an automatic label:
     for (auto& mapping : Options.auto_ability_letters)
     {
@@ -3863,18 +3861,16 @@ static int _auto_assign_ability_slot(const ability_def& abil, int slot)
             {
                 const int index = letter_to_index(i);
                 ability_type existing_ability = you.ability_letter_table[index];
-                if (existing_ability != ABIL_NON_ABILITY && existing_ability != abil.ability)
+                if (existing_ability != ABIL_NON_ABILITY && existing_ability != abil_type)
                 {
-                    string str(ability_name(you.ability_letter_table[index]));
-    // FIXME I have no idea how to get lowercase string from char* properly, algorithm::transform or whatever
-                    str = lowercase_string(str);
+                    const string str = lowercase_string(ability_name(you.ability_letter_table[index]));
                     if (mapping.first.matches(str))
                         continue;
-                    you.ability_letter_table[slot] = abil.ability;
+                    you.ability_letter_table[slot] = abil_type;
                     swap_ability_slots(slot, index, true);
                 }
                 else
-                    you.ability_letter_table[index] = abil.ability;
+                    you.ability_letter_table[index] = abil_type;
                 return index;
             }
         }
@@ -3886,6 +3882,7 @@ static int _auto_assign_ability_slot(const ability_def& abil, int slot)
 // just use the next one.
 static int _find_ability_slot(const ability_def &abil)
 {
+    ability_type abil_type = abil.ability;
     for (int slot = 0; slot < 52; slot++)
         // Placeholder handling, part 2: The ability we have might
         // correspond to a placeholder, in which case the ability letter
@@ -3893,7 +3890,7 @@ static int _find_ability_slot(const ability_def &abil)
         // its corresponding ability before comparing the two, so that
         // we'll find the placeholder's index properly.
         if (_fixup_ability(you.ability_letter_table[slot]) == abil.ability)
-            return _auto_assign_ability_slot(abil, slot);
+            return _auto_assign_ability_slot(abil_type, slot);
 
     // No requested slot, find new one and make it preferred.
 
@@ -3904,24 +3901,24 @@ static int _find_ability_slot(const ability_def &abil)
     if (abil.flags & ABFLAG_ZOTDEF)
         first_slot = letter_to_index('F'); // for *some* memory compat.
 
-    if (abil.ability == ABIL_ZIN_CURE_ALL_MUTATIONS)
+    if (abil_type == ABIL_ZIN_CURE_ALL_MUTATIONS)
         first_slot = letter_to_index('W');
-    if (abil.ability == ABIL_CONVERT_TO_BEOGH)
+    else if (abil_type == ABIL_CONVERT_TO_BEOGH)
         first_slot = letter_to_index('Y');
-    if (abil.ability == ABIL_RU_SACRIFICE_PURITY
-      || abil.ability == ABIL_RU_SACRIFICE_WORDS
-      || abil.ability == ABIL_RU_SACRIFICE_DRINK
-      || abil.ability == ABIL_RU_SACRIFICE_ESSENCE
-      || abil.ability == ABIL_RU_SACRIFICE_HEALTH
-      || abil.ability == ABIL_RU_SACRIFICE_STEALTH
-      || abil.ability == ABIL_RU_SACRIFICE_ARTIFICE
-      || abil.ability == ABIL_RU_SACRIFICE_LOVE
-      || abil.ability == ABIL_RU_SACRIFICE_COURAGE
-      || abil.ability == ABIL_RU_SACRIFICE_ARCANA
-      || abil.ability == ABIL_RU_SACRIFICE_NIMBLENESS
-      || abil.ability == ABIL_RU_SACRIFICE_DURABILITY
-      || abil.ability == ABIL_RU_SACRIFICE_HAND
-      || abil.ability == ABIL_RU_REJECT_SACRIFICES)
+    else if (abil_type == ABIL_RU_SACRIFICE_PURITY
+      || abil_type == ABIL_RU_SACRIFICE_WORDS
+      || abil_type == ABIL_RU_SACRIFICE_DRINK
+      || abil_type == ABIL_RU_SACRIFICE_ESSENCE
+      || abil_type == ABIL_RU_SACRIFICE_HEALTH
+      || abil_type == ABIL_RU_SACRIFICE_STEALTH
+      || abil_type == ABIL_RU_SACRIFICE_ARTIFICE
+      || abil_type == ABIL_RU_SACRIFICE_LOVE
+      || abil_type == ABIL_RU_SACRIFICE_COURAGE
+      || abil_type == ABIL_RU_SACRIFICE_ARCANA
+      || abil_type == ABIL_RU_SACRIFICE_NIMBLENESS
+      || abil_type == ABIL_RU_SACRIFICE_DURABILITY
+      || abil_type == ABIL_RU_SACRIFICE_HAND
+      || abil_type == ABIL_RU_REJECT_SACRIFICES)
     {
         first_slot = letter_to_index('P');
     }
@@ -3931,8 +3928,8 @@ static int _find_ability_slot(const ability_def &abil)
     {
         if (you.ability_letter_table[slot] == ABIL_NON_ABILITY)
         {
-            you.ability_letter_table[slot] = abil.ability;
-            return _auto_assign_ability_slot(abil, slot);
+            you.ability_letter_table[slot] = abil_type;
+            return _auto_assign_ability_slot(abil_type, slot);
         }
     }
 
@@ -3941,8 +3938,8 @@ static int _find_ability_slot(const ability_def &abil)
     {
         if (you.ability_letter_table[slot] == ABIL_NON_ABILITY)
         {
-            you.ability_letter_table[slot] = abil.ability;
-            return _auto_assign_ability_slot(abil, slot);
+            you.ability_letter_table[slot] = abil_type;
+            return _auto_assign_ability_slot(abil_type, slot);
         }
     }
 
