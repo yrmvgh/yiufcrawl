@@ -3320,7 +3320,9 @@ void game_options::read_option_line(const string &str, bool runscript)
              || key == "ability_slot")
 
     {
-        auto& auto_letters = (key == "item_slot" ? auto_item_letters : (key == "spell_slot" ? auto_spell_letters : auto_ability_letters));
+        auto& auto_letters = (key == "item_slot"  ? auto_item_letters
+                           : (key == "spell_slot" ? auto_spell_letters
+                                                  : auto_ability_letters));
         if (plain)
             auto_letters.clear();
 
