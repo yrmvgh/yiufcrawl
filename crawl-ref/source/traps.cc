@@ -514,17 +514,23 @@ void trap_def::trigger_shadow_trap(const actor& triggerer)
 {
     // forbid d:1 jackal packs
     const bool bands_ok = env.absdepth0 > 1;
-    const monster *mons =
-        create_monster(
-            mgen_data::hostile_at(RANDOM_MOBILE_MONSTER,
-                                  "a shadow trap",
-                                  triggerer.is_player(), // starts alert?
-                                  5, // abj duration
-                                  MON_SUMM_SHADOW,
-                                  pos,
-                                  bands_ok ? 0 : MG_FORBID_BANDS));
+    mgen_data mg = mgen_data::hostile_at(RANDOM_MOBILE_MONSTER,
+                                         "a shadow trap", // blame
+                                         triggerer.is_player(), // alerted?
+                                         5, // abj duration
+                                         MON_SUMM_SHADOW,
+                                         pos,
+                                         bands_ok ? 0 : MG_FORBID_BANDS);
+    mg.summoner = &triggerer;
+    // XXX: would be cool to support proper blame chaining (note who triggered
+    // the trap & if they were summoned, etc...)
+    const monster *mons = create_monster(mg);
     if (!you.see_cell(pos))
+    {
+        if (mons)
+            mpr("Shadows whirl past, animated by some distant force.");
         return;
+    }
 
     mprf("Shadows whirl around %s...", triggerer.name(DESC_THE).c_str());
     if (!mons)
