@@ -514,16 +514,21 @@ void trap_def::trigger_shadow_trap(const actor& triggerer)
 
     // forbid d:1 jackal packs
     const bool bands_ok = env.absdepth0 > 1;
-    const string blame = "a shadow trap, triggered by "
-                         + triggerer.name(DESC_A, true);
     mgen_data mg = mgen_data::hostile_at(RANDOM_MOBILE_MONSTER,
-                                         blame,
+                                         "a shadow trap", // blame
                                          triggerer.is_player(), // alerted?
                                          5, // abj duration
                                          MON_SUMM_SHADOW,
                                          pos,
                                          bands_ok ? 0 : MG_FORBID_BANDS);
-    const monster *mons = create_monster(mg);
+    monster *mons = create_monster(mg);
+    if (mons)
+    {
+        const string triggerer_name = triggerer.is_player() ?
+                                            "the player character" :
+                                             triggerer.name(DESC_A, true);
+        mons_add_blame(mons, "triggered by " + triggerer_name);
+    }
 
     if (!you.see_cell(pos))
     {
