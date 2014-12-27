@@ -293,7 +293,8 @@ A deep hole. Who knows where you might end up if you were to fall through it?
 A shadow trap
 
 This magical trap creates replicas of creatures native to its location, weaving
-them from shadows and threads of Abyssal matter.
+them from shadows and threads of Abyssal matter. Any non-summoned creature
+entering it will set it off.
 %%%%
 A shadowy altar of Dithmenos
 

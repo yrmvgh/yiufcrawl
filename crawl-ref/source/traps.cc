@@ -131,9 +131,6 @@ void trap_def::prepare_ammo(int charges)
         else
             ammo_qty = 1;
         break;
-    case TRAP_SHADOW:
-        ammo_qty = 1;
-        break;
     default:
         ammo_qty = 0;
         break;
@@ -512,19 +509,22 @@ static bool _find_other_passage_side(coord_def& to)
  */
 void trap_def::trigger_shadow_trap(const actor& triggerer)
 {
+    if (triggerer.is_summoned())
+        return; // no summonsplosions
+
     // forbid d:1 jackal packs
     const bool bands_ok = env.absdepth0 > 1;
+    const string blame = "a shadow trap, triggered by "
+                         + triggerer.name(DESC_A, true);
     mgen_data mg = mgen_data::hostile_at(RANDOM_MOBILE_MONSTER,
-                                         "a shadow trap", // blame
+                                         blame,
                                          triggerer.is_player(), // alerted?
                                          5, // abj duration
                                          MON_SUMM_SHADOW,
                                          pos,
                                          bands_ok ? 0 : MG_FORBID_BANDS);
-    mg.summoner = &triggerer;
-    // XXX: would be cool to support proper blame chaining (note who triggered
-    // the trap & if they were summoned, etc...)
     const monster *mons = create_monster(mg);
+
     if (!you.see_cell(pos))
     {
         if (mons)
@@ -1902,7 +1902,7 @@ trap_type random_trap_for_place()
     const pair<trap_type, int> trap_weights[] =
     {
         { TRAP_TELEPORT, tele_ok  ? 2 : 0},
-        { TRAP_SHADOW,              2    },
+        { TRAP_SHADOW,              1    },
         { TRAP_SHAFT,   shaft_ok  ? 1 : 0},
         { TRAP_ALARM,   alarm_ok  ? 1 : 0},
     };
