@@ -4228,6 +4228,8 @@ void unmarshallMapCell(reader &th, map_cell& cell)
     {
         feature = DNGN_EXIT_LABYRINTH;
     }
+    if (feature == DNGN_DEEP_WATER && player_in_branch(BRANCH_SHOALS))
+        feature = DNGN_SHALLOW_WATER;
 #else
         feature = unmarshallFeatureType(th);
 #endif
