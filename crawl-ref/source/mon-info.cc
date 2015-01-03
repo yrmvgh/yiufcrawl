@@ -416,8 +416,17 @@ monster_info::monster_info(monster_type p_type, monster_type p_base_type)
         u.ghost.damage = 5;
     }
 
-    if (base_type == MONS_NO_MONSTER)
+    // Don't put a bad base type on ?/mdraconian annihilator etc.
+    if (base_type == MONS_NO_MONSTER && !mons_is_job(type))
         base_type = type;
+
+    if (mons_is_job(type))
+    {
+        const monster_type race = (base_type == MONS_NO_MONSTER) ? draco_type
+                                                                 : base_type;
+        ac += get_mons_class_ac(race);
+        ev += get_mons_class_ev(race);
+    }
 
     if (mons_is_unique(type))
     {
@@ -1697,8 +1706,8 @@ int monster_info::res_magic() const
 
     item_def *jewellery = inv[MSLOT_JEWELLERY].get();
 
-    if (jewellery && jewellery->base_type == OBJ_JEWELLERY
-        && jewellery->sub_type == RING_PROTECTION_FROM_MAGIC)
+    if (jewellery
+        && jewellery->is_type(OBJ_JEWELLERY, RING_PROTECTION_FROM_MAGIC))
     {
         mr += 40;
     }

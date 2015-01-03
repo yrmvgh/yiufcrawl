@@ -29,7 +29,6 @@
 #include "delay.h"
 #include "dgnevent.h"
 #include "directn.h"
-#include "effects.h"
 #include "english.h"
 #include "env.h"
 #include "errors.h"
@@ -980,19 +979,14 @@ int player::wearing(equipment_type slot, int sub_type, bool calc_unid) const
     {
     case EQ_WEAPON:
         // Hands can have more than just weapons.
-        if (weapon()
-            && weapon()->base_type == OBJ_WEAPONS
-            && weapon()->sub_type == sub_type)
-        {
+        if (weapon() && weapon()->is_type(OBJ_WEAPONS, sub_type))
             ret++;
-        }
         break;
 
     case EQ_STAFF:
         // Like above, but must be magical staff.
         if (weapon()
-            && weapon()->base_type == OBJ_STAVES
-            && weapon()->sub_type == sub_type
+            && weapon()->is_type(OBJ_STAVES, sub_type)
             && (calc_unid || item_type_known(*weapon())))
         {
             ret++;
@@ -2555,10 +2549,8 @@ int player_armour_shield_spell_penalty()
  */
 int player_wizardry(spell_type spell)
 {
-    const int item_wiz = you.wearing(EQ_RINGS, RING_WIZARDRY)
-                          + you.wearing(EQ_STAFF, STAFF_WIZARDRY);
-    const int form_wiz = you.form == TRAN_DRAGON && spell == SPELL_DRAGON_CALL;
-    return item_wiz + form_wiz;
+    return you.wearing(EQ_RINGS, RING_WIZARDRY)
+           + you.wearing(EQ_STAFF, STAFF_WIZARDRY);
 }
 
 /**
@@ -2734,6 +2726,39 @@ int get_exp_progress()
     return (you.experience - current) * 100 / (next - current);
 }
 
+static void _recharge_xp_evokers(int exp)
+{
+    FixedVector<item_def*, NUM_MISCELLANY> evokers(nullptr);
+    list_charging_evokers(evokers);
+
+    int xp_factor = max(min((int)exp_needed(you.experience_level+1, 0) * 2 / 7,
+                             you.experience_level * 425),
+                        you.experience_level*4 + 30)
+                    / (3 + you.skill_rdiv(SK_EVOCATIONS, 2, 13));
+
+    for (int i = 0; i < NUM_MISCELLANY; ++i)
+    {
+        item_def* evoker = evokers[i];
+        if (!evoker)
+            continue;
+        const int old_inert = num_xp_evokers_inert(*evoker);
+        evoker->evoker_debt -= div_rand_round(exp, xp_factor);
+        const int new_inert = num_xp_evokers_inert(*evoker);
+        if (new_inert < old_inert)
+        {
+            const int charged = old_inert - new_inert;
+            string evokername = evoker->name(DESC_QUALNAME);
+            if (evoker->quantity > 1)
+                evokername = pluralise(evokername);
+            if (new_inert == 0)
+                evoker->evoker_debt = 0;
+            mprf("%s %s %s recharged.",
+                 get_desc_quantity(charged, evoker->quantity, "your").c_str(),
+                 evokername.c_str(), charged > 1 ? "have" : "has");
+        }
+    }
+}
+
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
     if (crawl_state.game_is_arena())
@@ -2823,7 +2848,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
             _remove_temp_mutation();
     }
 
-    recharge_xp_evokers(exp_gained);
+    _recharge_xp_evokers(exp_gained);
 
     if (you.attribute[ATTR_XP_DRAIN])
     {
@@ -3146,11 +3171,10 @@ void level_change(bool skip_attribute_increase)
                     // time passing do_update = true.
 
                     uint8_t saved_skills[NUM_SKILLS];
-                    for (int i = SK_FIRST_SKILL; i < NUM_SKILLS; ++i)
+                    for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
                     {
-                        saved_skills[i] = you.skills[i];
-                        check_skill_level_change(static_cast<skill_type>(i),
-                                                 false);
+                        saved_skills[sk] = you.skills[sk];
+                        check_skill_level_change(sk, false);
                     }
                     // The player symbol depends on species.
                     update_player_symbol();
@@ -3162,10 +3186,10 @@ void level_change(bool skip_attribute_increase)
                     // Produce messages about skill increases/decreases. We
                     // restore one skill level at a time so that at most the
                     // skill being checked is at the wrong level.
-                    for (int i = SK_FIRST_SKILL; i < NUM_SKILLS; ++i)
+                    for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
                     {
-                        you.skills[i] = saved_skills[i];
-                        check_skill_level_change(static_cast<skill_type>(i));
+                        you.skills[sk] = saved_skills[sk];
+                        check_skill_level_change(sk);
                     }
 
                     redraw_screen();
@@ -5179,7 +5203,7 @@ void dec_napalm_player(int delay)
     expose_player_to_element(BEAM_STICKY_FLAME,
                              div_rand_round(delay * 4, BASELINE_DELAY));
 
-    const int hurted = resist_adjust_damage(&you, BEAM_FIRE, player_res_fire(),
+    const int hurted = resist_adjust_damage(&you, BEAM_FIRE,
                                             random2avg(9, 2) + 1);
 
     ouch(hurted * delay / BASELINE_DELAY, KILLED_BY_BURNING);
@@ -6076,7 +6100,7 @@ void player::god_conduct(conduct_type thing_done, int level)
     ::did_god_conduct(thing_done, level);
 }
 
-void player::banish(actor *agent, const string &who)
+void player::banish(actor* /*agent*/, const string &who)
 {
     ASSERT(!crawl_state.game_is_arena());
     if (brdepth[BRANCH_ABYSS] == -1)
@@ -6090,8 +6114,6 @@ void player::banish(actor *agent, const string &who)
 
     banished    = true;
     banished_by = who;
-
-    run_animation(ANIMATION_BANISH, UA_BRANCH_ENTRY, false);
 }
 
 // For semi-undead species (Vampire!) reduce food cost for spells and abilities
@@ -7183,8 +7205,7 @@ int player::hurt(const actor *agent, int amount, beam_type flavour,
         // to a player from a dead monster.  We should probably not do that,
         // but it could be tricky to fix, so for now let's at least avoid
         // a crash even if it does mean funny death messages.
-        ouch(amount, kill_type, MID_NOBODY, aux.c_str(),
-             false, source.empty() ? "posthumous revenge" : source.c_str());
+        ouch(amount, kill_type, MID_NOBODY, aux.c_str(), false, source.c_str());
     }
     else
     {
@@ -7253,6 +7274,30 @@ bool player::rot(actor *who, int amount, int immediate, bool quiet)
     return true;
 }
 
+void player::corrode_equipment(const char* corrosion_source)
+{
+    // rCorr protects against 50% of corrosion.
+    if (res_corr() && coinflip())
+    {
+        dprf("rCorr protects.");
+        return;
+    }
+    // always increase duration, but...
+    increase_duration(DUR_CORROSION, 10 + roll_dice(2, 4), 50,
+                      make_stringf("%s corrodes your equipment!",
+                                   corrosion_source).c_str());
+
+    // the more corrosion you already have, the lower the odds of more
+    const int prev_corr = props["corrosion_amount"].get_int();
+    if (x_chance_in_y(prev_corr, prev_corr + 9))
+        return;
+
+    props["corrosion_amount"].get_int()++;
+    redraw_armour_class = true;
+    wield_change = true;
+    return;
+}
+
 /**
  * Attempts to apply corrosion to the player and deals acid damage.
  *
@@ -7288,7 +7333,7 @@ void player::splash_with_acid(const actor* evildoer, int acid_strength,
     }
 
     if (do_corrosion)
-        corrode_actor(&you);
+        corrode_equipment();
 
     // Covers head, hands and feet.
     if (player_equip_unrand(UNRAND_LEAR))
@@ -7303,8 +7348,7 @@ void player::splash_with_acid(const actor* evildoer, int acid_strength,
     dam += 2;
     dam = roll_dice(dam, acid_strength);
 
-    const int post_res_dam = resist_adjust_damage(&you, BEAM_ACID,
-                                                  you.res_acid(), dam);
+    const int post_res_dam = resist_adjust_damage(&you, BEAM_ACID, dam);
 
     if (post_res_dam > 0)
     {
@@ -7848,7 +7892,7 @@ bool player::polymorph(int pow)
               1, TRAN_DRAGON,
               0);
         // need to do a dry run first, as Zin's protection has a random factor
-        if (transform(pow, f, false, true))
+        if (transform(pow, f, true, true))
             break;
         f = TRAN_NONE;
     }
@@ -8013,6 +8057,7 @@ bool player::do_shaft()
         // what's the point of this list?
         case DNGN_TRAP_MECHANICAL:
         case DNGN_TRAP_TELEPORT:
+        case DNGN_TRAP_SHADOW:
         case DNGN_TRAP_ALARM:
         case DNGN_TRAP_ZOT:
         case DNGN_TRAP_SHAFT:
@@ -8955,20 +9000,36 @@ string player::hands_verb(const string &plural_verb) const
     return hand + " " + conjugate_verb(plural_verb, plural);
 }
 
+// Is this a character that would not normally have a preceding space when
+// it follows a word?
+static bool _is_end_punct(char c)
+{
+    switch (c)
+    {
+    case ' ': case '.': case '!': case '?':
+    case ',': case ':': case ';': case ')':
+        return true;
+    }
+    return false;
+}
+
 /**
  * Return a string describing the player's hand(s) (or equivalent) taking the
  * given action (verb).
  *
  * @param plural_verb   The plural-agreeing verb corresponding to the action to
- *                      take. (E.g., "smoulder", "glow", "gain", etc.)
- * @param subject       The subject of the action. E.g. ".", "new energy.", &c.
- * @return              A string describing the player taking the given action.
- *                      E.g. "Your tentacle gains new energy."
+ *                      take. E.g., "smoulder", "glow", "gain", etc.
+ * @param object        The object or predicate complement of the action,
+ *                      including any sentence-final punctuation. E.g. ".",
+ *                      "new energy.", etc.
+ * @return              A string describing the player's hands taking the
+ *                      given action. E.g. "Your tentacle gains new energy."
  */
 string player::hands_act(const string &plural_verb,
-                         const string &subject) const
+                         const string &object) const
 {
-    return "Your " + hands_verb(plural_verb) + " " + subject;
+    const bool space = !object.empty() && !_is_end_punct(object[0]);
+    return "Your " + hands_verb(plural_verb) + (space ? " " : "") + object;
 }
 
 /**

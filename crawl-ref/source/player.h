@@ -20,6 +20,7 @@
 #ifdef USE_TILE
 #include "tiledoll.h"
 #endif
+#include "timed_effects.h"
 
 #define CONDENSATION_SHIELD_KEY "condensation_shield_pow"
 #define ICY_ARMOUR_KEY "ozocubu's_armour_pow"
@@ -47,6 +48,12 @@ static const int FASTEST_PLAYER_MOVE_SPEED = 6;
 class targetter;
 
 int check_stealth();
+
+// needed for assert in is_player()
+#ifdef DEBUG_GLOBALS
+#define you (*real_you)
+#endif
+extern player you;
 
 typedef FixedVector<int, NUM_DURATIONS> durations_t;
 class player : public actor
@@ -589,7 +596,7 @@ public:
     string conj_verb(const string &verb) const;
     string hand_name(bool plural, bool *can_plural = nullptr) const;
     string hands_verb(const string &plural_verb) const;
-    string hands_act(const string &plural_verb, const string &subject) const;
+    string hands_act(const string &plural_verb, const string &object) const;
     string foot_name(bool plural, bool *can_plural = nullptr) const;
     string arm_name(bool plural, bool *can_plural = nullptr) const;
     string unarmed_attack_name() const;
@@ -614,7 +621,7 @@ public:
     bool malmutate(const string &reason);
     bool polymorph(int pow);
     void backlight();
-    void banish(actor *agent, const string &who = "");
+    void banish(actor* /*agent*/, const string &who = "");
     void blink(bool allow_partial_control = true);
     void teleport(bool right_now = false,
                   bool wizard_tele = false);
@@ -639,6 +646,7 @@ public:
     void splash_with_acid(const actor* evildoer, int acid_strength,
                           bool allow_corrosion = true,
                           const char* hurt_msg = nullptr);
+    void corrode_equipment(const char* corrosion_source = "the acid");
     void sentinel_mark(bool trap = false);
     int hurt(const actor *attacker, int amount,
              beam_type flavour = BEAM_MISSILE,
@@ -664,6 +672,7 @@ public:
     bool is_unbreathing() const;
     bool is_insubstantial() const;
     int res_acid(bool calc_unid = true) const;
+    bool res_hellfire() const { return false; };
     int res_fire() const;
     int res_steam() const;
     int res_cold() const;
@@ -808,11 +817,6 @@ protected:
     void _removed_fearmonger(bool quiet = false);
     bool _possible_fearmonger(const monster* mon) const;
 };
-
-#ifdef DEBUG_GLOBALS
-#define you (*real_you)
-#endif
-extern player you;
 
 struct player_save_info
 {

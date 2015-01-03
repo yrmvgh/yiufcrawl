@@ -15,12 +15,6 @@ enum ev_ignore_type
 
 struct bolt;
 
-/* Axe this block soon */
-// (needed for asserts in is_player())
-class player;
-extern player you;
-/***********************/
-
 class actor
 {
 public:
@@ -230,6 +224,7 @@ public:
     virtual void splash_with_acid(const actor* evildoer, int acid_strength = -1,
                                   bool allow_corrosion = true,
                                   const char* hurt_msg = nullptr) = 0;
+    virtual void corrode_equipment(const char* corrosion_source = "the acid") = 0;
 
     virtual bool can_hibernate(bool holi_only = false,
                                bool intrinsic_only = false) const;
@@ -288,6 +283,7 @@ public:
     virtual bool is_unbreathing() const = 0;
     virtual bool is_insubstantial() const = 0;
     virtual int res_acid(bool calc_unid = true) const = 0;
+    virtual bool res_hellfire() const = 0;
     virtual int res_fire() const = 0;
     virtual int res_steam() const = 0;
     virtual int res_cold() const = 0;

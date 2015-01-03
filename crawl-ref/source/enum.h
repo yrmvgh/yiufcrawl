@@ -916,6 +916,7 @@ enum command_type
     CMD_DISPLAY_RUNES,
     CMD_DISPLAY_CHARACTER_STATUS,
     CMD_DISPLAY_SPELLS,
+    CMD_LOOKUP_HELP,
     CMD_EXPERIENCE_CHECK,
     CMD_ADJUST_INVENTORY,
     CMD_REPLAY_MESSAGES,
@@ -1460,6 +1461,12 @@ enum dungeon_feature_type
     DNGN_TRAP_TELEPORT,
     DNGN_TRAP_SHAFT,
     DNGN_TRAP_WEB,
+#if TAG_MAJOR_VERSION > 34
+    DNGN_TRAP_ALARM,
+    DNGN_TRAP_ZOT,
+    DNGN_PASSAGE_OF_GOLUBRIA,
+    DNGN_TRAP_SHADOW,
+#endif
     DNGN_UNDISCOVERED_TRAP,
 
     DNGN_ENTER_SHOP,
@@ -1598,9 +1605,11 @@ enum dungeon_feature_type
 
     DNGN_SEALED_STAIRS_UP,
     DNGN_SEALED_STAIRS_DOWN,
+#if TAG_MAJOR_VERSION == 34
     DNGN_TRAP_ALARM,
     DNGN_TRAP_ZOT,
     DNGN_PASSAGE_OF_GOLUBRIA,
+#endif
 
     DNGN_ENTER_ZIGGURAT,
     DNGN_ENTER_BAZAAR,
@@ -1631,6 +1640,8 @@ enum dungeon_feature_type
     DNGN_ALTAR_GOZAG,
     DNGN_ALTAR_QAZLAL,
     DNGN_ALTAR_RU,
+
+    DNGN_TRAP_SHADOW,
 #endif
 
     NUM_FEATURES
@@ -2531,8 +2542,8 @@ enum monster_type                      // menv[].type
 #if TAG_MAJOR_VERSION == 34
     MONS_BUMBLEBEE,
 #endif
-    MONS_YELLOW_WASP,
-    MONS_RED_WASP,
+    MONS_WASP,
+    MONS_HORNET,
     MONS_GOLIATH_BEETLE,
     MONS_BORING_BEETLE,
     MONS_BOULDER_BEETLE,
@@ -4441,6 +4452,7 @@ enum trap_type
     TRAP_GAS,
     TRAP_TELEPORT,
 #endif
+    TRAP_SHADOW,
     NUM_TRAPS,
     TRAP_MAX_REGULAR = TRAP_SHAFT,
     TRAP_UNASSIGNED = 100,
@@ -4899,29 +4911,6 @@ enum wizard_option_type
 
 #endif
 
-enum timed_effect_type
-{
-    TIMER_CORPSES,
-    TIMER_HELL_EFFECTS,
-    TIMER_STAT_RECOVERY,
-    TIMER_CONTAM,
-    TIMER_DETERIORATION,
-    TIMER_GOD_EFFECTS,
-#if TAG_MAJOR_VERSION == 34
-    TIMER_SCREAM,
-#endif
-    TIMER_FOOD_ROT,
-    TIMER_PRACTICE,
-    TIMER_LABYRINTH,
-    TIMER_ABYSS_SPEED,
-    TIMER_JIYVA,
-    TIMER_EVOLUTION,
-#if TAG_MAJOR_VERSION == 34
-    TIMER_BRIBE_TIMEOUT,
-#endif
-    NUM_TIMERS,
-};
-
 enum deck_rarity_type
 {
     DECK_RARITY_RANDOM,
@@ -4929,5 +4918,6 @@ enum deck_rarity_type
     DECK_RARITY_RARE,
     DECK_RARITY_LEGENDARY,
 };
+
 
 #endif // ENUM_H

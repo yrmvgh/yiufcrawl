@@ -9,6 +9,7 @@
 #include "artefact.h"
 #include "art-enum.h"
 #include "delay.h"
+#include "english.h" // conjugate_verb
 #include "food.h"
 #include "goditem.h"
 #include "godpassive.h"
@@ -424,12 +425,14 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
             int mp = item.special - you.elapsed_time / POWER_DECAY;
 
             if (mp > 0)
+            {
 #if TAG_MAJOR_VERSION == 34
                 if (you.species == SP_DJINNI)
                     you.hp += mp;
                 else
 #endif
                 you.magic_points += mp;
+            }
 
             if (get_real_mp(true) >= 50)
                 mpr("You feel your magic capacity is already quite full.");
@@ -525,8 +528,7 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
                     break;
 
                 case SPWPN_SPEED:
-                    mprf("Your %s tingle!",
-                         you.hand_name(true).c_str());
+                    mpr(you.hands_act("tingle", "!"));
                     break;
 
                 case SPWPN_VAMPIRISM:
@@ -555,10 +557,17 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
                     break;
 
                 case SPWPN_PENETRATION:
-                    mprf("Your %s briefly pass through it before you manage "
+                {
+                    // FIXME: make hands_act take a pre-verb adverb so we can
+                    // use it here.
+                    bool plural = true;
+                    string hand = you.hand_name(true, &plural);
+
+                    mprf("Your %s briefly %s through it before you manage "
                          "to get a firm grip on it.",
-                         you.hand_name(true).c_str());
+                         hand.c_str(), conjugate_verb("pass", plural).c_str());
                     break;
+                }
 
                 case SPWPN_REAPING:
                     mpr("It is briefly surrounded by shifting shadows.");
@@ -639,8 +648,7 @@ static void _unequip_weapon_effect(item_def& item, bool showMsgs, bool meld)
     if (is_artefact(item))
         _unequip_artefact_effect(item, &showMsgs, meld, EQ_WEAPON);
 
-    if (item.base_type == OBJ_MISCELLANY
-        && item.sub_type == MISC_LANTERN_OF_SHADOWS)
+    if (item.is_type(OBJ_MISCELLANY, MISC_LANTERN_OF_SHADOWS))
     {
         you.attribute[ATTR_SHADOWS] = 0;
         update_vision_range();
@@ -746,7 +754,7 @@ static void _unequip_weapon_effect(item_def& item, bool showMsgs, bool meld)
             }
         }
     }
-    else if (item.base_type == OBJ_STAVES && item.sub_type == STAFF_POWER)
+    else if (item.is_type(OBJ_STAVES, STAFF_POWER))
     {
         int mp = you.magic_points;
 #if TAG_MAJOR_VERSION == 34

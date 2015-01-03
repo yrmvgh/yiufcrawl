@@ -343,13 +343,13 @@ bool maybe_id_book(item_def &book, bool silent)
     if (book.base_type != OBJ_BOOKS && book.base_type != OBJ_RODS)
         return false;
 
-    if (book.base_type == OBJ_BOOKS && book.sub_type == BOOK_DESTRUCTION)
+    if (book.is_type(OBJ_BOOKS, BOOK_DESTRUCTION))
     {
         ASSERT(fully_identified(book));
         return false;
     }
 
-    if (book.base_type == OBJ_BOOKS && book.sub_type == BOOK_MANUAL)
+    if (book.is_type(OBJ_BOOKS, BOOK_MANUAL))
     {
         set_ident_flags(book, ISFLAG_IDENT_MASK);
         return false;
@@ -825,9 +825,7 @@ static spell_type _choose_mem_spell(spell_list &spells,
 
         colour = failure_rate_colour(spell);
         desc << "<" << colour_to_str(colour) << ">";
-        char* failure = failure_rate_to_string(spell_fail(spell));
-        desc << chop_string(failure, 12);
-        free(failure);
+        desc << chop_string(failure_rate_to_string(spell_fail(spell)), 12);
         desc << "</" << colour_to_str(colour) << ">";
         desc << spell_difficulty(spell);
 
@@ -988,16 +986,16 @@ bool learn_spell(spell_type specspell)
     if (!_learn_spell_checks(specspell))
         return false;
 
-    double chance = get_miscast_chance(specspell);
+    int severity = fail_severity(specspell);
 
     if (spell_fail(specspell) >= 100 && !vehumet_is_offering(specspell))
         mprf(MSGCH_WARN, "This spell is impossible to cast!");
-    else if (chance >= 0.025)
-        mprf(MSGCH_WARN, "This spell is very dangerous to cast!");
-    else if (chance >= 0.005)
-        mprf(MSGCH_WARN, "This spell is quite dangerous to cast!");
-    else if (chance >= 0.001)
-        mprf(MSGCH_WARN, "This spell is slightly dangerous to cast.");
+    else if (severity > 0)
+    {
+        mprf(MSGCH_WARN, "This spell is %s to cast%s",
+                         fail_severity_adjs[severity],
+                         severity > 1 ? "!" : ".");
+    }
 
     snprintf(info, INFO_SIZE,
              "Memorise %s, consuming %d spell level%s and leaving %d?",
@@ -1025,10 +1023,12 @@ bool forget_spell_from_book(spell_type spell, const item_def* book)
 {
     string prompt;
 
-    prompt += make_stringf("Forgetting %s from %s will destroy the book! "
+    prompt += make_stringf("Forgetting %s from %s will destroy the book%s! "
                            "Are you sure?",
                            spell_title(spell),
-                           book->name(DESC_THE).c_str());
+                           book->name(DESC_THE).c_str(),
+                           you_worship(GOD_SIF_MUNA)
+                               ? " and put you under penance" : "");
 
     // Deactivate choice from tile inventory.
     mouse_control mc(MOUSE_MODE_MORE);

@@ -20,7 +20,6 @@
 #include "cloud.h"
 #include "coordit.h"
 #include "delay.h"
-#include "effects.h"
 #include "english.h"
 #include "env.h"
 #include "exercise.h"
@@ -630,8 +629,8 @@ static void _hydra_devour(monster &victim)
     // healing
     if (!you.duration[DUR_DEATHS_DOOR])
     {
-        const int healing = 1 + victim.get_experience_level() * 3 / 2
-                              + random2(victim.get_experience_level() * 3 / 2);
+        const int healing = 1 + victim.get_experience_level() * 3 / 4
+                              + random2(victim.get_experience_level() * 3 / 4);
         you.heal(healing);
         calc_hp();
         mpr("You feel better.");
@@ -1842,12 +1841,8 @@ void melee_attack::player_weapon_upsets_god()
             did_god_conduct(DID_HASTY, 1);
         }
     }
-    else if (weapon
-             && weapon->base_type == OBJ_STAVES
-             && weapon->sub_type == STAFF_FIRE)
-    {
+    else if (weapon && weapon->is_type(OBJ_STAVES, STAFF_FIRE))
         did_god_conduct(DID_FIRE, 1);
-    }
 }
 
 /* Apply player-specific effects as well as brand damage.
@@ -2159,17 +2154,16 @@ void melee_attack::decapitate(int dam_type)
 void melee_attack::attacker_sustain_passive_damage()
 {
     // If the defender has been cleaned up, it's too late for anything.
-    if (defender->type == MONS_PROGRAM_BUG)
+    if (!defender->alive())
         return;
 
     if (!mons_class_flag(defender->type, M_ACID_SPLASH))
         return;
 
-    const int rA = attacker->res_acid();
-    if (rA >= 3)
+    if (attacker->res_acid() >= 3)
         return;
 
-    const int acid_strength = resist_adjust_damage(attacker, BEAM_ACID, rA, 5);
+    const int acid_strength = resist_adjust_damage(attacker, BEAM_ACID, 5);
 
     const item_def *weap = weapon ? weapon : attacker->slot_item(EQ_GLOVES);
 
@@ -2180,12 +2174,12 @@ void melee_attack::attacker_sustain_passive_damage()
     if (weap && !avatar)
     {
         if (x_chance_in_y(acid_strength + 1, 30))
-            corrode_actor(attacker);
+            attacker->corrode_equipment();
     }
     else
     {
         if (attacker->is_player())
-            mprf("Your %s burn!", you.hand_name(true).c_str());
+            mpr(you.hands_act("burn", "!"));
         else
         {
             simple_monster_message(attacker->as_monster(),
@@ -2224,7 +2218,6 @@ void melee_attack::apply_staff_damage()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_ELECTRICITY,
-                                 defender->res_elec(),
                                  staff_damage(SK_AIR_MAGIC));
 
         if (special_damage)
@@ -2242,7 +2235,6 @@ void melee_attack::apply_staff_damage()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_COLD,
-                                 defender->res_cold(),
                                  staff_damage(SK_ICE_MAGIC));
 
         if (special_damage)
@@ -2276,7 +2268,6 @@ void melee_attack::apply_staff_damage()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_FIRE,
-                                 defender->res_fire(),
                                  staff_damage(SK_FIRE_MAGIC));
 
         if (special_damage)
@@ -2494,8 +2485,6 @@ string melee_attack::mons_attack_verb()
 #endif
         "pounce on",
         "sting",
-        "kite",  // should never display
-        "swoop", // ditto
     };
     COMPILE_CHECK(ARRAYSZ(attack_types) == AT_LAST_REAL_ATTACK);
 
@@ -2710,7 +2699,7 @@ bool melee_attack::mons_attack_effects()
         return defender->alive();
     }
 
-    if (attacker != defender && attk_type == AT_TRAMPLE)
+    if (attacker != defender && attk_flavour == AF_TRAMPLE)
         do_knockback();
 
     special_damage = 0;
@@ -2808,7 +2797,6 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_FIRE,
-                                 defender->res_fire(),
                                  base_damage);
         special_damage_flavour = BEAM_FIRE;
 
@@ -2831,7 +2819,6 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_COLD,
-                                 defender->res_cold(),
                                  base_damage);
         special_damage_flavour = BEAM_COLD;
 
@@ -2856,7 +2843,6 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_ELECTRICITY,
-                                 defender->res_elec(),
                                  base_damage);
         special_damage_flavour = BEAM_ELECTRICITY;
 
@@ -2999,7 +2985,7 @@ void melee_attack::mons_apply_attack_flavour()
     {
         // Only wasps at the moment, so Zin vitalisation
         // protects from the paralysis and slow.
-        if (you.duration[DUR_DIVINE_STAMINA] > 0)
+        if (defender->is_player() && you.duration[DUR_DIVINE_STAMINA] > 0)
         {
             mpr("Your divine stamina protects you from poison!");
             break;
@@ -3012,7 +2998,7 @@ void melee_attack::mons_apply_attack_flavour()
             break;
         }
 
-        if (attacker->type == MONS_RED_WASP || one_chance_in(3))
+        if (attacker->type == MONS_HORNET || one_chance_in(3))
         {
             int dmg = random_range(attacker->get_hit_dice() * 3 / 2,
                                    attacker->get_hit_dice() * 5 / 2);
@@ -3020,10 +3006,10 @@ void melee_attack::mons_apply_attack_flavour()
         }
 
         int paralyse_roll = (damage_done > 4 ? 3 : 20);
-        if (attacker->type == MONS_YELLOW_WASP)
+        if (attacker->type == MONS_WASP)
             paralyse_roll += 3;
 
-        const int flat_bonus  = attacker->type == MONS_RED_WASP ? 1 : 0;
+        const int flat_bonus  = attacker->type == MONS_HORNET ? 1 : 0;
         const bool strong_result = one_chance_in(paralyse_roll);
 
         if (strong_result && defender->res_poison() <= 0)
@@ -3040,7 +3026,7 @@ void melee_attack::mons_apply_attack_flavour()
 
     case AF_CORRODE:
         if (defender->slot_item(EQ_BODY_ARMOUR))
-            corrode_actor(defender, atk_name(DESC_THE).c_str());
+            defender->corrode_equipment(atk_name(DESC_THE).c_str());
         break;
 
     case AF_DISTORT:
@@ -3187,7 +3173,6 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage = defender->apply_ac(special_damage, 0, AC_HALF);
         special_damage = resist_adjust_damage(defender,
                                               BEAM_FIRE,
-                                              defender->res_fire(),
                                               special_damage);
 
         if (needs_message && special_damage)
@@ -3272,7 +3257,6 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage =
             resist_adjust_damage(defender,
                                  BEAM_FIRE,
-                                 defender->res_fire(),
                                  base_damage);
         special_damage_flavour = BEAM_FIRE;
 
@@ -3649,10 +3633,10 @@ void melee_attack::cleave_setup()
     cleave_targets.pop_front();
 }
 
-// cleave damage modifier for additional attacks: 75% of base damage
+// cleave damage modifier for additional attacks: 70% of base damage
 int melee_attack::cleave_damage_mod(int dam)
 {
-    return div_rand_round(dam * 3, 4);
+    return div_rand_round(dam * 7, 10);
 }
 
 void melee_attack::chaos_affect_actor(actor *victim)

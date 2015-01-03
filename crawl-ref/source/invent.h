@@ -183,6 +183,8 @@ bool is_item_selected(const item_def &item, int selector);
 bool any_items_of_type(int type_expect, int excluded_slot = -1);
 string no_selectables_message(int item_selector);
 
+string slot_description();
+
 int prompt_invent_item(const char *prompt,
                        menu_type type,
                        int type_expect,
@@ -231,7 +233,6 @@ void init_item_sort_comparators(item_sort_comparators &list,
 bool prompt_failed(int retval);
 
 void list_charging_evokers(FixedVector<item_def*, NUM_MISCELLANY> &evokers);
-bool evoker_is_charging(const item_def &item);
 
 bool item_is_wieldable(const item_def &item);
 bool item_is_evokable(const item_def &item, bool reach = true,

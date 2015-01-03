@@ -80,7 +80,7 @@ void pickup(bool partial_quantity = false);
 bool item_is_branded(const item_def& item);
 void item_list_on_square(vector<const item_def*>& items, int obj);
 
-bool copy_item_to_grid(const item_def &item, const coord_def& p,
+bool copy_item_to_grid(item_def &item, const coord_def& p,
                        int quant_drop = -1,    // item.quantity by default
                        bool mark_dropped = false,
                        bool silent = false);
@@ -141,7 +141,7 @@ equipment_type item_equip_slot(const item_def &item);
 void item_was_lost(const item_def &item);
 void item_was_destroyed(const item_def &item);
 
-bool get_item_by_name(item_def *item, char* specs,
+bool get_item_by_name(item_def *item, const char* specs,
                       object_class_type class_wanted,
                       bool create_for_real = false);
 
