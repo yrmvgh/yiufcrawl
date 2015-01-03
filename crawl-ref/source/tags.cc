@@ -4886,6 +4886,8 @@ static void tag_read_level(reader &th)
             {
                 grd[i][j] = DNGN_EXIT_LABYRINTH;
             }
+            if (feat == DNGN_DEEP_WATER && player_in_branch(BRANCH_SHOALS))
+                grd[i][j] = DNGN_SHALLOW_WATER;
 #endif
 
             unmarshallMapCell(th, env.map_knowledge[i][j]);
