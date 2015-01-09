@@ -472,7 +472,7 @@ static string _randart_descrip(const item_def &item)
         { ARTP_REGENERATION, "It increases your rate of regeneration.", false},
         { ARTP_RCORR, "It protects you from acid and corrosion.", false},
         { ARTP_RMUT, "It protects you from mutation.", false},
-        { ARTP_TWISTER, "It can be evoked to create a twister."},
+        { ARTP_TWISTER, "It can be evoked to create a twister.", false},
     };
 
     // Give a short description of the base type, for base types with no

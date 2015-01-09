@@ -167,7 +167,7 @@ longer to trigger than uncontrolled ones.
 %%%%
 Evoke Twister ability
 
-Summons a tornado nearby. The furious winds cans harm friend and foe alike.
+Summons a tornado nearby. The furious winds can harm friend and foe alike.
 %%%%
 End Transformation ability
 
