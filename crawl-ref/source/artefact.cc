@@ -697,6 +697,7 @@ static bool _artp_can_go_on_item(artefact_prop_type prop, const item_def &item)
         case ARTP_SLAYING:
             return item_class != OBJ_WEAPONS; // they already have slaying!
         case ARTP_POISON:
+        case ARTP_EYESIGHT:
             return !item.is_type(OBJ_ARMOUR, ARM_NAGA_BARDING);
             // naga already have rPois & sInv!
         case ARTP_RCORR:
@@ -715,13 +716,11 @@ static bool _artp_can_go_on_item(artefact_prop_type prop, const item_def &item)
                     && (item_type == OBJ_JEWELLERY
                         || item_type == RING_TELEPORT_CONTROL);
             // absurd
-        case ARTP_HP:
         case ARTP_MAGICAL_POWER:
         case ARTP_AC:
         case ARTP_EVASION:
         case ARTP_FOG:
         case ARTP_RMUT:
-        case ARTP_EYESIGHT: // if enabled, remember to ban on naga barding
         case ARTP_CLARITY:
         case ARTP_REGENERATION: // if enabled, remember to ban on troll armour
         case ARTP_SUSTAB:
@@ -839,6 +838,15 @@ static void _get_randart_properties(const item_def &item,
                     {
                         value = 1;
                         valid = true;
+                    }
+                    break;
+
+                case ARTP_TWISTER:
+                    if (good > 1)
+                    {
+                        value = 1;
+                        valid = true;
+                        good--; // costs a little extra goodness.
                     }
                     break;
 
