@@ -47,6 +47,7 @@
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
+#include "random-weight.h"
 #include "religion.h"
 #include "spl-clouds.h"
 #include "spl-goditem.h"
@@ -188,20 +189,60 @@ const deck_archetype deck_of_punishment[] =
     END_OF_DECK
 };
 
-static map<misc_item_type, vector<const deck_archetype *>> all_decks =
+struct deck_type_data
 {
-    { MISC_DECK_OF_ESCAPE,      { deck_of_transport, deck_of_emergency } },
-    { MISC_DECK_OF_DESTRUCTION, { deck_of_destruction } },
+    /// The name of the deck. (Doesn't include "deck of ".)
+    string name;
+    /// The weight of this deck in non-Nemelex item generation
+    int weight;
+    /// The list of decks this deck contains
+    vector<const deck_archetype *> subdecks;
+};
+
+static map<misc_item_type, deck_type_data> all_decks =
+{
+    { MISC_DECK_OF_ESCAPE, {
+        "escape",
+        1, { deck_of_transport, deck_of_emergency }
+    } },
+    { MISC_DECK_OF_DESTRUCTION, {
+        "destruction",
+        1, { deck_of_destruction }
+    } },
 #if TAG_MAJOR_VERSION == 34
-    { MISC_DECK_OF_DUNGEONS,    { deck_of_dungeons } },
+    { MISC_DECK_OF_DUNGEONS, {
+        "dungeons",
+        0, { deck_of_dungeons }
+    } },
 #endif
-    { MISC_DECK_OF_SUMMONING,   { deck_of_summoning } },
-    { MISC_DECK_OF_WONDERS,     { deck_of_wonders } },
-    { MISC_DECK_OF_ODDITIES,    { deck_of_oddities } },
-    { MISC_DECK_OF_PUNISHMENT,  { deck_of_punishment } },
-    { MISC_DECK_OF_WAR,         { deck_of_battle, deck_of_summoning } },
-    { MISC_DECK_OF_CHANGES,     { deck_of_battle, deck_of_wonders } },
-    { MISC_DECK_OF_DEFENCE,     { deck_of_battle, deck_of_emergency } },
+    { MISC_DECK_OF_SUMMONING, {
+        "summoning",
+        5, { deck_of_summoning }
+    } },
+    { MISC_DECK_OF_WONDERS, {
+        "wonders",
+        5, { deck_of_wonders }
+    } },
+    { MISC_DECK_OF_ODDITIES, {
+        "oddities",
+        0, { deck_of_oddities }
+    } },
+    { MISC_DECK_OF_PUNISHMENT, {
+        "punishment",
+        0, { deck_of_punishment }
+    } },
+    { MISC_DECK_OF_WAR, {
+        "war",
+        1, { deck_of_battle, deck_of_summoning }
+    } },
+    { MISC_DECK_OF_CHANGES, {
+        "changes",
+        5, { deck_of_battle, deck_of_wonders }
+    } },
+    { MISC_DECK_OF_DEFENCE, {
+        "defence",
+        5, { deck_of_battle, deck_of_emergency }
+    } },
 };
 
 static void _check_odd_card(uint8_t flags)
@@ -376,11 +417,10 @@ card_type name_to_card(string name)
 
 static const vector<const deck_archetype *> _subdecks(uint8_t deck_type)
 {
-    vector<const deck_archetype *> *subdecks
-        = map_find(all_decks, (misc_item_type)deck_type);
+    deck_type_data *deck_data = map_find(all_decks, (misc_item_type)deck_type);
 
-    if (subdecks)
-        return *subdecks;
+    if (deck_data)
+        return deck_data->subdecks;
 
 #ifdef ASSERTS
     die("No subdecks found for %u", unsigned(deck_type));
@@ -903,8 +943,8 @@ string which_decks(card_type card)
     bool punishment = false;
     for (auto &deck_data : all_decks)
     {
-        uint8_t deck = deck_data.first;
-        for (auto &subdeck : deck_data.second)
+        misc_item_type deck = (misc_item_type)deck_data.first;
+        for (auto &subdeck : deck_data.second.subdecks)
         {
             if (!_card_in_deck(card, subdeck))
                 continue;
@@ -912,13 +952,8 @@ string which_decks(card_type card)
             if (deck == MISC_DECK_OF_PUNISHMENT)
                 punishment = true;
             else
-            {
-                item_def tmp;
-                tmp.base_type = OBJ_MISCELLANY;
-                tmp.sub_type = deck;
-                // 8 - "deck of "
-                decks.push_back(sub_type_string(tmp, true).substr(8));
-            }
+                decks.push_back(deck_data.second.name);
+
             break;
         }
     }
@@ -3225,14 +3260,71 @@ card_type top_card(const item_def &deck)
     return card;
 }
 
-bool is_deck_type(uint8_t sub_type)
+/// Cache deck weights.
+static vector<pair<misc_item_type, int>> _deck_weights()
 {
-    return map_find(all_decks, (misc_item_type)sub_type) != nullptr;
+    vector<pair<misc_item_type, int>> deck_weights;
+    for (auto &deck_data : all_decks)
+        if (deck_data.second.weight)
+            deck_weights.push_back({deck_data.first, deck_data.second.weight});
+    return deck_weights;
 }
 
-bool is_deck(const item_def &item)
+static const vector<pair<misc_item_type, int>> deck_weights = _deck_weights();
+
+
+/**
+ * Return the appropriate name for a known deck of the given type.
+ *
+ * @param sub_type  The type of deck in question.
+ * @return          A name, e.g. "deck of war".
+ *                  Does not include rarity.
+ *                  If the given type isn't a deck, return "deck of bugginess".
+ */
+string deck_name(uint8_t sub_type)
 {
-    return item.base_type == OBJ_MISCELLANY && is_deck_type(item.sub_type);
+    const deck_type_data *deck_data = map_find(all_decks,
+                                               (misc_item_type)sub_type);
+    const string name = deck_data ? deck_data->name : "bugginess";
+    return "deck of " + name;
+}
+
+/**
+ * Returns the appropriate type for a deck name.
+ *
+ * @param name      The name in question; e.g. "war", "summonings", etc.
+ * @return          The type of the deck, if one is found;
+ *                  else, MISC_DECK_UNKNOWN.
+ */
+uint8_t deck_type_by_name(string name)
+{
+    for (auto &deck_data : all_decks)
+        if (deck_data.second.name == name)
+            return deck_data.first;
+
+    return MISC_DECK_UNKNOWN;
+}
+
+/**
+ * Choose a random deck type for normal generation. (Not Nemelex.)
+ */
+uint8_t random_deck_type()
+{
+    const misc_item_type *deck_type = random_choose_weighted(deck_weights);
+    ASSERT(deck_type);
+    return *deck_type;
+}
+
+bool is_deck_type(uint8_t sub_type, bool allow_unided)
+{
+    return allow_unided && sub_type == MISC_DECK_UNKNOWN
+           || map_find(all_decks, (misc_item_type)sub_type) != nullptr;
+}
+
+bool is_deck(const item_def &item, bool iinfo)
+{
+    return item.base_type == OBJ_MISCELLANY
+           && is_deck_type(item.sub_type, iinfo);
 }
 
 bool bad_deck(const item_def &item)
