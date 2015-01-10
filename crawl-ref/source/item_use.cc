@@ -2599,9 +2599,11 @@ void read(int slot)
     // scroll effect kicks in.
     if (player_mutation_level(MUT_BLURRY_VISION))
     {
-        // takes 1, 2, 3 extra turns
-        const int turns = player_mutation_level(MUT_BLURRY_VISION);
+        // takes 0.5, 1, 2 extra turns
+        const int turns = max(1, player_mutation_level(MUT_BLURRY_VISION) - 1);
         start_delay(DELAY_BLURRY_SCROLL, turns, item_slot);
+        if (player_mutation_level(MUT_BLURRY_VISION) == 1)
+            you.time_taken /= 2;
     }
     else
         read_scroll(item_slot);
@@ -2652,9 +2654,16 @@ void read_scroll(int item_slot)
     {
         const bool safely_cancellable
             = alreadyknown && !player_mutation_level(MUT_BLURRY_VISION);
-        cancel_scroll = (blink(1000, false, false,
-                               pre_succ_msg, safely_cancellable) == -1
-                        && alreadyknown);
+        if (allow_control_teleport())
+        {
+            cancel_scroll = (cast_controlled_blink(100, false,
+                                                   safely_cancellable)
+                             == SPRET_ABORT) && alreadyknown;
+        }
+        else
+            uncontrolled_blink();
+        if (!cancel_scroll)
+            mpr(pre_succ_msg); // ordering is iffy but w/e
     }
         break;
 

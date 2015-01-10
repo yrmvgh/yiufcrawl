@@ -1771,27 +1771,20 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
 {
     if (force_type != OBJ_RANDOM)
         item.sub_type = force_type;
+    else if (one_chance_in(3))
+        item.sub_type = random_deck_type();
     else
     {
-        do
-        {
-            item.sub_type = random2(NUM_MISCELLANY);
-        }
-        while
-            // never randomly generated
-            (item.sub_type == MISC_RUNE_OF_ZOT
-             || item.sub_type == MISC_HORN_OF_GERYON
-             || item.sub_type == MISC_DECK_OF_PUNISHMENT
-             || item.sub_type == MISC_QUAD_DAMAGE
-#if TAG_MAJOR_VERSION == 34
-             || item.sub_type == MISC_BUGGY_EBONY_CASKET
-             || item.sub_type == MISC_BOTTLED_EFREET
-             || item.sub_type == MISC_DECK_OF_DUNGEONS
-#endif
-             // Nemelex' decks are rare in the dungeon.
-             || ((item.sub_type == MISC_DECK_OF_WAR
-                    || item.sub_type == MISC_DECK_OF_ESCAPE)
-                && !one_chance_in(5)));
+        item.sub_type = random_choose(MISC_FAN_OF_GALES,
+                                      MISC_LAMP_OF_FIRE,
+                                      MISC_STONE_OF_TREMORS,
+                                      MISC_PHIAL_OF_FLOODS,
+                                      MISC_DISC_OF_STORMS,
+                                      MISC_BOX_OF_BEASTS,
+                                      MISC_SACK_OF_SPIDERS,
+                                      MISC_CRYSTAL_BALL_OF_ENERGY,
+                                      MISC_LANTERN_OF_SHADOWS,
+                                      MISC_PHANTOM_MIRROR);
     }
 
     // set initial charges
@@ -1804,7 +1797,8 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
 
     if (is_deck(item))
     {
-        item.initial_cards = 4 + random2(10);
+        item.initial_cards = random_range(MIN_STARTING_CARDS,
+                                          MAX_STARTING_CARDS);
 
         if (force_ego >= DECK_RARITY_COMMON
             && force_ego <= DECK_RARITY_LEGENDARY)
@@ -1870,9 +1864,7 @@ int items(bool allow_uniques,
            || force_class == OBJ_WEAPONS
            || force_class == OBJ_ARMOUR
            || force_class == OBJ_MISSILES
-           || force_class == OBJ_MISCELLANY
-              && force_type >= MISC_FIRST_DECK
-              && force_type <= MISC_LAST_DECK);
+           || force_class == OBJ_MISCELLANY && is_deck_type(force_type));
 
     // Find an empty slot for the item (with culling if required).
     int p = get_mitm_slot(10);
@@ -2163,15 +2155,15 @@ jewellery_type get_random_amulet_type()
     int res;
     do
     {
-        res = (AMU_FIRST_AMULET + random2(NUM_JEWELLERY - AMU_FIRST_AMULET));
+        res = random_range(AMU_FIRST_AMULET, NUM_JEWELLERY - 1);
     }
     // Do not generate cFly or Cons
     while (res == AMU_CONTROLLED_FLIGHT || res == AMU_CONSERVATION);
 
     return jewellery_type(res);
 #else
-    return static_cast<jewellery_type>(AMU_FIRST_AMULET
-           + random2(NUM_JEWELLERY - AMU_FIRST_AMULET));
+    return static_cast<jewellery_type>(random_range(AMU_FIRST_AMULET,
+                                                    NUM_JEWELLERY - 1));
 #endif
 }
 

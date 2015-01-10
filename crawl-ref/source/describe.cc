@@ -202,7 +202,7 @@ static vector<string> _randart_propnames(const item_def& item,
 {
     artefact_properties_t  proprt;
     artefact_known_props_t known;
-    artefact_desc_properties(item, proprt, known, true);
+    artefact_desc_properties(item, proprt, known);
 
     vector<string> propnames;
 
@@ -432,7 +432,7 @@ static string _randart_descrip(const item_def &item)
 
     artefact_properties_t  proprt;
     artefact_known_props_t known;
-    artefact_desc_properties(item, proprt, known, true);
+    artefact_desc_properties(item, proprt, known);
 
     const property_descriptor propdescs[] =
     {
@@ -1490,6 +1490,10 @@ static string _describe_deck(const item_def &item)
 
     if (item_type_known(item))
         description += deck_contents(item.sub_type) + "\n";
+
+    description += make_stringf("\nMost decks begin with %d to %d cards.\n",
+                                MIN_STARTING_CARDS,
+                                MAX_STARTING_CARDS);
 
     const vector<card_type> drawn_cards = get_drawn_cards(item);
     if (!drawn_cards.empty())

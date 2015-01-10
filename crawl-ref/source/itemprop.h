@@ -60,6 +60,7 @@ bool jewellery_is_amulet(int sub_type) IMMUTABLE;
 
 armour_type hide_for_monster(monster_type mc) PURE;
 armour_type armour_for_hide(armour_type hide_type) PURE;
+monster_type monster_for_hide(armour_type arm) PURE;
 bool  hide2armour(item_def &item);
 
 int   fit_armour_size(const item_def &item, size_type size) PURE;
@@ -163,6 +164,16 @@ bool can_cut_meat(const item_def &item) PURE;
 bool is_fruit(const item_def &item) PURE;
 
 // generic item property functions:
+int armour_type_res_fire(const uint8_t arm) PURE;
+int armour_type_res_cold(const uint8_t arm) PURE;
+int armour_type_res_neg(const uint8_t arm) PURE;
+int armour_type_bonus_stealth(const uint8_t arm) PURE;
+int armour_type_res_magic(const uint8_t arm) PURE;
+bool armour_type_res_elec(const uint8_t arm) PURE;
+bool armour_type_res_poison(const uint8_t arm) PURE;
+bool armour_type_res_sticky_flame(const uint8_t arm) PURE;
+bool armour_type_res_steam(const uint8_t arm) PURE;
+
 int get_armour_res_fire(const item_def &arm, bool check_artp) PURE;
 int get_armour_res_cold(const item_def &arm, bool check_artp) PURE;
 int get_armour_res_poison(const item_def &arm, bool check_artp) PURE;
