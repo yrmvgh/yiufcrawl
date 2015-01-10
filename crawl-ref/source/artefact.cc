@@ -412,6 +412,7 @@ static void _populate_armour_intrinsic_artps(const armour_type arm,
     proprt[ARTP_ELECTRICITY] += armour_type_res_elec(arm) ? 1 : 0;
     proprt[ARTP_MAGIC] += armour_type_res_magic(arm) / MR_PIP;
     proprt[ARTP_STEALTH] += armour_type_bonus_stealth(arm) / STEALTH_PIP;
+    proprt[ARTP_REGENERATION] += armour_type_bonus_regen(arm);
 }
 
 /// The artefact properties corresponding to a given piece of jewellery.
@@ -613,6 +614,7 @@ static bool _artp_can_go_on_item(artefact_prop_type prop, const item_def &item)
             return !item.is_type(OBJ_ARMOUR, ARM_NAGA_BARDING);
             // naga already have rPois & sInv!
         case ARTP_RCORR:
+        case ARTP_REGENERATION:
             return item_class == OBJ_ARMOUR; // limit availability to armour
         case ARTP_BERSERK:
         case ARTP_ANGRY:
@@ -627,14 +629,12 @@ static bool _artp_can_go_on_item(artefact_prop_type prop, const item_def &item)
                         || item_type != RING_TELEPORTATION)
                     && (item_type == OBJ_JEWELLERY
                         || item_type == RING_TELEPORT_CONTROL);
-            // absurd
-        case ARTP_MAGICAL_POWER:
+            // ^ absurd
         case ARTP_AC:
         case ARTP_EVASION:
         case ARTP_FOG:
         case ARTP_RMUT:
         case ARTP_CLARITY:
-        case ARTP_REGENERATION: // if enabled, remember to ban on troll armour
         case ARTP_SUSTAB:
             return false; // banned on randarts
         default:
@@ -800,7 +800,7 @@ static void _get_randart_properties(const item_def &item,
                 case ARTP_REGENERATION:
                     if (good > 0)
                     {
-                        value = 40;
+                        value = 1;
                         valid = true;
                     }
                     break;
