@@ -5611,6 +5611,21 @@ static const char* _arcane_mutation_to_school_name(mutation_type mutation)
     return spelltype_long_name(school);
 }
 
+/**
+ * What's the abbreviation of the spell school corresponding to the given Ru
+ * mutation?
+ *
+ * @param mutation  The variety of MUT_NO_*_MAGIC in question.
+ * @return          A school abbreviation ("Summ", "Tloc", etc.)
+ */
+static const char* _arcane_mutation_to_school_abbr(mutation_type mutation)
+{
+    // XXX: this does a really silly dance back and forth between school &
+    // spelltype.
+    const int school = skill2spell_type(arcane_mutation_to_skill(mutation));
+    return spelltype_short_name(school);
+}
+
 static int _piety_for_skill(skill_type skill)
 {
     return skill_exp_needed(you.skills[skill], skill, you.species) / 500;
@@ -5988,6 +6003,42 @@ static void _extra_sacrifice_code(ability_type sac)
             }
         }
     }
+}
+
+/**
+ * Describe variable costs for a given Ru sacrifice being offered.
+ *
+ * @param sac       The sacrifice in question.
+ * @return          Extra costs.
+ *                  For ABIL_RU_SACRIFICE_ARCANA: e.g. " (Tloc/Air/Fire)"
+ *                  For other variable muts: e.g. " (frail)"
+ *                  Otherwise, "".
+ */
+string ru_sac_text(ability_type sac)
+{
+    const sacrifice_def &sac_def = _get_sacrifice_def(sac);
+    if (!sac_def.sacrifice_vector)
+        return "";
+
+    ASSERT(you.props.exists(sac_def.sacrifice_vector));
+    const CrawlVector &sacrifice_muts =
+        you.props[sac_def.sacrifice_vector].get_vector();
+
+    if (sac != ABIL_RU_SACRIFICE_ARCANA)
+    {
+        ASSERT(sacrifice_muts.size() == 1);
+        const mutation_type mut = AS_MUT(sacrifice_muts[0]);
+        return make_stringf(" (%s)", mutation_name(mut));
+    }
+
+    // "Tloc/Fire/Ice"
+    const string school_names
+        = comma_separated_fn(sacrifice_muts.begin(), sacrifice_muts.end(),
+                [](CrawlStoreValue mut) {
+                    return _arcane_mutation_to_school_abbr(AS_MUT(mut));
+                }, "/", "/");
+
+    return make_stringf(" (%s)", school_names.c_str());
 }
 
 bool ru_do_sacrifice(ability_type sac)

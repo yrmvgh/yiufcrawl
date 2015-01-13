@@ -1026,19 +1026,22 @@ void ghost_demon::init_spellforged_servitor(actor* caster)
         spellslot.freq = 200 / count;
 }
 
-const mon_spell_slot lich_primary_spells[] =
+const mon_spell_slot lich_primary_summoner_spells[] =
+{
+    { SPELL_SUMMON_GREATER_DEMON, 18, MON_SPELL_WIZARD },
+};
+
+const mon_spell_slot lich_primary_conjurer_spells[] =
 {
     { SPELL_IOOD, 18, MON_SPELL_WIZARD },
     { SPELL_LEHUDIBS_CRYSTAL_SPEAR, 18, MON_SPELL_WIZARD },
     { SPELL_CORROSIVE_BOLT, 18, MON_SPELL_WIZARD },
-    { SPELL_SUMMON_GREATER_DEMON, 18, MON_SPELL_WIZARD },
 };
 
 const mon_spell_slot lich_secondary_spells[] =
 {
     { SPELL_MALIGN_GATEWAY, 12, MON_SPELL_WIZARD },
     { SPELL_SPELLFORGED_SERVITOR, 12, MON_SPELL_WIZARD },
-    { SPELL_OZOCUBUS_REFRIGERATION, 12, MON_SPELL_WIZARD },
     { SPELL_SIMULACRUM, 12, MON_SPELL_WIZARD },
     { SPELL_POISON_ARROW, 12, MON_SPELL_WIZARD },
     { SPELL_HAUNT, 12, MON_SPELL_WIZARD },
@@ -1055,14 +1058,11 @@ const mon_spell_slot lich_secondary_spells[] =
     { SPELL_LRD, 12, MON_SPELL_WIZARD },
     { SPELL_PETRIFY, 12, MON_SPELL_WIZARD },
     { SPELL_LIGHTNING_BOLT, 12, MON_SPELL_WIZARD },
-    { SPELL_POISONOUS_CLOUD, 12, MON_SPELL_WIZARD },
-    { SPELL_VIRULENCE, 12, MON_SPELL_WIZARD },
     { SPELL_SHADOW_CREATURES, 12, MON_SPELL_WIZARD },
     { SPELL_PARALYSE, 12, MON_SPELL_WIZARD },
     { SPELL_CONFUSE, 12, MON_SPELL_WIZARD },
     { SPELL_SLOW, 12, MON_SPELL_WIZARD },
     { SPELL_SLEEP, 12, MON_SPELL_WIZARD },
-    { SPELL_ENSLAVEMENT, 12, MON_SPELL_WIZARD },
 };
 
 const mon_spell_slot lich_buff_spells[] =
@@ -1094,19 +1094,12 @@ static bool _lich_has_spell_of_school(const monster_spells &spells,
 
 static bool _lich_spell_is_good(const monster_spells &spells, spell_type spell,
                                 int *weights, int total_weight,
-                                bool use_weights)
+                                bool use_weights, bool force_conj)
 {
     if (_lich_spell_is_used(spells, spell))
         return false;
 
-    if (spell == SPELL_VIRULENCE
-        && !_lich_has_spell_of_school(spells, SPTYP_POISON))
-    {
-        return false;
-    }
-
-    if (spells.size() > 2
-        && !_lich_has_spell_of_school(spells, SPTYP_CONJURATION))
+    if (force_conj && !_lich_has_spell_of_school(spells, SPTYP_CONJURATION))
     {
         return spell_typematch(spell, SPTYP_CONJURATION)
             && spell != SPELL_BATTLESPHERE
@@ -1161,7 +1154,7 @@ static void _calculate_lich_spell_weights(const monster_spells &spells,
 }
 
 static void _add_lich_spell(monster_spells &spells, const mon_spell_slot *set,
-                            size_t set_len)
+                            size_t set_len, bool force_conj)
 {
     int weights[SPTYP_LAST_EXPONENT + 1];
     int total_weight;
@@ -1171,7 +1164,8 @@ static void _add_lich_spell(monster_spells &spells, const mon_spell_slot *set,
     do {
        next_spell = set[random2(set_len)];
     } while (!_lich_spell_is_good(spells, next_spell.spell, weights,
-                                  total_weight, set == lich_secondary_spells));
+                                  total_weight, set == lich_secondary_spells,
+                                  force_conj));
 
     next_spell.freq = next_spell.freq - 4 + random2(9);
     spells.push_back(next_spell);
@@ -1194,22 +1188,29 @@ void ghost_demon::init_lich(monster_type type)
 
     size_t count = 5 + random2(3);
 
-    _add_lich_spell(spells, lich_primary_spells,
-                    ARRAYSZ(lich_primary_spells));
+    if (coinflip())
+        _add_lich_spell(spells, lich_primary_summoner_spells,
+                        ARRAYSZ(lich_primary_summoner_spells), false);
+    else
+        _add_lich_spell(spells, lich_primary_conjurer_spells,
+                        ARRAYSZ(lich_primary_conjurer_spells), false);
+
     if (type == MONS_ANCIENT_LICH && coinflip())
     {
-        _add_lich_spell(spells, lich_primary_spells,
-                        ARRAYSZ(lich_primary_spells));
+        _add_lich_spell(spells, lich_primary_conjurer_spells,
+                        ARRAYSZ(lich_primary_conjurer_spells), false);
     }
 
+    bool force_conj = true;
     while (spells.size() < count - 1)
     {
         _add_lich_spell(spells, lich_secondary_spells,
-                        ARRAYSZ(lich_secondary_spells));
+                        ARRAYSZ(lich_secondary_spells), force_conj);
+        force_conj = false;
     }
 
     _add_lich_spell(spells, lich_buff_spells,
-                    ARRAYSZ(lich_buff_spells));
+                    ARRAYSZ(lich_buff_spells), false);
 
     // not fixup_spells, because we want to handle marking emergency spells
     // ourselves, and we should never have any SPELL_NO_SPELL to strip out
