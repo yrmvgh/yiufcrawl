@@ -91,11 +91,11 @@ void initialise_branch_depths()
         }
     }
 
-    // You will get one of Shoals/Swamp and one of Spider/Snake.
+    // You will get Shoals and one of Spider/Snake.
     // This way you get one "water" branch and one "poison" branch.
     branch_type disabled_branch[] =
     {
-        random_choose(BRANCH_SWAMP, BRANCH_SHOALS),
+        BRANCH_SWAMP,
         random_choose(BRANCH_SNAKE, BRANCH_SPIDER),
     };
 
