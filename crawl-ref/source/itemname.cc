@@ -3131,7 +3131,11 @@ static char _random_cons(int seed)
  */
 void make_name_tests()
 {
-    FILE *f = fopen("make_name.out", "a");
+    // crudely erase the file (TODO: is there a better way to do this?)
+    FILE *t = fopen("mame.out", "w");
+    fclose(t);
+
+    FILE *f = fopen("mame.out", "a");
     if (!f)
         sysfail("can't write test output");
 
