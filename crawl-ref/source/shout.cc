@@ -778,10 +778,11 @@ void yell(const actor* mon)
 
     if (mon)
     {
-        mprf("You %s%s at %s!",
+        mprf("You %s%s at %s%s",
              shout_verb.c_str(),
              you.duration[DUR_RECITE] ? " your recitation" : "",
-             mon->name(DESC_THE).c_str());
+             mon->name(DESC_THE).c_str(),
+             you.species == SP_IMP ? _imp_insult(*mon).c_str() : "!");
     }
     else
     {
