@@ -1988,6 +1988,7 @@ int exper_value(const monster* mon, bool real)
             case SPELL_SUMMON_GREATER_DEMON:
             case SPELL_HASTE:
             case SPELL_BLINK_RANGE:
+            case SPELL_PETRIFY:
                 diff += 20;
                 break;
 
@@ -2001,6 +2002,7 @@ int exper_value(const monster* mon, bool real)
             case SPELL_FIREBALL:
             case SPELL_AGONY:
             case SPELL_LRD:
+            case SPELL_DIG:
             case SPELL_CHAIN_OF_CHAOS:
                 diff += 10;
                 break;
