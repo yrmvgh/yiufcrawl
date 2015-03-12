@@ -702,6 +702,7 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
+#if TAG_MAJOR_VERSION == 34
     {  MST_DRAC_SCORCHER,
       {
        { SPELL_BOLT_OF_FIRE, 13, MON_SPELL_WIZARD },
@@ -711,6 +712,7 @@ static const mon_spellbook mspell_list[] =
        { SPELL_HELLFIRE_BURST, 13, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
       }
     },
+#endif
 
     {  MST_DRAC_CALLER,
       {
@@ -1708,6 +1710,7 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
+#if TAG_MAJOR_VERSION == 34
     {  MST_DRACONIAN_KNIGHT,
       {
        { SPELL_BOLT_OF_COLD, 13, MON_SPELL_WIZARD },
@@ -1718,6 +1721,7 @@ static const mon_spellbook mspell_list[] =
        { SPELL_OZOCUBUS_ARMOUR, 13, MON_SPELL_WIZARD },
       }
     },
+#endif
 
     {  MST_VASHNIA,
       {

@@ -241,7 +241,7 @@ KITEM: & = book of wizardry / book of power / book of party tricks /\
 KMONS: P = plant
 
   : elseif occupant == 2 then
-MONS:  deep elf annihilator / draconian annihilator / draconian scorcher
+MONS:  deep elf annihilator / draconian annihilator
 KFEAT: * = altar_vehumet / w:2 altar_makhleb
 KITEM: " = gold, wand of draining / wand of fire / wand of cold,\
            potion of brilliance / nothing

@@ -857,7 +857,7 @@ KMONS:   0 = titan w:15 / lich / sphinx / spriggan defender                 / \
          deep elf annihilator / deep elf sorcerer                           / \
          deep elf high priest w:5 / greater naga w:5                        / \
          blizzard demon w:5 / reaper w:5
-KMONS:   & = draconian knight / draconian monk w:15                         / \
+KMONS:   & = draconian monk w:25                                            / \
          draconian annihilator / deep elf blademaster w:15                  / \
          deep elf master archer w:15 / lich w:15 /                          / \
          ancient lich w:15 / balrug w:5 / executioner w:5

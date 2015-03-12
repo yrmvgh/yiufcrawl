@@ -1108,7 +1108,7 @@ KMONS:  4 = patrolling Wiglaf, patrolling deep elf blademaster
 MONS:   w:1 deep elf knight / w:4 orc knight / w:3 yaktaur captain
 MONS:   w:4 orc warlord / w:1 deep elf blademaster / w:3 deep elf master archer
 MONS:   deep elf blademaster
-KMONS:  4 = patrolling Wiglaf, patrolling draconian knight
+KMONS:  4 = patrolling Wiglaf, patrolling draconian monk
 : end
 SUBST:  5 = 2221'
 # Lots of loot in this one. In true okawaru fashion, most of it is junk!

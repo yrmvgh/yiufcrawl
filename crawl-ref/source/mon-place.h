@@ -93,8 +93,6 @@ monster_type summon_any_demon(monster_type dct);
 
 monster_type summon_any_dragon(dragon_class_type dct);
 
-bool drac_colour_incompatible(int drac, int colour);
-
 void mark_interesting_monst(monster* mons,
                             beh_type behaviour = BEH_SLEEP);
 

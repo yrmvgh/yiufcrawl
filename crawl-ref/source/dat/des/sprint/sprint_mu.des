@@ -1192,7 +1192,7 @@ KMONS: D = patrolling hell beast
 KMONS: E = patrolling sun demon
 KMONS: F = patrolling soul eater
 KMONS: G = iron troll simulacrum hd:20
-KMONS: I = patrolling vault guard / patrolling orc knight / patrolling draconian knight /\
+KMONS: I = patrolling vault guard / patrolling orc knight / patrolling draconian monk /\
  patrolling deep elf knight
 KITEM: % = quad damage
 KFEAT: % = known zot trap
@@ -1454,7 +1454,7 @@ MARKER: T = lua:fog_machine { \
 KFEAT: T = zot trap
 KMONS: * = orb of fire
 MONS: Tiamat, yellow draconian caller / yellow draconian shifter
-MONS: white draconian scorcher
+MONS: white draconian zealot
 MARKER: i = lua:fog_machine { \
         pow_max = 10, delay_min = 100, delay_max = 150, \
         size = 2, size_buildup_amnt = 15, \

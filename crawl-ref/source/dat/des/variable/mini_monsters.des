@@ -1892,8 +1892,8 @@ MONS:    deep elf fighter, deep elf mage, deep elf conjurer / deep elf summoner
 : elseif you.in_branch("Orc") then
 MONS:    orc, orc warrior, orc wizard w:9 / orc sorcerer w:1
 : else
-MONS:    any draconian, draconian scorcher
-MONS:    draconian annihilator / draconian knight
+MONS:    any draconian, draconian annihilator
+MONS:    draconian annihilator
 : end
 MAP
 ............
@@ -3639,8 +3639,7 @@ DEPTH:  D:9-, Depths
 MONS:   ancient lich w:50 / greater mummy
 ITEM:   any scroll w:6 / any book
 : elseif you.absdepth() > 20 then
-MONS:   lich w:60 / draconian annihilator w:20 / \
-        draconian scorcher / draconian shifter
+MONS:   lich w:60 / draconian annihilator w:30 / draconian shifter
 ITEM:   any scroll / any book
 : elseif you.absdepth() > 15 then
 MONS:   deep elf annihilator w:30 / deep elf sorcerer w:20 / \
@@ -6001,7 +6000,7 @@ KMONS:   J = Frances / hell knight, hell knight / nothing
 KMONS:   K = Agnes / spriggan defender, spriggan defender / nothing
 KMONS:   L = Rupert / vampire knight, vampire knight / nothing
 KMONS:   M = Wiglaf / ancient champion, ancient champion / nothing
-KMONS:   N = Frederick / draconian knight, draconian knight / nothing
+KMONS:   N = Frederick / draconian monk, draconian monk / nothing
 KMONS:   O = Sojobo / tengu reaver, tengu reaver / nothing
 KMONS:   W = gnoll sergeant ; trident . scale mail | chain mail . shield
 KMONS:   X = deep elf fighter ; rapier | long sword . robe | leather armour . buckler | nothing

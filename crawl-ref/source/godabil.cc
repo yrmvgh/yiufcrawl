@@ -4860,8 +4860,10 @@ bribability mons_bribability[] =
     { MONS_DRACONIAN_ZEALOT,      BRANCH_ZOT, 3 },
     { MONS_DRACONIAN_SHIFTER,     BRANCH_ZOT, 3 },
     { MONS_DRACONIAN_ANNIHILATOR, BRANCH_ZOT, 3 },
+#if TAG_MAJOR_VERSION == 34
     { MONS_DRACONIAN_KNIGHT,      BRANCH_ZOT, 3 },
     { MONS_DRACONIAN_SCORCHER,    BRANCH_ZOT, 3 },
+#endif
 
     // Demons
     { MONS_IRON_IMP,        BRANCH_DIS, 1 },

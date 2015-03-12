@@ -558,7 +558,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         break;
 
     case MONS_DRACONIAN_SHIFTER:
-    case MONS_DRACONIAN_SCORCHER:
     case MONS_DRACONIAN_ANNIHILATOR:
     case MONS_DRACONIAN_CALLER:
         item.base_type = OBJ_WEAPONS;
@@ -702,7 +701,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
     case MONS_VAULT_WARDEN:
     case MONS_ORC_WARLORD:
     case MONS_SAINT_ROKA:
-    case MONS_DRACONIAN_KNIGHT:
         // being at the top has its privileges
         if (one_chance_in(3))
             level = ISPEC_GOOD_ITEM;
@@ -711,8 +709,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
     case MONS_ORC_KNIGHT:
     case MONS_TENGU_WARRIOR:
         // Occasionally get crossbows, or a longbow for tengu and minotaurs.
-        if (!melee_only && mon->type != MONS_TENGU_REAVER
-            && mon->type != MONS_DRACONIAN_KNIGHT && one_chance_in(9))
+        if (!melee_only && mon->type != MONS_TENGU_REAVER && one_chance_in(9))
         {
             item.base_type = OBJ_WEAPONS;
             item.sub_type  = ((mon->type == MONS_TENGU_WARRIOR
@@ -1735,7 +1732,6 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
             }
             break;
 
-        case MONS_DRACONIAN_KNIGHT:
         case MONS_GNOLL:
         case MONS_HILL_GIANT:
             if (!one_chance_in(20))
@@ -1865,14 +1861,6 @@ static void _give_shield(monster* mon, int level)
             make_item_for_monster(mon, OBJ_ARMOUR, ARM_SHIELD, level);
         break;
 
-    case MONS_DRACONIAN_KNIGHT:
-        if (coinflip())
-        {
-            make_item_for_monster(mon, OBJ_ARMOUR,
-                                  coinflip() ? ARM_LARGE_SHIELD : ARM_SHIELD,
-                                  level);
-        }
-        break;
     case MONS_TENGU_WARRIOR:
         if (one_chance_in(3))
             level = ISPEC_GOOD_ITEM;
@@ -2330,12 +2318,10 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs, bool merc)
         break;
 
     case MONS_DRACONIAN_SHIFTER:
-    case MONS_DRACONIAN_SCORCHER:
     case MONS_DRACONIAN_ANNIHILATOR:
     case MONS_DRACONIAN_CALLER:
     case MONS_DRACONIAN_MONK:
     case MONS_DRACONIAN_ZEALOT:
-    case MONS_DRACONIAN_KNIGHT:
         item.base_type = OBJ_ARMOUR;
         item.sub_type  = ARM_CLOAK;
         break;

@@ -228,7 +228,7 @@ mset(with_props("place:Lair:$ w:165 / dire elephant w:12 / " ..
                 "fire dragon / fire giant / orb of fire", { weight = 2 }),
      with_props("ice beast / ice dragon / frost giant / " ..
                 "ice devil / blizzard demon / ice fiend / simulacrum / " ..
-                "white draconian knight / shard shrike", { weight = 2 }),
+                "white draconian monk / shard shrike", { weight = 2 }),
      with_props("insubstantial wisp / air elemental / titan / raiju / " ..
                 "storm dragon / electric golem / spriggan air mage / " ..
                 "shock serpent", { weight = 2 }),
@@ -253,9 +253,9 @@ mset(with_props("place:Lair:$ w:165 / dire elephant w:12 / " ..
                 "greater naga / tengu conjurer / tengu reaver / " ..
                 "spriggan air mage w:5 / merfolk aquamancer w:5 / " ..
                 "deep elf conjurer / deep elf annihilator / " ..
-                "deep elf sorcerer / draconian scorcher w:5 / " ..
-                "draconian knight w:5 / draconian annihilator w:5 / " ..
-                "lich w:3 / ancient lich w:2 / blood saint", { weight = 2 }))
+                "deep elf sorcerer / draconian monk w:5 / " ..
+                "draconian annihilator / lich w:3 / ancient lich w:2 / " ..
+                "blood saint", { weight = 2 }))
 
 -- spec_fn can be used to wrap a function that returns a monster spec.
 -- This is useful if you want to adjust monster weights in the spec

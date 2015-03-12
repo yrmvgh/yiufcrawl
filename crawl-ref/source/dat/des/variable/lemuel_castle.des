@@ -75,8 +75,7 @@ function castle_lemuel_subvault_setup(e)
                     black draconian / purple draconian / nothing w:30")
             e.mons("mottled draconian monk / purple draconian annihilator / \
                     green draconian monk / golden dragon w:5")
-            e.mons("red draconian scorcher / white draconian knight / \
-                    purple draconian zealot / black draconian shifter")
+            e.mons("purple draconian zealot / black draconian shifter")
             e.mons("lindwurm / wind drake w:5 / death drake w:5 / \
                     swamp drake / nothing w:5")
             e.mons("red draconian / green draconian / white draconian / \
@@ -89,8 +88,7 @@ function castle_lemuel_subvault_setup(e)
         if you.where() == dgn.level_name(dgn.br_entrance("Zot")) then
             e.kfeat("3 = enter_zot")
             -- Ugly hack to get around kfeat overwriting the mons definition.
-            e.kmons("3 = red draconian scorcher / white draconian knight / "
-                    .. "purple draconian zealot / black draconian shifter")
+            e.kmons("3 = purple draconian zealot / black draconian shifter")
         end
 end
 }}

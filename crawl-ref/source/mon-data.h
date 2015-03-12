@@ -701,6 +701,7 @@ static monsterentry mondata[] =
         MON_SHAPE_HUMANOID_TAILED
 },
 
+#if TAG_MAJOR_VERSION == 34
 {
     MONS_DRACONIAN_KNIGHT, 'q', CYAN, "draconian knight",
     M_FIGHTER | M_COLD_BLOOD | M_SPEAKS,
@@ -726,6 +727,7 @@ static monsterentry mondata[] =
     MONUSE_WEAPONS_ARMOUR, MONEAT_NOTHING, SIZE_MEDIUM,
         MON_SHAPE_HUMANOID_TAILED
 },
+#endif
 
 // elves ('e')
 //mv: have to exist because it's (and should be) a valid polymorph target.

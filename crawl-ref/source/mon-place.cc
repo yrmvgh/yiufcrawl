@@ -510,11 +510,6 @@ bool can_place_on_trap(monster_type mon_type, trap_type trap)
     return true;
 }
 
-bool drac_colour_incompatible(int drac, int colour)
-{
-    return drac == MONS_DRACONIAN_SCORCHER && colour == MONS_WHITE_DRACONIAN;
-}
-
 // Finds a random square as close to a staircase as possible
 static bool _find_mon_place_near_stairs(coord_def& pos,
                                         dungeon_char_type *stair_type,
@@ -596,12 +591,11 @@ monster_type resolve_monster_type(monster_type mon_type,
             mon_type =
                 static_cast<monster_type>(
                     random_range(MONS_FIRST_BASE_DRACONIAN,
-                                 MONS_LAST_DRACONIAN));
+                                 MONS_LAST_SPAWNED_DRACONIAN));
         }
         while (base_type != MONS_PROGRAM_BUG
                && mon_type != base_type
-               && (mons_species(mon_type) == mon_type
-                   || drac_colour_incompatible(mon_type, base_type)));
+               && mons_species(mon_type) == mon_type);
     }
     else if (mon_type == RANDOM_BASE_DRACONIAN)
         mon_type = random_draconian_monster_species();
@@ -609,7 +603,8 @@ monster_type resolve_monster_type(monster_type mon_type,
     {
         mon_type =
             static_cast<monster_type>(
-                random_range(MONS_FIRST_NONBASE_DRACONIAN, MONS_LAST_DRACONIAN));
+                random_range(MONS_FIRST_NONBASE_DRACONIAN,
+                             MONS_LAST_SPAWNED_NONBASE_DRACONIAN));
     }
     else if (mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON)
         mon_type = summon_any_demon(mon_type);
@@ -2523,8 +2518,6 @@ static band_type _choose_band(monster_type mon_type, int &band_size,
 
     case MONS_DRACONIAN_CALLER:
     case MONS_DRACONIAN_MONK:
-    case MONS_DRACONIAN_SCORCHER:
-    case MONS_DRACONIAN_KNIGHT:
     case MONS_DRACONIAN_ANNIHILATOR:
     case MONS_DRACONIAN_ZEALOT:
     case MONS_DRACONIAN_SHIFTER:
@@ -3252,11 +3245,9 @@ static monster_type _band_member(band_type band, int which, bool allow_ood)
             // Hack: race is rolled elsewhere.
             return random_choose_weighted(
                 1, MONS_DRACONIAN_CALLER,
-                2, MONS_DRACONIAN_KNIGHT,
                 2, MONS_DRACONIAN_MONK,
                 2, MONS_DRACONIAN_SHIFTER,
                 2, MONS_DRACONIAN_ANNIHILATOR,
-                2, MONS_DRACONIAN_SCORCHER,
                 2, MONS_DRACONIAN_ZEALOT,
                 0);
         }

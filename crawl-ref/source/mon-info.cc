@@ -894,8 +894,10 @@ string monster_info::_core_name() const
         case MONS_DRACONIAN_ZEALOT:
         case MONS_DRACONIAN_SHIFTER:
         case MONS_DRACONIAN_ANNIHILATOR:
+#if TAG_MAJOR_VESRION == 34
         case MONS_DRACONIAN_KNIGHT:
         case MONS_DRACONIAN_SCORCHER:
+#endif
             if (base_type != MONS_NO_MONSTER)
                 s = draconian_colour_name(base_type) + " " + s;
             break;

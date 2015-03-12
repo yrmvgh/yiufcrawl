@@ -3025,8 +3025,10 @@ tileidx_t tileidx_draco_job(const monster_info& mon)
         case MONS_DRACONIAN_ZEALOT:      return TILEP_DRACO_ZEALOT;
         case MONS_DRACONIAN_SHIFTER:     return TILEP_DRACO_SHIFTER;
         case MONS_DRACONIAN_ANNIHILATOR: return TILEP_DRACO_ANNIHILATOR;
+#if TAG_MAJOR_VERSION == 34
         case MONS_DRACONIAN_KNIGHT:      return TILEP_DRACO_KNIGHT;
         case MONS_DRACONIAN_SCORCHER:    return TILEP_DRACO_SCORCHER;
+#endif
         default:                         return 0;
     }
 }
@@ -3519,8 +3521,10 @@ static tileidx_t _tileidx_corpse(const item_def &item)
     case MONS_DRACONIAN_ZEALOT:
     case MONS_DRACONIAN_SHIFTER:
     case MONS_DRACONIAN_ANNIHILATOR:
+#if TAG_MAJOR_VERSION == 34
     case MONS_DRACONIAN_KNIGHT:
     case MONS_DRACONIAN_SCORCHER:
+#endif
         return TILE_CORPSE_DRACONIAN_BROWN;
 
     // elves ('e')

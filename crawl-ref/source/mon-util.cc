@@ -2102,8 +2102,9 @@ int exper_value(const monster* mon, bool real)
 
 monster_type random_draconian_monster_species()
 {
-    const int num_drac = MONS_LAST_SPAWNED_DRACONIAN - MONS_FIRST_BASE_DRACONIAN + 1;
-    return static_cast<monster_type>(MONS_FIRST_BASE_DRACONIAN + random2(num_drac));
+    return static_cast<monster_type>(
+        random_range(MONS_FIRST_BASE_DRACONIAN,
+                     MONS_LAST_SPAWNED_BASE_DRACONIAN));
 }
 
 monster_type random_demonspawn_monster_species()
@@ -2442,13 +2443,7 @@ void define_monster(monster* mons)
     if (mons_is_draconian_job(mcls))
     {
         // Professional draconians still have a base draconian type.
-        // White draconians will never be draconian scorchers, but
-        // apart from that, anything goes.
-        do
-        {
-            monbase = random_draconian_monster_species();
-        }
-        while (drac_colour_incompatible(mcls, monbase));
+        monbase = random_draconian_monster_species();
     }
 
     if (mons_is_demonspawn_job(mcls))

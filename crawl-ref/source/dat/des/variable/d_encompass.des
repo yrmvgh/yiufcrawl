@@ -14,7 +14,7 @@ WEIGHT:  1 (D:$), 2 (Depths:$), 10
 MONS:    fungus, plant
 KMONS:   S = 0 band
 KMONS:   # = 9 band
-KMONS:   = = draconian annihilator / draconian knight / draconian monk
+KMONS:   = = draconian annihilator / draconian monk w:20
 KFEAT:   ^ = stone_arch
 KFEAT:   - = enter_depths
 KFEAT:   = = enter_zot
@@ -127,7 +127,7 @@ KMONS:   no = vault guard
 KMONS:   p = giant eyeball
 KMONS:   q : great orb of eyes w:7 / guardian serpent w:3
 KMONS:   r = ettin / deep troll shaman / yaktaur captain / frost giant
-KMONS:   t = draconian knight / draconian scorcher / draconian annihilator
+KMONS:   t = draconian monk / draconian zealot / draconian annihilator
 : local bands = {
 :     [65 - you.absdepth() * 3] =
 :         { "cyclops", "tengu warrior", "centaur warrior", },
