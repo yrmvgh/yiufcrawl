@@ -55,6 +55,8 @@ char_choice_restriction species_allowed(job_type job, species_type speci)
     case JOB_MONK:
         switch (speci)
         {
+        case SP_DEMIGOD:
+            return CC_BANNED;
         case SP_HILL_ORC:
         case SP_TROLL:
         case SP_MINOTAUR:
@@ -567,6 +569,7 @@ char_choice_restriction job_allowed(species_type speci, job_type job)
             case JOB_BERSERKER:
             case JOB_ABYSSAL_KNIGHT:
             case JOB_CHAOS_KNIGHT:
+            case JOB_MONK:
                 return CC_BANNED;
             case JOB_TRANSMUTER:
             case JOB_CONJURER:
