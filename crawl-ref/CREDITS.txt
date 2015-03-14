@@ -75,6 +75,7 @@
     Mike Adams
     Aj Adamson
     Nikhil Addleman
+    Brandon Allbery
     Warwick Allison
     Austin Appleby
     araganzar
@@ -107,6 +108,7 @@
     Rahul Chandra
     Thom Chiovoloni
     Henry Cipolla
+    Nicholas Connelly
     Vitor 'Baconkid' Costa
     Aaron Curtis
     Simon Curtis
@@ -177,6 +179,7 @@
     mikee
     Andrew Minton
     Shawn M Moore
+    Akinori Musha
     Eva Myers
     nagdon
     Naruni
@@ -236,6 +239,7 @@
     Tommy
     Mauris Van Hauwe
     Mikko Vepsäläinen
+    waylon531
     Steven Wheeler
     Thomas Willem
     Evan Williams
