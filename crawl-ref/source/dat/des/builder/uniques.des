@@ -127,7 +127,7 @@ DEPTH:  D:4-6
 : place_unique(_G, "Eustachio")
 
 NAME:   uniq_frances
-DEPTH:  D:12-14, Lair:5-, Orc:2-, Elf:1, Swamp:1-2, Snake:1-2, Shoals:1-2, Spider:1-2
+DEPTH:  D:12-14, Orc:2-, Elf:1, Swamp:1-2, Snake:1-2, Shoals:1-2, Spider:1-2
 : place_unique(_G, "Frances")
 
 NAME:   uniq_fannar
@@ -135,7 +135,7 @@ DEPTH:  D:10-12, Orc:1-2, Lair:1-3
 : place_unique(_G, "Fannar")
 
 NAME:   uniq_gastronok
-DEPTH:  D:9-12, Orc:1-2, Lair:1-3
+DEPTH:  D:8-12, Orc:1-2, Lair:1-3
 WEIGHT: 5, 15(Lair)
 : place_unique(_G, "Gastronok")
 
@@ -200,7 +200,7 @@ DEPTH:  D:12-, Orc:3-, Lair:5-
 : place_unique(_G, "Nessos")
 
 NAME:   uniq_pikel
-DEPTH:  D:5-9
+DEPTH:  D:4-9
 : place_unique(_G, "Pikel band")
 
 NAME:   uniq_prince_ribbit1
