@@ -7,6 +7,7 @@
 
 #include "mon-death.h"
 
+#include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
 #include "arena.h"
@@ -2536,6 +2537,23 @@ item_def* monster_die(monster* mons, killer_type killer,
         crawl_state.dec_mon_acting(mons);
 
         return corpse;
+    }
+
+    if (you.where_are_you == BRANCH_ABYSS && player_xp > 0)
+    {
+        if (--you.props[ABYSS_KILLS_KEY].get_int() == 0)
+        {
+            const coord_def p = mons->pos();
+            // In the abyss we can overwrite anything; don't worry about
+            // existing features.
+            if (in_bounds(p))
+            {
+                destroy_wall(p); // fires listeners etc even if it wasn't a wall
+                grd(p) = DNGN_EXIT_ABYSS;
+                mprf(MSGCH_BANISHMENT, "You feel a sickening twist in space%s",
+                     you.see_cell(p) ? " as a portal appears!" : ".");
+            }
+        }
     }
 
     mons_remove_from_grid(mons);

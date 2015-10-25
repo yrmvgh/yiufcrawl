@@ -1699,6 +1699,7 @@ const char *dungeon_feature_name(dungeon_feature_type rfeat)
     return get_feature_def(rfeat).vaultname;
 }
 
+// N.b. we assume this reverts the terrain even if it wasn't a wall.
 void destroy_wall(const coord_def& p)
 {
     if (!in_bounds(p))

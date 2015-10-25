@@ -11,6 +11,7 @@
 // step backward after an abyss shift.
 const int ABYSS_AREA_SHIFT_RADIUS = LOS_RADIUS + 2;
 const int ABYSSAL_RUNE_MIN_LEVEL = 3;
+#define ABYSS_KILLS_KEY "abyss_kills_needed"
 extern const coord_def ABYSS_CENTRE;
 
 struct abyss_state

@@ -1469,7 +1469,17 @@ bool load_level(dungeon_feature_type stair_taken, load_mode_type load_mode,
     }
 
     if (just_created_level)
+    {
         you.attribute[ATTR_ABYSS_ENTOURAGE] = 0;
+        if (you.where_are_you == BRANCH_ABYSS)
+        {
+            if (old_level.branch != BRANCH_ABYSS)
+                you.props[ABYSS_KILLS_KEY].get_int() = you.experience_level;
+        }
+        else
+            you.props.erase(ABYSS_KILLS_KEY);
+    }
+
 
     if (load_mode != LOAD_VISITOR)
         dungeon_events.fire_event(DET_ENTERED_LEVEL);
