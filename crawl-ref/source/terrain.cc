@@ -484,6 +484,7 @@ static const pair<god_type, dungeon_feature_type> _god_altars[] =
     { GOD_QAZLAL, DNGN_ALTAR_QAZLAL },
     { GOD_RU, DNGN_ALTAR_RU },
     { GOD_PAKELLAS, DNGN_ALTAR_PAKELLAS },
+    { GOD_HELPAL, DNGN_ALTAR_HELPAL },
     { GOD_ECUMENICAL, DNGN_ALTAR_ECUMENICAL },
 };
 
