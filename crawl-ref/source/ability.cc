@@ -440,6 +440,10 @@ static const ability_def Ability_List[] =
         0, 0, 100, 2, abflag::NONE },
     { ABIL_PAKELLAS_SUPERCHARGE, "Supercharge", 0, 0, 0, 0, abflag::NONE },
 
+    // Helpal
+    { ABIL_HELPAL_CHOOSE_TYPE, "Choose Familiar's Form",
+        0, 0, 0, 0, abflag::NONE },
+
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
     { ABIL_RENOUNCE_RELIGION, "Renounce Religion", 0, 0, 0, 0, abflag::NONE },
     { ABIL_CONVERT_TO_BEOGH, "Convert to Beogh", 0, 0, 0, 0, abflag::NONE },
@@ -935,6 +939,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
+    case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -3074,6 +3079,11 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
+    case ABIL_HELPAL_CHOOSE_TYPE:
+        fail_check();
+        simple_god_message("TODO");
+        break;
+
     case ABIL_RENOUNCE_RELIGION:
         fail_check();
         if (yesno("Really renounce your faith, foregoing its fabulous benefits?",
@@ -3615,6 +3625,7 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_KIKU_BLESS_WEAPON:
     case ABIL_LUGONU_BLESS_WEAPON:
     case ABIL_PAKELLAS_SUPERCHARGE:
+    case ABIL_HELPAL_CHOOSE_TYPE:
         first_slot = letter_to_index('W');
         break;
     case ABIL_CONVERT_TO_BEOGH:

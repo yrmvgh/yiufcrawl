@@ -415,6 +415,14 @@ enum ability_type
     ABIL_PAKELLAS_QUICK_CHARGE,
     ABIL_PAKELLAS_SUPERCHARGE,
 
+    // Helpal
+    ABIL_HELPAL_RECALL = 1240,
+    ABIL_HELPAL_REBIND,
+    ABIL_HELPAL_CHOOSE_TYPE,
+    ABIL_HELPAL_LASH,
+    ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT,
+    ABIL_HELPAL_SYMPATHETIC_TRANSFORMATION,
+
     // For both Yred and Beogh
     ABIL_STOP_RECALL = 1500,
 
@@ -3324,6 +3332,10 @@ enum monster_type                      // menv[].type
     MONS_PLAYER,                // a certain ugly creature
 #if TAG_MAJOR_VERSION > 34
     MONS_PLAYER_SHADOW,         // Dithmenos
+    MONS_FAMILIAR,              // Helpal
+    MONS_FAMILIAR_BUER,
+    MONS_FAMILIAR_HAGENTI,
+    MONS_FAMILIAR_SABNOK,
 #endif
     MONS_TEST_SPAWNER,
 
@@ -3486,6 +3498,10 @@ enum monster_type                      // menv[].type
     MONS_DEEP_ELF_ARCHER,
     MONS_DEMONIC_PLANT,
     MONS_WITHERED_PLANT,
+    MONS_FAMILIAR,
+    MONS_FAMILIAR_BUER,
+    MONS_FAMILIAR_HAGENTI,
+    MONS_FAMILIAR_SABNOK,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
