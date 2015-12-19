@@ -74,6 +74,8 @@
 #    define DEBUG_PIETY
 #endif
 
+#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
+
 #define PIETY_HYSTERESIS_LIMIT 1
 
 // Item offering messages for the gods:
@@ -1688,6 +1690,24 @@ static bool _jiyva_mutate()
         return mutate(RANDOM_SLIME_MUTATION, "Jiyva's grace", true, false, true);
     else
         return mutate(RANDOM_GOOD_MUTATION, "Jiyva's grace", true, false, true);
+}
+
+/**
+ * Creates a mgen_data with the information needed to create the familiar
+ * granted by Helpal.
+ *
+ * XXX: should this be populating a mgen_data passed by reference, rather than
+ * returning one on the stack?
+ *
+ * @return    The mgen_data that creates a helpal familiar.
+ */
+mgen_data helpal_familiar_gen_data()
+{
+    mgen_data mg(MONS_FAMILIAR, BEH_FRIENDLY, &you, 0, 0, you.pos(), MHITNOT,
+                 MG_NONE, GOD_HELPAL);
+    mg.extra_flags |= MF_NO_REWARD;
+    mg.mname = you.props[HELPAL_ALLY_NAME_KEY].get_string();
+    return mg;
 }
 
 bool vehumet_is_offering(spell_type spell)
@@ -3551,6 +3571,20 @@ static void _join_gozag()
     add_daction(DACT_GOLD_ON_TOP);
 }
 
+/// Setup when joining the fiendish underlings of Helpal.
+static void _join_helpal()
+{
+    // initial setup.
+    if (!you.props.exists(HELPAL_ALLY_NAME_KEY))
+        you.props[HELPAL_ALLY_NAME_KEY] = make_name();
+
+    // Complimentary familiar upon joining.
+    const mgen_data mg = helpal_familiar_gen_data();
+    delayed_monster(mg);
+    simple_god_message(make_stringf(" grants you a familiar, the demon %s!",
+                                    mg.mname.c_str()).c_str());
+}
+
 /// Setup when joining the gelatinous groupies of Jiyva.
 static void _join_jiyva()
 {
@@ -3636,6 +3670,7 @@ static const map<god_type, function<void ()>> on_join = {
     }},
     { GOD_GOZAG, _join_gozag },
     { GOD_JIYVA, _join_jiyva },
+    { GOD_HELPAL, _join_helpal },
     { GOD_LUGONU, []() {
         if (you.worshipped[GOD_LUGONU] == 0)
             gain_piety(20, 1, false);  // allow instant access to first power
