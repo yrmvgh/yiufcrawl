@@ -441,8 +441,14 @@ static const ability_def Ability_List[] =
     { ABIL_PAKELLAS_SUPERCHARGE, "Supercharge", 0, 0, 0, 0, abflag::NONE },
 
     // Helpal
+    { ABIL_HELPAL_RECALL, "Recall Familiar", 2, 0, 50, 0, abflag::NONE },
+    { ABIL_HELPAL_REBIND, "Rebind Familiar", 5, 0, 100, 10, abflag::NONE },
     { ABIL_HELPAL_CHOOSE_TYPE, "Choose Familiar's Form",
         0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_LASH, "Lash Familiar", 2, 0, 50, 0, abflag::NONE },
+    { ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT, "Choose Familiar's Effect",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_SWAP, "Swap With Familiar", 2, 0, 50, 3, abflag::NONE },
 
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
     { ABIL_RENOUNCE_RELIGION, "Renounce Religion", 0, 0, 0, 0, abflag::NONE },
@@ -774,6 +780,20 @@ ability_type fixup_ability(ability_type ability)
         else
             return ability;
 
+    // only available while your familiar is alive.
+    case ABIL_HELPAL_LASH:
+    case ABIL_HELPAL_RECALL:
+    case ABIL_HELPAL_SWAP:
+        if (helpal_familiar() == MID_NOBODY)
+            return ABIL_NON_ABILITY;
+        return ability;
+
+    // only available while your familiar is dead.
+    case ABIL_HELPAL_REBIND:
+        if (helpal_familiar() != MID_NOBODY)
+            return ABIL_NON_ABILITY;
+        return ability;
+
     default:
         return ability;
     }
@@ -940,6 +960,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
     case ABIL_HELPAL_CHOOSE_TYPE:
+    case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -976,6 +997,8 @@ talent get_talent(ability_type ability, bool check_confused)
 
     case ABIL_ZIN_RECITE:
     case ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS:
+    case ABIL_HELPAL_RECALL:
+    case ABIL_HELPAL_REBIND:
     case ABIL_OKAWARU_HEROISM:
     case ABIL_ELYVILON_LESSER_HEALING:
     case ABIL_LUGONU_ABYSS_EXIT:
@@ -1010,6 +1033,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_LUGONU_BEND_SPACE:
     case ABIL_FEDHAS_PLANT_RING:
     case ABIL_QAZLAL_UPHEAVAL:
+    case ABIL_HELPAL_LASH:
         invoc = true;
         failure = 40 - (you.piety / 20) - you.skill(SK_INVOCATIONS, 5);
         break;
@@ -1052,6 +1076,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_YRED_DRAIN_LIFE:
     case ABIL_CHEIBRIADOS_SLOUCH:
     case ABIL_OKAWARU_FINESSE:
+    case ABIL_HELPAL_SWAP:
         invoc = true;
         failure = 60 - (you.piety / 25) - you.skill(SK_INVOCATIONS, 4);
         break;
@@ -3080,6 +3105,11 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     }
 
     case ABIL_HELPAL_CHOOSE_TYPE:
+    case ABIL_HELPAL_RECALL:
+    case ABIL_HELPAL_REBIND:
+    case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
+    case ABIL_HELPAL_LASH:
+    case ABIL_HELPAL_SWAP:
         fail_check();
         simple_god_message("TODO");
         break;

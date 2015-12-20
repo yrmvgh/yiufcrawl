@@ -454,8 +454,7 @@ const vector<god_power> god_powers[NUM_GODS] =
       { 2, ABIL_HELPAL_CHOOSE_TYPE, "specialize your familiar" },
       { 3, ABIL_HELPAL_LASH, "encourage your familiar to greater efforts" },
       { 4, ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT, "choose a triggered effect" },
-      { 5, ABIL_HELPAL_SYMPATHETIC_TRANSFORMATION,
-          "trade places with your familiar" } },
+      { 5, ABIL_HELPAL_SWAP, "trade places with your familiar" } },
 };
 
 vector<god_power> get_god_powers(god_type god)
