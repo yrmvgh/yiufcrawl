@@ -209,6 +209,23 @@ void wizard_list_companions()
     }
 }
 
+/**
+ * Returns the mid of the current familiar granted by Helpal, if any. If none
+ * exists, returns MID_NOBODY.
+ *
+ * The familiar is *not* guaranteed to be on-level, even if it exists; check
+ * the companion_list before doing anything rash!
+ *
+ * @return  The mid_t of the player's familiar, or MID_NOBODY if none exists.
+ */
+mid_t helpal_familiar()
+{
+    for (auto &entry : companion_list)
+        if (mons_is_helpal_familiar(entry.second.mons.mons.type)) // sanity
+            return entry.first;
+    return MID_NOBODY;
+}
+
 #if TAG_MAJOR_VERSION == 34
 // A temporary routine to clean up some references to invalid companions and
 // prevent crashes on load. Should be unnecessary once the cloning bugs that

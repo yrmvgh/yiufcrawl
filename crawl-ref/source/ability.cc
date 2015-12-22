@@ -31,6 +31,7 @@
 #include "exercise.h"
 #include "food.h"
 #include "godabil.h"
+#include "godcompanions.h"
 #include "godconduct.h"
 #include "godprayer.h"
 #include "godwrath.h"
@@ -3104,11 +3105,48 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
+    case ABIL_HELPAL_LASH:
+    {
+        const mid_t familiar_mid = helpal_familiar();
+        if (familiar_mid == MID_NOBODY)
+        {
+            mpr("You have no familiar to lash!");
+            return SPRET_ABORT;
+        }
+
+        monster *familiar = monster_by_mid(familiar_mid);
+        if (!familiar || !you.can_see(*familiar))
+        {
+            mprf("%s is not nearby!",
+                 you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str());
+            return SPRET_ABORT;
+        }
+
+        if (familiar->has_ench(ENCH_FATIGUE))
+        {
+            mprf("%s is too tired to be lashed further this soon!",
+                 familiar->name(DESC_YOUR).c_str());
+            return SPRET_ABORT;
+        }
+
+        fail_check();
+
+        simple_god_message(
+            make_stringf(" lashes %s into action!",
+                         familiar->name(DESC_YOUR).c_str()).c_str());
+        familiar->hit_points = ((familiar->hit_points - 1) / 2) + 1; // round up
+        const int dur = random_range(50, 80)
+                        + random2(you.skill(SK_INVOCATIONS, 10));
+        familiar->add_ench({ ENCH_HASTE, 1, &you, dur});
+        familiar->add_ench({ ENCH_FATIGUE, 1, &you,
+                            dur + random_range(150, 250)});
+        break;
+    }
+
     case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_HELPAL_RECALL:
     case ABIL_HELPAL_REBIND:
     case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
-    case ABIL_HELPAL_LASH:
     case ABIL_HELPAL_SWAP:
         fail_check();
         simple_god_message("TODO");

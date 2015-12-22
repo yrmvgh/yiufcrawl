@@ -74,8 +74,6 @@
 #    define DEBUG_PIETY
 #endif
 
-#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
-
 #define PIETY_HYSTERESIS_LIMIT 1
 
 // Item offering messages for the gods:
@@ -4653,8 +4651,11 @@ static void _place_delayed_monsters()
 
         if (mon)
         {
-            if (you_worship(GOD_YREDELEMNUL) || you_worship(GOD_BEOGH))
+            if (you_worship(GOD_YREDELEMNUL) || you_worship(GOD_BEOGH)
+                || you_worship(GOD_HELPAL))
+            {
                 add_companion(mon);
+            }
             placed++;
         }
 

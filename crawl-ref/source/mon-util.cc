@@ -1504,6 +1504,17 @@ bool mons_is_or_was_unique(const monster& mon)
 }
 
 /**
+ * Is the given type one of Helpal's granted familiars?
+ *
+ * @param mc    The type of monster in question.
+ * @return      Whether that monster is a familiar.
+ */
+bool mons_is_helpal_familiar(monster_type mc)
+{
+    return mons_class_flag(mc, M_FAMILIAR);
+}
+
+/**
  * Can this type of monster be blinded?
  *
  * Certain monsters, e.g. those with a powerful sense of smell, echolocation,
