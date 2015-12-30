@@ -54,6 +54,7 @@
 #include "place.h" // branch_allows_followers
 #include "player-stats.h"
 #include "potion.h"
+#include "place.h" // branch_allows_followers
 #include "prompt.h"
 #include "religion.h"
 #include "skills.h"
@@ -3174,8 +3175,27 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_HELPAL_RECALL:
+    {
+        const mid_t familiar_mid = helpal_familiar();
+        if (familiar_mid == MID_NOBODY)
+        {
+            mpr("You have no familiar to recall!");
+            return SPRET_ABORT;
+        }
+
+        if (!branch_allows_followers(you.where_are_you))
+        {
+            mpr("You can't recall your familiar to this place.");
+            return SPRET_ABORT;
+        }
+
+        fail_check();
+        try_recall(familiar_mid);
+        break;
+    }
+
+    case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
     case ABIL_HELPAL_SWAP:
         fail_check();
