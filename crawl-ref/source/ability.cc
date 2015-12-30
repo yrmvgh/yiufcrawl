@@ -51,6 +51,7 @@
 #include "notes.h"
 #include "options.h"
 #include "output.h"
+#include "place.h" // branch_allows_followers
 #include "player-stats.h"
 #include "potion.h"
 #include "prompt.h"
@@ -3143,9 +3144,38 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
+    case ABIL_HELPAL_REBIND:
+    {
+        const mid_t familiar_mid = helpal_familiar();
+        if (familiar_mid != MID_NOBODY)
+        {
+            mpr("Your familiar is already free from Hell!");
+            return SPRET_ABORT;
+        }
+
+        if (!branch_allows_followers(you.where_are_you))
+        {
+            mpr("You can't summon your familiar in this place.");
+            return SPRET_ABORT;
+        }
+
+        monster *familiar = create_monster(helpal_familiar_gen_data());
+        if (!familiar)
+        {
+            mpr("You can't summon your familiar here.");
+            break; // don't allow to use to scout for invis monsters, or... w/e
+        }
+
+        mprf("%s appears in a cloud of brimstone!",
+             familiar->name(DESC_YOUR).c_str());
+        add_companion(familiar);
+        check_place_cloud(CLOUD_BLACK_SMOKE, familiar->pos(),
+                          random_range(1,2), familiar);
+        break;
+    }
+
     case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_HELPAL_RECALL:
-    case ABIL_HELPAL_REBIND:
     case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
     case ABIL_HELPAL_SWAP:
         fail_check();
