@@ -3195,9 +3195,40 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
+    case ABIL_HELPAL_SWAP:
+    {
+        const mid_t familiar_mid = helpal_familiar();
+        if (familiar_mid == MID_NOBODY)
+        {
+            mpr("You have no familiar to swap with!");
+            return SPRET_ABORT;
+        }
+
+        monster *familiar = monster_by_mid(familiar_mid);
+        if (!familiar || !you.can_see(*familiar))
+        {
+            mprf("%s is not nearby!",
+                you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str());
+            return SPRET_ABORT;
+        }
+
+        if (is_feat_dangerous(grd(familiar->pos())))
+        {
+            mpr("That would be overly suicidal.");
+            return SPRET_ABORT;
+        }
+
+        fail_check();
+
+        const coord_def familiar_pos = familiar->pos();
+        familiar->move_to_pos(you.pos(), true, true);
+        you.move_to_pos(familiar_pos, true, true);
+        mprf("You swap with %s!", familiar->name(DESC_YOUR).c_str());
+        return SPRET_SUCCESS;
+    }
+
     case ABIL_HELPAL_CHOOSE_TYPE:
     case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
-    case ABIL_HELPAL_SWAP:
         fail_check();
         simple_god_message("TODO");
         break;
