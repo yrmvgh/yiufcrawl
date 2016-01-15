@@ -3242,9 +3242,14 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         fail_check();
 
         const coord_def familiar_pos = familiar->pos();
+        const coord_def your_pos = you.pos();
+
         familiar->move_to_pos(you.pos(), true, true);
         you.move_to_pos(familiar_pos, true, true);
         mprf("You swap with %s!", familiar->name(DESC_YOUR).c_str());
+
+        familiar->apply_location_effects(familiar_pos);
+        you.apply_location_effects(your_pos);
         return SPRET_SUCCESS;
     }
 
