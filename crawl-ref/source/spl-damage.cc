@@ -105,6 +105,10 @@ void setup_fire_storm(const actor *source, int pow, bolt &beam)
     beam.hit          = 20 + pow / 10;
     beam.damage       = calc_dice(8, 5 + pow);
     beam.origin_spell = SPELL_FIRE_STORM;
+    beam.refine_for_explosion();
+    beam.explode(false);
+
+    viewwindow();
 }
 
 spret_type cast_fire_storm(int pow, bolt &beam, bool fail)

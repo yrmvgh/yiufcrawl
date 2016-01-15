@@ -3248,6 +3248,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         you.move_to_pos(familiar_pos, true, true);
         mprf("You swap with %s!", familiar->name(DESC_YOUR).c_str());
 
+        helpal_on_deathswap(familiar_pos, false);
+
         familiar->apply_location_effects(familiar_pos);
         you.apply_location_effects(your_pos);
         return SPRET_SUCCESS;

@@ -67,6 +67,7 @@
 #include "shout.h"
 #include "skill_menu.h"
 #include "spl-book.h"
+#include "spl-clouds.h" // big_cloud
 #include "spl-goditem.h"
 #include "spl-monench.h"
 #include "spl-summoning.h"
@@ -6747,4 +6748,131 @@ bool helpal_choose_death_type(int death_type)
     you.props[HELPAL_ALLY_DEATH_KEY] = death_type;
     mpr("It is done!");
     return true;
+}
+
+/**
+ * Apply Slow to all monsters near the familiar's last location.
+ *
+ * @param loc       The center of the slow.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+static void _on_deathswap_slow(const coord_def &loc, bool death)
+{
+    const int radius = death ? 3 : 1;
+    for (radius_iterator ri(loc, radius, C_SQUARE, LOS_DEFAULT); ri; ++ri)
+    {
+        monster* mon = monster_at(*ri);
+        if (mon && !mons_is_helpal_familiar(mon->type))
+            do_slow_monster(mon, nullptr); // XXX: scale dur by hd delta?
+    }
+}
+
+/**
+ * Cast Gell's Gravitas at the familiar's last location, sending enemies
+ * hurling toward it.
+ *
+ * @param loc       The center of the effect.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+static void _on_deathswap_implode(const coord_def &loc, bool death)
+{
+    // actor is the familiar so that they aren't affected
+    // player shouldn't be affected since they're already at the center
+    const mid_t familiar_mid = helpal_familiar();
+    actor* familiar = familiar_mid == MID_NOBODY ?
+                        nullptr :
+                        monster_by_mid(familiar_mid);
+    fatal_attraction(loc, familiar, death ? 40 : 100);
+}
+
+/**
+ * Create a cloud of smoke around the familiar's last location.
+ *
+ * @param loc       The center of the fog.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+static void _on_deathswap_fog(const coord_def &loc, bool death)
+{
+    mprf("As %s %s, fog sprays out.",
+         you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str(),
+         death ? "dies" : "swaps");
+    big_cloud(random_smoke_type(), &you, loc, 50,
+              death ? 9 + random2(9) : 6 + random2(6));
+}
+
+/**
+ * Explode, damaging non-familiar monsters in a radius around the familiar's
+ * last location.
+ *
+ * @param loc   The center of the explosion.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+static void _on_deathswap_explode(const coord_def &loc, bool death)
+{
+    bolt beam;
+    beam.name         = "demonic viscera";
+    beam.ex_size      = death ? 2 : 1;
+    beam.flavour      = BEAM_HELPAL_EXPLOSION;
+    beam.real_flavour = beam.flavour;
+    beam.glyph        = dchar_glyph(DCHAR_FIRED_ZAP);
+    beam.colour       = RED;
+    beam.source_id    = helpal_familiar();
+    beam.thrower      = KILL_MON;
+    beam.aux_source.clear();
+    beam.obvious_effect = false;
+    beam.pierce       = false;
+    beam.is_tracer    = false;
+    beam.is_explosion = true;
+    beam.hit          = 30; // needed?
+    const int base_dam = 10 + you.get_experience_level();
+    beam.damage       = calc_dice(4, death ? base_dam * 2 : base_dam);
+    beam.target = loc;
+
+    beam.refine_for_explosion();
+    beam.explode(false, true);
+
+    viewwindow();
+}
+
+
+/**
+ * Cast Dispersal at the familiar's last location, blinking and teleporting
+ * enemies away.
+ *
+ * @param loc       The center of the effect.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+static void _on_deathswap_disperse(const coord_def &loc, bool death)
+{
+    mprf("As %s %s, translocational energy flares.",
+         you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str(),
+         death ? "dies" : "swaps");
+    cast_dispersal(death ? 100 : 30, false, &loc);
+}
+
+typedef void (*deathswap_effect)(const coord_def&, bool);
+static const map<int, deathswap_effect> on_deathswap = {
+    { ABIL_HELPAL_DEATH_SLOW,       _on_deathswap_slow },
+    { ABIL_HELPAL_DEATH_IMPLODE,    _on_deathswap_implode },
+    { ABIL_HELPAL_DEATH_FOG,        _on_deathswap_fog },
+    { ABIL_HELPAL_DEATH_EXPLODE,    _on_deathswap_explode },
+    { ABIL_HELPAL_DEATH_DISPERSE,   _on_deathswap_disperse },
+};
+
+/**
+ * Activate the on-death/on-swap effect for a helpal ally.
+ *
+ * @param loc       Where the effect should occur.
+ * @param death     Whether the familiar actually died, or just swapped.
+ */
+void helpal_on_deathswap(const coord_def &loc, bool death)
+{
+    // haven't chosen an effect
+    if (!you.props.exists(HELPAL_ALLY_DEATH_KEY))
+        return;
+
+    const int effect_type = you.props[HELPAL_ALLY_DEATH_KEY];
+    const deathswap_effect* effect_func = map_find(on_deathswap, effect_type);
+    ASSERT(effect_func);
+    (*effect_func)(loc, death);
 }

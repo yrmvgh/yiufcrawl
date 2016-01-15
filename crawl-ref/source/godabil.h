@@ -169,4 +169,5 @@ bool pakellas_device_surge();
 
 void helpal_pick_death_types();
 bool helpal_choose_death_type(int death_type);
+void helpal_on_deathswap(const coord_def &loc, bool death);
 #endif

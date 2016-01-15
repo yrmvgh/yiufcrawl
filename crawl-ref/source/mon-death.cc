@@ -2568,6 +2568,8 @@ item_def* monster_die(monster* mons, killer_type killer,
         && !(mons->flags & MF_BANISHED))
     {
         remove_companion(mons);
+        if (mons_is_helpal_familiar(mons->type))
+            helpal_on_deathswap(mons->pos(), true);
     }
 
     // If we kill an invisible monster reactivate autopickup.
