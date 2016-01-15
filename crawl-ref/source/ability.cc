@@ -446,12 +446,27 @@ static const ability_def Ability_List[] =
     // Helpal
     { ABIL_HELPAL_RECALL, "Recall Familiar", 2, 0, 50, 0, abflag::NONE },
     { ABIL_HELPAL_REBIND, "Rebind Familiar", 5, 0, 100, 10, abflag::NONE },
-    { ABIL_HELPAL_CHOOSE_TYPE, "Choose Familiar's Form",
-        0, 0, 0, 0, abflag::NONE },
     { ABIL_HELPAL_LASH, "Lash Familiar", 2, 0, 50, 0, abflag::NONE },
-    { ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT, "Choose Familiar's Effect",
-        0, 0, 0, 0, abflag::NONE },
     { ABIL_HELPAL_SWAP, "Swap With Familiar", 2, 0, 50, 3, abflag::NONE },
+
+    { ABIL_HELPAL_TYPE_DEFENDER,  "Familiar Type: Defender",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_TYPE_ATTACKER,  "Familiar Type: Attacker",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_TYPE_SUPPORTER, "Familiar Type: Supporter",
+        0, 0, 0, 0, abflag::NONE },
+
+    { ABIL_HELPAL_DEATH_SLOW,     "Death Effect: Slow",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_DEATH_FOG,      "Death Effect: Fog",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_DEATH_EXPLODE,  "Death Effect: Explode",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_DEATH_DISPERSE, "Death Effect: Disperse",
+        0, 0, 0, 0, abflag::NONE },
+    { ABIL_HELPAL_DEATH_IMPLODE,  "Death Effect: Implode",
+        0, 0, 0, 0, abflag::NONE },
+
 
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
     { ABIL_RENOUNCE_RELIGION, "Renounce Religion", 0, 0, 0, 0, abflag::NONE },
@@ -962,8 +977,14 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
-    case ABIL_HELPAL_CHOOSE_TYPE:
-    case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
+    case ABIL_HELPAL_DEATH_SLOW:
+    case ABIL_HELPAL_DEATH_FOG:
+    case ABIL_HELPAL_DEATH_EXPLODE:
+    case ABIL_HELPAL_DEATH_DISPERSE:
+    case ABIL_HELPAL_DEATH_IMPLODE:
+    case ABIL_HELPAL_TYPE_ATTACKER:
+    case ABIL_HELPAL_TYPE_DEFENDER:
+    case ABIL_HELPAL_TYPE_SUPPORTER:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -3227,11 +3248,19 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         return SPRET_SUCCESS;
     }
 
-    case ABIL_HELPAL_CHOOSE_TYPE:
-    case ABIL_HELPAL_CHOOSE_TRIGGERED_EFFECT:
-        fail_check();
-        simple_god_message("TODO");
-        break;
+    case ABIL_HELPAL_TYPE_SUPPORTER:
+    case ABIL_HELPAL_TYPE_DEFENDER:
+    case ABIL_HELPAL_TYPE_ATTACKER:
+        mpr("TODO");
+        return SPRET_ABORT;
+
+    case ABIL_HELPAL_DEATH_SLOW:
+    case ABIL_HELPAL_DEATH_IMPLODE:
+    case ABIL_HELPAL_DEATH_FOG:
+    case ABIL_HELPAL_DEATH_EXPLODE:
+    case ABIL_HELPAL_DEATH_DISPERSE:
+        mpr("TODO");
+        return SPRET_ABORT;
 
     case ABIL_RENOUNCE_RELIGION:
         fail_check();
@@ -3774,7 +3803,6 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_KIKU_BLESS_WEAPON:
     case ABIL_LUGONU_BLESS_WEAPON:
     case ABIL_PAKELLAS_SUPERCHARGE:
-    case ABIL_HELPAL_CHOOSE_TYPE:
         first_slot = letter_to_index('W');
         break;
     case ABIL_CONVERT_TO_BEOGH:

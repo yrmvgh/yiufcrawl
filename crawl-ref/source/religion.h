@@ -20,8 +20,6 @@
 
 #define NUM_PIETY_STARS 6
 
-#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
-
 bool is_evil_god(god_type god);
 bool is_good_god(god_type god);
 bool is_chaotic_god(god_type god);
