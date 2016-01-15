@@ -2444,6 +2444,16 @@ static void _gain_piety_point()
 
             you.one_time_ability_used.set(you.religion);
         }
+        if (you_worship(GOD_HELPAL))
+        {
+            // TODO: familiar type
+            if (rank == 6 && !you.props.exists(HELPAL_ALLY_DEATH_KEY))
+            {
+                helpal_pick_death_types();
+                god_speaks(you.religion,
+                           "You can now choose your familiar's death.");
+            }
+        }
     }
 
     if (you_worship(GOD_BEOGH))

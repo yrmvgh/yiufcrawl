@@ -166,4 +166,7 @@ bool ru_apocalypse();
 bool pakellas_check_quick_charge(bool quiet);
 int pakellas_effective_hex_power(int pow);
 bool pakellas_device_surge();
+
+void helpal_pick_death_types();
+bool helpal_choose_death_type(int death_type);
 #endif

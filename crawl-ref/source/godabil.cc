@@ -6689,3 +6689,62 @@ bool pakellas_device_surge()
 
     return true;
 }
+
+/**
+ * Initialize the list of on-familiar-death effects available to the player,
+ * if we haven't done so already.
+ */
+void helpal_pick_death_types()
+{
+    if (you.props.exists(HELPAL_DEATH_POSSIBILTIES_KEY))
+        return;
+
+    // assumes death effects are contiguous
+    static const int num_types = 1 + ABIL_HELPAL_LAST_DEATH
+                                   - ABIL_HELPAL_FIRST_DEATH;
+    static const int to_choose = 3;
+
+    // In Knuth's notation, suppose you have N elements and you want to choose
+    // n of them at random. The next element should be chosen with probability
+    // (n - m) / (N - t) where t is the number of elements visited so far,
+    // and m is the number of elements chosen so far.
+
+    CrawlVector &chosen = you.props[HELPAL_DEATH_POSSIBILTIES_KEY].get_vector();
+    for (int t = 0; t < num_types; ++t)
+        if (x_chance_in_y(to_choose - chosen.size(), num_types - t))
+            chosen.push_back(ABIL_HELPAL_FIRST_DEATH + t);
+
+    ASSERT(chosen.size() == to_choose);
+}
+
+/**
+ * Permanently choose an on-death/on-swap effect for the player's companion,
+ * after prompting to make sure the player is certain.
+ *
+ * @param death_type        The on-death effect; should be an ability enum.
+ * @return                  Whether the player went through with the choice.
+ */
+bool helpal_choose_death_type(int death_type)
+{
+    static const map<int, const char *> effect_descriptions = {
+        { ABIL_HELPAL_DEATH_SLOW, "slow nearby enemies" },
+        { ABIL_HELPAL_DEATH_IMPLODE, "send enemies crashing inward" },
+        { ABIL_HELPAL_DEATH_FOG, "create a cloud of concealing fog" },
+        { ABIL_HELPAL_DEATH_EXPLODE, "explode violently" },
+        { ABIL_HELPAL_DEATH_DISPERSE, "disperse nearby enemies" },
+    };
+
+    const char *const *death_desc = map_find(effect_descriptions, death_type);
+    ASSERT(death_desc);
+    if (!yesno(make_stringf("Are you sure you want your familiar to %s after "
+                            "swapping or dying?", *death_desc).c_str(),
+               false, 'n'))
+    {
+        canned_msg(MSG_OK);
+        return false;
+    }
+
+    you.props[HELPAL_ALLY_DEATH_KEY] = death_type;
+    mpr("It is done!");
+    return true;
+}

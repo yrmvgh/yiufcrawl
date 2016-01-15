@@ -3259,8 +3259,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_HELPAL_DEATH_FOG:
     case ABIL_HELPAL_DEATH_EXPLODE:
     case ABIL_HELPAL_DEATH_DISPERSE:
-        mpr("TODO");
-        return SPRET_ABORT;
+        if (!helpal_choose_death_type(abil.ability))
+            return SPRET_ABORT;
+        break;
 
     case ABIL_RENOUNCE_RELIGION:
         fail_check();
@@ -3826,6 +3827,14 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_RU_SACRIFICE_EYE:
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
+    case ABIL_HELPAL_DEATH_DISPERSE:
+    case ABIL_HELPAL_DEATH_FOG:
+    case ABIL_HELPAL_DEATH_IMPLODE:
+    case ABIL_HELPAL_DEATH_EXPLODE:
+    case ABIL_HELPAL_DEATH_SLOW:
+    case ABIL_HELPAL_TYPE_ATTACKER:
+    case ABIL_HELPAL_TYPE_DEFENDER:
+    case ABIL_HELPAL_TYPE_SUPPORTER:
         first_slot = letter_to_index('G');
         break;
     default:
@@ -3870,6 +3879,19 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
         }
         if (any_sacrifices)
             abilities.push_back(ABIL_RU_REJECT_SACRIFICES);
+    }
+    if (you_worship(GOD_HELPAL))
+    {
+        // TODO: choose familiar type
+        if (piety_rank() >= 6 && !you.props.exists(HELPAL_ALLY_DEATH_KEY))
+        {
+            ASSERT(you.props.exists(HELPAL_DEATH_POSSIBILTIES_KEY));
+            for (int death_poss
+                 : you.props[HELPAL_DEATH_POSSIBILTIES_KEY].get_vector())
+            {
+                abilities.push_back(static_cast<ability_type>(death_poss));
+            }
+        }
     }
     if (you.transfer_skill_points > 0)
         abilities.push_back(ABIL_ASHENZARI_END_TRANSFER);
