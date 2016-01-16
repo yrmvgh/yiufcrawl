@@ -76,6 +76,9 @@
 
 #define PIETY_HYSTERESIS_LIMIT 1
 
+/// the name of the ally helpal granted the player
+#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
+
 // Item offering messages for the gods:
 // & is replaced by "is" or "are" as appropriate for the item.
 // % is replaced by "s" or "" as appropriate.
@@ -1702,8 +1705,19 @@ mgen_data helpal_familiar_gen_data()
     mgen_data mg(MONS_FAMILIAR, BEH_FRIENDLY, &you, 0, 0, you.pos(), MHITNOT,
                  MG_NONE, GOD_HELPAL);
     mg.extra_flags |= MF_NO_REWARD;
-    mg.mname = you.props[HELPAL_ALLY_NAME_KEY].get_string();
+    mg.mname = helpal_ally_name();
     return mg;
+}
+
+/**
+ * What's the name of the ally Helpal granted the player?
+ *
+ * XXX: what happens if the ally hasn't been named yet? [later]
+ * @return      The ally's name.
+ */
+string helpal_ally_name()
+{
+    return you.props[HELPAL_ALLY_NAME_KEY].get_string();
 }
 
 bool vehumet_is_offering(spell_type spell)

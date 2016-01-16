@@ -20,8 +20,6 @@ enum nemelex_gift_types
 
 #define ACQUIRE_KEY "acquired" // acquirement source prop on acquired items
 
-/// the name of the ally helpal granted the player
-#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
 /// set of possible death effects the player can choose between
 #define HELPAL_DEATH_POSSIBILTIES_KEY "helpal_death_possibilities"
  /// chosen on-death effect

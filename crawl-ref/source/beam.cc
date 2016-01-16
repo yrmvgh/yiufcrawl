@@ -5936,7 +5936,7 @@ void bolt::refine_for_explosion()
         else if (flavour == BEAM_HELPAL_EXPLOSION)
         {
             seeMsg = "An explosion of demonic viscera erupts from "
-                     + you.props[HELPAL_ALLY_NAME_KEY].get_string() + "!";
+                     + helpal_ally_name() + "!";
             hearMsg = "You hear an explosion!";
         }
         else

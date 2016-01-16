@@ -123,6 +123,7 @@ bool is_fellow_slime(const monster* mon);
 bool is_follower(const monster* mon);
 
 mgen_data helpal_familiar_gen_data();
+string helpal_ally_name();
 
 // Vehumet gift interface.
 bool vehumet_is_offering(spell_type spell);

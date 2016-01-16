@@ -6794,7 +6794,7 @@ static void _on_deathswap_implode(const coord_def &loc, bool death)
 static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
     mprf("As %s %s, fog sprays out.",
-         you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str(),
+         helpal_ally_name().c_str(),
          death ? "dies" : "swaps");
     big_cloud(random_smoke_type(), &you, loc, 50,
               death ? 9 + random2(9) : 6 + random2(6));
@@ -6845,7 +6845,7 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
 static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
     mprf("As %s %s, translocational energy flares.",
-         you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str(),
+         helpal_ally_name().c_str(),
          death ? "dies" : "swaps");
     cast_dispersal(death ? 100 : 30, false, &loc);
 }

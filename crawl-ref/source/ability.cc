@@ -3140,8 +3140,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         monster *familiar = monster_by_mid(familiar_mid);
         if (!familiar || !you.can_see(*familiar))
         {
-            mprf("%s is not nearby!",
-                 you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str());
+            mprf("%s is not nearby!", helpal_ally_name().c_str());
             return SPRET_ABORT;
         }
 
@@ -3228,8 +3227,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         monster *familiar = monster_by_mid(familiar_mid);
         if (!familiar || !you.can_see(*familiar))
         {
-            mprf("%s is not nearby!",
-                you.props[HELPAL_ALLY_NAME_KEY].get_string().c_str());
+            mprf("%s is not nearby!", helpal_ally_name().c_str());
             return SPRET_ABORT;
         }
 
