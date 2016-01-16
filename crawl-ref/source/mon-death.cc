@@ -2572,6 +2572,11 @@ item_def* monster_die(monster* mons, killer_type killer,
         {
             ASSERT(helpal_familiar() == MID_NOBODY);
             helpal_on_deathswap(mons->pos(), true);
+            if (!you.can_see(*mons))
+            {
+                mprf("%s has departed this plane of existence.",
+                     helpal_ally_name().c_str());
+            }
         }
     }
 
