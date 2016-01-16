@@ -2569,7 +2569,10 @@ item_def* monster_die(monster* mons, killer_type killer,
     {
         remove_companion(mons);
         if (mons_is_helpal_familiar(mons->type))
+        {
+            ASSERT(helpal_familiar() == MID_NOBODY);
             helpal_on_deathswap(mons->pos(), true);
+        }
     }
 
     // If we kill an invisible monster reactivate autopickup.
