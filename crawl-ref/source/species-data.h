@@ -382,7 +382,7 @@ static const map<species_type, species_def> species_data =
     { STAT_STR }, 5,
     { { MUT_CARNIVOROUS, 3, 1 }, { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 },
       { MUT_TORMENT_RESISTANCE, 1, 1 },
-      { MUT_SLOW_REGENERATION, 1, 1 }, { MUT_COLD_RESISTANCE, 1, 1 },
+      { MUT_COLD_RESISTANCE, 1, 1 },
       { MUT_CLAWS, 1, 1 }, { MUT_UNBREATHING, 1, 1 },
       { MUT_POWERED_BY_DEATH, 3, 1 },
     },
@@ -560,7 +560,7 @@ static const map<species_type, species_def> species_data =
     18, 8,
     MONS_MUMMY,
     HT_LAND, US_UNDEAD, SIZE_MEDIUM,
-    14, 14,  14, // 36
+    14, 14,  14, // 42
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 }, { MUT_COLD_RESISTANCE, 1, 1 },
       { MUT_TORMENT_RESISTANCE, 1, 1 },
@@ -586,7 +586,7 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_LARGE,
     10, 8, 6, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_ACUTE_VISION, 1, 1 }, { MUT_SLOW, 2, 1 }, 
+    { { MUT_SLOW, 2, 1 },
       { MUT_SPIT_POISON, 3, 1 },  { MUT_POISON_RESISTANCE, 1, 1 },
       { MUT_SLOW_METABOLISM, 1, 1 }, { MUT_CONSTRICTING_TAIL, 1, 13 } },
     { "You cannot wear boots." },
@@ -626,8 +626,8 @@ static const map<species_type, species_def> species_data =
     18, 3,
     MONS_OCTOPODE,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
-    12, 12, 12, // 36
-    { STAT_STR, STAT_INT, STAT_DEX }, 5,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 6,
     {
     		{ MUT_CAMOUFLAGE, 1, 1 },
     		{ MUT_GELATINOUS_BODY, 3, 1 },
@@ -697,8 +697,14 @@ static const map<species_type, species_def> species_data =
     { STAT_STR, STAT_DEX }, 3,
     { { MUT_TOUGH_SKIN, 2, 1 }, { MUT_REGENERATION, 2, 1 }, { MUT_CLAWS, 3, 1 },
       { MUT_GOURMAND, 1, 1 }, { MUT_FAST_METABOLISM, 3, 1 },
-      { MUT_SHAGGY_FUR, 1, 1 }, { MUT_SHAGGY_FUR, 1, 5 },
+      { MUT_SHAGGY_FUR, 1, 1 },
+	  { MUT_SHAGGY_FUR, 1, 5 },
+      { MUT_COLD_RESISTANCE, 1, 5 },
       { MUT_SHAGGY_FUR, 1, 10 },
+      { MUT_SHOCK_RESISTANCE, 1, 10 },
+      { MUT_HEAT_RESISTANCE, 1, 10 },
+      { MUT_HEAT_RESISTANCE, 1, 15 },
+      { MUT_POISON_RESISTANCE, 1, 15 },
     },
     {},
     {},
