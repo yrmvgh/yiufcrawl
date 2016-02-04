@@ -1126,7 +1126,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
     APT(SP_TENGU,           SK_UNARMED_COMBAT,  1),
     APT(SP_TENGU,           SK_SPELLCASTING,   -1),
-    APT(SP_TENGU,           SK_CONJURATIONS,    3),
+    APT(SP_TENGU,           SK_CONJURATIONS,    4),
     APT(SP_TENGU,           SK_HEXES,          -3),
     APT(SP_TENGU,           SK_CHARMS,         -2),
     APT(SP_TENGU,           SK_SUMMONINGS,      2),
@@ -1135,7 +1135,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_TENGU,           SK_TRANSMUTATIONS, -2),
     APT(SP_TENGU,           SK_FIRE_MAGIC,      1),
     APT(SP_TENGU,           SK_ICE_MAGIC,      -1),
-    APT(SP_TENGU,           SK_AIR_MAGIC,       3),
+    APT(SP_TENGU,           SK_AIR_MAGIC,       4),
     APT(SP_TENGU,           SK_EARTH_MAGIC,    -3),
     APT(SP_TENGU,           SK_POISON_MAGIC,    0),
     APT(SP_TENGU,           SK_INVOCATIONS,    -1),

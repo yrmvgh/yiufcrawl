@@ -196,7 +196,7 @@ static const ability_def Ability_List[] =
 
     { ABIL_SPIT_ACID, "Spit Acid", 0, 0, 125, 0, abflag::BREATH },
 
-    { ABIL_FLY, "Fly", 3, 0, 100, 0, abflag::NONE },
+    { ABIL_FLY, "Fly", 0, 0, 100, 0, abflag::NONE },
     { ABIL_STOP_FLYING, "Stop Flying", 0, 0, 0, 0, abflag::NONE },
     { ABIL_HELLFIRE, "Hellfire", 0, 150, 200, 0, abflag::NONE },
 
@@ -827,7 +827,7 @@ talent get_talent(ability_type ability, bool check_confused)
         break;
 
     case ABIL_FLY:
-        failure = 42 - (3 * you.experience_level);
+        failure = you.species == SP_TENGU ? 0 : 42 - (3 * you.experience_level);
         break;
 
     case ABIL_TRAN_BAT:

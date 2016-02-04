@@ -706,11 +706,11 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
     switch (eq)
     {
     case EQ_LEFT_RING:
-        if (player_mutation_level(MUT_MISSING_HAND))
+        if (you.species == SP_TENGU || player_mutation_level(MUT_MISSING_HAND))
             return MB_FALSE;
         // intentional fallthrough
     case EQ_RIGHT_RING:
-        return you.species != SP_OCTOPODE ? MB_TRUE : MB_FALSE;
+        return you.species != SP_OCTOPODE && you.species != SP_TENGU ? MB_TRUE : MB_FALSE;
 
     case EQ_RING_EIGHT:
         if (player_mutation_level(MUT_MISSING_HAND))
@@ -733,6 +733,8 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
 
     // You can always wear at least one ring (forms were already handled).
     case EQ_RINGS:
+    	if (you.species == SP_TENGU)
+    		return MB_FALSE;
     case EQ_ALL_ARMOUR:
     case EQ_AMULET:
         return MB_TRUE;
@@ -2027,7 +2029,7 @@ int player_movement_speed()
 
     // Tengu can move slightly faster when flying.
     if (you.tengu_flight())
-        mv--;
+        mv -= 2 + you.experience_level / 5;
 
     if (you.duration[DUR_FROZEN])
         mv += 4;
@@ -2284,7 +2286,7 @@ static int _player_scale_evasion(int prescaled_ev, const int scale)
     // Flying Tengu get a 20% evasion bonus.
     if (you.tengu_flight())
     {
-        const int ev_bonus = max(1 * scale, prescaled_ev / 5);
+        const int ev_bonus = max(1 * scale, prescaled_ev * you.experience_level / 30);
         return prescaled_ev + ev_bonus;
     }
 

@@ -490,7 +490,10 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_SMALL,
     6, 6, 11, // 23
     { STAT_STR, STAT_DEX }, 5,
-    { { MUT_CARNIVOROUS, 3, 1 }, },
+    {
+    		{ MUT_CARNIVOROUS, 3, 1 },
+			{ MUT_EVOLUTION, 1, 1 },
+    },
     {},
     {},
     { JOB_HUNTER, JOB_ASSASSIN, JOB_BERSERKER, JOB_ARCANE_MARKSMAN,
@@ -646,10 +649,13 @@ static const map<species_type, species_def> species_data =
     15, 3,
     MONS_TENGU,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 9, // 25
+    6, 8, 12, // 26
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
     { { MUT_BEAK, 1, 1 }, { MUT_TALONS, 3, 1 },
-      { MUT_TENGU_FLIGHT, 1, 5 }, { MUT_TENGU_FLIGHT, 1, 14 }, },
+      { MUT_TENGU_FLIGHT, 1, 1 }, { MUT_TENGU_FLIGHT, 1, 10 },
+      { MUT_SHOCK_RESISTANCE, 1, 1 }, { MUT_CLARITY, 1, 10 },
+      { MUT_THIN_SKELETAL_STRUCTURE, 2, 1 },
+    },
     {},
     {},
     { JOB_BERSERKER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,

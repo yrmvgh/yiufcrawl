@@ -3673,6 +3673,11 @@ bool is_useless_item(const item_def &item, bool temp)
         return false;
     }
     case OBJ_JEWELLERY:
+    	if (item.sub_type < NUM_RINGS && you.species == SP_TENGU)
+    	{
+    		return true;
+    	}
+
         if (!item_type_known(item))
             return false;
 
