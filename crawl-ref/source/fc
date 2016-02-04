@@ -1,4 +1,4 @@
 #!/bin/bash
 
-grep -i $* *.cc *.h
+grep -i "$*" *.cc *.h
 
