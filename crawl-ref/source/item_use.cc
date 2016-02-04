@@ -96,7 +96,8 @@ bool can_wield(const item_def *weapon, bool say_reason,
     if (!ignore_temporary_disability
         && you.weapon()
         && is_weapon(*you.weapon())
-        && you.weapon()->cursed())
+        && you.weapon()->cursed()
+        && you.species != SP_MUMMY)
     {
         SAY(mprf("You can't unwield your weapon%s!",
                  !unwield ? " to draw a new one" : ""));
@@ -1570,7 +1571,7 @@ bool remove_ring(int slot, bool announce)
         return false;
     }
 
-    if (you.inv[you.equip[hand_used]].cursed())
+    if (you.inv[you.equip[hand_used]].cursed() && you.species != SP_MUMMY)
     {
         if (announce)
         {
