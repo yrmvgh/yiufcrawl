@@ -304,7 +304,7 @@ static void _ashenzari_sac_scroll(const item_def& item)
                            item.name(DESC_THE)).c_str());
 
     const int wpn_weight = 3;
-    const int jwl_weight = (you.species != SP_OCTOPODE) ? 3 : 9;
+    const int jwl_weight = (you.species == SP_OCTOPODE) ? 9 : (you.species == SP_FELID) ? 5 : 3;
     int arm_weight = 0;
     for (int i = EQ_MIN_ARMOUR; i <= EQ_MAX_ARMOUR; i++)
         if (you_can_wear(static_cast<equipment_type>(i)))

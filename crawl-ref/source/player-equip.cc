@@ -148,6 +148,8 @@ static void _assert_valid_slot(equipment_type eq, equipment_type slot)
     equipment_type r1 = EQ_LEFT_RING, r2 = EQ_RIGHT_RING;
     if (you.species == SP_OCTOPODE)
         r1 = EQ_RING_ONE, r2 = EQ_RING_EIGHT;
+    if (you.species == SP_FELID)
+        r1 = EQ_RING_ONE, r2 = EQ_RING_FOUR;
     if (slot >= r1 && slot <= r2)
         return;
     if (const item_def* amu = you.slot_item(EQ_AMULET, true))

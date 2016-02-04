@@ -5900,6 +5900,8 @@ static void _extra_sacrifice_code(ability_type sac)
 
         if (you.species == SP_OCTOPODE)
             ring_slot = EQ_RING_EIGHT;
+        else if(you.species == SP_FELID)
+        	ring_slot = EQ_RING_FOUR;
         else
             ring_slot = EQ_LEFT_RING;
 
@@ -5942,6 +5944,17 @@ static void _extra_sacrifice_code(ability_type sac)
                     }
                 }
             }
+            else if (you.species == SP_FELID)
+            {
+                for (int eq = EQ_RING_ONE; eq <= EQ_RING_THREE; eq++)
+                {
+                    if (!you.slot_item(static_cast<equipment_type>(eq), true))
+                    {
+                        open_ring_slot = true;
+                        break;
+                    }
+                }
+            }
             else
             {
                 if (!you.slot_item(static_cast<equipment_type>(
@@ -5958,7 +5971,7 @@ static void _extra_sacrifice_code(ability_type sac)
             {
                 mprf("You put %s back on %s %s!",
                      ring->name(DESC_YOUR).c_str(),
-                     (you.species == SP_OCTOPODE ? "another" : "your other"),
+                     (you.species == SP_OCTOPODE || SP_FELID ? "another" : "your other"),
                      you.hand_name(true).c_str());
                 puton_ring(ring_inv_slot, false);
             }

@@ -908,7 +908,22 @@ static vector<equipment_type> _current_ring_types()
                 ret.push_back(slot);
         }
     }
-    else
+    else if (you.species == SP_FELID)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            const equipment_type slot = (equipment_type)(EQ_RING_ONE + i);
+
+            if (player_mutation_level(MUT_MISSING_HAND)
+                && slot == EQ_RING_FOUR)
+            {
+                continue;
+            }
+
+            if (get_form()->slot_available(slot))
+                ret.push_back(slot);
+        }
+    }    else
     {
         if (player_mutation_level(MUT_MISSING_HAND) == 0)
             ret.push_back(EQ_LEFT_RING);

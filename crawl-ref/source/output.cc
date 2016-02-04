@@ -1933,7 +1933,7 @@ static void _print_overview_screen_equip(column_composer& cols,
             continue;
         }
 
-        if (you.species != SP_OCTOPODE
+        if (you.species != SP_OCTOPODE && you.species != SP_FELID
             && eqslot >= EQ_RING_ONE && eqslot <= EQ_RING_EIGHT)
         {
             continue;
