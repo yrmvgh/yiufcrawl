@@ -465,7 +465,7 @@ static const map<species_type, species_def> species_data =
     "Hu",
     "Human", nullptr, nullptr,
     SPF_NONE,
-    1, 0, 0,
+    2, 0, 0,
     15, 3,
     MONS_HUMAN,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
@@ -606,7 +606,7 @@ static const map<species_type, species_def> species_data =
     18, 3,
     MONS_OCTOPODE,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
-    7, 10, 7, // 24
+    10, 10, 10, // 30
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     { { MUT_CAMOUFLAGE, 1, 1 }, { MUT_GELATINOUS_BODY, 1, 1 }, },
     { "You cannot wear most types of armour.",
@@ -627,7 +627,7 @@ static const map<species_type, species_def> species_data =
     18, 7,
     MONS_SPRIGGAN,
     HT_LAND, US_ALIVE, SIZE_LITTLE,
-    4, 9, 11, // 24
+    4, 9, 13, // 26
     { STAT_INT, STAT_DEX }, 5,
     { { MUT_FAST, 3, 1 }, { MUT_HERBIVOROUS, 3, 1 },
       { MUT_ACUTE_VISION, 1, 1 }, { MUT_SLOW_METABOLISM, 2, 1 }, },

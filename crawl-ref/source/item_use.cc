@@ -850,7 +850,7 @@ bool takeoff_armour(int item)
     }
 
     // If we get here, we're wearing the item.
-    if (invitem.cursed())
+    if (invitem.cursed() && you.species != SP_MUMMY)
     {
         mprf("%s is stuck to your body!", invitem.name(DESC_YOUR).c_str());
         return false;
@@ -1182,7 +1182,7 @@ static bool _swap_rings(int ring_slot)
                 }
             }
 
-            if (ring->cursed())
+            if (ring->cursed() && you.species != SP_MUMMY)
                 cursed++;
             else if (strstr(ring->inscription.c_str(), "=R"))
             {
