@@ -1,0 +1,4 @@
+#!/bin/bash
+
+make TILES=t GAME="crawlLocal" SAVEDIR="/t/crawl/testSaves" "$@"
+

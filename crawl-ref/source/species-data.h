@@ -539,11 +539,11 @@ static const map<species_type, species_def> species_data =
     "Mu",
     "Mummy", nullptr, nullptr,
     SPF_NONE,
-    -1, 0, 0,
-    15, 5,
+    -4, 0, 2,
+    18, 8,
     MONS_MUMMY,
     HT_LAND, US_UNDEAD, SIZE_MEDIUM,
-    11, 7,  7, // 25
+    14, 14,  14, // 36
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 }, { MUT_COLD_RESISTANCE, 1, 1 },
       { MUT_TORMENT_RESISTANCE, 1, 1 },

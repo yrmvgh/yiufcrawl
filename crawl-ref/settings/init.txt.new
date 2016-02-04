@@ -1,0 +1,210 @@
+##### Crawl Init file ###############################################
+# For descriptions of all options, as well as some more in-depth information
+# on setting them, consult the file
+#    options_guide.txt
+# in your /docs directory. If you can't find it, the file is also available
+# online at:
+# https://gitorious.org/crawl/crawl/source/HEAD:crawl-ref/docs/options_guide.txt
+#
+# Crawl uses the first file of the following list as its option file:
+#  * init.txt in the -rcdir directory (if specified)
+#  * .crawlrc in the -rcdir directory (if specified)
+#  * init.txt (in the Crawl directory)
+#  * ~/.crawl/init.txt (Unix only)
+#  * ~/.crawlrc (Unix only)
+#  * ~/init.txt (Unix only)
+#  * settings/init.txt (in the Crawl directory)
+
+##### Some basic explanation of option syntax #######################
+# Lines beginning with '#' are comments.  The basic syntax is:
+#
+# field = value         or      field.subfield = value
+#
+# Only one specification is allowed per line.
+#
+# The terms are typically case-insensitive except in the fairly obvious
+# cases (the character's name and specifying files or directories when
+# on a system that has case-sensitive filenames).
+#
+# White space is stripped from the beginning and end of the line, as
+# well as immediately before and after the '='. If the option allows
+# multiple comma/semicolon-separated terms (such as
+# autopickup_exceptions), all whitespace around the separator is also
+# trimmed. All other whitespace is left intact.
+#
+# There are three broad types of Crawl options: true/false values (booleans),
+# arbitrary values, and lists of values. The first two types use only the
+# simple =, with later options - which includes your options that are different
+# from the defaults - overriding earlier ones. List options allow using +=, ^=,
+# -=, and = to append, prepend, remove, and reset, respectively. Usually you will
+# want to use += to add to a list option. Lastly, there is := which you can use
+# to create an alias, like so:
+#   ae := autopickup_exceptions
+# From there on, 'ae' will be treated as if it you typed autopickup_exceptions,
+# so you can save time typing it.
+#
+
+##### Other files ###################################################
+# You can include other files from your options file using the 'include'
+# option. Crawl will treat it as if you copied the whole text of that file
+# into your options file in that spot. You can uncomment some of the following
+# lines by removing the beginning '#' to include some of the other files in
+# this folder.
+
+# Some useful, more advanced options, implemented in LUA.
+# include = advanced_optioneering.txt
+
+# Alternative vi bindings for Dvorak users.
+# include = dvorak_command_keys.txt
+
+# Alternative vi bindings for Colemak users.
+# include = colemak_command_keys.txt
+
+# Override the vi movement keys with a non-command.
+# include = no_vi_command_keys.txt
+
+# Turn the shift-vi keys into safe move, instead of run.
+# include = safe_move_shift.txt
+
+##### Ancient versions ##############################################
+# If you're used to the interface of ancient versions of Crawl, you may
+# get back parts of it by uncommenting the following options:
+
+# include                 = 034_command_keys.txt
+
+# And to revert monster glyph and colouring changes:
+
+# include                 = 034_monster_glyphs.txt
+# include                 = 052_monster_glyphs.txt
+# include                 = 060_monster_glyphs.txt
+# include                 = 071_monster_glyphs.txt
+# include                 = 080_monster_glyphs.txt
+# include                 = 0.9_monster_glyphs.txt
+# include                 = 0.12_monster_glyphs.txt
+# include                 = 0.13_monster_glyphs.txt
+# include                 = 0.14_monster_glyphs.txt
+
+
+allow_self_target      = no
+auto_drop_chunks       = yes
+auto_eat_chunks        = true
+auto_switch   = true
+#clear_messages          = true
+confirm_butcher        = never
+default_manual_training = true
+easy_confirm  = all
+easy_eat_chunks        = true
+hp_warning = 40
+rest_wait_both = true
+runrest_ignore_message += completely rotted away
+runrest_ignore_message += completely faded away
+runrest_ignore_message += are feeling .*hungry
+show_more                    = false
+
+spell_slot ^= ^Blink:b
+spell_slot ^= Battle:b
+spell_slot ^= Canine:c
+spell_slot ^= Cure Poison:c
+spell_slot ^= Confuse:c
+spell_slot ^= Control:c
+spell_slot ^= Dazzle:d
+spell_slot ^= Dispel:d
+spell_slot ^= Ensorcelled:ae
+spell_slot ^= Enslavement:e
+spell_slot ^= Conjure Flame:f
+spell_slot ^= Flight:f
+spell_slot ^= Guardian:g
+spell_slot ^= Haste:h
+spell_slot ^= Hydra:h
+spell_slot ^= Ice Form:i
+spell_slot ^= Call Imp:i
+spell_slot ^= Invisibility:i
+spell_slot ^= ^Lee:l
+spell_slot ^= Mass:m
+spell_slot ^= Mephitic Cloud:m
+spell_slot ^= Mystic:m
+spell_slot ^= Monstrous:m
+spell_slot ^= Corona:o
+spell_slot ^= Petrify:p
+spell_slot ^= Ignite:p
+spell_slot ^= Prism:p
+spell_slot ^= Repel:r
+spell_slot ^= Regeneration:r
+spell_slot ^= Searing:r
+spell_slot ^= Skeleton:s
+spell_slot ^= Slow:s
+spell_slot ^= Spider Form:s
+spell_slot ^= Stone Arrow:s
+spell_slot ^= Stone Skin:s
+spell_slot ^= Sticky:s
+spell_slot ^= Sting:ap
+spell_slot ^= Sure Blade:s
+spell_slot ^= Swiftness:s
+spell_slot ^= Sticks:t
+spell_slot ^= Viper:v
+spell_slot ^= Vampiric:v
+spell_slot ^= Passwall:w
+
+msg_min_height               = 10
+msg_max_height               = 10
+msg_condense_short           = true
+tile_cell_pixels    = 64
+tile_font_crt_size  = 16
+tile_font_lbl_size  = 16
+tile_font_msg_size  = 16
+tile_font_stat_size = 16
+tile_font_tip_size  = 16
+# tile_layout_priority  = minimap, gold_turn
+tile_menu_icons = false
+tile_use_small_layout = true
+tile_realtime_anim = true
+
+wiz_mode         = no
+
+# explore_greedy   = false
+
+#explore_stop  = shops,altars,portals,branches,runed_doors
+#explore_stop += greedy_pickup_smart,glowing_items,artefacts,greedy_visited_item_stack
+#explore_stop += greedy_sacrificeable
+
+# explore_wall_bias = 20
+#sacrifice_before_explore = true
+# explore_improved = true
+# travel_key_stop = false
+auto_sacrifice = true
+#
+# explore_stop_pickup_ignore += curare
+# auto_exclude += oklob,statue,curse skull,roxanne,hyperactive,lightning spire
+# auto_exclude += mimic
+
+autofight_stop = 40
+# automagic_enable = true
+automagic_stop = 0
+automagic_fight = true
+
+item_stack_summary_minimum   = 10
+channel.multiturn = mute
+channel.examine_filter = mute
+channel.rotten_meat = mute
+# this is messages like: there are stairs here, there is an open door here, etc.
+channel.examine = mute
+channel.equipment = magenta
+# keep this
+# channel.floor = blue
+
+tile_show_minihealthbar = true
+tile_show_minimagicbar  = true
+
+force_more_message += LOW HITPOINT WARNING
+
+restart_after_game = true
+travel_delay = -1
+explore_delay = -1
+rest_delay = -1
+#equip_unequip = true
+show_travel_trail = true
+interrupt_travel -= hungry, sense_monster
+
+tile_skip_title = true 
+tile_menu_icons = false
+
