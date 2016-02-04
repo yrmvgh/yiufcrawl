@@ -175,18 +175,14 @@ bool player::is_habitable_feat(dungeon_feature_type actual_grid) const
         return false;
 
     if (airborne()
-#if TAG_MAJOR_VERSION == 34
             || species == SP_DJINNI
-#endif
             )
     {
         return true;
     }
 
     if (
-#if TAG_MAJOR_VERSION == 34
         actual_grid == DNGN_LAVA && species != SP_LAVA_ORC ||
-#endif
         actual_grid == DNGN_DEEP_WATER && !can_swim())
     {
         return false;
@@ -768,14 +764,12 @@ bool player::go_berserk(bool intentional, bool potion)
 
     you.redraw_quiver = true; // Account for no firing.
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
     {
         mpr("You burn with rage!");
         // This will get sqrt'd later, so.
         you.temperature = TEMP_MAX;
     }
-#endif
 
     if (player_equip_unrand(UNRAND_JIHAD))
         for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi)
@@ -808,10 +802,8 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
         msg = "You are too mesmerised to rage.";
     else if (afraid())
         msg = "You are too terrified to rage.";
-#if TAG_MAJOR_VERSION == 34
     else if (you.species == SP_DJINNI)
         msg = "Only creatures of flesh and blood can berserk.";
-#endif
     else if (is_lifeless_undead())
         msg = "You cannot raise a blood rage in your lifeless body.";
     // Stasis for identified amulets; unided amulets will trigger when the

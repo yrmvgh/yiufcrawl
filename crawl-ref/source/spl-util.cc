@@ -1103,7 +1103,6 @@ string spell_uselessness_reason(spell_type spell, bool temp, bool prevent,
     }
 
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
     {
         if (spell == SPELL_ICE_FORM  || spell == SPELL_OZOCUBUS_ARMOUR)
@@ -1134,7 +1133,6 @@ string spell_uselessness_reason(spell_type spell, bool temp, bool prevent,
         }
 
     }
-#endif
 
     switch (spell)
     {

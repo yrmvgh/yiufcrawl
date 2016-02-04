@@ -4165,10 +4165,8 @@ enum species_type
     SP_DEEP_DWARF,
     SP_FELID,
     SP_OCTOPODE,
-#if TAG_MAJOR_VERSION == 34
     SP_DJINNI,
     SP_LAVA_ORC,
-#endif
     SP_GARGOYLE,
     SP_FORMICID,
     SP_VINE_STALKER,

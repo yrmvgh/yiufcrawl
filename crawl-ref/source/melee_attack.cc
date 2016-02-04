@@ -480,9 +480,7 @@ bool melee_attack::handle_phase_hit()
         // the player is hit, each of them will verify their own required
         // parameters.
         do_passive_freeze();
-#if TAG_MAJOR_VERSION == 34
         do_passive_heat();
-#endif
         emit_foul_stench();
     }
 
@@ -3144,7 +3142,6 @@ void melee_attack::do_passive_freeze()
     }
 }
 
-#if TAG_MAJOR_VERSION == 34
 void melee_attack::do_passive_heat()
 {
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_PASSIVE_HEAT)
@@ -3178,7 +3175,6 @@ void melee_attack::do_passive_heat()
         }
     }
 }
-#endif
 
 void melee_attack::mons_do_eyeball_confusion()
 {

@@ -81,9 +81,7 @@
 #include "view.h"
 #include "xom.h"
 
-#if TAG_MAJOR_VERSION == 34
 const int DJ_MP_RATE = 2;
-#endif
 
 static int _bone_armour_bonus();
 
@@ -426,13 +424,11 @@ void moveto_location_effects(dungeon_feature_type old_feat,
                 // Extra time if you stepped in.
                 if (stepped)
                     you.time_taken *= 2;
-#if TAG_MAJOR_VERSION == 34
                 // This gets called here because otherwise you wouldn't heat
                 // until your second turn in lava.
                 if (temperature() < TEMP_FIRE)
                     mpr("The lava instantly superheats you.");
                 you.temperature = TEMP_MAX;
-#endif
             }
 
             else if (!feat_is_lava(new_grid) && feat_is_lava(old_feat))
@@ -813,9 +809,7 @@ bool player_has_feet(bool temp)
     if (you.species == SP_NAGA
         || you.species == SP_FELID
         || you.species == SP_OCTOPODE
-#if TAG_MAJOR_VERSION == 34
         || you.species == SP_DJINNI
-#endif
         || you.fishtail && temp)
     {
         return false;
@@ -1172,7 +1166,6 @@ int player_regen()
         else if (you.hunger_state >= HS_FULL)
             rr += 10; // Bonus regeneration for full vampires.
     }
-#if TAG_MAJOR_VERSION == 34
 
     // Compared to other races, a starting djinni would have regen of 4 (hp)
     // plus 17 (mp). So let's compensate them early; they can stand getting
@@ -1180,7 +1173,6 @@ int player_regen()
     if (you.species == SP_DJINNI)
         if (you.hp_max < 100)
             rr += (100 - you.hp_max) / 6;
-#endif
 
     // Slow regeneration mutation.
     if (player_mutation_level(MUT_SLOW_REGENERATION) > 0)
@@ -1355,11 +1347,9 @@ int player_likes_chunks(bool permanently)
 // If temp is set to false, temporary sources or resistance won't be counted.
 int player_res_fire(bool calc_unid, bool temp, bool items)
 {
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         return 4; // full immunity
 
-#endif
     int rf = 0;
 
     if (items)
@@ -1398,7 +1388,6 @@ int player_res_fire(bool calc_unid, bool temp, bool items)
     if (you.species == SP_MUMMY)
         rf--;
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
     {
         if (temperature_effect(LORC_FIRE_RES_I))
@@ -1408,7 +1397,6 @@ int player_res_fire(bool calc_unid, bool temp, bool items)
         if (temperature_effect(LORC_FIRE_RES_III))
             rf++;
     }
-#endif
 
     // mutations:
     rf += player_mutation_level(MUT_HEAT_RESISTANCE, temp);
@@ -1489,10 +1477,8 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
                 rc++;
         }
 
-#if TAG_MAJOR_VERSION == 34
         if (you.species == SP_LAVA_ORC && temperature_effect(LORC_COLD_VULN))
             rc--;
-#endif
     }
 
     if (items)
@@ -1524,11 +1510,9 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
             rc++;
     }
 
-#if TAG_MAJOR_VERSION == 34
     // species:
     if (you.species == SP_DJINNI)
         rc--;
-#endif
     // mutations:
     rc += player_mutation_level(MUT_COLD_RESISTANCE, temp);
     rc -= player_mutation_level(MUT_COLD_VULNERABILITY, temp);
@@ -1801,10 +1785,8 @@ int player_spec_fire()
     // rings of fire:
     sf += you.wearing(EQ_RINGS, RING_FIRE);
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_FIRE_BOOST))
         sf++;
-#endif
 
     if (you.duration[DUR_FIRE_SHIELD])
         sf++;
@@ -1822,14 +1804,12 @@ int player_spec_cold()
     // rings of ice:
     sc += you.wearing(EQ_RINGS, RING_ICE);
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC
         && (temperature_effect(LORC_LAVA_BOOST)
             || temperature_effect(LORC_FIRE_BOOST)))
     {
         sc--;
     }
-#endif
 
     return sc;
 }
@@ -2816,14 +2796,12 @@ static void _gain_and_note_hp_mp()
     const int note_maxmp = get_real_mp(false);
 
     char buf[200];
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         // Djinn don't HP/MP
         sprintf(buf, "EP: %d/%d",
                 min(you.hp, note_maxhp + note_maxmp),
                 note_maxhp + note_maxmp);
     else
-#endif
         sprintf(buf, "HP: %d/%d MP: %d/%d",
                 min(you.hp, note_maxhp), note_maxhp,
                 min(you.magic_points, note_maxmp), note_maxmp);
@@ -3824,10 +3802,8 @@ void calc_hp()
 {
     int oldhp = you.hp, oldmax = you.hp_max;
     you.hp_max = get_real_hp(true, false);
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         you.hp_max += get_real_mp(true);
-#endif
     deflate_hp(you.hp_max, false);
     if (oldhp != you.hp || oldmax != you.hp_max)
         dprf("HP changed: %d/%d -> %d/%d", oldhp, oldmax, you.hp, you.hp_max);
@@ -3860,13 +3836,11 @@ void dec_hp(int hp_loss, bool fatal, const char *aux)
 
 void calc_mp()
 {
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
     {
         you.magic_points = you.max_magic_points = 0;
         return calc_hp();
     }
-#endif
 
     you.max_magic_points = get_real_mp(true);
     you.magic_points = min(you.magic_points, you.max_magic_points);
@@ -3893,10 +3867,8 @@ void dec_mp(int mp_loss, bool silent)
     if (mp_loss < 1)
         return;
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         return dec_hp(mp_loss * DJ_MP_RATE, false);
-#endif
 
     you.magic_points -= mp_loss;
 
@@ -3907,7 +3879,6 @@ void dec_mp(int mp_loss, bool silent)
 
 void drain_mp(int loss)
 {
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
     {
 
@@ -3918,7 +3889,6 @@ void drain_mp(int loss)
                                            1000); // so it goes away after one '5'
     }
     else
-#endif
     return dec_mp(loss);
 }
 
@@ -3958,10 +3928,8 @@ bool enough_hp(int minimum, bool suppress_msg, bool abort_macros)
 
 bool enough_mp(int minimum, bool suppress_msg, bool abort_macros)
 {
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         return enough_hp(minimum * DJ_MP_RATE, suppress_msg);
-#endif
 
     ASSERT(!crawl_state.game_is_arena());
 
@@ -3999,10 +3967,8 @@ void inc_mp(int mp_gain, bool silent)
 {
     ASSERT(!crawl_state.game_is_arena());
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
         return inc_hp(mp_gain * DJ_MP_RATE);
-#endif
 
     if (mp_gain < 1 || you.magic_points >= you.max_magic_points)
         return;
@@ -5275,10 +5241,8 @@ player::player()
     lives = 0;
     deaths = 0;
 
-#if TAG_MAJOR_VERSION == 34
     temperature = 1; // 1 is min; 15 is max.
     temperature_last = 1;
-#endif
 
     xray_vision = false;
 
@@ -5408,9 +5372,7 @@ player::player()
     redraw_status_lights = false;
     redraw_hit_points    = false;
     redraw_magic_points  = false;
-#if TAG_MAJOR_VERSION == 34
     redraw_temperature   = false;
-#endif
     redraw_stats.init(false);
     redraw_experience    = false;
     redraw_armour_class  = false;
@@ -5532,9 +5494,7 @@ bool player::airborne() const
         return false;
 
     if (duration[DUR_FLIGHT]
-#if TAG_MAJOR_VERSION == 34
         || you.species == SP_DJINNI
-#endif
         || attribute[ATTR_PERM_FLIGHT]
         || get_form()->enables_flight())
     {
@@ -6341,12 +6301,10 @@ int player::res_water_drowning() const
         rw++;
     }
 
-#if TAG_MAJOR_VERSION == 34
     // A fiery lich/hot statue suffers from quenching but not drowning, so
     // neutral resistance sounds ok.
     if (species == SP_DJINNI)
         rw--;
-#endif
 
     return rw;
 }
@@ -6607,18 +6565,14 @@ bool player::cancellable_flight() const
 bool player::permanent_flight() const
 {
     return attribute[ATTR_PERM_FLIGHT]
-#if TAG_MAJOR_VERSION == 34
         || species == SP_DJINNI
-#endif
         ;
 }
 
 bool player::racial_permanent_flight() const
 {
     return player_mutation_level(MUT_TENGU_FLIGHT) >= 2
-#if TAG_MAJOR_VERSION == 34
         || species == SP_DJINNI
-#endif
         || player_mutation_level(MUT_BIG_WINGS);
 }
 
@@ -7299,9 +7253,7 @@ bool player::can_bleed(bool allow_tran) const
         return false;
 
     if (is_lifeless_undead()
-#if TAG_MAJOR_VERSION == 34
         || species == SP_DJINNI
-#endif
         || holiness() & MH_NONLIVING)
     {   // demonspawn and demigods have a mere drop of taint
         return false;
@@ -7918,7 +7870,6 @@ int player::scale_device_healing(int healing_amount)
     return div_rand_round(healing_amount * _get_device_heal_factor(), 3);
 }
 
-#if TAG_MAJOR_VERSION == 34
 // Lava orcs!
 int temperature()
 {
@@ -8169,7 +8120,6 @@ string temperature_text(int temp)
             return "";
     }
 }
-#endif
 
 void player_open_door(coord_def doorpos)
 {
@@ -8621,10 +8571,8 @@ void player_end_berserk()
     if (!you.duration[DUR_PARALYSIS] && !you.petrified())
         mprf(MSGCH_WARN, "You are exhausted.");
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
         mpr("You feel less hot-headed.");
-#endif
 
     // This resets from an actual penalty or from NO_BERSERK_PENALTY.
     you.berserk_penalty = 0;

@@ -514,7 +514,6 @@ static const string _vampire_Ascreen_footer = (
     " to toggle between mutations and properties depending on your\n"
     "hunger status.\n");
 
-#if TAG_MAJOR_VERSION == 34
 static const string _lava_orc_Ascreen_footer = (
 #ifndef USE_TILE_LOCAL
     "Press '<w>!</w>'"
@@ -523,7 +522,6 @@ static const string _lava_orc_Ascreen_footer = (
 #endif
     " to toggle between mutations and properties depending on your\n"
     "temperature.\n");
-#endif
 
 static void _display_vampire_attributes()
 {
@@ -616,7 +614,6 @@ static void _display_vampire_attributes()
     }
 }
 
-#if TAG_MAJOR_VERSION == 34
 static void _display_temperature()
 {
     ASSERT(you.species == SP_LAVA_ORC);
@@ -696,7 +693,6 @@ static void _display_temperature()
         display_mutations();
     }
 }
-#endif
 
 void display_mutations()
 {
@@ -717,7 +713,6 @@ void display_mutations()
         extra += _vampire_Ascreen_footer;
     }
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
     {
         if (!extra.empty())
@@ -725,7 +720,6 @@ void display_mutations()
 
         extra += _lava_orc_Ascreen_footer;
     }
-#endif
 
     if (!extra.empty())
     {
@@ -746,14 +740,12 @@ void display_mutations()
     {
         _display_vampire_attributes();
     }
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC
         && (mutation_menu.getkey() == '!'
             || mutation_menu.getkey() == CK_MOUSE_CMD))
     {
         _display_temperature();
     }
-#endif
 }
 
 static int _calc_mutation_amusement_value(mutation_type which_mutation)
@@ -1101,7 +1093,6 @@ bool physiology_mutation_conflict(mutation_type mutat)
             return true;
         }
     }
-#if TAG_MAJOR_VERSION == 34
 
     // Heat doesn't hurt fire, djinn don't care about hunger.
     if (you.species == SP_DJINNI && (mutat == MUT_HEAT_RESISTANCE
@@ -1112,7 +1103,6 @@ bool physiology_mutation_conflict(mutation_type mutat)
     {
         return true;
     }
-#endif
 
     // Already immune.
     if (you.species == SP_GARGOYLE && mutat == MUT_POISON_RESISTANCE)

@@ -818,7 +818,6 @@ bool actor_cloud_immune(const actor *act, const cloud_struct &cloud)
     // Qazlalites get immunity to their own clouds.
     if (player && YOU_KILL(cloud.killer) && in_good_standing(GOD_QAZLAL))
         return true;
-#if TAG_MAJOR_VERSION == 34
 
     if (player && you.species == SP_DJINNI
         && (cloud.type == CLOUD_FIRE
@@ -827,7 +826,6 @@ bool actor_cloud_immune(const actor *act, const cloud_struct &cloud)
     {
         return true;
     }
-#endif
 
     switch (cloud.type)
     {

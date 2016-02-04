@@ -162,7 +162,7 @@ static const species_type species_order[] =
     // comparatively human-like looks
     SP_HUMAN,          SP_HIGH_ELF,
     SP_DEEP_ELF,       SP_DEEP_DWARF,
-    SP_HILL_ORC,
+    SP_HILL_ORC,	   SP_LAVA_ORC,
     // small species
     SP_HALFLING,       SP_KOBOLD,
     SP_SPRIGGAN,
@@ -182,6 +182,7 @@ static const species_type species_order[] =
     SP_VAMPIRE,
     // not humanoid at all
     SP_FELID,          SP_OCTOPODE,
+	SP_DJINNI,
 };
 COMPILE_CHECK(ARRAYSZ(species_order) <= NUM_SPECIES);
 

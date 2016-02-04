@@ -3155,13 +3155,11 @@ bool bolt::harmless_to_player() const
     case BEAM_COLD:
         return is_big_cloud() && you.mutation[MUT_FREEZING_CLOUD_IMMUNITY];
 
-#if TAG_MAJOR_VERSION == 34
     case BEAM_FIRE:
     case BEAM_HELLFIRE:
     case BEAM_HOLY_FLAME:
     case BEAM_STICKY_FLAME:
         return you.species == SP_DJINNI;
-#endif
 
     case BEAM_VIRULENCE:
         return player_res_poison(false) >= 3;

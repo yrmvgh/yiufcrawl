@@ -2542,10 +2542,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             pow = player_adjust_invoc_power(
                 10 + (you.skill_rdiv(SK_INVOCATIONS, 1, 3)));
         }
-#if TAG_MAJOR_VERSION == 34
         if (you.species == SP_DJINNI)
             pow /= 2;
-#endif
         pow = min(50, pow);
         const int healed = pow + roll_dice(2, pow) - 2;
         mpr("You are healed.");
@@ -3331,9 +3329,7 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
 
     if (player_mutation_level(MUT_TENGU_FLIGHT) && !you.airborne()
         || you.racial_permanent_flight() && !you.attribute[ATTR_PERM_FLIGHT]
-#if TAG_MAJOR_VERSION == 34
            && you.species != SP_DJINNI
-#endif
            )
     {
         // Tengu can fly, but only from the ground

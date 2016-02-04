@@ -475,6 +475,24 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES },
 } },
 
+{ SP_LAVA_ORC, {
+    "LO",
+    "Lava Orc", "Orcish", "Orc",
+    SPF_ORCISH | SPF_NO_HAIR,
+    -1, 1, 0,
+    15, 3,
+    MONS_LAVA_ORC,
+    HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
+    10, 8, 6, // 24
+    { STAT_INT, STAT_DEX }, 5,
+    {},
+    {},
+    {},
+    { JOB_FIGHTER, JOB_GLADIATOR, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT,
+      JOB_NECROMANCER, JOB_FIRE_ELEMENTALIST },
+    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES },
+} },
+
 { SP_HUMAN, {
     "Hu",
     "Human", nullptr, nullptr,
@@ -755,6 +773,30 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
+
+{ SP_DJINNI, {
+    "Dj",
+    "Djinni", "Djinn", nullptr,
+    SPF_NONE,
+    -1, -1, 0,
+    9, 3,
+    MONS_DJINNI,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    {
+    		{ MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 },
+    },
+    { "You are immune to all types of fire, even holy and hellish.",
+      "You are vulnerable to cold.",
+      "You need no food.",
+      "You have no legs." },
+    { "fire immunity", "cold vulnerability" },
+    { JOB_HUNTER, JOB_SKALD, JOB_WIZARD, JOB_CONJURER, JOB_FIRE_ELEMENTALIST,
+      JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
 #if TAG_MAJOR_VERSION == 34
 { SP_SLUDGE_ELF, {
     "SE",
@@ -773,42 +815,7 @@ static const map<species_type, species_def> species_data =
     {}, // not a starting race
 } },
 
-{ SP_LAVA_ORC, {
-    "LO",
-    "Lava Orc", "Orcish", "Orc",
-    SPF_ORCISH | SPF_NO_HAIR,
-    -1, 1, 0,
-    15, 3,
-    MONS_LAVA_ORC,
-    HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
-    10, 8, 6, // 24
-    { STAT_INT, STAT_DEX }, 5,
-    {},
-    {},
-    {},
-    {}, // not a starting race
-    {}, // not a starting race
-} },
 
-{ SP_DJINNI, {
-    "Dj",
-    "Djinni", "Djinn", nullptr,
-    SPF_NONE,
-    -1, -1, 0,
-    9, 3,
-    MONS_DJINNI,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 }, },
-    { "You are immune to all types of fire, even holy and hellish.",
-      "You are vulnerable to cold.",
-      "You need no food.",
-      "You have no legs." },
-    { "fire immunity", "cold vulnerability" },
-    {}, // not a starting race
-    {}, // not a starting race
-} },
 #endif
 // Ideally this wouldn't be necessary...
 { SP_UNKNOWN, { // Line 1: enum

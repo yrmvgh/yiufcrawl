@@ -163,7 +163,6 @@ bool can_wield(const item_def *weapon, bool say_reason,
             id_brand = true;
         }
     }
-#if TAG_MAJOR_VERSION == 34
     else if (you.species == SP_DJINNI
              && get_weapon_brand(*weapon) == SPWPN_ANTIMAGIC
              && (item_type_known(*weapon) || !only_known))
@@ -174,7 +173,6 @@ bool can_wield(const item_def *weapon, bool say_reason,
             id_brand = true;
         }
     }
-#endif
 
     if (id_brand)
     {
@@ -670,9 +668,7 @@ bool can_wear_armour(const item_def &item, bool verbose, bool ignore_temporary)
         }
 
         if (you.species == SP_NAGA
-#if TAG_MAJOR_VERSION == 34
             || you.species == SP_DJINNI
-#endif
            )
         {
             if (verbose)
@@ -2442,11 +2438,9 @@ string cannot_read_item_reason(const item_def &item)
     if (you.duration[DUR_NO_SCROLLS])
         return "You cannot read scrolls in your current state!";
 
-#if TAG_MAJOR_VERSION == 34
     // Prevent hot lava orcs reading scrolls
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
         return "You'd burn any scroll you tried to read!";
-#endif
 
     // don't waste the player's time reading known scrolls in situations where
     // they'd be useless
