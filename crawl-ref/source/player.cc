@@ -81,7 +81,7 @@
 #include "view.h"
 #include "xom.h"
 
-const int DJ_MP_RATE = 2;
+const int DJ_MP_RATE = 1;
 
 static int _bone_armour_bonus();
 
@@ -1999,6 +1999,18 @@ int player_movement_speed()
     // armour
     if (you.run())
         mv -= 1;
+
+	if (you.species == SP_LAVA_ORC) {
+		if (you.temperature < TEMP_COOL) {
+			mv += 1;
+		}
+		if (you.temperature >= TEMP_ROOM) {
+			mv -= 1;
+		}
+		if (you.temperature >= TEMP_HOT) {
+			mv -= 1;
+		}
+	}
 
     mv += you.wearing_ego(EQ_ALL_ARMOUR, SPARM_PONDEROUSNESS);
 
