@@ -189,7 +189,8 @@ public:
             return false;
         }
 
-        int amount = 10 + random2avg(28, 3);
+        // int amount = 10 + random2avg(28, 3);
+        int amount = 1000;
         if (is_device)
             amount = you.scale_device_healing(amount);
         // Pay for rot right off the top.
