@@ -2783,6 +2783,7 @@ bool will_gain_life(int lev)
 
 static void _felid_extra_life()
 {
+	return;
     if (will_gain_life(you.max_level)
         && you.lives < 2)
     {

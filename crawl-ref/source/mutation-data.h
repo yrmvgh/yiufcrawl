@@ -1291,11 +1291,15 @@ static const mutation_def mut_data[] =
   "a magic shield",
 },
 
-{ MUT_MANA_REGENERATION, 0, 1, mutflag::GOOD, false,
+{ MUT_MANA_REGENERATION, 0, 3, mutflag::GOOD, false,
   "magic regeneration",
 
-  {"You regenerate magic rapidly.", "", ""},
-  {"You feel your magic shroud grow more resilient.", "", ""},
+  {"You regenerate magic rapidly.",
+		  "You regenerate magic very rapidly.",
+		  "You regenerate magic extremely rapidly."},
+  {"You feel your magic shroud grow more resilient.",
+		  "You feel your magic shroud grow more resilient.",
+		  "You feel your magic shroud grow more resilient."},
   {"", "", ""},
 
   "mana regeneration",
