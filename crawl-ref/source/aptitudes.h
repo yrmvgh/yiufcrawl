@@ -297,7 +297,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_MUMMY,           SK_THROWING,       -2),
     APT(SP_MUMMY,           SK_ARMOUR,         -2),
     APT(SP_MUMMY,           SK_DODGING,        -2),
-    APT(SP_MUMMY,           SK_STEALTH,        -1),
+    APT(SP_MUMMY,           SK_STEALTH,         0),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_MUMMY,           SK_STABBING,      UNUSABLE_SKILL),
 #endif
@@ -306,9 +306,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_MUMMY,           SK_TRAPS,         UNUSABLE_SKILL),
 #endif
     APT(SP_MUMMY,           SK_UNARMED_COMBAT, -2),
-    APT(SP_MUMMY,           SK_SPELLCASTING,    1),
+    APT(SP_MUMMY,           SK_SPELLCASTING,    0),
     APT(SP_MUMMY,           SK_CONJURATIONS,   -2),
-    APT(SP_MUMMY,           SK_HEXES,          -1),
+    APT(SP_MUMMY,           SK_HEXES,           0),
     APT(SP_MUMMY,           SK_CHARMS,         -2),
     APT(SP_MUMMY,           SK_SUMMONINGS,     -2),
     APT(SP_MUMMY,           SK_NECROMANCY,      0),
@@ -319,7 +319,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_MUMMY,           SK_AIR_MAGIC,      -2),
     APT(SP_MUMMY,           SK_EARTH_MAGIC,    -2),
     APT(SP_MUMMY,           SK_POISON_MAGIC,   -2),
-    APT(SP_MUMMY,           SK_INVOCATIONS,    -1),
+    APT(SP_MUMMY,           SK_INVOCATIONS,     0),
     APT(SP_MUMMY,           SK_EVOCATIONS,     -2),
 
     // SP_NAGA
