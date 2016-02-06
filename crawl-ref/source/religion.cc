@@ -306,10 +306,10 @@ const vector<god_power> god_powers[NUM_GODS] =
 
     // Sif Muna
     { { 1, ABIL_SIF_MUNA_CHANNEL_ENERGY, "tap ambient magical fields" },
-      { 2, ABIL_SIF_MUNA_FORGET_SPELL, "freely open your mind to new spells",
-                                       "forget spells at will" },
-      { 4, "Sif Muna is protecting you from the effects of miscast magic.",
+      { 2, "Sif Muna is protecting you from the effects of miscast magic.",
            "Sif Muna no longer protects you from the effects of miscast magic." },
+      { 4, ABIL_SIF_MUNA_FORGET_SPELL, "freely open your mind to new spells",
+          "forget spells at will" },
     },
 
     // Trog
@@ -1972,7 +1972,7 @@ bool do_god_gift(bool forced)
                 // Replace a Kiku gift by a custom-random book.
                 if (you_worship(GOD_KIKUBAAQUDGHA))
                 {
-                    make_book_Kiku_gift(mitm[thing_created],
+                    make_book_kiku_gift(mitm[thing_created],
                                         gift == BOOK_NECROMANCY);
                 }
                 if (thing_created == NON_ITEM)

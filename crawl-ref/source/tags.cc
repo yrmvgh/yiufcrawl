@@ -4150,8 +4150,11 @@ void unmarshallItem(reader &th, item_def &item)
             item.flags |= ISFLAG_KNOW_TYPE;
     }
 
-    if (item.is_type(OBJ_POTIONS, POT_WATER))
-        item.sub_type = POT_POISON;
+    if (item.is_type(OBJ_POTIONS, POT_WATER)
+        || item.is_type(OBJ_POTIONS, POT_POISON))
+    {
+        item.sub_type = POT_DEGENERATION;
+    }
     if (item.is_type(OBJ_STAVES, STAFF_CHANNELING))
         item.sub_type = STAFF_ENERGY;
 

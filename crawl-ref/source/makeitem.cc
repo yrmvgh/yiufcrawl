@@ -1424,7 +1424,7 @@ static void _generate_potion_item(item_def& item, int force_type,
             // total weight is 1065
             stype = random_choose_weighted(192, POT_CURING,
                                             95, POT_HEAL_WOUNDS,
-                                            72, POT_POISON,
+                                            72, POT_DEGENERATION,
                                             72, POT_LIGNIFY,
                                             72, POT_FLIGHT,
                                             66, POT_MIGHT,
@@ -1443,14 +1443,15 @@ static void _generate_potion_item(item_def& item, int force_type,
                                              2, POT_EXPERIENCE,
                                              0);
         }
-        while (stype == POT_POISON && item_level < 1
-               // Too dangerous on monsters early on
-               || stype == POT_BERSERK_RAGE && item_level < 2
-               || (agent == GOD_XOM && _is_boring_item(OBJ_POTIONS, stype)
-                   && --tries > 0));
+        while (agent == GOD_XOM
+               && _is_boring_item(OBJ_POTIONS, stype)
+               && --tries > 0);
 
         item.sub_type = stype;
     }
+    // don't let monsters pickup early dangerous potions
+    if (item_level < 2 && item.sub_type == POT_BERSERK_RAGE)
+        item.flags |= ISFLAG_NO_PICKUP;
 }
 
 static void _generate_scroll_item(item_def& item, int force_type,
@@ -1497,8 +1498,8 @@ static void _generate_scroll_item(item_def& item, int force_type,
         }
         while (item.sub_type == NUM_SCROLLS
                || agent == GOD_XOM
-               && _is_boring_item(OBJ_SCROLLS, item.sub_type)
-               && --tries > 0);
+                  && _is_boring_item(OBJ_SCROLLS, item.sub_type)
+                  && --tries > 0);
     }
 
     if (one_chance_in(24))
@@ -1817,8 +1818,7 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
                                       MISC_SACK_OF_SPIDERS,
                                       MISC_CRYSTAL_BALL_OF_ENERGY,
                                       MISC_LANTERN_OF_SHADOWS,
-                                      MISC_PHANTOM_MIRROR,
-                                      MISC_XOMS_CHESSBOARD);
+                                      MISC_PHANTOM_MIRROR);
     }
 
     // set initial charges

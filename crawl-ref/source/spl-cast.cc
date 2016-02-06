@@ -1150,7 +1150,7 @@ static double _chance_miscast_prot()
 {
     double miscast_prot = 0;
 
-    if (in_good_standing(GOD_SIF_MUNA, 3))
+    if (in_good_standing(GOD_SIF_MUNA, 1))
         miscast_prot = (double) you.piety/piety_breakpoint(5);
 
     return min(1.0, miscast_prot);
@@ -1669,9 +1669,6 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_STICKS_TO_SNAKES:
         return cast_sticks_to_snakes(powc, god, fail);
 
-    case SPELL_SUMMON_SWARM:
-        return cast_summon_swarm(powc, god, fail);
-
     case SPELL_CALL_CANINE_FAMILIAR:
         return cast_call_canine_familiar(powc, god, fail);
 
@@ -1835,9 +1832,6 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_SWIFTNESS:
         return cast_swiftness(powc, fail);
 
-    case SPELL_STONESKIN:
-        return cast_stoneskin(powc, fail);
-
     case SPELL_CONDENSATION_SHIELD:
         return cast_condensation_shield(powc, fail);
 
@@ -1947,6 +1941,8 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_TWISTED_RESURRECTION:
     case SPELL_SURE_BLADE:
     case SPELL_FLY:
+    case SPELL_STONESKIN:
+    case SPELL_SUMMON_SWARM:
         mpr("Sorry, this spell is gone!");
         return SPRET_ABORT;
 #endif

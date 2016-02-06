@@ -4038,9 +4038,6 @@ static tileidx_t _tileidx_misc(const item_def &item)
         return evoker_is_charged(item) ? TILE_MISC_PHIAL_OF_FLOODS
                                        : TILE_MISC_PHIAL_OF_FLOODS_INERT;
 
-    case MISC_XOMS_CHESSBOARD:
-        return _modrng(item.rnd, TILE_MISC_CHESSPIECE_FIRST, TILE_MISC_CHESSPIECE_LAST);
-
     case MISC_LANTERN_OF_SHADOWS:
         return TILE_MISC_LANTERN_OF_SHADOWS;
 
@@ -4832,11 +4829,7 @@ tileidx_t tileidx_spell(spell_type spell)
     // Rod-only spells
     case SPELL_PARALYSE:                 return TILEG_PARALYSE;
     case SPELL_BOLT_OF_INACCURACY:       return TILEG_BOLT_OF_INACCURACY;
-    case SPELL_SUMMON_SWARM:             return TILEG_SUMMON_SWARM;
     case SPELL_THUNDERBOLT:              return TILEG_THUNDERBOLT;
-#if TAG_MAJOR_VERSION == 34
-    case SPELL_MELEE:                    return TILEG_MELEE;
-#endif
     case SPELL_EXPLOSIVE_BOLT:           return TILEG_EXPLOSIVE_BOLT;
     case SPELL_WEAVE_SHADOWS:            return TILEG_WEAVE_SHADOWS;
     case SPELL_CLOUD_CONE:               return TILEG_CLOUD_CONE;

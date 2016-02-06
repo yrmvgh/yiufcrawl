@@ -561,6 +561,7 @@ static const struct spell_desc spelldata[] =
     nullptr,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {
     SPELL_SUMMON_SWARM, "Summon Swarm",
     SPTYP_SUMMONING,
@@ -571,6 +572,7 @@ static const struct spell_desc spelldata[] =
     4, 0,
     nullptr,
 },
+#endif
 
 {
     SPELL_SUMMON_HORRIBLE_THINGS, "Summon Horrible Things",
@@ -1325,7 +1327,7 @@ static const struct spell_desc spelldata[] =
     SPELL_PASSWALL, "Passwall",
     SPTYP_TRANSMUTATION | SPTYP_EARTH,
     SPFLAG_DIR | SPFLAG_ESCAPE | SPFLAG_NOT_SELF | SPFLAG_UTILITY,
-    3,
+    2,
     200,
     1, 1,
     0, 0, // make silent to keep passwall a viable stabbing spell [rob]
@@ -1559,7 +1561,7 @@ static const struct spell_desc spelldata[] =
 {
     SPELL_STONESKIN, "Stoneskin",
     SPTYP_EARTH | SPTYP_TRANSMUTATION,
-    SPFLAG_HELPFUL | SPFLAG_UTILITY | SPFLAG_NO_GHOST,
+    SPFLAG_HELPFUL | SPFLAG_UTILITY | SPFLAG_NO_GHOST | SPFLAG_MONSTER,
     2,
     100,
     -1, -1,

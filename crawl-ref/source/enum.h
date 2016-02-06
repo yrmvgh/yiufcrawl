@@ -3878,8 +3878,8 @@ enum potion_type
     POT_GAIN_INTELLIGENCE,
 #endif
     POT_FLIGHT,
-    POT_POISON,
 #if TAG_MAJOR_VERSION == 34
+    POT_POISON,
     POT_SLOWING,
 #endif
     POT_CANCELLATION,
@@ -3887,7 +3887,9 @@ enum potion_type
     POT_INVISIBILITY,
 #if TAG_MAJOR_VERSION == 34
     POT_PORRIDGE,
+#endif
     POT_DEGENERATION,
+#if TAG_MAJOR_VERSION == 34
     POT_DECAY,
     POT_WATER,
 #endif
@@ -4227,7 +4229,9 @@ enum spell_type
     SPELL_FIRE_STORM,
     SPELL_BLINK,
     SPELL_ISKENDERUNS_MYSTIC_BLAST,
+#if TAG_MAJOR_VERSION == 34
     SPELL_SUMMON_SWARM,
+#endif
     SPELL_SUMMON_HORRIBLE_THINGS,
     SPELL_ENSLAVEMENT,
     SPELL_ANIMATE_DEAD,
@@ -4865,9 +4869,6 @@ enum seen_context_type
     SC_NEWLY_SEEN,      // regular walking into view
     SC_ALREADY_SEEN,    // wasn't a threat before, is now
     SC_TELEPORT_IN,
-    SC_SURFACES,                      // land-capable
-    SC_SURFACES_BRIEFLY,              // land-capable, submerged back
-    SC_FISH_SURFACES_SHOUT,           // water/lava-only, shouting
     SC_FISH_SURFACES,                 // water/lava-only
     SC_NONSWIMMER_SURFACES_FROM_DEEP, // impossible?!?
     SC_UNCHARM,
