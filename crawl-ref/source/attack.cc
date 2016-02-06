@@ -1418,10 +1418,10 @@ int attack::test_hit(int to_land, int ev, bool randomise_ev)
     else
         margin = to_land - ev;
 
-#ifdef DEBUG_DIAGNOSTICS
+//#ifdef DEBUG_DIAGNOSTICS
     dprf(DIAG_COMBAT, "to hit: %d; ev: %d; result: %s (%d)",
          to_hit, ev, (margin >= 0) ? "hit" : "miss", margin);
-#endif
+//#endif
 
     return margin;
 }

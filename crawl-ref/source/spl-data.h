@@ -1312,11 +1312,11 @@ static const struct spell_desc spelldata[] =
 #endif
 {
     SPELL_FLAME_TONGUE, "Flame Tongue",
-    SPTYP_CONJURATION | SPTYP_FIRE,
+    SPTYP_FIRE,
     SPFLAG_DIR_OR_TARGET | SPFLAG_NOT_SELF | SPFLAG_NEEDS_TRACER,
     1,
     40, // cap for range; damage cap is at 25
-    2, 5,
+    2, 2,
     1, 0,
     nullptr,
 },

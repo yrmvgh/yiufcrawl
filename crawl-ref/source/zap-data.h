@@ -830,7 +830,7 @@ static const zap_info zap_data[] =
     ZAP_FLAME_TONGUE,
     "flame tongue",
     25,
-    new dicedef_calculator<1, 8, 1, 4>,
+    new dicedef_calculator<3, 3, 1, 10>,
     new tohit_calculator<11, 1, 6>,
     RED,
     false,
