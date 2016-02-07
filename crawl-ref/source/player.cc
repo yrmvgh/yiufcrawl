@@ -1331,7 +1331,7 @@ int player_spell_levels()
 int player_likes_chunks(bool permanently)
 {
     return you.gourmand(true, !permanently)
-           ? 3 : player_mutation_level(MUT_CARNIVOROUS);
+           ? 3 : player_mutation_level(MUT_CARNIVOROUS) || you.species == SP_DJINNI;
 }
 
 // If temp is set to false, temporary sources or resistance won't be counted.

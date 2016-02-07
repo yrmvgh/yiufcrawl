@@ -59,7 +59,8 @@ void make_hungry(int hunger_amount, bool suppress_msg,
         if (!magic)
             return;
 
-        contaminate_player(hunger_amount * 4 / 3, true);
+        // instead of contamination, djinni don't get natural regeneration of any kind, but must eat to replenish essence
+//        contaminate_player(hunger_amount * 4 / 3, true);
         return;
     }
 
@@ -994,6 +995,11 @@ static void _eat_chunk(item_def& food)
         break;
     }
 
+    if (you.species == SP_DJINNI)
+    {
+    	you.heal(9999);
+    }
+
     if (do_eat)
     {
         dprf("nutrition: %d", nutrition);
@@ -1012,6 +1018,10 @@ static void _eating(item_def& food)
 
     // use delay.parm3 to figure out whether to output "finish eating"
     start_delay(DELAY_EAT, duration, 0, food.sub_type, duration);
+    if (you.species == SP_DJINNI && food_value > 0)
+    {
+    	you.heal(9999);
+    }
 
     lessen_hunger(food_value, true);
 }
@@ -1190,6 +1200,11 @@ bool is_noxious(const item_def &food)
 // be eaten (respecting species and mutations set).
 bool is_inedible(const item_def &item)
 {
+	// DJINNI can eat anything.
+	if (you.species == SP_DJINNI) {
+		return false;
+	}
+
     // Mummies and liches don't eat.
     if (you_foodless(true))
         return true;
@@ -1228,6 +1243,10 @@ bool is_inedible(const item_def &item)
 // still be edible or even delicious.
 bool is_preferred_food(const item_def &food)
 {
+	if (you.species == SP_DJINNI) {
+		return true;
+	}
+
     // Mummies and liches don't eat.
     if (you_foodless(true))
         return false;
@@ -1286,6 +1305,9 @@ bool is_forbidden_food(const item_def &food)
  */
 bool can_eat(const item_def &food, bool suppress_msg, bool check_hunger)
 {
+	if(you.species == SP_DJINNI) {
+		return true;
+	}
 #define FAIL(msg) { if (!suppress_msg) mpr(msg); return false; }
     ASSERT(food.base_type == OBJ_FOOD || food.base_type == OBJ_CORPSES);
 
@@ -1368,7 +1390,7 @@ corpse_effect_type determine_chunk_effect(corpse_effect_type chunktype)
     {
     case CE_NOXIOUS:
     case CE_MUTAGEN:
-        if (you.species == SP_GHOUL || you.species == SP_VAMPIRE)
+        if (you.species == SP_GHOUL || you.species == SP_VAMPIRE || you.species == SP_DJINNI)
             chunktype = CE_CLEAN;
         break;
 

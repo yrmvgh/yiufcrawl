@@ -778,14 +778,13 @@ static const map<species_type, species_def> species_data =
     "Dj",
     "Djinni", "Djinn", nullptr,
     SPF_NONE,
-    -1, -1, -1,
+    0, 0, 0,
     9, 3,
     MONS_DJINNI,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     8, 8, 8, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    { STAT_STR, STAT_INT, STAT_DEX }, 5,
     {
-    		{ MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 },
     },
     { "You are immune to all types of fire, even holy and hellish.",
       "You are vulnerable to cold.",

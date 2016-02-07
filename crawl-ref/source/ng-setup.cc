@@ -318,7 +318,7 @@ static void _give_items_skills(const newgame_def& ng)
 static void _give_starting_food()
 {
     // No food for those who don't need it.
-    if (you_foodless())
+    if (you_foodless(true))
         return;
 
     object_class_type base_type = OBJ_FOOD;
@@ -335,6 +335,11 @@ static void _give_starting_food()
     // Give another one for hungry species.
     if (player_mutation_level(MUT_FAST_METABOLISM))
         quantity = 2;
+
+    // Since they can only regenerate with food, give them a fighting chance at the beginning
+    if (you.species == SP_DJINNI) {
+    	quantity = 10;
+    }
 
     newgame_make_item(base_type, sub_type, quantity);
 }

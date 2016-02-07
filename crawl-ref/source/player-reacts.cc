@@ -832,7 +832,7 @@ static void _rot_ghoul_players()
 // you.max_magic_points
 static void _regenerate_hp_and_mp(int delay)
 {
-    if (crawl_state.disables[DIS_PLAYER_REGEN])
+	if (you.species == SP_DJINNI || crawl_state.disables[DIS_PLAYER_REGEN])
         return;
 
     if (!you.duration[DUR_DEATHS_DOOR])
@@ -861,7 +861,7 @@ static void _regenerate_hp_and_mp(int delay)
     if (!player_regenerates_mp())
         return;
 
-    if (you.magic_points < you.max_magic_points || you.species == SP_DJINNI)
+    if (you.magic_points < you.max_magic_points)
     {
         const int base_val = 7 + you.max_magic_points / 2;
         int mp_regen_countup = div_rand_round(base_val * delay, BASELINE_DELAY);
