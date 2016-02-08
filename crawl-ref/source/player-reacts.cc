@@ -832,7 +832,7 @@ static void _rot_ghoul_players()
 // you.max_magic_points
 static void _regenerate_hp_and_mp(int delay)
 {
-	if (you.species == SP_DJINNI || crawl_state.disables[DIS_PLAYER_REGEN])
+	if (crawl_state.disables[DIS_PLAYER_REGEN])
         return;
 
     if (!you.duration[DUR_DEATHS_DOOR])

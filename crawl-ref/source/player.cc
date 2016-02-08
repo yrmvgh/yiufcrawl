@@ -1164,6 +1164,23 @@ int player_regen()
             rr += 10; // Bonus regeneration for full vampires.
     }
 
+    // Healing depending on satiation.
+    // The better-fed you are, the faster you heal.
+    if (you.species == SP_DJINNI)
+    {
+    	const int food = you.hunger;
+        if (food < HUNGER_VERY_HUNGRY)
+        	rr = 0;
+        else if (food < HUNGER_SATIATED)
+        	rr >>= 1;
+        else if (food < HUNGER_FULL)
+        	rr <<= 1;
+        else if (food < HUNGER_VERY_FULL)
+        	rr <<= 2;
+        else
+        	rr <<= 3;
+    }
+
     // Slow regeneration mutation.
     if (player_mutation_level(MUT_SLOW_REGENERATION) > 0)
     {
@@ -1331,7 +1348,7 @@ int player_spell_levels()
 int player_likes_chunks(bool permanently)
 {
     return you.gourmand(true, !permanently)
-           ? 3 : player_mutation_level(MUT_CARNIVOROUS) || you.species == SP_DJINNI;
+           ? 3 : player_mutation_level(MUT_CARNIVOROUS);
 }
 
 // If temp is set to false, temporary sources or resistance won't be counted.
@@ -3993,6 +4010,11 @@ void inc_mp(int mp_gain, bool silent)
 // To avoid message spam, don't take notes when HP increases.
 void inc_hp(int hp_gain)
 {
+    if(you.species == SP_DJINNI && you.hunger <= 1000) {
+    	// djinni can't gain health when out of food
+    	return;
+    }
+
     ASSERT(!crawl_state.game_is_arena());
 
     if (hp_gain < 1 || you.hp >= you.hp_max)
@@ -4007,6 +4029,10 @@ void inc_hp(int hp_gain)
         interrupt_activity(AI_FULL_HP);
 
     you.redraw_hit_points = true;
+    if(you.species == SP_DJINNI) {
+    	you.hunger -= hp_gain * 10;
+    	if(you.hunger < 1000) you.hunger = 1000;
+    }
 }
 
 void rot_hp(int hp_loss)

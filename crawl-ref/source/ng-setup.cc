@@ -336,9 +336,9 @@ static void _give_starting_food()
     if (player_mutation_level(MUT_FAST_METABOLISM))
         quantity = 2;
 
-    // Since they can only regenerate with food, give them a fighting chance at the beginning
+    // Since they require food to regen, give them a fighting chance at the beginning
     if (you.species == SP_DJINNI) {
-    	quantity = 10;
+    	quantity = 3;
     }
 
     newgame_make_item(base_type, sub_type, quantity);

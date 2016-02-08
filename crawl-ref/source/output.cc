@@ -21,6 +21,7 @@
 #include "english.h"
 #include "env.h"
 #include "files.h"
+#include "food.h"
 #include "godabil.h"
 #include "godpassive.h"
 #include "initfile.h"
@@ -474,7 +475,7 @@ static colour_bar MP_Bar(BLUE, BLUE, LIGHTBLUE, DARKGREY);
 static colour_bar MP_Bar(LIGHTBLUE, BLUE, MAGENTA, DARKGREY);
 #endif
 
-colour_bar Contam_Bar(DARKGREY, DARKGREY, DARKGREY, DARKGREY);
+colour_bar Food_Bar(DARKGREY, DARKGREY, DARKGREY, DARKGREY);
 colour_bar Temp_Bar(RED, LIGHTRED, LIGHTBLUE, DARKGREY);
 
 // ----------------------------------------------------------------------
@@ -632,51 +633,54 @@ static void _print_stats_mp(int x, int y)
     MP_Bar.draw(19, y, you.magic_points, you.max_magic_points);
 }
 
-static void _print_stats_contam(int x, int y)
+static void _print_stats_food(int x, int y)
 {
     if (you.species != SP_DJINNI)
         return;
 
-    const int max_contam = 8000;
-    int contam = min(you.magic_contamination, max_contam);
+    const int max_food = HUNGER_MAXIMUM;
+    int food = min(you.hunger, max_food);
+
+    CGOTOXY(x+6, y, GOTO_STAT);
+    CPRINTF("%d", food);
 
     // Calculate colour
-    if (you.magic_contamination > 15000)
+    if (food < HUNGER_STARVING)
     {
-        Contam_Bar.m_default = RED;
-        Contam_Bar.m_change_pos = Contam_Bar.m_change_neg = RED;
+        Food_Bar.m_default = RED;
+        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
     }
-    else if (you.magic_contamination > 5000) // harmful
+    else if (food < HUNGER_VERY_HUNGRY)
     {
-        Contam_Bar.m_default = LIGHTRED;
-        Contam_Bar.m_change_pos = Contam_Bar.m_change_neg = RED;
+        Food_Bar.m_default = LIGHTRED;
+        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
     }
-    else if (you.magic_contamination > 3333)
+    else if (food < HUNGER_SATIATED)
     {
-        Contam_Bar.m_default = YELLOW;
-        Contam_Bar.m_change_pos = Contam_Bar.m_change_neg = BROWN;
+        Food_Bar.m_default = YELLOW;
+        Food_Bar.m_change_pos = Food_Bar.m_change_neg = BROWN;
     }
-    else if (you.magic_contamination > 1666)
+    else if (food < HUNGER_FULL)
     {
-        Contam_Bar.m_default = LIGHTGREY;
-        Contam_Bar.m_change_pos = Contam_Bar.m_change_neg = DARKGREY;
+        Food_Bar.m_default = GREEN;
+        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
     }
     else
     {
 #ifdef USE_TILE_LOCAL
-        Contam_Bar.m_default = LIGHTGREY;
+        Food_Bar.m_default = LIGHTGREEN;
 #else
-        Contam_Bar.m_default = DARKGREY;
+        Food_Bar.m_default = LIGHTGREEN;
 #endif
-        Contam_Bar.m_change_pos = Contam_Bar.m_change_neg = DARKGREY;
+        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
     }
 
 #ifdef TOUCH_UI
     if (tiles.is_using_small_layout())
-        Contam_Bar.vdraw(6, 10, contam, max_contam);
+        Contam_Bar.vdraw(6, 10, food, max_food);
     else
 #endif
-    Contam_Bar.draw(19, y, contam, max_contam);
+    Food_Bar.draw(19, y, food, max_food);
 }
 
 static void _print_stats_hp(int x, int y)
@@ -1258,7 +1262,7 @@ void print_stats()
         you.redraw_magic_points = false;
         _print_stats_mp(1, 4);
     }
-    _print_stats_contam(1, 4);
+    _print_stats_food(1, 4);
     if (you.redraw_temperature)
     {
         you.redraw_temperature = false;
@@ -1410,7 +1414,7 @@ void draw_border()
     //CGOTOXY(1, 3, GOTO_STAT); CPRINTF("Hp:");
     CGOTOXY(1, mp_pos, GOTO_STAT);
     if (you.species == SP_DJINNI)
-        CPRINTF("Contam:");
+        CPRINTF("Food:");
     CGOTOXY(1, ac_pos, GOTO_STAT); CPRINTF("AC:");
     CGOTOXY(1, ev_pos, GOTO_STAT); CPRINTF("EV:");
     CGOTOXY(1, sh_pos, GOTO_STAT); CPRINTF("SH:");
