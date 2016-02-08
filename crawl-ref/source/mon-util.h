@@ -211,7 +211,7 @@ bool mons_is_pghost(monster_type mc);
 bool mons_is_draconian_job(monster_type mc);
 bool mons_is_demonspawn_job(monster_type mc);
 bool mons_is_job(monster_type mc);
-bool mons_is_helpal_familiar(monster_type mc);
+bool mons_is_hepliaklqanal_ancestor(monster_type mc);
 
 int mutant_beast_tier(int xl);
 

@@ -210,18 +210,18 @@ void wizard_list_companions()
 }
 
 /**
- * Returns the mid of the current familiar granted by Helpal, if any. If none
+ * Returns the mid of the current ancestor granted by Hepliaklqanal, if any. If none
  * exists, returns MID_NOBODY.
  *
- * The familiar is *not* guaranteed to be on-level, even if it exists; check
+ * The ancestor is *not* guaranteed to be on-level, even if it exists; check
  * the companion_list before doing anything rash!
  *
- * @return  The mid_t of the player's familiar, or MID_NOBODY if none exists.
+ * @return  The mid_t of the player's ancestor, or MID_NOBODY if none exists.
  */
-mid_t helpal_familiar()
+mid_t hepliaklqanal_ancestor()
 {
     for (auto &entry : companion_list)
-        if (mons_is_helpal_familiar(entry.second.mons.mons.type)) // sanity
+        if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type)) // sanity
             return entry.first;
     return MID_NOBODY;
 }

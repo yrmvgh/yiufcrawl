@@ -2568,14 +2568,14 @@ item_def* monster_die(monster* mons, killer_type killer,
         && !(mons->flags & MF_BANISHED))
     {
         remove_companion(mons);
-        if (mons_is_helpal_familiar(mons->type))
+        if (mons_is_hepliaklqanal_ancestor(mons->type))
         {
-            ASSERT(helpal_familiar() == MID_NOBODY);
-            helpal_on_deathswap(mons->pos(), true);
+            ASSERT(hepliaklqanal_ancestor() == MID_NOBODY);
+            hepliaklqanal_on_deathswap(mons->pos(), true);
             if (!you.can_see(*mons))
             {
                 mprf("%s has departed this plane of existence.",
-                     helpal_ally_name().c_str());
+                     hepliaklqanal_ally_name().c_str());
             }
         }
     }

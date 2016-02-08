@@ -1504,14 +1504,14 @@ bool mons_is_or_was_unique(const monster& mon)
 }
 
 /**
- * Is the given type one of Helpal's granted familiars?
+ * Is the given type one of Hepliaklqanal's granted ancestors?
  *
  * @param mc    The type of monster in question.
- * @return      Whether that monster is a familiar.
+ * @return      Whether that monster is a player ancestor.
  */
-bool mons_is_helpal_familiar(monster_type mc)
+bool mons_is_hepliaklqanal_ancestor(monster_type mc)
 {
-    return mons_class_flag(mc, M_FAMILIAR);
+    return mons_class_flag(mc, M_ANCESTOR);
 }
 
 /**

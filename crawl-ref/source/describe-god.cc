@@ -202,7 +202,7 @@ static const char *divine_title[][8] =
     {"Reactionary",       "Apprentice",             "Inquisitive",              "Experimenter",
         "Inventor",           "Pioneer",               "Brilliant",                "Grand Gadgeteer"},
 
-    // Helpal -- demonic helpfulness theme <obvious placeholder>
+    // Hepliaklqanal -- demonic helpfulness theme <obvious placeholder>
     {"Angenemy",       "Impal",             "Chumdemon",              "Hell Helper",
         "Lorocyprocally",           "Rakshassociate",               "Friendevil",                "Lord of Bros"},
 };

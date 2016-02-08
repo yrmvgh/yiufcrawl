@@ -21,8 +21,8 @@ enum nemelex_gift_types
 #define ACQUIRE_KEY "acquired" // acquirement source prop on acquired items
 
 /// set of possible death effects the player can choose between
-#define HELPAL_DEATH_POSSIBILTIES_KEY "helpal_death_possibilities"
+#define HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY "hepliaklqanal_death_possibilities"
  /// chosen on-death effect
-#define HELPAL_ALLY_DEATH_KEY "helpal_ally_death"
+#define HEPLIAKLQANAL_ALLY_DEATH_KEY "hepliaklqanal_ally_death"
 
 #endif

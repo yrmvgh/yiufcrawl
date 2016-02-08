@@ -6692,17 +6692,17 @@ bool pakellas_device_surge()
 }
 
 /**
- * Initialize the list of on-familiar-death effects available to the player,
+ * Initialize the list of on-ancestor-death effects available to the player,
  * if we haven't done so already.
  */
-void helpal_pick_death_types()
+void hepliaklqanal_pick_death_types()
 {
-    if (you.props.exists(HELPAL_DEATH_POSSIBILTIES_KEY))
+    if (you.props.exists(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY))
         return;
 
     // assumes death effects are contiguous
-    static const int num_types = 1 + ABIL_HELPAL_LAST_DEATH
-                                   - ABIL_HELPAL_FIRST_DEATH;
+    static const int num_types = 1 + ABIL_HEPLIAKLQANAL_LAST_DEATH
+                                   - ABIL_HEPLIAKLQANAL_FIRST_DEATH;
     static const int to_choose = 3;
 
     // In Knuth's notation, suppose you have N elements and you want to choose
@@ -6710,10 +6710,10 @@ void helpal_pick_death_types()
     // (n - m) / (N - t) where t is the number of elements visited so far,
     // and m is the number of elements chosen so far.
 
-    CrawlVector &chosen = you.props[HELPAL_DEATH_POSSIBILTIES_KEY].get_vector();
+    CrawlVector &chosen = you.props[HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY].get_vector();
     for (int t = 0; t < num_types; ++t)
         if (x_chance_in_y(to_choose - chosen.size(), num_types - t))
-            chosen.push_back(ABIL_HELPAL_FIRST_DEATH + t);
+            chosen.push_back(ABIL_HEPLIAKLQANAL_FIRST_DEATH + t);
 
     ASSERT(chosen.size() == to_choose);
 }
@@ -6725,19 +6725,19 @@ void helpal_pick_death_types()
  * @param death_type        The on-death effect; should be an ability enum.
  * @return                  Whether the player went through with the choice.
  */
-bool helpal_choose_death_type(int death_type)
+bool hepliaklqanal_choose_death_type(int death_type)
 {
     static const map<int, const char *> effect_descriptions = {
-        { ABIL_HELPAL_DEATH_SLOW, "slow nearby enemies" },
-        { ABIL_HELPAL_DEATH_IMPLODE, "send enemies crashing inward" },
-        { ABIL_HELPAL_DEATH_FOG, "create a cloud of concealing fog" },
-        { ABIL_HELPAL_DEATH_EXPLODE, "explode violently" },
-        { ABIL_HELPAL_DEATH_DISPERSE, "disperse nearby enemies" },
+        { ABIL_HEPLIAKLQANAL_DEATH_SLOW, "slow nearby enemies" },
+        { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE, "send enemies crashing inward" },
+        { ABIL_HEPLIAKLQANAL_DEATH_FOG, "create a cloud of concealing fog" },
+        { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE, "explode violently" },
+        { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "disperse nearby enemies" },
     };
 
     const char *const *death_desc = map_find(effect_descriptions, death_type);
     ASSERT(death_desc);
-    if (!yesno(make_stringf("Are you sure you want your familiar to %s after "
+    if (!yesno(make_stringf("Are you sure you want your ancestor to %s after "
                             "swapping or dying?", *death_desc).c_str(),
                false, 'n'))
     {
@@ -6745,16 +6745,16 @@ bool helpal_choose_death_type(int death_type)
         return false;
     }
 
-    you.props[HELPAL_ALLY_DEATH_KEY] = death_type;
+    you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY] = death_type;
     mpr("It is done!");
     return true;
 }
 
 /**
- * Apply Slow to all monsters near the familiar's last location.
+ * Apply Slow to all monsters near the ancestor's last location.
  *
  * @param loc       The center of the slow.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
 static void _on_deathswap_slow(const coord_def &loc, bool death)
 {
@@ -6762,61 +6762,61 @@ static void _on_deathswap_slow(const coord_def &loc, bool death)
     for (radius_iterator ri(loc, radius, C_SQUARE, LOS_DEFAULT); ri; ++ri)
     {
         monster* mon = monster_at(*ri);
-        if (mon && !mons_is_helpal_familiar(mon->type))
+        if (mon && !mons_is_hepliaklqanal_ancestor(mon->type))
             do_slow_monster(mon, nullptr); // XXX: scale dur by hd delta?
     }
 }
 
 /**
- * Cast Gell's Gravitas at the familiar's last location, sending enemies
+ * Cast Gell's Gravitas at the ancestor's last location, sending enemies
  * hurling toward it.
  *
  * @param loc       The center of the effect.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
 static void _on_deathswap_implode(const coord_def &loc, bool death)
 {
-    // actor is the familiar so that they aren't affected
+    // actor is the ancestor so that they aren't affected
     // player shouldn't be affected since they're already at the center
-    const mid_t familiar_mid = helpal_familiar();
-    actor* familiar = familiar_mid == MID_NOBODY ?
+    const mid_t ancestor_mid = hepliaklqanal_ancestor();
+    actor* ancestor = ancestor_mid == MID_NOBODY ?
                         nullptr :
-                        monster_by_mid(familiar_mid);
-    fatal_attraction(loc, familiar, death ? 40 : 100);
+                        monster_by_mid(ancestor_mid);
+    fatal_attraction(loc, ancestor, death ? 40 : 100);
 }
 
 /**
- * Create a cloud of smoke around the familiar's last location.
+ * Create a cloud of smoke around the ancestor's last location.
  *
  * @param loc       The center of the fog.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
 static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
     mprf("As %s %s, fog sprays out.",
-         helpal_ally_name().c_str(),
+         hepliaklqanal_ally_name().c_str(),
          death ? "dies" : "swaps");
     big_cloud(random_smoke_type(), &you, loc, 50,
               death ? 9 + random2(9) : 6 + random2(6));
 }
 
 /**
- * Explode, damaging non-familiar monsters in a radius around the familiar's
+ * Explode, damaging non-ancestor monsters in a radius around the ancestor's
  * last location.
  *
  * @param loc   The center of the explosion.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
 static void _on_deathswap_explode(const coord_def &loc, bool death)
 {
     bolt beam;
     beam.name         = "demonic viscera";
     beam.ex_size      = death ? 2 : 1;
-    beam.flavour      = BEAM_HELPAL_EXPLOSION;
+    beam.flavour      = BEAM_HEPLIAKLQANAL_EXPLOSION;
     beam.real_flavour = beam.flavour;
     beam.glyph        = dchar_glyph(DCHAR_FIRED_ZAP);
     beam.colour       = RED;
-    beam.source_id    = helpal_familiar();
+    beam.source_id    = hepliaklqanal_ancestor();
     beam.thrower      = KILL_MON;
     beam.aux_source.clear();
     beam.obvious_effect = false;
@@ -6836,42 +6836,42 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
 
 
 /**
- * Cast Dispersal at the familiar's last location, blinking and teleporting
+ * Cast Dispersal at the ancestor's last location, blinking and teleporting
  * enemies away.
  *
  * @param loc       The center of the effect.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
 static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
     mprf("As %s %s, translocational energy flares.",
-         helpal_ally_name().c_str(),
+         hepliaklqanal_ally_name().c_str(),
          death ? "dies" : "swaps");
     cast_dispersal(death ? 100 : 30, false, &loc);
 }
 
 typedef void (*deathswap_effect)(const coord_def&, bool);
 static const map<int, deathswap_effect> on_deathswap = {
-    { ABIL_HELPAL_DEATH_SLOW,       _on_deathswap_slow },
-    { ABIL_HELPAL_DEATH_IMPLODE,    _on_deathswap_implode },
-    { ABIL_HELPAL_DEATH_FOG,        _on_deathswap_fog },
-    { ABIL_HELPAL_DEATH_EXPLODE,    _on_deathswap_explode },
-    { ABIL_HELPAL_DEATH_DISPERSE,   _on_deathswap_disperse },
+    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,       _on_deathswap_slow },
+    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,    _on_deathswap_implode },
+    { ABIL_HEPLIAKLQANAL_DEATH_FOG,        _on_deathswap_fog },
+    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,    _on_deathswap_explode },
+    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE,   _on_deathswap_disperse },
 };
 
 /**
- * Activate the on-death/on-swap effect for a helpal ally.
+ * Activate the on-death/on-swap effect for a hepliaklqanal ally.
  *
  * @param loc       Where the effect should occur.
- * @param death     Whether the familiar actually died, or just swapped.
+ * @param death     Whether the ancestor actually died, or just swapped.
  */
-void helpal_on_deathswap(const coord_def &loc, bool death)
+void hepliaklqanal_on_deathswap(const coord_def &loc, bool death)
 {
     // haven't chosen an effect
-    if (!you.props.exists(HELPAL_ALLY_DEATH_KEY))
+    if (!you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
         return;
 
-    const int effect_type = you.props[HELPAL_ALLY_DEATH_KEY];
+    const int effect_type = you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY];
     const deathswap_effect* effect_func = map_find(on_deathswap, effect_type);
     ASSERT(effect_func);
     (*effect_func)(loc, death);

@@ -443,28 +443,28 @@ static const ability_def Ability_List[] =
         0, 0, 100, 2, abflag::NONE },
     { ABIL_PAKELLAS_SUPERCHARGE, "Supercharge", 0, 0, 0, 0, abflag::NONE },
 
-    // Helpal
-    { ABIL_HELPAL_RECALL, "Recall Familiar", 2, 0, 50, 0, abflag::NONE },
-    { ABIL_HELPAL_REBIND, "Rebind Familiar", 5, 0, 100, 10, abflag::NONE },
-    { ABIL_HELPAL_LASH, "Lash Familiar", 2, 0, 50, 0, abflag::NONE },
-    { ABIL_HELPAL_SWAP, "Swap With Familiar", 2, 0, 50, 3, abflag::NONE },
+    // Hepliaklqanal
+    { ABIL_HEPLIAKLQANAL_RECALL, "Recall Ancestor", 2, 0, 50, 0, abflag::NONE },
+    { ABIL_HEPLIAKLQANAL_REMEMBER, "Remember Ancestor", 5, 0, 100, 10, abflag::NONE },
+    { ABIL_HEPLIAKLQANAL_LASH, "Lash Ancestor", 2, 0, 50, 0, abflag::NONE },
+    { ABIL_HEPLIAKLQANAL_SWAP, "Swap With Ancestor", 2, 0, 50, 3, abflag::NONE },
 
-    { ABIL_HELPAL_TYPE_DEFENDER,  "Familiar Type: Defender",
+    { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER,  "Ancestor Type: Knight",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_TYPE_ATTACKER,  "Familiar Type: Attacker",
+    { ABIL_HEPLIAKLQANAL_TYPE_WIZARD,  "Ancestor Type: Battlemage",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_TYPE_SUPPORTER, "Familiar Type: Supporter",
+    { ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER, "Ancestor Type: Hexer",
         0, 0, 0, 0, abflag::NONE },
 
-    { ABIL_HELPAL_DEATH_SLOW,     "Death Effect: Slow",
+    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,     "Deathwish: Slow",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_DEATH_FOG,      "Death Effect: Fog",
+    { ABIL_HEPLIAKLQANAL_DEATH_FOG,      "Deathwish: Fog",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_DEATH_EXPLODE,  "Death Effect: Explode",
+    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,  "Deathwish: Explode",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_DEATH_DISPERSE, "Death Effect: Disperse",
+    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "Deathwish: Disperse",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HELPAL_DEATH_IMPLODE,  "Death Effect: Implode",
+    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,  "Deathwish: Implode",
         0, 0, 0, 0, abflag::NONE },
 
 
@@ -798,17 +798,17 @@ ability_type fixup_ability(ability_type ability)
         else
             return ability;
 
-    // only available while your familiar is alive.
-    case ABIL_HELPAL_LASH:
-    case ABIL_HELPAL_RECALL:
-    case ABIL_HELPAL_SWAP:
-        if (helpal_familiar() == MID_NOBODY)
+    // only available while your ancestor is alive.
+    case ABIL_HEPLIAKLQANAL_LASH:
+    case ABIL_HEPLIAKLQANAL_RECALL:
+    case ABIL_HEPLIAKLQANAL_SWAP:
+        if (hepliaklqanal_ancestor() == MID_NOBODY)
             return ABIL_NON_ABILITY;
         return ability;
 
-    // only available while your familiar is dead.
-    case ABIL_HELPAL_REBIND:
-        if (helpal_familiar() != MID_NOBODY)
+    // only available while your ancestor is dead.
+    case ABIL_HEPLIAKLQANAL_REMEMBER:
+        if (hepliaklqanal_ancestor() != MID_NOBODY)
             return ABIL_NON_ABILITY;
         return ability;
 
@@ -977,14 +977,14 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
-    case ABIL_HELPAL_DEATH_SLOW:
-    case ABIL_HELPAL_DEATH_FOG:
-    case ABIL_HELPAL_DEATH_EXPLODE:
-    case ABIL_HELPAL_DEATH_DISPERSE:
-    case ABIL_HELPAL_DEATH_IMPLODE:
-    case ABIL_HELPAL_TYPE_ATTACKER:
-    case ABIL_HELPAL_TYPE_DEFENDER:
-    case ABIL_HELPAL_TYPE_SUPPORTER:
+    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
+    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
+    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANAL_TYPE_WIZARD:
+    case ABIL_HEPLIAKLQANAL_TYPE_FIGHTER:
+    case ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -1021,8 +1021,8 @@ talent get_talent(ability_type ability, bool check_confused)
 
     case ABIL_ZIN_RECITE:
     case ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS:
-    case ABIL_HELPAL_RECALL:
-    case ABIL_HELPAL_REBIND:
+    case ABIL_HEPLIAKLQANAL_RECALL:
+    case ABIL_HEPLIAKLQANAL_REMEMBER:
     case ABIL_OKAWARU_HEROISM:
     case ABIL_ELYVILON_LESSER_HEALING:
     case ABIL_LUGONU_ABYSS_EXIT:
@@ -1057,7 +1057,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_LUGONU_BEND_SPACE:
     case ABIL_FEDHAS_PLANT_RING:
     case ABIL_QAZLAL_UPHEAVAL:
-    case ABIL_HELPAL_LASH:
+    case ABIL_HEPLIAKLQANAL_LASH:
         invoc = true;
         failure = 40 - (you.piety / 20) - you.skill(SK_INVOCATIONS, 5);
         break;
@@ -1100,7 +1100,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_YRED_DRAIN_LIFE:
     case ABIL_CHEIBRIADOS_SLOUCH:
     case ABIL_OKAWARU_FINESSE:
-    case ABIL_HELPAL_SWAP:
+    case ABIL_HEPLIAKLQANAL_SWAP:
         invoc = true;
         failure = 60 - (you.piety / 25) - you.skill(SK_INVOCATIONS, 4);
         break;
@@ -3128,26 +3128,26 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HELPAL_LASH:
+    case ABIL_HEPLIAKLQANAL_LASH:
     {
-        const mid_t familiar_mid = helpal_familiar();
-        if (familiar_mid == MID_NOBODY)
+        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        if (ancestor_mid == MID_NOBODY)
         {
-            mpr("You have no familiar to lash!");
+            mpr("You have no ancestor to lash!");
             return SPRET_ABORT;
         }
 
-        monster *familiar = monster_by_mid(familiar_mid);
-        if (!familiar || !you.can_see(*familiar))
+        monster *ancestor = monster_by_mid(ancestor_mid);
+        if (!ancestor || !you.can_see(*ancestor))
         {
-            mprf("%s is not nearby!", helpal_ally_name().c_str());
+            mprf("%s is not nearby!", hepliaklqanal_ally_name().c_str());
             return SPRET_ABORT;
         }
 
-        if (familiar->has_ench(ENCH_FATIGUE))
+        if (ancestor->has_ench(ENCH_FATIGUE))
         {
             mprf("%s is too tired to be lashed further this soon!",
-                 familiar->name(DESC_YOUR).c_str());
+                 ancestor->name(DESC_YOUR).c_str());
             return SPRET_ABORT;
         }
 
@@ -3155,83 +3155,83 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
         simple_god_message(
             make_stringf(" lashes %s into action!",
-                         familiar->name(DESC_YOUR).c_str()).c_str());
-        familiar->hit_points = ((familiar->hit_points - 1) / 2) + 1; // round up
+                         ancestor->name(DESC_YOUR).c_str()).c_str());
+        ancestor->hit_points = ((ancestor->hit_points - 1) / 2) + 1; // round up
         const int dur = random_range(50, 80)
                         + random2(you.skill(SK_INVOCATIONS, 10));
-        familiar->add_ench({ ENCH_HASTE, 1, &you, dur});
-        familiar->add_ench({ ENCH_FATIGUE, 1, &you,
+        ancestor->add_ench({ ENCH_HASTE, 1, &you, dur});
+        ancestor->add_ench({ ENCH_FATIGUE, 1, &you,
                             dur + random_range(150, 250)});
         break;
     }
 
-    case ABIL_HELPAL_REBIND:
+    case ABIL_HEPLIAKLQANAL_REMEMBER:
     {
-        const mid_t familiar_mid = helpal_familiar();
-        if (familiar_mid != MID_NOBODY)
+        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        if (ancestor_mid != MID_NOBODY)
         {
-            mpr("Your familiar is already free from Hell!");
+            mpr("Your ancestor is already free from Hell!");
             return SPRET_ABORT;
         }
 
         if (!branch_allows_followers(you.where_are_you))
         {
-            mpr("You can't summon your familiar in this place.");
+            mpr("You can't summon your ancestor in this place.");
             return SPRET_ABORT;
         }
 
-        monster *familiar = create_monster(helpal_familiar_gen_data());
-        if (!familiar)
+        monster *ancestor = create_monster(hepliaklqanal_ancestor_gen_data());
+        if (!ancestor)
         {
-            mpr("You can't summon your familiar here.");
+            mpr("You can't summon your ancestor here.");
             break; // don't allow to use to scout for invis monsters, or... w/e
         }
 
-        mprf("%s appears in a cloud of brimstone!",
-             familiar->name(DESC_YOUR).c_str());
-        add_companion(familiar);
-        check_place_cloud(CLOUD_BLACK_SMOKE, familiar->pos(),
-                          random_range(1,2), familiar);
+        mprf("%s emerges from the mists of memory!",
+             ancestor->name(DESC_YOUR).c_str());
+        add_companion(ancestor);
+        check_place_cloud(CLOUD_MIST, ancestor->pos(), random_range(1,2),
+                          ancestor);
         break;
     }
 
-    case ABIL_HELPAL_RECALL:
+    case ABIL_HEPLIAKLQANAL_RECALL:
     {
-        const mid_t familiar_mid = helpal_familiar();
-        if (familiar_mid == MID_NOBODY)
+        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        if (ancestor_mid == MID_NOBODY)
         {
-            mpr("You have no familiar to recall!");
+            mpr("You have no ancestor to recall!");
             return SPRET_ABORT;
         }
 
         if (!branch_allows_followers(you.where_are_you))
         {
-            mpr("You can't recall your familiar to this place.");
+            mpr("You can't recall your ancestor to this place.");
             return SPRET_ABORT;
         }
 
         fail_check();
-        try_recall(familiar_mid);
+        try_recall(ancestor_mid);
         break;
     }
 
-    case ABIL_HELPAL_SWAP:
+    case ABIL_HEPLIAKLQANAL_SWAP:
     {
-        const mid_t familiar_mid = helpal_familiar();
-        if (familiar_mid == MID_NOBODY)
+        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        if (ancestor_mid == MID_NOBODY)
         {
-            mpr("You have no familiar to swap with!");
+            mpr("You have no ancestor to swap with!");
             return SPRET_ABORT;
         }
 
-        monster *familiar = monster_by_mid(familiar_mid);
-        if (!familiar || !you.can_see(*familiar))
+        monster *ancestor = monster_by_mid(ancestor_mid);
+        if (!ancestor || !you.can_see(*ancestor))
         {
-            mprf("%s is not nearby!", helpal_ally_name().c_str());
+            mprf("%s is not nearby!", hepliaklqanal_ally_name().c_str());
             return SPRET_ABORT;
         }
 
-        if (is_feat_dangerous(grd(familiar->pos())))
+        if (is_feat_dangerous(grd(ancestor->pos())))
         {
             mpr("That would be overly suicidal.");
             return SPRET_ABORT;
@@ -3239,32 +3239,32 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
         fail_check();
 
-        const coord_def familiar_pos = familiar->pos();
+        const coord_def ancestor_pos = ancestor->pos();
         const coord_def your_pos = you.pos();
 
-        familiar->move_to_pos(you.pos(), true, true);
-        you.move_to_pos(familiar_pos, true, true);
-        mprf("You swap with %s!", familiar->name(DESC_YOUR).c_str());
+        ancestor->move_to_pos(you.pos(), true, true);
+        you.move_to_pos(ancestor_pos, true, true);
+        mprf("You swap with %s!", ancestor->name(DESC_YOUR).c_str());
 
-        helpal_on_deathswap(familiar_pos, false);
+        hepliaklqanal_on_deathswap(ancestor_pos, false);
 
-        familiar->apply_location_effects(familiar_pos);
+        ancestor->apply_location_effects(ancestor_pos);
         you.apply_location_effects(your_pos);
         return SPRET_SUCCESS;
     }
 
-    case ABIL_HELPAL_TYPE_SUPPORTER:
-    case ABIL_HELPAL_TYPE_DEFENDER:
-    case ABIL_HELPAL_TYPE_ATTACKER:
+    case ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER:
+    case ABIL_HEPLIAKLQANAL_TYPE_FIGHTER:
+    case ABIL_HEPLIAKLQANAL_TYPE_WIZARD:
         mpr("TODO");
         return SPRET_ABORT;
 
-    case ABIL_HELPAL_DEATH_SLOW:
-    case ABIL_HELPAL_DEATH_IMPLODE:
-    case ABIL_HELPAL_DEATH_FOG:
-    case ABIL_HELPAL_DEATH_EXPLODE:
-    case ABIL_HELPAL_DEATH_DISPERSE:
-        if (!helpal_choose_death_type(abil.ability))
+    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
+    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
+        if (!hepliaklqanal_choose_death_type(abil.ability))
             return SPRET_ABORT;
         break;
 
@@ -3832,14 +3832,14 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_RU_SACRIFICE_EYE:
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
-    case ABIL_HELPAL_DEATH_DISPERSE:
-    case ABIL_HELPAL_DEATH_FOG:
-    case ABIL_HELPAL_DEATH_IMPLODE:
-    case ABIL_HELPAL_DEATH_EXPLODE:
-    case ABIL_HELPAL_DEATH_SLOW:
-    case ABIL_HELPAL_TYPE_ATTACKER:
-    case ABIL_HELPAL_TYPE_DEFENDER:
-    case ABIL_HELPAL_TYPE_SUPPORTER:
+    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
+    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
+    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANAL_TYPE_WIZARD:
+    case ABIL_HEPLIAKLQANAL_TYPE_FIGHTER:
+    case ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER:
         first_slot = letter_to_index('G');
         break;
     default:
@@ -3885,14 +3885,14 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
         if (any_sacrifices)
             abilities.push_back(ABIL_RU_REJECT_SACRIFICES);
     }
-    if (you_worship(GOD_HELPAL))
+    if (you_worship(GOD_HEPLIAKLQANAL))
     {
-        // TODO: choose familiar type
-        if (piety_rank() >= 6 && !you.props.exists(HELPAL_ALLY_DEATH_KEY))
+        // TODO: choose ancestor type
+        if (piety_rank() >= 6 && !you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
         {
-            ASSERT(you.props.exists(HELPAL_DEATH_POSSIBILTIES_KEY));
+            ASSERT(you.props.exists(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY));
             for (int death_poss
-                 : you.props[HELPAL_DEATH_POSSIBILTIES_KEY].get_vector())
+                 : you.props[HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY].get_vector())
             {
                 abilities.push_back(static_cast<ability_type>(death_poss));
             }

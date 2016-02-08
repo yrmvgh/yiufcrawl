@@ -82,7 +82,7 @@ static const char *_god_wrath_adjectives[] =
     "adversity",        // Qazlal
     "disappointment",   // Ru
     "progress",         // Pakellas
-    "helpfulness",      // Helpal
+    "helpfulness",      // Hepliaklqanal
 };
 COMPILE_CHECK(ARRAYSZ(_god_wrath_adjectives) == NUM_GODS);
 

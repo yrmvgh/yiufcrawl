@@ -76,8 +76,8 @@
 
 #define PIETY_HYSTERESIS_LIMIT 1
 
-/// the name of the ally helpal granted the player
-#define HELPAL_ALLY_NAME_KEY "helpal_ally_name"
+/// the name of the ally hepliaklqanal granted the player
+#define HEPLIAKLQANAL_ALLY_NAME_KEY "hepliaklqanal_ally_name"
 
 // Item offering messages for the gods:
 // & is replaced by "is" or "are" as appropriate for the item.
@@ -449,11 +449,11 @@ const vector<god_power> god_powers[NUM_GODS] =
            "Pakellas is no longer ready to supercharge a wand or rod." },
     },
 
-    // Helpal
-    { { 0, ABIL_HELPAL_RECALL, "recall your familiar" },
-      { 1, ABIL_HELPAL_REBIND, "bring your familiar back from Hell" },
-      { 3, ABIL_HELPAL_LASH, "encourage your familiar to greater efforts" },
-      { 5, ABIL_HELPAL_SWAP, "trade places with your familiar" }
+    // Hepliaklqanal
+    { { 0, ABIL_HEPLIAKLQANAL_RECALL, "recall your ancestor" },
+      { 1, ABIL_HEPLIAKLQANAL_REMEMBER, "bring your ancestor back" },
+      { 3, ABIL_HEPLIAKLQANAL_LASH, "encourage your ancestor to greater efforts" },
+      { 5, ABIL_HEPLIAKLQANAL_SWAP, "trade places with your ancestor" }
     },
 };
 
@@ -506,8 +506,7 @@ bool is_evil_god(god_type god)
            || god == GOD_MAKHLEB
            || god == GOD_YREDELEMNUL
            || god == GOD_BEOGH
-           || god == GOD_LUGONU
-           || god == GOD_HELPAL;
+           || god == GOD_LUGONU;
 }
 
 bool is_good_god(god_type god)
@@ -1692,32 +1691,32 @@ static bool _jiyva_mutate()
 }
 
 /**
- * Creates a mgen_data with the information needed to create the familiar
- * granted by Helpal.
+ * Creates a mgen_data with the information needed to create the ancestor
+ * granted by Hepliaklqanal.
  *
  * XXX: should this be populating a mgen_data passed by reference, rather than
  * returning one on the stack?
  *
- * @return    The mgen_data that creates a helpal familiar.
+ * @return    The mgen_data that creates a hepliaklqanal ancestor.
  */
-mgen_data helpal_familiar_gen_data()
+mgen_data hepliaklqanal_ancestor_gen_data()
 {
-    mgen_data mg(MONS_FAMILIAR, BEH_FRIENDLY, &you, 0, 0, you.pos(), MHITNOT,
-                 MG_NONE, GOD_HELPAL);
+    mgen_data mg(MONS_ANCESTOR, BEH_FRIENDLY, &you, 0, 0, you.pos(), MHITNOT,
+                 MG_NONE, GOD_HEPLIAKLQANAL);
     mg.extra_flags |= MF_NO_REWARD;
-    mg.mname = helpal_ally_name();
+    mg.mname = hepliaklqanal_ally_name();
     return mg;
 }
 
 /**
- * What's the name of the ally Helpal granted the player?
+ * What's the name of the ally Hepliaklqanal granted the player?
  *
  * XXX: what happens if the ally hasn't been named yet? [later]
  * @return      The ally's name.
  */
-string helpal_ally_name()
+string hepliaklqanal_ally_name()
 {
-    return you.props[HELPAL_ALLY_NAME_KEY].get_string();
+    return you.props[HEPLIAKLQANAL_ALLY_NAME_KEY].get_string();
 }
 
 bool vehumet_is_offering(spell_type spell)
@@ -2160,7 +2159,7 @@ string god_name(god_type which_god, bool long_name)
     case GOD_QAZLAL:        return "Qazlal";
     case GOD_RU:            return "Ru";
     case GOD_PAKELLAS:      return "Pakellas";
-    case GOD_HELPAL:        return "Helpal"; // obvious placeholder
+    case GOD_HEPLIAKLQANAL: return "Hepliaklqanal";
     case GOD_JIYVA: // This is handled at the beginning of the function
     case GOD_ECUMENICAL:    return "an unknown god";
     case NUM_GODS:          return "Buggy";
@@ -2458,14 +2457,14 @@ static void _gain_piety_point()
 
             you.one_time_ability_used.set(you.religion);
         }
-        if (you_worship(GOD_HELPAL))
+        if (you_worship(GOD_HEPLIAKLQANAL))
         {
-            // TODO: familiar type
-            if (rank == 6 && !you.props.exists(HELPAL_ALLY_DEATH_KEY))
+            // TODO: ancestor type
+            if (rank == 6 && !you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
             {
-                helpal_pick_death_types();
+                hepliaklqanal_pick_death_types();
                 god_speaks(you.religion,
-                           "You can now choose your familiar's death.");
+                           "You can now choose your ancestor's deathwish.");
             }
         }
     }
@@ -3591,17 +3590,17 @@ static void _join_gozag()
     add_daction(DACT_GOLD_ON_TOP);
 }
 
-/// Setup when joining the fiendish underlings of Helpal.
-static void _join_helpal()
+/// Setup when joining the devoted followers of Hepliaklqanal.
+static void _join_hepliaklqanal()
 {
     // initial setup.
-    if (!you.props.exists(HELPAL_ALLY_NAME_KEY))
-        you.props[HELPAL_ALLY_NAME_KEY] = make_name();
+    if (!you.props.exists(HEPLIAKLQANAL_ALLY_NAME_KEY))
+        you.props[HEPLIAKLQANAL_ALLY_NAME_KEY] = make_name();
 
-    // Complimentary familiar upon joining.
-    const mgen_data mg = helpal_familiar_gen_data();
+    // Complimentary ancestor upon joining.
+    const mgen_data mg = hepliaklqanal_ancestor_gen_data();
     delayed_monster(mg);
-    simple_god_message(make_stringf(" grants you a familiar, the demon %s!",
+    simple_god_message(make_stringf(" grants you a ancestor, the demon %s!",
                                     mg.mname.c_str()).c_str());
 }
 
@@ -3690,7 +3689,7 @@ static const map<god_type, function<void ()>> on_join = {
     }},
     { GOD_GOZAG, _join_gozag },
     { GOD_JIYVA, _join_jiyva },
-    { GOD_HELPAL, _join_helpal },
+    { GOD_HEPLIAKLQANAL, _join_hepliaklqanal },
     { GOD_LUGONU, []() {
         if (you.worshipped[GOD_LUGONU] == 0)
             gain_piety(20, 1, false);  // allow instant access to first power
@@ -4186,7 +4185,7 @@ void handle_god_time(int /*time_delta*/)
         case GOD_LUGONU:
         case GOD_DITHMENOS:
         case GOD_QAZLAL:
-        case GOD_HELPAL:
+        case GOD_HEPLIAKLQANAL:
             if (one_chance_in(16))
                 lose_piety(1);
             break;
@@ -4675,7 +4674,7 @@ static void _place_delayed_monsters()
         if (mon)
         {
             if (you_worship(GOD_YREDELEMNUL) || you_worship(GOD_BEOGH)
-                || you_worship(GOD_HELPAL))
+                || you_worship(GOD_HEPLIAKLQANAL))
             {
                 add_companion(mon);
             }

@@ -167,7 +167,7 @@ bool pakellas_check_quick_charge(bool quiet);
 int pakellas_effective_hex_power(int pow);
 bool pakellas_device_surge();
 
-void helpal_pick_death_types();
-bool helpal_choose_death_type(int death_type);
-void helpal_on_deathswap(const coord_def &loc, bool death);
+void hepliaklqanal_pick_death_types();
+bool hepliaklqanal_choose_death_type(int death_type);
+void hepliaklqanal_on_deathswap(const coord_def &loc, bool death);
 #endif

@@ -1739,8 +1739,8 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         }
         break;
 
-    case BEAM_HELPAL_EXPLOSION:
-        if (mons_is_helpal_familiar(mons->type))
+    case BEAM_HEPLIAKLQANAL_EXPLOSION:
+        if (mons_is_hepliaklqanal_ancestor(mons->type))
             hurted = 0;
         break;
 
@@ -3866,8 +3866,8 @@ void bolt::affect_player()
     if (flavour == BEAM_DIGGING)
         return;
 
-    // Helpal explosions don't affect the player.
-    if (flavour == BEAM_HELPAL_EXPLOSION)
+    // Hepliaklqanal explosions don't affect the player.
+    if (flavour == BEAM_HEPLIAKLQANAL_EXPLOSION)
         return;
 
     if (is_tracer)
@@ -5933,10 +5933,10 @@ void bolt::refine_for_explosion()
             seeMsg = explosion->seeMsg;
             hearMsg = make_stringf("You hear %s!", explosion->sound);
         }
-        else if (flavour == BEAM_HELPAL_EXPLOSION)
+        else if (flavour == BEAM_HEPLIAKLQANAL_EXPLOSION)
         {
             seeMsg = "An explosion of demonic viscera erupts from "
-                     + helpal_ally_name() + "!";
+                     + hepliaklqanal_ally_name() + "!";
             hearMsg = "You hear an explosion!";
         }
         else
@@ -6571,7 +6571,7 @@ static string _beam_type_name(beam_type type)
     case BEAM_RESISTANCE:            return "resistance";
     case BEAM_UNRAVELLING:           return "unravelling";
     case BEAM_UNRAVELLED_MAGIC:      return "unravelled magic";
-    case BEAM_HELPAL_EXPLOSION:      return "demonic viscera";
+    case BEAM_HEPLIAKLQANAL_EXPLOSION:      return "demonic viscera";
 
     case NUM_BEAMS:                  die("invalid beam type");
     }
