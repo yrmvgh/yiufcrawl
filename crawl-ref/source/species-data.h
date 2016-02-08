@@ -109,12 +109,12 @@ static const map<species_type, species_def> species_data =
     "Dg",
     "Demigod", "Divine", nullptr,
     SPF_NONE,
-    -2, 1, 2,
+    -3, 2, 2,
     15, 4,
     MONS_DEMIGOD,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    11, 12, 11, // 34
-    set<stat_type>(), 28, // No natural stat gain (double chosen instead)
+    12, 12, 12, // 36
+    { STAT_STR, STAT_INT, STAT_DEX }, 2,
     { { MUT_SUSTAIN_ATTRIBUTES, 1, 1 }, {MUT_HIGH_MAGIC, 1, 1} },
     {},
     {},
