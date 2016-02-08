@@ -446,7 +446,7 @@ static const ability_def Ability_List[] =
     // Hepliaklqanal
     { ABIL_HEPLIAKLQANAL_RECALL, "Recall Ancestor", 2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANAL_REMEMBER, "Remember Ancestor", 5, 0, 100, 10, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_LASH, "Lash Ancestor", 2, 0, 50, 0, abflag::NONE },
+    { ABIL_HEPLIAKLQANAL_PRESERVE, "Preserve Ancestor", 2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANAL_SWAP, "Swap With Ancestor", 2, 0, 50, 3, abflag::NONE },
 
     { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER,  "Ancestor Type: Knight",
@@ -799,7 +799,7 @@ ability_type fixup_ability(ability_type ability)
             return ability;
 
     // only available while your ancestor is alive.
-    case ABIL_HEPLIAKLQANAL_LASH:
+    case ABIL_HEPLIAKLQANAL_PRESERVE:
     case ABIL_HEPLIAKLQANAL_RECALL:
     case ABIL_HEPLIAKLQANAL_SWAP:
         if (hepliaklqanal_ancestor() == MID_NOBODY)
@@ -1057,7 +1057,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_LUGONU_BEND_SPACE:
     case ABIL_FEDHAS_PLANT_RING:
     case ABIL_QAZLAL_UPHEAVAL:
-    case ABIL_HEPLIAKLQANAL_LASH:
+    case ABIL_HEPLIAKLQANAL_PRESERVE:
         invoc = true;
         failure = 40 - (you.piety / 20) - you.skill(SK_INVOCATIONS, 5);
         break;
@@ -3128,42 +3128,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HEPLIAKLQANAL_LASH:
-    {
-        const mid_t ancestor_mid = hepliaklqanal_ancestor();
-        if (ancestor_mid == MID_NOBODY)
-        {
-            mpr("You have no ancestor to lash!");
-            return SPRET_ABORT;
-        }
-
-        monster *ancestor = monster_by_mid(ancestor_mid);
-        if (!ancestor || !you.can_see(*ancestor))
-        {
-            mprf("%s is not nearby!", hepliaklqanal_ally_name().c_str());
-            return SPRET_ABORT;
-        }
-
-        if (ancestor->has_ench(ENCH_FATIGUE))
-        {
-            mprf("%s is too tired to be lashed further this soon!",
-                 ancestor->name(DESC_YOUR).c_str());
-            return SPRET_ABORT;
-        }
-
-        fail_check();
-
-        simple_god_message(
-            make_stringf(" lashes %s into action!",
-                         ancestor->name(DESC_YOUR).c_str()).c_str());
-        ancestor->hit_points = ((ancestor->hit_points - 1) / 2) + 1; // round up
-        const int dur = random_range(50, 80)
-                        + random2(you.skill(SK_INVOCATIONS, 10));
-        ancestor->add_ench({ ENCH_HASTE, 1, &you, dur});
-        ancestor->add_ench({ ENCH_FATIGUE, 1, &you,
-                            dur + random_range(150, 250)});
-        break;
-    }
+    case ABIL_HEPLIAKLQANAL_PRESERVE:
+        return hepliaklqanal_preserve(fail);
 
     case ABIL_HEPLIAKLQANAL_REMEMBER:
     {

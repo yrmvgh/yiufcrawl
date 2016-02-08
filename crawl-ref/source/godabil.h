@@ -170,4 +170,5 @@ bool pakellas_device_surge();
 void hepliaklqanal_pick_death_types();
 bool hepliaklqanal_choose_death_type(int death_type);
 void hepliaklqanal_on_deathswap(const coord_def &loc, bool death);
+spret_type hepliaklqanal_preserve(bool fail);
 #endif
