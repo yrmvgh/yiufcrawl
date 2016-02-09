@@ -124,6 +124,7 @@ bool is_follower(const monster* mon);
 
 mgen_data hepliaklqanal_ancestor_gen_data();
 string hepliaklqanal_ally_name();
+void upgrade_hepliaklqanal_ancestor();
 
 // Vehumet gift interface.
 bool vehumet_is_offering(spell_type spell);

@@ -1691,6 +1691,42 @@ static bool _jiyva_mutate()
 }
 
 /**
+ * What's the name of the ally Hepliaklqanal granted the player?
+ *
+ * XXX: what happens if the ally hasn't been named yet? [later]
+ * @return      The ally's name.
+ */
+string hepliaklqanal_ally_name()
+{
+    return you.props[HEPLIAKLQANAL_ALLY_NAME_KEY].get_string();
+}
+
+/**
+ * How much HD should the ally granted by Hepliaklqanal have?
+ *
+ * @return      The player's xl * 2/3.
+ */
+static int _hepliaklqanal_ally_hd()
+{
+    if (crawl_state.game_is_arena())
+        return 27; // v0v
+    // round up
+    return (you.experience_level - 1) * 2 / 3 + 1;
+}
+
+/**
+ * How much max HP should the ally granted by Hepliaklqanal have?
+ *
+ * @return      5/hd from 1-11 HD, 10/hd from 12-18.
+ *              (That is, 5 HP at 1 HD, 120 at 18.)
+ */
+static int _hepliaklqanal_ally_hp()
+{
+    const int HD = _hepliaklqanal_ally_hd();
+    return HD * 5 + max(0, (HD - 12) * 5);
+}
+
+/**
  * Creates a mgen_data with the information needed to create the ancestor
  * granted by Hepliaklqanal.
  *
@@ -1701,22 +1737,51 @@ static bool _jiyva_mutate()
  */
 mgen_data hepliaklqanal_ancestor_gen_data()
 {
-    mgen_data mg(MONS_ANCESTOR, BEH_FRIENDLY, &you, 0, 0, you.pos(), MHITNOT,
-                 MG_NONE, GOD_HEPLIAKLQANAL);
+    mgen_data mg(MONS_ANCESTOR, BEH_FRIENDLY, &you, 0, 0, you.pos());
+    mg.god = GOD_HEPLIAKLQANAL;
+    mg.hd = _hepliaklqanal_ally_hd();
+    mg.hp = _hepliaklqanal_ally_hp();
     mg.extra_flags |= MF_NO_REWARD;
     mg.mname = hepliaklqanal_ally_name();
     return mg;
 }
 
 /**
- * What's the name of the ally Hepliaklqanal granted the player?
- *
- * XXX: what happens if the ally hasn't been named yet? [later]
- * @return      The ally's name.
+ * Update the ancestor's stats after the player levels up. Upgrade HD and HP,
+ * and give appropriate messaging for that and any other notable upgrades
+ * (spells, resists, etc).
  */
-string hepliaklqanal_ally_name()
+void upgrade_hepliaklqanal_ancestor()
 {
-    return you.props[HEPLIAKLQANAL_ALLY_NAME_KEY].get_string();
+    // messaging goes here
+
+    const mid_t ancestor_mid = hepliaklqanal_ancestor();
+    if (ancestor_mid == MID_NOBODY)
+        return;
+
+    const int HD = _hepliaklqanal_ally_hd();
+    const int HP = _hepliaklqanal_ally_hp();
+
+    monster* ancestor = monster_by_mid(ancestor_mid);
+    if (!ancestor) // offlevel?
+    {
+        for (auto &entry : companion_list)
+        {
+            if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type))
+            {
+                entry.second.mons.mons.set_hit_dice(HD);
+                entry.second.mons.mons.max_hit_points = HP;
+                return;
+            }
+        }
+        return;
+    }
+
+    if (!ancestor->alive())
+        return;
+
+    ancestor->set_hit_dice(HD);
+    ancestor->max_hit_points = HP;
 }
 
 bool vehumet_is_offering(spell_type spell)
