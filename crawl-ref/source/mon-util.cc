@@ -347,6 +347,22 @@ static resists_t _beast_facet_resists(beast_facet facet)
     return lookup(resists, facet, 0);
 }
 
+/**
+ * What special resistances does a hepliaklqanal-provided ancestor have?
+ *
+ * @param HD    The ancestor's current HD.
+ * @return      A bitfield of resists.
+ */
+static resists_t _hepliaklqanal_ancestor_resists(int HD)
+{
+    resists_t resists = MR_NO_FLAGS;
+    if (HD >= 11)
+        resists |= MR_RES_FIRE;
+    if (HD >= 12)
+        resists |= MR_RES_COLD;
+    return resists;
+}
+
 resists_t get_mons_class_resists(monster_type mc)
 {
     const monsterentry *me = get_monster_data(mc);
@@ -385,6 +401,9 @@ resists_t get_mons_resists(const monster* mon)
     if (mon->props.exists(MUTANT_BEAST_FACETS))
         for (auto facet : mon->props[MUTANT_BEAST_FACETS].get_vector())
             resists |= _beast_facet_resists((beast_facet)facet.get_int());
+
+    if (mons_is_hepliaklqanal_ancestor(mon->type))
+        resists |= _hepliaklqanal_ancestor_resists(mon->get_experience_level());
 
     // This is set from here in case they're undead due to the
     // MF_FAKE_UNDEAD flag. See the comment in get_mons_class_resists.
@@ -1872,6 +1891,28 @@ static mon_attack_def _mutant_beast_attack(const monster &mon, int attk_number)
     return { };
 }
 
+/**
+ * Get the attack type, attack flavour and damage for the given attack of an
+ * ancestor granted by Hepliaklqanal_ancestor_attack.
+ *
+ * @param mon           The monster in question.
+ * @param attk_number   Which attack number to get.
+ * @return              A mon_attack_def for the specified attack.
+ */
+static mon_attack_def _hepliaklqanal_ancestor_attack(const monster &mon,
+                                                     int attk_number)
+{
+    if (attk_number != 0)
+        return { };
+
+    const int HD = mon.get_experience_level();
+    const int dam = HD*HD/18 + HD + 4; // 5 at 1 HD, 40 at 18 HD (max)
+
+    // XXX: flavours (if not implemented through fake weapons)
+
+    return { AT_HIT, AF_PLAIN, dam };
+}
+
 /** Get the attack type, attack flavour and damage for a monster attack.
  *
  * @param mon The monster to look at.
@@ -1908,6 +1949,8 @@ mon_attack_def mons_attack_spec(const monster* mon, int attk_number, bool base_f
     }
     else if (mc == MONS_MUTANT_BEAST)
         return _mutant_beast_attack(*mon, attk_number);
+    else if (mons_is_hepliaklqanal_ancestor(mc))
+        return _hepliaklqanal_ancestor_attack(*mon, attk_number);
     else if (mons_is_demonspawn(mc) && attk_number != 0)
         mc = draco_or_demonspawn_subspecies(mon);
 

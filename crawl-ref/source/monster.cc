@@ -3346,6 +3346,10 @@ int monster::base_armour_class() const
     if (type == MONS_ABOMINATION_SMALL)
         return min(10, 3 + get_hit_dice() * 2 / 3);
 
+    // Hepliaklqanal ancestors scale with xl.
+    if (mons_is_hepliaklqanal_ancestor(type))
+        return get_experience_level();
+
     const int base_ac = get_monster_data(type)->AC;
 
     // demonspawn & draconians combine base & class ac values.
@@ -4140,6 +4144,10 @@ int monster::res_magic() const
     // Negative values get multiplied with monster hit dice.
     if (u < 0)
         u = get_hit_dice() * -u * 4 / 3;
+
+    // Hepliaklqanal ancestors scale with xl.
+    if (mons_is_hepliaklqanal_ancestor(type))
+        u = get_experience_level() * get_experience_level() / 2; // 0-160ish
 
     // Resistance from artefact properties.
     u += 40 * scan_artefacts(ARTP_MAGIC_RESISTANCE);
@@ -5236,6 +5244,8 @@ bool monster::can_see_invisible() const
     {
         return true;
     }
+    else if (mons_is_hepliaklqanal_ancestor(type) && hit_dice >= 15)
+        return true;
     else if (scan_artefacts(ARTP_SEE_INVISIBLE) > 0)
         return true;
     else if (wearing(EQ_RINGS, RING_SEE_INVISIBLE))
