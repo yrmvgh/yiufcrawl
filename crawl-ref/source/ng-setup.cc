@@ -337,9 +337,9 @@ static void _give_starting_food()
         quantity = 2;
 
     // Since they require food to regen, give them a fighting chance at the beginning
-    if (you.species == SP_DJINNI) {
-    	quantity = 3;
-    }
+//    if (you.species == SP_DJINNI) {
+//    	quantity = 3;
+//    }
 
     newgame_make_item(base_type, sub_type, quantity);
 }

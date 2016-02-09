@@ -635,7 +635,7 @@ static void _print_stats_mp(int x, int y)
 
 static void _print_stats_food(int x, int y)
 {
-    if (you.species != SP_DJINNI)
+    if (you.species != SP_DJINNI && true)
         return;
 
     const int max_food = HUNGER_MAXIMUM;
@@ -645,22 +645,22 @@ static void _print_stats_food(int x, int y)
     CPRINTF("%d", food);
 
     // Calculate colour
-    if (food < HUNGER_STARVING)
+    if (you.hunger_state <= HS_STARVING)
     {
         Food_Bar.m_default = RED;
         Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
     }
-    else if (food < HUNGER_VERY_HUNGRY)
+    else if (you.hunger_state <= HS_VERY_HUNGRY)
     {
         Food_Bar.m_default = LIGHTRED;
         Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
     }
-    else if (food < HUNGER_SATIATED)
+    else if (you.hunger_state <= HS_SATIATED)
     {
         Food_Bar.m_default = YELLOW;
         Food_Bar.m_change_pos = Food_Bar.m_change_neg = BROWN;
     }
-    else if (food < HUNGER_FULL)
+    else if (you.hunger_state <= HS_FULL)
     {
         Food_Bar.m_default = GREEN;
         Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;

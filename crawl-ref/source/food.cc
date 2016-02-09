@@ -54,8 +54,8 @@ void make_hungry(int hunger_amount, bool suppress_msg,
 
     // Lich/tree form djinn don't get exempted from food costs: infinite
     // healing from channeling would be just too good.
-    if (you.species == SP_DJINNI && !magic)
-        return;
+//    if (you.species == SP_DJINNI && !magic)
+//        return;
 
     if (you_foodless())
         return;
@@ -68,13 +68,13 @@ void make_hungry(int hunger_amount, bool suppress_msg,
 
     you.hunger -= hunger_amount;
 
-    if (you.species == SP_DJINNI) {
-        if (you.hunger < 1000)
-            you.hunger = 1000;
-    } else {
-        if (you.hunger < 0)
-            you.hunger = 0;
-    }
+//    if (you.species == SP_DJINNI) {
+//        if (you.hunger < 1000)
+//            you.hunger = 1000;
+//    } else {
+//        if (you.hunger < 0)
+//            you.hunger = 0;
+//    }
 
     // So we don't get two messages, ever.
     bool state_message = food_change();

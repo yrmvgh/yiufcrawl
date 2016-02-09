@@ -1166,20 +1166,22 @@ int player_regen()
 
     // Healing depending on satiation.
     // The better-fed you are, the faster you heal.
-    if (you.species == SP_DJINNI)
-    {
-    	const int food = you.hunger;
-        if (food < HUNGER_VERY_HUNGRY)
-        	rr = 0;
-        else if (food < HUNGER_SATIATED)
-        	rr >>= 1;
-        else if (food < HUNGER_FULL)
-        	rr <<= 1;
-        else if (food < HUNGER_VERY_FULL)
-        	rr <<= 2;
-        else
-        	rr <<= 3;
-    }
+//    if (you.species == SP_DJINNI)
+//    {
+//    	const int hunger = you.hunger_state;
+//        if (hunger <= HS_VERY_HUNGRY)
+//        	rr = 0;
+//        else if (hunger <= HS_HUNGRY)
+//        	rr >>= 1;
+//        else if (hunger <= HS_SATIATED)
+//        	rr <<= 1;
+//        else if (hunger <= HS_FULL)
+//        	rr <<= 2;
+//        else if (hunger <= HS_VERY_FULL)
+//        	rr <<= 3;
+//        else
+//        	rr <<= 4;
+//    }
 
     // Slow regeneration mutation.
     if (player_mutation_level(MUT_SLOW_REGENERATION) > 0)
