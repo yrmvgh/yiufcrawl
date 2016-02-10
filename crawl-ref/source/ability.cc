@@ -3146,6 +3146,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         }
 
+        fail_check();
+
         monster *ancestor = create_monster(hepliaklqanal_ancestor_gen_data());
         if (!ancestor)
         {
