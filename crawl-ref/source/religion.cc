@@ -1763,7 +1763,11 @@ void upgrade_hepliaklqanal_ancestor()
         return;
 
     ancestor->set_hit_dice(_hepliaklqanal_ally_hd());
+    const int old_mhp = ancestor->max_hit_points;
     ancestor->max_hit_points = _hepliaklqanal_ally_hp();
+    ancestor->hit_points =
+        div_rand_round(ancestor->hit_points * ancestor->max_hit_points,
+                       old_mhp);
 }
 
 bool vehumet_is_offering(spell_type spell)
