@@ -3651,7 +3651,8 @@ static void _join_hepliaklqanal()
     // Complimentary ancestor upon joining.
     const mgen_data mg = hepliaklqanal_ancestor_gen_data();
     delayed_monster(mg);
-    simple_god_message(make_stringf(" grants you a ancestor, the demon %s!",
+    simple_god_message(make_stringf(" brings forth the memory of your ancestor,"
+                                    " %s!",
                                     mg.mname.c_str()).c_str());
 }
 
