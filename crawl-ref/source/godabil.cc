@@ -6692,6 +6692,47 @@ bool pakellas_device_surge()
 }
 
 /**
+ * Permanently choose a class for the player's companion,
+ * after prompting to make sure the player is certain.
+ *
+ * @param ancestor_choice     The ancestor's class; should be an ability enum.
+ * @return                  Whether the player went through with the choice.
+ */
+bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
+{
+    static const map<int, monster_type> ancestor_types = {
+        { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER, MONS_ANCESTOR_FIGHTER },
+        { ABIL_HEPLIAKLQANAL_TYPE_WIZARD, MONS_ANCESTOR_WIZARD },
+        { ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER, MONS_ANCESTOR_ENCHANTER },
+    };
+
+    const monster_type *ancestor_type = map_find(ancestor_types,
+                                                 ancestor_choice);
+    ASSERT(ancestor_type);
+    if (!yesno(make_stringf("Are you sure you want to remember your ancestor "
+                            "as a %s?",
+                            mons_type_name(*ancestor_type,
+                                           DESC_A).c_str()).c_str(),
+               false, 'n'))
+    {
+        canned_msg(MSG_OK);
+        return false;
+    }
+
+    you.props[HEPLIAKLQANAL_ALLY_TYPE_KEY] = *ancestor_type;
+
+    monster* ancestor = hepliaklqanal_ancestor_mon();
+    if (ancestor)
+    {
+        ancestor->type = *ancestor_type;
+        upgrade_hepliaklqanal_ancestor(); // set gear, etc as appropriate
+    }
+
+    simple_god_message(" will remember this.");
+    return true;
+}
+
+/**
  * Initialize the list of on-ancestor-death effects available to the player,
  * if we haven't done so already.
  */
@@ -6746,7 +6787,7 @@ bool hepliaklqanal_choose_death_type(int death_type)
     }
 
     you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY] = death_type;
-    mpr("It is done!");
+    simple_god_message(" will remember this.");
     return true;
 }
 

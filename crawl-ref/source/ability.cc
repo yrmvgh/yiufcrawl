@@ -449,22 +449,22 @@ static const ability_def Ability_List[] =
     { ABIL_HEPLIAKLQANAL_PRESERVE, "Preserve Ancestor", 2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANAL_SWAP, "Swap With Ancestor", 2, 0, 50, 3, abflag::NONE },
 
-    { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER,  "Ancestor Type: Knight",
+    { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER,   "Ancestor Life: Knight",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_TYPE_WIZARD,  "Ancestor Type: Battlemage",
+    { ABIL_HEPLIAKLQANAL_TYPE_WIZARD,    "Ancestor Life: Battlemage",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER, "Ancestor Type: Hexer",
+    { ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER, "Ancestor Life: Hexer",
         0, 0, 0, 0, abflag::NONE },
 
-    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,     "Deathwish: Slow",
+    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,     "Ancestor Death: Slow",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_FOG,      "Deathwish: Fog",
+    { ABIL_HEPLIAKLQANAL_DEATH_FOG,      "Ancestor Death: Fog",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,  "Deathwish: Explode",
+    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,  "Ancestor Death: Explode",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "Deathwish: Disperse",
+    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "Ancestor Death: Disperse",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,  "Deathwish: Implode",
+    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,  "Ancestor Death: Implode",
         0, 0, 0, 0, abflag::NONE },
 
 
@@ -3222,8 +3222,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER:
     case ABIL_HEPLIAKLQANAL_TYPE_FIGHTER:
     case ABIL_HEPLIAKLQANAL_TYPE_WIZARD:
-        mpr("TODO");
-        return SPRET_ABORT;
+        if (!hepliaklqanal_choose_ancestor_type(abil.ability))
+            return SPRET_ABORT;
+        break;
 
     case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
     case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
@@ -3853,7 +3854,16 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
     }
     if (you_worship(GOD_HEPLIAKLQANAL))
     {
-        // TODO: choose ancestor type
+        if (piety_rank() >= 2 && !you.props.exists(HEPLIAKLQANAL_ALLY_TYPE_KEY))
+        {
+            for (int anc_type = ABIL_HEPLIAKLQANAL_FIRST_TYPE;
+                 anc_type <= ABIL_HEPLIAKLQANAL_LAST_TYPE;
+                 ++anc_type)
+            {
+                abilities.push_back(static_cast<ability_type>(anc_type));
+            }
+        }
+
         if (piety_rank() >= 6 && !you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
         {
             ASSERT(you.props.exists(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY));

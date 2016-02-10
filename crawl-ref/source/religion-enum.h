@@ -20,6 +20,8 @@ enum nemelex_gift_types
 
 #define ACQUIRE_KEY "acquired" // acquirement source prop on acquired items
 
+/// chosen ancestor class (monster_type)
+#define HEPLIAKLQANAL_ALLY_TYPE_KEY "hepliaklqanal_ally_type"
 /// set of possible death effects the player can choose between
 #define HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY "hepliaklqanal_death_possibilities"
  /// chosen on-death effect

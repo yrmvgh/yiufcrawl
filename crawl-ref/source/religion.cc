@@ -1737,7 +1737,10 @@ static int _hepliaklqanal_ally_hp()
  */
 mgen_data hepliaklqanal_ancestor_gen_data()
 {
-    mgen_data mg(MONS_ANCESTOR, BEH_FRIENDLY, &you, 0, 0, you.pos());
+    const monster_type type = you.props.exists(HEPLIAKLQANAL_ALLY_TYPE_KEY) ?
+        (monster_type)you.props[HEPLIAKLQANAL_ALLY_TYPE_KEY].get_int() :
+        MONS_ANCESTOR;
+    mgen_data mg(type, BEH_FRIENDLY, &you, 0, 0, you.pos());
     mg.god = GOD_HEPLIAKLQANAL;
     mg.hd = _hepliaklqanal_ally_hd();
     mg.hp = _hepliaklqanal_ally_hp();
@@ -1755,33 +1758,12 @@ void upgrade_hepliaklqanal_ancestor()
 {
     // messaging goes here
 
-    const mid_t ancestor_mid = hepliaklqanal_ancestor();
-    if (ancestor_mid == MID_NOBODY)
+    monster* ancestor = hepliaklqanal_ancestor_mon();
+    if (!ancestor || !ancestor->alive())
         return;
 
-    const int HD = _hepliaklqanal_ally_hd();
-    const int HP = _hepliaklqanal_ally_hp();
-
-    monster* ancestor = monster_by_mid(ancestor_mid);
-    if (!ancestor) // offlevel?
-    {
-        for (auto &entry : companion_list)
-        {
-            if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type))
-            {
-                entry.second.mons.mons.set_hit_dice(HD);
-                entry.second.mons.mons.max_hit_points = HP;
-                return;
-            }
-        }
-        return;
-    }
-
-    if (!ancestor->alive())
-        return;
-
-    ancestor->set_hit_dice(HD);
-    ancestor->max_hit_points = HP;
+    ancestor->set_hit_dice(_hepliaklqanal_ally_hd());
+    ancestor->max_hit_points = _hepliaklqanal_ally_hp();
 }
 
 bool vehumet_is_offering(spell_type spell)
@@ -2524,12 +2506,16 @@ static void _gain_piety_point()
         }
         if (you_worship(GOD_HEPLIAKLQANAL))
         {
-            // TODO: ancestor type
+            if (rank == 2 && !you.props.exists(HEPLIAKLQANAL_ALLY_TYPE_KEY))
+            {
+                god_speaks(you.religion,
+                           "You may now remember your ancestor's life.");
+            }
             if (rank == 6 && !you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
             {
                 hepliaklqanal_pick_death_types();
                 god_speaks(you.religion,
-                           "You can now choose your ancestor's deathwish.");
+                           "You may now remember your ancestor's death.");
             }
         }
     }

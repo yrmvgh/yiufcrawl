@@ -221,9 +221,35 @@ void wizard_list_companions()
 mid_t hepliaklqanal_ancestor()
 {
     for (auto &entry : companion_list)
-        if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type)) // sanity
+        if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type))
             return entry.first;
     return MID_NOBODY;
+}
+
+/**
+ * Returns the a pointer to the current ancestor granted by Hepliaklqanal, if
+ * any. If none exists, returns null.
+ *
+ * The ancestor is *not* guaranteed to be on-level, even if it exists; check
+ * the companion_list before doing anything rash!
+ *
+ * @return  The player's ancestor, or nullptr if none exists.
+ */
+monster* hepliaklqanal_ancestor_mon()
+{
+    const mid_t ancestor_mid = hepliaklqanal_ancestor();
+    if (ancestor_mid == MID_NOBODY)
+        return nullptr;
+
+    monster* ancestor = monster_by_mid(ancestor_mid);
+    if (ancestor)
+        return ancestor;
+
+    for (auto &entry : companion_list)
+        if (mons_is_hepliaklqanal_ancestor(entry.second.mons.mons.type))
+            return &entry.second.mons.mons;
+    // should never reach this...
+    return nullptr;
 }
 
 #if TAG_MAJOR_VERSION == 34
