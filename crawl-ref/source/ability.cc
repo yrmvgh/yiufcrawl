@@ -3136,7 +3136,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         const mid_t ancestor_mid = hepliaklqanal_ancestor();
         if (ancestor_mid != MID_NOBODY)
         {
-            mpr("Your ancestor is already free from Hell!");
+            mpr("Your ancestor has already escaped the realm of memory!");
             return SPRET_ABORT;
         }
 
