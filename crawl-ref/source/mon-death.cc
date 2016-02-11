@@ -369,10 +369,10 @@ static void _gold_pile(item_def &corpse, monster_type corpse_class)
 {
     corpse.clear();
 
-    int base_gold = 7;
+    int base_gold = 12;
     // monsters with more chunks than SIZE_MEDIUM give more than base gold
     const int extra_chunks = (max_corpse_chunks(corpse_class)
-                              - max_corpse_chunks(MONS_HUMAN)) * 2;
+                              - max_corpse_chunks(MONS_HUMAN)) * 6;
     if (extra_chunks > 0)
         base_gold += extra_chunks;
 
