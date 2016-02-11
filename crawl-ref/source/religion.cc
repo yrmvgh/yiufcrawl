@@ -231,6 +231,12 @@ static const char *_Sacrifice_Messages[NUM_GODS][NUM_PIETY_GAIN] =
         " falls apart.",
         " is torn apart in a burst of bright light.",
     },
+    // Hepliaklqanal
+    {
+        " slowly fade% into mist.",
+        " fade% into mist.",
+        " instantly & vanished into memory.",
+    },
 };
 
 const vector<god_power> god_powers[NUM_GODS] =
@@ -581,10 +587,6 @@ string get_god_likes(god_type which_god, bool verbose)
         break;
     }
 
-    case GOD_ELYVILON:
-        likes.emplace_back("you explore the world");
-        break;
-
     case GOD_JIYVA:
     {
         string like = "you sacrifice items";
@@ -648,6 +650,8 @@ string get_god_likes(god_type which_god, bool verbose)
     }
 
     case GOD_NEMELEX_XOBEH:
+    case GOD_HEPLIAKLQANAL:
+    case GOD_ELYVILON:
         likes.emplace_back("you explore the world");
         break;
 
