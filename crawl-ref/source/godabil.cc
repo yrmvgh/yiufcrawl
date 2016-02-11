@@ -6817,13 +6817,13 @@ static void _on_deathswap_slow(const coord_def &loc, bool death)
  */
 static void _on_deathswap_implode(const coord_def &loc, bool death)
 {
-    // actor is the ancestor so that they aren't affected
-    // player shouldn't be affected since they're already at the center
-    const mid_t ancestor_mid = hepliaklqanal_ancestor();
-    actor* ancestor = ancestor_mid == MID_NOBODY ?
-                        nullptr :
-                        monster_by_mid(ancestor_mid);
-    fatal_attraction(loc, ancestor, death ? 40 : 100);
+    // if the ancestor is alive, we must have transferred, so make the ancestor
+    // the caster so they're not affected
+    // if they're dead, make us the caster so we're not affected
+    actor* caster = hepliaklqanal_ancestor_mon();
+    if (!caster)
+        caster = &you;
+    fatal_attraction(loc, caster, death ? 40 : 100);
 }
 
 /**
