@@ -171,5 +171,5 @@ bool hepliaklqanal_choose_ancestor_type(int ancestor_type);
 void hepliaklqanal_pick_death_types();
 bool hepliaklqanal_choose_death_type(int death_type);
 void hepliaklqanal_on_deathswap(const coord_def &loc, bool death);
-spret_type hepliaklqanal_preserve(bool fail);
+spret_type hepliaklqanal_romanticize(bool fail);
 #endif

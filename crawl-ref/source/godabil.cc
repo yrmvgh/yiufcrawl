@@ -6701,9 +6701,9 @@ bool pakellas_device_surge()
 bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
 {
     static const map<int, monster_type> ancestor_types = {
-        { ABIL_HEPLIAKLQANAL_TYPE_FIGHTER, MONS_ANCESTOR_FIGHTER },
-        { ABIL_HEPLIAKLQANAL_TYPE_WIZARD, MONS_ANCESTOR_WIZARD },
-        { ABIL_HEPLIAKLQANAL_TYPE_ENCHANTER, MONS_ANCESTOR_ENCHANTER },
+        { ABIL_HEPLIAKLQANAL_TYPE_KNIGHT, MONS_ANCESTOR_KNIGHT },
+        { ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE, MONS_ANCESTOR_BATTLEMAGE },
+        { ABIL_HEPLIAKLQANAL_TYPE_HEXER, MONS_ANCESTOR_HEXER },
     };
 
     const monster_type *ancestor_type = map_find(ancestor_types,
@@ -6779,7 +6779,7 @@ bool hepliaklqanal_choose_death_type(int death_type)
     const char *const *death_desc = map_find(effect_descriptions, death_type);
     ASSERT(death_desc);
     if (!yesno(make_stringf("Are you sure you want your ancestor to %s after "
-                            "swapping or dying?", *death_desc).c_str(),
+                            "transferring or dying?", *death_desc).c_str(),
                false, 'n'))
     {
         canned_msg(MSG_OK);
@@ -6925,7 +6925,7 @@ void hepliaklqanal_on_deathswap(const coord_def &loc, bool death)
  * @param fail      Whether the effect should fail after checking validity.
  * @return          Whether the healing succeeded, failed, or was aborted.
  */
-spret_type hepliaklqanal_preserve(bool fail)
+spret_type hepliaklqanal_romanticize(bool fail)
 {
     const mid_t ancestor_mid = hepliaklqanal_ancestor();
     if (ancestor_mid == MID_NOBODY)
@@ -6971,7 +6971,7 @@ spret_type hepliaklqanal_preserve(bool fail)
         if (ancestor->del_ench(ench))
             cured = true;
     if (cured)
-        simple_monster_message(ancestor, "'s debilitations are undone!");
+        simple_monster_message(ancestor, "'s debilitations are forgotten!");
 
     const int dur = random_range(50, 80)
                     + random2(you.skill(SK_INVOCATIONS, 10));
