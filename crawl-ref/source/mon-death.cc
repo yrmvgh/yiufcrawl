@@ -413,6 +413,7 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     // permanent dancing weapons turn to gold like other monsters.
     bool goldify = in_good_standing(GOD_GOZAG)
                    && mons_gives_xp(&mons, &you)
+				   && one_chance_in(2)
                    && !force;
 
     const bool no_coinflip =
