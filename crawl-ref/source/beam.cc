@@ -3866,9 +3866,12 @@ void bolt::affect_player()
     if (flavour == BEAM_DIGGING)
         return;
 
-    // Hepliaklqanal explosions don't affect the player.
-    if (flavour == BEAM_HEPLIAKLQANAL_EXPLOSION)
+    // Hepliaklqanal explosions don't affect worshippers.
+    if (flavour == BEAM_HEPLIAKLQANAL_EXPLOSION
+        && in_good_standing(GOD_HEPLIAKLQANAL))
+    {
         return;
+    }
 
     if (is_tracer)
     {
@@ -5935,7 +5938,7 @@ void bolt::refine_for_explosion()
         }
         else if (flavour == BEAM_HEPLIAKLQANAL_EXPLOSION)
         {
-            seeMsg = "An explosion of demonic viscera erupts from "
+            seeMsg = "A scouring light erupts from "
                      + hepliaklqanal_ally_name() + "!";
             hearMsg = "You hear an explosion!";
         }
@@ -6571,7 +6574,7 @@ static string _beam_type_name(beam_type type)
     case BEAM_RESISTANCE:            return "resistance";
     case BEAM_UNRAVELLING:           return "unravelling";
     case BEAM_UNRAVELLED_MAGIC:      return "unravelled magic";
-    case BEAM_HEPLIAKLQANAL_EXPLOSION:      return "demonic viscera";
+    case BEAM_HEPLIAKLQANAL_EXPLOSION:      return "all-erasing light";
 
     case NUM_BEAMS:                  die("invalid beam type");
     }

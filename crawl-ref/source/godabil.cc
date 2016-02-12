@@ -6871,7 +6871,7 @@ static void _on_deathswap_fog(const coord_def &loc, bool death)
 static void _on_deathswap_explode(const coord_def &loc, bool death)
 {
     bolt beam;
-    beam.name         = "demonic viscera";
+    beam.name         = "all-erasing light";
     beam.ex_size      = death ? 2 : 1;
     beam.flavour      = BEAM_HEPLIAKLQANAL_EXPLOSION;
     beam.real_flavour = beam.flavour;
