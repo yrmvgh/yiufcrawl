@@ -3173,6 +3173,12 @@ void excommunication(bool voluntary, god_type new_god)
         notify_stat_change();
         break;
 
+    case GOD_HEPLIAKLQANAL:
+        add_daction(DACT_ALLY_HEPLIAKLQANAL);
+        remove_all_companions(GOD_HEPLIAKLQANAL);
+
+        _set_penance(old_god, 25);
+        break;
     default:
         _set_penance(old_god, 25);
         break;
