@@ -2571,7 +2571,8 @@ item_def* monster_die(monster* mons, killer_type killer,
         if (mons_is_hepliaklqanal_ancestor(mons->type))
         {
             ASSERT(hepliaklqanal_ancestor() == MID_NOBODY);
-            hepliaklqanal_on_deathswap(mons->pos(), true);
+            if (!was_banished && !mons_reset)
+                hepliaklqanal_on_deathswap(mons->pos(), true);
             if (!you.can_see(*mons))
             {
                 mprf("%s has departed this plane of existence.",
