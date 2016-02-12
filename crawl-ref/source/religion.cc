@@ -4505,6 +4505,7 @@ int god_colour(god_type god) // mv - added
         return GREEN;
 
     case GOD_CHEIBRIADOS:
+    case GOD_HEPLIAKLQANAL:
         return LIGHTCYAN;
 
     case GOD_DITHMENOS:
@@ -4603,6 +4604,9 @@ colour_t god_message_altar_colour(god_type god)
 
     case GOD_PAKELLAS:
         return random_choose(LIGHTMAGENTA, LIGHTGREEN, LIGHTCYAN);
+
+    case GOD_HEPLIAKLQANAL:
+        return coinflip() ? LIGHTGREEN : LIGHTBLUE;
 
     default:
         return YELLOW;
