@@ -51,6 +51,7 @@
 #include "mon-book.h"
 #include "mon-cast.h"
 #include "mon-death.h"
+#include "mon-gear.h" // H: give_weapon()/give_armour()
 #include "mon-place.h"
 #include "mon-poly.h"
 #include "mutation.h"
@@ -6725,7 +6726,8 @@ bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
     if (ancestor)
     {
         ancestor->type = *ancestor_type;
-        upgrade_hepliaklqanal_ancestor(); // set gear, etc as appropriate
+        give_weapon(ancestor, -1, true);
+        give_shield(ancestor);
     }
 
     simple_god_message(" will remember this.");

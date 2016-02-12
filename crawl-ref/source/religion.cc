@@ -50,6 +50,7 @@
 #include "makeitem.h"
 #include "message.h"
 #include "misc.h"
+#include "mon-gear.h" // give_shield
 #include "mon-place.h"
 #include "mutation.h"
 #include "notes.h"
@@ -1774,6 +1775,129 @@ void upgrade_hepliaklqanal_ancestor()
     ancestor->hit_points =
         div_rand_round(ancestor->hit_points * ancestor->max_hit_points,
                        old_mhp);
+
+    // assumption: ancestors can lose weapons (very rarely - tukima's),
+    // and it's weird for them to just reappear, so only upgrade existing ones
+    if (ancestor->weapon())
+        upgrade_hepliaklqanal_weapon(*ancestor, *ancestor->weapon());
+    // but shields can't be lost, and *can* be gained (knight at hd 5)
+    // so give them out as appropriate
+    if (ancestor->shield())
+        upgrade_hepliaklqanal_shield(*ancestor, *ancestor->shield());
+    else
+        give_shield(ancestor);
+}
+
+/**
+ * What type of weapon should a given ancestor have?
+ *
+ * @param ancestor      The ancestor in question.
+ * @return              An appropriate weapon_type.
+ */
+static weapon_type _hepliaklqanal_weapon_type(const monster &ancestor)
+{
+    switch (ancestor.type)
+    {
+        case MONS_ANCESTOR_HEXER:
+            return ancestor.get_experience_level() < 16 ? WPN_DAGGER
+                                                        : WPN_QUICK_BLADE;
+        case MONS_ANCESTOR_KNIGHT:
+            return ancestor.get_experience_level() < 9 ? WPN_LONG_SWORD
+                                                       : WPN_BROAD_AXE;
+        case MONS_ANCESTOR_BATTLEMAGE:
+            return WPN_QUARTERSTAFF;
+        default:
+            return NUM_WEAPONS; // should never happen
+    }
+}
+
+/**
+ * What brand should an ancestor's weapon have, if any?
+ *
+ * @param ancestor      The ancestor in question.
+ * @return              An appropriate weapon_type.
+ */
+static brand_type _hepliaklqanal_weapon_brand(const monster &ancestor)
+{
+    switch (ancestor.type)
+    {
+        case MONS_ANCESTOR_HEXER:
+            return ancestor.get_experience_level() < 9 ?    SPWPN_NORMAL :
+                   ancestor.get_experience_level() < 18 ?   SPWPN_DRAINING :
+                                                            SPWPN_ANTIMAGIC;
+        case MONS_ANCESTOR_KNIGHT:
+            return ancestor.get_experience_level() < 10 ?   SPWPN_NORMAL :
+                   ancestor.get_experience_level() < 18 ?   SPWPN_FLAMING :
+                                                            SPWPN_SPEED;
+        case MONS_ANCESTOR_BATTLEMAGE:
+        default:
+            return SPWPN_NORMAL;
+    }
+}
+
+/**
+ * Setup an ancestor's weapon after their class is chosen, when the player
+ * levels up, or after they're resummoned (or initially created for wrath).
+ *
+ * @param[in]   ancestor      The ancestor for whom the weapon is intended.
+ * @param[out]  item          The item to be configured.
+ * @return                    True iff the ancestor should have a weapon.
+ */
+void upgrade_hepliaklqanal_weapon(const monster &ancestor, item_def &item)
+{
+    ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
+    if (ancestor.type == MONS_ANCESTOR)
+        return; // bare-handed!
+
+    item.base_type = OBJ_WEAPONS;
+    item.sub_type = _hepliaklqanal_weapon_type(ancestor);
+    item.brand = _hepliaklqanal_weapon_brand(ancestor);
+    item.plus = ancestor.get_experience_level() / 2;
+    item.flags |= ISFLAG_IDENT_MASK | ISFLAG_SUMMONED;
+}
+
+/**
+ * What kind of shield should a knight-ancestor of the given HD be given?
+ *
+ * @param HD        The HD (XL) of the knight in question.
+ * @return          An appropriate type of shield, or NUM_ARMOURS.
+ */
+armour_type _hepliaklqanal_shield_type(int HD)
+{
+    if (HD < 5)
+        return NUM_ARMOURS;
+    if (HD < 9)
+        return ARM_BUCKLER;
+    if (HD < 17)
+        return ARM_SHIELD;
+    return ARM_LARGE_SHIELD;
+}
+
+/**
+ * Setup an ancestor's weapon after their class is chosen, when the player
+ * levels up, or after they're resummoned (or initially created for wrath).
+ *
+ * @param[in]   ancestor      The ancestor for whom the weapon is intended.
+ * @param[out]  item          The item to be configured.
+ * @return                    True iff the ancestor should have a weapon.
+ */
+void upgrade_hepliaklqanal_shield(const monster &ancestor, item_def &item)
+{
+    ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
+    if (ancestor.type != MONS_ANCESTOR_KNIGHT)
+        return; // only knights get shields!
+
+    const int HD = ancestor.get_experience_level();
+    const armour_type shield_type = _hepliaklqanal_shield_type(HD);
+    if (shield_type == NUM_ARMOURS)
+        return; // no shield yet!
+
+    item.base_type = OBJ_ARMOUR;
+    item.sub_type = shield_type;
+    item.brand = HD < 14 ? SPARM_NORMAL : SPARM_REFLECTION;
+    item.plus = ancestor.get_experience_level() / 3;
+    item.flags |= ISFLAG_IDENT_MASK | ISFLAG_SUMMONED;
+    item.quantity = 1;
 }
 
 bool vehumet_is_offering(spell_type spell)
