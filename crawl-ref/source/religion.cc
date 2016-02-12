@@ -3424,6 +3424,9 @@ bool player_can_join_god(god_type which_god)
     if (which_god == GOD_BEOGH && !species_is_orcish(you.species))
         return false;
 
+    if (which_god == GOD_HEPLIAKLQANAL && you.species == SP_FELID)
+        return false;
+
     // Fedhas hates undead, but will accept demonspawn.
     if (which_god == GOD_FEDHAS && you.holiness() & MH_UNDEAD)
         return false;
@@ -3444,7 +3447,8 @@ bool player_can_join_god(god_type which_god)
     if (player_mutation_level(MUT_NO_LOVE)
         && (which_god == GOD_BEOGH
             ||  which_god == GOD_JIYVA
-            ||  which_god == GOD_ELYVILON))
+            ||  which_god == GOD_ELYVILON
+            ||  which_god == GOD_HEPLIAKLQANAL))
     {
         return false;
     }
@@ -4018,7 +4022,8 @@ void god_pitch(god_type which_god)
         else if (player_mutation_level(MUT_NO_LOVE)
                  && (which_god == GOD_BEOGH
                  || which_god == GOD_ELYVILON
-                 || which_god == GOD_JIYVA))
+                 || which_god == GOD_JIYVA
+                 || which_god == GOD_HEPLIAKLQANAL))
         {
             simple_god_message(" does not accept worship from the loveless!",
                                which_god);
@@ -4028,6 +4033,10 @@ void god_pitch(god_type which_god)
         {
             simple_god_message(" does not accept worship for those who cannot "
                               "deal a hand of cards!", which_god);
+        } else if (you.species == SP_FELID && which_god == GOD_HEPLIAKLQANAL)
+        {
+            simple_god_message(" does not accept worship from the spawn of "
+                               "common housecats!", which_god);
         }
         else if (!_transformed_player_can_join_god(which_god))
         {
