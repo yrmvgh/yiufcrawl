@@ -5486,6 +5486,8 @@ bool monster::is_skeletal() const
  */
 bool monster::is_spiny() const
 {
+    if (type == MONS_ANCESTOR_KNIGHT)
+        return get_experience_level() >= 16;
     return mons_class_flag(mons_is_job(type) ? base_monster : type,
                            M_SPINY);
 }
