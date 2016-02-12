@@ -6731,6 +6731,8 @@ bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
     }
 
     simple_god_message(" will remember this.");
+    take_note(Note(NOTE_ANCESTOR_TYPE, 0, 0,
+                   mons_type_name(*ancestor_type, DESC_A)));
     return true;
 }
 
@@ -6759,6 +6761,21 @@ void hepliaklqanal_pick_death_types()
             chosen.push_back(ABIL_HEPLIAKLQANAL_FIRST_DEATH + t);
 
     ASSERT(chosen.size() == to_choose);
+}
+
+/// What's a short name for the given death type, for note-taking purposes?
+static string _death_name(int death_type)
+{
+    switch (death_type)
+    {
+        // XXX: almost all of these are really bad
+        case ABIL_HEPLIAKLQANAL_DEATH_SLOW:     return "slow";
+        case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:  return "implosive";
+        case ABIL_HEPLIAKLQANAL_DEATH_FOG:      return "foggy";
+        case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:  return "explosive";
+        case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE: return "dispersing";
+        default:                                return "buggy";
+    }
 }
 
 /**
@@ -6790,6 +6807,7 @@ bool hepliaklqanal_choose_death_type(int death_type)
 
     you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY] = death_type;
     simple_god_message(" will remember this.");
+    take_note(Note(NOTE_ANCESTOR_DEATH, 0, 0, _death_name(death_type)));
     return true;
 }
 
