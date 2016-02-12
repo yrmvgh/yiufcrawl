@@ -3354,7 +3354,11 @@ int monster::base_armour_class() const
 
     // Hepliaklqanal ancestors scale with xl.
     if (mons_is_hepliaklqanal_ancestor(type))
+    {
+        if (type == MONS_ANCESTOR_KNIGHT)
+            return get_experience_level() * 3 / 2 + 5;
         return get_experience_level();
+    }
 
     const int base_ac = get_monster_data(type)->AC;
 
