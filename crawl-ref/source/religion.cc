@@ -1750,6 +1750,8 @@ mgen_data hepliaklqanal_ancestor_gen_data()
     mg.hp = _hepliaklqanal_ally_hp();
     mg.extra_flags |= MF_NO_REWARD;
     mg.mname = hepliaklqanal_ally_name();
+    mg.props[MON_GENDER_KEY]
+        = you.props[HEPLIAKLQANAL_ALLY_GENDER_KEY].get_int();
     return mg;
 }
 
@@ -3654,7 +3656,11 @@ static void _join_hepliaklqanal()
 {
     // initial setup.
     if (!you.props.exists(HEPLIAKLQANAL_ALLY_NAME_KEY))
+    {
         you.props[HEPLIAKLQANAL_ALLY_NAME_KEY] = make_name();
+        you.props[HEPLIAKLQANAL_ALLY_GENDER_KEY] = coinflip() ? GENDER_FEMALE
+                                                              : GENDER_MALE;
+    }
 
     // Complimentary ancestor upon joining.
     const mgen_data mg = hepliaklqanal_ancestor_gen_data();
