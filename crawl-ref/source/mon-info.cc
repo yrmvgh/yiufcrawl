@@ -1660,6 +1660,8 @@ bool monster_info::can_see_invisible() const
               && mons_class_flag(draco_or_demonspawn_subspecies(), M_SEE_INVIS);
 }
 
+// this function sucks and should not exist.
+// (cache a value when mon-info is created, from known items.)
 int monster_info::res_magic() const
 {
     int mr = (get_monster_data(type))->resist_magic;
@@ -1669,6 +1671,10 @@ int monster_info::res_magic() const
     // Negative values get multiplied with monster hit dice.
     if (mr < 0)
         mr = hd * (-mr) * 4 / 3;
+
+    // Hepliaklqanal ancestors scale with xl.
+    if (mons_is_hepliaklqanal_ancestor(type))
+        mr = hd * hd / 2;
 
     // Randarts
     mr += 40 * randarts(ARTP_MAGIC_RESISTANCE);
