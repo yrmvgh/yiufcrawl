@@ -15,7 +15,7 @@
 #include "itemprop.h"
 #include "items.h"
 #include "mon-place.h"
-#include "religion.h" // upgrade_hepliaklqanal_weapon
+#include "religion.h" // upgrade_hepliaklqana_weapon
 #include "spl-book.h"
 #include "state.h"
 #include "tilepick.h"
@@ -1471,7 +1471,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
     case MONS_ANCESTOR_BATTLEMAGE:
     case MONS_ANCESTOR_KNIGHT:
         force_item = true;
-        upgrade_hepliaklqanal_weapon(*mon, item);
+        upgrade_hepliaklqana_weapon(*mon, item);
         break;
 
     default:
@@ -1949,7 +1949,7 @@ static void _give_shield(monster* mon, int level)
     case MONS_ANCESTOR_KNIGHT:
     {
         item_def shld;
-        upgrade_hepliaklqanal_shield(*mon, shld);
+        upgrade_hepliaklqana_shield(*mon, shld);
         if (!shld.defined())
             break;
 

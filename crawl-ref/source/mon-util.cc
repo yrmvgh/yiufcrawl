@@ -348,12 +348,12 @@ static resists_t _beast_facet_resists(beast_facet facet)
 }
 
 /**
- * What special resistances does a hepliaklqanal-provided ancestor have?
+ * What special resistances does a hepliaklqana-provided ancestor have?
  *
  * @param HD    The ancestor's current HD.
  * @return      A bitfield of resists.
  */
-static resists_t _hepliaklqanal_ancestor_resists(int HD)
+static resists_t _hepliaklqana_ancestor_resists(int HD)
 {
     resists_t resists = MR_NO_FLAGS;
     if (HD >= 11)
@@ -402,8 +402,8 @@ resists_t get_mons_resists(const monster* mon)
         for (auto facet : mon->props[MUTANT_BEAST_FACETS].get_vector())
             resists |= _beast_facet_resists((beast_facet)facet.get_int());
 
-    if (mons_is_hepliaklqanal_ancestor(mon->type))
-        resists |= _hepliaklqanal_ancestor_resists(mon->get_experience_level());
+    if (mons_is_hepliaklqana_ancestor(mon->type))
+        resists |= _hepliaklqana_ancestor_resists(mon->get_experience_level());
 
     // This is set from here in case they're undead due to the
     // MF_FAKE_UNDEAD flag. See the comment in get_mons_class_resists.
@@ -1523,12 +1523,12 @@ bool mons_is_or_was_unique(const monster& mon)
 }
 
 /**
- * Is the given type one of Hepliaklqanal's granted ancestors?
+ * Is the given type one of Hepliaklqana's granted ancestors?
  *
  * @param mc    The type of monster in question.
  * @return      Whether that monster is a player ancestor.
  */
-bool mons_is_hepliaklqanal_ancestor(monster_type mc)
+bool mons_is_hepliaklqana_ancestor(monster_type mc)
 {
     return mons_class_flag(mc, M_ANCESTOR);
 }
@@ -1893,13 +1893,13 @@ static mon_attack_def _mutant_beast_attack(const monster &mon, int attk_number)
 
 /**
  * Get the attack type, attack flavour and damage for the given attack of an
- * ancestor granted by Hepliaklqanal_ancestor_attack.
+ * ancestor granted by Hepliaklqana_ancestor_attack.
  *
  * @param mon           The monster in question.
  * @param attk_number   Which attack number to get.
  * @return              A mon_attack_def for the specified attack.
  */
-static mon_attack_def _hepliaklqanal_ancestor_attack(const monster &mon,
+static mon_attack_def _hepliaklqana_ancestor_attack(const monster &mon,
                                                      int attk_number)
 {
     if (attk_number != 0)
@@ -1947,8 +1947,8 @@ mon_attack_def mons_attack_spec(const monster* mon, int attk_number, bool base_f
     }
     else if (mc == MONS_MUTANT_BEAST)
         return _mutant_beast_attack(*mon, attk_number);
-    else if (mons_is_hepliaklqanal_ancestor(mc))
-        return _hepliaklqanal_ancestor_attack(*mon, attk_number);
+    else if (mons_is_hepliaklqana_ancestor(mc))
+        return _hepliaklqana_ancestor_attack(*mon, attk_number);
     else if (mons_is_demonspawn(mc) && attk_number != 0)
         mc = draco_or_demonspawn_subspecies(mon);
 
@@ -5597,7 +5597,7 @@ void init_mutant_beast(monster &mons, short HD, vector<int> beast_facets,
  */
 void set_ancestor_spells(monster &ancestor, bool notify)
 {
-    ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
+    ASSERT(mons_is_hepliaklqana_ancestor(ancestor.type));
 
     vector<spell_type> old_spells;
     for (auto spellslot : ancestor.spells)

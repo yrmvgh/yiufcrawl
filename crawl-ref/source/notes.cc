@@ -365,12 +365,12 @@ string Note::describe(bool when, bool where, bool what) const
                    << desc << " decreased to " << second;
             break;
         case NOTE_ANCESTOR_TYPE:
-            result << "Remembered your ancestor " << hepliaklqanal_ally_name()
+            result << "Remembered your ancestor " << hepliaklqana_ally_name()
                    << " as " << name;
             break;
         case NOTE_ANCESTOR_DEATH:
             result << "Remembered your ancestor "
-                   << apostrophise(hepliaklqanal_ally_name())
+                   << apostrophise(hepliaklqana_ally_name())
                    << " " << name << " death";
             break;
         default:

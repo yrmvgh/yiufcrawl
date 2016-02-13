@@ -6699,12 +6699,12 @@ bool pakellas_device_surge()
  * @param ancestor_choice     The ancestor's class; should be an ability enum.
  * @return                  Whether the player went through with the choice.
  */
-bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
+bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
 {
     static const map<int, monster_type> ancestor_types = {
-        { ABIL_HEPLIAKLQANAL_TYPE_KNIGHT, MONS_ANCESTOR_KNIGHT },
-        { ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE, MONS_ANCESTOR_BATTLEMAGE },
-        { ABIL_HEPLIAKLQANAL_TYPE_HEXER, MONS_ANCESTOR_HEXER },
+        { ABIL_HEPLIAKLQANA_TYPE_KNIGHT, MONS_ANCESTOR_KNIGHT },
+        { ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE, MONS_ANCESTOR_BATTLEMAGE },
+        { ABIL_HEPLIAKLQANA_TYPE_HEXER, MONS_ANCESTOR_HEXER },
     };
 
     const monster_type *ancestor_type = map_find(ancestor_types,
@@ -6720,9 +6720,9 @@ bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
         return false;
     }
 
-    you.props[HEPLIAKLQANAL_ALLY_TYPE_KEY] = *ancestor_type;
+    you.props[HEPLIAKLQANA_ALLY_TYPE_KEY] = *ancestor_type;
 
-    monster* ancestor = hepliaklqanal_ancestor_mon();
+    monster* ancestor = hepliaklqana_ancestor_mon();
     if (ancestor)
     {
         ancestor->type = *ancestor_type;
@@ -6740,14 +6740,14 @@ bool hepliaklqanal_choose_ancestor_type(int ancestor_choice)
  * Initialize the list of on-ancestor-death effects available to the player,
  * if we haven't done so already.
  */
-void hepliaklqanal_pick_death_types()
+void hepliaklqana_pick_death_types()
 {
-    if (you.props.exists(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY))
+    if (you.props.exists(HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY))
         return;
 
     // assumes death effects are contiguous
-    static const int num_types = 1 + ABIL_HEPLIAKLQANAL_LAST_DEATH
-                                   - ABIL_HEPLIAKLQANAL_FIRST_DEATH;
+    static const int num_types = 1 + ABIL_HEPLIAKLQANA_LAST_DEATH
+                                   - ABIL_HEPLIAKLQANA_FIRST_DEATH;
     static const int to_choose = 3;
 
     // In Knuth's notation, suppose you have N elements and you want to choose
@@ -6755,10 +6755,10 @@ void hepliaklqanal_pick_death_types()
     // (n - m) / (N - t) where t is the number of elements visited so far,
     // and m is the number of elements chosen so far.
 
-    CrawlVector &chosen = you.props[HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY].get_vector();
+    CrawlVector &chosen = you.props[HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY].get_vector();
     for (int t = 0; t < num_types; ++t)
         if (x_chance_in_y(to_choose - chosen.size(), num_types - t))
-            chosen.push_back(ABIL_HEPLIAKLQANAL_FIRST_DEATH + t);
+            chosen.push_back(ABIL_HEPLIAKLQANA_FIRST_DEATH + t);
 
     ASSERT(chosen.size() == to_choose);
 }
@@ -6769,11 +6769,11 @@ static string _death_name(int death_type)
     switch (death_type)
     {
         // XXX: almost all of these are really bad
-        case ABIL_HEPLIAKLQANAL_DEATH_SLOW:     return "slow";
-        case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:  return "implosive";
-        case ABIL_HEPLIAKLQANAL_DEATH_FOG:      return "foggy";
-        case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:  return "explosive";
-        case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE: return "dispersing";
+        case ABIL_HEPLIAKLQANA_DEATH_SLOW:     return "slow";
+        case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:  return "implosive";
+        case ABIL_HEPLIAKLQANA_DEATH_FOG:      return "foggy";
+        case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:  return "explosive";
+        case ABIL_HEPLIAKLQANA_DEATH_DISPERSE: return "dispersing";
         default:                                return "buggy";
     }
 }
@@ -6785,14 +6785,14 @@ static string _death_name(int death_type)
  * @param death_type        The on-death effect; should be an ability enum.
  * @return                  Whether the player went through with the choice.
  */
-bool hepliaklqanal_choose_death_type(int death_type)
+bool hepliaklqana_choose_death_type(int death_type)
 {
     static const map<int, const char *> effect_descriptions = {
-        { ABIL_HEPLIAKLQANAL_DEATH_SLOW, "slow nearby enemies" },
-        { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE, "send enemies crashing inward" },
-        { ABIL_HEPLIAKLQANAL_DEATH_FOG, "create a cloud of concealing fog" },
-        { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE, "explode violently" },
-        { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "disperse nearby enemies" },
+        { ABIL_HEPLIAKLQANA_DEATH_SLOW, "slow nearby enemies" },
+        { ABIL_HEPLIAKLQANA_DEATH_IMPLODE, "send enemies crashing inward" },
+        { ABIL_HEPLIAKLQANA_DEATH_FOG, "create a cloud of concealing fog" },
+        { ABIL_HEPLIAKLQANA_DEATH_EXPLODE, "explode violently" },
+        { ABIL_HEPLIAKLQANA_DEATH_DISPERSE, "disperse nearby enemies" },
     };
 
     const char *const *death_desc = map_find(effect_descriptions, death_type);
@@ -6805,8 +6805,8 @@ bool hepliaklqanal_choose_death_type(int death_type)
         return false;
     }
 
-    you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY] = death_type;
-    you.props.erase(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY);
+    you.props[HEPLIAKLQANA_ALLY_DEATH_KEY] = death_type;
+    you.props.erase(HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY);
     simple_god_message(" will remember this.");
     take_note(Note(NOTE_ANCESTOR_DEATH, 0, 0, _death_name(death_type)));
     return true;
@@ -6824,7 +6824,7 @@ static void _on_deathswap_slow(const coord_def &loc, bool death)
     for (radius_iterator ri(loc, radius, C_SQUARE, LOS_DEFAULT); ri; ++ri)
     {
         monster* mon = monster_at(*ri);
-        if (mon && !mons_is_hepliaklqanal_ancestor(mon->type))
+        if (mon && !mons_is_hepliaklqana_ancestor(mon->type))
             do_slow_monster(mon, nullptr); // XXX: scale dur by hd delta?
     }
 }
@@ -6841,7 +6841,7 @@ static void _on_deathswap_implode(const coord_def &loc, bool death)
     // if the ancestor is alive, we must have transferred, so make the ancestor
     // the caster so they're not affected
     // if they're dead, make us the caster so we're not affected
-    actor* caster = hepliaklqanal_ancestor_mon();
+    actor* caster = hepliaklqana_ancestor_mon();
     if (!caster)
         caster = &you;
     fatal_attraction(loc, caster, death ? 40 : 100);
@@ -6856,7 +6856,7 @@ static void _on_deathswap_implode(const coord_def &loc, bool death)
 static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
     mprf("As %s %s, fog sprays out.",
-         hepliaklqanal_ally_name().c_str(),
+         hepliaklqana_ally_name().c_str(),
          death ? "dies" : "swaps");
     big_cloud(random_smoke_type(), &you, loc, 50,
               death ? 9 + random2(9) : 6 + random2(6));
@@ -6874,11 +6874,11 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
     bolt beam;
     beam.name         = "all-erasing light";
     beam.ex_size      = death ? 2 : 1;
-    beam.flavour      = BEAM_HEPLIAKLQANAL_EXPLOSION;
+    beam.flavour      = BEAM_HEPLIAKLQANA_EXPLOSION;
     beam.real_flavour = beam.flavour;
     beam.glyph        = dchar_glyph(DCHAR_FIRED_ZAP);
     beam.colour       = RED;
-    beam.source_id    = hepliaklqanal_ancestor();
+    beam.source_id    = hepliaklqana_ancestor();
     beam.thrower      = KILL_MON;
     beam.aux_source.clear();
     beam.obvious_effect = false;
@@ -6907,33 +6907,33 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
 static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
     mprf("As %s %s, translocational energy flares.",
-         hepliaklqanal_ally_name().c_str(),
+         hepliaklqana_ally_name().c_str(),
          death ? "dies" : "swaps");
     cast_dispersal(death ? 100 : 30, false, &loc);
 }
 
 typedef void (*deathswap_effect)(const coord_def&, bool);
 static const map<int, deathswap_effect> on_deathswap = {
-    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,       _on_deathswap_slow },
-    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,    _on_deathswap_implode },
-    { ABIL_HEPLIAKLQANAL_DEATH_FOG,        _on_deathswap_fog },
-    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,    _on_deathswap_explode },
-    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE,   _on_deathswap_disperse },
+    { ABIL_HEPLIAKLQANA_DEATH_SLOW,       _on_deathswap_slow },
+    { ABIL_HEPLIAKLQANA_DEATH_IMPLODE,    _on_deathswap_implode },
+    { ABIL_HEPLIAKLQANA_DEATH_FOG,        _on_deathswap_fog },
+    { ABIL_HEPLIAKLQANA_DEATH_EXPLODE,    _on_deathswap_explode },
+    { ABIL_HEPLIAKLQANA_DEATH_DISPERSE,   _on_deathswap_disperse },
 };
 
 /**
- * Activate the on-death/on-swap effect for a hepliaklqanal ally.
+ * Activate the on-death/on-swap effect for a hepliaklqana ally.
  *
  * @param loc       Where the effect should occur.
  * @param death     Whether the ancestor actually died, or just swapped.
  */
-void hepliaklqanal_on_deathswap(const coord_def &loc, bool death)
+void hepliaklqana_on_deathswap(const coord_def &loc, bool death)
 {
     // haven't chosen an effect
-    if (!you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
+    if (!you.props.exists(HEPLIAKLQANA_ALLY_DEATH_KEY))
         return;
 
-    const int effect_type = you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY];
+    const int effect_type = you.props[HEPLIAKLQANA_ALLY_DEATH_KEY];
     const deathswap_effect* effect_func = map_find(on_deathswap, effect_type);
     ASSERT(effect_func);
     (*effect_func)(loc, death);
@@ -6946,9 +6946,9 @@ void hepliaklqanal_on_deathswap(const coord_def &loc, bool death)
  * @param fail      Whether the effect should fail after checking validity.
  * @return          Whether the healing succeeded, failed, or was aborted.
  */
-spret_type hepliaklqanal_romanticize(bool fail)
+spret_type hepliaklqana_romanticize(bool fail)
 {
-    const mid_t ancestor_mid = hepliaklqanal_ancestor();
+    const mid_t ancestor_mid = hepliaklqana_ancestor();
     if (ancestor_mid == MID_NOBODY)
     {
         mpr("You have no ancestor to preserve!");
@@ -6958,7 +6958,7 @@ spret_type hepliaklqanal_romanticize(bool fail)
     monster *ancestor = monster_by_mid(ancestor_mid);
     if (!ancestor || !you.can_see(*ancestor))
     {
-        mprf("%s is not nearby!", hepliaklqanal_ally_name().c_str());
+        mprf("%s is not nearby!", hepliaklqana_ally_name().c_str());
         return SPRET_ABORT;
     }
 

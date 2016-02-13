@@ -3352,8 +3352,8 @@ int monster::base_armour_class() const
     if (type == MONS_ABOMINATION_SMALL)
         return min(10, 3 + get_hit_dice() * 2 / 3);
 
-    // Hepliaklqanal ancestors scale with xl.
-    if (mons_is_hepliaklqanal_ancestor(type))
+    // Hepliaklqana ancestors scale with xl.
+    if (mons_is_hepliaklqana_ancestor(type))
     {
         if (type == MONS_ANCESTOR_KNIGHT)
             return get_experience_level() * 3 / 2 + 5;
@@ -4155,8 +4155,8 @@ int monster::res_magic() const
     if (u < 0)
         u = get_hit_dice() * -u * 4 / 3;
 
-    // Hepliaklqanal ancestors scale with xl.
-    if (mons_is_hepliaklqanal_ancestor(type))
+    // Hepliaklqana ancestors scale with xl.
+    if (mons_is_hepliaklqana_ancestor(type))
         u = get_experience_level() * get_experience_level() / 2; // 0-160ish
 
     // Resistance from artefact properties.
@@ -5254,7 +5254,7 @@ bool monster::can_see_invisible() const
     {
         return true;
     }
-    else if (mons_is_hepliaklqanal_ancestor(type) && hit_dice >= 15)
+    else if (mons_is_hepliaklqana_ancestor(type) && hit_dice >= 15)
         return true;
     else if (scan_artefacts(ARTP_SEE_INVISIBLE) > 0)
         return true;
@@ -6658,10 +6658,10 @@ bool monster::is_illusion() const
 
 bool monster::is_divine_companion() const
 {
-    // hepliaklqanal's companions don't depend on attitude, and shouldn't ever
+    // hepliaklqana's companions don't depend on attitude, and shouldn't ever
     // be summoned or lack stair-climbing capability.
     // (in principle, this shouldn't matter, but things get broken...)
-    if (mons_is_god_gift(this, GOD_HEPLIAKLQANAL))
+    if (mons_is_god_gift(this, GOD_HEPLIAKLQANA))
         return true;
 
     return attitude == ATT_FRIENDLY

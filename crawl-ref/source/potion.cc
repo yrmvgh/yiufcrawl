@@ -566,11 +566,11 @@ public:
 
     bool effect(bool=true, int=40, bool=true) const override
     {
-        if (player_under_penance(GOD_HEPLIAKLQANAL))
+        if (player_under_penance(GOD_HEPLIAKLQANA))
         {
             simple_god_message(" appreciates the memories.",
-                               GOD_HEPLIAKLQANAL);
-            reduce_xp_penance(GOD_HEPLIAKLQANAL, 750 * you.experience_level);
+                               GOD_HEPLIAKLQANA);
+            reduce_xp_penance(GOD_HEPLIAKLQANA, 750 * you.experience_level);
             return true;
         }
 

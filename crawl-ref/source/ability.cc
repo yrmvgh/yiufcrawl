@@ -443,32 +443,32 @@ static const ability_def Ability_List[] =
         0, 0, 100, 2, abflag::NONE },
     { ABIL_PAKELLAS_SUPERCHARGE, "Supercharge", 0, 0, 0, 0, abflag::NONE },
 
-    // Hepliaklqanal
-    { ABIL_HEPLIAKLQANAL_RECALL, "Ancestral Recall",
+    // Hepliaklqana
+    { ABIL_HEPLIAKLQANA_RECALL, "Ancestral Recall",
         2, 0, 50, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DRAW_FROM_MEMORY, "Draw From Memory",
+    { ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY, "Draw From Memory",
         5, 0, 100, 10, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_ROMANTICIZE, "Romanticize",
+    { ABIL_HEPLIAKLQANA_ROMANTICIZE, "Romanticize",
         2, 0, 50, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_TRANSFERENCE, "Transference",
+    { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
         2, 0, 50, 3, abflag::NONE },
 
-    { ABIL_HEPLIAKLQANAL_TYPE_KNIGHT,       "Ancestor Life: Knight",
+    { ABIL_HEPLIAKLQANA_TYPE_KNIGHT,       "Ancestor Life: Knight",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE,   "Ancestor Life: Battlemage",
+    { ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE,   "Ancestor Life: Battlemage",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_TYPE_HEXER,        "Ancestor Life: Hexer",
+    { ABIL_HEPLIAKLQANA_TYPE_HEXER,        "Ancestor Life: Hexer",
         0, 0, 0, 0, abflag::NONE },
 
-    { ABIL_HEPLIAKLQANAL_DEATH_SLOW,     "Ancestor Death: Slow",
+    { ABIL_HEPLIAKLQANA_DEATH_SLOW,     "Ancestor Death: Slow",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_FOG,      "Ancestor Death: Fog",
+    { ABIL_HEPLIAKLQANA_DEATH_FOG,      "Ancestor Death: Fog",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_EXPLODE,  "Ancestor Death: Explode",
+    { ABIL_HEPLIAKLQANA_DEATH_EXPLODE,  "Ancestor Death: Explode",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_DISPERSE, "Ancestor Death: Disperse",
+    { ABIL_HEPLIAKLQANA_DEATH_DISPERSE, "Ancestor Death: Disperse",
         0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANAL_DEATH_IMPLODE,  "Ancestor Death: Implode",
+    { ABIL_HEPLIAKLQANA_DEATH_IMPLODE,  "Ancestor Death: Implode",
         0, 0, 0, 0, abflag::NONE },
 
 
@@ -803,16 +803,16 @@ ability_type fixup_ability(ability_type ability)
             return ability;
 
     // only available while your ancestor is alive.
-    case ABIL_HEPLIAKLQANAL_ROMANTICIZE:
-    case ABIL_HEPLIAKLQANAL_RECALL:
-    case ABIL_HEPLIAKLQANAL_TRANSFERENCE:
-        if (hepliaklqanal_ancestor() == MID_NOBODY)
+    case ABIL_HEPLIAKLQANA_ROMANTICIZE:
+    case ABIL_HEPLIAKLQANA_RECALL:
+    case ABIL_HEPLIAKLQANA_TRANSFERENCE:
+        if (hepliaklqana_ancestor() == MID_NOBODY)
             return ABIL_NON_ABILITY;
         return ability;
 
     // only available while your ancestor is dead.
-    case ABIL_HEPLIAKLQANAL_DRAW_FROM_MEMORY:
-        if (hepliaklqanal_ancestor() != MID_NOBODY)
+    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
+        if (hepliaklqana_ancestor() != MID_NOBODY)
             return ABIL_NON_ABILITY;
         return ability;
 
@@ -981,14 +981,14 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
-    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
-    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
-    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
-    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
-    case ABIL_HEPLIAKLQANAL_TYPE_KNIGHT:
-    case ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE:
-    case ABIL_HEPLIAKLQANAL_TYPE_HEXER:
+    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANA_DEATH_FOG:
+    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
+    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
+    case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
+    case ABIL_HEPLIAKLQANA_TYPE_HEXER:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -1025,8 +1025,8 @@ talent get_talent(ability_type ability, bool check_confused)
 
     case ABIL_ZIN_RECITE:
     case ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS:
-    case ABIL_HEPLIAKLQANAL_RECALL:
-    case ABIL_HEPLIAKLQANAL_DRAW_FROM_MEMORY:
+    case ABIL_HEPLIAKLQANA_RECALL:
+    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
     case ABIL_OKAWARU_HEROISM:
     case ABIL_ELYVILON_LESSER_HEALING:
     case ABIL_LUGONU_ABYSS_EXIT:
@@ -1061,7 +1061,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_LUGONU_BEND_SPACE:
     case ABIL_FEDHAS_PLANT_RING:
     case ABIL_QAZLAL_UPHEAVAL:
-    case ABIL_HEPLIAKLQANAL_ROMANTICIZE:
+    case ABIL_HEPLIAKLQANA_ROMANTICIZE:
         invoc = true;
         failure = 40 - (you.piety / 20) - you.skill(SK_INVOCATIONS, 5);
         break;
@@ -1104,7 +1104,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_YRED_DRAIN_LIFE:
     case ABIL_CHEIBRIADOS_SLOUCH:
     case ABIL_OKAWARU_FINESSE:
-    case ABIL_HEPLIAKLQANAL_TRANSFERENCE:
+    case ABIL_HEPLIAKLQANA_TRANSFERENCE:
         invoc = true;
         failure = 60 - (you.piety / 25) - you.skill(SK_INVOCATIONS, 4);
         break;
@@ -3132,12 +3132,12 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HEPLIAKLQANAL_ROMANTICIZE:
-        return hepliaklqanal_romanticize(fail);
+    case ABIL_HEPLIAKLQANA_ROMANTICIZE:
+        return hepliaklqana_romanticize(fail);
 
-    case ABIL_HEPLIAKLQANAL_DRAW_FROM_MEMORY:
+    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
     {
-        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        const mid_t ancestor_mid = hepliaklqana_ancestor();
         if (ancestor_mid != MID_NOBODY)
         {
             mpr("Your ancestor has already escaped the realm of memory!");
@@ -3152,7 +3152,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
         fail_check();
 
-        monster *ancestor = create_monster(hepliaklqanal_ancestor_gen_data());
+        monster *ancestor = create_monster(hepliaklqana_ancestor_gen_data());
         if (!ancestor)
         {
             mpr("You can't summon your ancestor here.");
@@ -3167,9 +3167,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HEPLIAKLQANAL_RECALL:
+    case ABIL_HEPLIAKLQANA_RECALL:
     {
-        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        const mid_t ancestor_mid = hepliaklqana_ancestor();
         if (ancestor_mid == MID_NOBODY)
         {
             mpr("You have no ancestor to recall!");
@@ -3187,9 +3187,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_HEPLIAKLQANAL_TRANSFERENCE:
+    case ABIL_HEPLIAKLQANA_TRANSFERENCE:
     {
-        const mid_t ancestor_mid = hepliaklqanal_ancestor();
+        const mid_t ancestor_mid = hepliaklqana_ancestor();
         if (ancestor_mid == MID_NOBODY)
         {
             mpr("You have no ancestor to swap with!");
@@ -3199,7 +3199,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         monster *ancestor = monster_by_mid(ancestor_mid);
         if (!ancestor || !you.can_see(*ancestor))
         {
-            mprf("%s is not nearby!", hepliaklqanal_ally_name().c_str());
+            mprf("%s is not nearby!", hepliaklqana_ally_name().c_str());
             return SPRET_ABORT;
         }
 
@@ -3218,26 +3218,26 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         you.move_to_pos(ancestor_pos, true, true);
         mprf("You swap with %s!", ancestor->name(DESC_YOUR).c_str());
 
-        hepliaklqanal_on_deathswap(ancestor_pos, false);
+        hepliaklqana_on_deathswap(ancestor_pos, false);
 
         ancestor->apply_location_effects(ancestor_pos);
         you.apply_location_effects(your_pos);
         return SPRET_SUCCESS;
     }
 
-    case ABIL_HEPLIAKLQANAL_TYPE_KNIGHT:
-    case ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE:
-    case ABIL_HEPLIAKLQANAL_TYPE_HEXER:
-        if (!hepliaklqanal_choose_ancestor_type(abil.ability))
+    case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
+    case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
+    case ABIL_HEPLIAKLQANA_TYPE_HEXER:
+        if (!hepliaklqana_choose_ancestor_type(abil.ability))
             return SPRET_ABORT;
         break;
 
-    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
-    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
-    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
-    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
-        if (!hepliaklqanal_choose_death_type(abil.ability))
+    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANA_DEATH_FOG:
+    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
+        if (!hepliaklqana_choose_death_type(abil.ability))
             return SPRET_ABORT;
         break;
 
@@ -3805,14 +3805,14 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_RU_SACRIFICE_EYE:
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
-    case ABIL_HEPLIAKLQANAL_DEATH_DISPERSE:
-    case ABIL_HEPLIAKLQANAL_DEATH_FOG:
-    case ABIL_HEPLIAKLQANAL_DEATH_IMPLODE:
-    case ABIL_HEPLIAKLQANAL_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANAL_DEATH_SLOW:
-    case ABIL_HEPLIAKLQANAL_TYPE_KNIGHT:
-    case ABIL_HEPLIAKLQANAL_TYPE_BATTLEMAGE:
-    case ABIL_HEPLIAKLQANAL_TYPE_HEXER:
+    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
+    case ABIL_HEPLIAKLQANA_DEATH_FOG:
+    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
+    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
+    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
+    case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
+    case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
+    case ABIL_HEPLIAKLQANA_TYPE_HEXER:
         first_slot = letter_to_index('G');
         break;
     default:
@@ -3858,23 +3858,23 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
         if (any_sacrifices)
             abilities.push_back(ABIL_RU_REJECT_SACRIFICES);
     }
-    if (you_worship(GOD_HEPLIAKLQANAL))
+    if (you_worship(GOD_HEPLIAKLQANA))
     {
-        if (piety_rank() >= 2 && !you.props.exists(HEPLIAKLQANAL_ALLY_TYPE_KEY))
+        if (piety_rank() >= 2 && !you.props.exists(HEPLIAKLQANA_ALLY_TYPE_KEY))
         {
-            for (int anc_type = ABIL_HEPLIAKLQANAL_FIRST_TYPE;
-                 anc_type <= ABIL_HEPLIAKLQANAL_LAST_TYPE;
+            for (int anc_type = ABIL_HEPLIAKLQANA_FIRST_TYPE;
+                 anc_type <= ABIL_HEPLIAKLQANA_LAST_TYPE;
                  ++anc_type)
             {
                 abilities.push_back(static_cast<ability_type>(anc_type));
             }
         }
 
-        if (piety_rank() >= 6 && !you.props.exists(HEPLIAKLQANAL_ALLY_DEATH_KEY))
+        if (piety_rank() >= 6 && !you.props.exists(HEPLIAKLQANA_ALLY_DEATH_KEY))
         {
-            ASSERT(you.props.exists(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY));
+            ASSERT(you.props.exists(HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY));
             for (int death_poss
-                 : you.props[HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY].get_vector())
+                 : you.props[HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY].get_vector())
             {
                 abilities.push_back(static_cast<ability_type>(death_poss));
             }

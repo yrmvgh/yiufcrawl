@@ -122,12 +122,12 @@ bool is_orcish_follower(const monster* mon);
 bool is_fellow_slime(const monster* mon);
 bool is_follower(const monster* mon);
 
-mgen_data hepliaklqanal_ancestor_gen_data();
-string hepliaklqanal_ally_name();
-void upgrade_hepliaklqanal_ancestor();
-void upgrade_hepliaklqanal_weapon(const monster &ancestor, item_def &item,
+mgen_data hepliaklqana_ancestor_gen_data();
+string hepliaklqana_ally_name();
+void upgrade_hepliaklqana_ancestor();
+void upgrade_hepliaklqana_weapon(const monster &ancestor, item_def &item,
                                   bool notify = false);
-void upgrade_hepliaklqanal_shield(const monster &ancestor, item_def &item,
+void upgrade_hepliaklqana_shield(const monster &ancestor, item_def &item,
                                   bool notify = false);
 
 // Vehumet gift interface.

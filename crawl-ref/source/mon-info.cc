@@ -1672,8 +1672,8 @@ int monster_info::res_magic() const
     if (mr < 0)
         mr = hd * (-mr) * 4 / 3;
 
-    // Hepliaklqanal ancestors scale with xl.
-    if (mons_is_hepliaklqanal_ancestor(type))
+    // Hepliaklqana ancestors scale with xl.
+    if (mons_is_hepliaklqana_ancestor(type))
         mr = hd * hd / 2;
 
     // Randarts

@@ -3178,7 +3178,7 @@ DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental")
 },
 
 
-// Hepliaklqanal's ancestor - variable traits
+// Hepliaklqana's ancestor - variable traits
 {
     MONS_ANCESTOR, 'W', YELLOW, "ancestor",
     M_ANCESTOR | M_NO_POLY_TO | M_NO_GEN_DERIVED | M_FLIES,
