@@ -714,7 +714,6 @@ KFEAT:  t = altar_gozag
 KFEAT:  u = altar_qazlal
 KFEAT:  v = altar_ru
 KFEAT:  w = altar_pakellas
-KFEAT:  y = altar_hepliaklqana
 KITEM:    B = plate armour mundane not_cursed ident:all plus:5, \
               fire dragon armour mundane not_cursed ident:all plus:5, \
               ice dragon armour mundane not_cursed ident:all plus:5, \
@@ -806,7 +805,7 @@ KFEAT:    & = granite_statue
 COLOUR:   & = magenta
 MAP
 ^f^g^h&A&i^j^k^
-ey........RT..l
+e.........RT..l
 ^..HG.........^
 d..IF.........m
 ^..JE.....S...^
