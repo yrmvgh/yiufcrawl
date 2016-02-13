@@ -5593,10 +5593,15 @@ void init_mutant_beast(monster &mons, short HD, vector<int> beast_facets,
  * type.
  *
  * @param ancestor      The ancestor in question.
+ * @param notify        Whether to print messages if anything changes.
  */
-void set_ancestor_spells(monster &ancestor)
+void set_ancestor_spells(monster &ancestor, bool notify)
 {
     ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
+
+    vector<spell_type> old_spells;
+    for (auto spellslot : ancestor.spells)
+        old_spells.emplace_back(spellslot.spell);
 
     ancestor.spells = {};
 
@@ -5646,4 +5651,16 @@ void set_ancestor_spells(monster &ancestor)
 
     if (ancestor.spells.size())
         ancestor.props[CUSTOM_SPELLS_KEY] = true;
+
+    for (auto spellslot : ancestor.spells)
+    {
+        if (find(old_spells.begin(), old_spells.end(), spellslot.spell)
+            == old_spells.end())
+        {
+            mprf("%s regains %s memory of %s.",
+                 ancestor.name(DESC_YOUR, true).c_str(),
+                 ancestor.pronoun(PRONOUN_POSSESSIVE, true).c_str(),
+                 spell_title(spellslot.spell));
+        }
+    }
 }

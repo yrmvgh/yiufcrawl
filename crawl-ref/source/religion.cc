@@ -1755,6 +1755,23 @@ mgen_data hepliaklqanal_ancestor_gen_data()
     return mg;
 }
 
+/// Print a message for an ancestor's *something* being gained.
+static void _regain_memory(const monster &ancestor, string memory)
+{
+    mprf("%s regains the memory of %s %s.",
+         ancestor.name(DESC_YOUR, true).c_str(),
+         ancestor.pronoun(PRONOUN_POSSESSIVE, true).c_str(),
+         memory.c_str());
+}
+
+/// Print a message for an ancestor's item being gained/type upgraded.
+static void _regain_item_memory(const monster &ancestor,
+                                object_class_type base_type,
+                                int sub_type)
+{
+    _regain_memory(ancestor, item_base_name(base_type, sub_type));
+}
+
 /**
  * Update the ancestor's stats after the player levels up. Upgrade HD and HP,
  * and give appropriate messaging for that and any other notable upgrades
@@ -1762,30 +1779,59 @@ mgen_data hepliaklqanal_ancestor_gen_data()
  */
 void upgrade_hepliaklqanal_ancestor()
 {
-    // messaging goes here
-
     monster* ancestor = hepliaklqanal_ancestor_mon();
     if (!ancestor || !ancestor->alive())
         return;
 
+    const int old_hd = ancestor->get_experience_level();
     ancestor->set_hit_dice(_hepliaklqanal_ally_hd());
+    if (old_hd == ancestor->get_experience_level())
+        return; // assume nothing changes except at different HD
+
     const int old_mhp = ancestor->max_hit_points;
     ancestor->max_hit_points = _hepliaklqanal_ally_hp();
     ancestor->hit_points =
         div_rand_round(ancestor->hit_points * ancestor->max_hit_points,
                        old_mhp);
 
+    mprf("%s remembers more of %s old skill.",
+         ancestor->name(DESC_YOUR, true).c_str(),
+         ancestor->pronoun(PRONOUN_POSSESSIVE, true).c_str());
+
     // assumption: ancestors can lose weapons (very rarely - tukima's),
     // and it's weird for them to just reappear, so only upgrade existing ones
     if (ancestor->weapon())
-        upgrade_hepliaklqanal_weapon(*ancestor, *ancestor->weapon());
+        upgrade_hepliaklqanal_weapon(*ancestor, *ancestor->weapon(), true);
     // but shields can't be lost, and *can* be gained (knight at hd 5)
     // so give them out as appropriate
     if (ancestor->shield())
-        upgrade_hepliaklqanal_shield(*ancestor, *ancestor->shield());
+        upgrade_hepliaklqanal_shield(*ancestor, *ancestor->shield(), true);
     else
+    {
         give_shield(ancestor);
-    set_ancestor_spells(*ancestor);
+        const item_def* shield = ancestor->shield();
+        if (shield)
+            _regain_item_memory(*ancestor, shield->base_type, shield->sub_type);
+    }
+    set_ancestor_spells(*ancestor, true);
+
+    // TODO: misc messages
+
+    const int HD = ancestor->get_experience_level();
+    // not a big fan of this hardcoding
+    // consider using _hepliaklqanal_ancestor_resists
+    if (HD == 11)
+        _regain_memory(*ancestor, "ring of protection from fire");
+    if (HD == 12)
+        _regain_memory(*ancestor, "ring of protection from fire");
+    // also hardcoded....
+    if (HD == 15)
+        _regain_memory(*ancestor, "ring of see invisible");
+    // yes, they're wearing three rings. they could do that, in the old days!
+
+    // spiny
+    if (HD == 16 && ancestor->type == MONS_ANCESTOR_KNIGHT)
+        _regain_memory(*ancestor, "spiked armour");
 }
 
 /**
@@ -1841,19 +1887,43 @@ static brand_type _hepliaklqanal_weapon_brand(const monster &ancestor)
  *
  * @param[in]   ancestor      The ancestor for whom the weapon is intended.
  * @param[out]  item          The item to be configured.
+ * @param       notify        Whether messages should be printed when something
+ *                            changes. (Weapon type or brand.)
  * @return                    True iff the ancestor should have a weapon.
  */
-void upgrade_hepliaklqanal_weapon(const monster &ancestor, item_def &item)
+void upgrade_hepliaklqanal_weapon(const monster &ancestor, item_def &item,
+                                  bool notify)
 {
     ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
     if (ancestor.type == MONS_ANCESTOR)
         return; // bare-handed!
+
+    const weapon_type old_type = static_cast<weapon_type>(item.sub_type);
+    const brand_type old_brand = static_cast<brand_type>(item.brand);
 
     item.base_type = OBJ_WEAPONS;
     item.sub_type = _hepliaklqanal_weapon_type(ancestor);
     item.brand = _hepliaklqanal_weapon_brand(ancestor);
     item.plus = ancestor.get_experience_level() / 2;
     item.flags |= ISFLAG_IDENT_MASK | ISFLAG_SUMMONED;
+
+    if (!notify)
+        return;
+
+    if (old_type != item.sub_type)
+        _regain_item_memory(ancestor, item.base_type, item.sub_type);
+
+    if (old_brand != item.brand)
+    {
+        mprf("%s remembers %s %s %s.",
+             ancestor.name(DESC_YOUR, true).c_str(),
+             ancestor.pronoun(PRONOUN_POSSESSIVE, true).c_str(),
+             apostrophise(item_base_name(item.base_type,
+                                         item.sub_type)).c_str(),
+             brand_type_name(item.brand, item.brand != SPWPN_DRAINING));
+        // 'remembers... draining' reads better than 'drain', but 'flame'
+        // reads better than 'flaming'
+    }
 }
 
 /**
@@ -1879,9 +1949,12 @@ armour_type _hepliaklqanal_shield_type(int HD)
  *
  * @param[in]   ancestor      The ancestor for whom the weapon is intended.
  * @param[out]  item          The item to be configured.
+ * @param       notify        Whether messages should be printed when something
+ *                            changes. (Shield type or ego.)
  * @return                    True iff the ancestor should have a weapon.
  */
-void upgrade_hepliaklqanal_shield(const monster &ancestor, item_def &item)
+void upgrade_hepliaklqanal_shield(const monster &ancestor, item_def &item,
+                                  bool notify)
 {
     ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
     if (ancestor.type != MONS_ANCESTOR_KNIGHT)
@@ -1892,12 +1965,31 @@ void upgrade_hepliaklqanal_shield(const monster &ancestor, item_def &item)
     if (shield_type == NUM_ARMOURS)
         return; // no shield yet!
 
+    const armour_type old_type = static_cast<armour_type>(item.sub_type);
+    const special_armour_type old_ego = (special_armour_type)item.brand;
+
     item.base_type = OBJ_ARMOUR;
     item.sub_type = shield_type;
     item.brand = HD < 14 ? SPARM_NORMAL : SPARM_REFLECTION;
     item.plus = ancestor.get_experience_level() / 3;
     item.flags |= ISFLAG_IDENT_MASK | ISFLAG_SUMMONED;
     item.quantity = 1;
+
+    if (!notify)
+        return;
+
+    if (old_type != item.sub_type)
+        _regain_item_memory(ancestor, item.base_type, item.sub_type);
+
+    if (old_ego != item.brand)
+    {
+        mprf("%s remembers %s %s %s.",
+             ancestor.name(DESC_YOUR, true).c_str(),
+             ancestor.pronoun(PRONOUN_POSSESSIVE, true).c_str(),
+             apostrophise(item_base_name(item.base_type,
+                                         item.sub_type)).c_str(),
+             armour_ego_name(item, false));
+    }
 }
 
 bool vehumet_is_offering(spell_type spell)
