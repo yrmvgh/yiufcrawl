@@ -1328,7 +1328,10 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
         init_mutant_beast(*mon, mg.hd, gen_facets, avoid_facets);
     }
     else if (mons_is_hepliaklqanal_ancestor(mon->type))
+    {
         set_ancestor_spells(*mon);
+        mon->props[MON_GENDER_KEY] = mg.props[MON_GENDER_KEY].get_int();
+    }
 
     // Is it a god gift?
     if (mg.god != GOD_NO_GOD)
