@@ -1802,7 +1802,7 @@ static weapon_type _hepliaklqanal_weapon_type(const monster &ancestor)
             return ancestor.get_experience_level() < 16 ? WPN_DAGGER
                                                         : WPN_QUICK_BLADE;
         case MONS_ANCESTOR_KNIGHT:
-            return ancestor.get_experience_level() < 9 ? WPN_LONG_SWORD
+            return ancestor.get_experience_level() < 8 ? WPN_LONG_SWORD
                                                        : WPN_BROAD_AXE;
         case MONS_ANCESTOR_BATTLEMAGE:
             return WPN_QUARTERSTAFF;
