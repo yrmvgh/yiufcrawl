@@ -1229,8 +1229,8 @@ string spell_uselessness_reason(spell_type spell, bool temp, bool prevent,
     case SPELL_BORGNJORS_REVIVIFICATION:
     case SPELL_DEATHS_DOOR:
         // Prohibited to all undead.
-        if (you.undead_state(temp))
-            return "you're too dead.";
+//        if (you.undead_state(temp))
+//            return "you're too dead.";
         break;
     case SPELL_NECROMUTATION:
         // only prohibted to actual undead, not lichformed players
