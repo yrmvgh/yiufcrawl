@@ -5587,3 +5587,63 @@ void init_mutant_beast(monster &mons, short HD, vector<int> beast_facets,
         }
     }
 }
+
+/**
+ * Set the correct spells for a given ancestor, corresponding to their HD and
+ * type.
+ *
+ * @param ancestor      The ancestor in question.
+ */
+void set_ancestor_spells(monster &ancestor)
+{
+    ASSERT(mons_is_hepliaklqanal_ancestor(ancestor.type));
+
+    ancestor.spells = {};
+
+    // list of req HD and spells
+    // must be listed from most desirable to least
+    static const map<monster_type, vector<pair<int, spell_type>>> splist = {
+        { MONS_ANCESTOR, {} },
+        { MONS_ANCESTOR_KNIGHT, {} },
+        { MONS_ANCESTOR_BATTLEMAGE, {
+            { 18, SPELL_LEHUDIBS_CRYSTAL_SPEAR },
+            { 16, SPELL_BOLT_OF_MAGMA },
+            { 13, SPELL_IRON_SHOT },
+            { 10, SPELL_FIREBALL },
+            { 8,  SPELL_THROW_ICICLE },
+            { 6,  SPELL_STONE_ARROW },
+            { 3,  SPELL_THROW_FROST },
+            { 1,  SPELL_MAGIC_DART },
+        } },
+        { MONS_ANCESTOR_HEXER, {
+            { 17, SPELL_MASS_CONFUSION },
+            { 13, SPELL_ENGLACIATION },
+            { 10, SPELL_PETRIFY },
+            { 7,  SPELL_CONFUSE },
+            { 4,  SPELL_SLOW },
+            { 1,  SPELL_CORONA },
+        } },
+    };
+    static const int MAX_SPELLS = 2;
+    const int HD = ancestor.get_experience_level();
+
+    const vector<pair<int, spell_type>> spells_for_class
+        = *map_find(splist, ancestor.type);
+    for (auto spellspec : spells_for_class)
+    {
+        if (spellspec.first <= HD)
+        {
+            ancestor.spells.emplace_back(spellspec.second, 30,
+                                         MON_SPELL_WIZARD);
+
+            if (ancestor.spells.size() >= MAX_SPELLS)
+                break;
+        }
+    }
+
+    if (HD >= 14)
+        ancestor.spells.emplace_back(SPELL_HASTE, 40, MON_SPELL_WIZARD);
+
+    if (ancestor.spells.size())
+        ancestor.props[CUSTOM_SPELLS_KEY] = true;
+}

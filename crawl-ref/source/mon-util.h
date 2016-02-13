@@ -514,4 +514,5 @@ bool mons_is_notable(const monster& mon);
 
 void init_mutant_beast(monster &mon, short HD, vector<int> beast_facets,
                        set<int> avoid_facets);
+void set_ancestor_spells(monster &ancestor);
 #endif

@@ -1786,6 +1786,7 @@ void upgrade_hepliaklqanal_ancestor()
         upgrade_hepliaklqanal_shield(*ancestor, *ancestor->shield());
     else
         give_shield(ancestor);
+    set_ancestor_spells(*ancestor);
 }
 
 /**
