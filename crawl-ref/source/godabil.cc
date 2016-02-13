@@ -6806,6 +6806,7 @@ bool hepliaklqanal_choose_death_type(int death_type)
     }
 
     you.props[HEPLIAKLQANAL_ALLY_DEATH_KEY] = death_type;
+    you.props.erase(HEPLIAKLQANAL_DEATH_POSSIBILTIES_KEY);
     simple_god_message(" will remember this.");
     take_note(Note(NOTE_ANCESTOR_DEATH, 0, 0, _death_name(death_type)));
     return true;
