@@ -1698,7 +1698,6 @@ static bool _jiyva_mutate()
 /**
  * What's the name of the ally Hepliaklqanal granted the player?
  *
- * XXX: what happens if the ally hasn't been named yet? [later]
  * @return      The ally's name.
  */
 string hepliaklqanal_ally_name()
