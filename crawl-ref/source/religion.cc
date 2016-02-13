@@ -3882,15 +3882,30 @@ static void _join_gozag()
     add_daction(DACT_GOLD_ON_TOP);
 }
 
+/**
+ * Choose an antique name for a Hepliaklqana-granted ancestor.
+ *
+ * @param female    Whether the ancestor is female or male.
+ * @return          An appropriate name; e.g. Hrodulf, Citali, Aat.
+ */
+static string _make_ancestor_name(bool female)
+{
+    const string gender_name = female ? "female" : "male";
+    const string suffix = " " + gender_name + " name";
+    const string name = getRandNameString("ancestor", suffix);
+    return name.empty() ? make_name() : name;
+}
+
 /// Setup when joining the devoted followers of Hepliaklqana.
 static void _join_hepliaklqana()
 {
     // initial setup.
     if (!you.props.exists(HEPLIAKLQANA_ALLY_NAME_KEY))
     {
-        you.props[HEPLIAKLQANA_ALLY_NAME_KEY] = make_name();
-        you.props[HEPLIAKLQANA_ALLY_GENDER_KEY] = coinflip() ? GENDER_FEMALE
-                                                              : GENDER_MALE;
+        const bool female = coinflip();
+        you.props[HEPLIAKLQANA_ALLY_NAME_KEY] = _make_ancestor_name(female);
+        you.props[HEPLIAKLQANA_ALLY_GENDER_KEY] = female ? GENDER_FEMALE
+                                                         : GENDER_MALE;
     }
 
     // Complimentary ancestor upon joining.
