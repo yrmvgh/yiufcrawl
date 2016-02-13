@@ -82,7 +82,7 @@ static const char *_god_wrath_adjectives[] =
     "adversity",        // Qazlal
     "disappointment",   // Ru
     "progress",         // Pakellas
-    "helpfulness",      // Hepliaklqanal
+    "memory",           // Hepliaklqanal (unused)
 };
 COMPILE_CHECK(ARRAYSZ(_god_wrath_adjectives) == NUM_GODS);
 
@@ -1876,6 +1876,7 @@ bool divine_retribution(god_type god, bool no_bonus, bool force)
     case GOD_ASHENZARI:
     case GOD_GOZAG:
     case GOD_RU:
+    case GOD_HEPLIAKLQANAL:
         // No reduction with time.
         return false;
 

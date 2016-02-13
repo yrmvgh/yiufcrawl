@@ -1058,6 +1058,7 @@ bool active_penance(god_type god)
            && god != GOD_ASHENZARI
            && god != GOD_GOZAG
            && god != GOD_RU
+           && god != GOD_HEPLIAKLQANAL
            && (god != GOD_NEMELEX_XOBEH || you.penance[god] > 100)
            && (god == you.religion && !is_good_god(god)
                || god_hates_your_god(god, you.religion));
@@ -1069,7 +1070,8 @@ bool xp_penance(god_type god)
     return player_under_penance(god)
            && !is_unavailable_god(god)
            && (god == GOD_ASHENZARI
-               || god == GOD_GOZAG);
+               || god == GOD_GOZAG
+               || god == GOD_HEPLIAKLQANAL);
 }
 
 void dec_penance(god_type god, int val)
@@ -3269,7 +3271,10 @@ void excommunication(bool voluntary, god_type new_god)
         add_daction(DACT_ALLY_HEPLIAKLQANAL);
         remove_all_companions(GOD_HEPLIAKLQANAL);
 
-        _set_penance(old_god, 25);
+        you.exp_docked[old_god] = exp_needed(min<int>(you.max_level, 27) + 1)
+                                    - exp_needed(min<int>(you.max_level, 27));
+        you.exp_docked_total[old_god] = you.exp_docked[old_god];
+        _set_penance(old_god, 50);
         break;
     default:
         _set_penance(old_god, 25);
