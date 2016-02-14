@@ -1906,7 +1906,7 @@ static mon_attack_def _hepliaklqana_ancestor_attack(const monster &mon,
         return { };
 
     const int HD = mon.get_experience_level();
-    const int dam = HD*HD/18 + HD/2 + 3; // 3 at 1 HD, 30 at 18 HD (max)
+    const int dam = HD*3/2 + 3; // 3 at 1 HD, 30 at 18 HD (max)
 
     return { AT_HIT, AF_PLAIN, dam };
 }
