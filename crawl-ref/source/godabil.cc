@@ -6728,6 +6728,7 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
         ancestor->type = *ancestor_type;
         give_weapon(ancestor, -1, true);
         give_shield(ancestor);
+        set_ancestor_spells(*ancestor);
     }
 
     simple_god_message(" will remember this.");
