@@ -5652,6 +5652,9 @@ void set_ancestor_spells(monster &ancestor, bool notify)
     if (ancestor.spells.size())
         ancestor.props[CUSTOM_SPELLS_KEY] = true;
 
+    if (!notify)
+        return;
+
     for (auto spellslot : ancestor.spells)
     {
         if (find(old_spells.begin(), old_spells.end(), spellslot.spell)
