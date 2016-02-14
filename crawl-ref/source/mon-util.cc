@@ -5612,9 +5612,9 @@ void set_ancestor_spells(monster &ancestor, bool notify)
         { MONS_ANCESTOR_KNIGHT, {} },
         { MONS_ANCESTOR_BATTLEMAGE, {
             { 18, SPELL_LEHUDIBS_CRYSTAL_SPEAR },
-            { 16, SPELL_BOLT_OF_MAGMA },
+            { 16, SPELL_CORROSIVE_BOLT },
             { 13, SPELL_IRON_SHOT },
-            { 10, SPELL_FIREBALL },
+            { 10, SPELL_BOLT_OF_MAGMA },
             { 8,  SPELL_THROW_ICICLE },
             { 6,  SPELL_STONE_ARROW },
             { 3,  SPELL_THROW_FROST },
