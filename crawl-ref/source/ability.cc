@@ -3860,7 +3860,7 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
     }
     if (you_worship(GOD_HEPLIAKLQANA))
     {
-        if (true)//piety_rank() >= 2 && !you.props.exists(HEPLIAKLQANA_ALLY_TYPE_KEY))
+        if (piety_rank() >= 2 && !you.props.exists(HEPLIAKLQANA_ALLY_TYPE_KEY))
         {
             for (int anc_type = ABIL_HEPLIAKLQANA_FIRST_TYPE;
                  anc_type <= ABIL_HEPLIAKLQANA_LAST_TYPE;
