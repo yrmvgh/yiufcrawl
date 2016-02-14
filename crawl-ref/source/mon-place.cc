@@ -1327,11 +1327,6 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
 
         init_mutant_beast(*mon, mg.hd, gen_facets, avoid_facets);
     }
-    else if (mons_is_hepliaklqana_ancestor(mon->type))
-    {
-        set_ancestor_spells(*mon);
-        mon->props[MON_GENDER_KEY] = mg.props[MON_GENDER_KEY].get_int();
-    }
 
     // Is it a god gift?
     if (mg.god != GOD_NO_GOD)
@@ -1519,6 +1514,13 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     {
         mon->props["tornado_since"].get_int() = you.elapsed_time;
         mon->add_ench(mon_enchant(ENCH_TORNADO, 0, 0, INFINITE_DURATION));
+    }
+
+    // this MUST follow hd initialization!
+    if (mons_is_hepliaklqana_ancestor(mon->type))
+    {
+        set_ancestor_spells(*mon);
+        mon->props[MON_GENDER_KEY] = mg.props[MON_GENDER_KEY].get_int();
     }
 
     if (mon->has_spell(SPELL_OZOCUBUS_ARMOUR))
