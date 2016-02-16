@@ -786,8 +786,8 @@ Romanticize ability
 
 Restores your ancestor to an idyllic vision of their past self, forgetting
 the wounds and ailments that harm them and coating them in a sparkling,
-short-lived sheen of elemental resistance. The quality of the healing &
-duration of resistance granted are both improved by the Invocations skill.
+short-lived protective sheen. The quality of the healing & duration of the
+protection granted are both improved by the Invocations skill.
 %%%%
 Transference ability
 

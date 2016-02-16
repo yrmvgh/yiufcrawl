@@ -6997,6 +6997,6 @@ spret_type hepliaklqana_romanticize(bool fail)
 
     const int dur = random_range(50, 80)
                     + random2(you.skill(SK_INVOCATIONS, 10));
-    ancestor->add_ench({ ENCH_RESISTANCE, 1, &you, dur});
+    ancestor->add_ench({ ENCH_MAGIC_ARMOUR, 1, &you, dur});
     return SPRET_SUCCESS;
 }
