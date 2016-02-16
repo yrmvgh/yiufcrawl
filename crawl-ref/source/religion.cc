@@ -1824,7 +1824,7 @@ void upgrade_hepliaklqana_ancestor()
     if (HD == 11)
         _regain_memory(*ancestor, "ring of protection from fire");
     if (HD == 12)
-        _regain_memory(*ancestor, "ring of protection from fire");
+        _regain_memory(*ancestor, "ring of protection from cold");
     // also hardcoded....
     if (HD == 15)
         _regain_memory(*ancestor, "ring of see invisible");
