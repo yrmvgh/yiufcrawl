@@ -2571,13 +2571,16 @@ item_def* monster_die(monster* mons, killer_type killer,
         if (mons_is_hepliaklqana_ancestor(mons->type))
         {
             ASSERT(hepliaklqana_ancestor() == MID_NOBODY);
-            if (!was_banished && !mons_reset)
+            if (!was_banished)
                 hepliaklqana_on_deathswap(mons->pos(), true);
             if (!you.can_see(*mons))
             {
                 mprf("%s has departed this plane of existence.",
                      hepliaklqana_ally_name().c_str());
             }
+            // 50-60 turns at 0 piety, 10-20 turns at full piety
+            you.duration[DUR_ANCESTOR_DELAY] = random_range(500, 600)
+                                                - you.piety * 2;
         }
     }
 

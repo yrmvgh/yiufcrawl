@@ -458,7 +458,6 @@ const vector<god_power> god_powers[NUM_GODS] =
 
     // Hepliaklqana
     { { 0, ABIL_HEPLIAKLQANA_RECALL, "recall your ancestor" },
-      { 1, ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY, "bring your ancestor back" },
       { 3, ABIL_HEPLIAKLQANA_ROMANTICIZE, "heal & protect your ancestor" },
       { 5, ABIL_HEPLIAKLQANA_TRANSFERENCE, "trade places with your ancestor" }
     },

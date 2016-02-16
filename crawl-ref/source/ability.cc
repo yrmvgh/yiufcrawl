@@ -446,8 +446,6 @@ static const ability_def Ability_List[] =
     // Hepliaklqana
     { ABIL_HEPLIAKLQANA_RECALL, "Recall Ancestor",
         2, 0, 50, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY, "Draw From Memory",
-        5, 0, 100, 10, abflag::NONE },
     { ABIL_HEPLIAKLQANA_ROMANTICIZE, "Romanticize",
         2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
@@ -810,12 +808,6 @@ ability_type fixup_ability(ability_type ability)
             return ABIL_NON_ABILITY;
         return ability;
 
-    // only available while your ancestor is dead.
-    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
-        if (hepliaklqana_ancestor() != MID_NOBODY)
-            return ABIL_NON_ABILITY;
-        return ability;
-
     default:
         return ability;
     }
@@ -1026,7 +1018,6 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_ZIN_RECITE:
     case ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS:
     case ABIL_HEPLIAKLQANA_RECALL:
-    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
     case ABIL_OKAWARU_HEROISM:
     case ABIL_ELYVILON_LESSER_HEALING:
     case ABIL_LUGONU_ABYSS_EXIT:
@@ -3134,38 +3125,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_HEPLIAKLQANA_ROMANTICIZE:
         return hepliaklqana_romanticize(fail);
-
-    case ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY:
-    {
-        const mid_t ancestor_mid = hepliaklqana_ancestor();
-        if (ancestor_mid != MID_NOBODY)
-        {
-            mpr("Your ancestor has already escaped the realm of memory!");
-            return SPRET_ABORT;
-        }
-
-        if (!branch_allows_followers(you.where_are_you))
-        {
-            mpr("You can't summon your ancestor in this place.");
-            return SPRET_ABORT;
-        }
-
-        fail_check();
-
-        monster *ancestor = create_monster(hepliaklqana_ancestor_gen_data());
-        if (!ancestor)
-        {
-            mpr("You can't summon your ancestor here.");
-            break; // don't allow to use to scout for invis monsters, or... w/e
-        }
-
-        mprf("%s emerges from the mists of memory!",
-             ancestor->name(DESC_YOUR).c_str());
-        add_companion(ancestor);
-        check_place_cloud(CLOUD_MIST, ancestor->pos(), random_range(1,2),
-                          ancestor);
-        break;
-    }
 
     case ABIL_HEPLIAKLQANA_RECALL:
     {

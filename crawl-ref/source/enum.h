@@ -417,7 +417,10 @@ enum ability_type
 
     // Hepliaklqana
     ABIL_HEPLIAKLQANA_RECALL = 1240,
+#if TAG_MAJOR_VERSION == 34
+    // included for local private playtesting - remove after that game's done
     ABIL_HEPLIAKLQANA_DRAW_FROM_MEMORY,
+#endif
     ABIL_HEPLIAKLQANA_ROMANTICIZE,
     ABIL_HEPLIAKLQANA_TRANSFERENCE,
 
@@ -1942,6 +1945,7 @@ enum duration_type
     DUR_DOOM_HOWL_IMMUNITY,
 #endif
     DUR_VERTIGO,
+    DUR_ANCESTOR_DELAY,
     NUM_DURATIONS
 };
 

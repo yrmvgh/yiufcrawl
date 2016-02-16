@@ -782,11 +782,6 @@ Recall Ancestor ability
 Recalls your ancestor from anywhere in the dungeon to your immediate
 surroundings.
 %%%%
-Draw From Memory ability
-
-Draws your ancestor from the realms of memory back into reality, allowing them
-to fight alongside you once again.
-%%%%
 Romanticize ability
 
 Restores your ancestor to an idyllic vision of their past self, forgetting
