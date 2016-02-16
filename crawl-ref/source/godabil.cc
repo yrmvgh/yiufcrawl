@@ -6858,7 +6858,7 @@ static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
     mprf("As %s %s, fog sprays out.",
          hepliaklqana_ally_name().c_str(),
-         death ? "dies" : "swaps");
+         death ? "is destroyed" : "swaps");
     big_cloud(random_smoke_type(), &you, loc, 50,
               death ? 9 + random2(9) : 6 + random2(6));
 }
@@ -6909,7 +6909,7 @@ static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
     mprf("As %s %s, translocational energy flares.",
          hepliaklqana_ally_name().c_str(),
-         death ? "dies" : "swaps");
+         death ? "is destroyed" : "swaps");
     cast_dispersal(death ? 100 : 30, false, &loc);
 }
 

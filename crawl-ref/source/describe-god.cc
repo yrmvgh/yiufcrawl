@@ -369,7 +369,7 @@ static string _describe_branch_bribability()
  * What death effect has been chosen, if any?
  *
  * @return      A description of the chosen death effect, or "".
- *              E.g. "When your ancestor dies or swaps with you,
+ *              E.g. "When your ancestor is destroyed or swaps with you,
  *              fog will spray from its prior location."
  */
 static string _describe_hep_death_effect()
@@ -377,7 +377,7 @@ static string _describe_hep_death_effect()
     if (!you.props.exists(HEPLIAKLQANA_ALLY_DEATH_KEY))
         return "";
 
-    const string prf = "When your ancestor dies or swaps with you, ";
+    const string prf = "When your ancestor is destroyed or swaps with you, ";
 
     const int death_type = you.props[HEPLIAKLQANA_ALLY_DEATH_KEY].get_int();
     switch (death_type)
