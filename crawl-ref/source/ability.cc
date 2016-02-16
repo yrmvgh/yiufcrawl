@@ -447,9 +447,9 @@ static const ability_def Ability_List[] =
     { ABIL_HEPLIAKLQANA_RECALL, "Recall Ancestor",
         2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANA_ROMANTICIZE, "Romanticize",
-        2, 0, 50, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
         2, 0, 50, 3, abflag::NONE },
+    { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
+        2, 0, 50, 5, abflag::NONE },
 
     { ABIL_HEPLIAKLQANA_TYPE_KNIGHT,       "Ancestor Life: Knight",
         0, 0, 0, 0, abflag::NONE },
