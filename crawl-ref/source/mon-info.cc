@@ -1655,6 +1655,9 @@ bool monster_info::can_see_invisible() const
             if (facet.get_int() == BF_WEIRD)
                 return true;
 
+    if (mons_is_hepliaklqana_ancestor(type))
+        return hd >= 15;
+
     return mons_class_flag(type, M_SEE_INVIS)
            || mons_is_demonspawn(type)
               && mons_class_flag(draco_or_demonspawn_subspecies(), M_SEE_INVIS);
