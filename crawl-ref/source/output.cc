@@ -635,7 +635,7 @@ static void _print_stats_mp(int x, int y)
 
 static void _print_stats_food(int x, int y)
 {
-    if (you.species != SP_DJINNI && true)
+    if (you.species != SP_DJINNI || true)
         return;
 
     const int max_food = HUNGER_MAXIMUM;
@@ -1413,7 +1413,7 @@ void draw_border()
 
     //CGOTOXY(1, 3, GOTO_STAT); CPRINTF("Hp:");
     CGOTOXY(1, mp_pos, GOTO_STAT);
-    if (you.species == SP_DJINNI)
+    if (false && you.species == SP_DJINNI)
         CPRINTF("Food:");
     CGOTOXY(1, ac_pos, GOTO_STAT); CPRINTF("AC:");
     CGOTOXY(1, ev_pos, GOTO_STAT); CPRINTF("EV:");

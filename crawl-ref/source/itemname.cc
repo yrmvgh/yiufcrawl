@@ -3270,6 +3270,8 @@ bool is_good_item(const item_def &item)
     switch (item.base_type)
     {
     case OBJ_SCROLLS:
+        if (you.species == SP_DJINNI)
+            return false;
         return item.sub_type == SCR_ACQUIREMENT;
     case OBJ_POTIONS:
         if (you.species == SP_MUMMY)
@@ -3311,6 +3313,10 @@ bool is_bad_item(const item_def &item, bool temp)
     switch (item.base_type)
     {
     case OBJ_SCROLLS:
+        // Can't be bad if you can't use them.
+        if (you.species == SP_DJINNI)
+            return false;
+
         switch (item.sub_type)
         {
         case SCR_CURSE_ARMOUR:
@@ -3528,7 +3534,7 @@ bool is_useless_item(const item_def &item, bool temp)
                 || (is_shield(item) && player_mutation_level(MUT_MISSING_HAND));
 
     case OBJ_SCROLLS:
-        if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
+        if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS) || you.species == SP_DJINNI)
             return true;
 
         if (temp && silenced(you.pos()))

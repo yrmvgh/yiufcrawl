@@ -844,6 +844,7 @@ enum canned_message_type
     MSG_GAIN_HEALTH,
     MSG_GAIN_MAGIC,
     MSG_MAGIC_DRAIN,
+	MSG_DJINNI_CANT_READ,
 };
 
 enum char_set_type

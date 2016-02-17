@@ -2390,6 +2390,12 @@ bool player_can_read()
         return false;
     }
 
+    if (you.species == SP_DJINNI)
+    {
+        canned_msg(MSG_DJINNI_CANT_READ);
+        return false;
+    }
+
     return true;
 }
 
