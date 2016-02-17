@@ -3135,12 +3135,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         }
 
-        if (!branch_allows_followers(you.where_are_you))
-        {
-            mpr("You can't recall your ancestor to this place.");
-            return SPRET_ABORT;
-        }
-
         fail_check();
         try_recall(ancestor_mid);
         break;
