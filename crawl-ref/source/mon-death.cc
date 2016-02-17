@@ -2578,9 +2578,8 @@ item_def* monster_die(monster* mons, killer_type killer,
                 mprf("%s has departed this plane of existence.",
                      hepliaklqana_ally_name().c_str());
             }
-            // 50-60 turns at 0 piety, 10-20 turns at full piety
-            you.duration[DUR_ANCESTOR_DELAY] = random_range(500, 600)
-                                                - you.piety * 2;
+            // respawn in ~30-60 turns
+            you.duration[DUR_ANCESTOR_DELAY] = random_range(300, 600);
         }
     }
 
