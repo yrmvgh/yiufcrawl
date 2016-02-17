@@ -420,6 +420,7 @@ enum ability_type
     // General divine (pseudo) abilities.
     ABIL_RENOUNCE_RELIGION,
     ABIL_CONVERT_TO_BEOGH,
+    ABIL_LIGNIFY,
     NUM_ABILITIES
 };
 

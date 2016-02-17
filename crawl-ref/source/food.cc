@@ -138,14 +138,14 @@ void set_hunger(int new_hunger_level, bool suppress_msg)
 bool you_foodless(bool can_eat)
 {
     return you.undead_state() == US_UNDEAD
-//        || you.species == SP_DJINNI && !can_eat
+        || you.species == SP_DJINNI && !can_eat
         ;
 }
 
 bool you_foodless_normally()
 {
     return you.undead_state(false) == US_UNDEAD
-//        || you.species == SP_DJINNI
+        || you.species == SP_DJINNI
         ;
 }
 

@@ -441,6 +441,8 @@ static const ability_def Ability_List[] =
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
     { ABIL_RENOUNCE_RELIGION, "Renounce Religion", 0, 0, 0, 0, abflag::NONE },
     { ABIL_CONVERT_TO_BEOGH, "Convert to Beogh", 0, 0, 0, 0, abflag::NONE },
+
+	{ ABIL_LIGNIFY, "Lignify", 0, 0, 200, 0, abflag::NONE },
 };
 
 static const ability_def& get_ability_def(ability_type abil)
