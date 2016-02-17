@@ -1822,13 +1822,13 @@ void upgrade_hepliaklqana_ancestor()
     // not a big fan of this hardcoding
     // consider using _hepliaklqana_ancestor_resists
     if (HD == 11)
-        _regain_memory(*ancestor, "ring of protection from fire");
+        _regain_memory(*ancestor, "gloves of protection from fire");
     if (HD == 12)
-        _regain_memory(*ancestor, "ring of protection from cold");
+        _regain_memory(*ancestor, "cloak of protection from cold");
     // also hardcoded....
     if (HD == 15)
         _regain_memory(*ancestor, "ring of see invisible");
-    // yes, they're wearing three rings. they could do that, in the old days!
+    // if innate relec comes back, those are clearly boots...
 
     // spiny
     if (HD == 16 && ancestor->type == MONS_ANCESTOR_KNIGHT)
