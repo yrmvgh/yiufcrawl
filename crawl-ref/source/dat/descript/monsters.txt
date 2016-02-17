@@ -540,6 +540,10 @@ anaconda
 A very large snake that moves with startling rapidity on both land and in the
 water. It kills not by poison but by constricting its prey.
 %%%%
+ancestor
+
+A warrior from the distantly remembered past.
+%%%%
 ancient lich
 
 A lich who, having existed for countless centuries, has grown almost
