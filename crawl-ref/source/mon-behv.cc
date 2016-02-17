@@ -1488,7 +1488,10 @@ bool monster_can_hit_monster(monster* mons, const monster* targ)
 // Friendly summons can't attack out of the player's LOS, it's too abusable.
 bool summon_can_attack(const monster* mons)
 {
-    return crawl_state.game_is_arena() || !mons->friendly() || !mons->is_summoned()
+    return crawl_state.game_is_arena()
+           || !mons->friendly()
+           || !mons->is_summoned()
+              && !mons_is_hepliaklqana_ancestor(mons->type)
            || you.see_cell_no_trans(mons->pos());
 }
 
@@ -1510,8 +1513,11 @@ bool summon_can_attack(const monster* mons, const coord_def &p)
         return false;
     }
 
-    if (!mons->friendly() || !mons->is_summoned())
+    if (!mons->friendly()
+        || !mons->is_summoned() && !mons_is_hepliaklqana_ancestor(mons->type))
+    {
         return true;
+    }
 
     return you.see_cell_no_trans(mons->pos()) && you.see_cell_no_trans(p);
 }
