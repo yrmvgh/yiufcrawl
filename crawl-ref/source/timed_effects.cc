@@ -938,9 +938,9 @@ static void _evolve(int time_delta)
 static void _handle_insight(int time_delta)
 {
     if (int lev = player_mutation_level(MUT_INSIGHT)) {
-    	if (x_chance_in_y(1 << lev, 8)) {
+    	if (x_chance_in_y(1 << (lev*2), 64)) {
         	if(identify_inventory())
-        		mpr("You gain insight into your inventory.");
+        		mprf(MSGCH_FOOD, "You gain insight into your inventory.");
     	}
     }
 }
