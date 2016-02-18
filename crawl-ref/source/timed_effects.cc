@@ -24,6 +24,7 @@
 #include "fprop.h"
 #include "godpassive.h"
 #include "items.h"
+#include "invent.h"
 #include "libutil.h"
 #include "mapmark.h"
 #include "message.h"
@@ -936,6 +937,16 @@ static void _evolve(int time_delta)
         }
 }
 
+static void _handle_insight(int time_delta)
+{
+    if (int lev = player_mutation_level(MUT_INSIGHT)) {
+    	if (x_chance_in_y(1 << lev, 8)) {
+        	if(identify_inventory())
+        		mpr("You gain insight into your inventory.");
+    	}
+    }
+}
+
 // Get around C++ dividing integers towards 0.
 static int _div(int num, int denom)
 {
@@ -970,6 +981,7 @@ static struct timed_effect timed_effects[] =
     { _abyss_speed,                  100,   300, false },
     { _jiyva_effects,                100,   300, false },
     { _evolve,                      5000, 15000, false },
+    { _handle_insight,               100,  1000, false },
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif

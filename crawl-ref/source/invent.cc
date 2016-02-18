@@ -26,6 +26,7 @@
 #include "itemprop.h"
 #include "items.h"
 #include "item_use.h"
+#include "invent.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
@@ -2110,14 +2111,17 @@ void list_charging_evokers(FixedVector<item_def*, NUM_MISCELLANY> &evokers)
     }
 }
 
-void identify_inventory()
+bool identify_inventory()
 {
+	bool changed = false;
     for (auto &item : you.inv)
     {
         if (item.defined())
         {
-            set_ident_type(item, true);
+            changed |= set_ident_type(item, true);
             set_ident_flags(item, ISFLAG_IDENT_MASK);
         }
     }
+
+    return changed;
 }

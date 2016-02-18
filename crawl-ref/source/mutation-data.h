@@ -2183,4 +2183,18 @@ static const mutation_def mut_data[] =
 
    "temperature sensitivity (rF-, rC-)",
 },
+
+{ MUT_INSIGHT, 4, 3, mutflag::GOOD, false,
+  "insightful",
+
+  {"You occasionally figure out what unidentified objects are.",
+		  "You often figure out what unidentified objects are.",
+		  "You immediately identify unidentified objects"},
+  {"You become more insightful.",
+		  "You become more insightful.",
+		  "You become more insightful."},
+  {"You feel less insightful.", "You feel less insightful.", "You feel less insightful."},
+
+   "an insightful mind",
+},
 };

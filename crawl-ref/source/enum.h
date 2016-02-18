@@ -3787,6 +3787,7 @@ enum mutation_type
 #if TAG_MAJOR_VERSION == 34
     MUT_STURDY_FRAME,
 #endif
+	MUT_INSIGHT,
     NUM_MUTATIONS,
 
     RANDOM_MUTATION,
