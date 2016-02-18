@@ -3902,27 +3902,6 @@ void bolt::affect_player()
 
     const bool engulfs = is_explosion || is_big_cloud();
 
-    if (is_enchantment())
-    {
-        if (real_flavour == BEAM_CHAOS || real_flavour == BEAM_RANDOM)
-        {
-            if (hit_verb.empty())
-                hit_verb = engulfs ? "engulfs" : "hits";
-            mprf("The %s %s you!", name.c_str(), hit_verb.c_str());
-        }
-
-        // Irresistible portion of resistable effect; must happen before MR
-        // check for the latter to print a proper message.
-        if (flavour == BEAM_VIRULENCE && you.duration[DUR_POISONING])
-        {
-            you.duration[DUR_POISONING] = you.duration[DUR_POISONING] * 3 / 2;
-            mpr("The poison in your body grows stronger.");
-        }
-
-        affect_player_enchantment();
-        return;
-    }
-
     msg_generated = true;
 
     // FIXME: Lots of duplicated code here (compare handling of
@@ -3950,7 +3929,7 @@ void bolt::affect_player()
     bool was_affected = false;
     int  old_hp       = you.hp;
 
-    hurted = max(0, hurted);
+//    hurted = max(0, hurted);
 
     // If the beam is an actual missile or of the MMISSILE type (Earth magic)
     // we might bleed on the floor.
@@ -3963,6 +3942,27 @@ void bolt::affect_player()
     }
 
     hurted = check_your_resists(hurted, flavour, "", this);
+
+    if (is_enchantment())
+    {
+        if (real_flavour == BEAM_CHAOS || real_flavour == BEAM_RANDOM)
+        {
+            if (hit_verb.empty())
+                hit_verb = engulfs ? "engulfs" : "hits";
+            mprf("The %s %s you for %d!", name.c_str(), hit_verb.c_str(), hurted);
+        }
+
+        // Irresistible portion of resistable effect; must happen before MR
+        // check for the latter to print a proper message.
+        if (flavour == BEAM_VIRULENCE && you.duration[DUR_POISONING])
+        {
+            you.duration[DUR_POISONING] = you.duration[DUR_POISONING] * 3 / 2;
+            mpr("The poison in your body grows stronger.");
+        }
+
+        affect_player_enchantment();
+        return;
+    }
 
     if (flavour == BEAM_MIASMA && hurted > 0)
         was_affected = miasma_player(agent(), name);
@@ -4048,8 +4048,6 @@ void bolt::affect_player()
 
     if (origin_spell == SPELL_QUICKSILVER_BOLT)
         debuff_player();
-
-    dprf(DIAG_BEAM, "Damage: %d", hurted);
 
     if (hurted > 0 || old_hp < you.hp || was_affected)
     {
@@ -4874,25 +4872,6 @@ void bolt::affect_monster(monster* mon)
     // Explosions always 'hit'.
     const bool engulfs = (is_explosion || is_big_cloud());
 
-    if (is_enchantment())
-    {
-        if (real_flavour == BEAM_CHAOS || real_flavour == BEAM_RANDOM)
-        {
-            if (hit_verb.empty())
-                hit_verb = engulfs ? "engulfs" : "hits";
-            if (you.see_cell(mon->pos()))
-            {
-                mprf("The %s %s %s.", name.c_str(), hit_verb.c_str(),
-                     mon->name(DESC_THE).c_str());
-            }
-            else if (heard && !hit_noise_msg.empty())
-                mprf(MSGCH_SOUND, "%s", hit_noise_msg.c_str());
-        }
-        // no to-hit check
-        enchantment_affect_monster(mon);
-        return;
-    }
-
     if (is_explosion && !in_explosion_phase)
     {
         // It hit a monster, so the beam should terminate.
@@ -4913,6 +4892,25 @@ void bolt::affect_monster(monster* mon)
     dprf(DIAG_BEAM, "Monster: %s; Damage: pre-AC: %d; post-AC: %d; post-resist: %d",
          mon->name(DESC_PLAIN).c_str(), preac, postac, final);
 #endif
+
+    if (is_enchantment())
+    {
+        if (real_flavour == BEAM_CHAOS || real_flavour == BEAM_RANDOM)
+        {
+            if (hit_verb.empty())
+                hit_verb = engulfs ? "engulfs" : "hits";
+            if (you.see_cell(mon->pos()))
+            {
+                mprf("The %s %s %s for %d.", name.c_str(), hit_verb.c_str(),
+                     mon->name(DESC_THE).c_str(), final);
+            }
+            else if (heard && !hit_noise_msg.empty())
+                mprf(MSGCH_SOUND, "%s", hit_noise_msg.c_str());
+        }
+        // no to-hit check
+        enchantment_affect_monster(mon);
+        return;
+    }
 
     // Player beams which hit friendlies or good neutrals will annoy
     // them and be considered naughty if they do damage (this is so as
@@ -5043,10 +5041,11 @@ void bolt::affect_monster(monster* mon)
         if (hit_verb.empty())
             hit_verb = engulfs ? "engulfs" : "hits";
 
-        mprf("The %s %s %s.",
+        mprf("The %s %s %s for %d.",
              name.c_str(),
              hit_verb.c_str(),
-             mon->name(DESC_THE).c_str());
+             mon->name(DESC_THE).c_str(),
+			 final);
 
     }
     else if (heard && !hit_noise_msg.empty())
