@@ -133,7 +133,12 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 
     case BEAM_STEAM:
         hurted = resist_adjust_damage(&you, flavour, hurted);
-        if (hurted < original && doEffects)
+        if(you.species == SP_DJINNI) {
+//            you.heal(hurted);
+//        	hurted = 0;
+            canned_msg(MSG_GAIN_HEALTH);
+        }
+        else if (hurted < original && doEffects)
             canned_msg(MSG_YOU_RESIST);
         else if (hurted > original && doEffects)
         {
@@ -144,7 +149,12 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 
     case BEAM_FIRE:
         hurted = resist_adjust_damage(&you, flavour, hurted);
-        if (hurted < original && doEffects)
+        if(you.species == SP_DJINNI) {
+//            you.heal(hurted);
+//        	hurted = 0;
+            canned_msg(MSG_GAIN_HEALTH);
+        }
+        else if (hurted < original && doEffects)
             canned_msg(MSG_YOU_RESIST);
         else if (hurted > original && doEffects)
         {
@@ -154,11 +164,10 @@ int check_your_resists(int hurted, beam_type flavour, string source,
         break;
 
     case BEAM_HELLFIRE:
-        if (you.species == SP_DJINNI)
-        {
-            hurted = 0;
-            if (doEffects)
-                mpr("You resist completely.");
+        if(you.species == SP_DJINNI) {
+//            you.heal(hurted);
+//        	hurted = 0;
+        	if(doEffects) canned_msg(MSG_GAIN_HEALTH);
         }
         break;
 
@@ -253,7 +262,12 @@ int check_your_resists(int hurted, beam_type flavour, string source,
     case BEAM_LAVA:
         hurted = resist_adjust_damage(&you, flavour, hurted);
 
-        if (hurted < original && doEffects)
+        if(you.species == SP_DJINNI) {
+//            you.heal(hurted);
+//        	hurted = 0;
+            canned_msg(MSG_GAIN_HEALTH);
+        }
+        else if (hurted < original && doEffects)
             canned_msg(MSG_YOU_PARTIALLY_RESIST);
         else if (hurted > original && doEffects)
         {
@@ -288,7 +302,12 @@ int check_your_resists(int hurted, beam_type flavour, string source,
         else if (rhe < -1)
             hurted = hurted * 3 / 2;
 
-        if (hurted == 0 && doEffects)
+        if(you.species == SP_DJINNI) {
+//            you.heal(hurted);
+        	hurted = -hurted;
+            canned_msg(MSG_GAIN_HEALTH);
+        }
+        else if (hurted == 0 && doEffects)
             canned_msg(MSG_YOU_RESIST);
         break;
     }
@@ -1210,8 +1229,8 @@ int actor_to_death_source(const actor* agent)
 
 int timescale_damage(const actor *act, int damage)
 {
-    if (damage < 0)
-        damage = 0;
+//    if (damage < 0)
+//        damage = 0;
     // Can we have a uniform player/monster speed system yet?
     if (act->is_player())
         return div_rand_round(damage * you.time_taken, BASELINE_DELAY);

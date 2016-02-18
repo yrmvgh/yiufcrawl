@@ -479,8 +479,8 @@ static int _beam_to_resist(const actor* defender, beam_type flavour)
 int resist_adjust_damage(const actor* defender, beam_type flavour, int rawdamage)
 {
     const int res = _beam_to_resist(defender, flavour);
-    if (!res)
-        return rawdamage;
+//    if (!res)
+//        return rawdamage;
 
     const bool is_mon = defender->is_monster();
 
@@ -516,7 +516,12 @@ int resist_adjust_damage(const actor* defender, beam_type flavour, int rawdamage
     else if (res < 0)
         resistible = resistible * 15 / 10;
 
-    return max(resistible + irresistible, 0);
+    if (!is_mon && you.species == SP_DJINNI && (flavour == BEAM_FIRE || flavour == BEAM_HELLFIRE || flavour == BEAM_LAVA || flavour == BEAM_STEAM || flavour == BEAM_STICKY_FLAME)) {
+    	resistible = -resistible;
+    }
+
+//    return max(resistible + irresistible, 0);
+    return resistible + irresistible;
 }
 
 ///////////////////////////////////////////////////////////////////////////

@@ -1356,8 +1356,8 @@ int player_likes_chunks(bool permanently)
 // If temp is set to false, temporary sources or resistance won't be counted.
 int player_res_fire(bool calc_unid, bool temp, bool items)
 {
-    if (you.species == SP_DJINNI)
-        return 4; // full immunity
+//    if (you.species == SP_DJINNI)
+//        return 4; // full immunity
 
     int rf = 0;
 
@@ -3841,8 +3841,9 @@ void dec_hp(int hp_loss, bool fatal, const char *aux)
     if (!fatal && hp_loss >= you.hp)
         hp_loss = you.hp - 1;
 
-    if (hp_loss < 1)
-        return;
+    // allow gain
+//    if (hp_loss < 1)
+//        return;
 
     // If it's not fatal, use ouch() so that notes can be taken. If it IS
     // fatal, somebody else is doing the bookkeeping, and we don't want to mess
@@ -3851,6 +3852,8 @@ void dec_hp(int hp_loss, bool fatal, const char *aux)
         ouch(hp_loss, KILLED_BY_SOMETHING, MID_NOBODY, aux);
     else
         you.hp -= hp_loss;
+
+    if(you.hp > you.hp_max) you.hp = you.hp_max;
 
     you.redraw_hit_points = true;
 }
@@ -4012,11 +4015,6 @@ void inc_mp(int mp_gain, bool silent)
 // To avoid message spam, don't take notes when HP increases.
 void inc_hp(int hp_gain)
 {
-    if(you.species == SP_DJINNI && you.hunger <= 1000) {
-    	// djinni can't gain health when out of food
-    	return;
-    }
-
     ASSERT(!crawl_state.game_is_arena());
 
     if (hp_gain < 1 || you.hp >= you.hp_max)
@@ -4031,10 +4029,6 @@ void inc_hp(int hp_gain)
         interrupt_activity(AI_FULL_HP);
 
     you.redraw_hit_points = true;
-    if(you.species == SP_DJINNI) {
-    	you.hunger -= hp_gain * 10;
-    	if(you.hunger < 1000) you.hunger = 1000;
-    }
 }
 
 void rot_hp(int hp_loss)

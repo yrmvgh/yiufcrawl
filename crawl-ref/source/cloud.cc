@@ -819,13 +819,13 @@ bool actor_cloud_immune(const actor *act, const cloud_struct &cloud)
     if (player && YOU_KILL(cloud.killer) && in_good_standing(GOD_QAZLAL))
         return true;
 
-    if (player && you.species == SP_DJINNI
-        && (cloud.type == CLOUD_FIRE
-            || cloud.type == CLOUD_FOREST_FIRE
-            || cloud.type == CLOUD_HOLY_FLAMES))
-    {
-        return true;
-    }
+//    if (player && you.species == SP_DJINNI
+//        && (cloud.type == CLOUD_FIRE
+//            || cloud.type == CLOUD_FOREST_FIRE
+//            || cloud.type == CLOUD_HOLY_FLAMES))
+//    {
+//        return true;
+//    }
 
     switch (cloud.type)
     {
@@ -1091,7 +1091,8 @@ static int _cloud_damage_output(const actor *actor,
 
     int dam = actor->apply_ac(base_damage);
     dam = resist_adjust_damage(actor, flavour, dam);
-    return max(0, dam);
+    return dam;
+//    return max(0, dam);
 }
 
 /**

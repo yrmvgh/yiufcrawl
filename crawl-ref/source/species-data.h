@@ -786,11 +786,11 @@ static const map<species_type, species_def> species_data =
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     {
     },
-    { "You are immune to all types of fire, even holy and hellish.",
+    { "You are healed by all types of fire, even holy and hellish.",
       "You are vulnerable to cold.",
       "You need no food.",
       "You have no legs." },
-    { "fire immunity", "cold vulnerability" },
+    { "fire healing", "cold vulnerability" },
     { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
     JOB_ARCANE_MARKSMAN, JOB_ENCHANTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,
     JOB_FIRE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_ARTIFICER},
