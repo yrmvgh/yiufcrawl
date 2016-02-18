@@ -722,8 +722,6 @@ static void _handle_magic_contamination()
     if (you.duration[DUR_HASTE])
         added_contamination += 30;
 
-    if (you.duration[DUR_REGENERATION] && you.species == SP_DJINNI)
-        added_contamination += 20;
     // The Orb halves dissipation (well a bit more, I had to round it),
     // but won't cause glow on its own -- otherwise it'd spam the player
     // with messages about contamination oscillating near zero.
@@ -981,10 +979,10 @@ static struct timed_effect timed_effects[] =
     { _abyss_speed,                  100,   300, false },
     { _jiyva_effects,                100,   300, false },
     { _evolve,                      5000, 15000, false },
-    { _handle_insight,               100,  1000, false },
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif
+    { _handle_insight,               100,  1000, false },
 };
 
 // Do various time related actions...
