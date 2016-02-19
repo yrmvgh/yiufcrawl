@@ -1220,7 +1220,8 @@ int actor_apply_cloud(actor *act)
 
     if ((player || final_damage > 0
          || _cloud_has_negative_side_effects(cloud.type))
-        && cloud.type != CLOUD_STORM) // handled elsewhere
+        && cloud.type != CLOUD_STORM
+		&& final_damage > 0) // handled elsewhere
     {
         cloud.announce_actor_engulfed(act, final_damage < 0);
     }
