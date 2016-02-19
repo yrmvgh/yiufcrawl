@@ -1253,7 +1253,8 @@ int actor_apply_cloud(actor *act)
     }
 
     if (final_damage < 0) {
-    	cl->decay >>= 1;
+    	// cloud dissipates twice as fast if we are healing from it
+    	cl->decay -= _cloud_dissipation_rate(cloud);
     }
 
     return final_damage;
