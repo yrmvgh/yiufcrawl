@@ -443,6 +443,7 @@ static const ability_def Ability_List[] =
     { ABIL_CONVERT_TO_BEOGH, "Convert to Beogh", 0, 0, 0, 0, abflag::NONE },
 
 	{ ABIL_LIGNIFY, "Lignify", 0, 0, 200, 0, abflag::NONE },
+    { ABIL_UNCURSE, "Remove Curse", 1, 0, 0, 0, abflag::PERMANENT_MP },
 };
 
 static const ability_def& get_ability_def(ability_type abil)
@@ -1078,6 +1079,10 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_NEMELEX_TRIPLE_DRAW:
         invoc = true;
         failure = 60 - (you.piety / 20) - you.skill(SK_EVOCATIONS, 5);
+        break;
+
+    case ABIL_UNCURSE:       // this is for djinni
+        failure = 45 - (2 * you.experience_level);
         break;
 
         // end invocations {dlb}
@@ -3059,6 +3064,14 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         }
         return SPRET_ABORT;
 
+    case ABIL_UNCURSE:
+        fail_check();
+        if (!selective_remove_curse())
+        {
+        	return SPRET_ABORT;
+        }
+        break;
+
     case ABIL_NON_ABILITY:
         fail_check();
         mpr("Sorry, you can't do that.");
@@ -3298,6 +3311,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
 
     if (you.species == SP_DEEP_DWARF)
         _add_talent(talents, ABIL_RECHARGING, check_confused);
+
+    if (you.species == SP_DJINNI)
+        _add_talent(talents, ABIL_UNCURSE, check_confused);
 
     if (you.species == SP_FORMICID
         && (you.form != TRAN_TREE || include_unusable))

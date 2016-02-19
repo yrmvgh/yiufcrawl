@@ -50,6 +50,7 @@ int detect_traps(int pow);
 int detect_items(int pow);
 int detect_creatures(int pow, bool telepathic = false);
 bool remove_curse(bool alreadyknown = true, const string &pre_msg = "");
+bool selective_remove_curse();
 bool curse_item(bool armour, const string &pre_msg = "");
 
 bool entomb(int pow);

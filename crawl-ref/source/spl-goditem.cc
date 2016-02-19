@@ -646,6 +646,17 @@ static bool _selectively_remove_curse(const string &pre_msg)
     }
 }
 
+bool selective_remove_curse()
+{
+	bool success = false;
+	if(_selectively_remove_curse(NULL))
+	{
+        ash_check_bondage();
+        success = true;
+	}
+	return success;
+}
+
 bool remove_curse(bool alreadyknown, const string &pre_msg)
 {
     if (you_worship(GOD_ASHENZARI) && alreadyknown)

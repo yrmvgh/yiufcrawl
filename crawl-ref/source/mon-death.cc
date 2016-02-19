@@ -904,7 +904,7 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
     {
         if (target->is_player())
             mprf(MSGCH_MONSTER_SPELL, "You feel extremely nervous for a moment...");
-        else if (you.can_see(target))
+        else if (you.can_see(*target))
         {
             mprf(MSGCH_MONSTER_SPELL, "A malignant aura surrounds %s.",
                  target->name(DESC_THE).c_str());
