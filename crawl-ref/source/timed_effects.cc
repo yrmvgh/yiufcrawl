@@ -982,7 +982,7 @@ static struct timed_effect timed_effects[] =
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif
-    { _handle_insight,               100,  1000, false },
+    { _handle_insight,               500,  1000, false },
 };
 
 // Do various time related actions...
