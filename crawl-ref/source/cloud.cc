@@ -1201,7 +1201,7 @@ static int _actor_cloud_damage(const actor *act,
 // the damage dealt.
 int actor_apply_cloud(actor *act)
 {
-    const cloud_struct* cl = cloud_at(act->pos());
+    cloud_struct* cl = cloud_at(act->pos());
     if (!cl)
         return 0;
 
@@ -1250,6 +1250,10 @@ int actor_apply_cloud(actor *act)
         actor *oppressor = cloud.agent();
         act->hurt(oppressor, final_damage, BEAM_MISSILE,
                   KILLED_BY_CLOUD, "", cloud.cloud_name(true));
+    }
+
+    if (final_damage < 0) {
+    	cl->decay >>= 1;
     }
 
     return final_damage;
