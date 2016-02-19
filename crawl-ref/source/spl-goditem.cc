@@ -649,7 +649,7 @@ static bool _selectively_remove_curse(const string &pre_msg)
 bool selective_remove_curse()
 {
 	bool success = false;
-	if(_selectively_remove_curse(NULL))
+	if(_selectively_remove_curse(""))
 	{
         ash_check_bondage();
         success = true;
