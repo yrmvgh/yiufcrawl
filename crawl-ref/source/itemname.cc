@@ -3997,13 +3997,14 @@ string get_menu_colour_prefix_tags(const item_def &item,
     if (col != -1)
         colour = colour_to_str(col);
 
-    if (!colour.empty())
-    {
+    if (colour.empty()) colour = colour_to_str(16);
+//    if (!colour.empty())
+//    {
         // Order is important here.
         colour_off  = "</" + colour + ">";
         colour      = "<" + colour + ">";
         item_name = colour + item_name + colour_off;
-    }
+//    }
 
     return item_name;
 }

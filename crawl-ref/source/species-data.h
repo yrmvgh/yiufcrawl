@@ -785,7 +785,7 @@ static const map<species_type, species_def> species_data =
     8, 8, 8, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     {
-    		{ MUT_INSIGHT, 2, 1 },
+    		{ MUT_INSIGHT, 1, 1 },
     },
     { "You are healed by all types of fire, even holy and hellish.",
       "You are vulnerable to cold.",

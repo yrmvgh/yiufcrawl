@@ -939,8 +939,37 @@ static void _handle_insight(int time_delta)
 {
     if (int lev = player_mutation_level(MUT_INSIGHT)) {
     	if (x_chance_in_y(1 << (lev*2), 64)) {
-        	if(identify_inventory())
-        		mprf(MSGCH_FOOD, "You gain insight into your inventory.");
+    		string before, after;
+    		item_def* newKnowledge = NULL;
+
+    	    vector<item_def> items;
+
+    	    for (auto &item : you.inv)
+    	    {
+    	    	items.push_back(item);
+    	    }
+
+    		shuffle_array(items);
+
+    	    for (auto item : items)
+    	    {
+    	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
+    	        {
+    	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+					int bitToCheck = 1 << random2(4);
+					if((item.flags & bitToCheck) == 0) {
+						item.flags |= bitToCheck;
+	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+	    	    		if(before != after) {
+							newKnowledge = &item;
+							break;
+	    	    		}
+					}
+    	        }
+    	    }
+
+        	if(newKnowledge)
+        		mprf(MSGCH_FOOD, "You gain insight: %s -> %s", before.c_str(), after.c_str());
     	}
     }
 }
@@ -982,7 +1011,7 @@ static struct timed_effect timed_effects[] =
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif
-    { _handle_insight,               500,  1000, false },
+    { _handle_insight,               400,   800, false },
 };
 
 // Do various time related actions...

@@ -2189,10 +2189,10 @@ static const mutation_def mut_data[] =
 
   {"You occasionally figure out what unidentified objects are.",
 		  "You often figure out what unidentified objects are.",
-		  "You immediately identify unidentified objects"},
-  {"You become more insightful.",
-		  "You become more insightful.",
-		  "You become more insightful."},
+		  "You quickly identify unidentified objects"},
+  {"You feel more insightful.",
+		  "You feel more insightful.",
+		  "You feel more insightful."},
   {"You feel less insightful.", "You feel less insightful.", "You feel less insightful."},
 
    "an insightful mind",
