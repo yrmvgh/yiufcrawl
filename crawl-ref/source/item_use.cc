@@ -28,6 +28,7 @@
 #include "godabil.h"
 #include "godconduct.h"
 #include "goditem.h"
+#include "godpassive.h"
 #include "hints.h"
 #include "invent.h"
 #include "itemprop.h"
@@ -2122,7 +2123,7 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm)
             canned_msg(MSG_NOTHING_HAPPENS);
 
         // That proved that it was uncursed.
-        if (!you_worship(GOD_ASHENZARI))
+        if (!have_passive(passive_t::want_curses))
             arm.flags |= ISFLAG_KNOW_CURSE;
 
         return false;
@@ -2356,8 +2357,10 @@ static bool _is_cancellable_scroll(scroll_type scroll)
            || scroll == SCR_ENCHANT_ARMOUR
            || scroll == SCR_AMNESIA
            || scroll == SCR_REMOVE_CURSE
+#if TAG_MAJOR_VERSION == 34
            || scroll == SCR_CURSE_ARMOUR
            || scroll == SCR_CURSE_JEWELLERY
+#endif
            || scroll == SCR_BRAND_WEAPON
            || scroll == SCR_ENCHANT_WEAPON
            || scroll == SCR_MAGIC_MAPPING;
@@ -2465,6 +2468,7 @@ string cannot_read_item_reason(const item_def &item)
                 return "You have no spells to forget!";
             return "";
 
+#if TAG_MAJOR_VERSION == 34
         case SCR_CURSE_WEAPON:
             if (!you.weapon())
                 return "This scroll only affects a wielded weapon!";
@@ -2476,6 +2480,7 @@ string cannot_read_item_reason(const item_def &item)
             if (get_weapon_brand(*you.weapon()) == SPWPN_HOLY_WRATH)
                 return "Holy weapons cannot be cursed!";
             return "";
+#endif
 
         case SCR_ENCHANT_ARMOUR:
             return _no_items_reason(OSEL_ENCH_ARM);
@@ -2492,11 +2497,13 @@ string cannot_read_item_reason(const item_def &item)
         case SCR_REMOVE_CURSE:
             return _no_items_reason(OSEL_CURSED_WORN);
 
+#if TAG_MAJOR_VERSION == 34
         case SCR_CURSE_ARMOUR:
             return _no_items_reason(OSEL_UNCURSED_WORN_ARMOUR);
 
         case SCR_CURSE_JEWELLERY:
             return _no_items_reason(OSEL_UNCURSED_WORN_JEWELLERY);
+#endif
 
         default:
             return "";
@@ -2735,6 +2742,7 @@ void read_scroll(int item_slot)
         break;
     }
 
+#if TAG_MAJOR_VERSION == 34
     case SCR_CURSE_WEAPON:
     {
         // Not you.weapon() because we want to handle melded weapons too.
@@ -2757,6 +2765,7 @@ void read_scroll(int item_slot)
         }
         break;
     }
+#endif
 
     case SCR_ENCHANT_WEAPON:
         if (!alreadyknown)
@@ -2813,6 +2822,7 @@ void read_scroll(int item_slot)
             (_handle_enchant_armour(alreadyknown, pre_succ_msg) == -1);
         break;
 
+#if TAG_MAJOR_VERSION == 34
     // Should always be identified by Ashenzari.
     case SCR_CURSE_ARMOUR:
     case SCR_CURSE_JEWELLERY:
@@ -2821,6 +2831,7 @@ void read_scroll(int item_slot)
         cancel_scroll = !curse_item(armour, pre_succ_msg);
         break;
     }
+#endif
 
     case SCR_HOLY_WORD:
     {

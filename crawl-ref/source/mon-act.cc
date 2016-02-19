@@ -1902,7 +1902,7 @@ void handle_monster_move(monster* mons)
         aura_of_brilliance(mons);
 
     if (you.duration[DUR_GOZAG_GOLD_AURA]
-        && in_good_standing(GOD_GOZAG)
+        && have_passive(passive_t::gold_aura)
         && you.see_cell(mons->pos())
         && !mons->asleep()
         && !mons_is_conjured(mons->type)
@@ -1964,7 +1964,7 @@ void handle_monster_move(monster* mons)
 
     // Lurking monsters only stop lurking if their target is right
     // next to them, otherwise they just sit there.
-    if (mons_is_lurking(mons) || mons->has_ench(ENCH_SUBMERGED))
+    if (mons->has_ench(ENCH_SUBMERGED))
     {
         if (mons->foe != MHITNOT
             && grid_distance(mons->target, mons->pos()) <= 1)

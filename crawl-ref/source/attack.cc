@@ -22,6 +22,7 @@
 #include "fight.h"
 #include "fineff.h"
 #include "godconduct.h"
+#include "godpassive.h" // passive_t::no_haste
 #include "itemname.h"
 #include "itemprop.h"
 #include "message.h"
@@ -751,7 +752,7 @@ void attack::chaos_affects_defender()
         beam.flavour = BEAM_HEALING;
         break;
     case CHAOS_HASTE:
-        if (defender->is_player() && you_worship(GOD_CHEIBRIADOS))
+        if (defender->is_player() && have_passive(passive_t::no_haste))
         {
             simple_god_message(" protects you from inadvertent hurry.");
             obvious_effect = true;
@@ -1528,12 +1529,12 @@ attack_flavour attack::random_chaos_attack_flavour()
                 susceptible = false;
             break;
         case AF_POISON:
-            if (defender->holiness() == MH_UNDEAD)
+            if (defender->holiness() & MH_UNDEAD)
                 susceptible = false;
             break;
         case AF_VAMPIRIC:
         case AF_DRAIN_XP:
-            if (defender->holiness() != MH_NATURAL)
+            if (!(defender->holiness() & MH_NATURAL))
                 susceptible = false;
             break;
         case AF_HOLY:

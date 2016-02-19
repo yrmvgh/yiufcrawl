@@ -486,11 +486,11 @@ item_def *monster::melee_weapon() const
 }
 
 // Give hands required to wield weapon.
-hands_reqd_type monster::hands_reqd(const item_def &item) const
+hands_reqd_type monster::hands_reqd(const item_def &item, bool base) const
 {
     if (mons_genus(type) == MONS_FORMICID)
         return HANDS_ONE;
-    return actor::hands_reqd(item);
+    return actor::hands_reqd(item, base);
 }
 
 bool monster::can_wield(const item_def& item, bool ignore_curse,
@@ -916,9 +916,6 @@ void monster::equip_armour(item_def &item, bool msg)
                            item.name(DESC_A) + ".";
         simple_monster_message(this, str.c_str());
     }
-
-    if (is_shield(item) && has_ench(ENCH_CONDENSATION_SHIELD))
-        del_ench(ENCH_CONDENSATION_SHIELD);
 }
 
 void monster::equip_jewellery(item_def &item, bool msg)
@@ -3158,9 +3155,9 @@ bool monster::pacified() const
  */
 bool monster::shielded() const
 {
-    return shield() || has_ench(ENCH_CONDENSATION_SHIELD)
-                    || has_ench(ENCH_BONE_ARMOUR)
-                    || wearing(EQ_AMULET_PLUS, AMU_REFLECTION) > 0;
+    return shield()
+           || has_ench(ENCH_BONE_ARMOUR)
+           || wearing(EQ_AMULET_PLUS, AMU_REFLECTION) > 0;
 }
 
 int monster::shield_bonus() const
@@ -3178,17 +3175,11 @@ int monster::shield_bonus() const
                             * (shld->sub_type - ARM_LARGE_SHIELD);
         sh = random2avg(shld_c + get_hit_dice() * 4 / 3, 2) / 2;
     }
-    if (has_ench(ENCH_CONDENSATION_SHIELD))
-    {
-        const int condensation_shield = get_hit_dice() / 2;
-        sh = max(sh + condensation_shield, condensation_shield);
-    }
     if (has_ench(ENCH_BONE_ARMOUR))
     {
         const int bone_armour = 6 + get_hit_dice() / 3;
         sh = max(sh + bone_armour, bone_armour);
     }
-
     // shielding from jewellery
     const item_def *amulet = mslot_item(MSLOT_JEWELLERY);
     if (amulet && amulet->sub_type == AMU_REFLECTION)
@@ -3407,7 +3398,7 @@ int monster::armour_class(bool calc_unid) const
         ac += 10;
 
     // various enchantments
-    if (has_ench(ENCH_STONESKIN))
+    if (has_ench(ENCH_MAGIC_ARMOUR))
         ac += get_hit_dice() / 2;
     if (has_ench(ENCH_OZOCUBUS_ARMOUR))
         ac += 4 + get_hit_dice() / 3;
@@ -3526,14 +3517,6 @@ int monster::evasion(ev_ignore_type evit, const actor* /*act*/) const
         ASSERT(abs(jewellery_plus) < 30); // sanity check
         ev += jewellery_plus;
     }
-
-    // ignore phase shift if dimension-anchored (or if told to)
-    if (mons_class_flag(type, M_PHASE_SHIFT)
-        && !((evit & EV_IGNORE_PHASESHIFT) || has_ench(ENCH_DIMENSION_ANCHOR)))
-    {
-        ev += 8;
-    }
-
 
     if (has_ench(ENCH_AGILE))
         ev += 5;
@@ -5179,7 +5162,7 @@ bool monster::can_go_frenzy() const
 
     // Brainless natural monsters can still be berserked/frenzied.
     // This could maybe all be replaced by mons_is_object()?
-    if (mons_intel(this) == I_BRAINLESS && holiness() != MH_NATURAL)
+    if (mons_intel(this) == I_BRAINLESS && !(holiness() & MH_NATURAL))
         return false;
 
     if (paralysed() || petrified() || petrifying() || asleep())
@@ -6640,7 +6623,7 @@ bool monster::check_stasis(bool silent, bool calc_unid) const
     if (!stasis())
         return false;
 
-    if (!silent && you.can_see(*this) && !mons_is_lurking(this))
+    if (!silent && you.can_see(*this))
         simple_monster_message(this, " looks uneasy for a moment.");
 
     return true;

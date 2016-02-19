@@ -95,6 +95,7 @@ static void _siren_sing(monster* mons, bool avatar);
 static void _doom_howl(monster &mon);
 static void _mons_awaken_earth(monster &mon, const coord_def &target);
 static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot);
+static string _god_name(god_type god);
 
 void init_mons_spells()
 {
@@ -589,12 +590,6 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
     case SPELL_MALMUTATE:
         beam.flavour  = BEAM_MALMUTATE;
         beam.pierce   = true;
-        /*
-          // Be careful with this one.
-          // Having allies mutate you is infuriating.
-          beam.foe_ratio = 1000;
-        What's the point of this?  Enchantments always hit...
-        */
         break;
 
     case SPELL_FLAME_TONGUE:
@@ -728,7 +723,6 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
         beam.damage   = dice_def(3, 7 + power / 10);
         beam.hit      = 40;
         beam.flavour  = BEAM_FIRE;
-        beam.foe_ratio = 80;
         beam.is_explosion = true;
         break;
 
@@ -1394,7 +1388,9 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_BERSERKER_RAGE:
     case SPELL_TROGS_HAND:
     case SPELL_SWIFTNESS:
+#if TAG_MAJOR_VERSION == 34
     case SPELL_STONESKIN:
+#endif
     case SPELL_WATER_ELEMENTALS:
     case SPELL_FIRE_ELEMENTALS:
     case SPELL_AIR_ELEMENTALS:
@@ -1489,7 +1485,9 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_DEFLECT_MISSILES:
     case SPELL_SUMMON_SCARABS:
     case SPELL_HUNTING_CRY:
+#if TAG_MAJOR_VERSION == 34
     case SPELL_CONDENSATION_SHIELD:
+#endif
     case SPELL_CONTROL_UNDEAD:
     case SPELL_CLEANSING_FLAME:
     case SPELL_PARALYSIS_GAZE:
@@ -1603,7 +1601,7 @@ static bool _animate_dead_okay(spell_type spell)
         return false;
 
     // Annoying to drag around hordes of the undead as well as the living.
-    if (you_worship(GOD_BEOGH))
+    if (will_have_passive(passive_t::convert_orcs))
         return false;
 
     return true;
@@ -3945,7 +3943,7 @@ static int _monster_abjure_target(monster* target, int pow, bool actual)
 
     // TSO and Trog's abjuration protection.
     bool shielded = false;
-    if (you_worship(GOD_SHINING_ONE))
+    if (have_passive(passive_t::abjuration_protection_hd))
     {
         pow = pow * (30 - target->get_hit_dice()) / 30;
         if (pow < duration)
@@ -3955,7 +3953,7 @@ static int _monster_abjure_target(monster* target, int pow, bool actual)
             shielded = true;
         }
     }
-    else if (you_worship(GOD_TROG))
+    else if (have_passive(passive_t::abjuration_protection))
     {
         pow = pow / 2;
         if (pow < duration)
@@ -5340,7 +5338,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_SMITING:
         if (foe->is_player())
-            mpr("Something smites you!");
+            mprf("%s smites you!", _god_name(god).c_str());
         else
             simple_monster_message(foe->as_monster(), " is smitten.");
 
@@ -5451,19 +5449,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         else
             simple_monster_message(mons, " seems to move somewhat quicker.");
         return;
-
-    case SPELL_STONESKIN:
-    {
-        if (you.can_see(*mons))
-        {
-            mprf("%s skin hardens.",
-                 apostrophise(mons->name(DESC_THE)).c_str());
-        }
-        const int power = (mons->spell_hd(spell_cast) * 15) / 10;
-        mons->add_ench(mon_enchant(ENCH_STONESKIN, 0, mons,
-                       BASELINE_DELAY * (10 + (2 * random2(power)))));
-        return;
-    }
 
     case SPELL_SILENCE:
         mons->add_ench(ENCH_SILENCE);
@@ -6637,21 +6622,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_HUNTING_CRY:
         return;
-
-    case SPELL_CONDENSATION_SHIELD:
-    {
-        if (you.can_see(*mons))
-        {
-            mprf("A crackling disc of dense vapour forms near %s!",
-                 mons->name(DESC_THE).c_str());
-        }
-        const int power = (mons->spell_hd(spell_cast) * 15) / 10;
-        mons->add_ench(mon_enchant(ENCH_CONDENSATION_SHIELD,
-                                   15 + random2(power),
-                                   mons));
-
-        return;
-    }
 
     case SPELL_CONJURE_FLAME:
     {
@@ -7881,9 +7851,6 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
         return mon->has_ench(ENCH_RAISED_MR)
                || mon->has_ench(ENCH_REGENERATION);
 
-    case SPELL_STONESKIN:
-        return mon->is_insubstantial() || mon->has_ench(ENCH_STONESKIN);
-
     case SPELL_INVISIBILITY:
         return mon->has_ench(ENCH_INVIS)
                || mon->glows_naturally();
@@ -8301,10 +8268,6 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_DRAINING_GAZE:
         return !foe || !mon->can_see(*foe);
 
-    case SPELL_CONDENSATION_SHIELD:
-        return mon->shield()
-               || mon->has_ench(ENCH_CONDENSATION_SHIELD);
-
     case SPELL_CONTROL_UNDEAD:
         return _mons_control_undead(mon, false) < 0;
 
@@ -8316,7 +8279,6 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_CLEANSING_FLAME:
     {
         bolt tracer;
-        tracer.foe_ratio = 80;
         setup_cleansing_flame_beam(tracer,
                                    5 + (7 * mon->spell_hd(monspell)) / 12,
                                    CLEANSING_FLAME_SPELL, mon->pos(), mon);
@@ -8369,6 +8331,8 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_SIMULACRUM:
     case SPELL_CHANT_FIRE_STORM:
     case SPELL_IGNITE_POISON_SINGLE:
+    case SPELL_CONDENSATION_SHIELD:
+    case SPELL_STONESKIN:
 #endif
     case SPELL_NO_SPELL:
         return true;
@@ -8376,4 +8340,9 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     default:
         return false;
     }
+}
+
+static string _god_name(god_type god)
+{
+    return god_has_name(god) ? god_name(god) : "Something";
 }

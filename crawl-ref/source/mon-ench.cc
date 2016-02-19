@@ -194,15 +194,9 @@ void monster::add_enchantment_effect(const mon_enchant &ench, bool quiet)
         // deliberate fall-through
 
     case ENCH_INSANE:
-
         if (has_ench(ENCH_SUBMERGED))
             del_ench(ENCH_SUBMERGED);
 
-        if (mons_is_lurking(this))
-        {
-            behaviour = BEH_WANDER;
-            behaviour_event(this, ME_EVAL);
-        }
         calc_speed();
         break;
 
@@ -216,15 +210,6 @@ void monster::add_enchantment_effect(const mon_enchant &ench, bool quiet)
 
     case ENCH_SUBMERGED:
         dprf("%s submerges.", name(DESC_A, true).c_str());
-        break;
-
-    case ENCH_CONFUSION:
-    case ENCH_MAD:
-        if (mons_is_lurking(this))
-        {
-            behaviour = BEH_WANDER;
-            behaviour_event(this, ME_EVAL);
-        }
         break;
 
     case ENCH_CHARM:
@@ -480,10 +465,10 @@ void monster::remove_enchantment_effect(const mon_enchant &me, bool quiet)
         calc_speed();
         break;
 
-    case ENCH_STONESKIN:
+    case ENCH_MAGIC_ARMOUR:
         if (!quiet && you.can_see(*this))
         {
-            mprf("%s skin looks tender.",
+            mprf("%s magical armour fades away.",
                  apostrophise(name(DESC_THE)).c_str());
         }
         break;
@@ -701,7 +686,7 @@ void monster::remove_enchantment_effect(const mon_enchant &me, bool quiet)
         monster_die(this, KILL_TIMEOUT, NON_MONSTER);
         break;
     case ENCH_SUBMERGED:
-        if (mons_is_wandering(this) || mons_is_lurking(this))
+        if (mons_is_wandering(this))
         {
             behaviour = BEH_SEEK;
             behaviour_event(this, ME_EVAL);
@@ -945,13 +930,6 @@ void monster::remove_enchantment_effect(const mon_enchant &me, bool quiet)
         if (!quiet)
             simple_monster_message(this, " is no longer deflecting missiles.");
         break;
-
-    case ENCH_CONDENSATION_SHIELD:
-        if (!quiet && you.can_see(*this))
-        {
-            mprf("%s icy shield evaporates.",
-                 apostrophise(name(DESC_THE)).c_str());
-        }
 
     case ENCH_RESISTANCE:
         if (!quiet)
@@ -1418,7 +1396,7 @@ void monster::apply_enchantment(const mon_enchant &me)
     case ENCH_TIDE:
     case ENCH_REGENERATION:
     case ENCH_RAISED_MR:
-    case ENCH_STONESKIN:
+    case ENCH_MAGIC_ARMOUR:
     case ENCH_FEAR_INSPIRING:
     case ENCH_LIFE_TIMER:
     case ENCH_FLIGHT:
@@ -2138,10 +2116,9 @@ static const char *enchant_names[] =
     "corrosion", "gold_lust", "drained", "repel missiles",
     "deflect missiles",
 #if TAG_MAJOR_VERSION == 34
-    "negative_vuln",
+    "negative_vuln", "condensation_shield",
 #endif
-    "condensation_shield", "resistant",
-    "hexed", "corpse_armour",
+    "resistant", "hexed", "corpse_armour",
 #if TAG_MAJOR_VERSION == 34
     "chanting_fire_storm", "chanting_word_of_entropy",
 #endif
@@ -2287,7 +2264,7 @@ int mon_enchant::calc_duration(const monster* mons,
     case ENCH_MIGHT:
     case ENCH_INVIS:
     case ENCH_FEAR_INSPIRING:
-    case ENCH_STONESKIN:
+    case ENCH_MAGIC_ARMOUR:
     case ENCH_AGILE:
     case ENCH_BLACK_MARK:
     case ENCH_RESISTANCE:

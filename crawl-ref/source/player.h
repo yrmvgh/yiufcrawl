@@ -23,9 +23,8 @@
 #include "tiledoll.h"
 #endif
 
-#define CONDENSATION_SHIELD_KEY "condensation_shield_pow"
 #define ICY_ARMOUR_KEY "ozocubu's_armour_pow"
-#define STONESKIN_KEY "stoneskin_pow"
+#define MAGIC_ARMOUR_KEY "magic_armour_pow"
 #define TRANSFORM_POW_KEY "transform_pow"
 #define BARBS_MOVE_KEY "moved_with_barbs_status"
 #define HORROR_PENALTY_KEY "horror_penalty"
@@ -581,7 +580,8 @@ public:
     item_def *weapon(int which_attack = -1) const override;
     item_def *shield() const override;
 
-    hands_reqd_type hands_reqd(const item_def &item) const override;
+    hands_reqd_type hands_reqd(const item_def &item,
+                               bool base = false) const override;
 
     bool      can_wield(const item_def &item,
                         bool ignore_curse = false,

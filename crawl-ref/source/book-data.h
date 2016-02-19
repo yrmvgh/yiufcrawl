@@ -36,7 +36,6 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_OZOCUBUS_ARMOUR,
     SPELL_THROW_ICICLE,
     SPELL_SUMMON_ICE_BEAST,
-    SPELL_CONDENSATION_SHIELD,
 },
 
 {   // Book of Summonings
@@ -205,7 +204,6 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_RECALL,
     SPELL_GRAVITAS,
     SPELL_FORCE_LANCE,
-    SPELL_PHASE_SHIFT,
     SPELL_WARP_BRAND,
     SPELL_SUMMON_FOREST,
 },
@@ -328,7 +326,6 @@ static const vector<spell_type> spellbook_templates[] =
 
 {   // Book of Dreams
     SPELL_HIBERNATION,
-    SPELL_PHASE_SHIFT,
     SPELL_SILENCE,
     SPELL_DARKNESS,
     SPELL_MASS_CONFUSION,
@@ -338,7 +335,6 @@ static const vector<spell_type> spellbook_templates[] =
 {   // Book of Alchemy
     SPELL_SUBLIMATION_OF_BLOOD,
     SPELL_IGNITE_POISON,
-    SPELL_CONDENSATION_SHIELD,
     SPELL_PETRIFY,
     SPELL_INTOXICATE,
     SPELL_IRRADIATE,

@@ -11,8 +11,7 @@ enum ev_ignore_bit
 {
     EV_IGNORE_NONE       = 0,
     EV_IGNORE_HELPLESS   = 1<<0,
-    EV_IGNORE_PHASESHIFT = 1<<1,
-    EV_IGNORE_UNIDED     = 1<<2,
+    EV_IGNORE_UNIDED     = 1<<1,
 };
 DEF_BITFIELD(ev_ignore_type, ev_ignore_bit);
 
@@ -111,7 +110,8 @@ public:
                                bool calc_unid = true,
                                vector<item_def> *matches = nullptr) const = 0;
 
-    virtual hands_reqd_type hands_reqd(const item_def &item) const;
+    virtual hands_reqd_type hands_reqd(const item_def &item,
+                                       bool base = false) const;
 
             bool can_wield(const item_def* item,
                            bool ignore_curse = false,

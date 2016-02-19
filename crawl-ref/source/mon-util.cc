@@ -2825,10 +2825,6 @@ void define_monster(monster* mons)
         mons->num_heads = 27;
         break;
 
-    case MONS_KRAKEN:
-        col = element_colour(ETC_KRAKEN);
-        break;
-
     case MONS_TIAMAT:
         // Initialise to a random draconian type.
         draconian_change_colour(mons);
@@ -3186,6 +3182,8 @@ bool give_monster_proper_name(monster* mon, bool orcs_only)
     }
 
     mon->mname = _get_proper_monster_name(mon);
+    if (!mon->props.exists("dbname"))
+        mon->props["dbname"] = mons_class_name(mon->type);
 
     if (mon->friendly())
         take_note(Note(NOTE_NAMED_ALLY, 0, 0, mon->mname));
@@ -3453,11 +3451,6 @@ bool mons_is_retreating(const monster* m)
 bool mons_is_cornered(const monster* m)
 {
     return m->behaviour == BEH_CORNERED;
-}
-
-bool mons_is_lurking(const monster* m)
-{
-    return m->behaviour == BEH_LURK;
 }
 
 bool mons_is_influenced_by_sanctuary(const monster* m)
