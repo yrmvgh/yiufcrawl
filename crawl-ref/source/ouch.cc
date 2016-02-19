@@ -931,7 +931,9 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
             dam = dam * 10 / 15;
     }
     ait_hp_loss hpl(dam, death_type);
-    interrupt_activity(AI_HP_LOSS, &hpl);
+    if(dam > 0) {
+        interrupt_activity(AI_HP_LOSS, &hpl);
+    }
 
     if (dam > 0 && death_type != KILLED_BY_POISON)
         you.check_awaken(500);
