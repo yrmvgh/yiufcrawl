@@ -941,18 +941,12 @@ static void _handle_insight(int time_delta)
     	if (x_chance_in_y(1 << (lev*2), 64)) {
     		string before, after;
     		item_def* newKnowledge = NULL;
+    		int attempt = 0;
 
-    	    vector<item_def> items;
-
-    	    for (auto &item : you.inv)
+    		while(true)
     	    {
-    	    	items.push_back(item);
-    	    }
+    			item_def item = you.inv[random2(you.inv.size())];
 
-    		shuffle_array(items);
-
-    	    for (auto item : items)
-    	    {
     	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
     	        {
     	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
@@ -966,6 +960,7 @@ static void _handle_insight(int time_delta)
 	    	    		}
 					}
     	        }
+    	        if(++attempt > 100) break;
     	    }
 
         	if(newKnowledge)
