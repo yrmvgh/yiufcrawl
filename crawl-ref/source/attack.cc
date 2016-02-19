@@ -1620,11 +1620,11 @@ bool attack::apply_damage_brand(const char *what)
             break;
         else if (one_chance_in(3))
         {
+            special_damage = 8 + random2(13);
             special_damage_message =
                 defender->is_player()?
-                   "You are electrocuted!"
-                :  "There is a sudden explosion of sparks!";
-            special_damage = 8 + random2(13);
+                   "You are electrocuted causing " + to_string(special_damage) + " damage!"
+                :  "There is a sudden explosion of sparks causing " + to_string(special_damage) + " damage!";
             special_damage_flavour = BEAM_ELECTRICITY;
         }
 
