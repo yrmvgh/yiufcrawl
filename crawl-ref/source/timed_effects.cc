@@ -940,12 +940,12 @@ static void _handle_insight(int time_delta)
     if (int lev = player_mutation_level(MUT_INSIGHT)) {
     	if (x_chance_in_y(1 << (lev*2), 64)) {
     		string before, after;
-    		item_def* newKnowledge = NULL;
+    		bool success = false;
     		int attempt = 0;
 
     		while(true)
     	    {
-    			item_def item = you.inv[random2(you.inv.size())];
+    			item_def& item(you.inv[random2(you.inv.size())]);
 
     	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
     	        {
@@ -955,7 +955,7 @@ static void _handle_insight(int time_delta)
 						item.flags |= bitToCheck;
 	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
 	    	    		if(before != after) {
-							newKnowledge = &item;
+							success = true;
 							break;
 	    	    		}
 					}
@@ -963,7 +963,7 @@ static void _handle_insight(int time_delta)
     	        if(++attempt > 100) break;
     	    }
 
-        	if(newKnowledge)
+        	if(success)
         		mprf(MSGCH_FOOD, "You gain insight: %s -> %s", before.c_str(), after.c_str());
     	}
     }
