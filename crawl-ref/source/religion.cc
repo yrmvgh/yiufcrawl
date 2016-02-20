@@ -1059,7 +1059,6 @@ bool active_penance(god_type god)
            && god != GOD_ASHENZARI
            && god != GOD_GOZAG
            && god != GOD_RU
-           && god != GOD_UKAYAW
            && (god != GOD_NEMELEX_XOBEH || you.penance[god] > 100)
            && (god == you.religion && !is_good_god(god)
                || god_hates_your_god(god, you.religion));
