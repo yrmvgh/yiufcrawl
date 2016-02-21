@@ -1029,8 +1029,23 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
             props.erase(TORPOR_SLOWED_KEY);
     }
 
-    if (lose_ench_duration(me, actdur))
-        return true;
+    if (me.ench == ENCH_ABJ && summoner) {
+    	// enchantment is not based on duration, but instead steadily drains mana of summoner
+        actor *sourceAgent = actor_by_mid(summoner);
+        if(sourceAgent && sourceAgent->is_player()) {
+			if(x_chance_in_y(hit_dice, 100)) {
+				player* player = sourceAgent->as_player();
+				if(you.species == SP_DJINNI ? player->hp < 10 : player->magic_points < 2) {
+		            del_ench(me.ench);
+				} else {
+					dec_mp(1, true);
+				}
+			}
+        }
+    } else {
+        if (lose_ench_duration(me, actdur))
+            return true;
+    }
 
     if (!decay_degree)
         return false;
