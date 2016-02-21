@@ -9,6 +9,7 @@ I know quite well that I am not nearly as experienced in playing this game as ma
 I don't yet understand because of that lack of experience, but I figured since I am having so much fun with this fork, it
 doesn't take much effort to share it with others, and maybe some of my crazy ideas may be merged into the main DCSS repo. And of
 course you are welcome to submit changes to this fork or even make another fork if you don't like the direction I'm taking this one. 
+This fork is in sync with the original DCSS repo as of Feb 2016. I intend to keep merging in non-conflicting changes from the main DCSS project.
 
 ## Major modifications from the original DCSS
 
@@ -26,7 +27,7 @@ course you are welcome to submit changes to this fork or even make another fork 
       than normal.
 
 * Mummies
-    * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before than before
+    * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before
     * immunity to curses, so trying out cursed armour or weapons isn't a problem
 
 * Felid
@@ -47,10 +48,11 @@ course you are welcome to submit changes to this fork or even make another fork 
     * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
 
 * Kobold
-    * added permanent evolution mutation. Although this sounds similar to how demonspawn work, it actually plays quite differently, because the player will occasionally
+    * added permanent evolution mutation. Although this sounds similar to how demonspawns work, it actually plays quite differently, because the player will occasionally
       get random bad mutations, and sometimes have to adjust their play style to compensate. There is also a greater than normal chance that evolve will replace
       a bad mutation with a good, making drinking mutation potions a safer strategy for kobolds. Unlike demonspawn which get permanent mutations, the mutations
-      a kobold gets through evolve are temporary, making cure mutation potions often a very bad thing. 
+      a kobold gets through evolve are temporary, making cure mutation potions often a very bad thing. And of course they only get ordinary mutations, not the
+      cool demonspawn specific ones.
       
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
@@ -72,7 +74,7 @@ course you are welcome to submit changes to this fork or even make another fork 
     * start with thin skeletal structure
 
 * Troll
-    * they now gain a lot of different elemental resistances as they gain levels
+    * they now gain several different elemental resistances as they gain levels
 
 * Deep Elf
     * increased spell casting aptitude
