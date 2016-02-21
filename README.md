@@ -1,94 +1,97 @@
-[![Build Status](https://travis-ci.org/crawl/crawl.svg?branch=master)](https://travis-ci.org/crawl/crawl)
+# Dungeon Crawl Stone Soup: Circus Animals variation
 
-# Dungeon Crawl Stone Soup
+This fork of DCSS contains many wacky experiments I've toyed with over the years, which for me at least has made the game a lot more fun. 
+The majority of my changes center around increasing the richness of the different species in DCSS. 
+I also made a number of changes to make early game a little more enjoyable, especially for people new to DCSS. I find that many of my family and friends I want
+to introduce to DCSS have a hard time getting over that initial learning curve.
+I would repeatedly take the species that I considered most boring to play, and alter that species until it was a compelling choice for me to play. 
+I know quite well that I am not nearly as experienced in playing this game as many others are, and likely some of these changes may break important things that
+I don't yet understand because of that lack of experience, but I figured since I am having so much fun with this fork, it
+doesn't take much effort to share it with others, and maybe some of my crazy ideas may be merged into the main DCSS repo. And of
+course you are welcome to submit changes to this fork or even make another fork if you don't like the direction I'm taking this one. 
 
-Dungeon Crawl Stone Soup is a game of dungeon exploration, combat and magic, involving characters of diverse skills, worshipping deities of great power and caprice. To win, you'll need to be a master of tactics and strategy, and prevail against overwhelming odds.
+## Major modifications from the original DCSS
 
-## Contents
+* Djinni brought back from the dead and greatly enhanced.
+    * Unusual contamination mechanism that they originally had has been removed.
+    * Djinni can no longer read scrolls of any kind, even though they can use spell books.
+    * Since they can't read remove curse scrolls, cursed items are a much bigger deal for them. To mitigate this a little, they have a remove curse ability that
+      costs one permanent MP.
+    * Since they can't read identify scrolls, they can either identify items by using them (very dangerous for potentially cursed items), or wait and use the
+      new insight mutation that they start with which, over time, randomly identifies attributes of items in their inventory. This mutation can also randomly be
+      gained by other species as they drink mutation potions, etc.
+    * They have an extraordinary spell casting aptitude to help balance their dramatic negatives
+    * They have a poor species stealth modifier, because of the fact that they emit light, it's hard for them to hide in the shadows.
+    * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
+      than normal.
 
-1. [How to Play](#how-to-play)
-3. [Community](#community)
-5. [How you can help](#how-you-can-help)
-4. [License and history information](#license-and-history-information)
+* Mummies
+    * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before than before
+    * immunity to curses, so trying out cursed armour or weapons isn't a problem
 
-## How to Play
+* Felid
+    * can wear 4 rings. Why not? They have four identical "hands"... I find that this helps to balance their severe limitations a bit better and make the early
+      game a bit more doable. 
+    * move faster as they advance in levels.
+    * have exactly 9 lives right at the beginning, which never increases. How many lives can you end up with at the end of the game?
+    * no loss of experience when death happens
 
-If you'd like to dive in immediately, we suggest one of:
+* Ghouls
+    * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
 
-* Start a game and pick a tutorial (select tutorial in the game menu),
-* Read [quickstart.txt](crawl-ref/docs/quickstart.txt) (in the [docs/](crawl-ref/docs/) directory), or
-* For the studious, [read Crawl's full manual](crawl-ref/docs/crawl_manual.reST).
+* Halfling
+    * added wild magic 3 mutation at the beginning, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
+    * added an extraordinary level of magic resistance
 
-There is also an ingame list of frequently asked questions which you can access by typing
-`?Q`.
+* Hill Orc
+    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
 
-#### Internet Play
+* Kobold
+    * added permanent evolution mutation. Although this sounds similar to how demonspawn work, it actually plays quite differently, because the player will occasionally
+      get random bad mutations, and sometimes have to adjust their play style to compensate. There is also a greater than normal chance that evolve will replace
+      a bad mutation with a good, making drinking mutation potions a safer strategy for kobolds. Unlike demonspawn which get permanent mutations, the mutations
+      a kobold gets through evolve are temporary, making cure mutation potions often a very bad thing. 
+      
+* Naga
+    * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
+    * removed the misshapen armour restriction. Body armour gives full benefit, unlike with centaurs. This better balances the fact that not only are they slow,
+      but they have poor shield, armour, and dodging aptitudes. 
 
-You can play Crawl online, competing with other players or watching them. Click "Play Online Now!" on [the Crawl homepage](https://crawl.develz.org/) to find your closest server. You can play in your browser or over SSH.
+* Ogre
+    * has permanent powered by pain mutation at the beginning. This gives them occasional boosts as they are damaged. 
+    * significantly increased health aptitude, making them have by far the greatest health pool of all species. 
 
-#### Offline Play
+* Octopode
+    * has permanent augmentation mutation at the beginning. This boosts their fighting and magic usage when they have a high amount of health, making them
+      significantly easier early on.
 
-Both classical ASCII and tiles (GUI) versions of Crawl are available to [download for Linux, Windows and OS X](https://crawl.develz.org/download.htm).
+* Tengu
+    * start with clarity
+    * while flying, their speed and dodging increases based on their experience level.
+    * start with shock resistance
+    * start with thin skeletal structure
 
-## Community
+* Troll
+    * they now gain a lot of different elemental resistances as they gain levels
 
-### Web
-Our official homepage is [https://crawl.develz.org](https://crawl.develz.org/). You can find online play, offline downloads, a community forum and the development bug tracker/wiki.
+* Deep Elf
+    * increased spell casting aptitude
+    * increased magic capacity
 
-### IRC
-Chat with fellow crawlers in [##crawl on irc.freenode.net](https://webchat.freenode.net/?channels=##crawl), or talk development in [##crawl-dev](https://webchat.freenode.net/?channels=##crawl-dev).
+* Demigod
+    * even higher increase of stats over time
+    * lower exp aptitude
 
-## How you can help
+* Spell casting
+    * no more spell caps... now even basic spells can continue to grow in power late in the game. 
+    * the effect of spell casting skill on spell success and power has been increased.
 
-If you like the game and you want to help make it better, there are a number
-of ways to do so:
+* Summoning
+    * no summon caps. Instead, summoned creatures continuously drain mana from the summoner, until there is no longer mana to support them, and then they
+      disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
+      creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
+      before. 
+    * summons occasionally disappear even if you have enough mana to support them. 
+    * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
 
-### Reporting bugs
 
-At any time, there will be bugs -- finding and reporting them is a great help.
-Many of the online servers host the regularly updated development version. Bugs
-should be reported to [our bug tracker](https://crawl.develz.org/mantis/). Besides pointing out bugs, new ideas on how to improve interface or gameplay are welcome. These can be added to [the development wiki](https://crawl.develz.org/wiki/).
-
-### Map making
-Crawl creates levels by combining many hand-made (but often randomised) maps, known as *vaults*. Making them is fun and
-easy. It's best to start with simple entry vaults: see [simple.des](crawl-ref/source/dat/des/arrival/simple.des) for examples. You can also read [the level-design manual](crawl-ref/docs/develop/levels/introduction.txt) for more help.
-
-If you're ambitious, you can create new vaults for anywhere in the game. If you've
-made some vaults, you can test them on your own system (no compiling needed) and
-submit them to [our bug tracker](https://crawl.develz.org/mantis/).
-
-### Monster Speech & Item Descriptions
-Monster speech provides a lot of flavour. Just like vaults, varied speech depends
-upon a large set of entries. Speech syntax is effective but unusual, so you may want to read [the formatting guide](crawl-ref/docs/develop/monster_speech.txt).
-
-Current item descriptions can be read in-game with `?/` or out-of-game
-them in [dat/descript/](crawl-ref/source/dat/descript/). The following conventions should be more or less obeyed:
-* Descriptions ought to contain flavour text, ideally pointing out major weaknesses/strengths.
-* No numbers, please.
-* Citations are okay, but try to stay away from the most generic ones.
-
-### Tiles
-We're always open to improvements to existing tiles or variants of often-used tiles (eg floor tiles). If you want to give this a shot, please [contact us](#community) via forums or IRC. In case you drew some tiles of your own, you can submit them to [our bug tracker](https://crawl.develz.org/mantis/).
-
-### Patches
-For developers (both existing & aspiring!), you can download/fork the source code and write patches. Bug fixes as well as new features are very much welcome.
-
-For large changes, it's always a good idea to [talk with the dev team](#community) first, to see if any plans already exist and if your suggestion is likely to be accepted.
-
-Please be sure to read [docs/develop/coding_conventions.txt](crawl-ref/docs/develop/coding_conventions.txt) too.
-
-## License and history information
-
-Crawl is licensed as GPLv2+. See [licence.txt](crawl-ref/licence.txt) for the full text.
-
-Crawl is a descendant of Linley's Dungeon Crawl. Development of the main branch stalled at version 4.0.0b26, with a final alpha of 4.1 being released by Brent Ross in 2005. Since 2006, the Dungeon Crawl Stone Soup team has continued development. [CREDITS.txt](crawl-ref/CREDITS.txt) contains a full list of contributors.
-
-Crawl gladly uses the following open source packages; thanks to their developers:
-
-* The Lua scripting language, for in-game functionality and user macros ([license](crawl-ref/docs/license/lualicense.txt)).
-* The PCRE library, for regular expressions ([license](crawl-ref/docs/license/pcre_license.txt)).
-* The SQLite library, as a database engine ([license](https://www.sqlite.org/copyright.html)).
-* The SDL and SDL_image libraries, for tiles display ([license](crawl-ref/docs/license/lgpl.txt)).
-* The libpng library, for tiles image loading ([license](crawl-ref/docs/license/libpng-LICENSE.txt)).
-
-Thank you, and have fun crawling!
