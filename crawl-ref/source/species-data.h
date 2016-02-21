@@ -649,7 +649,7 @@ static const map<species_type, species_def> species_data =
     {
     		{ MUT_CAMOUFLAGE, 1, 1 },
     		{ MUT_GELATINOUS_BODY, 3, 1 },
-    		{ MUT_AUGMENTATION, 3, 1 },
+    		{ MUT_AUGMENTATION, 1, 1 },
     },
     { "You cannot wear most types of armour.",
       "You are amphibious." },
