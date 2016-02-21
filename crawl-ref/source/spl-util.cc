@@ -426,6 +426,10 @@ bool spell_harms_area(spell_type spell)
 // for Xom acting (more power = more likely to grab his attention) {dlb}
 int spell_mana(spell_type which_spell)
 {
+	if(is_summon_spell(which_spell)) {
+		return 1;
+	}
+
     return _seekspell(which_spell)->level;
 }
 
