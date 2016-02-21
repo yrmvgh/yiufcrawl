@@ -2997,7 +2997,7 @@ static bool _interesting_explore_pickup(const item_def& item)
         if (you_worship(GOD_FEDHAS) && is_fruit(item))
             return true;
 
-        if (is_inedible(item))
+        if (is_inedible(item) || you.species == SP_DJINNI)
             return false;
 
         // Interesting if we don't have any other edible food.

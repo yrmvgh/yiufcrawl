@@ -459,7 +459,7 @@ static const map<species_type, species_def> species_data =
     "HO",
     "Hill Orc", "Orcish", "Orc",
     SPF_ORCISH,
-    0, 1, 0,
+    0, 1, 2,
     15, 3,
     MONS_ORC,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
@@ -786,6 +786,8 @@ static const map<species_type, species_def> species_data =
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     {
     		{ MUT_INSIGHT, 1, 1 },
+    		{ MUT_INSIGHT, 1, 5 },
+    		{ MUT_INSIGHT, 1, 10 },
     },
     { "You are healed by all types of fire, even holy and hellish.",
       "You are vulnerable to cold.",

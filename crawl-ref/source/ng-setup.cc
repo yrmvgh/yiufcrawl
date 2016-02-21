@@ -318,7 +318,7 @@ static void _give_items_skills(const newgame_def& ng)
 static void _give_starting_food()
 {
     // No food for those who don't need it.
-    if (you_foodless(true))
+    if (you_foodless())
         return;
 
     object_class_type base_type = OBJ_FOOD;
