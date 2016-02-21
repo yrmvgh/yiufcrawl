@@ -1034,7 +1034,6 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
         actor *sourceAgent = actor_by_mid(summoner);
         if(sourceAgent && sourceAgent->is_player()) {
         	int cost = max(1, hit_dice/2);
-        	if(you.species == SP_DJINNI) cost <<= 1;
 			if(one_chance_in(10)) {
 				player* player = sourceAgent->as_player();
 				if((you.species == SP_DJINNI
