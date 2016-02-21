@@ -1033,12 +1033,19 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
     	// enchantment is not based on duration, but instead steadily drains mana of summoner
         actor *sourceAgent = actor_by_mid(summoner);
         if(sourceAgent && sourceAgent->is_player()) {
-			if(x_chance_in_y(hit_dice, 100)) {
+        	int cost = max(1, hit_dice/2);
+        	if(you.species == SP_DJINNI) cost <<= 1;
+			if(one_chance_in(10)) {
 				player* player = sourceAgent->as_player();
-				if(you.species == SP_DJINNI ? player->hp < 10 : player->magic_points < 2) {
+				if((you.species == SP_DJINNI
+						? (100 * player->hp / player->hp_max < 20)
+						: (player->magic_points < cost)
+						)
+						|| one_chance_in(20)
+						) {
 		            del_ench(me.ench);
 				} else {
-					dec_mp(1, true);
+					dec_mp(cost, true);
 				}
 			}
         }
