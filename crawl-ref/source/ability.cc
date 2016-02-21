@@ -446,6 +446,7 @@ static const ability_def Ability_List[] =
 
 	{ ABIL_LIGNIFY, "Lignify", 0, 0, 200, 0, abflag::NONE },
     { ABIL_UNCURSE, "Remove Curse", 1, 0, 0, 0, abflag::PERMANENT_MP },
+    { ABIL_RELEASE_SUMMONS, "Release Summoned Creatures", 0, 0, 0, 0, abflag::NONE },
 };
 
 static const ability_def& get_ability_def(ability_type abil)
@@ -882,6 +883,7 @@ talent get_talent(ability_type ability, bool check_confused)
 
     case ABIL_EVOKE_TURN_VISIBLE:
     case ABIL_STOP_FLYING:
+    case ABIL_RELEASE_SUMMONS:
         failure = 0;
         break;
 
@@ -1653,6 +1655,7 @@ bool activate_talent(const talent& tal)
         case ABIL_MUMMY_RESTORATION:
         case ABIL_TRAN_BAT:
         case ABIL_ASHENZARI_END_TRANSFER:
+        case ABIL_RELEASE_SUMMONS:
             hungerCheck = false;
             break;
         default:
@@ -3113,6 +3116,11 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         }
         break;
 
+    case ABIL_RELEASE_SUMMONS:
+        fail_check();
+        unsummon_all();
+        break;
+
     case ABIL_NON_ABILITY:
         fail_check();
         mpr("Sorry, you can't do that.");
@@ -3355,6 +3363,10 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
 
     if (you.species == SP_DJINNI)
         _add_talent(talents, ABIL_UNCURSE, check_confused);
+
+    if (player_has_summons()) {
+        _add_talent(talents, ABIL_RELEASE_SUMMONS, check_confused);
+    }
 
     if (you.species == SP_FORMICID
         && (form_keeps_mutations() || include_unusable))

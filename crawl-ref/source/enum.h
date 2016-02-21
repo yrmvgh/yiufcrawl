@@ -423,6 +423,7 @@ enum ability_type
     ABIL_CONVERT_TO_BEOGH,
     ABIL_LIGNIFY,
     ABIL_UNCURSE,
+    ABIL_RELEASE_SUMMONS,
     NUM_ABILITIES
 };
 

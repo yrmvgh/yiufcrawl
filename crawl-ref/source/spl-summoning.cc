@@ -3474,3 +3474,45 @@ int count_summons(const actor *summoner, spell_type spell)
 
     return count;
 }
+
+int _unsummon_all(const actor *summoner)
+{
+    int count = 0;
+    for (monster_iterator mi; mi; ++mi)
+    {
+        if (summoner == *mi)
+            continue;
+
+        int stype    = 0;
+        const bool summoned = mi->is_summoned(nullptr, &stype);
+        if (summoned && summoner->mid == mi->summoner)
+        {
+            mi->del_ench(ENCH_ABJ);
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int unsummon_all()
+{
+	return _unsummon_all(&you);
+}
+
+bool player_has_summons()
+{
+    bool found = false;
+    for (monster_iterator mi; mi; ++mi)
+    {
+        int stype    = 0;
+        const bool summoned = mi->is_summoned(nullptr, &stype);
+        if (summoned && you.mid == mi->summoner)
+        {
+        	found = true;
+        	break;
+        }
+    }
+
+    return found;
+}
