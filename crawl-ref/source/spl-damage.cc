@@ -2611,7 +2611,9 @@ vector<bolt> get_spray_rays(const actor *caster, coord_def aim, int range,
     center_beam.dont_stop_player = false;
     center_beam.foe_info.dont_stop = false;
     center_beam.friend_info.dont_stop = false;
-    beams.push_back(center_beam);
+    // Prevent self-hits, specifically when you aim at an adjacent wall.
+    if (center_beam.path_taken.back() != caster->pos())
+        beams.push_back(center_beam);
 
     for (distance_iterator di(aim, false, false, max_spacing); di; ++di)
     {
@@ -2678,7 +2680,7 @@ static bool _dazzle_can_hit(const actor *act)
         const monster* mons = act->as_monster();
         bolt testbeam;
         testbeam.thrower = KILL_YOU;
-        zappy(ZAP_DAZZLING_SPRAY, 100, testbeam);
+        zappy(ZAP_DAZZLING_SPRAY, 100, false, testbeam);
 
         return !testbeam.ignores_monster(mons);
     }
@@ -2705,7 +2707,7 @@ spret_type cast_dazzling_spray(int pow, coord_def aim, bool fail)
 
     for (bolt &beam : hitfunc.beams)
     {
-        zappy(ZAP_DAZZLING_SPRAY, pow, beam);
+        zappy(ZAP_DAZZLING_SPRAY, pow, false, beam);
         beam.fire();
     }
 
@@ -2894,7 +2896,7 @@ void handle_searing_ray()
         return;
     }
 
-    zappy(zap, pow, beam);
+    zappy(zap, pow, false, beam);
 
     aim_battlesphere(&you, SPELL_SEARING_RAY, pow, beam);
     beam.fire();
@@ -3076,7 +3078,7 @@ spret_type cast_scattershot(const actor *caster, int pow, const coord_def &pos,
     beam.source      = caster->pos();
     beam.source_id   = caster->mid;
     beam.source_name = caster->name(DESC_PLAIN, true);
-    zappy(ZAP_SCATTERSHOT, pow, beam);
+    zappy(ZAP_SCATTERSHOT, pow, false, beam);
     beam.aux_source  = beam.name;
 
     if (!caster->is_player())
