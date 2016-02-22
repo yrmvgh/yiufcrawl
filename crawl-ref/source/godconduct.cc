@@ -1028,10 +1028,8 @@ void did_hurt_conduct(conduct_type thing_done,
     int value = random2(3) + sqr((mons_threat_level(&victim) + 1) * 2) * damage_done /
                 (victim.max_hit_points);
 
-    you.props[UKAYAW_NUM_MONSTERS_HURT] =
-        you.props[UKAYAW_NUM_MONSTERS_HURT].get_int() += 1;
-    you.props[UKAYAW_MONSTER_HURT_VALUE] =
-        you.props[UKAYAW_MONSTER_HURT_VALUE].get_int() += value;
+    you.props[UKAYAW_NUM_MONSTERS_HURT].get_int() += 1;
+    you.props[UKAYAW_MONSTER_HURT_VALUE].get_int() += value;
 
 }
 
