@@ -89,7 +89,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * brought back but not modified much yet. 
 
 * Vine Stalkers
-    * haven't changed these much yet, but intend to make a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
+    * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly add some interesting strategic choices. 
 
 * Spell casting

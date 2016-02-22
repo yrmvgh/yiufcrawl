@@ -3127,7 +3127,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_LIGNIFY:
         fail_check();
-        transform(30, TRAN_TREE, false);
+        transform(100, TRAN_TREE, false);
+        you.turn_is_over = true;
         break;
 
     case ABIL_NON_ABILITY:

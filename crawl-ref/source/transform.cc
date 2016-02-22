@@ -2103,6 +2103,11 @@ void untransform(bool skip_move)
             you.stop_being_constricted();
     }
 
+    if(old_form == TRAN_TREE) {
+    	// it takes some time to delignify
+        start_delay(DELAY_UNINTERRUPTIBLE, 2);
+    }
+
     you.turn_is_over = true;
     if (you.transform_uncancellable)
         you.transform_uncancellable = false;
