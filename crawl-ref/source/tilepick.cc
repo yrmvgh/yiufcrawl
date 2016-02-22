@@ -1654,6 +1654,8 @@ tileidx_t tileidx_monster_base(int type, bool in_water, int colour, int number,
             return TILEP_MONS_SWAMP_WORM;
     case MONS_GIANT_LEECH:
         return TILEP_MONS_GIANT_LEECH;
+    case MONS_DART_SLUG:
+        return TILEP_MONS_DART_SLUG;
     case MONS_TORPOR_SNAIL:
         return TILEP_MONS_TORPOR_SNAIL;
 
@@ -3735,6 +3737,8 @@ static tileidx_t _tileidx_corpse(const item_def &item)
         return TILE_CORPSE_SWAMP_WORM;
     case MONS_GIANT_LEECH:
         return TILE_CORPSE_GIANT_LEECH;
+    case MONS_DART_SLUG:
+        return TILE_CORPSE_DART_SLUG;
     case MONS_TORPOR_SNAIL:
         return TILE_CORPSE_TORPOR_SNAIL;
 
@@ -4616,6 +4620,11 @@ tileidx_t tileidx_bolt(const bolt &bolt)
     case MAGENTA:
         if (bolt.name == "searing ray")
             return TILE_BOLT_SEARING_RAY_I;
+        break;
+
+    case CYAN:
+        if (bolt.name == "slug dart")
+            return TILE_BOLT_STONE_ARROW;
         break;
 
     case ETC_MUTAGENIC:

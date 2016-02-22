@@ -1318,7 +1318,8 @@ spret_type your_spells(spell_type spell, int powc,
         {
             const zap_type zap = spell_to_zap(spell);
             const int eff_pow = zap == NUM_ZAPS ? powc
-                                                : zap_ench_power(zap, powc);
+                                                : zap_ench_power(zap, powc,
+                                                                 false);
             additional_desc = bind(desc_success_chance, placeholders::_1,
                                    eff_pow, evoked, hitfunc.get());
         }
@@ -1355,6 +1356,13 @@ spret_type your_spells(spell_type spell, int powc,
             else
                 canned_msg(MSG_UNTHINKING_ACT);
 
+            return SPRET_ABORT;
+        }
+
+        if (spd.isMe()
+            && (spell == SPELL_HASTE && check_stasis(NO_HASTE_MSG)
+                || spell == SPELL_INVISIBILITY && !invis_allowed()))
+        {
             return SPRET_ABORT;
         }
     }
@@ -2104,7 +2112,7 @@ string spell_noise_string(spell_type spell)
     if (effect_noise == 0 && zap != NUM_ZAPS)
     {
         bolt beem;
-        zappy(zap, 0, beem);
+        zappy(zap, 0, false, beem);
         effect_noise = beem.loudness;
     }
 

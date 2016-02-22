@@ -371,9 +371,8 @@ static bool _monster_filter(string key, string body)
 
 static bool _spell_filter(string key, string body)
 {
-    if (!ends_with(key, " spell"))
+    if (!strip_suffix(key, "spell"))
         return true;
-    key.erase(key.length() - 6);
 
     spell_type spell = spell_by_name(key);
 
@@ -401,9 +400,8 @@ static bool _card_filter(string key, string body)
     lowercase(key);
 
     // Every card description contains the keyword "card".
-    if (!ends_with(key, " card"))
+    if (!strip_suffix(key, "card"))
         return true;
-    key.erase(key.length() - 5);
 
     for (int i = 0; i < NUM_CARDS; ++i)
     {
@@ -416,16 +414,12 @@ static bool _card_filter(string key, string body)
 static bool _ability_filter(string key, string body)
 {
     lowercase(key);
-    if (!ends_with(key, " ability"))
+
+    if (!strip_suffix(key, "ability"))
         return true;
-    key.erase(key.length() - 8);
 
-    if (string_matches_ability_name(key))
-        return false;
-
-    return true;
+    return !string_matches_ability_name(key);
 }
-
 
 
 static void _recap_mon_keys(vector<string> &keys)
@@ -461,13 +455,11 @@ static void _recap_spell_keys(vector<string> &keys)
  */
 static void _recap_ability_keys(vector<string> &keys)
 {
-    for (unsigned int i = 0, size = keys.size(); i < size; i++)
+    for (auto &key : keys)
     {
-        // first, strip " ability"
-        const string key_name = keys[i].substr(0, keys[i].length() - 8);
-        // then get the real name
-        keys[i] = make_stringf("%s ability",
-                               ability_name(ability_by_name(key_name)));
+        strip_suffix(key, "ability");
+        // get the real name
+        key = make_stringf("%s ability", ability_name(ability_by_name(key)));
     }
 }
 
@@ -891,10 +883,8 @@ MenuEntry* LookupType::make_menu_entry(char letter, string &key) const
 string LookupType::key_to_menu_str(const string &key) const
 {
     string str = uppercase_first(key);
-
-    if (ends_with(str, suffix())) // perhaps we should assert this?
-        str.erase(str.length() - suffix().length());
-
+    // perhaps we should assert this?
+    strip_suffix(str, suffix());
     return str;
 }
 
@@ -932,8 +922,7 @@ static int _describe_key(const string &key, const string &suffix,
     inf.body << desc << extra_info;
 
     string title = key;
-    if (ends_with(title, suffix))
-        title.erase(title.length() - suffix.length());
+    strip_suffix(title, suffix);
     title = uppercase_first(title);
     linebreak_string(footer, width - 1);
 

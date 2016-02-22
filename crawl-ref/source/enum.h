@@ -2588,6 +2588,7 @@ enum monster_type                      // menv[].type
     MONS_GIANT_SLUG,
     MONS_AGATE_SNAIL,
 #else
+    MONS_DART_SLUG,
     MONS_TORPOR_SNAIL,
 #endif
     MONS_ELEPHANT_SLUG,
@@ -3526,6 +3527,7 @@ enum monster_type                      // menv[].type
     MONS_ANCESTOR_KNIGHT,
     MONS_ANCESTOR_BATTLEMAGE,
     MONS_ANCESTOR_HEXER,
+    MONS_DART_SLUG,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -4647,6 +4649,7 @@ enum spell_type
     SPELL_AWAKEN_EARTH,
     SPELL_AURA_OF_BRILLIANCE,
     SPELL_ICEBLAST,
+    SPELL_SLUG_DART,
     NUM_SPELLS
 };
 
@@ -4817,6 +4820,7 @@ enum zap_type
     ZAP_MEPHITIC,
     ZAP_UNRAVELLING,
     ZAP_ICEBLAST,
+    ZAP_SLUG_DART,
     NUM_ZAPS
 };
 

@@ -42,6 +42,7 @@ static pair<spell_type, zap_type> _spl_zaps[] =
     { SPELL_HELLFIRE, ZAP_HELLFIRE },
     { SPELL_CORONA, ZAP_CORONA },
     { SPELL_ENSLAVEMENT, ZAP_ENSLAVEMENT },
+    { SPELL_BANISHMENT, ZAP_BANISHMENT },
     { SPELL_SLOW, ZAP_SLOW },
     { SPELL_CONFUSE, ZAP_CONFUSE },
     { SPELL_HIBERNATION, ZAP_HIBERNATION },
@@ -59,6 +60,9 @@ static pair<spell_type, zap_type> _spl_zaps[] =
     { SPELL_TUKIMAS_DANCE, ZAP_TUKIMAS_DANCE },
     { SPELL_CORROSIVE_BOLT, ZAP_CORROSIVE_BOLT },
     { SPELL_DEBUGGING_RAY, ZAP_DEBUGGING_RAY },
+
+    // monster-specific
+    { SPELL_SLUG_DART, ZAP_SLUG_DART },
 
     // These are all for zap -> spell lookup.
     { SPELL_QUICKSILVER_BOLT, ZAP_QUICKSILVER_BOLT },
