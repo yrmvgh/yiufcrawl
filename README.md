@@ -72,6 +72,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * while flying, their speed and dodging increases based on their experience level.
     * start with shock resistance
     * start with thin skeletal structure
+    * can't wear rings at all
 
 * Troll
     * they now gain several different elemental resistances as they gain levels
@@ -83,6 +84,13 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 * Demigod
     * even higher increase of stats over time
     * lower exp aptitude
+
+* Lava Orcs
+    * brought back but not modified much yet. 
+
+* Vine Stalkers
+    * haven't changed these much yet, but intend to make a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
+      possibly add some interesting strategic choices. 
 
 * Spell casting
     * no more spell caps... now even basic spells can continue to grow in power late in the game. 
@@ -96,4 +104,11 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * summons occasionally disappear even if you have enough mana to support them. 
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
 
+* Potions and wands of heal wounds
+    * now fully heal the target
+
+* Damage numbers are shown
+    * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
+      personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
+      descriptions whether or not a change is actually improving my attacking effectiveness. 
 
