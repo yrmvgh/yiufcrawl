@@ -1099,6 +1099,10 @@ talent get_talent(ability_type ability, bool check_confused)
         failure = 45 - (2 * you.experience_level);
         break;
 
+    case ABIL_LIGNIFY:       // this is for vine stalkers
+        failure = 45 - (2 * you.experience_level);
+        break;
+
         // end invocations {dlb}
     default:
         failure = -1;
@@ -3121,6 +3125,11 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         unsummon_all();
         break;
 
+    case ABIL_LIGNIFY:
+        fail_check();
+        transform(30, TRAN_TREE, false);
+        break;
+
     case ABIL_NON_ABILITY:
         fail_check();
         mpr("Sorry, you can't do that.");
@@ -3363,6 +3372,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
 
     if (you.species == SP_DJINNI)
         _add_talent(talents, ABIL_UNCURSE, check_confused);
+
+    if (you.species == SP_VINE_STALKER)
+        _add_talent(talents, ABIL_LIGNIFY, check_confused);
 
     if (player_has_summons()) {
         _add_talent(talents, ABIL_RELEASE_SUMMONS, check_confused);

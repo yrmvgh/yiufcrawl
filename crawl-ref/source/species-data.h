@@ -766,7 +766,7 @@ static const map<species_type, species_def> species_data =
       { MUT_NO_DEVICE_HEAL, 3, 1 }, { MUT_ROT_IMMUNITY, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_REGENERATION, 1, 6 },
       { MUT_REGENERATION, 1, 12 }, },
-    {},
+    { "You can turn into a tree at will." },
     {},
     { JOB_MONK, JOB_ASSASSIN, JOB_ENCHANTER, JOB_CONJURER, JOB_NECROMANCER,
       JOB_AIR_ELEMENTALIST, JOB_ICE_ELEMENTALIST },
