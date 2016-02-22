@@ -90,7 +90,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
-      possibly add some interesting strategic choices. 
+      possibly adding some interesting strategic choices. 
 
 * Spell casting
     * no more spell caps... now even basic spells can continue to grow in power late in the game. 
@@ -111,4 +111,8 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
       descriptions whether or not a change is actually improving my attacking effectiveness. 
+
+* Gozag
+    * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
+      gold benefit the same as before. 
 
