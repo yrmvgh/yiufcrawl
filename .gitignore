@@ -19,4 +19,4 @@ crawlLocal
 crawlDebug
 .DS_Store
 README.html
-
+*.o-*
