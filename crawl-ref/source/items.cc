@@ -370,6 +370,7 @@ mon_inv_iterator mon_inv_iterator::operator++(int)
 bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount)
 {
     bool ret = false;
+	bool consumable = is_consumable(inv);
 
     if (you.equip[EQ_WEAPON] == obj)
         you.wield_change = true;
@@ -378,20 +379,23 @@ bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
 
     if (inv[obj].quantity <= amount)
     {
-        for (int i = 0; i < NUM_EQUIP; i++)
-        {
-            if (you.equip[i] == obj)
+    	if (!consumable)
+    	{
+            for (int i = 0; i < NUM_EQUIP; i++)
             {
-                if (i == EQ_WEAPON)
+                if (you.equip[i] == obj)
                 {
-                    unwield_item();
-                    canned_msg(MSG_EMPTY_HANDED_NOW);
+                    if (i == EQ_WEAPON)
+                    {
+                        unwield_item();
+                        canned_msg(MSG_EMPTY_HANDED_NOW);
+                    }
+                    you.equip[i] = -1;
                 }
-                you.equip[i] = -1;
             }
-        }
 
-        item_skills(inv[obj], you.stop_train);
+            item_skills(inv[obj], you.stop_train);
+    	}
 
         inv[obj].base_type = OBJ_UNASSIGNED;
         inv[obj].quantity  = 0;
@@ -2376,7 +2380,7 @@ bool multiple_items_at(const coord_def& where)
  */
 bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int quant_drop)
 {
-	bool consumable = (&inv == &you.inv2);
+	bool consumable = is_consumable(inv);
 
     item_def &item = inv[item_dropped];
 

@@ -2169,6 +2169,11 @@ bool is_consumable(object_class_type type)
 	return result;
 }
 
+bool is_consumable(FixedVector< item_def, ENDOFPACK > &inv)
+{
+	return (&inv == &you.inv2);
+}
+
 void inv_from_item(FixedVector< item_def, ENDOFPACK > *&inv, object_class_type type)
 {
 	if(is_consumable(type)) {
