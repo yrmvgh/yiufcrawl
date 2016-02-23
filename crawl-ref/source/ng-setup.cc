@@ -95,8 +95,8 @@ item_def* newgame_make_item(object_class_type base,
                             int sub_type, int qty, int plus,
                             int force_ego, bool force_tutorial)
 {
-	FixedVector< item_def, ENDOFPACK > inv;
-	inv_from_item(inv, base);
+	FixedVector< item_def, ENDOFPACK > *inv;
+	inv_from_item2(inv, base);
 
     // Don't set normal equipment in the tutorial.
     if (!force_tutorial && crawl_state.game_is_tutorial())
@@ -112,7 +112,7 @@ item_def* newgame_make_item(object_class_type base,
         if (base == OBJ_FOOD && slot == letter_to_index('e'))
             continue;
 
-        item_def& item = inv[slot];
+        item_def &item = (*inv)[slot];
         if (!item.defined())
             break;
 
@@ -124,7 +124,7 @@ item_def* newgame_make_item(object_class_type base,
         }
     }
 
-    item_def &item(inv[slot]);
+    item_def &item((*inv)[slot]);
     item.base_type = base;
     item.sub_type  = sub_type;
     item.quantity  = qty;
