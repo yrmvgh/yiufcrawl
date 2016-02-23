@@ -73,7 +73,7 @@ InvEntry::InvEntry(const item_def &i)
 {
     data = const_cast<item_def *>(item);
 
-    if (in_inventory(i) && i.base_type != OBJ_GOLD)
+    if (in_inventory(i) && i.base_type != OBJ_GOLD && !is_consumable(i.base_type))
     {
         // We need to do this in order to get the 'wielded' annotation.
         // We then toss out the first four characters, which look
@@ -962,7 +962,7 @@ vector<SelItem> select_items(
 
         InvMenu menu;
         menu.set_type(mtype);
-        menu.set_title((*inv), title);
+        menu.set_title(*inv, title);
         if (mtype == MT_PICKUP)
             menu.set_tag("pickup");
 

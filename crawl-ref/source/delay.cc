@@ -665,8 +665,14 @@ void handle_delay()
         while (!items_for_multidrop.empty()
                // Don't look for gold in inventory
                && items_for_multidrop[0].slot != PROMPT_GOT_SPECIAL
-               && !you.inv1[items_for_multidrop[0].slot].defined())
+               )
         {
+        	FixedVector< item_def, ENDOFPACK > *inv;
+        	inv_from_item(inv, items_for_multidrop[0].item->base_type);
+
+        	if((*inv)[items_for_multidrop[0].slot].defined()) {
+        		break;
+        	}
             items_for_multidrop.erase(items_for_multidrop.begin());
         }
 
@@ -738,7 +744,10 @@ void handle_delay()
             break;
 
         case DELAY_MULTIDROP:
-            if (!drop_item(you.inv1, items_for_multidrop[0].slot,
+        	FixedVector< item_def, ENDOFPACK > *inv;
+        	inv_from_item(inv, items_for_multidrop[0].item->base_type);
+
+            if (!drop_item(*inv, items_for_multidrop[0].slot,
                            items_for_multidrop[0].quantity))
             {
                 you.turn_is_over = false;

@@ -242,6 +242,7 @@ string item_def::name(description_level_type descrip, bool terse, bool ident,
 
     buff << auxname;
 
+
     if (descrip == DESC_INVENTORY_EQUIP)
     {
         equipment_type eq = item_equip_slot(*this);

@@ -2376,81 +2376,86 @@ bool multiple_items_at(const coord_def& where)
  */
 bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int quant_drop)
 {
+	bool consumable = (&inv == &you.inv2);
+
     item_def &item = inv[item_dropped];
 
-    if (quant_drop < 0 || quant_drop > item.quantity)
-        quant_drop = item.quantity;
-
-    if (item_dropped == you.equip[EQ_LEFT_RING]
-     || item_dropped == you.equip[EQ_RIGHT_RING]
-     || item_dropped == you.equip[EQ_AMULET]
-     || item_dropped == you.equip[EQ_RING_ONE]
-     || item_dropped == you.equip[EQ_RING_TWO]
-     || item_dropped == you.equip[EQ_RING_THREE]
-     || item_dropped == you.equip[EQ_RING_FOUR]
-     || item_dropped == you.equip[EQ_RING_FIVE]
-     || item_dropped == you.equip[EQ_RING_SIX]
-     || item_dropped == you.equip[EQ_RING_SEVEN]
-     || item_dropped == you.equip[EQ_RING_EIGHT]
-     || item_dropped == you.equip[EQ_RING_AMULET])
+    if(!consumable)
     {
-        if (!Options.easy_unequip)
-            mpr("You will have to take that off first.");
-        else if (remove_ring(item_dropped, true))
-        {
-            // The delay handles the case where the item disappeared.
-            start_delay(DELAY_DROP_ITEM, 1, item_dropped, 1);
-            // We didn't actually succeed yet, but remove_ring took time,
-            // so return true anyway.
-            return true;
-        }
-
-        return false;
-    }
-
-    if (item_dropped == you.equip[EQ_WEAPON]
-        && item.base_type == OBJ_WEAPONS && item.cursed() 
-        && you.species != SP_MUMMY)
-    {
-        mprf("%s is stuck to you!", item.name(DESC_THE).c_str());
-        return false;
-    }
-
-    for (int i = EQ_MIN_ARMOUR; i <= EQ_MAX_ARMOUR; i++)
-    {
-        if (item_dropped == you.equip[i] && you.equip[i] != -1)
+        if (item_dropped == you.equip[EQ_LEFT_RING]
+         || item_dropped == you.equip[EQ_RIGHT_RING]
+         || item_dropped == you.equip[EQ_AMULET]
+         || item_dropped == you.equip[EQ_RING_ONE]
+         || item_dropped == you.equip[EQ_RING_TWO]
+         || item_dropped == you.equip[EQ_RING_THREE]
+         || item_dropped == you.equip[EQ_RING_FOUR]
+         || item_dropped == you.equip[EQ_RING_FIVE]
+         || item_dropped == you.equip[EQ_RING_SIX]
+         || item_dropped == you.equip[EQ_RING_SEVEN]
+         || item_dropped == you.equip[EQ_RING_EIGHT]
+         || item_dropped == you.equip[EQ_RING_AMULET])
         {
             if (!Options.easy_unequip)
                 mpr("You will have to take that off first.");
-            else if (check_warning_inscriptions(item, OPER_TAKEOFF))
+            else if (remove_ring(item_dropped, true))
             {
-                // If we take off the item, cue up the item being dropped
-                if (takeoff_armour(item_dropped))
-                {
-                    // The delay handles the case where the item disappeared.
-                    start_delay(DELAY_DROP_ITEM, 1, item_dropped, 1);
-                    // We didn't actually succeed yet, but takeoff_armour
-                    // took a turn to start up, so return true anyway.
-                    return true;
-                }
+                // The delay handles the case where the item disappeared.
+                start_delay(DELAY_DROP_ITEM, 1, item_dropped, 1);
+                // We didn't actually succeed yet, but remove_ring took time,
+                // so return true anyway.
+                return true;
             }
+
             return false;
+        }
+
+        if (item_dropped == you.equip[EQ_WEAPON]
+            && item.base_type == OBJ_WEAPONS && item.cursed()
+            && you.species != SP_MUMMY)
+        {
+            mprf("%s is stuck to you!", item.name(DESC_THE).c_str());
+            return false;
+        }
+
+        for (int i = EQ_MIN_ARMOUR; i <= EQ_MAX_ARMOUR; i++)
+        {
+            if (item_dropped == you.equip[i] && you.equip[i] != -1)
+            {
+                if (!Options.easy_unequip)
+                    mpr("You will have to take that off first.");
+                else if (check_warning_inscriptions(item, OPER_TAKEOFF))
+                {
+                    // If we take off the item, cue up the item being dropped
+                    if (takeoff_armour(item_dropped))
+                    {
+                        // The delay handles the case where the item disappeared.
+                        start_delay(DELAY_DROP_ITEM, 1, item_dropped, 1);
+                        // We didn't actually succeed yet, but takeoff_armour
+                        // took a turn to start up, so return true anyway.
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        // [ds] easy_unequip does not apply to weapons.
+        //
+        // Unwield needs to be done before copy in order to clear things
+        // like temporary brands. -- bwr
+        if (item_dropped == you.equip[EQ_WEAPON] && quant_drop >= item.quantity)
+        {
+            if (!wield_weapon(true, SLOT_BARE_HANDS, true, false, true, true, false))
+                return false;
+            // May have been destroyed by removal. Returning true because we took
+            // time to swap away.
+            else if (!item.defined())
+                return true;
         }
     }
 
-    // [ds] easy_unequip does not apply to weapons.
-    //
-    // Unwield needs to be done before copy in order to clear things
-    // like temporary brands. -- bwr
-    if (item_dropped == you.equip[EQ_WEAPON] && quant_drop >= item.quantity)
-    {
-        if (!wield_weapon(true, SLOT_BARE_HANDS, true, false, true, true, false))
-            return false;
-        // May have been destroyed by removal. Returning true because we took
-        // time to swap away.
-        else if (!item.defined())
-            return true;
-    }
+    if (quant_drop < 0 || quant_drop > item.quantity)
+        quant_drop = item.quantity;
 
     ASSERT(item.defined());
 
@@ -2663,7 +2668,10 @@ static void _multidrop(vector<SelItem> tmp_items)
 
     if (items_for_multidrop.size() == 1) // only one item
     {
-        drop_item(you.inv1, items_for_multidrop[0].slot, items_for_multidrop[0].quantity);
+    	FixedVector< item_def, ENDOFPACK > *inv;
+    	inv_from_item(inv, items_for_multidrop[0].item->base_type);
+
+        drop_item(*inv, items_for_multidrop[0].slot, items_for_multidrop[0].quantity);
         items_for_multidrop.clear();
     }
     else
