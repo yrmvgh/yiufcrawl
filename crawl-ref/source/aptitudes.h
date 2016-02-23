@@ -1386,7 +1386,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DJINNI,          SK_STEALTH,        -1),
     APT(SP_DJINNI,          SK_SHIELDS,         0),
     APT(SP_DJINNI,          SK_UNARMED_COMBAT, -1),
-    APT(SP_DJINNI,          SK_SPELLCASTING,    9),
+    APT(SP_DJINNI,          SK_SPELLCASTING,    0),
     APT(SP_DJINNI,          SK_CONJURATIONS,    0),
     APT(SP_DJINNI,          SK_HEXES,           0),
     APT(SP_DJINNI,          SK_CHARMS,          0),
