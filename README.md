@@ -106,6 +106,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       possibly adding some interesting strategic choices. 
 
 * Spells
+    * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
+    * I'm experimenting with a unified spell list, with all of the essential info at once (instead of the toggle). This should probably be an option, or auto
+      detect when the screen is wide enough, but I'm not exactly sure how to do this yet. Suggestions welcome. 
     * no more spell caps... now even basic spells can continue to grow in power late in the game. 
     * the effect of spell casting skill on spell success and power has been increased.
     * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that

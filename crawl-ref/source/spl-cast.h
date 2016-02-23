@@ -85,6 +85,10 @@ int list_spells(bool toggle_with_I = true, bool viewing = false,
                 bool allow_preselect = true,
                 const string &title = "Your Spells",
                 spell_selector selector = nullptr);
+int list_spells_wide(bool viewing = false,
+                bool allow_preselect = true,
+                const string &title = "Your Spells",
+                spell_selector selector = nullptr);
 int raw_spell_fail(spell_type spell);
 int stepdown_spellpower(int power);
 int calc_spell_power(spell_type spell, bool apply_intel,

@@ -154,6 +154,45 @@ static string _spell_extra_description(spell_type spell, bool viewing)
     return desc.str();
 }
 
+static string _spell_wide_description(spell_type spell, bool viewing)
+{
+    ostringstream desc;
+
+    int highlight =  spell_highlight_by_utility(spell, COL_UNKNOWN, !viewing);
+
+    desc << "<" << colour_to_str(highlight) << ">" << left;
+
+    // spell name
+    desc << chop_string(spell_title(spell), 30);
+
+    // spell power, spell range, hunger level, level
+    const string rangestring = spell_range_string(spell);
+
+    desc << chop_string(spell_power_string(spell), 11)
+         << chop_string(rangestring, 11 + tagged_string_tag_length(rangestring))
+         << chop_string(spell_hunger_string(spell), 9);
+
+    desc << "</" << colour_to_str(highlight) <<">";
+
+//    const int so_far = strwidth(desc.str()) - (strwidth(colour_to_str(highlight))+2);
+//    if (so_far < 101)
+//        desc << string(101 - so_far, ' ');
+//    desc << "</" << colour_to_str(highlight) <<">";
+
+    // spell fail rate, level
+    highlight = failure_rate_colour(spell);
+    desc << "<" << colour_to_str(highlight) << ">";
+    const string failure = failure_rate_to_string(raw_spell_fail(spell));
+    desc << chop_string(failure, 10);
+    desc << "</" << colour_to_str(highlight) << ">";
+    desc << chop_string(make_stringf("%d", spell_difficulty(spell)), 7);
+
+    // spell schools
+    desc << spell_schools_string(spell);
+
+    return desc.str();
+}
+
 // selector is a boolean function that filters spells according
 // to certain criteria. Currently used for Tiles to distinguish
 // spells targeted on player vs. spells targeted on monsters.
@@ -258,6 +297,121 @@ int list_spells(bool toggle_with_I, bool viewing, bool allow_preselect,
         ToggleableMenuEntry* me =
             new ToggleableMenuEntry(_spell_base_description(spell, viewing),
                                     _spell_extra_description(spell, viewing),
+                                    MEL_ITEM, 1, letter, preselect);
+
+#ifdef USE_TILE
+        me->add_tile(tile_def(tileidx_spell(spell), TEX_GUI));
+#endif
+        spell_menu.add_entry(me);
+    }
+
+    while (true)
+    {
+        vector<MenuEntry*> sel = spell_menu.show();
+        if (!crawl_state.doing_prev_cmd_again)
+            redraw_screen();
+        if (sel.empty())
+            return 0;
+
+        ASSERT(sel.size() == 1);
+        ASSERT(sel[0]->hotkeys.size() == 1);
+        if (spell_menu.menu_action == Menu::ACT_EXAMINE)
+        {
+            describe_spell(get_spell_by_letter(sel[0]->hotkeys[0]), nullptr);
+            redraw_screen();
+        }
+        else
+            return sel[0]->hotkeys[0];
+    }
+}
+
+// selector is a boolean function that filters spells according
+// to certain criteria. Currently used for Tiles to distinguish
+// spells targeted on player vs. spells targeted on monsters.
+int list_spells_wide(bool viewing, bool allow_preselect,
+                const string &title, spell_selector selector)
+{
+#ifdef USE_TILE_LOCAL
+    const bool text_only = false;
+#else
+    const bool text_only = true;
+#endif
+
+    Menu spell_menu(MF_SINGLESELECT | MF_ANYPRINTABLE
+                              | MF_ALWAYS_SHOW_MORE | MF_ALLOW_FORMATTING,
+                              "", text_only);
+    string titlestring = make_stringf("%-25.25s", title.c_str());
+#ifdef USE_TILE_LOCAL
+    {
+        // [enne] - Hack. Make title an item so that it's aligned.
+        MenuEntry* me =
+            new MenuEntry(
+                " " + titlestring + "         Power      Range      Hunger   Failure   Level  Type",
+                MEL_ITEM);
+        me->colour = BLUE;
+        spell_menu.add_entry(me);
+    }
+#else
+    spell_menu.set_title(
+        new ToggleableMenuEntry(
+                " " + titlestring + "         Power      Range      Hunger   Failure   Level  Type",
+            MEL_TITLE));
+#endif
+    spell_menu.set_highlighter(nullptr);
+    spell_menu.set_tag("spell");
+
+    if (!viewing)
+        spell_menu.menu_action = Menu::ACT_EXECUTE;
+
+    // If there's only a single spell in the offered spell list,
+    // taking the selector function into account, preselect that one.
+    bool preselect_first = false;
+    if (allow_preselect)
+    {
+        int count = 0;
+        if (you.spell_no == 1)
+            count = 1;
+        else if (selector)
+        {
+            for (int i = 0; i < 52; ++i)
+            {
+                const char letter = index_to_letter(i);
+                const spell_type spell = get_spell_by_letter(letter);
+                if (!is_valid_spell(spell) || !(*selector)(spell))
+                    continue;
+
+                // Break out early if we've got > 1 spells.
+                if (++count > 1)
+                    break;
+            }
+        }
+        // Preselect the first spell if it's only spell applicable.
+        preselect_first = (count == 1);
+    }
+    if (allow_preselect || preselect_first
+                           && you.last_cast_spell != SPELL_NO_SPELL)
+    {
+        spell_menu.set_flags(spell_menu.get_flags() | MF_PRESELECTED);
+    }
+
+    for (int i = 0; i < 52; ++i)
+    {
+        const char letter = index_to_letter(i);
+        const spell_type spell = get_spell_by_letter(letter);
+
+        if (!is_valid_spell(spell))
+            continue;
+
+        if (selector && !(*selector)(spell))
+            continue;
+
+        bool preselect = (preselect_first
+                          || allow_preselect && you.last_cast_spell == spell);
+
+        MenuEntry* me =
+            new MenuEntry(_spell_wide_description(spell, viewing),
+            		//,
+                      //              _spell_extra_description(spell, viewing),
                                     MEL_ITEM, 1, letter, preselect);
 
 #ifdef USE_TILE
@@ -415,11 +569,11 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         {
             for (const auto bit : spschools_type::range())
                 if (disciplines & bit)
-                    power += you.skill(spell_type2skill(bit), 200);
+                    power += you.skill(spell_type2skill(bit), SPELL_POWER_CAP);
             power /= skillcount;
         }
 
-        power += you.skill(SK_SPELLCASTING, 100);
+        power += you.skill(SK_SPELLCASTING, SPELL_POWER_CAP / 2);
 
         // Brilliance boosts spell power a bit (equivalent to three
         // spell school levels).
@@ -559,7 +713,11 @@ void inspect_spells()
         return;
     }
 
-    list_spells(true, true);
+    // normal
+//    list_spells(true, true);
+
+    // something I'm experimenting with
+    list_spells_wide(true);
 }
 
 static bool _can_cast()
