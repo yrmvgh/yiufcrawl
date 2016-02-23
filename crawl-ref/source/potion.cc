@@ -176,7 +176,7 @@ public:
         return true;
     }
 
-    bool effect(bool=true, int=40, bool is_device = true) const override
+    bool effect(bool=true, int power=40, bool is_device=true) const override
     {
         if (you.duration[DUR_DEATHS_DOOR])
         {
@@ -189,10 +189,19 @@ public:
             return false;
         }
 
-        // int amount = 10 + random2avg(28, 3);
-        int amount = you.hp_max;
+        int amount = 0;
         if (is_device)
+        {
+            amount = you.hp_max;
             amount = you.scale_device_healing(amount);
+            amount = amount * power / SPELL_POWER_CAP;
+            amount = min(you.hp_max, amount);
+        }
+        else
+        {
+        	// full healing for potions
+            amount = you.hp_max;
+        }
         // Pay for rot right off the top.
         amount = unrot_hp(amount);
         inc_hp(amount);
