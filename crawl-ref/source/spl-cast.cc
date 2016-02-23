@@ -2309,7 +2309,8 @@ static int _spell_power_bars(spell_type spell, bool rod)
     if (cap == 0)
         return -1;
     const int power = min(calc_spell_power(spell, true, false, false, rod), cap);
-    return power_to_barcount(power);
+//    return power_to_barcount(power);
+    return power * 10 / cap;
 }
 
 #ifdef WIZARD
