@@ -36,7 +36,8 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       gained by other species as they drink mutation potions, etc.
     * They have a poor species stealth modifier, because of the fact that they emit light, it's hard for them to hide in the shadows.
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
-      than normal.
+      than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
+      lowering their fire resistance?
 
 * Mummies
     * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before

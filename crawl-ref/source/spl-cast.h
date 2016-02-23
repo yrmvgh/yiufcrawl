@@ -8,6 +8,8 @@
 
 #include "enum.h"
 
+#define SPELL_POWER_CAP			300
+
 enum spflag_type
 {
     SPFLAG_NONE                 = 0x000000,
