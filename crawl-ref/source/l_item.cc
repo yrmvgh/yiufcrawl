@@ -101,6 +101,14 @@ static void _lua_push_inv_items(lua_State *ls = nullptr)
             lua_rawseti(ls, -2, ++index);
         }
     }
+    for (item_def &item : you.inv2)
+    {
+        if (item.defined())
+        {
+            clua_push_item(ls, &item);
+            lua_rawseti(ls, -2, ++index);
+        }
+    }
 }
 
 #define IDEF(name)                                                      \
@@ -413,11 +421,18 @@ static int l_item_do_stacks(lua_State *ls)
     {
         const bool any_stack =
             is_stackable_item(*first)
-            && any_of(begin(you.inv), end(you.inv),
+            && (any_of(begin(you.inv1), end(you.inv1),
                       [&] (const item_def &item) -> bool
                       {
                           return items_stack(*first, item);
-                      });
+                      })
+            		||
+				any_of(begin(you.inv2), end(you.inv2),
+				      [&] (const item_def &item) -> bool
+				      {
+				          return items_stack(*first, item);
+				      })
+					);
         lua_pushboolean(ls, any_stack);
     }
     else if (ITEM(second, 1))
@@ -1080,12 +1095,12 @@ static int l_item_swap_slots(lua_State *ls)
     bool verbose = lua_toboolean(ls, 3);
     if (slot1 < 0 || slot1 >= ENDOFPACK
         || slot2 < 0 || slot2 >= ENDOFPACK
-        || slot1 == slot2 || !you.inv[slot1].defined())
+        || slot1 == slot2 || !you.inv1[slot1].defined())
     {
         return 0;
     }
 
-    swap_inv_slots(slot1, slot2, verbose);
+    swap_inv_slots(you.inv1, slot1, slot2, verbose);
 
     return 0;
 }
@@ -1193,7 +1208,7 @@ static int l_item_equipped_at(lua_State *ls)
         return 0;
 
     if (you.equip[eq] != -1)
-        clua_push_item(ls, &you.inv[you.equip[eq]]);
+        clua_push_item(ls, &you.inv1[you.equip[eq]]);
     else
         lua_pushnil(ls);
 
@@ -1208,7 +1223,7 @@ static int l_item_fired_item(lua_State *ls)
         return 0;
 
     if (q != -1 && !fire_warn_if_impossible(true))
-        clua_push_item(ls, &you.inv[q]);
+        clua_push_item(ls, &you.inv1[q]);
     else
         lua_pushnil(ls);
 
@@ -1218,8 +1233,8 @@ static int l_item_fired_item(lua_State *ls)
 static int l_item_inslot(lua_State *ls)
 {
     int index = luaL_checkint(ls, 1);
-    if (index >= 0 && index < 52 && you.inv[index].defined())
-        clua_push_item(ls, &you.inv[index]);
+    if (index >= 0 && index < 52 && you.inv1[index].defined())
+        clua_push_item(ls, &you.inv1[index]);
     else
         lua_pushnil(ls);
     return 1;

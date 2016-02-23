@@ -349,7 +349,7 @@ void wizard_tweak_object()
     char specs[50];
     int keyin;
 
-    int item = prompt_invent_item("Tweak which item? ", MT_INVLIST, -1);
+    int item = prompt_invent_item(you.inv1, "Tweak which item? ", MT_INVLIST, -1);
 
     if (prompt_failed(item))
         return;
@@ -357,7 +357,7 @@ void wizard_tweak_object()
     if (item == you.equip[EQ_WEAPON])
         you.wield_change = true;
 
-    const bool is_art = is_artefact(you.inv[item]);
+    const bool is_art = is_artefact(you.inv1[item]);
 
     while (true)
     {
@@ -365,7 +365,7 @@ void wizard_tweak_object()
 
         while (true)
         {
-            mprf_nocap("%s", you.inv[item].name(DESC_INVENTORY_EQUIP).c_str());
+            mprf_nocap("%s", you.inv1[item].name(DESC_INVENTORY_EQUIP).c_str());
 
             mprf_nocap(MSGCH_PROMPT, "a - plus  b - plus2  c - %s  "
                                      "d - quantity  e - flags  ESC - exit",
@@ -376,15 +376,15 @@ void wizard_tweak_object()
             keyin = toalower(get_ch());
 
             if (keyin == 'a')
-                old_val = you.inv[item].plus;
+                old_val = you.inv1[item].plus;
             else if (keyin == 'b')
-                old_val = you.inv[item].plus2;
+                old_val = you.inv1[item].plus2;
             else if (keyin == 'c')
-                old_val = you.inv[item].special;
+                old_val = you.inv1[item].special;
             else if (keyin == 'd')
-                old_val = you.inv[item].quantity;
+                old_val = you.inv1[item].quantity;
             else if (keyin == 'e')
-                old_val = you.inv[item].flags;
+                old_val = you.inv1[item].flags;
             else if (key_is_escape(keyin) || keyin == ' '
                     || keyin == '\r' || keyin == '\n')
             {
@@ -398,7 +398,7 @@ void wizard_tweak_object()
 
         if (is_art && keyin == 'c')
         {
-            _tweak_randart(you.inv[item]);
+            _tweak_randart(you.inv1[item]);
             continue;
         }
 
@@ -419,8 +419,8 @@ void wizard_tweak_object()
         int64_t new_val = strtoll(specs, &end, hex ? 16 : 0);
 
         if (keyin == 'e' && new_val & ISFLAG_ARTEFACT_MASK
-            && (!you.inv[item].props.exists(KNOWN_PROPS_KEY)
-             || !you.inv[item].props.exists(ARTEFACT_PROPS_KEY)))
+            && (!you.inv1[item].props.exists(KNOWN_PROPS_KEY)
+             || !you.inv1[item].props.exists(ARTEFACT_PROPS_KEY)))
         {
             mpr("You can't set this flag on a non-artefact.");
             continue;
@@ -433,15 +433,15 @@ void wizard_tweak_object()
         }
 
         if (keyin == 'a')
-            you.inv[item].plus = new_val;
+            you.inv1[item].plus = new_val;
         else if (keyin == 'b')
-            you.inv[item].plus2 = new_val;
+            you.inv1[item].plus2 = new_val;
         else if (keyin == 'c')
-            you.inv[item].special = new_val;
+            you.inv1[item].special = new_val;
         else if (keyin == 'd')
-            you.inv[item].quantity = new_val;
+            you.inv1[item].quantity = new_val;
         else if (keyin == 'e')
-            you.inv[item].flags = new_val;
+            you.inv1[item].flags = new_val;
         else
             die("unhandled keyin");
 
@@ -550,7 +550,7 @@ void wizard_make_object_randart()
     if (prompt_failed(i))
         return;
 
-    item_def &item(you.inv[i]);
+    item_def &item(you.inv1[i]);
 
     if (is_unrandom_artefact(item))
     {
@@ -635,11 +635,11 @@ static bool _item_type_can_be_cursed(int type)
 
 void wizard_uncurse_item()
 {
-    const int i = prompt_invent_item("(Un)curse which item?", MT_INVLIST, -1);
+    const int i = prompt_invent_item(you.inv1, "(Un)curse which item?", MT_INVLIST, -1);
 
     if (!prompt_failed(i))
     {
-        item_def& item(you.inv[i]);
+        item_def& item(you.inv1[i]);
 
         if (item.cursed())
             do_uncurse_item(item);
@@ -675,7 +675,10 @@ static void _forget_item(item_def &item)
 void wizard_unidentify_pack()
 {
     mpr("You feel a rush of antiknowledge.");
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
+        if (item.defined())
+            _forget_item(item);
+    for (auto &item : you.inv2)
         if (item.defined())
             _forget_item(item);
 
@@ -891,7 +894,7 @@ static void _debug_acquirement_stats(FILE *ostat)
         {
             // The player has something equipped.
             const int item_idx   = you.equip[e_order[i]];
-            const item_def& item = you.inv[item_idx];
+            const item_def& item = you.inv1[item_idx];
 
             fprintf(ostat, "%-7s: %s %s\n", equip_slot_to_name(eqslot),
                     item.name(DESC_PLAIN, true).c_str(),
@@ -1198,7 +1201,7 @@ static int _median(vector<int> &counts)
 static void _debug_rap_stats(FILE *ostat)
 {
     const int inv_index
-        = prompt_invent_item("Generate randart stats on which item?",
+        = prompt_invent_item(you.inv1, "Generate randart stats on which item?",
                              MT_INVLIST, -1);
 
     if (prompt_failed(inv_index))
@@ -1206,7 +1209,7 @@ static void _debug_rap_stats(FILE *ostat)
 
     // A copy of the item, rather than a reference to the inventory item,
     // so we can fiddle with the item at will.
-    item_def item(you.inv[inv_index]);
+    item_def item(you.inv1[inv_index]);
 
     // Start off with a non-artefact item.
     item.flags  &= ~ISFLAG_ARTEFACT_MASK;

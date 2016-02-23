@@ -70,7 +70,7 @@ void equip_item(equipment_type slot, int item_slot, bool msg)
 
     equip_effect(slot, item_slot, false, msg);
     ash_check_bondage();
-    if (you.equip[slot] != -1 && you.inv[you.equip[slot]].cursed())
+    if (you.equip[slot] != -1 && you.inv1[you.equip[slot]].cursed())
         auto_id_inventory();
 }
 
@@ -161,7 +161,7 @@ static void _assert_valid_slot(equipment_type eq, equipment_type slot)
 
 void equip_effect(equipment_type slot, int item_slot, bool unmeld, bool msg)
 {
-    item_def& item = you.inv[item_slot];
+    item_def& item = you.inv1[item_slot];
     equipment_type eq = get_item_slot(item);
 
     if (slot == EQ_WEAPON && eq != EQ_WEAPON)
@@ -182,7 +182,7 @@ void equip_effect(equipment_type slot, int item_slot, bool unmeld, bool msg)
 
 void unequip_effect(equipment_type slot, int item_slot, bool meld, bool msg)
 {
-    item_def& item = you.inv[item_slot];
+    item_def& item = you.inv1[item_slot];
     equipment_type eq = get_item_slot(item);
 
     if (slot == EQ_WEAPON && eq != EQ_WEAPON)

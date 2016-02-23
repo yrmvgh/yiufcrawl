@@ -405,7 +405,7 @@ static void _erase_from_stop_train(const skill_set &can_train)
  */
 static void _check_inventory_skills()
 {
-    for (const auto &item : you.inv)
+    for (const auto &item : you.inv1)
     {
         // Exit early if there's no more skill to check.
         if (you.stop_train.empty())
@@ -1026,7 +1026,7 @@ static int _train(skill_type exsk, int &max_exp, bool simu)
     int bonus_left = skill_inc;
     while (bonus_left > 0 && (slot = manual_slot_for_skill(exsk)) != -1)
     {
-        item_def& manual(you.inv[slot]);
+        item_def& manual(you.inv1[slot]);
         const int bonus = min<int>(bonus_left, manual.skill_points);
         skill_inc += bonus;
         bonus_left -= bonus;

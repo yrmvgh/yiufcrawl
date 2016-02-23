@@ -21,12 +21,14 @@ static void _adjust_ability();
 
 void adjust()
 {
-    mprf(MSGCH_PROMPT, "Adjust (i)tems, (s)pells, or (a)bilities? ");
+    mprf(MSGCH_PROMPT, "Adjust (i)tems, (c)onsumables, (s)pells, or (a)bilities? ");
 
     const int keyin = toalower(get_ch());
 
     if (keyin == 'i')
-        adjust_item();
+        adjust_item(you.inv1);
+    else if (keyin == 'c')
+        adjust_item(you.inv2);
     else if (keyin == 's')
         _adjust_spell();
     else if (keyin == 'a')
@@ -37,7 +39,7 @@ void adjust()
         canned_msg(MSG_HUH);
 }
 
-void adjust_item(int from_slot)
+void adjust_item(FixedVector< item_def, ENDOFPACK > &inv, int from_slot)
 {
     if (inv_count() < 1)
     {
@@ -47,14 +49,14 @@ void adjust_item(int from_slot)
 
     if (from_slot == -1)
     {
-        from_slot = prompt_invent_item("Adjust which item?", MT_INVLIST, -1);
+        from_slot = prompt_invent_item(inv, "Adjust which item?", MT_INVLIST, -1);
         if (prompt_failed(from_slot))
             return;
 
-        mprf_nocap("%s", you.inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
     }
 
-    const int to_slot = prompt_invent_item("Adjust to which letter? ",
+    const int to_slot = prompt_invent_item(inv, "Adjust to which letter? ",
                                            MT_INVLIST,
                                            -1,
                                            false,
@@ -66,7 +68,7 @@ void adjust_item(int from_slot)
         return;
     }
 
-    swap_inv_slots(from_slot, to_slot, true);
+    swap_inv_slots(inv, from_slot, to_slot, true);
     you.wield_change = true;
     you.redraw_quiver = true;
 }
@@ -182,20 +184,20 @@ static void _adjust_ability()
     swap_ability_slots(index1, letter_to_index(keyin));
 }
 
-void swap_inv_slots(int from_slot, int to_slot, bool verbose)
+void swap_inv_slots(FixedVector< item_def, ENDOFPACK > &inv, int from_slot, int to_slot, bool verbose)
 {
     // Swap items.
-    item_def tmp = you.inv[to_slot];
-    you.inv[to_slot]   = you.inv[from_slot];
-    you.inv[from_slot] = tmp;
+    item_def tmp = inv[to_slot];
+    inv[to_slot]   = inv[from_slot];
+    inv[from_slot] = tmp;
 
     // Slot switching.
-    tmp.slot = you.inv[to_slot].slot;
-    you.inv[to_slot].slot  = index_to_letter(to_slot);//you.inv[from_slot].slot is 0 when 'from_slot' contains no item.
-    you.inv[from_slot].slot = tmp.slot;
+    tmp.slot = inv[to_slot].slot;
+    inv[to_slot].slot  = index_to_letter(to_slot); //inv[from_slot].slot is 0 when 'from_slot' contains no item.
+    inv[from_slot].slot = tmp.slot;
 
-    you.inv[from_slot].link = from_slot;
-    you.inv[to_slot].link  = to_slot;
+    inv[from_slot].link = from_slot;
+    inv[to_slot].link  = to_slot;
 
     for (int i = 0; i < NUM_EQUIP; i++)
     {
@@ -207,10 +209,10 @@ void swap_inv_slots(int from_slot, int to_slot, bool verbose)
 
     if (verbose)
     {
-        mprf_nocap("%s", you.inv[to_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        mprf_nocap("%s", inv[to_slot].name(DESC_INVENTORY_EQUIP).c_str());
 
-        if (you.inv[from_slot].defined())
-            mprf_nocap("%s", you.inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        if (inv[from_slot].defined())
+            mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
     }
 
     if (to_slot == you.equip[EQ_WEAPON] || from_slot == you.equip[EQ_WEAPON])

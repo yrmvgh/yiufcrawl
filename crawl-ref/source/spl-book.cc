@@ -385,7 +385,7 @@ static bool _get_mem_list(spell_list &mem_spells,
     unsigned int  num_unknown    = 0;
 
     // Collect the list of all spells in all available spellbooks.
-    for (auto &book : you.inv)
+    for (auto &book : you.inv1)
     {
         if (!book.defined() || !item_is_spellbook(book))
             continue;

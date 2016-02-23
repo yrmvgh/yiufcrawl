@@ -341,7 +341,7 @@ void rot_inventory_food(int time_delta)
 
     for (int i = 0; i < ENDOFPACK; i++)
     {
-        item_def &item(you.inv[i]);
+        item_def &item(you.inv2[i]);
 
         if (item.quantity < 1 || !_item_needs_rot_check(item))
             continue;

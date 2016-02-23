@@ -3271,7 +3271,7 @@ static void _god_welcome_handle_gear()
     {
         // Seemingly redundant with auto_id_inventory(), but we don't want to
         // announce items where the only new information is their cursedness.
-        for (auto &item : you.inv)
+        for (auto &item : you.inv1)
             if (item.defined())
                 item.flags |= ISFLAG_KNOW_CURSE;
 

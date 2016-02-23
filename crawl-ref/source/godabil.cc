@@ -126,7 +126,7 @@ bool bless_weapon(god_type god, brand_type brand, colour_t colour)
 {
     ASSERT(can_do_capstone_ability(god));
 
-    int item_slot = prompt_invent_item("Brand which weapon?", MT_INVLIST,
+    int item_slot = prompt_invent_item(you.inv1, "Brand which weapon?", MT_INVLIST,
                                        OSEL_BLESSABLE_WEAPON, true, true,
                                        false);
 
@@ -136,7 +136,7 @@ bool bless_weapon(god_type god, brand_type brand, colour_t colour)
         return false;
     }
 
-    item_def& wpn(you.inv[item_slot]);
+    item_def& wpn(you.inv1[item_slot]);
     // Only TSO allows blessing ranged weapons.
     if (!is_brandable_weapon(wpn, brand == SPWPN_HOLY_WRATH, true))
         return false;
@@ -1708,7 +1708,7 @@ bool beogh_gift_item()
     if (!beogh_can_gift_items_to(mons, false))
         return false;
 
-    int item_slot = prompt_invent_item("Give which item?",
+    int item_slot = prompt_invent_item(you.inv1, "Give which item?",
                                        MT_INVLIST, OSEL_BEOGH_GIFT, true);
 
     if (item_slot == PROMPT_ABORT || item_slot == PROMPT_NOTHING)
@@ -1717,7 +1717,7 @@ bool beogh_gift_item()
         return false;
     }
 
-    item_def& gift = you.inv[item_slot];
+    item_def& gift = you.inv1[item_slot];
 
     const bool shield = is_shield(gift);
     const bool body_armour = gift.base_type == OBJ_ARMOUR
@@ -2958,10 +2958,10 @@ static int _collect_fruit(vector<pair<int,int> >& available_fruit)
 
     for (int i = 0; i < ENDOFPACK; i++)
     {
-        if (you.inv[i].defined() && is_fruit(you.inv[i]))
+        if (you.inv2[i].defined() && is_fruit(you.inv2[i]))
         {
-            total += you.inv[i].quantity;
-            available_fruit.emplace_back(you.inv[i].quantity, i);
+            total += you.inv2[i].quantity;
+            available_fruit.emplace_back(you.inv2[i].quantity, i);
         }
     }
     sort(available_fruit.begin(), available_fruit.end());
@@ -3819,13 +3819,13 @@ bool ashenzari_curse_item(int num_rc)
             "Curse which item? (%d remove curse scroll%s left)"
             " (Esc to abort)",
             num_rc, num_rc == 1 ? "" : "s");
-    const int item_slot = prompt_invent_item(prompt_msg.c_str(), MT_INVLIST,
+    const int item_slot = prompt_invent_item(you.inv1, prompt_msg.c_str(), MT_INVLIST,
                                              OSEL_CURSABLE,
                                              true, true, false);
     if (prompt_failed(item_slot))
         return false;
 
-    item_def& item(you.inv[item_slot]);
+    item_def& item(you.inv1[item_slot]);
 
     if (!item_is_cursable(item))
     {

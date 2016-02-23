@@ -2320,7 +2320,10 @@ static bool _do_action(item_def &item, const vector<command_type>& actions, int 
     const int slot = item.link;
     ASSERT_RANGE(slot, 0, ENDOFPACK);
 
-    redraw_screen();
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_item(inv, item.base_type);
+
+	redraw_screen();
     switch (action)
     {
     case CMD_WIELD_WEAPON:     wield_weapon(true, slot);            break;
@@ -2336,7 +2339,7 @@ static bool _do_action(item_def &item, const vector<command_type>& actions, int 
     case CMD_QUAFF:            drink(slot);                         break;
     case CMD_DROP:             drop_item(slot, item.quantity);      break;
     case CMD_INSCRIBE_ITEM:    inscribe_item(item);                 break;
-    case CMD_ADJUST_INVENTORY: adjust_item(slot);                   break;
+    case CMD_ADJUST_INVENTORY: adjust_item(inv, slot);                   break;
     default:
         die("illegal inventory cmd %d", action);
     }

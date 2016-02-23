@@ -1638,7 +1638,9 @@ static void tag_construct_you_items(writer &th)
 {
     // how many inventory slots?
     marshallByte(th, ENDOFPACK);
-    for (const auto &item : you.inv)
+    for (const auto &item : you.inv1)
+        marshallItem(th, item);
+    for (const auto &item : you.inv2)
         marshallItem(th, item);
 
     marshallFixedBitVector<NUM_RUNE_TYPES>(th, you.runes);
@@ -3438,7 +3440,29 @@ static void tag_read_you_items(reader &th)
 #endif
     for (int i = 0; i < count; ++i)
     {
-        item_def &it = you.inv[i];
+        item_def &it = you.inv1[i];
+        unmarshallItem(th, it);
+#if TAG_MAJOR_VERSION == 34
+        // Fixups for actual items.
+        if (it.defined())
+        {
+            // From 0.18-a0-273-gf174401 to 0.18-a0-290-gf199c8b, stash
+            // search would change the position of items in inventory.
+            if (it.pos != ITEM_IN_INVENTORY)
+            {
+                bad_slots += index_to_letter(i);
+                it.pos = ITEM_IN_INVENTORY;
+            }
+
+            // Items in inventory have already been handled.
+            if (th.getMinorVersion() < TAG_MINOR_ISFLAG_HANDLED)
+                it.flags |= ISFLAG_HANDLED;
+        }
+#endif
+    }
+    for (int i = 0; i < count; ++i)
+    {
+        item_def &it = you.inv2[i];
         unmarshallItem(th, it);
 #if TAG_MAJOR_VERSION == 34
         // Fixups for actual items.

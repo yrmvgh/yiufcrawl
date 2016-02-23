@@ -122,7 +122,7 @@ const item_def* fire_target_behaviour::active_item() const
     if (m_slot == -1)
         return nullptr;
     else
-        return &you.inv[m_slot];
+        return &you.inv1[m_slot];
 }
 
 void fire_target_behaviour::set_prompt()
@@ -310,7 +310,7 @@ static int _fire_prompt_for_item()
     if (inv_count() < 1)
         return -1;
 
-    int slot = prompt_invent_item("Fire/throw which item? (* to show all)",
+    int slot = prompt_invent_item(you.inv1, "Fire/throw which item? (* to show all)",
                                    MT_INVLIST,
                                    OSEL_THROWABLE, true, true, true, 0, -1,
                                    nullptr, OPER_FIRE);
@@ -325,8 +325,8 @@ static int _fire_prompt_for_item()
 static bool _fire_validate_item(int slot, string &err)
 {
     if (slot == you.equip[EQ_WEAPON]
-        && is_weapon(you.inv[slot])
-        && you.inv[slot].cursed())
+        && is_weapon(you.inv1[slot])
+        && you.inv1[slot].cursed())
     {
         err = "That weapon is stuck to your " + you.hand_name(false) + "!";
         return false;
@@ -396,10 +396,10 @@ static bool _autoswitch_to_ranged()
     else
         return false;
 
-    const item_def& launcher = you.inv[item_slot];
+    const item_def& launcher = you.inv1[item_slot];
     if (!is_range_weapon(launcher))
         return false;
-    if (none_of(you.inv.begin(), you.inv.end(), [&launcher](const item_def& it)
+    if (none_of(you.inv1.begin(), you.inv1.end(), [&launcher](const item_def& it)
                 { return it.launched_by(launcher);}))
     {
         return false;
@@ -456,9 +456,9 @@ void fire_thing(int item)
     if (item == -1)
         return;
 
-    if (check_warning_inscriptions(you.inv[item], OPER_FIRE)
+    if (check_warning_inscriptions(you.inv1[item], OPER_FIRE)
         && (!you.weapon()
-            || is_launched(&you, you.weapon(), you.inv[item]) != LRET_LAUNCHED
+            || is_launched(&you, you.weapon(), you.inv1[item]) != LRET_LAUNCHED
             || check_warning_inscriptions(*you.weapon(), OPER_FIRE)))
     {
         bolt beam;
@@ -692,7 +692,7 @@ bool throw_it(bolt &pbolt, int throw_2, dist *target)
     }
     pbolt.set_target(thr);
 
-    item_def& thrown = you.inv[throw_2];
+    item_def& thrown = you.inv1[throw_2];
     ASSERT(thrown.defined());
 
     // Figure out if we're thrown or launched.
@@ -923,13 +923,13 @@ bool throw_it(bolt &pbolt, int throw_2, dist *target)
                     << endl;
 
         // Player saw the item return.
-        if (!is_artefact(you.inv[throw_2]))
-            set_ident_flags(you.inv[throw_2], ISFLAG_KNOW_TYPE);
+        if (!is_artefact(you.inv1[throw_2]))
+            set_ident_flags(you.inv1[throw_2], ISFLAG_KNOW_TYPE);
     }
     else
     {
         // Should have returned but didn't.
-        if (returning && item_type_known(you.inv[throw_2]))
+        if (returning && item_type_known(you.inv1[throw_2]))
         {
             msg::stream << item.name(DESC_THE)
                         << " fails to return to your pack!" << endl;

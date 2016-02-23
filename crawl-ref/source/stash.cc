@@ -1272,10 +1272,10 @@ static bool _compare_by_name(const stash_search_result& lhs,
         return false;
 }
 
-static vector<stash_search_result> _inventory_search(const base_pattern &search)
+static vector<stash_search_result> _inventory_search(FixedVector< item_def, ENDOFPACK > &inv, const base_pattern &search)
 {
     vector<stash_search_result> results;
-    for (const item_def &item : you.inv)
+    for (const item_def &item : inv)
     {
         if (!item.defined())
             continue;

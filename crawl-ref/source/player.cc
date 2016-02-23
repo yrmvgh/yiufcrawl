@@ -2222,7 +2222,7 @@ static int _player_adjusted_evasion_penalty(const int scale)
 
         // [ds] Evasion modifiers for armour are negatives, change
         // those to positive for penalty calc.
-        const int penalty = (-property(you.inv[you.equip[i]], PARM_EVASION))/3;
+        const int penalty = (-property(you.inv1[you.equip[i]], PARM_EVASION))/3;
         if (penalty > 0)
             piece_armour_evasion_penalty += penalty;
     }
@@ -2423,7 +2423,7 @@ int player_shield_class()
 
     if (you.shield())
     {
-        const item_def& item = you.inv[you.equip[EQ_SHIELD]];
+        const item_def& item = you.inv1[you.equip[EQ_SHIELD]];
         int size_factor = (you.body_size(PSIZE_TORSO) - SIZE_MEDIUM)
                         * (item.sub_type - ARM_LARGE_SHIELD);
         int base_shield = property(item, PARM_AC) * 2 + size_factor;
@@ -5153,7 +5153,7 @@ int count_worn_ego(int which_ego)
     for (int slot = EQ_MIN_ARMOUR; slot <= EQ_MAX_ARMOUR; ++slot)
     {
         if (you.equip[slot] != -1 && !you.melded[slot]
-            && get_armour_ego_type(you.inv[you.equip[slot]]) == which_ego)
+            && get_armour_ego_type(you.inv1[you.equip[slot]]) == which_ego)
         {
             result++;
         }

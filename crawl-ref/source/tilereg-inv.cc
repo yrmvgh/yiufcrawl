@@ -198,7 +198,7 @@ int InventoryRegion::handle_mouse(MouseEvent &event)
         }
         else // in inventory
         {
-            describe_item(you.inv[idx]);
+            describe_item(you.inv1[idx]);
             redraw_screen();
         }
         return CK_MOUSE_CMD;
@@ -370,7 +370,7 @@ bool InventoryRegion::update_tip_text(string& tip)
     }
     else
     {
-        const item_def &item = you.inv[idx];
+        const item_def &item = you.inv1[idx];
         if (!item.defined())
             return false;
 
@@ -545,12 +545,12 @@ bool InventoryRegion::update_tip_text(string& tip)
 
         tip += "\n[R-Click] Describe";
         // Has to be non-equipped or non-cursed to drop.
-        if (!equipped || !_is_true_equipped_item(you.inv[idx])
-            || !you.inv[idx].cursed())
+        if (!equipped || !_is_true_equipped_item(you.inv1[idx])
+            || !you.inv1[idx].cursed())
         {
             tip += "\n[Shift + L-Click] Drop (%)";
             cmd.push_back(CMD_DROP);
-            if (you.inv[idx].quantity > 1)
+            if (you.inv1[idx].quantity > 1)
             {
                 tip += "\n[Ctrl-Shift + L-Click] Drop quantity (%#)";
                 cmd.push_back(CMD_DROP);
@@ -583,7 +583,7 @@ bool InventoryRegion::update_alt_text(string &alt)
     if (m_items[item_idx].flag & TILEI_FLAG_FLOOR)
         item = &mitm[idx];
     else
-        item = &you.inv[idx];
+        item = &you.inv1[idx];
 
     if (!item->defined())
         return false;
@@ -629,8 +629,8 @@ void InventoryRegion::draw_tag()
         draw_desc("Previous page");
     else if (floor && mitm[idx].defined())
         draw_desc(mitm[idx].name(DESC_PLAIN).c_str());
-    else if (!floor && you.inv[idx].defined())
-        draw_desc(you.inv[idx].name(DESC_INVENTORY_EQUIP).c_str());
+    else if (!floor && you.inv1[idx].defined())
+        draw_desc(you.inv1[idx].name(DESC_INVENTORY_EQUIP).c_str());
 }
 
 void InventoryRegion::activate()
@@ -718,9 +718,41 @@ void InventoryRegion::update()
                 break;
 
             if (inv_shown[i]
-                || !you.inv[i].defined()
-                || you.inv[i].quantity == 0
-                || (!show_any && you.inv[i].base_type != type))
+                || !you.inv1[i].defined()
+                || you.inv1[i].quantity == 0
+                || (!show_any && you.inv1[i].base_type != type))
+            {
+                continue;
+            }
+
+            InventoryTile desc;
+            _fill_item_info(desc, get_item_info(you.inv1[i]));
+            desc.idx = i;
+
+            for (int eq = 0; eq < NUM_EQUIP; ++eq)
+            {
+                if (you.equip[eq] == i)
+                {
+                    desc.flag |= TILEI_FLAG_EQUIP;
+                    if (you.melded[eq])
+                        desc.flag |= TILEI_FLAG_MELDED;
+                    break;
+                }
+            }
+
+            inv_shown[i] = true;
+            m_items.push_back(desc);
+        }
+        // First, normal inventory
+        for (int i = 0; i < ENDOFPACK; ++i)
+        {
+            if ((int)m_items.size() >= max_pack_items)
+                break;
+
+            if (inv_shown[i]
+                || !you.inv2[i].defined()
+                || you.inv2[i].quantity == 0
+                || (!show_any && you.inv2[i].base_type != type))
             {
                 continue;
             }

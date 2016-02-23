@@ -134,7 +134,8 @@ public:
     monster_type symbol;
     transformation_type form;
 
-    FixedVector< item_def, ENDOFPACK > inv;
+    FixedVector< item_def, ENDOFPACK > inv1;
+    FixedVector< item_def, ENDOFPACK > inv2;
     FixedBitVector<NUM_RUNE_TYPES> runes;
     int obtainable_runes; // can be != 15 in Sprint
 

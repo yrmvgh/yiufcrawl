@@ -166,7 +166,7 @@ bool prompt_eat_inventory_item(int slot)
 
     if (slot == -1)
     {
-        which_inventory_slot = prompt_invent_item("Eat which item?",
+        which_inventory_slot = prompt_invent_item(you.inv2, "Eat which item?",
                                                   MT_INVLIST, OBJ_FOOD,
                                                   true, true, true, 0, -1,
                                                   nullptr, OPER_EAT);
@@ -175,7 +175,7 @@ bool prompt_eat_inventory_item(int slot)
             return false;
     }
 
-    item_def &item(you.inv[which_inventory_slot]);
+    item_def &item(you.inv2[which_inventory_slot]);
     if (item.base_type != OBJ_FOOD)
     {
         mpr("You can't eat that!");
@@ -639,7 +639,7 @@ bool eat_from_inventory()
     bool found_valid = false;
 
     vector<item_def *> food_items;
-    for (auto &item : you.inv)
+    for (auto &item : you.inv2)
     {
         if (!item.defined())
             continue;
@@ -770,7 +770,7 @@ int prompt_eat_chunks(bool only_auto)
     }
 
     // Then search through the inventory.
-    for (auto &item : you.inv)
+    for (auto &item : you.inv2)
     {
         if (!item.defined())
             continue;
@@ -1395,7 +1395,7 @@ static bool _vampire_consume_corpse(int slot, bool invent)
 {
     ASSERT(you.species == SP_VAMPIRE);
 
-    item_def &corpse = (invent ? you.inv[slot]
+    item_def &corpse = (invent ? you.inv2[slot]
                                : mitm[slot]);
 
     ASSERT(corpse.base_type == OBJ_CORPSES);

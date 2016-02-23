@@ -526,7 +526,7 @@ void zap_wand(int slot)
         item_slot = slot;
     else
     {
-        item_slot = prompt_invent_item("Zap which item?",
+        item_slot = prompt_invent_item(you.inv1, "Zap which item?",
                                        MT_INVLIST,
                                        OBJ_WANDS,
                                        true, true, true, 0, -1, nullptr,
@@ -536,7 +536,7 @@ void zap_wand(int slot)
     if (prompt_failed(item_slot))
         return;
 
-    item_def& wand = you.inv[item_slot];
+    item_def& wand = you.inv1[item_slot];
     if (wand.base_type != OBJ_WANDS)
     {
         mpr("You can't zap that!");
@@ -807,7 +807,7 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
     {
         if (item_slot == -1)
         {
-            item_slot = prompt_invent_item("Charge which item?", MT_INVLIST,
+            item_slot = prompt_invent_item(you.inv1, "Charge which item?", MT_INVLIST,
                                             OSEL_RECHARGE, true, true, false);
         }
 
@@ -830,7 +830,7 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
             }
         }
 
-        item_def &wand = you.inv[ item_slot ];
+        item_def &wand = you.inv1[ item_slot ];
 
         if (!item_is_rechargeable(wand, known))
         {
@@ -954,8 +954,8 @@ int manual_slot_for_skill(skill_type skill)
     int slot = -1;
     int charges = -1;
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv.begin();
-    for (;iter!=you.inv.end(); ++iter)
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
+    for (;iter!=you.inv1.end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS || iter->sub_type != BOOK_MANUAL)
             continue;
@@ -966,7 +966,7 @@ int manual_slot_for_skill(skill_type skill)
         if (slot != -1 && iter->skill_points > charges)
             continue;
 
-        slot = iter - you.inv.begin();
+        slot = iter - you.inv1.begin();
         charges = iter->skill_points;
     }
 
@@ -980,7 +980,7 @@ bool skill_has_manual(skill_type skill)
 
 void finish_manual(int slot)
 {
-    item_def& manual(you.inv[slot]);
+    item_def& manual(you.inv1[slot]);
     const skill_type skill = static_cast<skill_type>(manual.plus);
 
     mprf("You have finished your manual of %s and toss it away.",
@@ -992,8 +992,8 @@ void get_all_manual_charges(vector<int> &charges)
 {
     charges.clear();
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv.begin();
-    for (;iter!=you.inv.end(); ++iter)
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
+    for (;iter!=you.inv1.end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS || iter->sub_type != BOOK_MANUAL)
             continue;
@@ -1005,7 +1005,7 @@ void get_all_manual_charges(vector<int> &charges)
 void set_all_manual_charges(const vector<int> &charges)
 {
     auto charge_iter = charges.begin();
-    for (item_def &item : you.inv)
+    for (item_def &item : you.inv1)
     {
         if (item.base_type != OBJ_BOOKS || item.sub_type != BOOK_MANUAL)
             continue;
@@ -1021,8 +1021,8 @@ string manual_skill_names(bool short_text)
 {
     skill_set skills;
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv.begin();
-    for (;iter!=you.inv.end(); ++iter)
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
+    for (;iter!=you.inv1.end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS
             || iter->sub_type != BOOK_MANUAL
@@ -2267,7 +2267,7 @@ bool evoke_item(int slot, bool check_range)
 
     if (slot == -1)
     {
-        slot = prompt_invent_item("Evoke which item? (* to show all)",
+        slot = prompt_invent_item(you.inv1, "Evoke which item? (* to show all)",
                                    MT_INVLIST,
                                    OSEL_EVOKABLE, true, true, true, 0, -1,
                                    nullptr, OPER_EVOKE);
@@ -2275,7 +2275,7 @@ bool evoke_item(int slot, bool check_range)
         if (prompt_failed(slot))
             return false;
     }
-    else if (!check_warning_inscriptions(you.inv[slot], OPER_EVOKE))
+    else if (!check_warning_inscriptions(you.inv1[slot], OPER_EVOKE))
         return false;
 
     ASSERT(slot >= 0);
@@ -2284,7 +2284,7 @@ bool evoke_item(int slot, bool check_range)
     const bool wielded = (you.equip[EQ_WEAPON] == slot);
 #endif /* DEBUG */
 
-    item_def& item = you.inv[slot];
+    item_def& item = you.inv1[slot];
     // Also handles messages.
     if (!item_is_evokable(item, true, false, false, true))
         return false;
@@ -2349,7 +2349,7 @@ bool evoke_item(int slot, bool check_range)
             return false;
         }
 
-        if (!(pract = _rod_spell(you.inv[slot], check_range)))
+        if (!(pract = _rod_spell(you.inv1[slot], check_range)))
             return false;
 
         did_work = true;  // _rod_spell() handled messages

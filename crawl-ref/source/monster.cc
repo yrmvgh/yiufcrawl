@@ -6267,7 +6267,7 @@ void monster::steal_item_from_player()
     int total_value = 0;
     for (int m = 0; m < ENDOFPACK; ++m)
     {
-        if (!you.inv[m].defined())
+        if (!you.inv2[m].defined())
             continue;
 
         // Cannot unequip player.
@@ -6276,10 +6276,10 @@ void monster::steal_item_from_player()
         //       fatal stat loss.
         // 1KB: I'd say no, weapon is being held, it's different from pulling
         //      a wand from your pocket.
-        if (item_is_equipped(you.inv[m]))
+        if (item_is_equipped(you.inv2[m]))
             continue;
 
-        mon_inv_type monslot = item_to_mslot(you.inv[m]);
+        mon_inv_type monslot = item_to_mslot(you.inv2[m]);
         if (monslot == NUM_MONSTER_SLOTS)
             continue;
 
@@ -6296,7 +6296,7 @@ void monster::steal_item_from_player()
         }
 
         // Candidate for stealing.
-        const int value = item_value(you.inv[m], true);
+        const int value = item_value(you.inv2[m], true);
         total_value += value;
 
         if (x_chance_in_y(value, total_value))
@@ -6388,11 +6388,11 @@ void monster::steal_item_from_player()
     ASSERT(mslot != NUM_MONSTER_SLOTS);
     ASSERT(inv[mslot] == NON_ITEM);
 
-    const int orig_qty = you.inv[steal_what].quantity;
+    const int orig_qty = you.inv2[steal_what].quantity;
 
     mprf("%s steals %s!",
          name(DESC_THE).c_str(),
-         you.inv[steal_what].name(DESC_YOUR).c_str());
+         you.inv2[steal_what].name(DESC_YOUR).c_str());
 
     item_def* tmp = take_item(steal_what, mslot);
     if (!tmp)
@@ -6410,8 +6410,8 @@ void monster::steal_item_from_player()
             remove_oldest_perishable_item(new_item);
 
         // If the whole stack is gone, it doesn't need to be cleaned up.
-        if (you.inv[steal_what].defined())
-            remove_newest_perishable_item(you.inv[steal_what]);
+        if (you.inv2[steal_what].defined())
+            remove_newest_perishable_item(you.inv2[steal_what]);
     }
 }
 
@@ -6433,7 +6433,7 @@ item_def* monster::take_item(int steal_what, mon_inv_type mslot)
     item_def &new_item = mitm[index];
 
     // Copy item.
-    new_item = you.inv[steal_what];
+    new_item = you.inv2[steal_what];
 
     // Drop the item already in the slot (including the shield
     // if it's a two-hander).

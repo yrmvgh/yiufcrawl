@@ -216,8 +216,8 @@ void list_armour()
             estr << "    (currently unavailable)";
         else if (armour_id != -1)
         {
-            estr << you.inv[armour_id].name(DESC_INVENTORY);
-            colour = menu_colour(estr.str(), item_prefix(you.inv[armour_id]),
+            estr << you.inv1[armour_id].name(DESC_INVENTORY);
+            colour = menu_colour(estr.str(), item_prefix(you.inv1[armour_id]),
                                  "equip");
         }
         else if (you_can_wear(i) == MB_MAYBE)
@@ -267,8 +267,8 @@ void list_jewellery()
             item = "    (currently unavailable)";
         else if (jewellery_id != -1)
         {
-            item = you.inv[jewellery_id].name(DESC_INVENTORY);
-            string prefix = item_prefix(you.inv[jewellery_id]);
+            item = you.inv1[jewellery_id].name(DESC_INVENTORY);
+            string prefix = item_prefix(you.inv1[jewellery_id]);
             colour = menu_colour(item, prefix, "equip");
         }
         else

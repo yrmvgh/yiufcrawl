@@ -760,7 +760,7 @@ static string _empty_deck_msg(deck_rarity_type rarity)
 // Choose a deck from inventory and return its slot (or -1).
 static int _choose_inventory_deck(const char* prompt)
 {
-    const int slot = prompt_invent_item(prompt,
+    const int slot = prompt_invent_item(you.inv1, prompt,
                                         MT_INVLIST, OSEL_DRAW_DECK,
                                         true, true, true, 0, -1, nullptr,
                                         OPER_EVOKE);
@@ -768,7 +768,7 @@ static int _choose_inventory_deck(const char* prompt)
     if (prompt_failed(slot))
         return -1;
 
-    if (!is_deck(you.inv[slot]))
+    if (!is_deck(you.inv1[slot]))
     {
         mpr("That isn't a deck!");
         return -1;
@@ -789,7 +789,7 @@ static void _deck_ident(item_def& deck)
 
 bool deck_identify_first(int slot)
 {
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
     if (top_card_is_known(deck))
         return false;
 
@@ -813,7 +813,7 @@ bool deck_deal()
         crawl_state.zero_turns_taken();
         return false;
     }
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
     if (_check_buggy_deck(deck))
         return false;
 
@@ -970,7 +970,7 @@ bool deck_stack()
         return false;
     }
 
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
     if (_check_buggy_deck(deck))
         return false;
 
@@ -996,7 +996,7 @@ bool deck_stack()
 
 bool stack_five(int slot)
 {
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
     if (_check_buggy_deck(deck))
         return false;
 
@@ -1113,7 +1113,7 @@ bool deck_triple_draw()
         return false;
     }
 
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
     if (_check_buggy_deck(deck))
         return false;
 
@@ -1123,7 +1123,7 @@ bool deck_triple_draw()
 
 bool draw_three(int slot)
 {
-    item_def& deck(you.inv[slot]);
+    item_def& deck(you.inv1[slot]);
 
     if (_check_buggy_deck(deck))
         return false;
@@ -3275,7 +3275,7 @@ static bool _shuffle_inventory_decks()
 {
     bool success = false;
 
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
     {
         if (item.defined() && is_deck(item))
         {

@@ -472,7 +472,7 @@ void ash_check_bondage(bool msg)
             slots[s]++;
             if (you.equip[i] != -1)
             {
-                const item_def& item = you.inv[you.equip[i]];
+                const item_def& item = you.inv1[you.equip[i]];
                 if (item.cursed() && (i != EQ_WEAPON || is_weapon(item)))
                 {
                     if (s == ET_WEAPON
@@ -515,7 +515,7 @@ void ash_check_bondage(bool msg)
     if (you.species == SP_FELID)
     {
         for (int i = EQ_LEFT_RING; i <= EQ_AMULET; ++i)
-            if (you.equip[i] != -1 && you.inv[you.equip[i]].cursed())
+            if (you.equip[i] != -1 && you.inv1[you.equip[i]].cursed())
                 ++you.bondage_level;
 
         // Allow full bondage when all available slots are cursed.
@@ -1145,19 +1145,19 @@ void pakellas_id_device_charges()
 {
     for (int which_item = 0; which_item < ENDOFPACK; which_item++)
     {
-        if (!you.inv[which_item].defined()
-            || !(you.inv[which_item].base_type == OBJ_WANDS
-                 || you.inv[which_item].base_type == OBJ_RODS)
-            || item_ident(you.inv[which_item], ISFLAG_KNOW_PLUSES)
-               && item_ident(you.inv[which_item], ISFLAG_KNOW_TYPE))
+        if (!you.inv1[which_item].defined()
+            || !(you.inv1[which_item].base_type == OBJ_WANDS
+                 || you.inv1[which_item].base_type == OBJ_RODS)
+            || item_ident(you.inv1[which_item], ISFLAG_KNOW_PLUSES)
+               && item_ident(you.inv1[which_item], ISFLAG_KNOW_TYPE))
         {
             continue;
         }
-        if (you.inv[which_item].base_type == OBJ_RODS)
-            set_ident_flags(you.inv[which_item], ISFLAG_KNOW_TYPE);
-        set_ident_flags(you.inv[which_item], ISFLAG_KNOW_PLUSES);
+        if (you.inv1[which_item].base_type == OBJ_RODS)
+            set_ident_flags(you.inv1[which_item], ISFLAG_KNOW_TYPE);
+        set_ident_flags(you.inv1[which_item], ISFLAG_KNOW_PLUSES);
         mprf_nocap("%s",
-                   get_menu_colour_prefix_tags(you.inv[which_item],
+                   get_menu_colour_prefix_tags(you.inv1[which_item],
                                                DESC_INVENTORY).c_str());
     }
 }

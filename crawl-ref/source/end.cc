@@ -221,7 +221,11 @@ NORETURN void screen_end_game(string text)
 
 NORETURN void end_game(scorefile_entry &se)
 {
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
+        if (item.defined() && item_type_unknown(item))
+            add_inscription(item, "unknown");
+
+    for (auto &item : you.inv2)
         if (item.defined() && item_type_unknown(item))
             add_inscription(item, "unknown");
 

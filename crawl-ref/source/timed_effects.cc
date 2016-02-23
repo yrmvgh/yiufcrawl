@@ -941,9 +941,16 @@ static void _handle_insight(int time_delta)
     		bool success = false;
     		int attempt = 0;
 
+    		FixedVector< item_def, ENDOFPACK > &inv;
+    		if(coinflip()) {
+    			inv = you.inv1;
+    		} else {
+    			inv = you.inv2;
+    		}
+
     		while(true)
     	    {
-    			item_def& item(you.inv[random2(you.inv.size())]);
+    			item_def& item(inv[random2(inv.size())]);
 
     	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
     	        {
@@ -1552,7 +1559,7 @@ void recharge_rods(int aut, bool level_only)
 {
     if (!level_only)
     {
-        for (auto &item : you.inv)
+        for (auto &item : you.inv1)
             _recharge_rod(item, aut, true);
     }
 

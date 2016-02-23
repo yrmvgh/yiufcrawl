@@ -95,6 +95,9 @@ item_def* newgame_make_item(object_class_type base,
                             int sub_type, int qty, int plus,
                             int force_ego, bool force_tutorial)
 {
+	FixedVector< item_def, ENDOFPACK > &inv;
+	inv_from_item(inv, base);
+
     // Don't set normal equipment in the tutorial.
     if (!force_tutorial && crawl_state.game_is_tutorial())
         return nullptr;
@@ -109,7 +112,7 @@ item_def* newgame_make_item(object_class_type base,
         if (base == OBJ_FOOD && slot == letter_to_index('e'))
             continue;
 
-        item_def& item = you.inv[slot];
+        item_def& item = inv[slot];
         if (!item.defined())
             break;
 
@@ -121,7 +124,7 @@ item_def* newgame_make_item(object_class_type base,
         }
     }
 
-    item_def &item(you.inv[slot]);
+    item_def &item(inv[slot]);
     item.base_type = base;
     item.sub_type  = sub_type;
     item.quantity  = qty;
@@ -370,7 +373,7 @@ static void _give_basic_knowledge()
 {
     identify_inventory();
 
-    for (const item_def& i : you.inv)
+    for (const item_def& i : you.inv1)
         if (i.base_type == OBJ_BOOKS)
             mark_had_book(i);
 
@@ -498,7 +501,7 @@ static void _setup_generic(const newgame_def& ng)
     // A first pass to link the items properly.
     for (int i = 0; i < ENDOFPACK; ++i)
     {
-        auto &item = you.inv[i];
+        auto &item = you.inv1[i];
         if (!item.defined())
             continue;
         item.pos = ITEM_IN_INVENTORY;
@@ -508,7 +511,31 @@ static void _setup_generic(const newgame_def& ng)
     }
 
     // A second pass to apply the item_slot option.
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
+    {
+        if (!item.defined())
+            continue;
+        if (!item.props.exists("adjusted"))
+        {
+            item.props["adjusted"] = true;
+            auto_assign_item_slot(item);
+        }
+    }
+
+    // A first pass to link the items properly.
+    for (int i = 0; i < ENDOFPACK; ++i)
+    {
+        auto &item = you.inv2[i];
+        if (!item.defined())
+            continue;
+        item.pos = ITEM_IN_INVENTORY;
+        item.link = i;
+        item.slot = index_to_letter(item.link);
+        item_colour(item);  // set correct special and colour
+    }
+
+    // A second pass to apply the item_slot option.
+    for (auto &item : you.inv2)
     {
         if (!item.defined())
             continue;

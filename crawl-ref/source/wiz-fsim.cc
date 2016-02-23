@@ -66,7 +66,7 @@ static string _fight_string(fight_data fdata, bool csv)
 static skill_type _equipped_skill()
 {
     const int weapon = you.equip[EQ_WEAPON];
-    const item_def * iweap = weapon != -1 ? &you.inv[weapon] : nullptr;
+    const item_def * iweap = weapon != -1 ? &you.inv1[weapon] : nullptr;
 
     if (iweap && iweap->base_type == OBJ_WEAPONS)
         return item_attack_skill(*iweap);
@@ -80,7 +80,7 @@ static skill_type _equipped_skill()
 static string _equipped_weapon_name()
 {
     const int weapon = you.equip[EQ_WEAPON];
-    const item_def * iweap = weapon != -1 ? &you.inv[weapon] : nullptr;
+    const item_def * iweap = weapon != -1 ? &you.inv1[weapon] : nullptr;
     const int missile = you.m_quiver.get_fire_item();
 
     if (iweap)
@@ -88,12 +88,12 @@ static string _equipped_weapon_name()
         string item_buf = iweap->name(DESC_PLAIN);
         // If it's a ranged weapon, add the description of the missile
         if (is_range_weapon(*iweap) && missile < ENDOFPACK && missile >= 0)
-            item_buf += " with " + you.inv[missile].name(DESC_PLAIN);
+            item_buf += " with " + you.inv1[missile].name(DESC_PLAIN);
         return "Wielding: " + item_buf;
     }
 
     if (missile != -1)
-        return "Quivering: " + you.inv[missile].name(DESC_PLAIN);
+        return "Quivering: " + you.inv1[missile].name(DESC_PLAIN);
 
     return "Unarmed";
 }
@@ -162,10 +162,10 @@ static bool _equip_weapon(const string &weapon, bool &abort)
 {
     for (int i = 0; i < ENDOFPACK; ++i)
     {
-        if (!you.inv[i].defined())
+        if (!you.inv1[i].defined())
             continue;
 
-        if (you.inv[i].name(DESC_PLAIN).find(weapon) != string::npos)
+        if (you.inv1[i].name(DESC_PLAIN).find(weapon) != string::npos)
         {
             if (i != you.equip[EQ_WEAPON])
             {
@@ -224,10 +224,10 @@ static bool _fsim_kit_equip(const string &kit, string &error)
     {
         for (int i = 0; i < ENDOFPACK; ++i)
         {
-            if (!you.inv[i].defined())
+            if (!you.inv1[i].defined())
                 continue;
 
-            if (you.inv[i].name(DESC_PLAIN).find(missile) != string::npos)
+            if (you.inv1[i].name(DESC_PLAIN).find(missile) != string::npos)
             {
                 quiver_item(i);
                 you.redraw_quiver = true;
@@ -337,7 +337,7 @@ static fight_data _get_fight_data(monster &mon, int iter_limit, bool defend)
     fdata.max_dam = 0;
 
     const int weapon = you.equip[EQ_WEAPON];
-    const item_def *iweap = weapon != -1 ? &you.inv[weapon] : nullptr;
+    const item_def *iweap = weapon != -1 ? &you.inv1[weapon] : nullptr;
     const int missile = you.m_quiver.get_fire_item();
 
     // now make sure the player is ready
@@ -381,12 +381,12 @@ static fight_data _get_fight_data(monster &mon, int iter_limit, bool defend)
                         is_range_weapon(*iweap))
                 || (!iweap && missile != -1))
             {
-                ranged_attack attk(&you, &mon, &you.inv[missile], false);
+                ranged_attack attk(&you, &mon, &you.inv1[missile], false);
                 attk.simu = true;
                 attk.attack();
                 if (attk.ev_margin >= 0)
                     hits++;
-                you.time_taken = you.attack_delay(&you.inv[missile]).roll();
+                you.time_taken = you.attack_delay(&you.inv1[missile]).roll();
             }
             else // otherwise, melee combat
             {

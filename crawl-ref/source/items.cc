@@ -86,7 +86,7 @@ static void _autoinscribe_item(item_def& item);
 static void _autoinscribe_floor_items();
 static void _autoinscribe_inventory();
 static void _multidrop(vector<SelItem> tmp_items);
-static bool _merge_items_into_inv(item_def &it, int quant_got,
+static bool _merge_items_into_inv(FixedVector< item_def, ENDOFPACK > &inv, item_def &it, int quant_got,
                                   int &inv_slot, bool quiet);
 
 static bool will_autopickup   = false;
@@ -367,7 +367,7 @@ mon_inv_iterator mon_inv_iterator::operator++(int)
  * Reduce quantity of an inventory item, do cleanup if item goes away.
  * @return  True if stack of items no longer exists, false otherwise.
 */
-bool dec_inv_item_quantity(int obj, int amount)
+bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount)
 {
     bool ret = false;
 
@@ -376,7 +376,7 @@ bool dec_inv_item_quantity(int obj, int amount)
 
     you.m_quiver.on_inv_quantity_changed(obj, amount);
 
-    if (you.inv[obj].quantity <= amount)
+    if (inv[obj].quantity <= amount)
     {
         for (int i = 0; i < NUM_EQUIP; i++)
         {
@@ -391,11 +391,11 @@ bool dec_inv_item_quantity(int obj, int amount)
             }
         }
 
-        item_skills(you.inv[obj], you.stop_train);
+        item_skills(inv[obj], you.stop_train);
 
-        you.inv[obj].base_type = OBJ_UNASSIGNED;
-        you.inv[obj].quantity  = 0;
-        you.inv[obj].props.clear();
+        inv[obj].base_type = OBJ_UNASSIGNED;
+        inv[obj].quantity  = 0;
+        inv[obj].props.clear();
 
         ret = true;
 
@@ -406,7 +406,7 @@ bool dec_inv_item_quantity(int obj, int amount)
         crawl_state.cancel_cmd_again();
     }
     else
-        you.inv[obj].quantity -= amount;
+        inv[obj].quantity -= amount;
 
     return ret;
 }
@@ -435,13 +435,13 @@ bool dec_mitm_item_quantity(int obj, int amount)
     return false;
 }
 
-void inc_inv_item_quantity(int obj, int amount)
+void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount)
 {
     if (you.equip[EQ_WEAPON] == obj)
         you.wield_change = true;
 
     you.m_quiver.on_inv_quantity_changed(obj, amount);
-    you.inv[obj].quantity += amount;
+    inv[obj].quantity += amount;
 }
 
 void inc_mitm_item_quantity(int obj, int amount)
@@ -1543,10 +1543,10 @@ static int _userdef_find_free_slot(const item_def &i)
 #endif
 }
 
-int find_free_slot(const item_def &i)
+int find_free_slot(FixedVector< item_def, ENDOFPACK > &inv, const item_def &i)
 {
 #define slotisfree(s) \
-            ((s) >= 0 && (s) < ENDOFPACK && !you.inv[s].defined())
+            ((s) >= 0 && (s) < ENDOFPACK && !inv[s].defined())
 
     bool searchforward = false;
     // If we're doing Lua, see if there's a Lua function that can give
@@ -1578,9 +1578,9 @@ int find_free_slot(const item_def &i)
         // available slot that does not leave a gap in the inventory.
         for (slot = ENDOFPACK - 1; slot >= 0; --slot)
         {
-            if (you.inv[slot].defined())
+            if (inv[slot].defined())
             {
-                if (slot + 1 < ENDOFPACK && !you.inv[slot + 1].defined()
+                if (slot + 1 < ENDOFPACK && !inv[slot + 1].defined()
                     && !disliked[slot + 1])
                 {
                     return slot + 1;
@@ -1588,7 +1588,7 @@ int find_free_slot(const item_def &i)
             }
             else
             {
-                if (slot + 1 < ENDOFPACK && you.inv[slot + 1].defined()
+                if (slot + 1 < ENDOFPACK && inv[slot + 1].defined()
                     && !disliked[slot])
                 {
                     return slot;
@@ -1603,7 +1603,7 @@ int find_free_slot(const item_def &i)
     int badslot = -1;
     // Return first free slot
     for (slot = 0; slot < ENDOFPACK; ++slot)
-        if (!you.inv[slot].defined())
+        if (!inv[slot].defined())
         {
             if (disliked[slot])
                 badslot = slot;
@@ -1673,7 +1673,8 @@ static bool _put_item_in_inv(item_def& it, int quant_got, bool quiet, bool& put_
 
     // attempt to put the item into your inventory.
     int inv_slot;
-    if (_merge_items_into_inv(it, quant_got, inv_slot, quiet))
+    FixedVector< item_def, ENDOFPACK > inv;
+    if (_merge_items_into_inv(inv, it, quant_got, inv_slot, quiet))
     {
         put_in_inv = true;
         // if you succeeded, actually reduce the number in the original stack
@@ -1684,8 +1685,8 @@ static bool _put_item_in_inv(item_def& it, int quant_got, bool quiet, bool& put_
         // cleanup items that ended up in an inventory slot (not gold, etc)
         if (inv_slot != -1)
         {
-            _got_item(you.inv[inv_slot]);
-            _check_note_item(you.inv[inv_slot]);
+            _got_item(inv[inv_slot]);
+            _check_note_item(inv[inv_slot]);
         }
         else
             _check_note_item(it);
@@ -1816,28 +1817,31 @@ static void _get_orb(const item_def &it, bool quiet)
 static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
                                            int &inv_slot, bool quiet)
 {
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_item(inv, it.base_type);
+
     for (inv_slot = 0; inv_slot < ENDOFPACK; inv_slot++)
     {
-        if (!items_stack(you.inv[inv_slot], it))
+        if (!items_stack(inv[inv_slot], it))
             continue;
 
         // If the object on the ground is inscribed, but not
         // the one in inventory, then the inventory object
         // picks up the other's inscription.
         if (!(it.inscription).empty()
-            && you.inv[inv_slot].inscription.empty())
+            && inv[inv_slot].inscription.empty())
         {
-            you.inv[inv_slot].inscription = it.inscription;
+            inv[inv_slot].inscription = it.inscription;
         }
 
-        merge_item_stacks(it, you.inv[inv_slot], quant_got);
+        merge_item_stacks(it, inv[inv_slot], quant_got);
         inc_inv_item_quantity(inv_slot, quant_got);
         you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
         {
             mprf_nocap("%s (gained %d)",
-                        get_menu_colour_prefix_tags(you.inv[inv_slot],
+                        get_menu_colour_prefix_tags(inv[inv_slot],
                                                     DESC_INVENTORY).c_str(),
                         quant_got);
         }
@@ -1858,6 +1862,9 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
  */
 item_def *auto_assign_item_slot(item_def& item)
 {
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_item(inv, item.base_type);
+
     if (!item.defined())
         return nullptr;
 
@@ -1881,7 +1888,7 @@ item_def *auto_assign_item_slot(item_def& item)
             else if (isaalpha(i))
             {
                 const int index = letter_to_index(i);
-                auto &iitem = you.inv[index];
+                auto &iitem = inv[index];
 
                 // Slot is empty, or overwrite is on and the rule doesn't
                 // match the item already there.
@@ -1898,8 +1905,8 @@ item_def *auto_assign_item_slot(item_def& item)
         }
         if (newslot != -1 && newslot != item.link)
         {
-            swap_inv_slots(item.link, newslot, true);
-            return &you.inv[newslot];
+            swap_inv_slots(inv, item.link, newslot, true);
+            return &inv[newslot];
         }
     }
     return nullptr;
@@ -1918,11 +1925,14 @@ item_def *auto_assign_item_slot(item_def& item)
 static int _place_item_in_free_slot(item_def &it, int quant_got,
                                     bool quiet)
 {
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_item(inv, it.base_type);
+
     int freeslot = find_free_slot(it);
     ASSERT_RANGE(freeslot, 0, ENDOFPACK);
-    ASSERT(!you.inv[freeslot].defined());
+    ASSERT(!inv[freeslot].defined());
 
-    item_def &item = you.inv[freeslot];
+    item_def &item = inv[freeslot];
     // Copy item.
     item          = it;
     item.link     = freeslot;
@@ -2358,9 +2368,9 @@ bool multiple_items_at(const coord_def& where)
  * @return True if we took time, either because we dropped the item
  *         or because we took a preliminary step (removing a ring, etc.).
  */
-bool drop_item(int item_dropped, int quant_drop)
+bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int quant_drop)
 {
-    item_def &item = you.inv[item_dropped];
+    item_def &item = inv[item_dropped];
 
     if (quant_drop < 0 || quant_drop > item.quantity)
         quant_drop = item.quantity;
@@ -2467,13 +2477,13 @@ bool drop_item(int item_dropped, int quant_drop)
     return true;
 }
 
-void drop_last()
+void drop_last(FixedVector< item_def, ENDOFPACK > &inv)
 {
     vector<SelItem> items_to_drop;
 
     for (const auto &entry : you.last_pickup)
     {
-        const item_def* item = &you.inv[entry.first];
+        const item_def* item = &inv[entry.first];
         if (item->quantity > 0)
             items_to_drop.emplace_back(entry.first, entry.second, item);
     }
@@ -2551,10 +2561,10 @@ vector<SelItem> items_for_multidrop;
 // Arrange items that have been selected for multidrop so that
 // equipped items are dropped after other items, and equipped items
 // are dropped in the same order as their EQ_ slots are numbered.
-static bool _drop_item_order(const SelItem &first, const SelItem &second)
+static bool _drop_item_order(FixedVector< item_def, ENDOFPACK > &inv, const SelItem &first, const SelItem &second)
 {
-    const item_def &i1 = you.inv[first.slot];
-    const item_def &i2 = you.inv[second.slot];
+    const item_def &i1 = inv[first.slot];
+    const item_def &i2 = inv[second.slot];
 
     const int slot1 = get_equip_slot(&i1),
               slot2 = get_equip_slot(&i2);
@@ -2579,6 +2589,8 @@ void drop()
         canned_msg(MSG_NOTHING_CARRIED);
         return;
     }
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_prompt(inv, "Do you want to drop");
 
     vector<SelItem> tmp_items;
     string prompt = "Drop what? " + slot_description()
@@ -2589,7 +2601,7 @@ void drop()
 #endif
                   ;
 
-    tmp_items = prompt_invent_items(prompt.c_str(), MT_DROP,
+    tmp_items = prompt_invent_items(inv, prompt.c_str(), MT_DROP,
                                      -1, nullptr, true, true, 0,
                                      &Options.drop_filter, _drop_selitem_text,
                                      &items_for_multidrop);
@@ -2697,7 +2709,10 @@ static void _autoinscribe_floor_items()
 
 static void _autoinscribe_inventory()
 {
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
+        if (item.defined())
+            _autoinscribe_item(item);
+    for (auto &item : you.inv2)
         if (item.defined())
             _autoinscribe_item(item);
 }
@@ -2919,12 +2934,20 @@ static bool _similar_jewellery(const item_def& pickup_item,
 static bool _item_different_than_inv(const item_def& pickup_item,
                                      item_comparer comparer)
 {
-    return none_of(begin(you.inv), end(you.inv),
+    return none_of(begin(you.inv1), end(you.inv1),
                    [&] (const item_def &inv_item) -> bool
                    {
                        return inv_item.defined()
                            && comparer(pickup_item, inv_item);
-                   });
+                   })
+    		&&
+			none_of(begin(you.inv2), end(you.inv2),
+			                   [&] (const item_def &inv_item) -> bool
+			                   {
+			                       return inv_item.defined()
+			                           && comparer(pickup_item, inv_item);
+			                   })
+			;
 }
 
 static bool _interesting_explore_pickup(const item_def& item)
@@ -3121,9 +3144,9 @@ void autopickup()
     _do_autopickup();
 }
 
-int inv_count()
+int inv_count(FixedVector< item_def, ENDOFPACK > &inv)
 {
-    return count_if(begin(you.inv), end(you.inv), mem_fn(&item_def::defined));
+    return count_if(begin(inv), end(inv), mem_fn(&item_def::defined));
 }
 
 // sub_type == -1 means look for any item of the class

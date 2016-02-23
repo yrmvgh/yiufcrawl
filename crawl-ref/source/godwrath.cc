@@ -356,7 +356,7 @@ static void _ely_dull_inventory_weapons()
 
     you.m_quiver.get_desired_item(nullptr, &quiver_link);
 
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
     {
         if (!item.defined())
             continue;
@@ -1719,7 +1719,7 @@ void pakellas_evoke_backfire(spell_type spell)
 bool drain_wands()
 {
     vector<string> wands;
-    for (auto &wand : you.inv)
+    for (auto &wand : you.inv1)
     {
         if (!wand.defined() || wand.base_type != OBJ_WANDS)
             continue;
@@ -1745,21 +1745,21 @@ static bool _pakellas_drain_rods()
     vector<string> rods;
     for (int i = 0; i < ENDOFPACK; ++i)
     {
-        if (!you.inv[i].defined())
+        if (!you.inv1[i].defined())
             continue;
 
-        if (you.inv[i].base_type == OBJ_RODS)
+        if (you.inv1[i].base_type == OBJ_RODS)
         {
-            const int charges = you.inv[i].charges;
+            const int charges = you.inv1[i].charges;
             if (charges > 0 && coinflip())
             {
-                you.inv[i].charges = 0;
-                if (you.inv[i].charge_cap > 6 * ROD_CHARGE_MULT)
-                    you.inv[i].charge_cap -= ROD_CHARGE_MULT;
-                if (you.inv[i].rod_plus > -3)
-                    you.inv[i].rod_plus -= 1 + random2(2);
+                you.inv1[i].charges = 0;
+                if (you.inv1[i].charge_cap > 6 * ROD_CHARGE_MULT)
+                    you.inv1[i].charge_cap -= ROD_CHARGE_MULT;
+                if (you.inv1[i].rod_plus > -3)
+                    you.inv1[i].rod_plus -= 1 + random2(2);
 
-                rods.push_back(you.inv[i].name(DESC_PLAIN));
+                rods.push_back(you.inv1[i].name(DESC_PLAIN));
             }
         }
     }
@@ -1775,14 +1775,14 @@ static bool _pakellas_drain_evokers()
     vector<string> evokers;
     for (int i = 0; i < ENDOFPACK; ++i)
     {
-        if (!you.inv[i].defined())
+        if (!you.inv1[i].defined())
             continue;
 
-        if (is_xp_evoker(you.inv[i]) && evoker_is_charged(you.inv[i])
+        if (is_xp_evoker(you.inv1[i]) && evoker_is_charged(you.inv1[i])
             && coinflip())
         {
-            expend_xp_evoker(you.inv[i]);
-            evokers.push_back(you.inv[i].name(DESC_PLAIN));
+            expend_xp_evoker(you.inv1[i]);
+            evokers.push_back(you.inv1[i].name(DESC_PLAIN));
         }
     }
     if (evokers.empty())

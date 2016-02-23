@@ -587,11 +587,16 @@ static void _wanderer_note_items()
 {
     const string equip_str =
         you.your_name + " set off with: "
-        + comma_separated_fn(begin(you.inv), end(you.inv),
+        + comma_separated_fn(begin(you.inv1), end(you.inv1),
                              [] (const item_def &item) -> string
                              {
                                  return item.name(DESC_A, false, true);
-                             }, ", ", ", ", mem_fn(&item_def::defined));
+                             }, ", ", ", ", mem_fn(&item_def::defined))
+		 + comma_separated_fn(begin(you.inv2), end(you.inv2),
+									  [] (const item_def &item) -> string
+									  {
+										  return item.name(DESC_A, false, true);
+									  }, ", ", ", ", mem_fn(&item_def::defined))							 ;
     take_note(Note(NOTE_MESSAGE, 0, 0, equip_str));
 }
 
@@ -1964,12 +1969,12 @@ static void _do_cycle_quiver(int dir)
     const int next = get_next_fire_item(cur, dir);
 #ifdef DEBUG_QUIVER
     mprf(MSGCH_DIAGNOSTICS, "next slot: %d, item: %s", next,
-         next == -1 ? "none" : you.inv[next].name(DESC_PLAIN).c_str());
+         next == -1 ? "none" : you.inv1[next].name(DESC_PLAIN).c_str());
 #endif
     if (next != -1)
     {
         // Kind of a hacky way to get quiver to change.
-        you.m_quiver.on_item_fired(you.inv[next], true);
+        you.m_quiver.on_item_fired(you.inv1[next], true);
 
         if (next == cur)
             mpr("No other missiles available. Use F to throw any item.");

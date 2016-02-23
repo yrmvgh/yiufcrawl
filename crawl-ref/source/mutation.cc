@@ -1479,7 +1479,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         case MUT_BEAK:
             // Horns, beaks, and antennae force hard helmets off.
             if (you.equip[EQ_HELMET] != -1
-                && is_hard_helmet(you.inv[you.equip[EQ_HELMET]])
+                && is_hard_helmet(you.inv1[you.equip[EQ_HELMET]])
                 && !you.melded[EQ_HELMET])
             {
                 remove_one_equip(EQ_HELMET, false, true);

@@ -132,7 +132,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
     // smallest quantity, in order to free up inventory sooner
     list<item_def*> valid_sticks;
     int num_sticks = 0;
-    for (item_def& i : you.inv)
+    for (item_def& i : you.inv1)
         if (i.is_type(OBJ_MISSILES, MI_ARROW)
             && check_warning_inscriptions(i, OPER_DESTROY))
         {

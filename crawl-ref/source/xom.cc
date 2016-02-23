@@ -2173,7 +2173,7 @@ static void _xom_zero_miscast()
     vector<string> priority;
 
     vector<item_def *> inv_items;
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
     {
         if (item.defined() && !item_is_equipped(item)
             && !item.is_critical())

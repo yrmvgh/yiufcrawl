@@ -311,7 +311,52 @@ static void _dump_player(FILE *file)
     fprintf(file, "Inventory bugs:\n");
     for (int i = 0; i < ENDOFPACK; ++i)
     {
-        item_def &item(you.inv[i]);
+        item_def &item(you.inv1[i]);
+
+        if (item.base_type == OBJ_UNASSIGNED && item.quantity != 0)
+        {
+            fprintf(file, "    slot #%d: unassigned item has quant %d\n",
+                    i, item.quantity);
+            continue;
+        }
+        else if (item.base_type != OBJ_UNASSIGNED && item.quantity < 1)
+        {
+            const int orig_quant = item.quantity;
+            item.quantity = 1;
+
+            fprintf(file, "    slot #%d: otherwise valid item '%s' has "
+                          "invalid quantity %d\n",
+                    i, item.name(DESC_PLAIN, false, true).c_str(),
+                    orig_quant);
+            item.quantity = orig_quant;
+            continue;
+        }
+        else if (!item.defined())
+            continue;
+
+        const string name = item.name(DESC_PLAIN, false, true);
+
+        if (item.link != i)
+        {
+            fprintf(file, "    slot #%d: item '%s' has invalid link %d\n",
+                    i, name.c_str(), item.link);
+        }
+
+        if (item.slot < 0 || item.slot > 127)
+        {
+            fprintf(file, "    slot #%d: item '%s' has invalid slot %d\n",
+                    i, name.c_str(), item.slot);
+        }
+
+        if (!item.pos.equals(-1, -1))
+        {
+            fprintf(file, "    slot #%d: item '%s' has invalid pos %s\n",
+                    i, name.c_str(), debug_coord_str(item.pos).c_str());
+        }
+    }
+    for (int i = 0; i < ENDOFPACK; ++i)
+    {
+        item_def &item(you.inv2[i]);
 
         if (item.base_type == OBJ_UNASSIGNED && item.quantity != 0)
         {
@@ -370,7 +415,7 @@ static void _dump_player(FILE *file)
             fprintf(file, " <invalid>\n");
             continue;
         }
-        const bool unknown = !item_type_known(you.inv[eq]);
+        const bool unknown = !item_type_known(you.inv1[eq]);
         const bool melded  = you.melded[i];
         string suffix = "";
         if (unknown || melded)
@@ -387,7 +432,7 @@ static void _dump_player(FILE *file)
             suffix += ")";
         }
         fprintf(file, ": %s%s\n",
-                you.inv[eq].name(DESC_PLAIN, false, true).c_str(), suffix.c_str());
+                you.inv1[eq].name(DESC_PLAIN, false, true).c_str(), suffix.c_str());
     }
     fprintf(file, "\n");
 

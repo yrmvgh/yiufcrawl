@@ -71,7 +71,7 @@ static bool _autoswitch_to_melee()
     else
         return false;
 
-    if (!is_melee_weapon(you.inv[item_slot]))
+    if (!is_melee_weapon(you.inv1[item_slot]))
         return false;
 
     return wield_weapon(true, item_slot);
@@ -543,7 +543,7 @@ bool wielded_weapon_check(item_def *weapon, bool no_message)
     // melee weapons yet.
     if (!weapon
         && (you.skill(SK_UNARMED_COMBAT) > 0
-            || !any_of(you.inv.begin(), you.inv.end(), is_melee_weapon)))
+            || !any_of(you.inv1.begin(), you.inv1.end(), is_melee_weapon)))
     {
         return true;
     }

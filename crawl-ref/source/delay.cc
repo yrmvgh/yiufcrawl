@@ -270,7 +270,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
 
         _xom_check_corpse_waste();
 
-        item_def &item = (delay.parm1 ? you.inv[delay.parm2]
+        item_def &item = (delay.parm1 ? you.inv2[delay.parm2]
                                       : mitm[delay.parm2]);
 
         const bool was_orc = (mons_genus(item.mon_type) == MONS_ORC);
@@ -512,7 +512,7 @@ static bool _can_read_scroll(int inv_slot)
     if (!player_can_read())
         return false;
 
-    const string illiteracy_reason = cannot_read_item_reason(you.inv[inv_slot]);
+    const string illiteracy_reason = cannot_read_item_reason(you.inv2[inv_slot]);
     if (illiteracy_reason.empty())
         return true;
 
@@ -606,7 +606,7 @@ void handle_delay()
     // XXX: need to handle passwall when monster digs -- bwr
     if (delay.type == DELAY_FEED_VAMPIRE)
     {
-        item_def &corpse = delay.parm1 ? you.inv[delay.parm2]
+        item_def &corpse = delay.parm1 ? you.inv2[delay.parm2]
                                        : mitm[delay.parm2];
         // Vampires stop feeding if ...
         // * engorged ("alive")
@@ -665,7 +665,7 @@ void handle_delay()
         while (!items_for_multidrop.empty()
                // Don't look for gold in inventory
                && items_for_multidrop[0].slot != PROMPT_GOT_SPECIAL
-               && !you.inv[items_for_multidrop[0].slot].defined())
+               && !you.inv1[items_for_multidrop[0].slot].defined())
         {
             items_for_multidrop.erase(items_for_multidrop.begin());
         }
@@ -705,12 +705,12 @@ void handle_delay()
         {
         case DELAY_ARMOUR_ON:
             mprf(MSGCH_MULTITURN_ACTION, "You continue putting on %s.",
-                 you.inv[delay.parm1].name(DESC_YOUR).c_str());
+                 you.inv1[delay.parm1].name(DESC_YOUR).c_str());
             break;
 
         case DELAY_ARMOUR_OFF:
             mprf(MSGCH_MULTITURN_ACTION, "You continue taking off %s.",
-                 you.inv[delay.parm1].name(DESC_YOUR).c_str());
+                 you.inv1[delay.parm1].name(DESC_YOUR).c_str());
             break;
 
         case DELAY_DROP_ITEM:
@@ -753,7 +753,7 @@ void handle_delay()
 
         case DELAY_FEED_VAMPIRE:
         {
-            item_def &corpse = (delay.parm1 ? you.inv[delay.parm2]
+            item_def &corpse = (delay.parm1 ? you.inv2[delay.parm2]
                                             : mitm[delay.parm2]);
             mprf(MSGCH_MULTITURN_ACTION, "You continue drinking.");
             vampire_nutrition_per_turn(corpse, 0);
@@ -780,7 +780,7 @@ static void _finish_delay(const delay_queue_item &delay)
     {
     case DELAY_JEWELLERY_ON:
     {
-        const item_def &item = you.inv[delay.parm1];
+        const item_def &item = you.inv1[delay.parm1];
 
         // recheck stasis here, since our condition may have changed since
         // starting the amulet swap process
@@ -814,11 +814,11 @@ static void _finish_delay(const delay_queue_item &delay)
 
     case DELAY_ARMOUR_OFF:
     {
-        const equipment_type slot = get_armour_slot(you.inv[delay.parm1]);
+        const equipment_type slot = get_armour_slot(you.inv1[delay.parm1]);
         ASSERT(you.equip[slot] == delay.parm1);
 
         mprf("You finish taking off %s.",
-             you.inv[delay.parm1].name(DESC_YOUR).c_str());
+             you.inv1[delay.parm1].name(DESC_YOUR).c_str());
         unequip_item(slot);
 
         break;
@@ -841,7 +841,7 @@ static void _finish_delay(const delay_queue_item &delay)
 
         did_god_conduct(DID_DRINK_BLOOD, 8);
 
-        item_def &item = (delay.parm1 ? you.inv[delay.parm2]
+        item_def &item = (delay.parm1 ? you.inv2[delay.parm2]
                                       : mitm[delay.parm2]);
 
         const bool was_orc = (mons_genus(item.mon_type) == MONS_ORC);
@@ -977,7 +977,7 @@ static void _finish_delay(const delay_queue_item &delay)
         // immediately.
 
         // Make sure item still exists.
-        if (!you.inv[delay.parm1].defined())
+        if (!you.inv1[delay.parm1].defined())
             break;
 
         if (!drop_item(delay.parm1, delay.parm2))
@@ -1018,7 +1018,7 @@ static void _armour_wear_effects(const int item_slot)
 {
     const unsigned int old_talents = your_talents(false).size();
 
-    item_def &arm = you.inv[item_slot];
+    item_def &arm = you.inv1[item_slot];
 
     set_ident_flags(arm, ISFLAG_IDENT_MASK);
     if (is_artefact(arm))
@@ -1039,7 +1039,7 @@ static void _armour_wear_effects(const int item_slot)
 
     equip_item(eq_slot, item_slot);
 
-    check_item_hint(you.inv[item_slot], old_talents);
+    check_item_hint(you.inv1[item_slot], old_talents);
 }
 
 static command_type _get_running_command()

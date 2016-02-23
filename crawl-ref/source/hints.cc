@@ -555,7 +555,7 @@ void hints_dissection_reminder()
 
 static bool _advise_use_healing_potion()
 {
-    for (auto &obj : you.inv)
+    for (auto &obj : you.inv2)
     {
         if (!obj.defined())
             continue;
@@ -779,7 +779,7 @@ static bool _mons_is_highlighted(const monster* mons)
 
 static bool _advise_use_wand()
 {
-    for (auto &obj : you.inv)
+    for (auto &obj : you.inv1)
     {
         if (!obj.defined())
             continue;
@@ -2399,8 +2399,8 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
     {
         int wpn = you.equip[EQ_WEAPON];
         if (wpn != -1
-            && you.inv[wpn].base_type == OBJ_WEAPONS
-            && you.inv[wpn].cursed())
+            && you.inv1[wpn].base_type == OBJ_WEAPONS
+            && you.inv1[wpn].cursed())
         {
             // Don't trigger if the wielded weapon is cursed.
             Hints.hints_events[seen_what] = true;
@@ -2408,7 +2408,7 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
         }
 
         if (Hints.hints_type == HINT_RANGER_CHAR && wpn != -1
-            && you.inv[wpn].is_type(OBJ_WEAPONS, WPN_SHORTBOW))
+            && you.inv1[wpn].is_type(OBJ_WEAPONS, WPN_SHORTBOW))
         {
             text << "You can easily switch between weapons in slots a and "
                     "b by pressing <w>%</w>.";

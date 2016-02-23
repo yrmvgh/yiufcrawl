@@ -893,7 +893,7 @@ static void _print_stats_qv(int y)
     char hud_letter = '-';
     if (q != -1 && !fire_warn_if_impossible(true))
     {
-        const item_def& quiver = you.inv[q];
+        const item_def& quiver = you.inv1[q];
         hud_letter = index_to_letter(quiver.link);
         const string prefix = item_prefix(quiver);
         const int prefcol =
@@ -2478,7 +2478,7 @@ void print_overview_screen()
         if (!c)
             break;
 
-        item_def& item = you.inv[letter_to_index(c)];
+        item_def& item = you.inv1[letter_to_index(c)];
         if (!describe_item(item))
             break;
         // loop around for another go.

@@ -1826,7 +1826,7 @@ void unrand_reacts()
     {
         if (you.unrand_reacts[i])
         {
-            item_def&        item  = you.inv[you.equip[i]];
+            item_def&        item  = you.inv1[you.equip[i]];
             const unrandart_entry* entry = get_unrand_entry(item.unrand_idx);
 
             entry->world_reacts_func(&item);

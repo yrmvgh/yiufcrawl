@@ -161,7 +161,7 @@ public:
     // Loads items from the player's inventory into the menu, and sets the
     // title to the stock title. If "procfn" is provided, it'll be called for
     // each MenuEntry added, *excluding the title*.
-    void load_inv_items(int item_selector = OSEL_ANY, int excluded_slot = -1,
+    void load_inv_items(FixedVector< item_def, ENDOFPACK > &inv, int item_selector = OSEL_ANY, int excluded_slot = -1,
                         MenuEntry *(*procfn)(MenuEntry *me) = nullptr);
 
     vector<SelItem> get_selitems() const;
@@ -190,7 +190,9 @@ string no_selectables_message(int item_selector);
 
 string slot_description();
 
-int prompt_invent_item(const char *prompt,
+int prompt_invent_item(
+					   FixedVector< item_def, ENDOFPACK > &inv,
+					   const char *prompt,
                        menu_type type,
                        int type_expect,
                        bool must_exist = true,
@@ -210,6 +212,7 @@ vector<SelItem> select_items(
                         invtitle_annotator titlefn = nullptr);
 
 vector<SelItem> prompt_invent_items(
+						FixedVector< item_def, ENDOFPACK > &inv,
                         const char *prompt,
                         menu_type type,
                         int type_expect,
@@ -246,4 +249,7 @@ bool item_is_evokable(const item_def &item, bool reach = true,
 bool nasty_stasis(const item_def &item, operation_types oper);
 bool needs_handle_warning(const item_def &item, operation_types oper,
                           bool &penance);
+bool is_consumable(object_class_type type);
+void inv_from_item(FixedVector< item_def, ENDOFPACK > &inv, object_class_type type);
+bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > &inv, const char* prompt);
 #endif

@@ -2816,17 +2816,17 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_ASHENZARI_CURSE:
     {
         fail_check();
-        auto iter = find_if(begin(you.inv), end(you.inv),
+        auto iter = find_if(begin(you.inv2), end(you.inv2),
                 [] (const item_def &it) -> bool
                 {
                     return it.defined()
                            && it.is_type(OBJ_SCROLLS, SCR_REMOVE_CURSE)
                            && check_warning_inscriptions(it, OPER_DESTROY);
                 });
-        if (iter != end(you.inv))
+        if (iter != end(you.inv2))
         {
             if (ashenzari_curse_item(iter->quantity))
-                dec_inv_item_quantity(iter - begin(you.inv), 1);
+                dec_inv_item_quantity(iter - begin(you.inv2), 1);
             else
                 return SPRET_ABORT;
         }
@@ -3033,13 +3033,13 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         simple_god_message(" will supercharge a wand or rod.");
         // included in default force_more_message
 
-        int item_slot = prompt_invent_item("Supercharge what?", MT_INVLIST,
+        int item_slot = prompt_invent_item(you.inv1, "Supercharge what?", MT_INVLIST,
                                            OSEL_SUPERCHARGE, true, true, false);
 
         if (item_slot == PROMPT_NOTHING || item_slot == PROMPT_ABORT)
             return SPRET_ABORT;
 
-        item_def& wand(you.inv[item_slot]);
+        item_def& wand(you.inv1[item_slot]);
 
         string prompt = "Do you wish to have " + wand.name(DESC_YOUR)
                            + " supercharged?";

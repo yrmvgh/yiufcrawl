@@ -664,7 +664,17 @@ static void _sdump_inventory(dump_params &par)
     int inv_class2[NUM_OBJECT_CLASSES] = { 0, };
     int inv_count = 0;
 
-    for (const auto &item : you.inv)
+    for (const auto &item : you.inv1)
+    {
+        if (item.defined())
+        {
+            // adds up number of each class in invent.
+            inv_class2[item.base_type]++;
+            inv_count++;
+        }
+    }
+
+    for (const auto &item : you.inv2)
     {
         if (item.defined())
         {
@@ -693,7 +703,30 @@ static void _sdump_inventory(dump_params &par)
             text += item_class_name(i);
             text += "\n";
 
-            for (const auto &item : you.inv)
+            for (const auto &item : you.inv1)
+            {
+                if (!item.defined() || item.base_type != i)
+                    continue;
+
+                text += " ";
+                text += item.name(DESC_INVENTORY_EQUIP);
+
+                inv_count--;
+
+                if (origin_describable(item) && _dump_item_origin(item))
+                    text += "\n" "   (" + origin_desc(item) + ")";
+
+                if (is_dumpable_artefact(item)
+                    || Options.dump_book_spells
+                       && item.base_type == OBJ_BOOKS)
+                {
+                    text += chardump_desc(item);
+                }
+                else
+                    text += "\n";
+            }
+
+            for (const auto &item : you.inv2)
             {
                 if (!item.defined() || item.base_type != i)
                     continue;

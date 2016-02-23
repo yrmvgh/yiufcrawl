@@ -1276,7 +1276,7 @@ static void _remove_equipment(const set<equipment_type>& removed,
 
 static void _unmeld_equipment_type(equipment_type e)
 {
-    item_def& item = you.inv[you.equip[e]];
+    item_def& item = you.inv1[you.equip[e]];
     bool force_remove = false;
 
     if (e == EQ_WEAPON)
@@ -2062,7 +2062,7 @@ void untransform(bool skip_move)
     {
         const int arm = you.equip[EQ_BOOTS];
 
-        if (arm != -1 && you.inv[arm].sub_type == ARM_BOOTS)
+        if (arm != -1 && you.inv1[arm].sub_type == ARM_BOOTS)
             remove_one_equip(EQ_BOOTS);
     }
 

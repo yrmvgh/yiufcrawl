@@ -748,7 +748,7 @@ void wizard_give_monster_item(monster* mon)
     if (prompt_failed(player_slot))
         return;
 
-    item_def &item = you.inv[player_slot];
+    item_def &item = you.inv1[player_slot];
 
     if (item_is_equipped(item))
     {

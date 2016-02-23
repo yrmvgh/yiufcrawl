@@ -622,12 +622,12 @@ static bool _selectively_remove_curse(const string &pre_msg)
             return used;
         }
 
-        int item_slot = prompt_invent_item("Uncurse which item?", MT_INVLIST,
+        int item_slot = prompt_invent_item(you.inv1, "Uncurse which item?", MT_INVLIST,
                                            OSEL_CURSED_WORN, true, true, false);
         if (prompt_failed(item_slot))
             return used;
 
-        item_def& item(you.inv[item_slot]);
+        item_def& item(you.inv1[item_slot]);
 
         if (!item.cursed()
             || !item_is_equipped(item)
@@ -710,14 +710,14 @@ static bool _selectively_curse_item(bool armour, const string &pre_msg)
 {
     while (1)
     {
-        int item_slot = prompt_invent_item("Curse which item?", MT_INVLIST,
+        int item_slot = prompt_invent_item(you.inv1, "Curse which item?", MT_INVLIST,
                                            armour ? OSEL_UNCURSED_WORN_ARMOUR
                                                   : OSEL_UNCURSED_WORN_JEWELLERY,
                                            true, true, false);
         if (prompt_failed(item_slot))
             return false;
 
-        item_def& item(you.inv[item_slot]);
+        item_def& item(you.inv1[item_slot]);
 
         if (item.cursed()
             || !item_is_equipped(item)
@@ -749,7 +749,7 @@ bool curse_item(bool armour, const string &pre_msg)
         min_type = EQ_LEFT_RING, max_type = EQ_RING_AMULET;
     for (int i = min_type; i <= max_type; i++)
     {
-        if (you.equip[i] != -1 && !you.inv[you.equip[i]].cursed())
+        if (you.equip[i] != -1 && !you.inv1[you.equip[i]].cursed())
             found = true;
     }
     if (!found)

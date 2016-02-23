@@ -179,8 +179,8 @@ void wizard_change_species_to(species_type sp)
             && you.equip[i] != -1)
         {
             mprf("%s fall%s away.",
-                 you.inv[you.equip[i]].name(DESC_YOUR).c_str(),
-                 you.inv[you.equip[i]].quantity > 1 ? "" : "s");
+                 you.inv1[you.equip[i]].name(DESC_YOUR).c_str(),
+                 you.inv1[you.equip[i]].quantity > 1 ? "" : "s");
             // Unwear items without the usual processing.
             you.equip[i] = -1;
             you.melded.set(i, false);

@@ -621,7 +621,7 @@ static void _wanderer_cover_equip_holes()
     {
         bool has_dagger = false;
 
-        for (const item_def& i : you.inv)
+        for (const item_def& i : you.inv1)
         {
             if (i.is_type(OBJ_WEAPONS, WPN_DAGGER))
             {

@@ -463,7 +463,7 @@ static bool _is_appropriate_evokable(const item_def& item,
 
 static bool _have_appropriate_evokable(const actor* target)
 {
-    return any_of(begin(you.inv), end(you.inv),
+    return any_of(begin(you.inv1), end(you.inv1),
                   [target] (const item_def &item) -> bool
                   {
                       return item.defined()
@@ -475,7 +475,7 @@ static item_def* _get_evokable_item(const actor* target)
 {
     vector<const item_def*> list;
 
-    for (const auto &item : you.inv)
+    for (const auto &item : you.inv1)
         if (item.defined() && _is_appropriate_evokable(item, target))
             list.push_back(&item);
 

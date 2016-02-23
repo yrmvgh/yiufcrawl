@@ -782,7 +782,7 @@ bool curse_an_item(bool ignore_holy_wrath)
     int count = 0;
     item_def *found = nullptr;
 
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
     {
         if (!item.defined())
             continue;
@@ -807,7 +807,10 @@ bool curse_an_item(bool ignore_holy_wrath)
 
 void auto_id_inventory()
 {
-    for (auto &item : you.inv)
+    for (auto &item : you.inv1)
+        if (item.defined())
+            god_id_item(item, false);
+    for (auto &item : you.inv2)
         if (item.defined())
             god_id_item(item, false);
 }
