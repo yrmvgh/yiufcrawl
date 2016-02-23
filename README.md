@@ -13,6 +13,19 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 
 ## Major modifications from the original DCSS
 
+* Summoning
+    * no summon caps. Instead, summoned creatures continuously drain mana from the summoner, until there is no longer mana to support them, and then they
+      disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
+      creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
+      before. 
+    * summons occasionally disappear even if you have enough mana to support them. 
+    * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
+
+* Inventory expansion
+    * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
+      evokables, etc. The 'I' command shows the consumables. Each can have 52 items. The drop command now requires one more step to specify which of the two
+      inventories you want to drop from. The adjust command '=' can now also be applied to the (c)onsumables. 
+
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed.
     * Djinni can no longer read scrolls of any kind, even though they can use spell books.
@@ -21,7 +34,6 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * Since they can't read identify scrolls, they can either identify items by using them (very dangerous for potentially cursed items), or wait and use the
       new insight mutation that they start with which, over time, randomly identifies attributes of items in their inventory. This mutation can also randomly be
       gained by other species as they drink mutation potions, etc.
-    * They have an extraordinary spell casting aptitude to help balance their dramatic negatives
     * They have a poor species stealth modifier, because of the fact that they emit light, it's hard for them to hide in the shadows.
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
       than normal.
@@ -95,14 +107,6 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 * Spell casting
     * no more spell caps... now even basic spells can continue to grow in power late in the game. 
     * the effect of spell casting skill on spell success and power has been increased.
-
-* Summoning
-    * no summon caps. Instead, summoned creatures continuously drain mana from the summoner, until there is no longer mana to support them, and then they
-      disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
-      creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
-      before. 
-    * summons occasionally disappear even if you have enough mana to support them. 
-    * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
 
 * Potions and wands of heal wounds
     * now fully heal the target
