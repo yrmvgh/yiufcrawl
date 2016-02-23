@@ -1169,7 +1169,7 @@ static unsigned char _invent_select(FixedVector< item_def, ENDOFPACK > &inv,
     return menu.getkey();
 }
 
-void display_inventory(FixedVector< item_def, ENDOFPACK > &inv)
+void display_inventory(FixedVector< item_def, ENDOFPACK > &inv, const char* title)
 {
     int flags = MF_SINGLESELECT;
     if (you.dead || crawl_state.updating_scores)
@@ -1178,7 +1178,7 @@ void display_inventory(FixedVector< item_def, ENDOFPACK > &inv)
     while (true)
     {
         unsigned char select =
-            _invent_select(inv, nullptr, MT_INVLIST, OSEL_ANY, -1, flags);
+            _invent_select(inv, title, MT_INVLIST, OSEL_ANY, -1, flags);
 
         if (isaalpha(select))
         {

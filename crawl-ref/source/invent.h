@@ -224,7 +224,7 @@ vector<SelItem> prompt_invent_items(
                         Menu::selitem_tfn fn = nullptr,
                         const vector<SelItem> *pre_select = nullptr);
 
-void display_inventory(FixedVector< item_def, ENDOFPACK > &inv);
+void display_inventory(FixedVector< item_def, ENDOFPACK > &inv, const char* title = nullptr);
 
 bool in_inventory(const item_def &i);
 bool identify_inventory();
