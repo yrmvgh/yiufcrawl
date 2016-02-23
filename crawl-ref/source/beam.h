@@ -340,4 +340,5 @@ void bolt_parent_init(const bolt &parent, bolt &child);
 int explosion_noise(int rad);
 
 bool shoot_through_monster(const bolt& beam, const monster* victim);
+bool dazzle_monster(monster* mons, actor* act);
 #endif

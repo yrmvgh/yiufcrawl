@@ -2197,4 +2197,18 @@ static const mutation_def mut_data[] =
 
    "an insightful mind",
 },
+
+{ MUT_GLOW, 4, 3, mutflag::BAD, false,
+  "glowing",
+
+  {"You emit light, making it easier for others to see you and hit you.",
+		  "You emit a bright light, making it easier for others to see you and hit you.",
+		  "You emit a blinding light, making it easier for others to see you and hit you, but also occasionally blinding them"},
+  {"You begin to glow.",
+		  "You glow brighter.",
+		  "You glow brighter."},
+  {"You stop glowing.", "You emit less light.", "You emit less light."},
+
+   "a glow that surrounds you",
+},
 };

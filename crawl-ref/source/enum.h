@@ -3795,6 +3795,7 @@ enum mutation_type
     MUT_STURDY_FRAME,
 #endif
 	MUT_INSIGHT,
+	MUT_GLOW,
     NUM_MUTATIONS,
 
     RANDOM_MUTATION,

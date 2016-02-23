@@ -785,12 +785,17 @@ static const map<species_type, species_def> species_data =
     8, 8, 8, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
     {
+    		{ MUT_COLD_VULNERABILITY, 1, 1 },
     		{ MUT_INSIGHT, 1, 1 },
+    		{ MUT_GLOW, 1, 4 },
     		{ MUT_INSIGHT, 1, 5 },
+    		{ MUT_GLOW, 1, 8 },
     		{ MUT_INSIGHT, 1, 10 },
+    		{ MUT_GLOW, 1, 12 },
     },
     { "You are healed by all types of fire, even holy and hellish.",
-      "You are vulnerable to cold.",
+      "Unarmed attacks will do fire damage.",
+      "Cold and water do twice as much damage to you.",
       "You need no food.",
       "You have no legs." },
     { "fire healing", "cold vulnerability" },

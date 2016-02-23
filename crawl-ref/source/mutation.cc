@@ -150,6 +150,7 @@ static const int conflict[][3] =
     { MUT_COLD_RESISTANCE,     MUT_COLD_VULNERABILITY,    -1},
     { MUT_SHOCK_RESISTANCE,    MUT_SHOCK_VULNERABILITY,   -1},
     { MUT_MAGIC_RESISTANCE,    MUT_MAGICAL_VULNERABILITY, -1},
+    { MUT_CAMOUFLAGE,    	   MUT_GLOW, 				  -1},
 };
 
 equipment_type beastly_slot(int mut)

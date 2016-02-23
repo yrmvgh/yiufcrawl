@@ -27,20 +27,25 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       inventories you want to drop from. The adjust command '=' can now also be applied to the (c)onsumables. 
 
 * Djinni brought back from the dead and greatly enhanced.
-    * Unusual contamination mechanism that they originally had has been removed.
+    * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
+      normal consequence.
     * Djinni can no longer read scrolls of any kind, even though they can use spell books.
     * Since they can't read remove curse scrolls, cursed items are a much bigger deal for them. To mitigate this a little, they have a remove curse ability that
       costs one permanent MP.
     * Since they can't read identify scrolls, they can either identify items by using them (very dangerous for potentially cursed items), or wait and use the
       new insight mutation that they start with which, over time, randomly identifies attributes of items in their inventory. This mutation can also randomly be
       gained by other species as they drink mutation potions, etc.
-    * They have a poor species stealth modifier, because of the fact that they emit light, it's hard for them to hide in the shadows.
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?
+    * They have very low magic resistance.
+    * They have the glow mutation, which increases with experience, which reduces their stealth, and increases the chances of enemies hitting them. However,
+      at level 3, it also gives a chance to daze or blind enemies. 
     * Cold and water damage does double the resistable amount of damage, in addition to the penalties of having one level of cold vulnerability. A ring of ice
       would be very valuable here, reducing the cold damage done, as well as increasing the healing from fire damage. Unfortunately, there is no water
       resistance buff... muahahaha....
+    * Unarmed combat gets a fire brand. 
+    * Dithmenos rejects Dj of course
 
 * Mummies
     * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before

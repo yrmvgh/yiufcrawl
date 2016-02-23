@@ -1885,6 +1885,20 @@ void handle_monster_move(monster* mons)
         return;
     }
 
+    if (player_mutation_level(MUT_GLOW) >= 3)
+    {
+    	if(one_chance_in(10))
+    	{
+    		dazzle_monster(mons, &you);
+    	}
+    	else if(one_chance_in(5))
+    	{
+            const int daze_time = 5 * BASELINE_DELAY;
+            mons->add_ench(mon_enchant(ENCH_DAZED, 0, &you, daze_time));
+            simple_monster_message(mons, " is dazed by the your brightness.");
+    	}
+    }
+
     if (mons->has_ench(ENCH_DAZED) && one_chance_in(4))
     {
         simple_monster_message(mons, " is lost in a daze.");

@@ -4455,7 +4455,7 @@ void bolt::enchantment_affect_monster(monster* mon)
     extra_range_used += range_used_on_hit();
 }
 
-static bool _dazzle_monster(monster* mons, actor* act)
+bool dazzle_monster(monster* mons, actor* act)
 {
     if (!mons_can_be_dazzled(mons->type))
         return false;
@@ -4587,7 +4587,7 @@ void bolt::monster_post_hit(monster* mon, int dmg)
         _explosive_bolt_explode(this, mon->pos());
 
     if (origin_spell == SPELL_DAZZLING_SPRAY)
-        _dazzle_monster(mon, agent());
+        dazzle_monster(mon, agent());
     else if (origin_spell == SPELL_FLASH_FREEZE
              || name == "blast of ice"
              || origin_spell == SPELL_GLACIATE && !is_explosion)

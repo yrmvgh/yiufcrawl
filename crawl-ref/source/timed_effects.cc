@@ -948,10 +948,15 @@ static void _handle_insight(int time_delta)
     			inv = &(you.inv2);
     		}
 
-    		while(true)
-    	    {
-    			item_def& item((*inv)[random2((*inv).size())]);
+    		// random selection
+//    		while(true)
+//    	    {
+//    			item_def& item((*inv)[random2((*inv).size())]);
 
+    		// top to bottom
+    		// this give the player the option to move items to the top so that they are more likely to be identified first
+    		for(auto &item : *inv)
+    		{
     	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
     	        {
     	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();

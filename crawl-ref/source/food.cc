@@ -52,11 +52,6 @@ void make_hungry(int hunger_amount, bool suppress_msg,
     if (crawl_state.disables[DIS_HUNGER])
         return;
 
-    // Lich/tree form djinn don't get exempted from food costs: infinite
-    // healing from channeling would be just too good.
-//    if (you.species == SP_DJINNI && !magic)
-//        return;
-
     if (you_foodless())
         return;
 
@@ -67,14 +62,6 @@ void make_hungry(int hunger_amount, bool suppress_msg,
         return;
 
     you.hunger -= hunger_amount;
-
-//    if (you.species == SP_DJINNI) {
-//        if (you.hunger < 1000)
-//            you.hunger = 1000;
-//    } else {
-//        if (you.hunger < 0)
-//            you.hunger = 0;
-//    }
 
     // So we don't get two messages, ever.
     bool state_message = food_change();
@@ -137,17 +124,12 @@ void set_hunger(int new_hunger_level, bool suppress_msg)
 
 bool you_foodless(bool can_eat)
 {
-    return you.undead_state() == US_UNDEAD
-        || you.species == SP_DJINNI
-		&& !can_eat
-        ;
+    return you.undead_state() == US_UNDEAD;
 }
 
 bool you_foodless_normally()
 {
-    return you.undead_state(false) == US_UNDEAD
-        || you.species == SP_DJINNI
-        ;
+    return you.undead_state(false) == US_UNDEAD;
 }
 
 bool prompt_eat_inventory_item(int slot)
@@ -1190,11 +1172,6 @@ bool is_noxious(const item_def &food)
 // be eaten (respecting species and mutations set).
 bool is_inedible(const item_def &item)
 {
-	// DJINNI can eat anything.
-//	if (you.species == SP_DJINNI) {
-//		return false;
-//	}
-
     // Mummies and liches don't eat.
     if (you_foodless(true))
         return true;
@@ -1233,10 +1210,6 @@ bool is_inedible(const item_def &item)
 // still be edible or even delicious.
 bool is_preferred_food(const item_def &food)
 {
-//	if (you.species == SP_DJINNI) {
-//		return true;
-//	}
-
     // Mummies and liches don't eat.
     if (you_foodless(true))
         return false;
@@ -1295,9 +1268,6 @@ bool is_forbidden_food(const item_def &food)
  */
 bool can_eat(const item_def &food, bool suppress_msg, bool check_hunger)
 {
-//	if(you.species == SP_DJINNI) {
-//		return true;
-//	}
 #define FAIL(msg) { if (!suppress_msg) mpr(msg); return false; }
     ASSERT(food.base_type == OBJ_FOOD || food.base_type == OBJ_CORPSES);
 

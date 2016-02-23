@@ -234,6 +234,9 @@ brand_type player::damage_brand(int)
     if (duration[DUR_CONFUSING_TOUCH])
         return SPWPN_CONFUSE;
 
+    if (you.species == SP_DJINNI)
+    	return SPWPN_FLAMING;
+
     return get_form()->get_uc_brand();
 }
 

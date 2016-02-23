@@ -1520,9 +1520,6 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
             rc++;
     }
 
-    // species:
-    if (you.species == SP_DJINNI)
-        rc--;
     // mutations:
     rc += player_mutation_level(MUT_COLD_RESISTANCE, temp);
     rc -= player_mutation_level(MUT_COLD_VULNERABILITY, temp);
@@ -2266,8 +2263,8 @@ static int _player_evasion_bonuses(ev_ignore_type evit)
     evbonus += max(0, player_mutation_level(MUT_GELATINOUS_BODY) - 1);
 
     // transformation penalties/bonuses not covered by size alone:
-    if (player_mutation_level(MUT_SLOW_REFLEXES))
-        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3;
+    if (player_mutation_level(MUT_SLOW_REFLEXES) || player_mutation_level(MUT_GLOW))
+        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3 + player_mutation_level(MUT_GLOW) * 2 ;
 
     return evbonus;
 }
@@ -3277,6 +3274,14 @@ int check_stealth()
     stealth += STEALTH_PIP * player_mutation_level(MUT_NIGHTSTALKER);
     stealth += (STEALTH_PIP / 2)
                 * player_mutation_level(MUT_THIN_SKELETAL_STRUCTURE);
+
+    if (player_mutation_level(MUT_GLOW) > 0)
+    	stealth -= STEALTH_PIP / 2;
+    if (player_mutation_level(MUT_GLOW) > 0)
+    	stealth -= STEALTH_PIP;
+    if (player_mutation_level(MUT_GLOW) > 0)
+    	stealth -= STEALTH_PIP * 2;
+
     stealth += STEALTH_PIP * player_mutation_level(MUT_CAMOUFLAGE);
     const int how_transparent = player_mutation_level(MUT_TRANSLUCENT_SKIN);
     if (how_transparent)
