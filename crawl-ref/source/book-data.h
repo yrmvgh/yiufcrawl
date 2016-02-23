@@ -23,9 +23,6 @@ static const vector<spell_type> spellbook_templates[] =
 
 {   // Book of Flames
     SPELL_FLAME_TONGUE,
-#if TAG_MAJOR_VERSION == 34
-    SPELL_THROW_FLAME,
-#endif
     SPELL_CONJURE_FLAME,
     SPELL_INNER_FLAME,
     SPELL_STICKY_FLAME,
