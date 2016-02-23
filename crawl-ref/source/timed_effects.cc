@@ -941,16 +941,16 @@ static void _handle_insight(int time_delta)
     		bool success = false;
     		int attempt = 0;
 
-    		FixedVector< item_def, ENDOFPACK > inv;
+    		FixedVector< item_def, ENDOFPACK > *inv;
     		if(coinflip()) {
-    			inv = you.inv1;
+    			inv = &(you.inv1);
     		} else {
-    			inv = you.inv2;
+    			inv = &(you.inv2);
     		}
 
     		while(true)
     	    {
-    			item_def& item(inv[random2(inv.size())]);
+    			item_def& item((*inv)[random2((*inv).size())]);
 
     	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
     	        {
