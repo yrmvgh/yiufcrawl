@@ -1318,7 +1318,7 @@ static const struct spell_desc spelldata[] =
     SPFLAG_DIR_OR_TARGET | SPFLAG_NOT_SELF | SPFLAG_NEEDS_TRACER,
     1,
     40, // cap for range; damage cap is at 25
-    2, 2,
+    2, 5,
     1, 0,
     nullptr,
 },
