@@ -1114,6 +1114,7 @@ static bool _cmd_is_repeatable(command_type cmd, bool is_again = false)
     case CMD_CHARACTER_DUMP:
     case CMD_DISPLAY_COMMANDS:
     case CMD_DISPLAY_INVENTORY:
+    case CMD_DISPLAY_CONSUMABLES:
     case CMD_DISPLAY_KNOWN_OBJECTS:
     case CMD_DISPLAY_MUTATIONS:
     case CMD_DISPLAY_SKILLS:
@@ -2183,6 +2184,7 @@ void process_command(command_type cmd)
     case CMD_DISPLAY_CHARACTER_STATUS: display_char_status();          break;
     case CMD_DISPLAY_COMMANDS:         list_commands(0, true);         break;
     case CMD_DISPLAY_INVENTORY:        display_inventory(you.inv1);    break;
+    case CMD_DISPLAY_CONSUMABLES:      display_inventory(you.inv2);    break;
     case CMD_DISPLAY_KNOWN_OBJECTS: check_item_knowledge(); redraw_screen(); break;
     case CMD_DISPLAY_MUTATIONS: display_mutations(); redraw_screen();  break;
     case CMD_DISPLAY_RUNES: display_runes(); redraw_screen();          break;

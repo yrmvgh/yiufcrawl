@@ -957,12 +957,12 @@ vector<SelItem> select_items(
     vector<SelItem> selected;
     if (!items.empty())
     {
-    	FixedVector< item_def, ENDOFPACK > inv;
+    	FixedVector< item_def, ENDOFPACK > *inv;
     	inv_from_item(inv, items[0]->base_type);
 
         InvMenu menu;
         menu.set_type(mtype);
-        menu.set_title(inv, title);
+        menu.set_title((*inv), title);
         if (mtype == MT_PICKUP)
             menu.set_tag("pickup");
 
@@ -2169,7 +2169,7 @@ bool is_consumable(object_class_type type)
 	return result;
 }
 
-void inv_from_item2(FixedVector< item_def, ENDOFPACK > *&inv, object_class_type type)
+void inv_from_item(FixedVector< item_def, ENDOFPACK > *&inv, object_class_type type)
 {
 	if(is_consumable(type)) {
 		inv = &you.inv2;
@@ -2178,16 +2178,7 @@ void inv_from_item2(FixedVector< item_def, ENDOFPACK > *&inv, object_class_type 
 	}
 }
 
-void inv_from_item(FixedVector< item_def, ENDOFPACK > &inv, object_class_type type)
-{
-	if(is_consumable(type)) {
-		inv = you.inv2;
-	} else {
-		inv = you.inv1;
-	}
-}
-
-bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > &inv, const char* prompt)
+bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > *&inv, const char* prompt)
 {
 	bool result = false;
 	while(true)
@@ -2197,13 +2188,13 @@ bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > &inv, const char* prompt
 
 	    if(keyin == 'i')
 	    {
-	    	inv = you.inv1;
+	    	inv = &you.inv1;
 	    	result = true;
 	    	break;
 	    }
 	    else if(keyin == 'c')
 	    {
-	    	inv = you.inv2;
+	    	inv = &you.inv2;
 	    	result = true;
 	    	break;
 	    }

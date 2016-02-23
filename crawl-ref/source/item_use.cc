@@ -2035,13 +2035,13 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
     int item_slot = -1;
     while (true)
     {
-    	FixedVector< item_def, ENDOFPACK > inv;
+    	FixedVector< item_def, ENDOFPACK > *inv;
     	inv_from_prompt(inv, "Do you want to identify");
 
         if (item_slot == -1)
         {
             item_slot = prompt_invent_item(
-            	inv,
+            		(*inv),
                 "Identify which item? (\\ to view known items)",
                 MT_INVLIST, OSEL_UNIDENT, true, true, false, 0,
                 -1, nullptr, OPER_ANY, true);
