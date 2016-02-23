@@ -38,6 +38,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?
+    * Cold and water damage does double the resistable amount of damage, in addition to the penalties of having one level of cold vulnerability. A ring of ice
+      would be very valuable here, reducing the cold damage done, as well as increasing the healing from fire damage. Unfortunately, there is no water
+      resistance buff... muahahaha....
 
 * Mummies
     * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before

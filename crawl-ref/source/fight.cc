@@ -517,8 +517,16 @@ int resist_adjust_damage(const actor* defender, beam_type flavour, int rawdamage
     else if (res < 0)
         resistible = resistible * 15 / 10;
 
-    if (!is_mon && you.species == SP_DJINNI && (flavour == BEAM_FIRE || flavour == BEAM_HELLFIRE || flavour == BEAM_LAVA || flavour == BEAM_STEAM || flavour == BEAM_STICKY_FLAME)) {
-    	resistible = -(resistible >> 3);
+    if (!is_mon && you.species == SP_DJINNI)
+    {
+    	if (flavour == BEAM_FIRE || flavour == BEAM_HELLFIRE || flavour == BEAM_LAVA || flavour == BEAM_STEAM || flavour == BEAM_STICKY_FLAME)
+		{
+        	resistible = -(resistible >> 3);
+    	}
+    	else if (flavour == BEAM_COLD || flavour == BEAM_WATER)
+    	{
+        	resistible = resistible << 1;
+    	}
     }
 
 //    return max(resistible + irresistible, 0);
