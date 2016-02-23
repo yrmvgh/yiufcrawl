@@ -163,14 +163,14 @@ static string _spell_wide_description(spell_type spell, bool viewing)
     desc << "<" << colour_to_str(highlight) << ">" << left;
 
     // spell name
-    desc << chop_string(spell_title(spell), 30);
+    desc << chop_string(spell_title(spell), 29);
 
     // spell power, spell range, hunger level, level
     const string rangestring = spell_range_string(spell);
 
     desc << chop_string(spell_power_string(spell), 11)
-         << chop_string(rangestring, 11 + tagged_string_tag_length(rangestring))
-         << chop_string(spell_hunger_string(spell), 9);
+         << chop_string(rangestring, 10 + tagged_string_tag_length(rangestring))
+         << chop_string(spell_hunger_string(spell), 8);
 
     desc << "</" << colour_to_str(highlight) <<">";
 
@@ -183,9 +183,9 @@ static string _spell_wide_description(spell_type spell, bool viewing)
     highlight = failure_rate_colour(spell);
     desc << "<" << colour_to_str(highlight) << ">";
     const string failure = failure_rate_to_string(raw_spell_fail(spell));
-    desc << chop_string(failure, 10);
+    desc << chop_string(failure, 5);
     desc << "</" << colour_to_str(highlight) << ">";
-    desc << chop_string(make_stringf("%d", spell_difficulty(spell)), 7);
+    desc << chop_string(make_stringf("%d", spell_difficulty(spell)), 6);
 
     // spell schools
     desc << spell_schools_string(spell);
@@ -346,7 +346,7 @@ int list_spells_wide(bool viewing, bool allow_preselect,
         // [enne] - Hack. Make title an item so that it's aligned.
         MenuEntry* me =
             new MenuEntry(
-                " " + titlestring + "         Power      Range      Hunger   Failure   Level  Type",
+                " " + titlestring + "        Power      Range     Hunger  Fail Level Type",
                 MEL_ITEM);
         me->colour = BLUE;
         spell_menu.add_entry(me);
@@ -354,7 +354,7 @@ int list_spells_wide(bool viewing, bool allow_preselect,
 #else
     spell_menu.set_title(
         new ToggleableMenuEntry(
-                " " + titlestring + "         Power      Range      Hunger   Failure   Level  Type",
+                " " + titlestring + "        Power      Range     Hunger  Fail Level Type",
             MEL_TITLE));
 #endif
     spell_menu.set_highlighter(nullptr);
