@@ -104,9 +104,11 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
 
-* Spell casting
+* Spells
     * no more spell caps... now even basic spells can continue to grow in power late in the game. 
     * the effect of spell casting skill on spell success and power has been increased.
+    * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that
+      void. Not much of a void, since I hardly used it anyway. Magma Bolt has been put in the Flames Book as a level 5 spell alongside Fireball. 
 
 * Potions and wands of heal wounds
     * now fully heal the target

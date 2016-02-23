@@ -27,6 +27,7 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_INNER_FLAME,
     SPELL_STICKY_FLAME,
     SPELL_FIREBALL,
+	SPELL_BOLT_OF_MAGMA,
 },
 
 {   // Book of Frost
