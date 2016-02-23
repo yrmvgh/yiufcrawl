@@ -41,7 +41,7 @@ void adjust()
 
 void adjust_item(FixedVector< item_def, ENDOFPACK > &inv, int from_slot)
 {
-    if (inv_count() < 1)
+    if (inv_count(inv) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return;

@@ -307,7 +307,7 @@ static bool _fire_choose_item_and_target(int& slot, dist& target,
 // On failure, returns error text, if any.
 static int _fire_prompt_for_item()
 {
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
         return -1;
 
     int slot = prompt_invent_item(you.inv1, "Fire/throw which item? (* to show all)",
@@ -476,7 +476,7 @@ void throw_item_no_quiver()
         return;
     }
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return;
@@ -934,7 +934,7 @@ bool throw_it(bolt &pbolt, int throw_2, dist *target)
             msg::stream << item.name(DESC_THE)
                         << " fails to return to your pack!" << endl;
         }
-        dec_inv_item_quantity(throw_2, 1);
+        dec_inv_item_quantity(you.inv1, throw_2, 1);
         if (unwielded)
             canned_msg(MSG_EMPTY_HANDED_NOW);
     }

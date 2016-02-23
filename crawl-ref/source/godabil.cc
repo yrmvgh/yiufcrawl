@@ -2976,7 +2976,7 @@ static void _decrease_amount(vector<pair<int, int> >& available, int amount)
     {
         const int decrease_amount = min(avail.first, amount);
         amount -= decrease_amount;
-        dec_inv_item_quantity(avail.second, decrease_amount);
+        dec_inv_item_quantity(you.inv2, avail.second, decrease_amount);
     }
     if (total_decrease > 1)
         mprf("%d pieces of fruit are consumed!", total_decrease);
@@ -6399,7 +6399,7 @@ bool pakellas_check_quick_charge(bool quiet)
     if (!enough_mp(1, quiet))
         return false;
 
-    if (!any_items_of_type(OSEL_RECHARGE))
+    if (!any_items_of_type(you.inv1, OSEL_RECHARGE))
     {
         if (!quiet)
             mpr(no_selectables_message(OSEL_RECHARGE));

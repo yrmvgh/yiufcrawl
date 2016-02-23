@@ -156,7 +156,7 @@ bool prompt_eat_inventory_item(int slot)
     if (you.species == SP_VAMPIRE)
         return false;
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv2) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return false;
@@ -450,7 +450,7 @@ bool eat_item(item_def &food)
     if (is_perishable_stack(food)) // chunks
         remove_oldest_perishable_item(food);
     if (in_inventory(food))
-        dec_inv_item_quantity(link, 1);
+        dec_inv_item_quantity(you.inv2, link, 1);
     else
         dec_mitm_item_quantity(link, 1);
 

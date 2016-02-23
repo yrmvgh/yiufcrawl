@@ -210,7 +210,7 @@ bool wield_weapon(bool auto_wield, int slot, bool show_weff_messages,
                   bool force, bool show_unwield_msg, bool show_wield_msg,
                   bool adjust_time_taken)
 {
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return false;
@@ -385,7 +385,7 @@ bool armour_prompt(const string & mesg, int *index, operation_types oper)
 {
     ASSERT(index != nullptr);
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
         canned_msg(MSG_NOTHING_CARRIED);
     else if (you.berserk())
         canned_msg(MSG_TOO_BERSERK);
@@ -1459,7 +1459,7 @@ bool puton_ring(int slot, bool allow_prompt)
 {
     int item_slot;
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return false;
@@ -1624,7 +1624,7 @@ bool remove_ring(int slot, bool announce)
 
 void prompt_inscribe_item(FixedVector< item_def, ENDOFPACK > &inv)
 {
-    if (inv_count() < 1)
+    if (inv_count(inv) < 1)
     {
         mpr("You don't have anything to inscribe.");
         return;
@@ -1669,7 +1669,7 @@ void drink(int slot)
         return;
     }
 
-    if (inv_count() == 0)
+    if (inv_count(you.inv2) == 0)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         _vampire_corpse_help();
@@ -1755,7 +1755,7 @@ void drink(int slot)
         // Always drink oldest potion.
         remove_oldest_perishable_item(potion);
     }
-    dec_inv_item_quantity(slot, 1);
+    dec_inv_item_quantity(you.inv2, slot, 1);
     count_action(CACT_USE, OBJ_POTIONS);
     auto_assign_item_slot(potion);
     you.turn_is_over = true;
@@ -2391,7 +2391,7 @@ bool player_can_read()
         return false;
     }
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv2) < 1 && inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return false;
@@ -2413,7 +2413,7 @@ bool player_can_read()
  */
 static string _no_items_reason(object_selector type)
 {
-    if (!any_items_of_type(type))
+    if (!any_items_of_type(you.inv1, type) && !any_items_of_type(you.inv2, type))
         return no_selectables_message(type);
     return "";
 }
@@ -2885,7 +2885,7 @@ void read_scroll(int item_slot)
 
     if (!cancel_scroll)
     {
-        dec_inv_item_quantity(item_slot, 1);
+        dec_inv_item_quantity(you.inv2, item_slot, 1);
         count_action(CACT_USE, OBJ_SCROLLS);
     }
 
@@ -2963,7 +2963,7 @@ void tile_item_drop(FixedVector< item_def, ENDOFPACK > &inv, int idx, bool partd
         if (quantity > inv[idx].quantity)
             quantity = inv[idx].quantity;
     }
-    drop_item(idx, quantity);
+    drop_item(inv, idx, quantity);
 }
 
 void tile_item_eat_floor(int idx)

@@ -477,11 +477,11 @@ static bool _make_book_randart(item_def &book)
 
 void wizard_value_artefact()
 {
-    int i = prompt_invent_item("Value of which artefact?", MT_INVLIST, -1);
+    int i = prompt_invent_item(you.inv1, "Value of which artefact?", MT_INVLIST, -1);
 
     if (!prompt_failed(i))
     {
-        const item_def& item(you.inv[i]);
+        const item_def& item(you.inv1[i]);
         if (!is_artefact(item))
             mpr("That item is not an artefact!");
         else
@@ -544,7 +544,7 @@ void wizard_create_all_artefacts()
 
 void wizard_make_object_randart()
 {
-    int i = prompt_invent_item("Make an artefact out of which item?",
+    int i = prompt_invent_item(you.inv1, "Make an artefact out of which item?",
                                 MT_INVLIST, -1);
 
     if (prompt_failed(i))

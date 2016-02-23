@@ -2326,20 +2326,20 @@ static bool _do_action(item_def &item, const vector<command_type>& actions, int 
 	redraw_screen();
     switch (action)
     {
-    case CMD_WIELD_WEAPON:     wield_weapon(true, slot);            break;
-    case CMD_UNWIELD_WEAPON:   wield_weapon(true, SLOT_BARE_HANDS); break;
-    case CMD_QUIVER_ITEM:      quiver_item(slot);                   break;
-    case CMD_WEAR_ARMOUR:      wear_armour(slot);                   break;
-    case CMD_REMOVE_ARMOUR:    takeoff_armour(slot);                break;
-    case CMD_EVOKE:            evoke_item(slot);                    break;
-    case CMD_EAT:              eat_food(slot);                      break;
-    case CMD_READ:             read(slot);                          break;
-    case CMD_WEAR_JEWELLERY:   puton_ring(slot);                    break;
-    case CMD_REMOVE_JEWELLERY: remove_ring(slot, true);             break;
-    case CMD_QUAFF:            drink(slot);                         break;
-    case CMD_DROP:             drop_item(slot, item.quantity);      break;
-    case CMD_INSCRIBE_ITEM:    inscribe_item(item);                 break;
-    case CMD_ADJUST_INVENTORY: adjust_item(inv, slot);                   break;
+    case CMD_WIELD_WEAPON:     wield_weapon(true, slot);            	break;
+    case CMD_UNWIELD_WEAPON:   wield_weapon(true, SLOT_BARE_HANDS); 	break;
+    case CMD_QUIVER_ITEM:      quiver_item(slot);                   	break;
+    case CMD_WEAR_ARMOUR:      wear_armour(slot);                   	break;
+    case CMD_REMOVE_ARMOUR:    takeoff_armour(slot);                	break;
+    case CMD_EVOKE:            evoke_item(slot);                    	break;
+    case CMD_EAT:              eat_food(slot);                      	break;
+    case CMD_READ:             read(slot);                          	break;
+    case CMD_WEAR_JEWELLERY:   puton_ring(slot);                    	break;
+    case CMD_REMOVE_JEWELLERY: remove_ring(slot, true);             	break;
+    case CMD_QUAFF:            drink(slot);                         	break;
+    case CMD_DROP:             drop_item(inv, slot, item.quantity);     break;
+    case CMD_INSCRIBE_ITEM:    inscribe_item(item);                 	break;
+    case CMD_ADJUST_INVENTORY: adjust_item(inv, slot);                  break;
     default:
         die("illegal inventory cmd %d", action);
     }

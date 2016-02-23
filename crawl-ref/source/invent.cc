@@ -334,14 +334,14 @@ void InvMenu::set_preselect(const vector<SelItem> *pre)
     pre_select = pre;
 }
 
-string slot_description()
+string slot_description(FixedVector< item_def, ENDOFPACK > &inv)
 {
-    return make_stringf("%d/%d slots", inv_count(), ENDOFPACK);
+    return make_stringf("%d/%d slots", inv_count(inv), ENDOFPACK);
 }
 
-void InvMenu::set_title(const string &s)
+void InvMenu::set_title(FixedVector< item_def, ENDOFPACK > &inv, const string &s)
 {
-    set_title(new InvTitle(this, s.empty() ? "Inventory: " + slot_description()
+    set_title(new InvTitle(this, s.empty() ? "Inventory: " + slot_description(inv)
                                            : s,
                            title_annotate));
 }
@@ -469,9 +469,9 @@ void InvMenu::load_inv_items(FixedVector< item_def, ENDOFPACK > &inv,
     load_items(tobeshown, procfn);
 
     if (!item_count())
-        set_title(no_selectables_message(item_selector));
+        set_title(inv, no_selectables_message(item_selector));
     else
-        set_title("");
+        set_title(inv, "");
 }
 
 #ifdef USE_TILE
@@ -957,9 +957,12 @@ vector<SelItem> select_items(
     vector<SelItem> selected;
     if (!items.empty())
     {
+    	FixedVector< item_def, ENDOFPACK > inv;
+    	inv_from_item(inv, items[0]->base_type);
+
         InvMenu menu;
         menu.set_type(mtype);
-        menu.set_title(title);
+        menu.set_title(inv, title);
         if (mtype == MT_PICKUP)
             menu.set_tag("pickup");
 
@@ -1156,7 +1159,7 @@ static unsigned char _invent_select(FixedVector< item_def, ENDOFPACK > &inv,
 
     // Don't override title if there are no items.
     if (title && menu.item_count())
-        menu.set_title(title);
+        menu.set_title(inv, title);
 
     menu.show(true);
 
@@ -1794,7 +1797,7 @@ int prompt_invent_item(FixedVector< item_def, ENDOFPACK > &inv,
                        bool allow_list_known,
                        bool do_warning)
 {
-    if (!any_items_of_type(type_expect, excluded_slot)
+    if (!any_items_of_type(inv, type_expect, excluded_slot)
         && type_expect == OSEL_THROWABLE
         && (oper == OPER_FIRE || oper == OPER_QUIVER)
         && mtype == MT_INVLIST)
@@ -1802,7 +1805,7 @@ int prompt_invent_item(FixedVector< item_def, ENDOFPACK > &inv,
         type_expect = OSEL_ANY;
     }
 
-    if (!any_items_of_type(type_expect, excluded_slot)
+    if (!any_items_of_type(inv, type_expect, excluded_slot)
         && type_expect != OSEL_WIELD)
     {
         mprf(MSGCH_PROMPT, "%s",
@@ -1821,7 +1824,7 @@ int prompt_invent_item(FixedVector< item_def, ENDOFPACK > &inv,
     {
         need_getch = false;
 
-        if (any_items_of_type(type_expect))
+        if (any_items_of_type(inv, type_expect))
             keyin = '?';
         else
             keyin = '*';
@@ -2125,10 +2128,18 @@ void list_charging_evokers(FixedVector<item_def*, NUM_MISCELLANY> &evokers)
     }
 }
 
-bool identify_inventory(FixedVector< item_def, ENDOFPACK > &inv)
+bool identify_inventory()
 {
 	bool changed = false;
-    for (auto &item : inv)
+    for (auto &item : you.inv1)
+    {
+        if (item.defined())
+        {
+            changed |= set_ident_type(item, true);
+            set_ident_flags(item, ISFLAG_IDENT_MASK);
+        }
+    }
+    for (auto &item : you.inv2)
     {
         if (item.defined())
         {

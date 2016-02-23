@@ -1,5 +1,5 @@
 #!/bin/bash
 
 #make -j4 DEBUG_DIAGNOSTICS=t TILES=t GAME="crawlDebug" SAVEDIR="/t/crawl/testSaves" debug
-make -j2 TILES=t GAME="crawlDebug" SAVEDIR="/t/crawl/testSaves" debug-lite
+make -j8 TILES=t GAME="crawlDebug" SAVEDIR="/t/crawl/testSaves" debug-lite
 

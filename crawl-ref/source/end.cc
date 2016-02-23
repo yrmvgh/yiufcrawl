@@ -347,7 +347,10 @@ NORETURN void end_game(scorefile_entry &se)
         more();
 
     if (!crawl_state.disables[DIS_CONFIRMATIONS])
-        display_inventory();
+    {
+        display_inventory(you.inv1);
+        display_inventory(you.inv2);
+    }
     textcolour(LIGHTGREY);
 
     clua.save_persist();

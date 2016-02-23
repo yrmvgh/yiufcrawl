@@ -1300,7 +1300,7 @@ ShopMenu::ShopMenu(shop_struct& _shop, const level_pos& _pos, bool _can_purchase
 
     update_help();
 
-    set_title("Welcome to " + shop_name(shop) + "! What would you "
+    set_title(you.inv1, "Welcome to " + shop_name(shop) + "! What would you "
               "like to do?");
 }
 

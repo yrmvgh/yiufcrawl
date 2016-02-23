@@ -6458,7 +6458,7 @@ item_def* monster::take_item(int steal_what, mon_inv_type mslot)
     equip(new_item, true);
 
     // Item is gone from player's inventory.
-    dec_inv_item_quantity(steal_what, new_item.quantity);
+    dec_inv_item_quantity(you.inv1, steal_what, new_item.quantity);
 
     return &new_item;
 }

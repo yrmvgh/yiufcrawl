@@ -86,7 +86,7 @@ static void _autoinscribe_item(item_def& item);
 static void _autoinscribe_floor_items();
 static void _autoinscribe_inventory();
 static void _multidrop(vector<SelItem> tmp_items);
-static bool _merge_items_into_inv(FixedVector< item_def, ENDOFPACK > &inv, item_def &it, int quant_got,
+static bool _merge_items_into_inv(item_def &it, int quant_got,
                                   int &inv_slot, bool quiet);
 
 static bool will_autopickup   = false;
@@ -906,7 +906,7 @@ void pickup_menu(int item_link)
     item_list_on_square(items, item_link);
     ASSERT(items.size());
 
-    string prompt = "Pick up what? " + slot_description()
+    string prompt = "Pick up what? " + slot_description(you.inv1)
 #ifdef TOUCH_UI
                   + " (<Enter> or tap header to pick up)"
 #else
@@ -1543,8 +1543,11 @@ static int _userdef_find_free_slot(const item_def &i)
 #endif
 }
 
-int find_free_slot(FixedVector< item_def, ENDOFPACK > &inv, const item_def &i)
+int find_free_slot(const item_def &i)
 {
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_item(inv, i.base_type);
+
 #define slotisfree(s) \
             ((s) >= 0 && (s) < ENDOFPACK && !inv[s].defined())
 
@@ -1674,7 +1677,7 @@ static bool _put_item_in_inv(item_def& it, int quant_got, bool quiet, bool& put_
     // attempt to put the item into your inventory.
     int inv_slot;
     FixedVector< item_def, ENDOFPACK > inv;
-    if (_merge_items_into_inv(inv, it, quant_got, inv_slot, quiet))
+    if (_merge_items_into_inv(it, quant_got, inv_slot, quiet))
     {
         put_in_inv = true;
         // if you succeeded, actually reduce the number in the original stack
@@ -1835,7 +1838,7 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
         }
 
         merge_item_stacks(it, inv[inv_slot], quant_got);
-        inc_inv_item_quantity(inv_slot, quant_got);
+        inc_inv_item_quantity(inv, inv_slot, quant_got);
         you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
@@ -2039,8 +2042,11 @@ static bool _merge_items_into_inv(item_def &it, int quant_got,
         return true;
     }
 
+    FixedVector< item_def, ENDOFPACK > inv;
+    inv_from_item(inv, it.base_type);
+
     // Can't combine, check for slot space.
-    if (inv_count() >= ENDOFPACK)
+    if (inv_count(inv) >= ENDOFPACK)
         return false;
 
     inv_slot = _place_item_in_free_slot(it, quant_got, quiet);
@@ -2469,7 +2475,7 @@ bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int qu
             remove_oldest_perishable_item(item);
     }
 
-    dec_inv_item_quantity(item_dropped, quant_drop);
+    dec_inv_item_quantity(inv, item_dropped, quant_drop);
     you.turn_is_over = true;
 
     you.last_pickup.erase(item_dropped);
@@ -2561,10 +2567,10 @@ vector<SelItem> items_for_multidrop;
 // Arrange items that have been selected for multidrop so that
 // equipped items are dropped after other items, and equipped items
 // are dropped in the same order as their EQ_ slots are numbered.
-static bool _drop_item_order(FixedVector< item_def, ENDOFPACK > &inv, const SelItem &first, const SelItem &second)
+static bool _drop_item_order(const SelItem &first, const SelItem &second)
 {
-    const item_def &i1 = inv[first.slot];
-    const item_def &i2 = inv[second.slot];
+    const item_def &i1 = you.inv1[first.slot];
+    const item_def &i2 = you.inv1[second.slot];
 
     const int slot1 = get_equip_slot(&i1),
               slot2 = get_equip_slot(&i2);
@@ -2584,16 +2590,17 @@ static bool _drop_item_order(FixedVector< item_def, ENDOFPACK > &inv, const SelI
  */
 void drop()
 {
-    if (inv_count() < 1 && you.gold == 0)
+	FixedVector< item_def, ENDOFPACK > inv;
+	inv_from_prompt(inv, "Do you want to drop");
+
+	if (inv_count(inv) < 1 && you.gold == 0)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return;
     }
-	FixedVector< item_def, ENDOFPACK > inv;
-	inv_from_prompt(inv, "Do you want to drop");
 
     vector<SelItem> tmp_items;
-    string prompt = "Drop what? " + slot_description()
+    string prompt = "Drop what? " + slot_description(inv)
 #ifdef TOUCH_UI
                   + " (<Enter> or tap header to drop)"
 #else
@@ -2656,7 +2663,7 @@ static void _multidrop(vector<SelItem> tmp_items)
 
     if (items_for_multidrop.size() == 1) // only one item
     {
-        drop_item(items_for_multidrop[0].slot, items_for_multidrop[0].quantity);
+        drop_item(you.inv1, items_for_multidrop[0].slot, items_for_multidrop[0].quantity);
         items_for_multidrop.clear();
     }
     else

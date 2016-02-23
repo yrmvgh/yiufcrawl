@@ -93,7 +93,7 @@ static void _lua_push_inv_items(lua_State *ls = nullptr)
         ls = clua.state();
     lua_newtable(ls);
     int index = 0;
-    for (item_def &item : you.inv)
+    for (item_def &item : you.inv1)
     {
         if (item.defined())
         {
@@ -239,7 +239,7 @@ static int l_item_do_drop(lua_State *ls)
         if (q >= 1 && q <= item->quantity)
             qty = q;
     }
-    lua_pushboolean(ls, drop_item(item->link, qty));
+    lua_pushboolean(ls, drop_item(you.inv1, item->link, qty));
     return 1;
 }
 
@@ -908,7 +908,7 @@ static int l_item_do_dec_quantity(lua_State *ls)
     bool destroyed = false;
 
     if (in_inventory(*item))
-        destroyed = dec_inv_item_quantity(item->link, quantity);
+        destroyed = dec_inv_item_quantity(you.inv1, item->link, quantity);
     else
         destroyed = dec_mitm_item_quantity(item->index(), quantity);
 
@@ -934,7 +934,7 @@ static int l_item_do_inc_quantity(lua_State *ls)
     int quantity = luaL_checkint(ls, 1);
 
     if (in_inventory(*item))
-        inc_inv_item_quantity(item->link, quantity);
+        inc_inv_item_quantity(you.inv1, item->link, quantity);
     else
         inc_mitm_item_quantity(item->index(), quantity);
 

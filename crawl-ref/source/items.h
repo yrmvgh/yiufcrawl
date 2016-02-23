@@ -32,10 +32,10 @@ enum item_source_type
 int get_max_subtype(object_class_type base_type);
 bool item_type_has_unidentified(object_class_type base_type);
 
-bool dec_inv_item_quantity(int obj, int amount);
+bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount);
 bool dec_mitm_item_quantity(int obj, int amount);
 
-void inc_inv_item_quantity(int obj, int amount);
+void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount);
 void inc_mitm_item_quantity(int obj, int amount);
 
 bool move_item_to_grid(int *const obj, const coord_def& p,
@@ -96,13 +96,13 @@ bool multiple_items_at(const coord_def& where);
 
 void drop();
 
-int inv_count();
+int inv_count(FixedVector< item_def, ENDOFPACK > &inv);
 int runes_in_pack();
 
 bool pickup_single_item(int link, int qty);
 
-bool drop_item(int item_dropped, int quant_drop);
-void drop_last();
+bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int quant_drop);
+void drop_last(FixedVector< item_def, ENDOFPACK > &inv);
 
 int          get_equip_slot(const item_def *item);
 mon_inv_type get_mon_equip_slot(const monster* mon, const item_def &item);

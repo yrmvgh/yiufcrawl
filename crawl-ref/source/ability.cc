@@ -2816,17 +2816,17 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_ASHENZARI_CURSE:
     {
         fail_check();
-        auto iter = find_if(begin(you.inv2), end(you.inv2),
+        auto iter = find_if(begin(you.inv1), end(you.inv1),
                 [] (const item_def &it) -> bool
                 {
                     return it.defined()
                            && it.is_type(OBJ_SCROLLS, SCR_REMOVE_CURSE)
                            && check_warning_inscriptions(it, OPER_DESTROY);
                 });
-        if (iter != end(you.inv2))
+        if (iter != end(you.inv1))
         {
             if (ashenzari_curse_item(iter->quantity))
-                dec_inv_item_quantity(iter - begin(you.inv2), 1);
+                dec_inv_item_quantity(you.inv1, iter - begin(you.inv2), 1);
             else
                 return SPRET_ABORT;
         }

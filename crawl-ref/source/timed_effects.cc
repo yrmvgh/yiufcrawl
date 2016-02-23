@@ -941,7 +941,7 @@ static void _handle_insight(int time_delta)
     		bool success = false;
     		int attempt = 0;
 
-    		FixedVector< item_def, ENDOFPACK > &inv;
+    		FixedVector< item_def, ENDOFPACK > inv;
     		if(coinflip()) {
     			inv = you.inv1;
     		} else {

@@ -936,7 +936,7 @@ bool forget_spell_from_book(spell_type spell, const item_def* book)
     {
         item_was_destroyed(*book);
         destroy_spellbook(*book);
-        dec_inv_item_quantity(book->link, 1);
+        dec_inv_item_quantity(you.inv1, book->link, 1);
         you.turn_is_over = true;
         return true;
     }

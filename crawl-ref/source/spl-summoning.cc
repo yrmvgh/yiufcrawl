@@ -192,7 +192,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
                                       MHITYOU, MG_AUTOFOE, god), false))
         {
             count++;
-            dec_inv_item_quantity(letter_to_index(stick->slot), 1);
+            dec_inv_item_quantity(you.inv1, letter_to_index(stick->slot), 1);
             snake->add_ench(mon_enchant(ENCH_FAKE_ABJURATION, dur));
         }
     }

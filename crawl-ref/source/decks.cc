@@ -604,7 +604,7 @@ static bool _check_buggy_deck(item_def& deck)
         if (deck.link == you.equip[EQ_WEAPON])
             unwield_item();
 
-        dec_inv_item_quantity(deck.link, 1);
+        dec_inv_item_quantity(you.inv1, deck.link, 1);
 
         return true;
     }
@@ -660,7 +660,7 @@ static bool _check_buggy_deck(item_def& deck)
         if (deck.link == you.equip[EQ_WEAPON])
             unwield_item();
 
-        dec_inv_item_quantity(deck.link, 1);
+        dec_inv_item_quantity(you.inv1, deck.link, 1);
 
         return true;
     }
@@ -862,7 +862,7 @@ bool deck_deal()
         if (slot == you.equip[EQ_WEAPON])
             unwield_item();
 
-        dec_inv_item_quantity(slot, 1);
+        dec_inv_item_quantity(you.inv1, slot, 1);
     }
 
     return true;
@@ -1211,7 +1211,7 @@ bool draw_three(int slot)
         if (slot == you.equip[EQ_WEAPON])
             unwield_item();
 
-        dec_inv_item_quantity(slot, 1);
+        dec_inv_item_quantity(you.inv1, slot, 1);
     }
 
     // Note that card_effect() might cause you to unwield the deck.
@@ -1336,7 +1336,7 @@ void evoke_deck(item_def& deck)
     if (deck_gone)
     {
         mpr(_empty_deck_msg(deck.deck_rarity));
-        dec_inv_item_quantity(deck.link, 1);
+        dec_inv_item_quantity(you.inv1, deck.link, 1);
     }
 
     card_effect(card, rarity, flags, false);

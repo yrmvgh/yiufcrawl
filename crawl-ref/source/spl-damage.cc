@@ -2387,7 +2387,7 @@ spret_type cast_sandblast(int pow, bolt &beam, bool fail)
     const spret_type ret = zapping(zap, pow, beam, true, nullptr, fail);
 
     if (ret == SPRET_SUCCESS && zap != ZAP_SMALL_SANDBLAST)
-        dec_inv_item_quantity(you.equip[EQ_WEAPON], 1);
+        dec_inv_item_quantity(you.inv1, you.equip[EQ_WEAPON], 1);
 
     return ret;
 }

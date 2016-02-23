@@ -291,7 +291,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
             else
             {
                 if (delay.parm1)
-                    dec_inv_item_quantity(delay.parm2, 1);
+                    dec_inv_item_quantity(you.inv2, delay.parm2, 1);
                 else
                     dec_mitm_item_quantity(delay.parm2, 1);
             }
@@ -738,7 +738,7 @@ void handle_delay()
             break;
 
         case DELAY_MULTIDROP:
-            if (!drop_item(items_for_multidrop[0].slot,
+            if (!drop_item(you.inv1, items_for_multidrop[0].slot,
                            items_for_multidrop[0].quantity))
             {
                 you.turn_is_over = false;
@@ -863,7 +863,7 @@ static void _finish_delay(const delay_queue_item &delay)
             else
             {
                 if (delay.parm1)
-                    dec_inv_item_quantity(delay.parm2, 1);
+                    dec_inv_item_quantity(you.inv2, delay.parm2, 1);
                 else
                     dec_mitm_item_quantity(delay.parm2, 1);
             }
@@ -980,7 +980,7 @@ static void _finish_delay(const delay_queue_item &delay)
         if (!you.inv1[delay.parm1].defined())
             break;
 
-        if (!drop_item(delay.parm1, delay.parm2))
+        if (!drop_item(you.inv1, delay.parm1, delay.parm2))
         {
             you.turn_is_over = false;
             you.time_taken = 0;

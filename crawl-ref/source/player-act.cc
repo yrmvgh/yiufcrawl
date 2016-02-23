@@ -224,9 +224,9 @@ brand_type player::damage_brand(int)
     const int wpn = equip[EQ_WEAPON];
     if (wpn != -1 && !melded[EQ_WEAPON])
     {
-        if (is_range_weapon(inv[wpn]))
+        if (is_range_weapon(inv1[wpn]))
             return SPWPN_NORMAL; // XXX: check !is_melee_weapon instead?
-        return get_weapon_brand(inv[wpn]);
+        return get_weapon_brand(inv1[wpn]);
     }
 
     // unarmed
@@ -322,7 +322,7 @@ item_def *player::slot_item(equipment_type eq, bool include_melded) const
     const int item = equip[eq];
     if (item == -1 || !include_melded && melded[eq])
         return nullptr;
-    return const_cast<item_def *>(&inv[item]);
+    return const_cast<item_def *>(&inv1[item]);
 }
 
 // Returns the item in the player's weapon slot.
@@ -349,7 +349,7 @@ bool player::can_wield(const item_def& item, bool ignore_curse,
 {
     if (equip[EQ_WEAPON] != -1 && !ignore_curse)
     {
-        if (inv[equip[EQ_WEAPON]].cursed())
+        if (inv1[equip[EQ_WEAPON]].cursed())
             return false;
     }
 

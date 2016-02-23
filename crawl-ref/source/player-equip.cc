@@ -359,7 +359,7 @@ static void _unequip_artefact_effect(item_def &item,
     if (proprt[ARTP_FRAGILE] && !meld)
     {
         mprf("%s crumbles to dust!", item.name(DESC_THE).c_str());
-        dec_inv_item_quantity(item.link, 1);
+        dec_inv_item_quantity(you.inv1, item.link, 1);
     }
 }
 

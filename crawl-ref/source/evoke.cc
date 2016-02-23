@@ -500,7 +500,7 @@ void zap_wand(int slot)
     beam.set_agent(&you);
     beam.source_name = "you";
 
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         return;
@@ -985,7 +985,7 @@ void finish_manual(int slot)
 
     mprf("You have finished your manual of %s and toss it away.",
          skill_name(skill));
-    dec_inv_item_quantity(slot, 1);
+    dec_inv_item_quantity(you.inv1, slot, 1);
 }
 
 void get_all_manual_charges(vector<int> &charges)
@@ -1071,7 +1071,7 @@ static bool _box_of_beasts(item_def &box)
     {
         mpr("...but the box appears empty, and falls apart.");
         ASSERT(in_inventory(box));
-        dec_inv_item_quantity(box.link, 1);
+        dec_inv_item_quantity(you.inv1, box.link, 1);
         return false;
     }
 
@@ -1134,7 +1134,7 @@ static bool _sack_of_spiders(item_def &sack)
     {
         mpr("...but the bag is empty, and unravels at your touch.");
         ASSERT(in_inventory(sack));
-        dec_inv_item_quantity(sack.link, 1);
+        dec_inv_item_quantity(you.inv1, sack.link, 1);
         return false;
     }
 
@@ -1228,7 +1228,7 @@ static bool _make_zig(item_def &zig)
     }
 
     ASSERT(in_inventory(zig));
-    dec_inv_item_quantity(zig.link, 1);
+    dec_inv_item_quantity(you.inv1, zig.link, 1);
     dungeon_terrain_changed(you.pos(), DNGN_ENTER_ZIGGURAT);
     mpr("You set the figurine down, and a mystic portal to a ziggurat forms.");
     return true;
@@ -2530,7 +2530,7 @@ bool evoke_item(int slot, bool check_range)
             mpr("QUAD DAMAGE!");
             you.duration[DUR_QUAD_DAMAGE] = 30 * BASELINE_DELAY;
             ASSERT(in_inventory(item));
-            dec_inv_item_quantity(item.link, 1);
+            dec_inv_item_quantity(you.inv1, item.link, 1);
             invalidate_agrid(true);
             break;
 
@@ -2543,7 +2543,7 @@ bool evoke_item(int slot, bool check_range)
 
                 case SPRET_SUCCESS:
                     ASSERT(in_inventory(item));
-                    dec_inv_item_quantity(item.link, 1);
+                    dec_inv_item_quantity(you.inv1, item.link, 1);
                     // deliberate fall-through
                 case SPRET_FAIL:
                     pract = 1;

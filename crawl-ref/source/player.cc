@@ -3791,19 +3791,19 @@ int player::scan_artefacts(artefact_prop_type which_property,
         const int eq = equip[i];
 
         // Only weapons give their effects when in our hands.
-        if (i == EQ_WEAPON && inv[ eq ].base_type != OBJ_WEAPONS)
+        if (i == EQ_WEAPON && inv1[ eq ].base_type != OBJ_WEAPONS)
             continue;
 
-        if (!is_artefact(inv[ eq ]))
+        if (!is_artefact(inv1[ eq ]))
             continue;
 
         bool known;
-        int val = artefact_property(inv[eq], which_property, known);
+        int val = artefact_property(inv1[eq], which_property, known);
         if (calc_unid || known)
         {
             retval += val;
             if (matches && val)
-                matches->push_back(inv[eq]);
+                matches->push_back(inv1[eq]);
         }
     }
 
@@ -5220,7 +5220,9 @@ player::player()
     symbol          = MONS_PLAYER;
     form            = TRAN_NONE;
 
-    for (auto &item : inv)
+    for (auto &item : inv1)
+        item.clear();
+    for (auto &item : inv2)
         item.clear();
     runes.reset();
     obtainable_runes = 15;
@@ -6035,7 +6037,7 @@ int player::armour_class(bool /*calc_unid*/) const
         if (!slot_item(static_cast<equipment_type>(eq)))
             continue;
 
-        const item_def& item = inv[equip[eq]];
+        const item_def& item = inv1[equip[eq]];
         AC += base_ac_from(item, 100);
         AC += item.plus * 100;
     }

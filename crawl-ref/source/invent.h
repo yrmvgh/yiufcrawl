@@ -144,7 +144,7 @@ public:
 
     // Not an override, but an overload. Not virtual!
     void set_title(MenuEntry *title, bool first = true);
-    void set_title(const string &s);
+    void set_title(FixedVector< item_def, ENDOFPACK > &inv, const string &s);
 
     // Loads items into the menu. If "procfn" is provided, it'll be called
     // for each MenuEntry added.
@@ -185,10 +185,10 @@ protected:
 void get_class_hotkeys(const int type, vector<char> &glyphs);
 
 bool item_is_selected(const item_def &item, int selector);
-bool any_items_of_type(int type_expect, int excluded_slot = -1);
+bool any_items_of_type(FixedVector< item_def, ENDOFPACK > &inv, int type_expect, int excluded_slot = -1);
 string no_selectables_message(int item_selector);
 
-string slot_description();
+string slot_description(FixedVector< item_def, ENDOFPACK > &inv);
 
 int prompt_invent_item(
 					   FixedVector< item_def, ENDOFPACK > &inv,
@@ -224,7 +224,7 @@ vector<SelItem> prompt_invent_items(
                         Menu::selitem_tfn fn = nullptr,
                         const vector<SelItem> *pre_select = nullptr);
 
-void display_inventory();
+void display_inventory(FixedVector< item_def, ENDOFPACK > &inv);
 
 bool in_inventory(const item_def &i);
 bool identify_inventory();

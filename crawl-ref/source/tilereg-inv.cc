@@ -172,11 +172,11 @@ int InventoryRegion::handle_mouse(MouseEvent &event)
         else
         {
             if (event.mod & MOD_SHIFT)
-                tile_item_drop(idx, (event.mod & MOD_CTRL));
+                tile_item_drop(you.inv1, idx, (event.mod & MOD_CTRL));
             else if (event.mod & MOD_CTRL)
                 tile_item_use_secondary(idx);
             else
-                tile_item_use(idx);
+                tile_item_use(you.inv1, idx);
         }
         return CK_MOUSE_CMD;
     }
@@ -635,7 +635,7 @@ void InventoryRegion::draw_tag()
 
 void InventoryRegion::activate()
 {
-    if (inv_count() < 1)
+    if (inv_count(you.inv1) < 1)
     {
         canned_msg(MSG_NOTHING_CARRIED);
         flush_prev_message();
@@ -758,7 +758,7 @@ void InventoryRegion::update()
             }
 
             InventoryTile desc;
-            _fill_item_info(desc, get_item_info(you.inv[i]));
+            _fill_item_info(desc, get_item_info(you.inv2[i]));
             desc.idx = i;
 
             for (int eq = 0; eq < NUM_EQUIP; ++eq)

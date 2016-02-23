@@ -2155,7 +2155,7 @@ void process_command(command_type cmd)
         break;
 
     case CMD_DROP_LAST:
-        drop_last();
+        drop_last(you.inv1);
         break;
 
     case CMD_EVOKE:
@@ -2182,14 +2182,14 @@ void process_command(command_type cmd)
         // Informational commands.
     case CMD_DISPLAY_CHARACTER_STATUS: display_char_status();          break;
     case CMD_DISPLAY_COMMANDS:         list_commands(0, true);         break;
-    case CMD_DISPLAY_INVENTORY:        display_inventory();            break;
+    case CMD_DISPLAY_INVENTORY:        display_inventory(you.inv1);    break;
     case CMD_DISPLAY_KNOWN_OBJECTS: check_item_knowledge(); redraw_screen(); break;
     case CMD_DISPLAY_MUTATIONS: display_mutations(); redraw_screen();  break;
     case CMD_DISPLAY_RUNES: display_runes(); redraw_screen();          break;
     case CMD_DISPLAY_SKILLS:           skill_menu(); redraw_screen();  break;
     case CMD_EXPERIENCE_CHECK:         _experience_check();            break;
     case CMD_FULL_VIEW:                full_describe_view();           break;
-    case CMD_INSCRIBE_ITEM:            prompt_inscribe_item();         break;
+    case CMD_INSCRIBE_ITEM:            prompt_inscribe_item(you.inv1); break;
     case CMD_LIST_ARMOUR:              list_armour();                  break;
     case CMD_LIST_GOLD:                _do_list_gold();                break;
     case CMD_LIST_JEWELLERY:           list_jewellery();               break;

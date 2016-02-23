@@ -290,7 +290,7 @@ static int _rot_stack(item_def &it, int slot, bool in_inv)
 
     bool all_gone;
     if (in_inv)
-        all_gone = dec_inv_item_quantity(slot, destroyed_count);
+        all_gone = dec_inv_item_quantity(you.inv2, slot, destroyed_count);
     else
         all_gone = dec_mitm_item_quantity(slot, destroyed_count);
 

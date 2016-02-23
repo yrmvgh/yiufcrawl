@@ -2342,7 +2342,7 @@ protected:
         if (resetting)
         {
             //return the menu title to its previous text.
-            set_title(temp_title);
+            set_title(you.inv1, temp_title);
             update_title();
             num = -2;
 
@@ -2379,7 +2379,7 @@ protected:
             {
                 lastch = CONTROL('D');
                 temp_title = title->text;
-                set_title("Select to reset item to default: ");
+                set_title(you.inv1, "Select to reset item to default: ");
                 update_title();
             }
 
@@ -2694,7 +2694,7 @@ void check_item_knowledge(bool unknown_items)
         ml = menu.load_items_seq(items_other, known_item_mangle, ml);
     }
 
-    menu.set_title(stitle);
+    menu.set_title(you.inv1, stitle);
     menu.show(true);
 
     auto last_char = menu.getkey();
@@ -2770,7 +2770,7 @@ void display_runes()
 
     InvMenu menu(MF_NOSELECT | MF_ALLOW_FORMATTING);
 
-    menu.set_title(title);
+    menu.set_title(you.inv1, title);
 
     vector<item_def> items;
 
