@@ -2544,6 +2544,8 @@ enum monster_type                      // menv[].type
     MONS_HOUND,
 #if TAG_MAJOR_VERSION == 34
     MONS_WAR_DOG,
+#else
+    MONS_HOWLER_MONKEY,
 #endif
     MONS_WOLF,
     MONS_WARG,
@@ -3491,6 +3493,7 @@ enum monster_type                      // menv[].type
     MONS_DEMONIC_PLANT,
     MONS_WITHERED_PLANT,
     MONS_DART_SLUG,
+    MONS_HOWLER_MONKEY,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -4580,7 +4583,7 @@ enum spell_type
     SPELL_FLAMING_CLOUD,
     SPELL_THROW_BARBS,
     SPELL_BATTLECRY,
-    SPELL_SIGNAL_HORN,
+    SPELL_WARNING_CRY,
     SPELL_SEAL_DOORS,
     SPELL_FLAY,
     SPELL_BERSERK_OTHER,

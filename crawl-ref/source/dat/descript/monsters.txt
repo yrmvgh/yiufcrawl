@@ -905,7 +905,7 @@ dismissing magic as a frivolous distraction.
 deep elf sorcerer
 
 A mighty spellcaster who draws power from the very Hells, and possesses lethal
-arcane abilities of destruction, summoning and banishment.
+arcane abilities.
 %%%%
 deep dwarf
 
@@ -1423,6 +1423,11 @@ hound
 
 A fearsome hunting dog, lithe and alert. Its master must be long gone, for it
 looks dishevelled, and has a lean and hungry look.
+%%%%
+howler monkey
+
+An aggressively territorial primate, known for the astonishing variety &
+volume of noise it can produce.
 %%%%
 # Stolen from http://rustyandco.com/frequently-asked-questions/monster-guide/
 human
