@@ -642,6 +642,7 @@ static string _resolve_dir(const char* path, const char* suffix)
 {
     return catpath(path, "");
 }
+
 #else
 
 static string _user_home_dir()
@@ -673,6 +674,7 @@ static string _resolve_dir(const char* path, const char* suffix)
     else
         return _user_home_subpath(catpath(path + 1, suffix));
 }
+
 #endif
 
 void game_options::reset_options()
@@ -713,6 +715,7 @@ void game_options::reset_options()
     }
 #endif
 
+#if !defined(DGAMELAUNCH)
 #if defined(TARGET_OS_MACOSX)
     UNUSED(_resolve_dir);
     const string tmp_path_base =
@@ -724,6 +727,7 @@ void game_options::reset_options()
 #else
     save_dir   = _resolve_dir(SysEnv.crawl_dir.c_str(), "saves/");
     morgue_dir = _resolve_dir(SysEnv.crawl_dir.c_str(), "morgue/");
+#endif
 #endif
 
 #if defined(SHARED_DIR_PATH)
