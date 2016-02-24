@@ -1751,7 +1751,7 @@ string hepliaklqana_ally_name()
  */
 static int _hepliaklqana_ally_hd()
 {
-    if (crawl_state.game_is_arena())
+    if (!crawl_state.need_save) // on main menu or otherwise don't have 'you'
         return 27; // v0v
     // round up
     return (you.experience_level - 1) * 2 / 3 + 1;

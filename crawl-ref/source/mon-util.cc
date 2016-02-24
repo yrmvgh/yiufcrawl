@@ -357,6 +357,9 @@ static resists_t _beast_facet_resists(beast_facet facet)
 static resists_t _hepliaklqana_ancestor_resists(int HD)
 {
     resists_t resists = MR_NO_FLAGS;
+    if (!crawl_state.need_save) // on main menu or otherwise don't have 'you'
+        return resists;
+
     if (HD >= you.props[HEPLIAKLQANA_RESIST_FIRE_KEY].get_int())
         resists |= MR_RES_FIRE;
     if (HD >= you.props[HEPLIAKLQANA_RESIST_COLD_KEY].get_int())
