@@ -17,6 +17,7 @@ tmp/
 .dir-locals.el
 crawlLocal
 crawlDebug
+crawlWeb
 .DS_Store
 README.html
 buildDebug

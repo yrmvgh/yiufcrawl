@@ -353,7 +353,7 @@ int list_spells_wide(bool viewing, bool allow_preselect,
     }
 #else
     spell_menu.set_title(
-        new ToggleableMenuEntry(
+        new MenuEntry(
                 " " + titlestring + "        Power      Range     Hunger  Fail Level Type",
             MEL_TITLE));
 #endif
