@@ -2331,7 +2331,7 @@ string spell_power_string(spell_type spell, bool rod)
         return _wizard_spell_power_numeric_string(spell, rod);
 #endif
 
-    const int numbars = _spell_power_bars(spell, rod);
+    const int numbars = max(1, _spell_power_bars(spell, rod));
     const int capbars = power_to_barcount(spell_power_cap(spell));
     ASSERT(numbars <= capbars);
     if (numbars < 0)
