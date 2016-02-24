@@ -6811,8 +6811,11 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
     simple_god_message(" will remember this.");
     take_note(Note(NOTE_ANCESTOR_TYPE, 0, 0,
                    mons_type_name(*ancestor_type, DESC_A)));
-    mark_milestone("ancestor.class", mons_type_name(*ancestor_type,
-                                                    DESC_PLAIN));
+    const string mile_text
+        = make_stringf("remembered their ancestor %s as %s.",
+                       apostrophise(hepliaklqana_ally_name()).c_str(),
+                       mons_type_name(*ancestor_type, DESC_A).c_str());
+    mark_milestone("ancestor.class", mile_text);
     return true;
 }
 
@@ -6889,7 +6892,11 @@ bool hepliaklqana_choose_death_type(int death_type)
     you.props.erase(HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY);
     simple_god_message(" will remember this.");
     take_note(Note(NOTE_ANCESTOR_DEATH, 0, 0, _death_name(death_type)));
-    mark_milestone("ancestor.deathswap", _death_name(death_type));
+    const string mile_text
+        = make_stringf("remembered their ancestor %s death as being %s.",
+                       apostrophise(hepliaklqana_ally_name()).c_str(),
+                       _death_name(death_type).c_str());
+    mark_milestone("ancestor.deathswap", mile_text);
     return true;
 }
 
