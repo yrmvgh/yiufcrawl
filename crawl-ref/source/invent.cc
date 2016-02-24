@@ -2191,7 +2191,7 @@ bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > *&inv, const char* promp
 	    mprf(MSGCH_PROMPT, "%s an item or consumable? (i or c, <w>Esc</w> to quit)", prompt);
 	    unsigned char keyin = get_ch();
 
-	    if(keyin == 'i')
+	    if(keyin == 'i' || keyin == 'd')
 	    {
 	    	inv = &you.inv1;
 	    	result = true;

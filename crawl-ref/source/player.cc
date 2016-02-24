@@ -2121,7 +2121,7 @@ int player_mutation_level(mutation_type mut, bool temp)
 bool player_ephemeral_passthrough(const string &whatIsAttacking, bool showMessage)
 {
     const int ephem = player_mutation_level(MUT_EPHEMERAL);
-    if (ephem > 0 && one_chance_in(10)
+    if (ephem > 0 && one_chance_in(12)
     || ephem > 1 && one_chance_in(6)
     || ephem > 2 && one_chance_in(3))
     {
