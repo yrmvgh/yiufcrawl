@@ -98,7 +98,7 @@ bool ranged_attack::attack()
         return true;
     }
 
-    if(defender->is_player() && player_ephemeral_passthrough(projectile->name(DESC_BASENAME), true)) {
+    if(defender->is_player() && player_ephemeral_passthrough(projectile->name(DESC_THE), true)) {
     	return false;
     }
 

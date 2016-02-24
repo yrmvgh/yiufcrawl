@@ -2126,7 +2126,7 @@ bool player_ephemeral_passthrough(const string &whatIsAttacking, bool showMessag
     || ephem > 2 && one_chance_in(3))
     {
     	if(showMessage)
-    		mprf("The %s passes right through your ephemeral form!", whatIsAttacking.c_str());
+    		mprf("%s passes right through your ephemeral form!", whatIsAttacking.c_str());
         return true;
     }
     return false;

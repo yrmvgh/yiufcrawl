@@ -802,7 +802,7 @@ bool melee_attack::attack()
     }
 
 
-    if(defender->is_player() && player_ephemeral_passthrough(atk_name(DESC_BASENAME), true)) {
+    if(defender->is_player() && player_ephemeral_passthrough(atk_name(DESC_THE), true)) {
     	return false;
     }
 

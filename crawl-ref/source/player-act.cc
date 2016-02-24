@@ -806,8 +806,8 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
         msg = "You are too mesmerised to rage.";
     else if (afraid())
         msg = "You are too terrified to rage.";
-    else if (you.species == SP_DJINNI)
-        msg = "Only creatures of flesh and blood can berserk.";
+//    else if (you.species == SP_DJINNI)
+//        msg = "Only creatures of flesh and blood can berserk.";
     else if (is_lifeless_undead())
         msg = "You cannot raise a blood rage in your lifeless body.";
     // Stasis for identified amulets; unided amulets will trigger when the
