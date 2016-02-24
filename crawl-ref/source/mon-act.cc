@@ -1887,11 +1887,11 @@ void handle_monster_move(monster* mons)
 
     if (player_mutation_level(MUT_GLOW) >= 3 && !mons->friendly())
     {
-    	if(one_chance_in(10))
+    	if(one_chance_in(20))
     	{
     		dazzle_monster(mons, &you);
     	}
-    	else if(one_chance_in(5))
+    	else if(one_chance_in(10))
     	{
             const int daze_time = 5 * BASELINE_DELAY;
             mons->add_ench(mon_enchant(ENCH_DAZED, 0, &you, daze_time));
