@@ -1520,7 +1520,8 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     if (mons_is_hepliaklqana_ancestor(mon->type))
     {
         set_ancestor_spells(*mon);
-        mon->props[MON_GENDER_KEY] = mg.props[MON_GENDER_KEY].get_int();
+        if (mg.props.exists(MON_GENDER_KEY)) // move this out?
+            mon->props[MON_GENDER_KEY] = mg.props[MON_GENDER_KEY].get_int();
         mon->props["dbname"] = mons_class_name(mon->type);
     }
 
