@@ -1541,12 +1541,13 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
 
 static bool _delete_single_mutation_level(mutation_type mutat,
                                           const string &reason,
-                                          bool transient = false)
+                                          bool transient = false,
+										  bool even_if_innate = false)
 {
     if (you.mutation[mutat] == 0)
         return false;
 
-    if (you.innate_mutation[mutat] >= you.mutation[mutat])
+    if (!even_if_innate && you.innate_mutation[mutat] >= you.mutation[mutat])
         return false;
 
     if (!transient && you.temp_mutation[mutat] >= you.mutation[mutat])
@@ -1557,6 +1558,7 @@ static bool _delete_single_mutation_level(mutation_type mutat,
     bool lose_msg = true;
 
     you.mutation[mutat]--;
+    if(even_if_innate && you.innate_mutation[mutat] > 0) you.innate_mutation[mutat]--;
 
     switch (mutat)
     {
@@ -1628,7 +1630,8 @@ static bool _delete_single_mutation_level(mutation_type mutat,
 bool delete_mutation(mutation_type which_mutation, const string &reason,
                      bool failMsg,
                      bool force_mutation, bool god_gift,
-                     bool disallow_mismatch)
+                     bool disallow_mismatch,
+					 bool even_if_innate)
 {
     god_gift |= crawl_state.is_god_acting();
 
@@ -1716,7 +1719,7 @@ bool delete_mutation(mutation_type which_mutation, const string &reason,
             return false;
     }
 
-    return _delete_single_mutation_level(mutat, reason);
+    return _delete_single_mutation_level(mutat, reason, false, true);
 }
 
 bool delete_all_mutations(const string &reason)
@@ -2184,30 +2187,47 @@ bool perma_mutate(mutation_type which_mut, int how_much, const string &reason)
     ASSERT(rc == 0);
 
     int levels = 0;
-    while (how_much-- > 0)
+    if (how_much > 0)
     {
-        dprf("Perma Mutate: %d, %d, %d", cap,
-             you.mutation[which_mut], you.innate_mutation[which_mut]);
-        if (you.mutation[which_mut] == cap && how_much == 0)
+        while (how_much-- > 0)
         {
-            // [rpb] primarily for demonspawn, if the mutation level is already
-            // at the cap for this facet, we are permafying a temporary
-            // mutation. This would otherwise fail to produce any output in
-            // some situations.
-            mprf(MSGCH_MUTATION, "Your mutations feel more permanent.");
-            take_note(Note(NOTE_PERM_MUTATION, which_mut,
-                           you.mutation[which_mut], reason.c_str()));
+            dprf("Perma Mutate: %d, %d, %d", cap,
+                 you.mutation[which_mut], you.innate_mutation[which_mut]);
+            if (you.mutation[which_mut] == cap && how_much == 0)
+            {
+                // [rpb] primarily for demonspawn, if the mutation level is already
+                // at the cap for this facet, we are permafying a temporary
+                // mutation. This would otherwise fail to produce any output in
+                // some situations.
+                mprf(MSGCH_MUTATION, "Your mutations feel more permanent.");
+                take_note(Note(NOTE_PERM_MUTATION, which_mut,
+                               you.mutation[which_mut], reason.c_str()));
+            }
+            else if (you.mutation[which_mut] < cap
+                && !mutate(which_mut, reason, false, true, false, false, MUTCLASS_INNATE))
+            {
+                return levels; // a partial success was still possible
+            }
+            levels++;
         }
-        else if (you.mutation[which_mut] < cap
-            && !mutate(which_mut, reason, false, true, false, false, MUTCLASS_INNATE))
+    }
+    else if (how_much < 0)
+    {
+        while (how_much++ < 0)
         {
-            return levels; // a partial success was still possible
+            dprf("Perma Mutation Removal: %d, %d, %d", cap,
+                 you.mutation[which_mut], you.innate_mutation[which_mut]);
+            if (you.mutation[which_mut] > 0
+                && !delete_mutation(which_mut, reason, false, true, false, false, true))
+            {
+                return levels; // a partial success was still possible
+            }
+            levels--;
         }
-        levels++;
     }
     you.innate_mutation[which_mut] += levels;
 
-    return levels > 0;
+    return levels != 0;
 }
 
 bool temp_mutate(mutation_type which_mut, const string &reason)
