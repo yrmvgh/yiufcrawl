@@ -3949,7 +3949,7 @@ void bolt::affect_player()
         {
             if (hit_verb.empty())
                 hit_verb = engulfs ? "engulfs" : "hits";
-            mprf("The %s %s you for %d!", name.c_str(), hit_verb.c_str(), hurted);
+            mprf("The %s %s you! (%d)", name.c_str(), hit_verb.c_str(), hurted);
         }
 
         // Irresistible portion of resistable effect; must happen before MR
@@ -4880,7 +4880,7 @@ void bolt::affect_monster(monster* mon)
                 hit_verb = engulfs ? "engulfs" : "hits";
             if (you.see_cell(mon->pos()))
             {
-                mprf("The %s %s %s for %d.", name.c_str(), hit_verb.c_str(),
+                mprf("The %s %s %s. (%d)", name.c_str(), hit_verb.c_str(),
                      mon->name(DESC_THE).c_str(), final);
             }
             else if (heard && !hit_noise_msg.empty())
@@ -5012,7 +5012,7 @@ void bolt::affect_monster(monster* mon)
         if (hit_verb.empty())
             hit_verb = engulfs ? "engulfs" : "hits";
 
-        mprf("The %s %s %s for %d.",
+        mprf("The %s %s %s. (%d)",
              name.c_str(),
              hit_verb.c_str(),
              mon->name(DESC_THE).c_str(),
