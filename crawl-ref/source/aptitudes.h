@@ -113,7 +113,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DEEP_ELF,        SK_TRAPS,         UNUSABLE_SKILL),
 #endif
     APT(SP_DEEP_ELF,        SK_UNARMED_COMBAT, -2),
-    APT(SP_DEEP_ELF,        SK_SPELLCASTING,    6),
+    APT(SP_DEEP_ELF,        SK_SPELLCASTING,    4),
     APT(SP_DEEP_ELF,        SK_CONJURATIONS,    1),
     APT(SP_DEEP_ELF,        SK_HEXES,           3),
     APT(SP_DEEP_ELF,        SK_CHARMS,          4),
@@ -1386,7 +1386,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DJINNI,          SK_STEALTH,        -1),
     APT(SP_DJINNI,          SK_SHIELDS,         0),
     APT(SP_DJINNI,          SK_UNARMED_COMBAT, -1),
-    APT(SP_DJINNI,          SK_SPELLCASTING,    0),
+    APT(SP_DJINNI,          SK_SPELLCASTING,    2),
     APT(SP_DJINNI,          SK_CONJURATIONS,    0),
     APT(SP_DJINNI,          SK_HEXES,           0),
     APT(SP_DJINNI,          SK_CHARMS,          0),
