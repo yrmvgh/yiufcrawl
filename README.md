@@ -42,6 +42,8 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       would be very valuable here, reducing the cold damage done, as well as increasing the healing from fire damage. Unfortunately, there is no water
       resistance buff... muahahaha....
     * Unarmed combat gets a fire brand. 
+    * They start with ephemeral 3 mutation, and slowly lose it as they gain experience (as they become more corporeal). The ephemeral mutation give a chance
+      that attacks (both melee and ranged) will completely pass through the Djinni. 
     * Dithmenos rejects Dj of course
 
 * Mummies
