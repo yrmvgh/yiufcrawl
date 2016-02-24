@@ -74,6 +74,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       a bad mutation with a good, making drinking mutation potions a safer strategy for kobolds. Unlike demonspawn which get permanent mutations, the mutations
       a kobold gets through evolve are temporary, making cure mutation potions often a very bad thing. And of course they only get ordinary mutations, not the
       cool demonspawn specific ones.
+    * as a result of their highly mutable nature, they cannot worship Zin.
       
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
@@ -108,6 +109,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 
 * Lava Orcs
     * brought back but not modified much yet. 
+    * can't worship Dith.
 
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but

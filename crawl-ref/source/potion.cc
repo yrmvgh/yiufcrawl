@@ -194,7 +194,7 @@ public:
         {
             amount = you.hp_max;
             amount = you.scale_device_healing(amount);
-            amount = amount * power / SPELL_POWER_CAP;
+            amount = 2 * amount * power / SPELL_POWER_CAP;
             amount = min(you.hp_max, amount);
         }
         else

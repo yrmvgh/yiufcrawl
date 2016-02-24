@@ -3203,6 +3203,9 @@ bool player_can_join_god(god_type which_god)
     if (you.species == SP_DEMIGOD)
         return false;
 
+    if (which_god == GOD_ZIN && you.species == SP_KOBOLD)
+    	return false;
+
     if (which_god == GOD_ASHENZARI && you.species == SP_MUMMY)
     	return false;
 
