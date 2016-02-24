@@ -1165,25 +1165,6 @@ int player_regen()
             rr += 10; // Bonus regeneration for full vampires.
     }
 
-    // Healing depending on satiation.
-    // The better-fed you are, the faster you heal.
-//    if (you.species == SP_DJINNI)
-//    {
-//    	const int hunger = you.hunger_state;
-//        if (hunger <= HS_VERY_HUNGRY)
-//        	rr = 0;
-//        else if (hunger <= HS_HUNGRY)
-//        	rr >>= 1;
-//        else if (hunger <= HS_SATIATED)
-//        	rr <<= 1;
-//        else if (hunger <= HS_FULL)
-//        	rr <<= 2;
-//        else if (hunger <= HS_VERY_FULL)
-//        	rr <<= 3;
-//        else
-//        	rr <<= 4;
-//    }
-
     // Slow regeneration mutation.
     if (player_mutation_level(MUT_SLOW_REGENERATION) > 0)
     {
@@ -2264,7 +2245,7 @@ static int _player_evasion_bonuses(ev_ignore_type evit)
 
     // transformation penalties/bonuses not covered by size alone:
     if (player_mutation_level(MUT_SLOW_REFLEXES) || player_mutation_level(MUT_GLOW))
-        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3 + player_mutation_level(MUT_GLOW) * 2 ;
+        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3 + player_mutation_level(MUT_GLOW);
 
     return evbonus;
 }
