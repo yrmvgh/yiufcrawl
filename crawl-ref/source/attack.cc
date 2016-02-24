@@ -1051,7 +1051,7 @@ int attack::inflict_damage(int dam, beam_type flavour, bool clean)
 string attack::debug_damage_number()
 {
 //#ifdef DEBUG_DIAGNOSTICS
-    return make_stringf(" for %d", damage_done);
+    return make_stringf(" (%d)", damage_done);
 //#else
 //    return "";
 //#endif
@@ -1869,7 +1869,7 @@ void attack::calc_elemental_brand_damage(beam_type flavour,
     {
         // XXX: assumes "what" is singular
         special_damage_message = make_stringf(
-            "%s %s %s%s for %d",
+            "%s %s %s%s (%d)",
             what ? what : atk_name(DESC_THE).c_str(),
             what ? conjugate_verb(verb, false).c_str()
                  : attacker->conj_verb(verb).c_str(),
