@@ -6806,7 +6806,8 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
     if (ancestor)
     {
         ancestor->type = *ancestor_type;
-        give_weapon(ancestor, -1, true);
+        give_weapon(ancestor, -1);
+        ASSERT(ancestor->weapon());
         give_shield(ancestor);
         set_ancestor_spells(*ancestor);
     }
