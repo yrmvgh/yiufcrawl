@@ -1552,7 +1552,7 @@ void monster::apply_enchantment(const mon_enchant &me)
         if (dam > 0)
         {
 //            simple_monster_message(this, " burns! (" dam ")");
-            mprf("%s burns! (%d)", name(DESC_THE), dam);
+            mprf("%s burns! (%d)", name(DESC_THE).c_str(), dam);
             dprf("sticky flame damage: %d", dam);
 
             if (type == MONS_SHEEP)
