@@ -4007,8 +4007,9 @@ static void _join_hepliaklqana()
     }
     int hepliaklqana_unlock_hds[] = { 11, 12, 15 };
     shuffle_array(hepliaklqana_unlock_hds);
-    COMPILE_CHECK(ARRAYSZ(hepliaklqana_unlocks) == ARRAYSZ(hepliaklqana_unlock_hds));
-    for (int i=0; i<ARRAYSZ(hepliaklqana_unlocks); i++)
+    COMPILE_CHECK(ARRAYSZ(hepliaklqana_unlocks)
+                  == ARRAYSZ(hepliaklqana_unlock_hds));
+    for (size_t i=0; i<ARRAYSZ(hepliaklqana_unlocks); i++)
     {
         hepliaklqana_unlock unlock = hepliaklqana_unlocks[i];
         int hd = hepliaklqana_unlock_hds[i];
