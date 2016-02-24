@@ -2668,10 +2668,12 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (needs_message && base_damage)
         {
-            mprf("%s %s engulfed in flames%s",
+            mprf("%s %s engulfed in flames%s (%d)",
                  defender_name(false).c_str(),
                  defender->conj_verb("are").c_str(),
-                 attack_strength_punctuation(special_damage).c_str());
+                 attack_strength_punctuation(special_damage).c_str(),
+				 special_damage
+				 );
 
             _print_resist_messages(defender, base_damage, BEAM_FIRE);
         }
@@ -2690,11 +2692,13 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (needs_message && base_damage)
         {
-            mprf("%s %s %s%s",
+            mprf("%s %s %s%s (%d)",
                  atk_name(DESC_THE).c_str(),
                  attacker->conj_verb("freeze").c_str(),
                  defender_name(true).c_str(),
-                 attack_strength_punctuation(special_damage).c_str());
+                 attack_strength_punctuation(special_damage).c_str(),
+				 special_damage
+				 );
 
             _print_resist_messages(defender, base_damage, BEAM_COLD);
         }
@@ -2714,11 +2718,13 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (needs_message && base_damage)
         {
-            mprf("%s %s %s%s",
+            mprf("%s %s %s%s (%d)",
                  atk_name(DESC_THE).c_str(),
                  attacker->conj_verb("shock").c_str(),
                  defender_name(true).c_str(),
-                 attack_strength_punctuation(special_damage).c_str());
+                 attack_strength_punctuation(special_damage).c_str(),
+				 special_damage
+				 );
 
             _print_resist_messages(defender, base_damage, BEAM_ELECTRICITY);
         }
@@ -2748,12 +2754,15 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (defender->stat_hp() < defender->stat_maxhp())
         {
-            if (attacker->heal(1 + random2(damage_done)) && needs_message)
+        	const int healing = 1 + random2(damage_done);
+            if (attacker->heal(healing) && needs_message)
             {
-                mprf("%s %s strength from %s injuries!",
+                mprf("%s %s strength from %s injuries! (%d)",
                      atk_name(DESC_THE).c_str(),
                      attacker->conj_verb("draw").c_str(),
-                     def_name(DESC_ITS).c_str());
+                     def_name(DESC_ITS).c_str(),
+					 healing
+					 );
             }
         }
         break;
@@ -2902,11 +2911,13 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (needs_message && special_damage)
         {
-            mprf("%s %s %s%s",
+            mprf("%s %s %s%s (%d)",
                  atk_name(DESC_THE).c_str(),
                  attacker->conj_verb("sear").c_str(),
                  defender_name(true).c_str(),
-                 attack_strength_punctuation(special_damage).c_str());
+                 attack_strength_punctuation(special_damage).c_str(),
+				 special_damage
+				 );
 
         }
         break;
@@ -3009,10 +3020,12 @@ void melee_attack::mons_apply_attack_flavour()
 
         if (needs_message && special_damage)
         {
-            mprf("%s %s %s!",
+            mprf("%s %s %s! (%d)",
                     atk_name(DESC_THE).c_str(),
                     attacker->conj_verb("burn").c_str(),
-                    defender_name(true).c_str());
+                    defender_name(true).c_str(),
+                    special_damage
+					);
 
             _print_resist_messages(defender, special_damage, BEAM_FIRE);
         }

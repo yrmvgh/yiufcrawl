@@ -491,7 +491,7 @@ void shock_serpent_discharge_fineff::fire()
         amount = act->apply_ac(amount, 0, AC_HALF);
 
         if (you.see_cell(act->pos()))
-            mprf("The lightning shocks %s.", act->name(DESC_THE).c_str());
+            mprf("The lightning shocks %s. (%d)", act->name(DESC_THE).c_str(), amount);
         act->hurt(serpent, amount, BEAM_ELECTRICITY, KILLED_BY_BEAM,
                   "a shock serpent", "electric aura");
     }
