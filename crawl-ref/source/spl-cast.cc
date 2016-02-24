@@ -168,8 +168,15 @@ static string _spell_wide_description(spell_type spell, bool viewing)
     // spell power, spell range, hunger level, level
     const string rangestring = spell_range_string(spell);
 
-    desc << chop_string(spell_power_string(spell), 11)
-         << chop_string(rangestring, 10 + tagged_string_tag_length(rangestring))
+    string spell_power;
+    // choose numeric version for now
+    if(true)
+    	spell_power = spell_power_numeric_string(spell);
+    else
+    	spell_power = spell_power_string(spell);
+
+    desc << chop_string(spell_power, 6)
+         << chop_string(rangestring, 12 + tagged_string_tag_length(rangestring))
          << chop_string(spell_hunger_string(spell), 8);
 
     desc << "</" << colour_to_str(highlight) <<">";
@@ -346,7 +353,7 @@ int list_spells_wide(bool viewing, bool allow_preselect,
         // [enne] - Hack. Make title an item so that it's aligned.
         MenuEntry* me =
             new MenuEntry(
-                " " + titlestring + "        Power      Range     Hunger  Fail Level Type",
+                " " + titlestring + "        Power Range       Hunger  Fail Level Type",
                 MEL_ITEM);
         me->colour = BLUE;
         spell_menu.add_entry(me);
@@ -354,7 +361,7 @@ int list_spells_wide(bool viewing, bool allow_preselect,
 #else
     spell_menu.set_title(
         new MenuEntry(
-                " " + titlestring + "        Power      Range     Hunger  Fail Level Type",
+                " " + titlestring + "        Power Range       Hunger  Fail Level Type",
             MEL_TITLE));
 #endif
     spell_menu.set_highlighter(nullptr);
@@ -2313,24 +2320,23 @@ static int _spell_power_bars(spell_type spell, bool rod)
     return power * 10 / cap;
 }
 
-#ifdef WIZARD
-static string _wizard_spell_power_numeric_string(spell_type spell, bool rod)
+string spell_power_numeric_string(spell_type spell, bool show_cap, bool rod)
 {
     const int cap = spell_power_cap(spell);
     if (cap == 0)
         return "N/A";
     const int power = min(calc_spell_power(spell, true, false, false, rod), cap);
-    return make_stringf("%d (%d)", power, cap);
+    string result;
+    if(show_cap)
+    	result = make_stringf("%d (%d)", power, cap);
+    else
+    	result = make_stringf("%d", power);
+
+    return result;
 }
-#endif
 
 string spell_power_string(spell_type spell, bool rod)
 {
-#ifdef WIZARD
-    if (you.wizard)
-        return _wizard_spell_power_numeric_string(spell, rod);
-#endif
-
     const int numbars = max(1, _spell_power_bars(spell, rod));
     const int capbars = power_to_barcount(spell_power_cap(spell));
     ASSERT(numbars <= capbars);

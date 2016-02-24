@@ -121,6 +121,7 @@ string failure_rate_to_string(int fail);
 
 int power_to_barcount(int power);
 
+string spell_power_numeric_string(spell_type spell, bool show_cap = false, bool rod = false);
 string spell_power_string(spell_type spell, bool rod = false);
 string spell_range_string(spell_type spell, bool rod = false);
 string range_string(int range, int maxrange, ucs_t caster_char);

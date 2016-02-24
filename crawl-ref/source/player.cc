@@ -661,7 +661,7 @@ void update_vision_range()
     int nom   = 1;
     int denom = 1;
 
-    if (player_mutation_level(MUT_GLOW) >= 2)
+    if (player_mutation_level(MUT_GLOW) > 2)
     {
     	nom *= 6, denom *= 4;
     }
