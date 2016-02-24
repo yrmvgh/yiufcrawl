@@ -1661,7 +1661,9 @@ bool monster_info::can_see_invisible() const
 
     if (mons_is_hepliaklqana_ancestor(type)
         && hd >= you.props[HEPLIAKLQANA_SINV_KEY].get_int())
+    {
         return true;
+    }
 
     return mons_class_flag(type, M_SEE_INVIS)
            || mons_is_demonspawn(type)

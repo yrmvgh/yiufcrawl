@@ -3167,36 +3167,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
 
     case ABIL_HEPLIAKLQANA_TRANSFERENCE:
-    {
-        // XXX: move into _check_ability_possible()?
-        monster *ancestor = hepliaklqana_ancestor_mon();
-        if (!ancestor || !you.can_see(*ancestor))
-        {
-            mprf("%s is not nearby!", hepliaklqana_ally_name().c_str());
-            return SPRET_ABORT;
-        }
-
-        if (is_feat_dangerous(grd(ancestor->pos())))
-        {
-            mpr("That would be overly suicidal.");
-            return SPRET_ABORT;
-        }
-
-        fail_check();
-
-        const coord_def ancestor_pos = ancestor->pos();
-        const coord_def your_pos = you.pos();
-
-        ancestor->move_to_pos(you.pos(), true, true);
-        you.move_to_pos(ancestor_pos, true, true);
-        mprf("You swap with %s!", ancestor->name(DESC_YOUR).c_str());
-
-        hepliaklqana_on_deathswap(ancestor_pos, false);
-
-        ancestor->apply_location_effects(ancestor_pos);
-        you.apply_location_effects(your_pos);
-        return SPRET_SUCCESS;
-    }
+        return hepliaklqana_transference(fail);
 
     case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
     case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:

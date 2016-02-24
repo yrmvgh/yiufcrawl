@@ -815,10 +815,10 @@ protection granted are both improved by the Invocations skill.
 %%%%
 Transference ability
 
-By passing through the realms of memory, exchange lives with your ancestor,
-leaving each of you where the other stood a moment before. If you remember your
-ancestor's death, the passage through memory will evoke a brief, weak echo of
-it.
+By passing through the realms of memory, force a targeted creature to exchange
+its existence with your ancestor's, leaving each where the other stood a moment
+before. If you remember your ancestor's death, the passage through memory will
+evoke a brief, weak echo of it.
 %%%%
 Ancestor Life: Knight ability
 
