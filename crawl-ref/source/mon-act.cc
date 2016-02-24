@@ -1885,7 +1885,7 @@ void handle_monster_move(monster* mons)
         return;
     }
 
-    if (player_mutation_level(MUT_GLOW) >= 3)
+    if (player_mutation_level(MUT_GLOW) >= 3 && !mons->friendly())
     {
     	if(one_chance_in(10))
     	{
@@ -1895,7 +1895,7 @@ void handle_monster_move(monster* mons)
     	{
             const int daze_time = 5 * BASELINE_DELAY;
             mons->add_ench(mon_enchant(ENCH_DAZED, 0, &you, daze_time));
-            simple_monster_message(mons, " is dazed by the your brightness.");
+            simple_monster_message(mons, " is dazed by your brightness.");
     	}
     }
 
