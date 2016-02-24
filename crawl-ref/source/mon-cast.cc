@@ -5076,14 +5076,16 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_SMITING:
+    {
+		const int damage = 7 + random2avg(11, 2);
+		foe->hurt(mons, damage, BEAM_MISSILE, KILLED_BY_BEAM,
+                       "", "by divine providence");
         if (foe->is_player())
-            mprf("%s smites you!", _god_name(god).c_str());
+            mprf("%s smites you! (%d)", _god_name(god).c_str(), damage);
         else
             simple_monster_message(foe->as_monster(), " is smitten.");
-
-        foe->hurt(mons, 7 + random2avg(11, 2), BEAM_MISSILE, KILLED_BY_BEAM,
-                       "", "by divine providence");
         return;
+    }
 
     case SPELL_BRAIN_FEED:
         if (one_chance_in(3)
@@ -6270,7 +6272,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_SUMMON_EMPEROR_SCORPIONS:
-    {
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 
         for (sumcount = 0; sumcount < sumcount2; sumcount++)
@@ -6280,7 +6281,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                                      mons->foe, MG_NONE, god));
         }
         return;
-    }
 
     case SPELL_BATTLECRY:
         _battle_cry(*mons);
@@ -6340,7 +6340,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_SUMMON_SCARABS:
-    {
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 
         for (sumcount = 0; sumcount < sumcount2; sumcount++)
@@ -6350,20 +6349,16 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                                      mons->foe, MG_NONE, god));
         }
         return;
-    }
 
     case SPELL_SCATTERSHOT:
-    {
         ASSERT(foe);
         cast_scattershot(mons, splpow, foe->pos());
         return;
-    }
 
     case SPELL_HUNTING_CRY:
         return;
 
     case SPELL_CONJURE_FLAME:
-    {
         if (in_bounds(pbolt.target))
         {
             if (conjure_flame(mons, splpow, pbolt.target, false)
@@ -6376,21 +6371,18 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
             canned_msg(MSG_NOTHING_HAPPENS);
 
         return;
-    }
 
     case SPELL_CONTROL_UNDEAD:
         _mons_control_undead(mons);
         return;
 
     case SPELL_FULMINANT_PRISM:
-    {
         if (in_bounds(pbolt.target))
            cast_fulminating_prism(mons, splpow, pbolt.target, false);
         else if (you.can_see(*mons))
             canned_msg(MSG_NOTHING_HAPPENS);
 
         return;
-    }
 
     case SPELL_CLEANSING_FLAME:
         simple_monster_message(mons, " channels a blast of cleansing flame!");
@@ -6417,7 +6409,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         break;
 
     case SPELL_SUMMON_EXECUTIONERS:
-    {
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 
         duration  = min(2 + mons->spell_hd(spell_cast) / 10, 6);
@@ -6430,7 +6421,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                           god));
         }
         return;
-    }
 
     case SPELL_DOOM_HOWL:
         _doom_howl(*mons);

@@ -2116,7 +2116,7 @@ int player_mutation_level(mutation_type mut, bool temp)
 bool player_ephemeral_passthrough(const string &whatIsAttacking, bool showMessage)
 {
     const int ephem = player_mutation_level(MUT_EPHEMERAL);
-    if (ephem > 0 && one_chance_in(10) || ephem > 1 && one_chance_in(7) || ephem > 2 && one_chance_in(4))
+    if (ephem > 0 && one_chance_in(15) || ephem > 1 && one_chance_in(12) || ephem > 2 && one_chance_in(9))
     {
     	if(showMessage)
     		mprf("The %s passes right through your ephemeral form!", whatIsAttacking.c_str());

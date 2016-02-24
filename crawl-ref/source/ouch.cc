@@ -177,7 +177,7 @@ int check_your_resists(int hurted, beam_type flavour, string source,
             canned_msg(MSG_YOU_RESIST);
         else if (hurted > original && doEffects)
         {
-            mpr("You feel a terrible chill!");
+            mprf("You feel a terrible chill! (%d)", hurted);
             xom_is_stimulated(200);
         }
         break;
