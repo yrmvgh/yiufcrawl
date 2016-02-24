@@ -50,7 +50,7 @@ tile_realtime_anim = true
 tile_show_minihealthbar = true
 tile_show_minimagicbar  = true
 tile_skip_title = true 
-tile_use_small_layout = true
+tile_use_small_layout = false
 travel_delay = -1
 wiz_mode         = no
 
