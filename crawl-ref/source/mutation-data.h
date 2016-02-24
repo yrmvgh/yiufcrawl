@@ -2202,12 +2202,12 @@ static const mutation_def mut_data[] =
   "glowing",
 
   {"You emit light, making it easier for others to see you.",
-		  "You emit a bright light, making it easier for others to see you.",
-		  "You emit a blinding light, making it easier for others to see you, but also occasionally blinding them"},
+   "You emit a bright light, making it easier for others to see you.",
+   "You emit a blinding light, making it easier for others to see you, increasing how far you can see"},
   {"You begin to glow.",
-		  "You glow brighter.",
-		  "You glow brighter."},
-  {"You stop glowing.", "You emit less light.", "You emit less light."},
+   "You glow brighter.",
+   "You glow brighter. Your vision expands."},
+  {"You stop glowing.", "You emit less light.", "You emit less light. Your vision narrows."},
 
    "a glow that surrounds you",
 },

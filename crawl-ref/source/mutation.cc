@@ -151,6 +151,7 @@ static const int conflict[][3] =
     { MUT_SHOCK_RESISTANCE,    MUT_SHOCK_VULNERABILITY,   -1},
     { MUT_MAGIC_RESISTANCE,    MUT_MAGICAL_VULNERABILITY, -1},
     { MUT_CAMOUFLAGE,    	   MUT_GLOW, 				  -1},
+    { MUT_NIGHTSTALKER,    	   MUT_GLOW, 				  -1},
 };
 
 equipment_type beastly_slot(int mut)
@@ -1495,6 +1496,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
             break;
 
         case MUT_NIGHTSTALKER:
+        case MUT_GLOW:
             update_vision_range();
             break;
 
@@ -1577,6 +1579,7 @@ static bool _delete_single_mutation_level(mutation_type mutat,
         break;
 
     case MUT_NIGHTSTALKER:
+    case MUT_GLOW:
         update_vision_range();
         break;
 

@@ -37,7 +37,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?
     * They have very low magic resistance.
-    * They have the glow mutation, which increases with experience, which reduces their stealth. However, at level 3, it also gives a chance to daze or blind enemies. 
+    * They have the glow mutation, which increases with experience, which reduces their stealth. However, at level 3, it expands how far they can see. 
     * Cold and water damage does double the resistable amount of damage, in addition to the penalties of having one level of cold vulnerability. A ring of ice
       would be very valuable here, reducing the cold damage done, as well as increasing the healing from fire damage. Unfortunately, there is no water
       resistance buff... muahahaha....

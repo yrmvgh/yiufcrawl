@@ -1889,13 +1889,14 @@ void handle_monster_move(monster* mons)
     {
     	if(one_chance_in(20))
     	{
-    		dazzle_monster(mons, &you);
-    	}
-    	else if(one_chance_in(10))
-    	{
-            const int daze_time = 5 * BASELINE_DELAY;
-            mons->add_ench(mon_enchant(ENCH_DAZED, 0, &you, daze_time));
-            simple_monster_message(mons, " is dazed by your brightness.");
+    		if(one_chance_in(3))
+        		dazzle_monster(mons, &you);
+    		else
+    		{
+                const int daze_time = 10 * BASELINE_DELAY;
+                mons->add_ench(mon_enchant(ENCH_DAZED, 0, &you, daze_time));
+                simple_monster_message(mons, " is dazed by your brightness.");
+    		}
     	}
     }
 
