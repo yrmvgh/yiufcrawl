@@ -1,9 +1,7 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-This fork of DCSS contains many wacky experiments I've toyed with over the years, which for me at least has made the game a lot more fun. 
+This fork of DCSS is a playground for some ideas I wanted to try. 
 The majority of my changes center around increasing the richness of the different species in DCSS. 
-I also made a number of changes to make early game a little more enjoyable, especially for people new to DCSS. I find that many of my family and friends I want
-to introduce to DCSS have a hard time getting over that initial learning curve.
 I would repeatedly take the species that I considered most boring to play, and alter that species until it was a compelling choice for me to play. 
 I know quite well that I am not nearly as experienced in playing this game as many others are, and likely some of these changes may break important things that
 I don't yet understand because of that lack of experience, but I figured since I am having so much fun with this fork, it
