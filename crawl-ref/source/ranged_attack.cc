@@ -98,6 +98,10 @@ bool ranged_attack::attack()
         return true;
     }
 
+    if(defender->is_player() && player_ephemeral_passthrough(atk_name(DESC_THE), true)) {
+    	return false;
+    }
+
     const int ev = defender->evasion(EV_IGNORE_NONE, attacker);
     ev_margin = test_hit(to_hit, ev, !attacker->is_player());
     bool shield_blocked = attack_shield_blocked(false);

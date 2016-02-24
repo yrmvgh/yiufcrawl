@@ -2201,14 +2201,28 @@ static const mutation_def mut_data[] =
 { MUT_GLOW, 4, 3, mutflag::BAD, false,
   "glowing",
 
-  {"You emit light, making it easier for others to see you and hit you.",
-		  "You emit a bright light, making it easier for others to see you and hit you.",
-		  "You emit a blinding light, making it easier for others to see you and hit you, but also occasionally blinding them"},
+  {"You emit light, making it easier for others to see you.",
+		  "You emit a bright light, making it easier for others to see you.",
+		  "You emit a blinding light, making it easier for others to see you, but also occasionally blinding them"},
   {"You begin to glow.",
 		  "You glow brighter.",
 		  "You glow brighter."},
   {"You stop glowing.", "You emit less light.", "You emit less light."},
 
    "a glow that surrounds you",
+},
+
+{ MUT_EPHEMERAL, 4, 3, mutflag::GOOD, false,
+  "ephemeral",
+
+  {"Attacks rarely pass right through you.",
+   "Attacks sometimes pass right through you.",
+   "Attacks often pass right through you."},
+  {"You become more ephemeral.",
+   "You become more ephemeral.",
+   "You become more ephemeral."},
+  {"You are no longer ephemeral.", "You become less ephemeral.", "You become less ephemeral."},
+
+   "a ephemeral body",
 },
 };

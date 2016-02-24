@@ -3799,6 +3799,7 @@ enum mutation_type
 #endif
 	MUT_INSIGHT,
 	MUT_GLOW,
+	MUT_EPHEMERAL,
     NUM_MUTATIONS,
 
     RANDOM_MUTATION,

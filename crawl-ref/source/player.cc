@@ -2113,6 +2113,18 @@ int player_mutation_level(mutation_type mut, bool temp)
     return _mut_level(mut, temp ? MUTACT_PARTIAL : MUTACT_INACTIVE);
 }
 
+bool player_ephemeral_passthrough(const string &whatIsAttacking, bool showMessage)
+{
+    const int ephem = player_mutation_level(MUT_EPHEMERAL);
+    if (ephem > 0 && one_chance_in(10) || ephem > 1 && one_chance_in(7) || ephem > 2 && one_chance_in(4))
+    {
+    	if(showMessage)
+    		mprf("The %s passes right through your ephemeral form!", whatIsAttacking.c_str());
+        return true;
+    }
+    return false;
+}
+
 static int _player_armour_beogh_bonus(const item_def& item)
 {
     if (item.base_type != OBJ_ARMOUR)
@@ -2244,8 +2256,8 @@ static int _player_evasion_bonuses(ev_ignore_type evit)
     evbonus += max(0, player_mutation_level(MUT_GELATINOUS_BODY) - 1);
 
     // transformation penalties/bonuses not covered by size alone:
-    if (player_mutation_level(MUT_SLOW_REFLEXES) || player_mutation_level(MUT_GLOW))
-        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3 + player_mutation_level(MUT_GLOW);
+    if (player_mutation_level(MUT_SLOW_REFLEXES))
+        evbonus -= player_mutation_level(MUT_SLOW_REFLEXES) * 3;
 
     return evbonus;
 }
@@ -7182,7 +7194,8 @@ bool player::backlit(bool self_halo) const
         || duration[DUR_CORONA]
         || duration[DUR_LIQUID_FLAMES]
         || duration[DUR_QUAD_DAMAGE]
-        || !umbraed() && haloed() && (self_halo || halo_radius() == -1);
+        || !umbraed() && haloed() && (self_halo || halo_radius() == -1)
+		|| player_mutation_level(MUT_GLOW) > 0;
 }
 
 bool player::umbra() const

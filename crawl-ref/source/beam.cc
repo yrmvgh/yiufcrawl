@@ -3306,6 +3306,10 @@ bool bolt::misses_player()
         return false;
     }
 
+    if(player_ephemeral_passthrough(name, true)) {
+    	return true;
+    }
+
     const int dodge = you.evasion();
     int real_tohit  = hit;
 

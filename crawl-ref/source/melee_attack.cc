@@ -801,6 +801,11 @@ bool melee_attack::attack()
         }
     }
 
+
+    if(defender->is_player() && player_ephemeral_passthrough(atk_name(DESC_THE), true)) {
+    	return false;
+    }
+
     if (shield_blocked)
         handle_phase_blocked();
     else

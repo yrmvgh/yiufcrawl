@@ -779,12 +779,13 @@ static const map<species_type, species_def> species_data =
     "Djinni", "Djinn", nullptr,
     SPF_NONE,
     0, 0, 0,
-    9, 3,
+    9, 2,
     MONS_DJINNI,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     8, 8, 8, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 5,
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
     {
+    		{ MUT_EPHEMERAL, 2, 1 },
     		{ MUT_COLD_VULNERABILITY, 1, 1 },
     		{ MUT_INSIGHT, 1, 1 },
     		{ MUT_GLOW, 1, 4 },
@@ -798,7 +799,8 @@ static const map<species_type, species_def> species_data =
       "Cold and water do twice as much damage to you.",
       "You need no food.",
       "You have no legs.",
-      "Fire heals you."},
+      "Fire heals you."
+    },
     { },
     { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
     JOB_ARCANE_MARKSMAN, JOB_ENCHANTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,

@@ -1151,7 +1151,7 @@ static bool _apply_grasping_roots(monster* mons)
             if (x_chance_in_y(3, 5))
                 continue;
 
-            if (x_chance_in_y(10, 50 - ai->evasion()))
+            if (x_chance_in_y(10, 50 - ai->evasion()) || player_ephemeral_passthrough())
             {
                 if (ai->is_player())
                     mpr("Roots rise up to grasp you, but you nimbly evade.");
