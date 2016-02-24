@@ -117,7 +117,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
     * I'm experimenting with a unified spell list, with all of the essential info at once (instead of the toggle). This should probably be an option, or auto
       detect when the screen is wide enough, but I'm not exactly sure how to do this yet. Suggestions welcome. 
-    * no more spell caps... now even basic spells can continue to grow in power late in the game. 
+    * All spells have the same spell cap... now even basic spells can continue to grow in power late in the game. 
     * the effect of spell casting skill on spell success and power has been increased.
     * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that
       void. Not much of a void, since I hardly used it anyway. Magma Bolt has been put in the Flames Book as a level 5 spell alongside Fireball. 
@@ -125,7 +125,8 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 * Potions of heal wounds
     * now fully heal the target
     * less than half as common to find around the dungeon
-    * wands of heal wounds work like before
+    * wands of heal wounds work almost like before, except that their effectiveness scales with evocations skill, and the amount healed is proportional to
+      health capacity. 
 
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
