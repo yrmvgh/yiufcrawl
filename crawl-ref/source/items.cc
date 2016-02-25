@@ -2616,7 +2616,7 @@ void drop_consumable()
 void drop(FixedVector< item_def, ENDOFPACK > &input_inv)
 {
 	FixedVector< item_def, ENDOFPACK > *inv;
-	if(input_inv == nullptr)
+	if(&input_inv == 0)
 	{
 		inv_from_prompt(inv, "Do you want to drop");
 	}

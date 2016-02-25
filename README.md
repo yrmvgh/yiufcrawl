@@ -21,8 +21,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
-      evokables, etc. The 'I' command shows the consumables. Each can have 52 items. The drop command now requires one more step to specify which of the two
-      inventories you want to drop from. The adjust command '=' can now also be applied to the (c)onsumables. 
+      evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 
+      The drop command has been split into two also: 'd' to drop inventory items, 'D' to drop consumable items.
+      The adjust command '=' can now also be applied to the (c)onsumables. 
 
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the

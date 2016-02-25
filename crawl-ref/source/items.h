@@ -94,7 +94,7 @@ const item_def* top_item_at(const coord_def& where);
 // Returns whether there is more than one item in a given cell.
 bool multiple_items_at(const coord_def& where);
 
-void drop(FixedVector< item_def, ENDOFPACK > &inv = nullptr);
+void drop(FixedVector< item_def, ENDOFPACK > &inv);
 void drop_inventory();
 void drop_consumable();
 
