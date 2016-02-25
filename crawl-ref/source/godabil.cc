@@ -6656,12 +6656,14 @@ static int _get_stomped(monster* mons)
 
     behaviour_event(mons, ME_ANNOY, &you);
 
-    int power = player_adjust_invoc_power(you.skill(SK_INVOCATIONS));
+    // Damage starts at 1/6th of monster current HP, then gets some damage
+    // scaling off Invo power.
+    int damage = div_rand_round(mons->hit_points, 6);
+    int die_size = 2 + div_rand_round(player_adjust_invoc_power(
+                you.skill(SK_INVOCATIONS)), 2);
+    damage += roll_dice(2, die_size);
 
-    // flat and percentage damage scales with Invocations
-    int dmg = 1 + power + div_rand_round(power * mons->max_hit_points, 100);
-
-    mons->hurt(&you, dmg, BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
+    mons->hurt(&you, damage, BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
 
     if (mons->alive() && you.can_see(*mons))
         print_wounds(mons);
