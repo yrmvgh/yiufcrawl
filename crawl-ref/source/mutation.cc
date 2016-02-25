@@ -1560,7 +1560,8 @@ static bool _delete_single_mutation_level(mutation_type mutat,
     bool lose_msg = true;
 
     you.mutation[mutat]--;
-    if(even_if_innate && you.innate_mutation[mutat] > 0) you.innate_mutation[mutat]--;
+    // this is already handled in the perma_mutate function
+//    if(even_if_innate && you.innate_mutation[mutat] > 0) you.innate_mutation[mutat]--;
 
     switch (mutat)
     {
