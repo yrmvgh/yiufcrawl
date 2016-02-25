@@ -942,10 +942,10 @@ static void _handle_insight(int time_delta)
     		int attempt = 0;
 
     		FixedVector< item_def, ENDOFPACK > *inv;
-    		if(coinflip()) {
-    			inv = &(you.inv1);
-    		} else {
+    		if(one_chance_in(3)()) {
     			inv = &(you.inv2);
+    		} else {
+    			inv = &(you.inv1);
     		}
 
     		// random selection
