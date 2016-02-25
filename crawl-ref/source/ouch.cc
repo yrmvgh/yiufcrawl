@@ -138,7 +138,7 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 //        	hurted = 0;
             canned_msg(MSG_GAIN_HEALTH);
         }
-        else if (hurted < original && doEffects)
+        else if (hurted < original && doEffects && you.species != SP_DJINNI)
             canned_msg(MSG_YOU_RESIST);
         else if (hurted > original && doEffects)
         {
@@ -154,7 +154,7 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 //        	hurted = 0;
             canned_msg(MSG_GAIN_HEALTH);
         }
-        else if (hurted < original && doEffects)
+        else if (hurted < original && doEffects && you.species != SP_DJINNI)
             canned_msg(MSG_YOU_RESIST);
         else if (hurted > original && doEffects)
         {
@@ -267,7 +267,7 @@ int check_your_resists(int hurted, beam_type flavour, string source,
 //        	hurted = 0;
             canned_msg(MSG_GAIN_HEALTH);
         }
-        else if (hurted < original && doEffects)
+        else if (hurted < original && doEffects && you.species != SP_DJINNI)
             canned_msg(MSG_YOU_PARTIALLY_RESIST);
         else if (hurted > original && doEffects)
         {

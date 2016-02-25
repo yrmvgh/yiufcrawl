@@ -75,6 +75,7 @@ spell_slot ^= Call Imp:i
 spell_slot ^= Inner:i
 spell_slot ^= Invisibility:i
 spell_slot ^= ^Lee:l
+spell_slot ^= Magma:m
 spell_slot ^= Mass:m
 spell_slot ^= Mephitic Cloud:m
 spell_slot ^= Mystic:m
