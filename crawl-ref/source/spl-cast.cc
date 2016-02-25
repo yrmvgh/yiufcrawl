@@ -706,7 +706,10 @@ int apply_enhancement(const int initial_power, const int enhancer_levels)
     else if (enhancer_levels < 0)
     {
         for (int i = enhancer_levels; i < 0; i++)
-            power /= 2;
+        {
+            power *= 10;
+            power /= 15;
+        }
     }
 
     return power;
