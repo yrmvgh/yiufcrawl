@@ -2597,10 +2597,33 @@ static bool _drop_item_order(const SelItem &first, const SelItem &second)
 /**
  * Prompts the user for an item to drop.
  */
-void drop()
+void drop_inventory()
+{
+	drop(you.inv1);
+}
+
+/**
+ * Prompts the user for an item to drop.
+ */
+void drop_consumable()
+{
+	drop(you.inv2);
+}
+
+/**
+ * Prompts the user for an item to drop.
+ */
+void drop(FixedVector< item_def, ENDOFPACK > &input_inv)
 {
 	FixedVector< item_def, ENDOFPACK > *inv;
-	inv_from_prompt(inv, "Do you want to drop");
+	if(input_inv == nullptr)
+	{
+		inv_from_prompt(inv, "Do you want to drop");
+	}
+	else
+	{
+		inv = &input_inv;
+	}
 
 	if (inv_count(*inv) < 1 && you.gold == 0)
     {

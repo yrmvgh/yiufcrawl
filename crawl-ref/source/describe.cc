@@ -2236,7 +2236,17 @@ static vector<command_type> _allowed_actions(const item_def& item)
     if (item_is_evokable(item))
         actions.push_back(CMD_EVOKE);
 
-    actions.push_back(CMD_DROP);
+    switch (item.base_type)
+    {
+    case OBJ_FOOD:
+    case OBJ_SCROLLS:
+    case OBJ_POTIONS:
+        actions.push_back(CMD_DROP_CONSUMABLE);
+        break;
+    default:
+        actions.push_back(CMD_DROP_INVENTORY);
+        ;
+    }
 
     if (!crawl_state.game_is_tutorial())
         actions.push_back(CMD_INSCRIBE_ITEM);
@@ -2259,7 +2269,8 @@ static string _actions_desc(const vector<command_type>& actions, const item_def&
         { CMD_WEAR_JEWELLERY, "(p)ut on" },
         { CMD_REMOVE_JEWELLERY, "(r)emove" },
         { CMD_QUAFF, "(q)uaff" },
-        { CMD_DROP, "(d)rop" },
+        { CMD_DROP_INVENTORY, "(d)rop" },
+        { CMD_DROP_CONSUMABLE, "(d)rop" },
         { CMD_INSCRIBE_ITEM, "(i)nscribe" },
         { CMD_ADJUST_INVENTORY, "(=)adjust" },
     };
@@ -2291,7 +2302,8 @@ static command_type _get_action(int key, vector<command_type> actions)
         { CMD_WEAR_JEWELLERY,   'p' },
         { CMD_REMOVE_JEWELLERY, 'r' },
         { CMD_QUAFF,            'q' },
-        { CMD_DROP,             'd' },
+        { CMD_DROP_INVENTORY,   'd' },
+        { CMD_DROP_CONSUMABLE,  'd' },
         { CMD_INSCRIBE_ITEM,    'i' },
         { CMD_ADJUST_INVENTORY, '=' },
     };
@@ -2337,7 +2349,8 @@ static bool _do_action(item_def &item, const vector<command_type>& actions, int 
     case CMD_WEAR_JEWELLERY:   puton_ring(slot);                    	break;
     case CMD_REMOVE_JEWELLERY: remove_ring(slot, true);             	break;
     case CMD_QUAFF:            drink(slot);                         	break;
-    case CMD_DROP:             drop_item((*inv), slot, item.quantity);  break;
+    case CMD_DROP_INVENTORY:   drop_item((*inv), slot, item.quantity);  break;
+    case CMD_DROP_CONSUMABLE:  drop_item((*inv), slot, item.quantity);  break;
     case CMD_INSCRIBE_ITEM:    inscribe_item(item);                 	break;
     case CMD_ADJUST_INVENTORY: adjust_item((*inv), slot);               break;
     default:

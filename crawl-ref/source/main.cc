@@ -1133,7 +1133,8 @@ static bool _cmd_is_repeatable(command_type cmd, bool is_again = false)
 
     // Multi-turn commands
     case CMD_PICKUP:
-    case CMD_DROP:
+    case CMD_DROP_INVENTORY:
+    case CMD_DROP_CONSUMABLE:
     case CMD_DROP_LAST:
     case CMD_BUTCHER:
     case CMD_GO_UPSTAIRS:
@@ -2151,8 +2152,12 @@ void process_command(command_type cmd)
     case CMD_WIELD_WEAPON:         wield_weapon(false);      break;
     case CMD_ZAP_WAND:             zap_wand();               break;
 
-    case CMD_DROP:
-        drop();
+    case CMD_DROP_INVENTORY:
+        drop_inventory();
+        break;
+
+    case CMD_DROP_CONSUMABLE:
+        drop_consumable();
         break;
 
     case CMD_DROP_LAST:

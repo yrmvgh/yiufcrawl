@@ -549,11 +549,11 @@ bool InventoryRegion::update_tip_text(string& tip)
             || !you.inv1[idx].cursed())
         {
             tip += "\n[Shift + L-Click] Drop (%)";
-            cmd.push_back(CMD_DROP);
+            cmd.push_back(CMD_DROP_INVENTORY);
             if (you.inv1[idx].quantity > 1)
             {
                 tip += "\n[Ctrl-Shift + L-Click] Drop quantity (%#)";
-                cmd.push_back(CMD_DROP);
+                cmd.push_back(CMD_DROP_INVENTORY);
             }
         }
     }

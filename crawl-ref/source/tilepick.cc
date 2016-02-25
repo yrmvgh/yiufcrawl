@@ -5153,7 +5153,9 @@ tileidx_t tileidx_command(const command_type cmd)
         return TILEG_CMD_BUTCHER;
     case CMD_MEMORISE_SPELL:
         return TILEG_CMD_MEMORISE_SPELL;
-    case CMD_DROP:
+    case CMD_DROP_INVENTORY:
+        return TILEG_CMD_DROP;
+    case CMD_DROP_CONSUMABLE:
         return TILEG_CMD_DROP;
     case CMD_DISPLAY_MAP:
         return TILEG_CMD_DISPLAY_MAP;

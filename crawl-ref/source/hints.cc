@@ -1932,7 +1932,7 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
             "appears your knapsack is full.";
         text << " However, this is easy enough to rectify: simply "
                 "<w>%</w>rop some of the stuff you don't need right now.";
-        cmd.push_back(CMD_DROP);
+        cmd.push_back(CMD_DROP_INVENTORY);
 
 #ifdef USE_TILE
         text << " In the drop menu you can then comfortably select which "
@@ -3503,7 +3503,7 @@ string hints_describe_item(const item_def &item)
                     "using the <w>%</w>hop prompt where <w>c</w> is a "
                     "valid synonym for <w>y</w>es or you can directly chop "
                     "<w>a</w>ll corpses.";
-            cmd.push_back(CMD_DROP);
+            cmd.push_back(CMD_DROP_INVENTORY);
             cmd.push_back(CMD_BUTCHER);
             break;
 
@@ -3558,7 +3558,7 @@ string hints_describe_item(const item_def &item)
                      << " frowns upon the use of magic, this staff will be "
                         "of little use to you and you might just as well "
                         "<w>%</w>rop it now.";
-                cmd.push_back(CMD_DROP);
+                cmd.push_back(CMD_DROP_INVENTORY);
             }
             Hints.hints_events[HINT_SEEN_STAFF] = false;
             break;

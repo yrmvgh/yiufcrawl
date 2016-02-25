@@ -94,7 +94,9 @@ const item_def* top_item_at(const coord_def& where);
 // Returns whether there is more than one item in a given cell.
 bool multiple_items_at(const coord_def& where);
 
-void drop();
+void drop(FixedVector< item_def, ENDOFPACK > &inv = nullptr);
+void drop_inventory();
+void drop_consumable();
 
 int inv_count(FixedVector< item_def, ENDOFPACK > &inv);
 int runes_in_pack();
