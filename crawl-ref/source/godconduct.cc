@@ -1010,16 +1010,16 @@ void did_hurt_conduct(conduct_type thing_done,
     // Currently only used by Ukayaw; initially planned to use god conduct
     // logic more heavily, but the god seems to need something different.
 
-    // Give a "value" for the percent of the monster's hp done in damage,
-    // scaled by the monster's threat level.
-    int value = random2(3) + sqr((mons_threat_level(&victim) + 1) * 2) * damage_done /
-                (victim.max_hit_points);
+    if (you_worship(GOD_UKAYAW))
+    {
+        // Give a "value" for the percent of the monster's hp done in damage,
+        // scaled by the monster's threat level.11
+        int value = random2(3) + sqr((mons_threat_level(&victim) + 1) * 2)
+                * damage_done / (victim.max_hit_points);
 
-    you.props[UKAYAW_NUM_MONSTERS_HURT] =
         you.props[UKAYAW_NUM_MONSTERS_HURT].get_int() += 1;
-    you.props[UKAYAW_MONSTER_HURT_VALUE] =
         you.props[UKAYAW_MONSTER_HURT_VALUE].get_int() += value;
-
+    }
 }
 
 /**
