@@ -1331,7 +1331,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_FELID,           SK_EVOCATIONS,      1),
 
     // SP_OCTOPODE
-    APT(SP_OCTOPODE,        SK_FIGHTING,        0),
+    APT(SP_OCTOPODE,        SK_FIGHTING,       -1),
     APT(SP_OCTOPODE,        SK_SHORT_BLADES,    0),
     APT(SP_OCTOPODE,        SK_LONG_BLADES,     0),
     APT(SP_OCTOPODE,        SK_AXES,            0),
@@ -1348,11 +1348,11 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #if TAG_MAJOR_VERSION == 34
     APT(SP_OCTOPODE,        SK_STABBING,      UNUSABLE_SKILL),
 #endif
-    APT(SP_OCTOPODE,        SK_SHIELDS,         0),
+    APT(SP_OCTOPODE,        SK_SHIELDS,         2),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_OCTOPODE,        SK_TRAPS,         UNUSABLE_SKILL),
 #endif
-    APT(SP_OCTOPODE,        SK_UNARMED_COMBAT,  0),
+    APT(SP_OCTOPODE,        SK_UNARMED_COMBAT,  1),
     APT(SP_OCTOPODE,        SK_SPELLCASTING,   -1),
     APT(SP_OCTOPODE,        SK_CONJURATIONS,    0),
     APT(SP_OCTOPODE,        SK_HEXES,           0),
@@ -1360,14 +1360,14 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_OCTOPODE,        SK_SUMMONINGS,      0),
     APT(SP_OCTOPODE,        SK_NECROMANCY,      0),
     APT(SP_OCTOPODE,        SK_TRANSLOCATIONS,  0),
-    APT(SP_OCTOPODE,        SK_TRANSMUTATIONS,  0),
+    APT(SP_OCTOPODE,        SK_TRANSMUTATIONS,  1),
     APT(SP_OCTOPODE,        SK_FIRE_MAGIC,      0),
     APT(SP_OCTOPODE,        SK_ICE_MAGIC,       0),
     APT(SP_OCTOPODE,        SK_AIR_MAGIC,       0),
     APT(SP_OCTOPODE,        SK_EARTH_MAGIC,     0),
-    APT(SP_OCTOPODE,        SK_POISON_MAGIC,    2),
+    APT(SP_OCTOPODE,        SK_POISON_MAGIC,    1),
     APT(SP_OCTOPODE,        SK_INVOCATIONS,     1),
-    APT(SP_OCTOPODE,        SK_EVOCATIONS,      1),
+    APT(SP_OCTOPODE,        SK_EVOCATIONS,      4),
 
     // SP_DJINNI
     APT(SP_DJINNI,          SK_FIGHTING,       -1),

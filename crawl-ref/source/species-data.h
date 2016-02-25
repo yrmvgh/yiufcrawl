@@ -641,7 +641,7 @@ static const map<species_type, species_def> species_data =
     "Octopode", "Octopoid", "Octopus",
     SPF_NO_HAIR,
     0, 0, 0,
-    18, 3,
+    20, 3,
     MONS_OCTOPODE,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
     8, 8, 8, // 24
@@ -649,10 +649,11 @@ static const map<species_type, species_def> species_data =
     {
     		{ MUT_CAMOUFLAGE, 1, 1 },
     		{ MUT_GELATINOUS_BODY, 3, 1 },
-    		{ MUT_AUGMENTATION, 1, 1 },
+    		{ MUT_AUGMENTATION, 1, 6 },
     },
     { "You cannot wear most types of armour.",
-      "You are amphibious." },
+      "You are amphibious.",
+    },
     { "almost no armour", "amphibious" },
     { JOB_TRANSMUTER, JOB_WIZARD, JOB_CONJURER, JOB_ASSASSIN,
       JOB_FIRE_ELEMENTALIST, JOB_ICE_ELEMENTALIST, JOB_EARTH_ELEMENTALIST,

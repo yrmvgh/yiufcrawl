@@ -2032,12 +2032,12 @@ bool enchant_weapon(item_def &wpn, bool quiet)
 // Returns true if the scroll is used up.
 static bool _identify(bool alreadyknown, const string &pre_msg)
 {
+	FixedVector< item_def, ENDOFPACK > *inv;
+	inv_from_prompt(inv, "Do you want to identify");
+
     int item_slot = -1;
     while (true)
     {
-    	FixedVector< item_def, ENDOFPACK > *inv;
-    	inv_from_prompt(inv, "Do you want to identify");
-
         if (item_slot == -1)
         {
             item_slot = prompt_invent_item(
@@ -2066,7 +2066,7 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
             }
         }
 
-        item_def& item(you.inv1[item_slot]);
+        item_def& item((*inv)[item_slot]);
         if (fully_identified(item)
             && (!is_deck(item) || top_card_is_known(item)))
         {
