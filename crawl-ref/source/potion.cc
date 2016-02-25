@@ -620,7 +620,7 @@ public:
         if (you.species == SP_DJINNI
             && PotionHealWounds::instance().can_quaff())
         {
-            return PotionHealWounds::instance().effect(pow);
+            return PotionHealWounds::instance().effect(true, pow, false);
         }
         inc_mp(you.max_magic_points);
         mpr("Magic courses through your body.");
