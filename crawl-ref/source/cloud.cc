@@ -1226,7 +1226,8 @@ int actor_apply_cloud(actor *act)
         cloud.announce_actor_engulfed(act, final_damage < 0);
     }
     if (player && cloud_max_base_damage > 0 && resist > 0
-        && (cloud.type != CLOUD_STORM || final_damage > 0))
+        && (cloud.type != CLOUD_STORM || final_damage > 0)
+		&& you.species != SP_DJINNI)
     {
         canned_msg(MSG_YOU_RESIST);
     }
