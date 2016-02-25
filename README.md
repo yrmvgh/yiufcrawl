@@ -130,6 +130,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * wands of heal wounds work almost like before, except that their effectiveness scales with evocations skill, and the amount healed is proportional to
       health capacity. 
 
+* Potions of magic
+    * fully restore magic
+
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague

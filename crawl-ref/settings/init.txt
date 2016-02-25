@@ -72,6 +72,7 @@ spell_slot ^= Haste:h
 spell_slot ^= Hydra:h
 spell_slot ^= Ice Form:i
 spell_slot ^= Call Imp:i
+spell_slot ^= Inner:i
 spell_slot ^= Invisibility:i
 spell_slot ^= ^Lee:l
 spell_slot ^= Mass:m

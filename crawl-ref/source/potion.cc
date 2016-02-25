@@ -622,7 +622,7 @@ public:
         {
             return PotionHealWounds::instance().effect(pow);
         }
-        inc_mp(POT_MAGIC_MP);
+        inc_mp(you.max_magic_points);
         mpr("Magic courses through your body.");
         return true;
     }
