@@ -849,7 +849,7 @@ static void _regenerate_hp_and_mp(int delay)
 
     update_regen_amulet_attunement();
 
-    if (!player_regenerates_mp())
+    if (!player_regenerates_mp() || player_has_summons())
         return;
 
     if (you.magic_points < you.max_magic_points || you.species == SP_DJINNI && you.hp < you.hp_max)

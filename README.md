@@ -16,8 +16,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
       creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
       before. 
-    * summons occasionally disappear even if you have enough mana to support them. 
+    * how much magic a summon drains is reduced by higher spell powers
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
+    * you can't regenerate magic while you have any summons
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
