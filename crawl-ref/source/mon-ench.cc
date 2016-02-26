@@ -1016,10 +1016,17 @@ int monster::cost_of_maintaining_summon()
     // this could also be summon type if we didn't know for sure this was a creature summoned by the player
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
-	const int power = calc_spell_power(spell_used, true);
-	int cost = spell_difficulty(spell_used);
+	int cost = 0;
+    if (spell_used != SPELL_NO_SPELL)
+    {
+    	const int power = calc_spell_power(spell_used, true);
+		cost = spell_difficulty(spell_used);
 
-	cost = stepdown(cost / power, cost);
+    	cost = stepup(cost, 2, 10);		// spell level 1 -> 14  level 2 -> 20  4 -> 40  6 -> 80  8 -> 160
+    	cost *= 50;						// to get it to the right chance out of 1000 to cost a mana point
+    	cost /= power;					// higher power will lower the cost (make mana points be subtracted less freq
+    }
+
 	return cost;
 }
 
@@ -1060,21 +1067,19 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 		}
     }
 
-    if (me.ench == ENCH_ABJ) {
-        if (lose_ench_duration(me, actdur) && player_summoned_this_creature)
-        {
-        	// mana loss as result of abj
-			dec_mp(cost_of_maintaining_summon()*2, true);
-        }
+    if (!player_summoned_this_creature && lose_ench_duration(me, actdur))
+    {
+        return true;
+    }
 
-        if (player_summoned_this_creature)
-        {
+    if (me.ench == ENCH_ABJ && player_summoned_this_creature)
+    {
             // enchantment is not based on duration, but instead steadily drains mana of summoner
-			int cost = cost_of_maintaining_summon();
+			const int cost = cost_of_maintaining_summon();
 			if(x_chance_in_y(cost, 1000)) {
 				if(you.species == SP_DJINNI
 						? (100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20)
-						: (player_who_summoned_this->magic_points < cost)
+						: (player_who_summoned_this->magic_points < 3)
 						)
 				{
 					del_ench(me.ench);
@@ -1082,9 +1087,7 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 					dec_mp(1, true);
 				}
 			}
-        }
-
-        return true;
+			return false;
     }
 
     if (!decay_degree)

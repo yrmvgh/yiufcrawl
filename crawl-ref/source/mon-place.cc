@@ -1631,7 +1631,7 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     {
         // Instead of looking for dancing weapons, look for Tukima's dance.
         // Dancing weapons can be created with shadow creatures. {due}
-        mon->mark_summoned(mg.abjuration_duration,
+        mon->mark_summoned(mg.abjuration_duration * (mg.summoner->is_player() ? 10 : 1),
                            mg.summon_type != SPELL_TUKIMAS_DANCE,
                            mg.summon_type);
 
