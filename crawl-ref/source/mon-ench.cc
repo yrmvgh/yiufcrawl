@@ -1023,7 +1023,7 @@ int monster::cost_of_maintaining_summon()
 		cost = spell_difficulty(spell_used);
 
     	cost = stepup(cost, 2, 10);		// spell level 1 -> 14  level 2 -> 20  4 -> 40  6 -> 80  8 -> 160
-    	cost *= 250;					// to get it to the right chance out of 1000 to cost a mana point
+    	cost *= 1000;					// to get it to the right chance out of 1000 to cost a mana point
     	cost /= power;					// higher power will lower the cost (make mana points be subtracted less freq
     }
 
@@ -1075,8 +1075,7 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
     if (me.ench == ENCH_ABJ && player_summoned_this_creature)
     {
             // enchantment is not based on duration, but instead steadily drains mana of summoner
-			const int cost = cost_of_maintaining_summon();
-			if(x_chance_in_y(cost, 1000)) {
+			if(one_chance_in(3)) {
 				if(you.species == SP_DJINNI
 					? 100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20
 					: 100 * player_who_summoned_this->magic_points / player_who_summoned_this->max_magic_points < 10
@@ -1084,14 +1083,14 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 				{
 					del_ench(me.ench);
 				} else {
-					dec_mp(
-							random2(4) < 3
-							? random2(4)
-							: (random2(4) < 3
-							  ? 4 + random2(4)
-							  : 8 + random2(8)
-							  )
-							, true);
+					int cost = one_chance_in(4)
+							? (one_chance_in(4)	? 8 + random2(8) : 4 + random2(4))
+							  : random2(4)
+							;
+					cost *= cost_of_maintaining_summon();
+					cost /= 1000;
+					cost = max(1, cost);
+					dec_mp(cost, true);
 			        you.redraw_magic_points = true;
 				}
 			}

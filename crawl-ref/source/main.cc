@@ -1911,6 +1911,8 @@ static void _do_rest()
                 || !player_regenerates_mp()))
         {
             mpr("You start waiting.");
+            unsummon_all();
+
             _start_running(RDIR_REST, RMODE_WAIT_DURATION);
             return;
         }
