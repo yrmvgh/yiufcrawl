@@ -3173,8 +3173,7 @@ bool bolt::harmless_to_player() const
     case BEAM_HELLFIRE:
     case BEAM_HOLY_FLAME:
     case BEAM_STICKY_FLAME:
-    	return false;
-//        return you.species == SP_DJINNI;
+        return you.species == SP_DJINNI;
 
     case BEAM_VIRULENCE:
         return player_res_poison(false) >= 3;
