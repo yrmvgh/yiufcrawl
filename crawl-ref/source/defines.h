@@ -100,7 +100,7 @@ const int LABYRINTH_BORDER = 4;
 #define Y_WIDTH                 (Y_BOUND_2 - Y_BOUND_1 + 1)
 
 // normal LOS radius
-#define LOS_RADIUS 9
+#define LOS_RADIUS 7
 
 // maximal horizontal or vertical LOS range:
 //   a quadrant needs to fit inside an 2D array with
