@@ -19,6 +19,16 @@ double log2(double n)
 }
 #endif
 
+double stepup(double value, double divisor)
+{
+    return pow(2, value / divisor);
+}
+
+int stepup(int value, int divisor, int multiplier)
+{
+    return multiplier * stepup(value, divisor);
+}
+
 double stepdown(double value, double step)
 {
     return step * log2(1 + value / step);
