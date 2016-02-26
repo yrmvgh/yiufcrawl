@@ -17,9 +17,11 @@ public:
     mid_t         source;   // Who set this enchantment?
 
 public:
-    mon_enchant(enchant_type e = ENCH_NONE, int deg = 0,
+    mon_enchant(
+    			enchant_type e = ENCH_NONE, int deg = 0,
                 const actor *whose = 0,
-                int dur = 0);
+                int dur = 0
+				);
 
     killer_type killer() const;
     int kill_agent() const;

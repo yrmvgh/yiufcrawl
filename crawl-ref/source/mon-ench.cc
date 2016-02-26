@@ -1005,6 +1005,24 @@ string monster::describe_enchantments() const
     return oss.str();
 }
 
+/**
+ * calculates chances of player's mana being drained for having this monster summoned, out of 1000
+ * should only be used if we know this creature was summoned by the player
+ */
+int monster::cost_of_maintaining_summon()
+{
+    const mon_enchant& ench_summon(get_ench(ENCH_SUMMON));
+
+    // this could also be summon type if we didn't know for sure this was a creature summoned by the player
+    const spell_type spell_used = (spell_type)ench_summon.degree;
+
+	const int power = calc_spell_power(spell_used, true);
+	int cost = spell_difficulty(spell_used);
+
+	cost = stepdown(cost / power, cost);
+	return cost;
+}
+
 bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 {
     if (!has_ench(en))
@@ -1029,28 +1047,44 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
             props.erase(TORPOR_SLOWED_KEY);
     }
 
-    if (me.ench == ENCH_ABJ && summoner) {
-    	// enchantment is not based on duration, but instead steadily drains mana of summoner
-        actor *sourceAgent = actor_by_mid(summoner);
-        if(sourceAgent && sourceAgent->is_player()) {
-        	int cost = max(1, hit_dice/2);
-			if(one_chance_in(10)) {
-				player* player = sourceAgent->as_player();
-				if((you.species == SP_DJINNI
-						? (100 * player->hp / player->hp_max < 20)
-						: (player->magic_points < cost)
+    bool player_summoned_this_creature = false;
+	player* player_who_summoned_this = 0;
+
+    if (summoner)
+    {
+		actor *sourceAgent = actor_by_mid(summoner);
+		if(sourceAgent && sourceAgent->is_player())
+		{
+			player_summoned_this_creature = true;
+			player_who_summoned_this = sourceAgent->as_player();
+		}
+    }
+
+    if (me.ench == ENCH_ABJ) {
+        if (lose_ench_duration(me, actdur) && player_summoned_this_creature)
+        {
+        	// mana loss as result of abj
+			dec_mp(cost_of_maintaining_summon()*2, true);
+        }
+
+        if (player_summoned_this_creature)
+        {
+            // enchantment is not based on duration, but instead steadily drains mana of summoner
+			int cost = cost_of_maintaining_summon();
+			if(x_chance_in_y(cost, 1000)) {
+				if(you.species == SP_DJINNI
+						? (100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20)
+						: (player_who_summoned_this->magic_points < cost)
 						)
-						|| one_chance_in(20)
-						) {
-		            del_ench(me.ench);
+				{
+					del_ench(me.ench);
 				} else {
-					dec_mp(cost, true);
+					dec_mp(1, true);
 				}
 			}
         }
-    } else {
-        if (lose_ench_duration(me, actdur))
-            return true;
+
+        return true;
     }
 
     if (!decay_degree)

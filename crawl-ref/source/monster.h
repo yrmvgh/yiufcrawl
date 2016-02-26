@@ -606,6 +606,7 @@ private:
                               int &nvalid) const;
     bool search_spells(function<bool (spell_type)> func) const;
     bool is_cloud_safe(const coord_def &place) const;
+    int cost_of_maintaining_summon();
 };
 
 #endif

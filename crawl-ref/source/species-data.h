@@ -644,12 +644,14 @@ static const map<species_type, species_def> species_data =
     20, 3,
     MONS_OCTOPODE,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
+    9, 9, 9, // 27
     { STAT_STR, STAT_INT, STAT_DEX }, 6,
     {
     		{ MUT_CAMOUFLAGE, 1, 1 },
-    		{ MUT_GELATINOUS_BODY, 3, 1 },
+    		{ MUT_GELATINOUS_BODY, 1, 1 },
+    		{ MUT_GELATINOUS_BODY, 1, 4 },
     		{ MUT_AUGMENTATION, 1, 6 },
+    		{ MUT_GELATINOUS_BODY, 1, 8 },
     },
     { "You cannot wear most types of armour.",
       "You are amphibious.",

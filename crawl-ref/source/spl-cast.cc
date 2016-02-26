@@ -165,7 +165,6 @@ static string _spell_wide_description(spell_type spell, bool viewing)
     // spell name
     desc << chop_string(spell_title(spell), 29);
 
-    // spell power, spell range, hunger level, level
     const string rangestring = spell_range_string(spell);
 
     string spell_power;
@@ -180,11 +179,6 @@ static string _spell_wide_description(spell_type spell, bool viewing)
          << chop_string(spell_hunger_string(spell), 8);
 
     desc << "</" << colour_to_str(highlight) <<">";
-
-//    const int so_far = strwidth(desc.str()) - (strwidth(colour_to_str(highlight))+2);
-//    if (so_far < 101)
-//        desc << string(101 - so_far, ' ');
-//    desc << "</" << colour_to_str(highlight) <<">";
 
     // spell fail rate, level
     highlight = failure_rate_colour(spell);
