@@ -657,7 +657,7 @@ monster_type player_mons(bool transform)
 
 void update_vision_range()
 {
-    you.normal_vision = LOS_RADIUS - 2;
+    you.normal_vision = LOS_RADIUS;
     int nom   = 1;
     int denom = 1;
 
