@@ -475,6 +475,9 @@ static const ability_def Ability_List[] =
     { ABIL_HEPLIAKLQANA_DEATH_IMPLODE,  "Ancestor Death: Implode",
         0, 0, 0, 0, abflag::NONE },
 
+    { ABIL_HEPLIAKLQANA_IDENTITY,  "Ancestor Identity",
+        0, 0, 0, 0, abflag::NONE },
+
 
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
     { ABIL_RENOUNCE_RELIGION, "Renounce Religion", 0, 0, 0, 0, abflag::NONE },
@@ -980,6 +983,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
     case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
     case ABIL_HEPLIAKLQANA_TYPE_HEXER:
+    case ABIL_HEPLIAKLQANA_IDENTITY:
     case ABIL_STOP_RECALL:
     case ABIL_RENOUNCE_RELIGION:
     case ABIL_CONVERT_TO_BEOGH:
@@ -3185,6 +3189,10 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         break;
 
+    case ABIL_HEPLIAKLQANA_IDENTITY:
+        hepliaklqana_choose_identity();
+        return SPRET_ABORT; // always free
+
     case ABIL_RENOUNCE_RELIGION:
         fail_check();
         if (yesno("Really renounce your faith, foregoing its fabulous benefits?",
@@ -3757,6 +3765,7 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
     case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
     case ABIL_HEPLIAKLQANA_TYPE_HEXER:
+    case ABIL_HEPLIAKLQANA_IDENTITY: // move this?
         first_slot = letter_to_index('G');
         break;
     default:

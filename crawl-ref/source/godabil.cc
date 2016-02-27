@@ -7201,3 +7201,87 @@ spret_type hepliaklqana_transference(bool fail)
 
     return SPRET_SUCCESS;
 }
+
+/// Prompt to rename your ancestor.
+static void _hepliaklqana_choose_name()
+{
+    const string old_name = hepliaklqana_ally_name();
+    string prompt  = make_stringf("Remember %s name as what? ",
+                                  apostrophise(old_name).c_str());
+
+    char buf[79];
+    int ret = msgwin_get_line(prompt, buf, sizeof buf, nullptr, old_name);
+    if (ret)
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    // Strip spaces from the end.
+    for (int i = strlen(buf) - 1; i >= 0; --i)
+    {
+        if (isspace(buf[i]))
+            buf[i] = 0;
+        else
+            break;
+    }
+
+    if (old_name == buf)
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    you.props[HEPLIAKLQANA_ALLY_NAME_KEY] = buf;
+    mprf("Yes, %s is definitely a better name.", buf);
+    upgrade_hepliaklqana_ancestor(true);
+}
+
+static void _hepliaklqana_choose_gender()
+{
+    static const string gender_names[] = { "neither", "male", "female" };
+    const int current_gender
+        = you.props[HEPLIAKLQANA_ALLY_GENDER_KEY].get_int();
+    ASSERT(current_gender >= 0);
+    ASSERT(current_gender < ARRAYSZ(gender_names));
+
+    mprf(MSGCH_PROMPT,
+         "Was %s a) male, b) female, or c) neither? (Currently %s.)\n",
+         hepliaklqana_ally_name().c_str(),
+         gender_names[current_gender].c_str());
+
+    int keyin = toalower(get_ch());
+    if (!isaalpha(keyin))
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    const int choice = keyin - 'a';
+    if (choice > ARRAYSZ(gender_names) || choice < 0)
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    // fun trick
+    const int new_gender = (choice + 1) % 3;
+    if (new_gender == current_gender)
+    {
+        canned_msg(MSG_OK);
+        return;
+    }
+
+    you.props[HEPLIAKLQANA_ALLY_GENDER_KEY] = new_gender;
+    mprf("%s was always %s, you're pretty sure.",
+         hepliaklqana_ally_name().c_str(),
+         gender_names[new_gender].c_str());
+    upgrade_hepliaklqana_ancestor(true);
+}
+
+/// Rename and/or re-gender your ancestor.
+void hepliaklqana_choose_identity()
+{
+    _hepliaklqana_choose_name();
+    _hepliaklqana_choose_gender();
+}

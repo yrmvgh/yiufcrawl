@@ -78,9 +78,6 @@
 
 #define PIETY_HYSTERESIS_LIMIT 1
 
-/// the name of the ally hepliaklqana granted the player
-#define HEPLIAKLQANA_ALLY_NAME_KEY "hepliaklqana_ally_name"
-
 static weapon_type _hepliaklqana_weapon_type(monster_type mc, int HD);
 static brand_type _hepliaklqana_weapon_brand(monster_type mc, int HD);
 static armour_type _hepliaklqana_shield_type(monster_type mc, int HD);
@@ -476,6 +473,7 @@ const vector<god_power> god_powers[NUM_GODS] =
     },
     // Hepliaklqana
     { { 0, ABIL_HEPLIAKLQANA_RECALL, "recall your ancestor" },
+      { 0, ABIL_HEPLIAKLQANA_IDENTITY, "remember your ancestor's identity" },
       { 3, ABIL_HEPLIAKLQANA_ROMANTICISE, "heal & protect your ancestor" },
       { 5, ABIL_HEPLIAKLQANA_TRANSFERENCE, "swap creatures with your ancestor" }
     },
@@ -1849,6 +1847,11 @@ void upgrade_hepliaklqana_ancestor(bool quiet_force)
     monster* ancestor = hepliaklqana_ancestor_mon();
     if (!ancestor || !ancestor->alive())
         return;
+
+    // housekeeping
+    ancestor->mname = hepliaklqana_ally_name();
+    ancestor->props[MON_GENDER_KEY]
+        = you.props[HEPLIAKLQANA_ALLY_GENDER_KEY].get_int();
 
     const int old_hd = ancestor->get_experience_level();
     const int hd = _hepliaklqana_ally_hd();

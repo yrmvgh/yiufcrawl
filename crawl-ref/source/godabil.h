@@ -181,4 +181,5 @@ bool hepliaklqana_choose_death_type(int death_type);
 void hepliaklqana_on_deathswap(const coord_def &loc, bool death);
 spret_type hepliaklqana_romanticise(bool fail);
 spret_type hepliaklqana_transference(bool fail);
+void hepliaklqana_choose_identity();
 #endif
