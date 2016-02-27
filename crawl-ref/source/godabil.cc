@@ -7217,23 +7217,15 @@ static void _hepliaklqana_choose_name()
         return;
     }
 
-    // Strip spaces from the end.
-    for (int i = strlen(buf) - 1; i >= 0; --i)
-    {
-        if (isspace(buf[i]))
-            buf[i] = 0;
-        else
-            break;
-    }
-
-    if (old_name == buf || !strlen(buf))
+    const string new_name = trimmed_string(buf);
+    if (old_name == new_name || !new_name.size())
     {
         canned_msg(MSG_OK);
         return;
     }
 
-    you.props[HEPLIAKLQANA_ALLY_NAME_KEY] = buf;
-    mprf("Yes, %s is definitely a better name.", buf);
+    you.props[HEPLIAKLQANA_ALLY_NAME_KEY] = new_name;
+    mprf("Yes, %s is definitely a better name.", new_name.c_str());
     upgrade_hepliaklqana_ancestor(true);
 }
 
