@@ -6936,6 +6936,13 @@ static void _on_deathswap_implode(const coord_def &loc, bool death)
     fatal_attraction(loc, &you, death ? base_pow*2 : base_pow);
 }
 
+static void _deathswap_message(bool death, const char *msg)
+{
+    mprf("As %s %s, %s.",
+         hepliaklqana_ally_name().c_str(),
+         death ? "is destroyed" : "swaps");
+}
+
 /**
  * Create a cloud of smoke around the ancestor's last location.
  *
@@ -6944,9 +6951,7 @@ static void _on_deathswap_implode(const coord_def &loc, bool death)
  */
 static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
-    mprf("As %s %s, fog sprays out.",
-         hepliaklqana_ally_name().c_str(),
-         death ? "is destroyed" : "swaps");
+    _deathswap_message(death, "fog sprays out");
     big_cloud(random_smoke_type(), &you, loc, 50,
               death ? 9 + random2(9) : 6 + random2(6));
 }
@@ -6995,9 +7000,7 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
  */
 static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
-    mprf("As %s %s, translocational energy flares.",
-         hepliaklqana_ally_name().c_str(),
-         death ? "is destroyed" : "swaps");
+    _deathswap_message(death, "translocational energy flares");
     const int base_pow = 10 + div_rand_round(you.skill(SK_INVOCATIONS), 2);
     cast_dispersal(death ? base_pow * 3 : base_pow, false, &loc);
 }
