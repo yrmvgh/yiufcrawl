@@ -190,7 +190,8 @@ static bool _is_public_key(string key)
      || key == ELVEN_IS_ENERGIZED_KEY
      || key == MUTANT_BEAST_FACETS
      || key == MUTANT_BEAST_TIER
-     || key == DOOM_HOUND_HOWLED_KEY)
+     || key == DOOM_HOUND_HOWLED_KEY
+     || key == MON_GENDER_KEY)
     {
         return true;
     }
@@ -1900,4 +1901,14 @@ void get_monster_info(vector<monster_info>& mons)
         }
     }
     sort(mons.begin(), mons.end(), monster_info::less_than_wrapper);
+}
+
+const char *monster_info::pronoun(pronoun_type variant) const
+{
+    if (props.exists(MON_GENDER_KEY))
+    {
+        return decline_pronoun((gender_type)props[MON_GENDER_KEY].get_int(),
+                               variant);
+    }
+    return mons_pronoun(type, variant, true);
 }
