@@ -6899,7 +6899,7 @@ bool hepliaklqana_choose_death_type(int death_type)
     simple_god_message(" will remember this.");
     take_note(Note(NOTE_ANCESTOR_DEATH, 0, 0, _death_name(death_type)));
     const string mile_text
-        = make_stringf("remembered their ancestor %s death as being %s.",
+        = make_stringf("remembered their ancestor %s %s death.",
                        apostrophise(hepliaklqana_ally_name()).c_str(),
                        _death_name(death_type).c_str());
     mark_milestone("ancestor.deathswap", mile_text);
