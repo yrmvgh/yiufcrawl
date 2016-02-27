@@ -3518,6 +3518,8 @@ static void _move_player(coord_def move)
             env.travel_trail.push_back(you.pos());
 
         you.time_taken *= player_movement_speed();
+        if (move.is_diagonal())
+            you.time_taken *= 1.4;
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
 

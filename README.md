@@ -143,3 +143,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
       gold benefit the same as before. 
 
+* Movement
+    * diagonal movement takes 40% longer than straight movement. Zig zagging across the room now no longer takes exactly the same amount of time as a straight
+      course. This enables players that can cross water / fly over hazards get a slight advantage over a creature that must maneuver around it. Plan your movement wisely...
+

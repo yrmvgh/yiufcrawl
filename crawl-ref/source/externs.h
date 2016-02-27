@@ -237,6 +237,16 @@ struct coord_def
     {
         return xi == x && yi == y;
     }
+
+    bool is_orthagonal()
+    {
+    	return (x == 0) || (y == 0);
+    }
+
+    bool is_diagonal()
+    {
+    	return !is_orthagonal();
+    }
 };
 
 extern const coord_def INVALID_COORD;
