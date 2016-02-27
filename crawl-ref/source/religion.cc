@@ -1822,11 +1822,11 @@ struct hepliaklqana_unlock
 static const hepliaklqana_unlock hepliaklqana_unlocks[] =
 {
     {
-        "ring of resist fire",
+        "ring of protection from fire",
         HEPLIAKLQANA_RESIST_FIRE_KEY,
     },
     {
-        "ring of resist cold",
+        "ring of protection from cold",
         HEPLIAKLQANA_RESIST_COLD_KEY,
     },
     {
