@@ -7226,7 +7226,7 @@ static void _hepliaklqana_choose_name()
             break;
     }
 
-    if (old_name == buf)
+    if (old_name == buf || !strlen(buf))
     {
         canned_msg(MSG_OK);
         return;
