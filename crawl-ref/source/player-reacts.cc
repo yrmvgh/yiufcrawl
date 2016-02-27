@@ -416,6 +416,8 @@ static void _handle_ukayaw_piety(int time_taken)
 
 static void _handle_ukayaw_time(int time_taken)
 {
+    _handle_ukayaw_piety(time_taken);
+
     int audience_timer = you.props[UKAYAW_AUDIENCE_TIMER].get_int();
     int bond_timer = you.props[UKAYAW_BOND_TIMER].get_int();
 
@@ -438,8 +440,6 @@ static void _handle_ukayaw_time(int time_taken)
     }
     else
         you.props[UKAYAW_BOND_TIMER] =  max(0, bond_timer - time_taken);
-
-    _handle_ukayaw_piety(time_taken);
 }
 
 /**
