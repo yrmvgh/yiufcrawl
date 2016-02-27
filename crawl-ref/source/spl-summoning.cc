@@ -2595,8 +2595,8 @@ static int _abjuration(int pow, monster *mon)
         }
 
         mon_enchant abj = mon->get_ench(ENCH_ABJ);
-        if (!mon->lose_ench_duration(abj, sockage) && !shielded)
-            simple_monster_message(mon, " shudders.");
+		if (!mon->lose_ench_duration(abj, sockage) && !shielded)
+			simple_monster_message(mon, " shudders.");
     }
 
     return true;

@@ -3711,6 +3711,23 @@ static int _monster_abjure_target(monster* target, int pow, bool actual)
     dprf("Abj: dur: %d, pow: %d, ndur: %d", duration, pow, duration - pow);
 
     mon_enchant abj = target->get_ench(ENCH_ABJ);
+	player* player_who_summoned_this = 0;
+
+    if (target->summoner)
+    {
+		actor *sourceAgent = actor_by_mid(target->summoner);
+		if(sourceAgent && sourceAgent->is_player())
+		{
+			int cost = target->cost_of_maintaining_summon();
+			cost *= pow;
+			cost /= 1000;
+			cost = max(1, cost);
+			dec_mp(cost, true);
+			you.redraw_magic_points = true;
+            mprf("You struggle to maintain control of %s", target->name(DESC_YOUR).c_str());
+		}
+    }
+    else
     if (!target->lose_ench_duration(abj, pow))
     {
         if (!shielded)

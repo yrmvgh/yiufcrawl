@@ -16,7 +16,7 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
       creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
       before. 
-    * how much magic a summon drains is reduced by higher spell powers
+    * how much magic a summon drains is reduced by higher spell power
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
     * you can't regenerate magic while you have any summons
 

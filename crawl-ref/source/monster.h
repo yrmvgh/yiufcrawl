@@ -559,6 +559,7 @@ public:
     bool search_slots(function<bool (const mon_spell_slot &)> func) const;
 
     bool has_facet(int facet) const;
+    int cost_of_maintaining_summon();
 
 private:
     int hit_dice;
@@ -606,7 +607,6 @@ private:
                               int &nvalid) const;
     bool search_spells(function<bool (spell_type)> func) const;
     bool is_cloud_safe(const coord_def &place) const;
-    int cost_of_maintaining_summon();
 };
 
 #endif

@@ -2616,14 +2616,14 @@ void drop_consumable()
 void drop(FixedVector< item_def, ENDOFPACK > &input_inv)
 {
 	FixedVector< item_def, ENDOFPACK > *inv;
-	if(&input_inv == 0)
-	{
-		inv_from_prompt(inv, "Do you want to drop");
-	}
-	else
-	{
+//	if(&input_inv == nullptr)
+//	{
+//		inv_from_prompt(inv, "Do you want to drop");
+//	}
+//	else
+//	{
 		inv = &input_inv;
-	}
+//	}
 
 	if (inv_count(*inv) < 1 && you.gold == 0)
     {
