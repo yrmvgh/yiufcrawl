@@ -188,7 +188,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
         else
             mon = MONS_BALL_PYTHON;
         if (monster *snake = create_monster(mgen_data(mon, BEH_FRIENDLY, &you,
-                                      0, SPELL_STICKS_TO_SNAKES, you.pos(),
+                                      3, SPELL_STICKS_TO_SNAKES, you.pos(),
                                       MHITYOU, MG_AUTOFOE, god), false))
         {
             count++;
@@ -3486,6 +3486,7 @@ int _unsummon_all(const actor *summoner)
         if (summoner->mid == mi->summoner)
         {
             mi->del_ench(ENCH_ABJ);
+            mi->del_ench(ENCH_FAKE_ABJURATION);
             count++;
         }
     }
