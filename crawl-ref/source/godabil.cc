@@ -6933,7 +6933,7 @@ static void _on_deathswap_slow(const coord_def &loc, bool death)
 static void _on_deathswap_implode(const coord_def &loc, bool death)
 {
     const int base_pow = min(100, you.skill(SK_INVOCATIONS, 2) + 50);
-    fatal_attraction(loc, &you, death ? base_pow*2 : base_pow);
+    fatal_attraction(loc, &you, base_pow * (death ? 2 : 1));
 }
 
 static void _deathswap_message(bool death, const char *msg)
@@ -6952,8 +6952,8 @@ static void _deathswap_message(bool death, const char *msg)
 static void _on_deathswap_fog(const coord_def &loc, bool death)
 {
     _deathswap_message(death, "fog sprays out");
-    big_cloud(random_smoke_type(), &you, loc, 50,
-              death ? 9 + random2(9) : 6 + random2(6));
+    const int pow = death ? 9 : 6;
+    big_cloud(random_smoke_type(), &you, loc, 50, pow + random2(pow));
 }
 
 /**
@@ -6965,9 +6965,10 @@ static void _on_deathswap_fog(const coord_def &loc, bool death)
  */
 static void _on_deathswap_explode(const coord_def &loc, bool death)
 {
+    const int factor = death ? 2 : 1;
     bolt beam;
     beam.name         = "all-erasing light";
-    beam.ex_size      = death ? 2 : 1;
+    beam.ex_size      = factor;
     beam.flavour      = BEAM_HEPLIAKLQANA_EXPLOSION;
     beam.real_flavour = beam.flavour;
     beam.glyph        = dchar_glyph(DCHAR_FIRED_ZAP);
@@ -6981,7 +6982,7 @@ static void _on_deathswap_explode(const coord_def &loc, bool death)
     beam.is_explosion = true;
     beam.hit          = 30; // needed?
     const int base_dam = 16 + you.skill(SK_INVOCATIONS, 2);
-    beam.damage       = calc_dice(4, death ? base_dam * 2 : base_dam);
+    beam.damage       = calc_dice(4, base_dam * factor);
     beam.target = loc;
 
     beam.refine_for_explosion();
@@ -7002,7 +7003,7 @@ static void _on_deathswap_disperse(const coord_def &loc, bool death)
 {
     _deathswap_message(death, "translocational energy flares");
     const int base_pow = 10 + div_rand_round(you.skill(SK_INVOCATIONS), 2);
-    cast_dispersal(death ? base_pow * 3 : base_pow, false, &loc);
+    cast_dispersal(base_pow * (death ? 3 : 1), false, &loc);
 }
 
 typedef void (*deathswap_effect)(const coord_def&, bool);
