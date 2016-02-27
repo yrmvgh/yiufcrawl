@@ -96,7 +96,7 @@ bool attack::handle_phase_damaged()
     }
 
     announce_hit();
-    // Inflict stored damage
+    // Inflict s			tored damage
     damage_done = inflict_damage(damage_done);
 
     // TODO: Unify these, added here so we can get rid of player_attack
@@ -1051,7 +1051,10 @@ int attack::inflict_damage(int dam, beam_type flavour, bool clean)
 string attack::debug_damage_number()
 {
 //#ifdef DEBUG_DIAGNOSTICS
-    return make_stringf(" (%d)", damage_done);
+	string result = "";
+	if(damage_done > 0)
+		result = make_stringf(" (%d)", damage_done);
+    return result;
 //#else
 //    return "";
 //#endif
