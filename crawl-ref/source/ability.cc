@@ -476,7 +476,7 @@ static const ability_def Ability_List[] =
         0, 0, 0, 0, abflag::NONE },
 
     { ABIL_HEPLIAKLQANA_IDENTITY,  "Ancestor Identity",
-        0, 0, 0, 0, abflag::NONE },
+        0, 0, 0, 0, abflag::INSTANT },
 
 
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, abflag::NONE },
