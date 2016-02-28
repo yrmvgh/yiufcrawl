@@ -1723,7 +1723,7 @@ bool delete_mutation(mutation_type which_mutation, const string &reason,
             return false;
     }
 
-    return _delete_single_mutation_level(mutat, reason, false, true);
+    return _delete_single_mutation_level(mutat, reason, false, even_if_innate);
 }
 
 bool delete_all_mutations(const string &reason)

@@ -909,14 +909,14 @@ static void _jiyva_effects(int /*time_delta*/)
 static void _evolve(int time_delta)
 {
     if (int lev = player_mutation_level(MUT_EVOLUTION))
-        if (one_chance_in(2 / lev)
+        if (one_chance_in((lev > 1) ? 1 : 3)
             && you.attribute[ATTR_EVOL_XP] * (1 + random2(10))
                > (int)exp_needed(you.experience_level + 1))
         {
             you.attribute[ATTR_EVOL_XP] = 0;
             mpr("You feel a genetic drift.");
             bool evol = one_chance_in(you.species == SP_KOBOLD ? 3 : 5) ?
-                delete_mutation(RANDOM_BAD_MUTATION, "evolution", false) :
+                delete_mutation(RANDOM_BAD_MUTATION, "evolution", false, false, false, true) :
                 mutate(coinflip() ? RANDOM_GOOD_MUTATION : RANDOM_MUTATION,
                        "evolution", false, false, false, false, MUTCLASS_NORMAL,
                        true);
@@ -974,7 +974,7 @@ static void _handle_insight(int time_delta)
     	    }
 
         	if(success)
-        		mprf(MSGCH_FOOD, "You gain insight: %s -> %s", before.c_str(), after.c_str());
+        		mprf(MSGCH_INTRINSIC_GAIN, "You gain insight: %s -> %s", before.c_str(), after.c_str());
     	}
     }
 }
