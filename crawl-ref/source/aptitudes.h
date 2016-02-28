@@ -1313,7 +1313,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #if TAG_MAJOR_VERSION == 34
     APT(SP_FELID,           SK_TRAPS,         UNUSABLE_SKILL),
 #endif
-    APT(SP_FELID,           SK_UNARMED_COMBAT,  4),
+    APT(SP_FELID,           SK_UNARMED_COMBAT,  2),
     APT(SP_FELID,           SK_SPELLCASTING,   -1),
     APT(SP_FELID,           SK_CONJURATIONS,   -1),
     APT(SP_FELID,           SK_HEXES,           4),
@@ -1367,7 +1367,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_OCTOPODE,        SK_EARTH_MAGIC,     0),
     APT(SP_OCTOPODE,        SK_POISON_MAGIC,    1),
     APT(SP_OCTOPODE,        SK_INVOCATIONS,     1),
-    APT(SP_OCTOPODE,        SK_EVOCATIONS,      4),
+    APT(SP_OCTOPODE,        SK_EVOCATIONS,      2),
 
     // SP_DJINNI
     APT(SP_DJINNI,          SK_FIGHTING,       -1),
