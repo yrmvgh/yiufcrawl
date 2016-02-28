@@ -238,12 +238,12 @@ struct coord_def
         return xi == x && yi == y;
     }
 
-    bool is_orthagonal()
+    bool is_orthagonal() const
     {
     	return (x == 0) || (y == 0);
     }
 
-    bool is_diagonal()
+    bool is_diagonal() const
     {
     	return !is_orthagonal();
     }

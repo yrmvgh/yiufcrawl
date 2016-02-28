@@ -265,13 +265,13 @@ static bool _do_mon_spell(monster* mons, bolt &beem)
     return false;
 }
 
-static void _swim_or_move_energy(monster& mon)
+static void _swim_or_move_energy(monster& mon, int factor = 100)
 {
     const dungeon_feature_type feat = grd(mon.pos());
 
     // FIXME: Replace check with mons_is_swimming()?
     mon.lose_energy(((feat_is_lava(feat) || feat_is_water(feat))
-                     && mon.ground_level()) ? EUT_SWIM : EUT_MOVE);
+                     && mon.ground_level()) ? EUT_SWIM : EUT_MOVE, 100, factor);
 }
 
 static bool _unfriendly_or_insane(const monster& mon)
@@ -3634,7 +3634,7 @@ static bool _do_move_monster(monster& mons, const coord_def& delta)
     mons.seen_context = SC_NONE;
 
     // This appears to be the real one, ie where the movement occurs:
-    _swim_or_move_energy(mons);
+    _swim_or_move_energy(mons, delta.is_diagonal() ? 140 : 100);
 
     _escape_water_hold(mons);
 
