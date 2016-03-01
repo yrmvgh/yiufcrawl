@@ -32,6 +32,7 @@
 #include "syscalls.h"
 #include "version.h"
 #include "windowmanager.h"
+#include <iostream>
 
 WindowManager *wm = nullptr;
 

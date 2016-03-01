@@ -991,21 +991,21 @@ void TilesFramework::do_layout()
             if (available_height_in_tiles < ENV_SHOW_DIAMETER)
             {
             	// just kidding, don't actually do the overlay
-            	if(false)
-            	{
+//            	if(false)
+//            	{
                     message_y_divider = m_windowsz.y;
                     message_overlay = true;
-            	}
-            	else
-            	{
-                    message_y_divider = available_height_in_tiles * m_region_tile->dy;
-            	}
+//            	}
+//            	else
+//            	{
+//                    message_y_divider = available_height_in_tiles * m_region_tile->dy;
+//            	}
 
                 // If using message_overlay isn't enough, scale the dungeon region
                 // tiles to fit full LOS into the available space.
                 if (m_windowsz.y / m_region_tile->dy < ENV_SHOW_DIAMETER)
                 {
-                    m_region_tile->dy = m_windowsz.y / (ENV_SHOW_DIAMETER + 1);
+                    m_region_tile->dy = m_windowsz.y / ENV_SHOW_DIAMETER;
                     m_region_tile->dx = m_region_tile->dy;
                 }
             }
