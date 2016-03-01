@@ -70,6 +70,19 @@
 static bool _safe_to_remove_or_wear(const item_def &item, bool remove,
                                     bool quiet = false);
 
+bool _playerUnequipsShield()
+{
+	if (yesno("Unequip your shield first?", false, 'n'))
+	{
+		unequip_item(EQ_SHIELD);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 // Rather messy - we've gathered all the can't-wield logic from wield_weapon()
 // here.
 bool can_wield(const item_def *weapon, bool say_reason,
@@ -133,8 +146,15 @@ bool can_wield(const item_def *weapon, bool say_reason,
     {
         if (!ignore_temporary_disability && is_shield_incompatible(*weapon))
         {
-            SAY(mpr("You can't wield that with a shield."));
-            return false;
+        	if (_playerUnequipsShield())
+        	{
+        		return true;
+        	}
+        	else
+        	{
+                SAY(mpr("You can't wield that with a shield."));
+                return false;
+        	}
         }
         else
             return true;
@@ -192,8 +212,15 @@ bool can_wield(const item_def *weapon, bool say_reason,
 
     if (!ignore_temporary_disability && is_shield_incompatible(*weapon))
     {
-        SAY(mpr("You can't wield that with a shield."));
-        return false;
+    	if (_playerUnequipsShield())
+    	{
+    		return true;
+    	}
+    	else
+    	{
+            SAY(mpr("You can't wield that with a shield."));
+            return false;
+    	}
     }
 
     // We can wield this weapon. Phew!

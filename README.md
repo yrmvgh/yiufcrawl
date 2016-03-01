@@ -27,6 +27,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * The adjust command '=' can now also be applied to the (c)onsumables. 
     * The spell list command has been moved from 'I' to 's'. 
 
+* Unequipping shields
+    * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
+
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
       normal consequence.
