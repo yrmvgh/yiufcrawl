@@ -1024,7 +1024,7 @@ int monster::cost_of_maintaining_summon()
 
     	cost = stepup(cost, 2, 10);		// spell level 1 -> 14  level 2 -> 20  4 -> 40  6 -> 80  8 -> 160
     	cost *= 1000;					// to get it to the right chance out of 1000 to cost a mana point
-    	cost /= power;					// higher power will lower the cost (make mana points be subtracted less freq
+    	cost /= max(1, power);					// higher power will lower the cost (make mana points be subtracted less freq
     }
 
 	return cost;
