@@ -6940,7 +6940,8 @@ static void _deathswap_message(bool death, const char *msg)
 {
     mprf("As %s %s, %s.",
          hepliaklqana_ally_name().c_str(),
-         death ? "is destroyed" : "swaps");
+         death ? "is destroyed" : "swaps",
+         msg);
 }
 
 /**
