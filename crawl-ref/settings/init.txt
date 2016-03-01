@@ -44,6 +44,7 @@ tile_font_lbl_size  = 16
 tile_font_msg_size  = 16
 tile_font_stat_size = 16
 tile_font_tip_size  = 16
+tile_full_screen = false
 tile_menu_icons = false
 tile_menu_icons = false
 tile_realtime_anim = true
