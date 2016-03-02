@@ -352,6 +352,7 @@ enum ability_type
     ABIL_BEOGH_SMITING = 1120,
     ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS,
     ABIL_BEOGH_GIFT_ITEM,
+    ABIL_BEOGH_RESURRECTION,
     // Jiyva
     ABIL_JIYVA_CALL_JELLY = 1130,
     ABIL_JIYVA_JELLY_PARALYSE,
@@ -3886,7 +3887,6 @@ enum operation_types
     OPER_MEMORISE = 'M',
     OPER_ZAP      = 'Z',
     OPER_FIRE     = 'f',
-    OPER_PRAY     = 'p',
     OPER_EVOKE    = 'v',
     OPER_DESTROY  = 'D',
     OPER_QUIVER   = 'Q',

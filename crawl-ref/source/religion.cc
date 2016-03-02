@@ -82,172 +82,6 @@ static weapon_type _hepliaklqana_weapon_type(monster_type mc, int HD);
 static brand_type _hepliaklqana_weapon_brand(monster_type mc, int HD);
 static armour_type _hepliaklqana_shield_type(monster_type mc, int HD);
 
-// Item offering messages for the gods:
-// & is replaced by "is" or "are" as appropriate for the item.
-// % is replaced by "s" or "" as appropriate.
-// Text between [] only appears if the item already glows.
-// First message is if there's no piety gain; second is if piety gain is
-// one; third is if piety gain is more than one.
-static const char *_Sacrifice_Messages[NUM_GODS][NUM_PIETY_GAIN] =
-{
-    // No god
-    {
-        " & eaten by a bored swarm of bugs.",
-        " & eaten by a swarm of bugs.",
-        " & eaten by a ravening swarm of bugs."
-    },
-    // Zin
-    {
-        " barely glow% and disappear%.",
-        " glow% silver and disappear%.",
-        " glow% blindingly silver and disappear%.",
-    },
-    // TSO
-    {
-        " glow% a dingy golden colour and disappear%.",
-        " glow% a golden colour and disappear%.",
-        " glow% a brilliant golden colour and disappear%.",
-    },
-    // Kikubaaqudgha
-    {
-        " convulse% and rot% away.",
-        " convulse% madly and rot% away.",
-        " convulse% furiously and rot% away.",
-    },
-    // Yredelemnul
-    {
-        " slowly crumble% to dust.",
-        " crumble% to dust.",
-        " turn% to dust in an instant.",
-    },
-    // Xom (no sacrifices)
-    {
-        " & eaten by a bored bug.",
-        " & eaten by a bug.",
-        " & eaten by a greedy bug.",
-    },
-    // Vehumet
-    {
-        " fade% into nothingness.",
-        " burn% into nothingness.",
-        " explode% into nothingness.",
-    },
-    // Okawaru
-    {
-        " slowly burn% to ash.",
-        " & consumed by flame.",
-        " & consumed in a burst of flame.",
-    },
-    // Makhleb
-    {
-        " disappear% without a sign.",
-        " flare% red and disappear%.",
-        " flare% blood-red and disappear%.",
-    },
-    // Sif Muna
-    {
-        " & gone without a[dditional] glow.",
-        " glow% slightly [brighter ]for a moment, and & gone.",
-        " glow% [brighter ]for a moment, and & gone.",
-    },
-    // Trog
-    {
-        " & slowly consumed by flames.",
-        " & consumed in a column of flame.",
-        " & consumed in a roaring column of flame.",
-    },
-    // Nemelex (no sacrifices)
-    {
-        " & eaten by a bored swarm of bugs.",
-        " & eaten by a swarm of bugs.",
-        " & eaten by a ravening swarm of bugs."
-    },
-    // Elyvilon
-    {
-        " barely shimmer% and break% into pieces.",
-        " shimmer% and break% into pieces.",
-        " shimmer% wildly and break% into pieces.",
-    },
-    // Lugonu
-    {
-        " disappear% into the void.",
-        " & consumed by the void.",
-        " & voraciously consumed by the void.",
-    },
-    // Beogh
-    {
-        " slowly crumble% into the ground.",
-        " crumble% into the ground.",
-        " disintegrate% into the ground.",
-    },
-    // Jiyva
-    {
-        " slowly dissolve% into ooze.",
-        " dissolve% into ooze.",
-        " disappear% with a satisfied slurp.",
-    },
-    // Fedhas
-    {
-        " & slowly absorbed by the ecosystem.",
-        " & absorbed by the ecosystem.",
-        " & instantly absorbed by the ecosystem.",
-    },
-    // Cheibriados (slow god, so better sacrifices are slower)
-    {
-        " freeze% in place and instantly disappear%.",
-        " freeze% in place and disappear%.",
-        " freeze% in place and slowly fade%.",
-    },
-    // Ashenzari
-    {
-        " flicker% black.",
-        " pulsate% black.",          // unused
-        " strongly pulsate% black.", // unused
-    },
-    // Dithmenos
-    {
-        " slowly dissolves into the shadows.",
-        " dissolves into the shadows.",
-        " rapidly dissolves into the shadows.",
-    },
-    // Gozag
-    {
-        " softly glitters and disappears.",
-        " glitters and disappears.",
-        " brightly glitters and disappears.",
-    },
-    // Qazlal
-    {
-        " slowly dissolves into the earth.",
-        " is consumed by the earth.",
-        " is consumed by a violent tear in the earth.",
-    },
-    // Ru
-    {
-        " disappears in a small burst of power.",
-        " disappears in a burst of power",
-        " disappears in an immense burst of power",
-    },
-    // Pakellas
-    {
-        " slowly breaks apart.",
-        " falls apart.",
-        " is torn apart in a burst of bright light.",
-    },
-    // Pakellas
-    {
-        " pulses once and is destroyed.",
-        " pulses twice and is destroyed.",
-        " pulses thrice and is destroyed.",
-    },
-    // Hepliaklqana
-    {
-        " slowly fade% into mist.",
-        " fade% into mist.",
-        " instantly & vanished into memory.",
-    },
-};
-
 const vector<god_power> god_powers[NUM_GODS] =
 {
     // no god
@@ -373,6 +207,7 @@ const vector<god_power> god_powers[NUM_GODS] =
       { 4, ABIL_BEOGH_RECALL_ORCISH_FOLLOWERS, "recall your orcish followers" },
       { 5, "walk on water" },
       { 5, ABIL_BEOGH_GIFT_ITEM, "give items to your followers" },
+      { 6, ABIL_BEOGH_RESURRECTION, "revive fallen orcs" },
     },
 
     // Jiyva
@@ -658,15 +493,6 @@ string get_god_likes(god_type which_god, bool verbose)
     case GOD_ZIN:
     {
         string like = "you donate money";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_BEOGH:
-    {
-        string like = "you bless dead orcs";
-        if (verbose)
-            like += " (by standing over their remains and <w>p</w>raying)";
         likes.push_back(like);
         break;
     }
@@ -3409,95 +3235,25 @@ void excommunication(bool voluntary, god_type new_god)
     check_selected_skills();
 }
 
-static void _erase_between(string& s, const string &left, const string &right)
-{
-    string::size_type left_pos;
-    string::size_type right_pos;
-
-    while ((left_pos = s.find(left)) != string::npos
-           && (right_pos = s.find(right, left_pos + left.size())) != string::npos)
-    {
-        s.erase(s.begin() + left_pos, s.begin() + right_pos + right.size());
-    }
-}
-
-static string _sacrifice_message(string msg, const string& itname, bool glowing,
-                                 bool plural, piety_gain_t piety_gain)
-{
-    if (glowing)
-    {
-        msg = replace_all(msg, "[", "");
-        msg = replace_all(msg, "]", "");
-    }
-    else
-        _erase_between(msg, "[", "]");
-    msg = replace_all(msg, "%", (plural ? "" : "s"));
-    msg = replace_all(msg, "&", conjugate_verb("be", plural));
-
-    const char *tag_start, *tag_end;
-    switch (piety_gain)
-    {
-    case PIETY_NONE:
-        tag_start = "<lightgrey>";
-        tag_end = "</lightgrey>";
-        break;
-    default:
-    case PIETY_SOME:
-        tag_start = tag_end = "";
-        break;
-    case PIETY_LOTS:
-        tag_start = "<white>";
-        tag_end = "</white>";
-        break;
-    }
-
-    msg.insert(0, itname);
-    msg = tag_start + msg + tag_end;
-
-    return msg;
-}
-
-void print_sacrifice_message(god_type god, const item_def &item,
-                             piety_gain_t piety_gain, bool your)
-{
-    if (god == GOD_ELYVILON && get_weapon_brand(item) == SPWPN_HOLY_WRATH)
-    {
-        // Weapons blessed by TSO don't get destroyed but are instead
-        // returned whence they came. (jpeg)
-        simple_god_message(
-            make_stringf(" %sreclaims %s.",
-                         piety_gain ? "gladly " : "",
-                         item.name(DESC_THE).c_str()).c_str(),
-            GOD_SHINING_ONE);
-        return;
-    }
-    const string itname = item.name(your ? DESC_YOUR : DESC_THE);
-    mprf(MSGCH_GOD, god, "%s",
-         _sacrifice_message(_Sacrifice_Messages[god][piety_gain], itname,
-                           itname.find("glowing") != string::npos,
-                           item.quantity > 1,
-                           piety_gain).c_str());
-}
-
-static string nemelex_death_glow_message(int piety_gain)
-{
-    static const char *messages[NUM_PIETY_GAIN] =
-    {
-        " disappear% without a[dditional] glow.",
-        " glow% slightly [brighter ]and disappear%.",
-        " glow% with a rainbow of weird colours and disappear%.",
-    };
-
-    return messages[piety_gain];
-}
-
 void nemelex_death_message()
 {
-    const piety_gain_t piety_gain = static_cast<piety_gain_t>
-            (min(random2(you.piety) / 30, (int)PIETY_LOTS));
+    const int rank = min(random2(you.piety) / 30, 2);
 
-    mpr(_sacrifice_message(nemelex_death_glow_message(piety_gain),
-                           "Your body", you.backlit(), false, piety_gain));
+    static const char *messages[NUM_PIETY_GAIN] =
+    {
+        "<lightgrey>Your body disappears without a glow.</lightgrey>",
+        "Your body glows slightly and disappears.",
+        "<white>Your body glows with a rainbow of weird colours and disappears.</white>",
+    };
+
+    static const char *glowing_messages[NUM_PIETY_GAIN] =
+    {
+        "<lightgrey>Your body disappears without additional glow.</lightgrey>",
+        "Your body glows slightly brighter and disappears.",
+        "<white>Your body glows with a rainbow of weird colours and disappears.</white>",
+    };
+
+    mpr((you.backlit() ? glowing_messages : messages)[rank]);
 }
 
 bool god_hates_attacking_friend(god_type god, const monster *fr)
@@ -3524,56 +3280,6 @@ bool god_hates_attacking_friend(god_type god, const monster *fr)
             return _fedhas_protects_species(species);
         default:
             return false;
-    }
-}
-
-/**
- * Does this god accept items for sacrifice?
- *
- * @param god The god.
- * @param greedy_explore If true, the return value is based on whether
- *                       we should make explore greedy for items under
- *                       this god.
- * @return  True if the god accepts items for sacrifice, false otherwise.
-*/
-bool god_likes_items(god_type god, bool greedy_explore)
-{
-    if (greedy_explore && !(Options.explore_stop & ES_GREEDY_SACRIFICEABLE))
-        return false;
-
-    switch (god)
-    {
-    case GOD_BEOGH:
-        return true;
-
-    case NUM_GODS: case GOD_RANDOM: case GOD_NAMELESS:
-        die("Bad god for item sacrifice check: %d", static_cast<int>(god));
-
-    default:
-        return false;
-    }
-}
-
-/**
- * Does a god like a particular item for sacrifice?
- *
- * @param god The god.
- * @param item The item.
- * @return  True if the god likes the item, false otherwise.
-*/
-bool god_likes_item(god_type god, const item_def& item)
-{
-    if (!god_likes_items(god))
-        return false;
-
-    switch (god)
-    {
-    case GOD_BEOGH:
-        return item.base_type == OBJ_CORPSES
-               && mons_genus(item.mon_type) == MONS_ORC;
-
-    default:
-        return false;
     }
 }
 
@@ -4341,6 +4047,17 @@ void god_pitch(god_type which_god)
     if (!yesno(prompt.c_str(), false, 'n', true, true, false, nullptr, GOTO_CRT))
     {
         you.turn_is_over = false; // Okay, opt out.
+        redraw_screen();
+        return;
+    }
+
+    const string abandon = make_stringf("Are you sure you want to abandon %s?",
+                                        god_name(you.religion).c_str());
+    if (!you_worship(GOD_NO_GOD) && !yesno(abandon.c_str(), false, 'n', true,
+                                           true, false, nullptr, GOTO_CRT))
+    {
+        you.turn_is_over = false;
+        canned_msg(MSG_OK);
         redraw_screen();
         return;
     }

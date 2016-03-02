@@ -1768,6 +1768,67 @@ bool beogh_gift_item()
     return true;
 }
 
+bool beogh_resurrect()
+{
+    item_def* corpse = nullptr;
+    bool found_any = false;
+    for (stack_iterator si(you.pos()); si; ++si)
+        if (si->props.exists(ORC_CORPSE_KEY))
+        {
+            found_any = true;
+            if (yesno(("Resurrect "
+                       + si->props[ORC_CORPSE_KEY].get_monster().name(DESC_THE)
+                       + "?").c_str(), true, 'n'))
+            {
+                corpse = &*si;
+            }
+        }
+    if (!corpse)
+    {
+        mprf("There's nobody %shere you can resurrect.",
+             found_any ? "else " : "");
+        return false;
+    }
+
+    coord_def pos;
+    ASSERT(corpse->props.exists(ORC_CORPSE_KEY));
+    for (fair_adjacent_iterator ai(you.pos()); ai; ++ai)
+    {
+        if (!actor_at(*ai)
+            && corpse->props[ORC_CORPSE_KEY].get_monster().is_location_safe(*ai))
+        {
+            pos = *ai;
+        }
+    }
+    if (pos.origin())
+    {
+        mpr("There's no room!");
+        return false;
+    }
+
+    monster* mon = get_free_monster();
+    *mon = corpse->props[ORC_CORPSE_KEY];
+    destroy_item(corpse->index());
+    env.mid_cache[mon->mid] = mon->mindex();
+    mon->hit_points = mon->max_hit_points;
+    mon->inv.init(NON_ITEM);
+    for (stack_iterator si(you.pos()); si; ++si)
+    {
+        if (!si->props.exists(DROPPER_MID_KEY)
+            || si->props[DROPPER_MID_KEY].get_int() != int(mon->mid))
+        {
+            continue;
+        }
+        unwind_var<int> save_speedinc(mon->speed_increment);
+        mon->pickup_item(*si, false, true);
+    }
+    mon->move_to_pos(pos);
+    mon->timeout_enchantments(100);
+    beogh_convert_orc(mon, conv_t::RESURRECTION);
+
+    return true;
+}
+
 void jiyva_paralyse_jellies()
 {
     mprf("You call upon nearby slimes to pray to %s.",
@@ -4751,6 +4812,7 @@ spret_type qazlal_upheaval(coord_def target, bool quiet, bool fail)
         args.needs_path = false;
         args.top_prompt = "Aiming: <white>Upheaval</white>";
         args.self = CONFIRM_CANCEL;
+        args.hitfunc = &tgt;
         if (!spell_direction(spd, beam, &args))
             return SPRET_ABORT;
         bolt tempbeam;

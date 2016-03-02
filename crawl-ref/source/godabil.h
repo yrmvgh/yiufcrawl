@@ -86,6 +86,7 @@ bool jiyva_remove_bad_mutation();
 
 bool beogh_can_gift_items_to(const monster* mons, bool quiet = true);
 bool beogh_gift_item();
+bool beogh_resurrect();
 
 bool yred_injury_mirror();
 void yred_make_enslaved_soul(monster* mon, bool force_hostile = false);
