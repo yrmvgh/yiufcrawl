@@ -1643,17 +1643,17 @@ bool delete_mutation(mutation_type which_mutation, const string &reason,
 
     if (!force_mutation)
     {
-        if (!god_gift)
-        {
-            if (player_mutation_level(MUT_MUTATION_RESISTANCE) > 1
-                && (player_mutation_level(MUT_MUTATION_RESISTANCE) == 3
-                    || coinflip()))
-            {
-                if (failMsg)
-                    mprf(MSGCH_MUTATION, "You feel rather odd for a moment.");
-                return false;
-            }
-        }
+//        if (!god_gift)
+//        {
+//            if (player_mutation_level(MUT_MUTATION_RESISTANCE) > 1
+//                && (player_mutation_level(MUT_MUTATION_RESISTANCE) == 3
+//                    || coinflip()))
+//            {
+//                if (failMsg)
+//                    mprf(MSGCH_MUTATION, "You feel rather odd for a moment.");
+//                return false;
+//            }
+//        }
 
         if (undead_mutation_rot())
             return false;
