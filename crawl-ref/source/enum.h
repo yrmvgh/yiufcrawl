@@ -458,7 +458,6 @@ enum activity_interrupt_type
     AI_KEYPRESS,
     AI_FULL_HP,                     // Player is fully healed
     AI_FULL_MP,                     // Player has recovered all mp
-    AI_STATUE,                      // Bad statue has come into view
     AI_HUNGRY,                      // Hunger increased
     AI_MESSAGE,                     // Message was displayed
     AI_HP_LOSS,
@@ -2575,6 +2574,8 @@ enum monster_type                      // menv[].type
     MONS_HOUND,
 #if TAG_MAJOR_VERSION == 34
     MONS_WAR_DOG,
+#else
+    MONS_HOWLER_MONKEY,
 #endif
     MONS_WOLF,
     MONS_WARG,
@@ -2634,7 +2635,7 @@ enum monster_type                      // menv[].type
     MONS_DRAKE,                 // genus
 #endif
     MONS_LINDWURM,
-    MONS_FIRE_DRAKE,
+    MONS_RIME_DRAKE,
     MONS_SWAMP_DRAKE,
     MONS_DEATH_DRAKE,
 #if TAG_MAJOR_VERSION > 34
@@ -3530,6 +3531,7 @@ enum monster_type                      // menv[].type
     MONS_ANCESTOR_BATTLEMAGE,
     MONS_ANCESTOR_HEXER,
     MONS_DART_SLUG,
+    MONS_HOWLER_MONKEY,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -4617,7 +4619,7 @@ enum spell_type
     SPELL_FLAMING_CLOUD,
     SPELL_THROW_BARBS,
     SPELL_BATTLECRY,
-    SPELL_SIGNAL_HORN,
+    SPELL_WARNING_CRY,
     SPELL_SEAL_DOORS,
     SPELL_FLAY,
     SPELL_BERSERK_OTHER,
@@ -4630,7 +4632,9 @@ enum spell_type
     SPELL_DRAINING_GAZE,
     SPELL_DEATH_RATTLE,
     SPELL_SUMMON_SCARABS,
+#if TAG_MAJOR_VERSION == 34
     SPELL_HUNTING_CRY,
+#endif
     SPELL_SEARING_BREATH,
     SPELL_CHILLING_BREATH,
     SPELL_SCATTERSHOT,

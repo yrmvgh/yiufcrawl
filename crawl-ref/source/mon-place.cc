@@ -2897,6 +2897,13 @@ static band_type _choose_band(monster_type mon_type, int &band_size,
         band_size = 1 + random2(3);
         break;
 
+    case MONS_HOWLER_MONKEY:
+        if (coinflip() || env.absdepth0 < 6) //d:7, probably
+            break;
+        band = BAND_HOWLER_MONKEY;
+        band_size = random_range(1, 3);
+        break;
+
     default: ;
     }
 
@@ -3523,6 +3530,9 @@ static monster_type _band_member(band_type band, int which,
     case BAND_SPARK_WASPS:
         return MONS_SPARK_WASP;
 
+    case BAND_HOWLER_MONKEY:
+        return MONS_HOWLER_MONKEY;
+
     case BAND_RANDOM_SINGLE:
     {
         monster_type tmptype = MONS_PROGRAM_BUG;
@@ -4114,7 +4124,7 @@ monster_type summon_any_dragon(dragon_class_type dct)
             5, MONS_SWAMP_DRAKE,
             5, MONS_KOMODO_DRAGON,
             5, MONS_WIND_DRAKE,
-            6, MONS_FIRE_DRAKE,
+            6, MONS_RIME_DRAKE,
             6, MONS_DEATH_DRAKE,
             3, MONS_DRAGON, // genus, to reroll for DRAGON_DRAGON
             0);

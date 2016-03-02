@@ -68,7 +68,7 @@ function callback.vampire_church_blood(data, triggerable, triggerer, marker, ev)
   crawl.god_speaks("Kikubaaqudgha", "As you approach the altar, the fountains"
                                  .. " begin to flow with blood!")
   for i, slave in ipairs(slaves) do
-    dgn.terrain_changed(slave.x, slave.y, "fountain_blood", false, false, false)
+    dgn.terrain_changed(slave.x, slave.y, "fountain_blood", false, false)
   end
 end
 
@@ -319,7 +319,7 @@ ENDMAP
 NAME:   cheibriados_altar_wand_db
 TAGS:   uniq_altar_cheibriados temple_overflow_1 temple_overflow_cheibriados
 TAGS:   patrolling
-DEPTH:  D:2-9
+DEPTH:  D:3-9
 WEIGHT: 5
 KFEAT:  _ = altar_cheibriados
 MONS:   goblin; wand of slowing ident:type / \
@@ -797,18 +797,19 @@ ENDMAP
 
 NAME:  fedhas_bush_and_centaur_altar
 TAGS:  temple_overflow_1 temple_overflow_fedhas uniq_altar_fedhas
-TAGS:  transparent
-DEPTH: D:4-15
+DEPTH: D:4-
 KFEAT: _ = altar_fedhas
 MONS:  centaur, bush
 : interest_check(_G)
 MAP
-......
-.2222..
-.21222.
-.22_22.
-...22..
-.222..
+    x
+ .......
+ .2222..
+ .21222.
+x.22_22.x
+ ...22..
+ .222...
+    x
 ENDMAP
 
 NAME:   fedhas_altar_decomposition
@@ -2339,7 +2340,7 @@ ENDMAP
 NAME:  vehumet_altar_wand_db
 TAGS:  uniq_altar_vehumet temple_overflow_1 temple_overflow_vehumet
 TAGS:  transparent patrolling
-DEPTH: D:3-9
+DEPTH: D:4-9
 KFEAT: _ = altar_vehumet
 MONS:  goblin; wand of flame /\
        hobgoblin; wand of flame /\
@@ -2361,19 +2362,26 @@ DEPTH:  D:2-, Depths
 TAGS:   no_item_gen no_monster_gen temple_overflow_1 temple_overflow_xom
 TAGS:   uniq_altar_xom
 KFEAT:  _ = altar_xom
-MONS:   orc; club ego:chaos ident:type / orc; dagger ego:chaos ident:type
-MONS:   orc; spear ego:chaos ident:type / gnoll; club ego:chaos ident:type
-MONS:   gnoll; dagger ego:chaos ident:type / gnoll; spear ego:chaos ident:type
-MONS:   place:D:1-8
-NSUBST: ' = 1:_ / *:.
-SUBST:  . = .:200 ~:10 W:60 w:50 x:80 n:80 v b l Z T U M:20
-:   if you.depth() == dgn.br_depth(you.branch()) then
+MONS:   place:D:1
+MONS:   orc ; club ego:chaos | dagger ego:chaos | spear ego:chaos
+MONS:   gnoll ; club ego:chaos | dagger ego:chaos | spear ego:chaos
+MONS:   boggart ; flail ego:chaos | long sword ego:chaos | trident ego:chaos
+MONS:   rakshasa ; flail ego:chaos | long sword ego:chaos | trident ego:chaos
+:  if you.depth() == dgn.br_depth(you.branch()) then
 KFEAT:  ~ = teleport trap w:20 / alarm trap w:3
-:   else
+:  else
 KFEAT:  ~ = known shaft trap / teleport trap / alarm trap w:3
-:   end
-NSUBST: Z = 1:* / *:%
-SUBST:  M : 123333M, 1 = 1.., 2 = 2.., M = 123.
+:  end
+# Previously on raw average 5.17 M glyphs.
+NSUBST: ' = 1:_ / *:.
+NSUBST: . = 8:M / * = .:220 W:60 w:50 x:80 n:80 v b l % T U ~
+NSUBST: % = 1:*% / *:%
+SUBST:  M : .111123M
+NSUBST: 1 = 1:0 / 1:1 / * = 01., 2 = 1:2 / 2 = 2. /  * = 2...
+NSUBST: 3 = 1:3 / 2 = 3. / * = 3..., M = 1:1 / * = 123.
+:  if you.in_branch("Depths") then
+SUBST:  2 = 4, 3 = 5
+:  end
 COLOUR: . = random
 MAP
    xxxxxx@xxxxxx
@@ -2548,7 +2556,7 @@ NSUBST: ? = 1:_ / *:1
 SUBST:  1 = 1:25 2 3 4:8 5:7 6:5
 KFEAT:  _ = altar_yredelemnul
 KMONS:  _ = human zombie
-: if not you.in_branch("D") or you.absdepth() > 14 then
+: if not you.in_branch("D") or you.absdepth() > 13 then
 TAGS:   extra
 : end
 MAP
@@ -3145,16 +3153,16 @@ ITEM:    randbook owner:Sif_Muna disc:hexes numspells:1 slevels:1 / \
          randbook owner:Sif_Muna disc:summoning numspells:1 slevels:1 / \
          randbook owner:Sif_Muna disc:translocation numspells:1 slevels:1
 ITEM:    randbook owner:Vehumet disc:conjuration spells:magic_dart numspells:1
-SHUFFLE: Ad / Be / Cf
+SHUFFLE: AdB"C` / A'BeC` / A'B"Cf
 MAP
      xxxxx
     xx.B.xx
-  xxxG.e.Gxxx
+  xxxG.".Gxxx
  xxGxx...xxGxx
  x...xx.xx...x
- xAd.......fCx
+ xAd.......`Cx
  x...x.U.x...x
- xxGxx...xxGxx
+ xGxx...xxGxx
   xxx  @  xxx
 ENDMAP
 
@@ -3308,16 +3316,16 @@ DEPTH:   D:6-9
 TAGS:    temple_overflow_3 temple_overflow_sif_muna
 TAGS:    temple_overflow_kikubaaqudgha temple_overflow_vehumet
 TAGS:    no_item_gen no_monster_gen patrolling
-# 3/5 chance for one altar to have a low-level randbook and four extra orc wizards.
-KMONS:   xyz~ = orc wizard
+# 3/5 chance for one altar to have a low-level randbook and extra orc wizards.
+KMONS:   xyzXYZ~ = orc wizard
 KFEAT:   xX = altar_sif_muna
 KFEAT:   yY = altar_kikubaaqudgha
 KFEAT:   zZ = altar_vehumet
-KITEM:   X = randbook owner:Kikubaaqudgha disc:necromancy numspells:1 slevels:3
-KITEM:   Y = randbook owner:Sif_Muna disc:summoning numspells:1 slevels:3
-KITEM:   Z = randbook owner:Vehumet disc:conjuration numspells:1 slevels:3
+KITEM:   X = randbook owner:Sif_Muna disc:summoning numspells:1 slevels:1
+KITEM:   Y = randbook owner:Kikubaaqudgha disc:necromancy numspells:1 slevels:1
+KITEM:   Z = randbook owner:Vehumet disc:conjuration numspells:1 slevels:1
 SHUFFLE: x'y"z` / x'y"z` / X~y"z` / x'Y~z` / x'y"Z~
-SUBST:   '"` = .
+SUBST:   '"` = ., ~ = ~.
 MAP
 ccccccccccccc
 c'x'c"y"c`z`c

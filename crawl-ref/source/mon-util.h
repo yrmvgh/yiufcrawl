@@ -193,6 +193,7 @@ string mons_type_name(monster_type type, description_level_type desc);
 bool give_monster_proper_name(monster* mon, bool orcs_only = true);
 
 bool mons_flattens_trees(const monster* mon);
+size_type mons_class_body_size(monster_type mc);
 bool mons_class_res_wind(monster_type mc);
 
 mon_itemuse_type mons_class_itemuse(monster_type mc);
@@ -222,6 +223,8 @@ int exper_value(const monster* mon, bool real = true);
 int hit_points(int avg_hp, int scale = 10);
 
 int mons_class_hit_dice(monster_type mc);
+int mons_class_res_magic(monster_type type, monster_type base);
+bool mons_class_sees_invis(monster_type type, monster_type base);
 
 bool mons_immune_magic(const monster* mon);
 
@@ -295,8 +298,8 @@ bool mons_can_use_stairs(const monster* mon,
                          dungeon_feature_type stair = DNGN_UNSEEN);
 bool mons_enslaved_body_and_soul(const monster* mon);
 bool mons_enslaved_soul(const monster* mon);
-bool name_zombie(monster* mon, monster_type mc, const string &mon_name);
-bool name_zombie(monster* mon, const monster* orig);
+void name_zombie(monster* mon, monster_type mc, const string &mon_name);
+void name_zombie(monster* mon, const monster* orig);
 
 int mons_power(monster_type mc);
 
@@ -510,6 +513,8 @@ bool mons_is_threatening(const monster* mon);
 bool mons_class_gives_xp(monster_type mc, bool indirect = false);
 bool mons_gives_xp(const monster* mon, const actor* agent);
 bool mons_is_notable(const monster& mon);
+
+int max_mons_charge(monster_type m);
 
 void init_mutant_beast(monster &mon, short HD, vector<int> beast_facets,
                        set<int> avoid_facets);

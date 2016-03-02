@@ -121,7 +121,8 @@ bool bolt::is_blockable() const
 /// Can 'omnireflection' (from the Warlock's Mirror) potentially reflect this?
 bool bolt::is_omnireflectable() const
 {
-    return !is_explosion && flavour != BEAM_VISUAL;
+    return !is_explosion && flavour != BEAM_VISUAL
+            && origin_spell != SPELL_GLACIATE;
 }
 
 void bolt::emit_message(const char* m)
@@ -478,7 +479,7 @@ void zappy(zap_type z_type, int power, bool is_monster, bolt &pbolt)
     pbolt.pierce         = zinfo->can_beam;
     pbolt.is_explosion   = zinfo->is_explosion;
 
-    if (zinfo->player_power_cap > 0 && is_monster)
+    if (zinfo->player_power_cap > 0 && !is_monster)
         power = min(zinfo->player_power_cap, power);
 
     ASSERT(zinfo->is_enchantment == pbolt.is_enchantment());
@@ -4732,8 +4733,6 @@ bool bolt::god_cares() const
  */
 void bolt::hit_shield(actor* blocker) const
 {
-    if (flavour == BEAM_ACID)
-        blocker->corrode_equipment();
     if (blocker->is_player())
         you.maybe_degrade_bone_armour(BONE_ARMOUR_HIT_RATIO);
 }
@@ -4804,6 +4803,21 @@ bool bolt::attempt_block(monster* mon)
     return rc;
 }
 
+/// Is the given monster a bush or bush-like 'monster', and can the given beam
+/// travel through it without harm?
+bool bolt::bush_immune(const monster &mons) const
+{
+    return
+        (mons_species(mons.type) == MONS_BUSH || mons.type == MONS_BRIAR_PATCH)
+        && !pierce && !is_explosion
+        && !is_enchantment()
+        && target != mons.pos()
+        && origin_spell != SPELL_STICKY_FLAME
+        && origin_spell != SPELL_STICKY_FLAME_RANGE
+        && origin_spell != SPELL_STICKY_FLAME_SPLASH
+        && origin_spell != SPELL_CHAIN_LIGHTNING;
+}
+
 void bolt::affect_monster(monster* mon)
 {
     // Don't hit dead monsters.
@@ -4821,7 +4835,7 @@ void bolt::affect_monster(monster* mon)
         {
             if (testbits(mon->flags, MF_DEMONIC_GUARDIAN))
                 mpr("Your demonic guardian avoids your attack.");
-            else
+            else if (!bush_immune(*mon))
             {
                 simple_god_message(
                     make_stringf(" protects %s plant from harm.",
@@ -5145,17 +5159,8 @@ bool bolt::ignores_monster(const monster* mon) const
     }
 
     // Missiles go past bushes and briar patches, unless aimed directly at them
-    if ((mons_species(mon->type) == MONS_BUSH || mon->type == MONS_BRIAR_PATCH)
-        && !pierce && !is_explosion
-        && !is_enchantment()
-        && target != mon->pos()
-        && origin_spell != SPELL_STICKY_FLAME
-        && origin_spell != SPELL_STICKY_FLAME_RANGE
-        && origin_spell != SPELL_STICKY_FLAME_SPLASH
-        && origin_spell != SPELL_CHAIN_LIGHTNING)
-    {
+    if (bush_immune(*mon))
         return true;
-    }
 
     if (shoot_through_monster(*this, mon))
         return true;

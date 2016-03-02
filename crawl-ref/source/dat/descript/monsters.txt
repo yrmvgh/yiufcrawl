@@ -914,7 +914,7 @@ dismissing magic as a frivolous distraction.
 deep elf sorcerer
 
 A mighty spellcaster who draws power from the very Hells, and possesses lethal
-arcane abilities of destruction, summoning and banishment.
+arcane abilities.
 %%%%
 deep dwarf
 
@@ -1138,10 +1138,6 @@ fire dragon
 A great reptilian beast with powerful claws on its limbs, covered in thick
 red scales and with two huge bat-like wings. Little trails of smoke spill
 from its toothy maw.
-%%%%
-fire drake
-
-A small but dangerous dragon, puffing clouds of smoke.
 %%%%
 fire elemental
 
@@ -1437,6 +1433,11 @@ hound
 
 A fearsome hunting dog, lithe and alert. Its master must be long gone, for it
 looks dishevelled, and has a lean and hungry look.
+%%%%
+howler monkey
+
+An aggressively territorial primate, known for the astonishing variety &
+volume of noise it can produce.
 %%%%
 # Stolen from http://rustyandco.com/frequently-asked-questions/monster-guide/
 human
@@ -2039,6 +2040,10 @@ revenant
 
 A skeletal form wreathed in cold blue fire, standing astride this life and the
 next. Echoes of the lingering dead flicker within its ghostly flames.
+%%%%
+rime drake
+
+A small but dangerous dragon. Its breath is visible even on the warmest days.
 %%%%
 river rat
 

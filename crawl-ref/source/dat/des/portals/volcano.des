@@ -254,7 +254,7 @@ function fiery_guardians (e, intelligent, village)
                   .. " / two-headed ogre ; " .. ogrestuff .. " . " .. ogrestuff
                   .. " / " .. centaur
                   .. " / deep elf mage ; " .. elfstuff)
-            e.mons("fire bat / fire drake / hog / hell hound w:3")
+            e.mons("fire bat / hog / hell hound w:3")
             return
         end
         local set_weight = crawl.random2(12)
@@ -305,7 +305,7 @@ function fiery_guardians (e, intelligent, village)
         local set_weight = crawl.random2(8)
         if set_weight < 3 then
             -- "Lair"-esque monster pack.
-            e.mons("komodo dragon w:3 / fire bat band / fire drake / mottled dragon"
+            e.mons("komodo dragon w:3 / fire bat band / mottled dragon"
                    .. " / hell hound w:3")
             e.mons("manticore w:4 / lindwurm w:4 / fire dragon w:1"
                    .. " / fire crab w:1")
@@ -321,7 +321,7 @@ function fiery_guardians (e, intelligent, village)
             e.mons("efreet / molten gargoyle")
         else
             -- Let's go all out.
-            e.mons("hell hound / fire drake / toenail golem / fire elemental"
+            e.mons("hell hound / toenail golem / fire elemental"
                    .. " / manticore")
             e.mons(hellknight .. " / fire crab")
         end
@@ -349,7 +349,7 @@ function volcano_caves_collapse_doorways(data, triggerable, triggerer,
     crawl.mpr("There is a rumble as the volcano erupts. The roof shakes.",
               "warning")
   end
-  dgn.terrain_changed(x, y, "stone_wall", false, false, false)
+  dgn.terrain_changed(x, y, "stone_wall", false, false)
   dgn.colour_at(x, y, "lightred")
   dgn.apply_area_cloud(x, y, 1, 6, 1, 10, "grey smoke", "other", -1)
 
@@ -374,9 +374,9 @@ function volcano_overflow_convert_lava(data, triggerable,
     for _, pos in ipairs(mslaves) do
       if pos ~= yp then
         if opposite then
-          dgn.terrain_changed(pos.x, pos.y, "floor", false, false, false)
+          dgn.terrain_changed(pos.x, pos.y, "floor", false, false)
         else
-          dgn.terrain_changed(pos.x, pos.y, "lava", false, false, false)
+          dgn.terrain_changed(pos.x, pos.y, "lava", false, false)
         end
       end
     end
@@ -452,15 +452,15 @@ xx.Sxx
 ENDMAP
 
 NAME:       enter_volcano_3
-MONS:       patrolling fire drake
-#           His name is Robby.
+MONS:       patrolling hell hound
+#           Their names are Howard and Harry.
 :           volcano_portal(_G)
 MAP
   xxxxx
  xxXXXxx
  xXXOXXx
  xxSSSxx
- xx.1xx
+ xx11xx
 xx...x
 x..xxx.
 xx....@
@@ -1039,7 +1039,7 @@ TAGS:    no_vmirror unrand
 #        We have a specific monster set for this vault.
 KMONS:   12 = mummy / vampire w:12
 KMONS:   3 = guardian mummy / Menkaure w:5, guardian mummy
-MONS:    fire drake skeleton / lindwurm skeleton w:5 / manticore skeleton / hell hound skeleton
+MONS:    lindwurm skeleton w:5 / manticore skeleton / hell hound skeleton
 #        Loot: 4 gold, 8 items.
 :        volcano_setup(_G)
 SHUFFLE: 12K

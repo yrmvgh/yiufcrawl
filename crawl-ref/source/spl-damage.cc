@@ -482,10 +482,13 @@ static int _refrigerate_monster(actor* agent, monster* target, int pow, int avg,
 
     if (actual)
     {
-        behaviour_event(target, ME_ANNOY, agent,
-                        agent ? agent->pos() : coord_def(0, 0));
-
         target->hurt(agent, hurted, BEAM_COLD);
+
+        if (target->alive())
+        {
+            behaviour_event(target, ME_ANNOY, agent, // ME_WHACK?
+                            agent ? agent->pos() : coord_def(0, 0));
+        }
 
         if (target->alive() && you.can_see(*target))
             print_wounds(target);
@@ -2829,10 +2832,14 @@ void toxic_radiance_effect(actor* agent, int mult)
         }
         else
         {
-            behaviour_event(ai->as_monster(), ME_ANNOY, agent, agent->pos());
             ai->hurt(agent, dam, BEAM_POISON);
-            if (coinflip() || !ai->as_monster()->has_ench(ENCH_POISON))
-                poison_monster(ai->as_monster(), agent, 1);
+            if (ai->alive())
+            {
+                behaviour_event(ai->as_monster(), ME_ANNOY, agent,
+                                agent->pos());
+                if (coinflip() || !ai->as_monster()->has_ench(ENCH_POISON))
+                    poison_monster(ai->as_monster(), agent, 1);
+            }
 
             if (agent->is_player() && is_sanctuary(ai->pos()))
                 break_sanctuary = true;

@@ -2964,14 +2964,32 @@ void level_change(bool skip_attribute_increase)
 #ifdef USE_TILE
                     init_player_doll();
 #endif
+                    mprf(MSGCH_INTRINSIC_GAIN,
+                         "Your scales start taking on %s colour.",
+                         article_a(scale_type(you.species)).c_str());
+
                     // Produce messages about skill increases/decreases. We
                     // restore one skill level at a time so that at most the
                     // skill being checked is at the wrong level.
                     for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
                     {
+                        const int oldapt = species_apt(sk, SP_BASE_DRACONIAN);
+                        const int newapt = species_apt(sk, you.species);
+                        if (oldapt != newapt)
+                        {
+                            mprf(MSGCH_INTRINSIC_GAIN, "You learn %s %s%s.",
+                                 skill_name(sk),
+                                 abs(oldapt - newapt) > 1 ? "much " : "",
+                                 oldapt > newapt ? "slower" : "quicker");
+                        }
+
                         you.skills[sk] = saved_skills[sk];
                         check_skill_level_change(sk);
                     }
+
+                    // Tell the player about their new species
+                    for (auto &mut : fake_mutations(you.species, false))
+                        mprf(MSGCH_INTRINSIC_GAIN, "%s", mut.c_str());
 
                     // needs to be done early here, so HP doesn't look rotted
                     // when we redraw the screen
@@ -2979,10 +2997,6 @@ void level_change(bool skip_attribute_increase)
                     updated_maxhp = true;
 
                     redraw_screen();
-
-                    mprf(MSGCH_INTRINSIC_GAIN,
-                         "Your scales start taking on %s colour.",
-                         article_a(scale_type(you.species)).c_str());
                 }
                 break;
 
@@ -6422,7 +6436,7 @@ int player::res_constrict() const
     return 0;
 }
 
-int player::res_magic() const
+int player::res_magic(bool /*calc_unid*/) const
 {
     return player_res_magic();
 }
@@ -7143,23 +7157,27 @@ bool player::sicken(int amount)
     return true;
 }
 
-bool player::can_see_invisible(bool calc_unid, bool items) const
+/// Can the player see invisible things?
+bool player::can_see_invisible(bool calc_unid) const
 {
     if (crawl_state.game_is_arena())
         return true;
 
-    if (items)
+    if (wearing(EQ_RINGS, RING_SEE_INVISIBLE, calc_unid)
+        // armour: (checks head armour only)
+        || wearing_ego(EQ_HELMET, SPARM_SEE_INVISIBLE)
+        // randart gear
+        || scan_artefacts(ARTP_SEE_INVISIBLE, calc_unid) > 0)
     {
-        if (wearing(EQ_RINGS, RING_SEE_INVISIBLE, calc_unid)
-            // armour: (checks head armour only)
-            || wearing_ego(EQ_HELMET, SPARM_SEE_INVISIBLE)
-            // randart gear
-            || scan_artefacts(ARTP_SEE_INVISIBLE, calc_unid) > 0)
-        {
-            return true;
-        }
+        return true;
     }
 
+    return innate_sinv();
+}
+
+/// Can the player see invisible things without needing items' help?
+bool player::innate_sinv() const
+{
     // Possible to have both with a temp mutation.
     if (player_mutation_level(MUT_ACUTE_VISION)
         && !player_mutation_level(MUT_BLURRY_VISION))
@@ -7178,11 +7196,6 @@ bool player::can_see_invisible(bool calc_unid, bool items) const
         return true;
 
     return false;
-}
-
-bool player::can_see_invisible() const
-{
-    return can_see_invisible(true, true);
 }
 
 bool player::invisible() const

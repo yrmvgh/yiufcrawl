@@ -560,7 +560,7 @@ Conjures up a large cloud of roaring flames.
 Flash Freeze spell
 
 Freezes the air around a target, causing significant harm and slowing the
-target's movement.
+target's movement. It has no effect on targets that are already frozen.
 %%%%
 Force Lance spell
 
@@ -647,10 +647,6 @@ Holy Breath spell
 Exhales a large cloud of blessed flame, shining with the glory of the good
 gods. These flames are especially dangerous to evil creatures, and have no
 effect on holy creatures.
-%%%%
-Hunting Cry spell
-
-Alerts nearby allies of the user to their target's location.
 %%%%
 Holy Flames spell
 
@@ -1103,7 +1099,7 @@ redirecting their force to the air nearby. Ranged attacks cannot be diverted in
 this way. The shroud is highly unstable, and may fall apart unexpectedly under
 stress.
 %%%%
-Signal Horn spell
+Warning Cry spell
 
 Generates a loud noise, alerting nearby enemies.
 %%%%
@@ -1506,6 +1502,10 @@ Wall of Brambles spell
 Causes brambles to rapidly grow nearby. They have almost no structural
 strength, but the wicked thorns they bear make their removal difficult. Such
 brambles are sparse enough that almost any missile can pass through unhindered.
+%%%%
+Warning Cry spell
+
+Generates a loud noise, alerting nearby enemies.
 %%%%
 Warp Weapon spell
 

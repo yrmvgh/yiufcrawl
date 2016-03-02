@@ -419,10 +419,9 @@ static const mon_spellbook mspell_list[] =
     {  MST_DEEP_ELF_HIGH_PRIEST,
       {
        { SPELL_AURA_OF_BRILLIANCE, 25, MON_SPELL_PRIEST },
-       { SPELL_SUMMON_DEMON, 12, MON_SPELL_PRIEST },
        { SPELL_HELLFIRE_BURST, 12, MON_SPELL_PRIEST },
-       { SPELL_MALIGN_OFFERING, 12, MON_SPELL_PRIEST },
-       { SPELL_SMITING, 12, MON_SPELL_PRIEST },
+       { SPELL_MALIGN_OFFERING, 18, MON_SPELL_PRIEST },
+       { SPELL_SMITING, 18, MON_SPELL_PRIEST },
        { SPELL_TWISTED_RESURRECTION, 12, MON_SPELL_PRIEST },
       }
     },
@@ -447,10 +446,9 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_DEEP_ELF_SORCERER,
       {
-       { SPELL_CORROSIVE_BOLT, 11, MON_SPELL_WIZARD },
+       { SPELL_CORROSIVE_BOLT, 18, MON_SPELL_WIZARD },
        { SPELL_BANISHMENT, 11, MON_SPELL_WIZARD },
        { SPELL_HASTE, 22, MON_SPELL_WIZARD },
-       { SPELL_SUMMON_DEMON, 11, MON_SPELL_WIZARD },
        { SPELL_HELLFIRE, 11, MON_SPELL_WIZARD },
       }
     },
@@ -1266,7 +1264,7 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_VAULT_SENTINEL,
       {
-       { SPELL_SIGNAL_HORN, 50, MON_SPELL_NATURAL | MON_SPELL_NO_SILENT
+       { SPELL_WARNING_CRY, 50, MON_SPELL_NATURAL | MON_SPELL_NO_SILENT
                                 | MON_SPELL_BREATH },
        { SPELL_SENTINEL_MARK, 58, MON_SPELL_WIZARD },
       }
@@ -1972,7 +1970,7 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_ANUBIS_GUARD,
       {
-       { SPELL_HUNTING_CRY, 56, MON_SPELL_NATURAL | MON_SPELL_NOISY
+       { SPELL_WARNING_CRY, 56, MON_SPELL_NATURAL | MON_SPELL_NOISY
                                 | MON_SPELL_NO_SILENT | MON_SPELL_BREATH },
        { SPELL_BOLT_OF_DRAINING, 56, MON_SPELL_NATURAL | MON_SPELL_BREATH },
        { SPELL_DISPEL_UNDEAD, 44, MON_SPELL_PRIEST },
@@ -1997,7 +1995,7 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_SERAPH,
       {
-       { SPELL_HUNTING_CRY, 50, MON_SPELL_NATURAL | MON_SPELL_NOISY
+       { SPELL_WARNING_CRY, 50, MON_SPELL_NATURAL | MON_SPELL_NOISY
                                 | MON_SPELL_NO_SILENT | MON_SPELL_BREATH },
        { SPELL_SUMMON_HOLIES, 50, MON_SPELL_PRIEST },
        { SPELL_INJURY_BOND, 50, MON_SPELL_PRIEST },
@@ -2073,6 +2071,19 @@ static const mon_spellbook mspell_list[] =
     { MST_DART_SLUG,
       {
         { SPELL_SLUG_DART, 40, MON_SPELL_NATURAL },
+      }
+    },
+
+    { MST_HOWLER_MONKEY,
+      {
+        { SPELL_WARNING_CRY, 40, MON_SPELL_NATURAL | MON_SPELL_BREATH
+                                 | MON_SPELL_NO_SILENT },
+      }
+    },
+
+    { MST_RIME_DRAKE,
+      {
+        { SPELL_FLASH_FREEZE, 62, MON_SPELL_NATURAL | MON_SPELL_BREATH },
       }
     },
 };

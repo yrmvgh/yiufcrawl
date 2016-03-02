@@ -912,6 +912,7 @@ static tileidx_t _zombie_tile_to_spectral(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_LARGE:
     case TILEP_MONS_ZOMBIE_OGRE:
     case TILEP_MONS_ZOMBIE_TROLL:
+    case TILEP_MONS_ZOMBIE_JUGGERNAUT:
         return TILEP_MONS_SPECTRAL_LARGE;
     case TILEP_MONS_ZOMBIE_QUADRUPED_SMALL:
     case TILEP_MONS_ZOMBIE_RAT:
@@ -969,6 +970,7 @@ static tileidx_t _zombie_tile_to_simulacrum(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_LARGE:
     case TILEP_MONS_ZOMBIE_OGRE:
     case TILEP_MONS_ZOMBIE_TROLL:
+    case TILEP_MONS_ZOMBIE_JUGGERNAUT:
         return TILEP_MONS_SIMULACRUM_LARGE;
     case TILEP_MONS_ZOMBIE_QUADRUPED_SMALL:
     case TILEP_MONS_ZOMBIE_RAT:
@@ -1025,6 +1027,7 @@ static tileidx_t _zombie_tile_to_skeleton(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_TROLL:
     case TILEP_MONS_ZOMBIE_LARGE:
     case TILEP_MONS_ZOMBIE_OGRE:
+    case TILEP_MONS_ZOMBIE_JUGGERNAUT:
         return TILEP_MONS_SKELETON_LARGE;
     case TILEP_MONS_ZOMBIE_QUADRUPED_SMALL:
     case TILEP_MONS_ZOMBIE_RAT:
@@ -1434,6 +1437,8 @@ tileidx_t tileidx_monster_base(int type, bool in_water, int colour, int number,
         return TILEP_MONS_JACKAL;
     case MONS_HOUND:
         return TILEP_MONS_HOUND;
+    case MONS_HOWLER_MONKEY:
+        return TILEP_MONS_HOWLER_MONKEY;
     case MONS_WARG:
         return TILEP_MONS_WARG;
     case MONS_WOLF:
@@ -1476,8 +1481,8 @@ tileidx_t tileidx_monster_base(int type, bool in_water, int colour, int number,
     // drakes (also 'l', but dragon type)
     case MONS_SWAMP_DRAKE:
         return TILEP_MONS_SWAMP_DRAKE;
-    case MONS_FIRE_DRAKE:
-        return TILEP_MONS_FIRE_DRAKE;
+    case MONS_RIME_DRAKE:
+        return TILEP_MONS_RIME_DRAKE;
     case MONS_LINDWURM:
         return TILEP_MONS_LINDWURM;
     case MONS_DEATH_DRAKE:
@@ -3553,6 +3558,8 @@ static tileidx_t _tileidx_corpse(const item_def &item)
         return TILE_CORPSE_JACKAL;
     case MONS_HOUND:
         return TILE_CORPSE_HOUND;
+    case MONS_HOWLER_MONKEY:
+        return TILE_CORPSE_HOWLER_MONKEY;
     case MONS_WARG:
         return TILE_CORPSE_WARG;
     case MONS_WOLF:
@@ -3601,8 +3608,8 @@ static tileidx_t _tileidx_corpse(const item_def &item)
     // drakes (also 'l')
     case MONS_SWAMP_DRAKE:
         return TILE_CORPSE_SWAMP_DRAKE;
-    case MONS_FIRE_DRAKE:
-        return TILE_CORPSE_FIRE_DRAKE;
+    case MONS_RIME_DRAKE:
+        return TILE_CORPSE_RIME_DRAKE;
     case MONS_LINDWURM:
         return TILE_CORPSE_LINDWURM;
     case MONS_DEATH_DRAKE:
@@ -4852,6 +4859,9 @@ tileidx_t tileidx_spell(spell_type spell)
     case SPELL_WEAVE_SHADOWS:            return TILEG_WEAVE_SHADOWS;
     case SPELL_CLOUD_CONE:               return TILEG_CLOUD_CONE;
     case SPELL_RANDOM_BOLT:              return TILEG_RANDOM_BOLT;
+    case SPELL_SCATTERSHOT:              return TILEG_SCATTERSHOT;
+    case SPELL_CORROSIVE_BOLT:           return TILEG_CORROSIVE_BOLT;
+    case SPELL_ICEBLAST:                 return TILEG_ICEBLAST;
 
     // --------------------------------------------
     // Monster spells
@@ -5590,9 +5600,9 @@ tileidx_t tileidx_known_brand(const item_def &item)
             return TILE_BRAND_CONFUSION;
         case SPMSL_PARALYSIS:
             return TILE_BRAND_PARALYSIS;
+#if TAG_MAJOR_VERSION == 34
         case SPMSL_SLOW:
             return TILE_BRAND_SLOWING;
-#if TAG_MAJOR_VERSION == 34
         case SPMSL_SICKNESS:
             return TILE_BRAND_SICKNESS;
 #endif

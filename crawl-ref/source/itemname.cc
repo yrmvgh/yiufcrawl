@@ -365,8 +365,10 @@ const char* missile_brand_name(const item_def &item, mbn_type t)
         return "silver";
     case SPMSL_PARALYSIS:
         return "paralysis";
+#if TAG_MAJOR_VERSION == 34
     case SPMSL_SLOW:
         return t == MBN_TERSE ? "slow" : "slowing";
+#endif
     case SPMSL_SLEEP:
         return t == MBN_TERSE ? "sleep" : "sleeping";
     case SPMSL_CONFUSION:
@@ -3404,9 +3406,8 @@ bool is_dangerous_item(const item_def &item, bool temp)
         {
         case POT_MUTATION:
         case POT_LIGNIFY:
-            return true;
         case POT_AMBROSIA:
-            return you.species != SP_DEEP_DWARF; // VERY good for dd
+            return true;
         default:
             return false;
         }
@@ -3707,7 +3708,7 @@ bool is_useless_item(const item_def &item, bool temp)
             return you_worship(GOD_PAKELLAS);
 
         case RING_SEE_INVISIBLE:
-            return you.can_see_invisible(false, false);
+            return you.innate_sinv();
 
         case RING_POISON_RESISTANCE:
             return player_res_poison(false, temp, false) > 0

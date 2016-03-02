@@ -15,7 +15,7 @@
     - row 3: monster resistance flags
     - row 4: experience modifier, genus, species, holiness, resist magic
     - row 5: damage for each of four attacks
-    - row 6: hit dice, described by four parameters
+    - row 6: hit dice, hit points
     - row 7: AC, evasion, spells, corpse effect, shouts
     - row 8: intel, habitat, speed, energy_usage
     - row 9: gmon_use class, body size, body shape
@@ -56,6 +56,7 @@
 
    HD: like player level, used for misc things
    avg_hp_10x: average hp for the monster, * 10 for precision
+               (see hit_points() for details)
 
    sec: if the monster has only one possible spellbook, sec is set to that book.
      If a monster has multiple possible books, sec is set to MST_NO_SPELLS. Then
@@ -1044,6 +1045,18 @@ static monsterentry mondata[] =
 },
 
 {
+    MONS_HOWLER_MONKEY, 'h', LIGHTGREEN, "howler monkey",
+    M_WARM_BLOOD,
+    MR_NO_FLAGS,
+    15, MONS_HOWLER_MONKEY, MONS_HOWLER_MONKEY, MH_NATURAL, 10,
+    { {AT_HIT, AF_PLAIN, 3}, {AT_BITE, AF_PLAIN, 2}, AT_NO_ATK, AT_NO_ATK },
+    3, 185,
+    1, 11, MST_HOWLER_MONKEY, CE_CLEAN, S_HOWL,
+    I_ANIMAL, HT_LAND, 12, DEFAULT_ENERGY,
+    MONUSE_OPEN_DOORS, SIZE_SMALL, MON_SHAPE_HUMANOID_TAILED
+},
+
+{
     MONS_WARG, 'h', WHITE, "warg",
     M_SEE_INVIS | M_UNBLINDABLE | M_WARM_BLOOD | M_BLOOD_SCENT,
     MR_RES_POISON,
@@ -1268,13 +1281,13 @@ DUMMY(MONS_DRAKE, 'k', LIGHTGREY, "drake")
 },
 
 {
-    MONS_FIRE_DRAKE, 'k', LIGHTRED, "fire drake",
+    MONS_RIME_DRAKE, 'k', BLUE, "rime drake",
     M_WARM_BLOOD | M_FLIES,
-    MR_RES_FIRE,
-    20, MONS_DRAKE, MONS_FIRE_DRAKE, MH_NATURAL, 20,
+    MR_RES_COLD,
+    22, MONS_DRAKE, MONS_RIME_DRAKE, MH_NATURAL, 20,
     { {AT_BITE, AF_PLAIN, 8}, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
     6, 330,
-    3, 12, MST_FIRE_BREATH, CE_CLEAN, S_SILENT,
+    3, 12, MST_RIME_DRAKE, CE_CLEAN, S_SILENT,
     I_ANIMAL, HT_LAND, 12, DEFAULT_ENERGY,
     MONUSE_NOTHING, SIZE_LARGE, MON_SHAPE_QUADRUPED_WINGED
 },
@@ -2235,7 +2248,7 @@ DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab")
     1, 100,
     1, 1, MST_DART_SLUG, CE_CLEAN, S_SILENT,
     I_ANIMAL, HT_LAND, 7, DEFAULT_ENERGY,
-    MONUSE_NOTHING, SIZE_SMALL, MON_SHAPE_SNAIL
+    MONUSE_NOTHING, SIZE_LITTLE, MON_SHAPE_SNAIL
 },
 
 {
@@ -4292,7 +4305,7 @@ DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake")
 
 {
     MONS_STARSPAWN_TENTACLE, 'w', LIGHTCYAN, "starspawn tentacle",
-    M_NO_EXP_GAIN | M_STATIONARY | M_NO_POLY_TO | M_FLIES,
+    M_NO_EXP_GAIN | M_STATIONARY | M_NO_POLY_TO | M_FLIES | M_SEE_INVIS,
     MR_NO_FLAGS,
     10, MONS_TENTACLED_STARSPAWN, MONS_STARSPAWN_TENTACLE,
         MH_NONLIVING, MAG_IMMUNE,
@@ -4305,7 +4318,7 @@ DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake")
 
 {
     MONS_STARSPAWN_TENTACLE_SEGMENT, '*', LIGHTCYAN, "starspawn tentacle segment",
-    M_NOT_DANGEROUS | M_STATIONARY | M_NO_POLY_TO | M_FLIES,
+    M_NOT_DANGEROUS | M_STATIONARY | M_NO_POLY_TO | M_FLIES | M_SEE_INVIS,
     MR_NO_FLAGS,
     10, MONS_TENTACLED_STARSPAWN, MONS_STARSPAWN_TENTACLE_SEGMENT,
         MH_NONLIVING, MAG_IMMUNE,
