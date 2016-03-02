@@ -1017,7 +1017,7 @@ int monster::cost_of_maintaining_summon()
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
 	int cost = 0;
-    if (spell_used != SPELL_NO_SPELL)
+    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS)
     {
     	const int power = calc_spell_power(spell_used, true);
 		cost = spell_difficulty(spell_used);
@@ -1057,10 +1057,11 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
     bool player_summoned_this_creature = false;
 	player* player_who_summoned_this = 0;
 
+	int summonCost = cost_of_maintaining_summon();
     if (summoner)
     {
 		actor *sourceAgent = actor_by_mid(summoner);
-		if(sourceAgent && sourceAgent->is_player())
+		if(sourceAgent && sourceAgent->is_player() && summonCost > 0)
 		{
 			player_summoned_this_creature = true;
 			player_who_summoned_this = sourceAgent->as_player();
@@ -1087,7 +1088,7 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 							? (one_chance_in(4)	? 8 + random2(8) : 4 + random2(4))
 							  : random2(4)
 							;
-					cost *= cost_of_maintaining_summon();
+					cost *= summonCost;
 					cost /= 1000;
 					cost = max(1, cost);
 					dec_mp(cost, true);
