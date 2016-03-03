@@ -355,6 +355,9 @@ void DungeonCellBuffer::pack_foreground(int x, int y, const packed_cell &cell)
     //The berserk icon is in the lower right, so status_shift doesn't need changing.
     if (fg & TILE_FLAG_BERSERK)
         m_buf_icons.add(TILEI_BERSERK, x, y);
+    // ditto ideal
+    if (fg & TILE_FLAG_IDEALISED)
+        m_buf_icons.add(TILEI_IDEALISED, x, y);
 
     // Pet mark
     if (fg & TILE_FLAG_ATT_MASK)
@@ -443,11 +446,6 @@ void DungeonCellBuffer::pack_foreground(int x, int y, const packed_cell &cell)
     if (fg & TILE_FLAG_DRAIN)
     {
         m_buf_icons.add(TILEI_DRAIN, x, y, -status_shift, 0);
-        status_shift += 6;
-    }
-    if (fg & TILE_FLAG_IDEALISED)
-    {
-        m_buf_icons.add(TILEI_IDEALISED, x, y, -status_shift, 0);
         status_shift += 6;
     }
     if (fg & TILE_FLAG_PAIN_MIRROR)
