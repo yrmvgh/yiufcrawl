@@ -129,11 +129,10 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that
       void. Not much of a void, since I hardly used it anyway. Magma Bolt has been put in the Flames Book as a level 5 spell alongside Fireball. 
 
-* Potions of heal wounds
+* Potions and wands of heal wounds
     * now fully heal the target
     * less than half as common to find around the dungeon
-    * wands of heal wounds work almost like before, except that their effectiveness scales with evocations skill, and the amount healed is proportional to
-      health capacity. 
+    * wands of heal wounds take from 2 to 10 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
 
 * Potions of magic
     * fully restore magic

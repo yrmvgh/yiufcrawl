@@ -190,18 +190,9 @@ public:
         }
 
         int amount = 0;
-        if (is_device)
-        {
-            amount = you.hp_max;
-            amount = you.scale_device_healing(amount);
-            amount = 2 * amount * power / SPELL_POWER_CAP;
-            amount = min(you.hp_max, amount);
-        }
-        else
-        {
-        	// full healing for potions
-            amount = you.hp_max;
-        }
+		// full healing for potions and wands
+		amount = you.hp_max;
+
         // Pay for rot right off the top.
         amount = unrot_hp(amount);
         inc_hp(amount);

@@ -370,6 +370,14 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
         }
         break;
 
+    case DELAY_WAND_HEAL:
+        if (stop_stair_travel)
+        {
+            mpr("Your healing is interrupted.");
+            _pop_delay();
+        }
+        break;
+
     case DELAY_DROP_ITEM:         // one turn... only used for easy armour drops
     case DELAY_JEWELLERY_ON:      // one turn
     case DELAY_UNINTERRUPTIBLE:   // never stoppable
@@ -582,6 +590,10 @@ void handle_delay()
             mprf(MSGCH_MULTITURN_ACTION, "You begin reading the scroll.");
             break;
 
+        case DELAY_WAND_HEAL:
+            mprf(MSGCH_MULTITURN_ACTION, "You begin healing.");
+            break;
+
         default:
             break;
         }
@@ -768,6 +780,10 @@ void handle_delay()
             vampire_nutrition_per_turn(corpse, 0);
             break;
         }
+
+        case DELAY_WAND_HEAL:
+            mprf(MSGCH_MULTITURN_ACTION, "You continue healing.");
+            break;
 
         default:
             break;
@@ -1003,6 +1019,17 @@ static void _finish_delay(const delay_queue_item &delay)
     case DELAY_DESCENDING_STAIRS:
         down_stairs();
         break;
+
+    case DELAY_WAND_HEAL:
+    {
+        bolt beam;
+        beam.set_agent(&you);
+        beam.source_name = "you";
+        beam.effect_known = true;
+
+	    zapping(ZAP_HEAL_WOUNDS, 0, beam);
+        break;
+    }
 
     case DELAY_INTERRUPTIBLE:
     case DELAY_UNINTERRUPTIBLE:
@@ -1714,7 +1741,7 @@ static const char *delay_names[] =
 #endif
     "run", "rest", "travel", "macro",
     "macro_process_key", "interruptible", "uninterruptible", "shaft self",
-    "blurry vision",
+    "blurry vision", "healing"
 };
 
 // Gets a delay given its name.

@@ -19,6 +19,7 @@
 #include "cloud.h"
 #include "coordit.h"
 #include "decks.h"
+#include "delay.h"
 #include "directn.h"
 #include "dungeon.h"
 #include "english.h"
@@ -59,6 +60,7 @@
 #include "spl-util.h"
 #include "spl-zap.h"
 #include "state.h"
+#include "stepdown.h"
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
@@ -723,8 +725,24 @@ void zap_wand(int slot)
         power = player_adjust_evoc_power(power);
     }
 
-    // zapping() updates beam.
-    zapping(type_zapped, power, beam);
+	if(wand.sub_type == WAND_HEAL_WOUNDS)
+	{
+		int delay = stepup(you.skill(SK_EVOCATIONS), 6, 10);
+		delay = 160 / max(1, delay);
+		delay = min(10, delay);
+		delay = max(2, delay);
+        char buf[40];
+        sprintf(buf, "Evoking this wand will take %d turns, are you sure?", delay);
+		if(yesno(string(buf).c_str(), false, 'y'))
+		    start_delay(DELAY_WAND_HEAL, delay - 1);
+		else
+			return;
+	}
+	else
+	{
+	    // zapping() updates beam.
+	    zapping(type_zapped, power, beam);
+	}
 
     // Take off a charge.
     wand.charges--;

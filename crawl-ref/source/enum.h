@@ -1358,6 +1358,8 @@ enum delay_type
     DELAY_SHAFT_SELF, // Formicid ability
     DELAY_BLURRY_SCROLL,
 
+    DELAY_WAND_HEAL,
+
     NUM_DELAYS
 };
 
