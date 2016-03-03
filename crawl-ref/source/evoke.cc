@@ -725,7 +725,7 @@ void zap_wand(int slot)
         power = player_adjust_evoc_power(power);
     }
 
-	if(wand.sub_type == WAND_HEAL_WOUNDS)
+	if(wand.sub_type == WAND_HEAL_WOUNDS && aimed_at_self)
 	{
 		int delay = stepup(you.skill(SK_EVOCATIONS), 6, 10);
 		delay = 160 / max(1, delay);

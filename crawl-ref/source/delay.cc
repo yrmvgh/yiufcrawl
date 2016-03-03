@@ -51,6 +51,7 @@
 #include "output.h"
 #include "player-equip.h"
 #include "player.h"
+#include "potion.h"
 #include "prompt.h"
 #include "random.h"
 #include "religion.h"
@@ -371,11 +372,8 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
         break;
 
     case DELAY_WAND_HEAL:
-        if (stop_stair_travel)
-        {
-            mpr("Your healing is interrupted.");
-            _pop_delay();
-        }
+		mpr("Your healing is interrupted.");
+		_pop_delay();
         break;
 
     case DELAY_DROP_ITEM:         // one turn... only used for easy armour drops
@@ -1022,12 +1020,8 @@ static void _finish_delay(const delay_queue_item &delay)
 
     case DELAY_WAND_HEAL:
     {
-        bolt beam;
-        beam.set_agent(&you);
-        beam.source_name = "you";
-        beam.effect_known = true;
-
-	    zapping(ZAP_HEAL_WOUNDS, 0, beam);
+    	const PotionEffect* potion = get_potion_effect(POT_HEAL_WOUNDS);
+    	potion->effect();
         break;
     }
 
