@@ -112,6 +112,7 @@ static map<enchant_type, monster_info_flags> trivial_ench_mb_mappings = {
     { ENCH_PAIN_BOND,       MB_PAIN_BOND },
     { ENCH_BRILLIANCE_AURA, MB_BRILLIANCE_AURA },
     { ENCH_EMPOWERED_SPELLS, MB_EMPOWERED_SPELLS },
+    { ENCH_IDEALISED,       MB_IDEALISED },
 };
 
 static monster_info_flags ench_to_mb(const monster& mons, enchant_type ench)
@@ -1569,6 +1570,8 @@ vector<string> monster_info::attributes() const
         v.emplace_back("partially charged");
     if (is(MB_FULLY_CHARGED))
         v.emplace_back("fully charged");
+    if (is(MB_IDEALISED))
+        v.emplace_back("idealised");
     return v;
 }
 

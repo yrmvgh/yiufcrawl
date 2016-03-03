@@ -6950,7 +6950,7 @@ spret_type hepliaklqana_idealise(bool fail)
 
     const int dur = random_range(50, 80)
                     + random2(you.skill(SK_INVOCATIONS, 10));
-    ancestor->add_ench({ ENCH_MAGIC_ARMOUR, 1, &you, dur});
+    ancestor->add_ench({ ENCH_IDEALISED, 1, &you, dur});
     return SPRET_SUCCESS;
 }
 

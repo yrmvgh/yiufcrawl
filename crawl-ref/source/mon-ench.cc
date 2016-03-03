@@ -946,6 +946,11 @@ void monster::remove_enchantment_effect(const mon_enchant &me, bool quiet)
             simple_monster_message(this, " seems less brilliant.");
         break;
 
+    case ENCH_IDEALISED:
+        if (!quiet)
+            simple_monster_message(this, " loses its glow of perfection.");
+        break;
+
     default:
         break;
     }
@@ -1397,6 +1402,7 @@ void monster::apply_enchantment(const mon_enchant &me)
     case ENCH_REGENERATION:
     case ENCH_RAISED_MR:
     case ENCH_MAGIC_ARMOUR:
+    case ENCH_IDEALISED:
     case ENCH_FEAR_INSPIRING:
     case ENCH_LIFE_TIMER:
     case ENCH_FLIGHT:
@@ -2122,7 +2128,7 @@ static const char *enchant_names[] =
 #if TAG_MAJOR_VERSION == 34
     "chanting_fire_storm", "chanting_word_of_entropy",
 #endif
-    "aura_of_brilliance", "empowered_spells", "pain_bond",
+    "aura_of_brilliance", "empowered_spells", "pain_bond", "idealised",
     "buggy",
 };
 
@@ -2268,6 +2274,7 @@ int mon_enchant::calc_duration(const monster* mons,
     case ENCH_AGILE:
     case ENCH_BLACK_MARK:
     case ENCH_RESISTANCE:
+    case ENCH_IDEALISED:
         cturn = 1000 / _mod_speed(25, mons->speed);
         break;
     case ENCH_LIQUEFYING:

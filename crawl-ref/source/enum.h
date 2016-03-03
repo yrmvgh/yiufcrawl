@@ -2117,6 +2117,7 @@ enum enchant_type
     ENCH_BRILLIANCE_AURA, // emanating a brilliance aura
     ENCH_EMPOWERED_SPELLS, // affected by above
     ENCH_PAIN_BOND, // affected by above
+    ENCH_IDEALISED,
     // Update enchantment names in mon-ench.cc when adding or removing
     // enchantments.
     NUM_ENCHANTMENTS
@@ -5063,6 +5064,7 @@ enum tile_flags ENUM_INT64
     TILE_FLAG_DEATHS_DOOR = 0x2000000000000ULL,
     TILE_FLAG_RECALL =     0x4000000000000ULL,
     TILE_FLAG_DRAIN =      0x8000000000000ULL,
+    TILE_FLAG_IDEALISED =  0x10000000000000ULL,
 
     // MDAM has 5 possibilities, so uses 3 bits.
     TILE_FLAG_MDAM_MASK  = 0x1C0000000ULL,
