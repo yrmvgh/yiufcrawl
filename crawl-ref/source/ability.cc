@@ -466,17 +466,6 @@ static const ability_def Ability_List[] =
     { ABIL_HEPLIAKLQANA_TYPE_HEXER,        "Ancestor Life: Hexer",
         0, 0, 0, 0, abflag::NONE },
 
-    { ABIL_HEPLIAKLQANA_DEATH_SLOW,     "Ancestor Death: Slow",
-        0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_DEATH_FOG,      "Ancestor Death: Fog",
-        0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_DEATH_EXPLODE,  "Ancestor Death: Explode",
-        0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_DEATH_DISPERSE, "Ancestor Death: Disperse",
-        0, 0, 0, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_DEATH_IMPLODE,  "Ancestor Death: Implode",
-        0, 0, 0, 0, abflag::NONE },
-
     { ABIL_HEPLIAKLQANA_IDENTITY,  "Ancestor Identity",
         0, 0, 0, 0, abflag::INSTANT },
 
@@ -978,11 +967,6 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_RU_REJECT_SACRIFICES:
     case ABIL_PAKELLAS_SUPERCHARGE:
     case ABIL_UKAYAW_STOMP:
-    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
-    case ABIL_HEPLIAKLQANA_DEATH_FOG:
-    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
-    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
     case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
     case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
     case ABIL_HEPLIAKLQANA_TYPE_HEXER:
@@ -3186,15 +3170,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         break;
 
-    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
-    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
-    case ABIL_HEPLIAKLQANA_DEATH_FOG:
-    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
-        if (!hepliaklqana_choose_death_type(abil.ability))
-            return SPRET_ABORT;
-        break;
-
     case ABIL_HEPLIAKLQANA_IDENTITY:
         hepliaklqana_choose_identity();
         return SPRET_ABORT; // always free
@@ -3763,11 +3738,6 @@ int find_ability_slot(const ability_type abil, char firstletter)
     case ABIL_RU_SACRIFICE_EYE:
     case ABIL_RU_SACRIFICE_RESISTANCE:
     case ABIL_RU_REJECT_SACRIFICES:
-    case ABIL_HEPLIAKLQANA_DEATH_DISPERSE:
-    case ABIL_HEPLIAKLQANA_DEATH_FOG:
-    case ABIL_HEPLIAKLQANA_DEATH_IMPLODE:
-    case ABIL_HEPLIAKLQANA_DEATH_EXPLODE:
-    case ABIL_HEPLIAKLQANA_DEATH_SLOW:
     case ABIL_HEPLIAKLQANA_TYPE_KNIGHT:
     case ABIL_HEPLIAKLQANA_TYPE_BATTLEMAGE:
     case ABIL_HEPLIAKLQANA_TYPE_HEXER:
@@ -3826,16 +3796,6 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
                  ++anc_type)
             {
                 abilities.push_back(static_cast<ability_type>(anc_type));
-            }
-        }
-
-        if (piety_rank() >= 6 && !you.props.exists(HEPLIAKLQANA_ALLY_DEATH_KEY))
-        {
-            ASSERT(you.props.exists(HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY));
-            for (int death_poss
-                 : you.props[HEPLIAKLQANA_DEATH_POSSIBILTIES_KEY].get_vector())
-            {
-                abilities.push_back(static_cast<ability_type>(death_poss));
             }
         }
     }
