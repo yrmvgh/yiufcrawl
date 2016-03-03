@@ -867,15 +867,15 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
         {
             int charge_gain = wand_max_charges(wand) / 3;
 
-            const int new_charges =
-                num > 0 && den > 0
-                ? min<int>(charge_gain * 3,
-                           max<int>(wand.charges + 1,
-                                    wand.charges + 3 * charge_gain * num / den))
-                : max<int>(wand.charges,
-                           min(charge_gain * 3,
-                               wand.charges +
-                               1 + random2avg(((charge_gain - 1) * 3) + 1, 3)));
+            const int new_charges = wand_max_charges(wand);
+//                num > 0 && den > 0
+//                ? min<int>(charge_gain * 3,
+//                           max<int>(wand.charges + 1,
+//                                    wand.charges + 3 * charge_gain * num / den))
+//                : max<int>(wand.charges,
+//                           min(charge_gain * 3,
+//                               wand.charges +
+//                               1 + random2avg(((charge_gain - 1) * 3) + 1, 3)));
 
             const bool charged = (new_charges > wand.plus);
 

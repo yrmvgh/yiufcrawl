@@ -134,6 +134,9 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * less than half as common to find around the dungeon
     * wands of heal wounds take from 2 to 10 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
 
+* Recharge scrolls
+    * less common, but fully recharge the wand.
+
 * Potions of magic
     * fully restore magic
 
