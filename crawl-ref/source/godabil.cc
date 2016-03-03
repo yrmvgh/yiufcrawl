@@ -7209,19 +7209,26 @@ spret_type hepliaklqana_transference(bool fail)
 
     coord_def target = _get_transference_target();
     if (target.origin())
+    {
+        canned_msg(MSG_OK);
         return SPRET_ABORT;
+    }
 
     actor* victim = actor_at(target);
     const bool victim_visible = victim && you.can_see(*victim);
-    if (!victim || !victim_visible
+    if ((!victim || !victim_visible)
         && !yesno("You can't see anything there. Try transferring anyway?",
                   true, 'n'))
     {
+        canned_msg(MSG_OK);
         return SPRET_ABORT;
     }
 
     if (victim == ancestor)
+    {
+        mpr("You can't transfer your ancestor with themself!");
         return SPRET_ABORT;
+    }
 
     if (victim_visible && mons_is_tentacle_or_tentacle_segment(victim->type))
     {
@@ -7247,7 +7254,7 @@ spret_type hepliaklqana_transference(bool fail)
         || mons_is_tentacle_or_tentacle_segment(victim->type))
     {
         canned_msg(MSG_NOTHING_HAPPENS);
-        return SPRET_FAIL;
+        return SPRET_SUCCESS;
     }
 
     if (victim->is_player())
