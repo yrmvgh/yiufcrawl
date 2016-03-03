@@ -80,7 +80,7 @@ skill_type abil_skill(ability_type abil)
     case ABIL_UKAYAW_LINE_PASS:
     case ABIL_UKAYAW_GRAND_FINALE:
     case ABIL_HEPLIAKLQANA_RECALL:
-    case ABIL_HEPLIAKLQANA_ROMANTICISE:
+    case ABIL_HEPLIAKLQANA_IDEALISE:
     case ABIL_HEPLIAKLQANA_TRANSFERENCE:
         return SK_INVOCATIONS;
 

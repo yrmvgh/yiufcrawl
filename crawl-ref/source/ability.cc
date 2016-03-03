@@ -456,7 +456,7 @@ static const ability_def Ability_List[] =
         2, 0, 50, 0, abflag::NONE },
     { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
         2, 0, 50, 3, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_ROMANTICISE, "Romanticise",
+    { ABIL_HEPLIAKLQANA_IDEALISE, "Idealise",
         2, 0, 50, 5, abflag::NONE },
 
     { ABIL_HEPLIAKLQANA_TYPE_KNIGHT,       "Ancestor Life: Knight",
@@ -1086,7 +1086,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_YRED_DRAIN_LIFE:
     case ABIL_CHEIBRIADOS_SLOUCH:
     case ABIL_OKAWARU_FINESSE:
-    case ABIL_HEPLIAKLQANA_ROMANTICISE:
+    case ABIL_HEPLIAKLQANA_IDEALISE:
         invoc = true;
         failure = 60 - (you.piety / 25) - you.skill(SK_INVOCATIONS, 4);
         break;
@@ -1606,7 +1606,7 @@ static bool _check_ability_possible(const ability_def& abil,
         return pakellas_check_quick_charge(quiet);
 
         // only available while your ancestor is alive.
-    case ABIL_HEPLIAKLQANA_ROMANTICISE:
+    case ABIL_HEPLIAKLQANA_IDEALISE:
     case ABIL_HEPLIAKLQANA_RECALL:
     case ABIL_HEPLIAKLQANA_TRANSFERENCE:
         if (hepliaklqana_ancestor() == MID_NOBODY)
@@ -3151,8 +3151,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         break;
 
-    case ABIL_HEPLIAKLQANA_ROMANTICISE:
-        return hepliaklqana_romanticise(fail);
+    case ABIL_HEPLIAKLQANA_IDEALISE:
+        return hepliaklqana_idealise(fail);
 
     case ABIL_HEPLIAKLQANA_RECALL:
         fail_check();

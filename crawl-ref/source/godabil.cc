@@ -6900,7 +6900,7 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
  * @param fail      Whether the effect should fail after checking validity.
  * @return          Whether the healing succeeded, failed, or was aborted.
  */
-spret_type hepliaklqana_romanticise(bool fail)
+spret_type hepliaklqana_idealise(bool fail)
 {
     const mid_t ancestor_mid = hepliaklqana_ancestor();
     if (ancestor_mid == MID_NOBODY)
