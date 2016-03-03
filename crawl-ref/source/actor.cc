@@ -702,11 +702,7 @@ void actor::handle_constriction()
                               : name(DESC_THE).c_str()),
                  conj_verb("constrict").c_str(),
                  defender->name(DESC_THE).c_str(),
-#ifdef DEBUG_DIAGNOSTICS
-                 make_stringf(" for %d", damage).c_str(),
-#else
-                 "",
-#endif
+                 make_stringf(" (%d)", damage).c_str(),
                  exclamations.c_str());
         }
         else if (you.can_see(*defender) || defender->is_player())
@@ -714,11 +710,7 @@ void actor::handle_constriction()
             mprf("%s %s constricted%s%s",
                  defender->name(DESC_THE).c_str(),
                  defender->conj_verb("are").c_str(),
-#ifdef DEBUG_DIAGNOSTICS
-                 make_stringf(" for %d", damage).c_str(),
-#else
-                 "",
-#endif
+                 make_stringf(" (%d)", damage).c_str(),
                  exclamations.c_str());
         }
 
