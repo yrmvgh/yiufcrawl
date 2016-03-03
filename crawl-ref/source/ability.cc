@@ -454,9 +454,9 @@ static const ability_def Ability_List[] =
     // Hepliaklqana
     { ABIL_HEPLIAKLQANA_RECALL, "Recall Ancestor",
         2, 0, 50, 0, abflag::NONE },
-    { ABIL_HEPLIAKLQANA_ROMANTICISE, "Romanticise",
-        2, 0, 50, 3, abflag::NONE },
     { ABIL_HEPLIAKLQANA_TRANSFERENCE, "Transference",
+        2, 0, 50, 3, abflag::NONE },
+    { ABIL_HEPLIAKLQANA_ROMANTICISE, "Romanticise",
         2, 0, 50, 5, abflag::NONE },
 
     { ABIL_HEPLIAKLQANA_TYPE_KNIGHT,       "Ancestor Life: Knight",
@@ -1043,7 +1043,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_FEDHAS_PLANT_RING:
     case ABIL_QAZLAL_UPHEAVAL:
     case ABIL_UKAYAW_LINE_PASS:
-    case ABIL_HEPLIAKLQANA_ROMANTICISE:
+    case ABIL_HEPLIAKLQANA_TRANSFERENCE:
         invoc = true;
         failure = 40 - (you.piety / 20) - you.skill(SK_INVOCATIONS, 5);
         break;
@@ -1086,7 +1086,7 @@ talent get_talent(ability_type ability, bool check_confused)
     case ABIL_YRED_DRAIN_LIFE:
     case ABIL_CHEIBRIADOS_SLOUCH:
     case ABIL_OKAWARU_FINESSE:
-    case ABIL_HEPLIAKLQANA_TRANSFERENCE:
+    case ABIL_HEPLIAKLQANA_ROMANTICISE:
         invoc = true;
         failure = 60 - (you.piety / 25) - you.skill(SK_INVOCATIONS, 4);
         break;
