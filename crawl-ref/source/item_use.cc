@@ -2059,8 +2059,8 @@ bool enchant_weapon(item_def &wpn, bool quiet)
 // Returns true if the scroll is used up.
 static bool _identify(bool alreadyknown, const string &pre_msg)
 {
-	FixedVector< item_def, ENDOFPACK > *inv;
-	inv_from_prompt(inv, "Do you want to identify");
+	FixedVector< item_def, ENDOFPACK > *inv = &you.inv1;
+//	inv_from_prompt(inv, "Do you want to identify");
 
     int item_slot = -1;
     while (true)
@@ -2071,7 +2071,7 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
             		(*inv),
                 "Identify which item? (\\ to view known items)",
                 MT_INVLIST, OSEL_UNIDENT, true, true, false, 0,
-                -1, nullptr, OPER_ANY, true);
+                -1, nullptr, OPER_ANY, true, true);
         }
 
         if (item_slot == PROMPT_NOTHING)
@@ -2839,7 +2839,7 @@ void read_scroll(int item_slot)
             mpr("It is a scroll of recharging.");
             // included in default force_more_message (to show it before menu)
         }
-        cancel_scroll = (recharge_wand(alreadyknown, pre_succ_msg) == -1);
+        cancel_scroll = (recharge_wand(RECHARGE_TYPE_EITHER, alreadyknown, pre_succ_msg) == -1);
         break;
 
     case SCR_ENCHANT_ARMOUR:

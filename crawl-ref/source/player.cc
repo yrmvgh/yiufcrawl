@@ -1184,7 +1184,13 @@ int player_regen()
 
     // Trog's Hand. This circumvents the slow regeneration mutation.
     if (you.duration[DUR_TROGS_HAND])
+    {
         rr += 100;
+        if(you.species == SP_DEEP_DWARF)
+        {
+        	rr <<= 1;
+        }
+    }
 
     return rr;
 }

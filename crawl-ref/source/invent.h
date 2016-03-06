@@ -39,6 +39,8 @@ enum object_selector
                                         // known-cursed. Unknown-cursed items
                                         // are included, to prevent information
                                         // leakage.
+    OSEL_RECHARGE_BASIC          = -21,
+    OSEL_RECHARGE_ADVANCED       = -22,
 };
 
 #define PROMPT_ABORT         -1

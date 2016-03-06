@@ -219,7 +219,8 @@ static const ability_def Ability_List[] =
     // any reason to label them as "Evoke" in the text, they don't
     // use or train Evocations (the others do).  -- bwr
     { ABIL_EVOKE_BLINK, "Evoke Blink", 1, 0, 50, 0, abflag::NONE },
-    { ABIL_RECHARGING, "Device Recharging", 1, 0, 0, 0, abflag::PERMANENT_MP },
+    { ABIL_RECHARGING_BASIC, "Lesser Device Recharging", 1, 0, 0, 0, abflag::PERMANENT_MP },
+    { ABIL_RECHARGING_ADVANCED, "Greater Device Recharging", 3, 0, 0, 0, abflag::PERMANENT_MP },
 
     { ABIL_EVOKE_BERSERK, "Evoke Berserk Rage", 0, 0, 0, 0, abflag::NONE },
 
@@ -849,8 +850,9 @@ talent get_talent(ability_type ability, bool check_confused)
         failure = 45 - (2 * you.experience_level);
         break;
 
-    case ABIL_RECHARGING:       // this is for deep dwarves {1KB}
-        failure = 45 - (2 * you.experience_level);
+    case ABIL_RECHARGING_ADVANCED:       // this is for deep dwarves {1KB}
+    case ABIL_RECHARGING_BASIC:       // this is for deep dwarves {1KB}
+        failure = 0;
         break;
 
     case ABIL_DIG:
@@ -1799,9 +1801,15 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
     }
 
-    case ABIL_RECHARGING:
+    case ABIL_RECHARGING_BASIC:
         fail_check();
-        if (recharge_wand() <= 0)
+        if (recharge_wand(RECHARGE_TYPE_BASIC) <= 0)
+            return SPRET_ABORT; // fail message is already given
+        break;
+
+    case ABIL_RECHARGING_ADVANCED:
+        fail_check();
+        if (recharge_wand(RECHARGE_TYPE_ADVANCED) <= 0)
             return SPRET_ABORT; // fail message is already given
         break;
 
@@ -3016,7 +3024,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             stepdown(random2avg(you.skill(SK_EVOCATIONS, 10), 2) * mp_to_use,
                      den / 3);
 
-        if (recharge_wand(true, "", num, den) <= 0)
+        if (recharge_wand(RECHARGE_TYPE_EITHER, true, "", num, den) <= 0)
         {
             canned_msg(MSG_OK);
             return SPRET_ABORT;
@@ -3177,7 +3185,7 @@ static void _pay_ability_costs(const ability_def& abil)
     {
         dec_mp(abil.mp_cost);
         if (abil.flags & abflag::PERMANENT_MP)
-            rot_mp(1);
+            rot_mp(abil.mp_cost);
     }
 
     if (abil.hp_cost)
@@ -3367,7 +3375,10 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         _add_talent(talents, ABIL_MUMMY_RESTORATION, check_confused);
 
     if (you.species == SP_DEEP_DWARF)
-        _add_talent(talents, ABIL_RECHARGING, check_confused);
+        _add_talent(talents, ABIL_RECHARGING_BASIC, check_confused);
+
+    if (you.species == SP_DEEP_DWARF)
+        _add_talent(talents, ABIL_RECHARGING_ADVANCED, check_confused);
 
     if (you.species == SP_DJINNI)
         _add_talent(talents, ABIL_UNCURSE, check_confused);

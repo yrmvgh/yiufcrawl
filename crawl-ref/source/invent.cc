@@ -1034,8 +1034,26 @@ bool item_is_selected(const item_def &i, int selector)
                || (itype == OBJ_BOOKS && i.sub_type != BOOK_MANUAL);
 
     case OSEL_RECHARGE:
+    case OSEL_RECHARGE_BASIC:
+    case OSEL_RECHARGE_ADVANCED:
     case OSEL_SUPERCHARGE:
+    {
+    	if (i.sub_type == WAND_HASTING
+    			|| i.sub_type == WAND_HEAL_WOUNDS
+				|| i.sub_type == WAND_TELEPORTATION
+    		)
+    	{
+    		if(selector == OSEL_RECHARGE_BASIC)
+    			return false;
+    	}
+    	else
+    	{
+    		if(selector == OSEL_RECHARGE_ADVANCED)
+    			return false;
+    	}
+
         return item_is_rechargeable(i, selector == OSEL_RECHARGE);
+    }
 
     case OSEL_EVOKABLE:
         return item_is_evokable(i, true, true, true);

@@ -251,7 +251,8 @@ enum ability_type
     ABIL_BOTTLE_BLOOD,
 #endif
     // Deep Dwarves
-    ABIL_RECHARGING,
+    ABIL_RECHARGING_BASIC,
+    ABIL_RECHARGING_ADVANCED,
     // Formicids
     ABIL_DIG,
     ABIL_SHAFT_SELF,
@@ -5182,6 +5183,12 @@ enum rng_type {
     RNG_GAMEPLAY,
     RNG_UI,
     NUM_RNGS,
+};
+
+enum recharge_type {
+	RECHARGE_TYPE_BASIC,
+	RECHARGE_TYPE_ADVANCED,
+	RECHARGE_TYPE_EITHER,
 };
 
 #endif // ENUM_H

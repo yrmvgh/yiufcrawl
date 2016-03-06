@@ -818,15 +818,28 @@ void zap_wand(int slot)
     you.turn_is_over = true;
 }
 
-int recharge_wand(bool known, const string &pre_msg, int num, int den)
+int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg, int num, int den)
 {
     int item_slot = -1;
     do
     {
         if (item_slot == -1)
         {
+        	object_selector sel;
+        	switch(rechargeType)
+        	{
+        	case RECHARGE_TYPE_BASIC:
+        		sel = OSEL_RECHARGE_BASIC;
+        		break;
+        	case RECHARGE_TYPE_ADVANCED:
+        		sel = OSEL_RECHARGE_ADVANCED;
+        		break;
+        	case RECHARGE_TYPE_EITHER:
+        		sel = OSEL_RECHARGE;
+        		break;
+        	}
             item_slot = prompt_invent_item(you.inv1, "Charge which item?", MT_INVLIST,
-                                            OSEL_RECHARGE, true, true, false);
+                                            sel, true, true, false);
         }
 
         if (item_slot == PROMPT_NOTHING)
@@ -865,7 +878,7 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
 
         if (wand.base_type == OBJ_WANDS)
         {
-            int charge_gain = wand_max_charges(wand) / 3;
+//            int charge_gain = wand_max_charges(wand) / 3;
 
             const int new_charges = wand_max_charges(wand);
 //                num > 0 && den > 0

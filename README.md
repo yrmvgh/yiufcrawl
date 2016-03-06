@@ -104,6 +104,10 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
 * Troll
     * they now gain several different elemental resistances as they gain levels
 
+* Deep Dwarf
+    * recharge ability has been split in two: lesser recharge (costs 1 PMP), and greater recharge (costs 3 PMP). Greater recharge is required to recharge
+      wands of healing, haste, and teleport
+
 * Deep Elf
     * increased spell casting aptitude
     * increased magic capacity

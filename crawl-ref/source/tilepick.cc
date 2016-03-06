@@ -5279,7 +5279,8 @@ tileidx_t tileidx_ability(const ability_type ability)
     case ABIL_BOTTLE_BLOOD:
         return TILEG_ABILITY_BOTTLE_BLOOD;
     // Deep Dwarves
-    case ABIL_RECHARGING:
+    case ABIL_RECHARGING_BASIC:
+    case ABIL_RECHARGING_ADVANCED:
         return TILEG_ABILITY_RECHARGE;
     // Formicids
     case ABIL_DIG:
