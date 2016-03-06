@@ -3711,7 +3711,6 @@ static int _monster_abjure_target(monster* target, int pow, bool actual)
     dprf("Abj: dur: %d, pow: %d, ndur: %d", duration, pow, duration - pow);
 
     mon_enchant abj = target->get_ench(ENCH_ABJ);
-	player* player_who_summoned_this = 0;
 
     if (target->summoner)
     {

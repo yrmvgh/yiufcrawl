@@ -372,6 +372,8 @@ bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
     bool ret = false;
 	bool consumable = is_consumable(inv);
 
+	ASSERT(isValidItem(inv, obj));
+
     if (you.equip[EQ_WEAPON] == obj)
         you.wield_change = true;
 
@@ -421,6 +423,7 @@ bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
 bool dec_mitm_item_quantity(int obj, int amount)
 {
     item_def &item = mitm[obj];
+	ASSERT(item.isValid());
     if (amount > item.quantity)
         amount = item.quantity; // can't use min due to type mismatch
 
@@ -441,6 +444,7 @@ bool dec_mitm_item_quantity(int obj, int amount)
 
 void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount)
 {
+	ASSERT(isValidItem(inv, obj));
     if (you.equip[EQ_WEAPON] == obj)
         you.wield_change = true;
 
@@ -450,6 +454,7 @@ void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
 
 void inc_mitm_item_quantity(int obj, int amount)
 {
+	ASSERT(mitm[obj].isValid());
     mitm[obj].quantity += amount;
 }
 
@@ -1664,7 +1669,9 @@ void note_inscribe_item(item_def &item)
 
 static bool _put_item_in_inv(item_def& it, int quant_got, bool quiet, bool& put_in_inv)
 {
-    put_in_inv = false;
+	ASSERT(it.isValid());
+
+	put_in_inv = false;
     if (item_is_stationary(it))
     {
         if (!quiet)
@@ -1932,6 +1939,7 @@ item_def *auto_assign_item_slot(item_def& item)
 static int _place_item_in_free_slot(item_def &it, int quant_got,
                                     bool quiet)
 {
+	ASSERT(it.isValid());
 	FixedVector< item_def, ENDOFPACK > *inv;
 	inv_from_item(inv, it.base_type);
 
@@ -2013,6 +2021,8 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
 static bool _merge_items_into_inv(item_def &it, int quant_got,
                                   int &inv_slot, bool quiet)
 {
+	ASSERT(it.isValid());
+
     inv_slot = -1;
 
     // sanity
@@ -3392,6 +3402,23 @@ bool item_def::defined() const
 {
     return base_type != OBJ_UNASSIGNED && quantity > 0;
 }
+
+/*
+ * Checks to see if this item is corrupted, used for asserts
+ */
+bool item_def::isValid() const
+{
+	return base_type < NUM_OBJECT_CLASSES && quantity < 1000;
+}
+
+bool isValidItem(FixedVector< item_def, ENDOFPACK > &inv, int obj)
+{
+	ASSERT(obj < ENDOFPACK);
+	ASSERT(obj >= 0);
+	const item_def item = inv[obj];
+	return item.isValid();
+}
+
 /**
  * Has this item's appearance been initialized?
  */

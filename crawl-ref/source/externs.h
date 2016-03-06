@@ -653,6 +653,7 @@ public:
     bool held_by_monster() const;
 
     bool defined() const;
+    bool isValid() const;
     bool appearance_initialized() const;
     bool is_valid(bool info = false) const;
 

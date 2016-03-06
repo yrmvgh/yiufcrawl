@@ -2059,8 +2059,8 @@ bool enchant_weapon(item_def &wpn, bool quiet)
 // Returns true if the scroll is used up.
 static bool _identify(bool alreadyknown, const string &pre_msg)
 {
-	FixedVector< item_def, ENDOFPACK > *inv = &you.inv1;
-//	inv_from_prompt(inv, "Do you want to identify");
+	FixedVector< item_def, ENDOFPACK > *inv;
+	inv_from_prompt(inv, "Do you want to identify");
 
     int item_slot = -1;
     while (true)

@@ -1127,6 +1127,7 @@ static void _get_inv_items_to_show(FixedVector< item_def, ENDOFPACK > &inv, vect
             && item.link != excluded_slot
             && item_is_selected(item, selector))
         {
+        	ASSERT(item.isValid());
             v.push_back(&item);
         }
     }
