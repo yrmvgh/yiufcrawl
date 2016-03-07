@@ -1332,7 +1332,7 @@ static const struct spell_desc spelldata[] =
     SPFLAG_DIR | SPFLAG_ESCAPE | SPFLAG_NOT_SELF | SPFLAG_UTILITY,
     2,
     200,
-    1, 1,
+    1, 9,
     0, 0, // make silent to keep passwall a viable stabbing spell [rob]
     nullptr,
 },
@@ -3575,6 +3575,7 @@ static const struct spell_desc spelldata[] =
     nullptr,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {
     SPELL_HUNTING_CRY, "Hunting Cry",
     SPTYP_HEXES,
@@ -3585,6 +3586,7 @@ static const struct spell_desc spelldata[] =
     25, 0,
     nullptr,
 },
+#endif
 
 {
     SPELL_CLEANSING_FLAME, "Cleansing Flame",

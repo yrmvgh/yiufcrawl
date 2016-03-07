@@ -110,15 +110,7 @@ bool ranged_attack::attack()
     disable_attack_conducts(conducts);
 
     if (attacker->is_player() && attacker != defender)
-    {
         set_attack_conducts(conducts, defender->as_monster());
-        player_stab_check();
-        if (stab_attempt && stab_bonus > 0)
-        {
-            ev_margin = AUTOMATIC_HIT;
-            shield_blocked = false;
-        }
-    }
 
     if (shield_blocked)
         handle_phase_blocked();
@@ -273,10 +265,8 @@ bool ranged_attack::handle_phase_hit()
 
     if (projectile->is_type(OBJ_MISSILES, MI_NEEDLE))
     {
-        int dur = blowgun_duration_roll(get_ammo_brand(*projectile));
+        damage_done = blowgun_duration_roll(get_ammo_brand(*projectile));
         set_attack_verb(0);
-        int stab = player_stab(dur);
-        damage_done = dur + (stab - dur) / 10;
         announce_hit();
     }
     else if (projectile->is_type(OBJ_MISSILES, MI_THROWING_NET))
@@ -447,7 +437,6 @@ special_missile_type ranged_attack::random_chaos_missile_brand()
                     10, SPMSL_POISONED,
                     10, SPMSL_CHAOS,
                      5, SPMSL_PARALYSIS,
-                     5, SPMSL_SLOW,
                      5, SPMSL_SLEEP,
                      5, SPMSL_FRENZY,
                      2, SPMSL_CURARE,
@@ -484,7 +473,6 @@ special_missile_type ranged_attack::random_chaos_missile_brand()
                 break;
             }
             // fall through
-        case SPMSL_SLOW:
         case SPMSL_SLEEP:
         case SPMSL_PARALYSIS:
             if (defender->holiness() & (MH_UNDEAD | MH_NONLIVING))
@@ -518,7 +506,6 @@ special_missile_type ranged_attack::random_chaos_missile_brand()
     case SPMSL_CURARE:          brand_name += "curare"; break;
     case SPMSL_CHAOS:           brand_name += "chaos"; break;
     case SPMSL_DISPERSAL:       brand_name += "dispersal"; break;
-    case SPMSL_SLOW:            brand_name += "slow"; break;
     case SPMSL_SLEEP:           brand_name += "sleep"; break;
     case SPMSL_CONFUSION:       brand_name += "confusion"; break;
     case SPMSL_FRENZY:          brand_name += "frenzy"; break;
@@ -549,9 +536,6 @@ bool ranged_attack::blowgun_check(special_missile_type type)
         }
         return false;
     }
-
-    if (stab_attempt)
-        return true;
 
     const int enchantment = using_weapon() ? weapon->plus : 0;
 
@@ -626,8 +610,6 @@ int ranged_attack::blowgun_duration_roll(special_missile_type type)
                 return 5 + random2(5);
             case SPMSL_CONFUSION:
                 return 2 + random2(4);
-            case SPMSL_SLOW:
-                return 5 + random2(7);
             default:
                 return 5 + random2(5);
         }
@@ -673,10 +655,9 @@ bool ranged_attack::apply_missile_brand()
         defender->expose_to_element(BEAM_COLD, 2);
         break;
     case SPMSL_POISONED:
-        if (stab_attempt
-            || (projectile->is_type(OBJ_MISSILES, MI_NEEDLE)
-                && using_weapon()
-                && damage_done > 0)
+        if (projectile->is_type(OBJ_MISSILES, MI_NEEDLE)
+            && using_weapon()
+            && damage_done > 0
             || !one_chance_in(4))
         {
             int old_poison;
@@ -752,11 +733,6 @@ bool ranged_attack::apply_missile_brand()
             break;
         defender->paralyse(attacker, damage_done);
         break;
-    case SPMSL_SLOW:
-        if (!blowgun_check(brand))
-            break;
-        defender->slow_down(attacker, damage_done);
-        break;
     case SPMSL_SLEEP:
         if (!blowgun_check(brand))
             break;
@@ -813,19 +789,13 @@ bool ranged_attack::mons_attack_effects()
 
 void ranged_attack::player_stab_check()
 {
-    if (player_good_stab())
-        attack::player_stab_check();
-    else
-    {
-        stab_attempt = false;
-        stab_bonus = 0;
-    }
+    stab_attempt = false;
+    stab_bonus = 0;
 }
 
 bool ranged_attack::player_good_stab()
 {
-    return using_weapon()
-           && projectile->is_type(OBJ_MISSILES, MI_NEEDLE);
+    return false;
 }
 
 void ranged_attack::set_attack_verb(int/* damage*/)
@@ -838,13 +808,10 @@ void ranged_attack::announce_hit()
     if (!needs_message)
         return;
 
-    mprf("%s %s %s%s%s%s",
+    mprf("%s %s %s%s%s",
          projectile->name(DESC_THE).c_str(),
          attack_verb.c_str(),
          defender_name(false).c_str(),
-         damage_done > 0 && stab_attempt && stab_bonus > 0
-             ? " in a vulnerable spot"
-             : "",
          debug_damage_number().c_str(),
          attack_strength_punctuation(damage_done).c_str());
 }

@@ -1151,18 +1151,6 @@ static void _handle_run_delays(const delay_queue_item &delay)
                 return;
         }
 
-        if (Options.auto_sacrifice == AS_YES
-            && you.running == RMODE_EXPLORE_GREEDY)
-        {
-            LevelStashes *lev = StashTrack.find_current_level();
-            if (lev && lev->sacrificeable(you.pos()))
-            {
-                const interrupt_block block_interrupts;
-                pray(false);
-                return;
-            }
-        }
-
         switch (delay.type)
         {
         case DELAY_REST:
@@ -1698,7 +1686,7 @@ bool interrupt_activity(activity_interrupt_type ai,
 // Must match the order of activity_interrupt_type in enum.h!
 static const char *activity_interrupt_names[] =
 {
-    "force", "keypress", "full_hp", "full_mp", "statue", "hungry", "message",
+    "force", "keypress", "full_hp", "full_mp", "hungry", "message",
     "hp_loss", "stat", "monster", "monster_attack", "teleport", "hit_monster",
     "sense_monster", "mimic"
 };

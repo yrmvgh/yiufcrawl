@@ -1604,6 +1604,12 @@ bool monster::wants_weapon(const item_def &weap) const
         return false;
     }
 
+    // Don't pick up a new weapon if we've been gifted one by the player.
+    if (is_range_weapon(weap) && props.exists(BEOGH_RANGE_WPN_GIFT_KEY))
+        return false;
+    else if (props.exists(BEOGH_MELEE_WPN_GIFT_KEY))
+        return false;
+
     // Arcane spellcasters don't want -Cast.
     if (is_actual_spellcaster()
         && is_artefact(weap)
@@ -1631,6 +1637,12 @@ bool monster::wants_armour(const item_def &item) const
     {
         return false;
     }
+
+    // Don't pick up new armour if we've been gifted something by the player.
+    if (is_shield(item) && props.exists(BEOGH_SH_GIFT_KEY))
+        return false;
+    else if (props.exists(BEOGH_ARM_GIFT_KEY))
+        return false;
 
     // Spellcasters won't pick up restricting armour, although they can
     // start with one. Applies to arcane spells only, of course.
@@ -2105,25 +2117,6 @@ bool monster::pickup_item(item_def &item, bool msg, bool force)
         {
             return false;
         }
-        // Keep neutral, charmed, and friendly monsters from
-        // picking up stuff.
-        if ((neutral()
-             || you_worship(GOD_JIYVA) && mons_is_slime(this)
-             || has_ench(ENCH_CHARM) || has_ench(ENCH_HEXED)
-             || friendly()
-        // Monsters being able to pick up items you've seen encourages
-        // tediously moving everything away from a place where they could use
-        // them. Maurice being able to pick up such items encourages killing
-        // Maurice, since there's just one of him.
-             || (testbits(item.flags, ISFLAG_SEEN)
-                 && !has_attack_flavour(AF_STEAL)))
-        // ...but it's ok if it dropped the item itself.
-            && !(item.props.exists(DROPPER_MID_KEY)
-                 && item.props[DROPPER_MID_KEY].get_int() == (int)mid))
-        {
-            return false;
-        }
-
         if (!wandering && !wont_attack())
         {
             // These are not important enough for pickup when
@@ -4127,21 +4120,23 @@ int monster::res_acid(bool calc_unid) const
     return u;
 }
 
-int monster::res_magic() const
+/**
+ * What MR (resistance to hexes, etc) does this monster have?
+ *
+ * @param calc_unid     Whether to include items & effects the player may not
+ *                      know about.
+ * @return              The monster's magic resistance value.
+ */
+int monster::res_magic(bool calc_unid) const
 {
     if (mons_immune_magic(this))
         return MAG_IMMUNE;
 
-    const monster_type base_type =
-        (mons_is_draconian(type) || mons_is_demonspawn(type))
-        ? draco_or_demonspawn_subspecies(this)
-        : type;
-
-    int u = (get_monster_data(base_type))->resist_magic;
-
+    const int type_mr = (get_monster_data(type))->resist_magic;
     // Negative values get multiplied with monster hit dice.
-    if (u < 0)
-        u = get_hit_dice() * -u * 4 / 3;
+    int u = type_mr < 0 ?
+                get_hit_dice() * -type_mr * 4 / 3 :
+                mons_class_res_magic(type, base_monster);
 
     // Resistance from artefact properties.
     u += 40 * scan_artefacts(ARTP_MAGIC_RESISTANCE);
@@ -4151,14 +4146,26 @@ int monster::res_magic() const
     const int shld      = inv[MSLOT_SHIELD];
     const int jewellery = inv[MSLOT_JEWELLERY];
 
-    if (armour != NON_ITEM && mitm[armour].base_type == OBJ_ARMOUR)
+    // XXX: should also include artefacts mr props
+    // (remove ", false" and add appropriate flag checks for calc_unid)
+
+    if (armour != NON_ITEM && mitm[armour].base_type == OBJ_ARMOUR
+        && (calc_unid || mitm[armour].flags | ISFLAG_KNOW_TYPE))
+    {
         u += get_armour_res_magic(mitm[armour], false);
+    }
 
-    if (shld != NON_ITEM && mitm[shld].base_type == OBJ_ARMOUR)
+    if (shld != NON_ITEM && mitm[shld].base_type == OBJ_ARMOUR
+        && (calc_unid || mitm[shld].flags | ISFLAG_KNOW_TYPE))
+    {
         u += get_armour_res_magic(mitm[shld], false);
+    }
 
-    if (jewellery != NON_ITEM && mitm[jewellery].base_type == OBJ_JEWELLERY)
+    if (jewellery != NON_ITEM && mitm[jewellery].base_type == OBJ_JEWELLERY
+        && calc_unid) // XXX: can you ever see monster jewellery?
+    {
         u += get_jewellery_res_magic(mitm[jewellery], false);
+    }
 
     if (has_ench(ENCH_RAISED_MR)) //trog's hand
         u += 80;
@@ -4723,6 +4730,10 @@ bool monster::is_trap_safe(const coord_def& where, bool just_check) const
     if (intel == I_BRAINLESS)
         return true;
 
+    // Ditto, berserkers & frenzied creatures.
+    if (berserk_or_insane())
+        return true;
+
     // Hostile monsters are not afraid of non-mechanical traps.
     // Allies will try to avoid teleportation and zot traps.
     const bool mechanical = (trap.category() == DNGN_TRAP_MECHANICAL);
@@ -5225,27 +5236,32 @@ bool monster::needs_berserk(bool check_spells) const
     return true;
 }
 
-bool monster::can_see_invisible() const
+/**
+ * Can this monster see invisible creatures?
+ *
+ * @param calc_unid     Should effects the player doesn't know about be
+ *                      considered?
+ * @return              Whether the monster can see invisible things.
+ */
+bool monster::can_see_invisible(bool calc_unid) const
 {
-    // If you change the non-item parts of this method, be sure to update
-    // monster_info::can_see_invisible() to match!
     if (mons_is_ghost_demon(type))
         return ghost->see_invis;
-    else if (mons_class_flag(type, M_SEE_INVIS)
-             || (mons_is_demonspawn(type)
-                 && mons_class_flag(draco_or_demonspawn_subspecies(this),
-                                    M_SEE_INVIS)))
-    {
+    else if (mons_class_sees_invis(type, base_monster))
         return true;
-    }
-    else if (scan_artefacts(ARTP_SEE_INVISIBLE) > 0)
+    else if (has_facet(BF_WEIRD))
+        return true;
+
+    if (!calc_unid)
+        return false;
+
+    if (scan_artefacts(ARTP_SEE_INVISIBLE) > 0)
         return true;
     else if (wearing(EQ_RINGS, RING_SEE_INVISIBLE))
         return true;
     else if (wearing_ego(EQ_ALL_ARMOUR, SPARM_SEE_INVISIBLE))
         return true;
-    else if (has_facet(BF_WEIRD))
-        return true;
+
     return false;
 }
 
@@ -6082,11 +6098,15 @@ void monster::react_to_damage(const actor *oppressor, int damage,
 
     // Don't discharge on small amounts of damage (this helps avoid
     // continuously shocking when poisoned or sticky flamed)
-    if (type == MONS_SHOCK_SERPENT && damage > 4)
+    // XXX: this might not be necessary anymore?
+    if (type == MONS_SHOCK_SERPENT && damage > 4 && oppressor)
     {
-        int pow = div_rand_round(min(damage, hit_points + damage), 9);
+        const int pow = div_rand_round(min(damage, hit_points + damage), 9);
         if (pow)
-            shock_serpent_discharge_fineff::schedule(this, pos(), pow);
+        {
+            shock_serpent_discharge_fineff::schedule(this, *oppressor, pos(),
+                                                     pow);
+        }
     }
 
     // The (real) royal jelly objects to taking damage and will SULK. :-)

@@ -560,7 +560,7 @@ Conjures up a large cloud of roaring flames.
 Flash Freeze spell
 
 Freezes the air around a target, causing significant harm and slowing the
-target's movement.
+target's movement. It has no effect on targets that are already frozen.
 %%%%
 Force Lance spell
 
@@ -647,10 +647,6 @@ Holy Breath spell
 Exhales a large cloud of blessed flame, shining with the glory of the good
 gods. These flames are especially dangerous to evil creatures, and have no
 effect on holy creatures.
-%%%%
-Hunting Cry spell
-
-Alerts nearby allies of the user to their target's location.
 %%%%
 Holy Flames spell
 

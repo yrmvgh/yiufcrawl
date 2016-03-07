@@ -121,7 +121,8 @@ bool bolt::is_blockable() const
 /// Can 'omnireflection' (from the Warlock's Mirror) potentially reflect this?
 bool bolt::is_omnireflectable() const
 {
-    return !is_explosion && flavour != BEAM_VISUAL;
+    return !is_explosion && flavour != BEAM_VISUAL
+            && origin_spell != SPELL_GLACIATE;
 }
 
 void bolt::emit_message(const char* m)
@@ -1796,14 +1797,7 @@ static bool _monster_resists_mass_enchantment(monster* mons,
             return true;
         }
     }
-    else if (wh_enchant == ENCH_CONFUSION
-             && mons->check_clarity(false))
-    {
-        *did_msg = true;
-        return true;
-    }
-    else if (wh_enchant == ENCH_CONFUSION
-             || wh_enchant == ENCH_INSANE
+    else if (wh_enchant == ENCH_INSANE
              || mons->holiness() & MH_NATURAL)
     {
         if (wh_enchant == ENCH_FEAR
@@ -1884,7 +1878,6 @@ spret_type mass_enchantment(enchant_type wh_enchant, int pow, bool fail)
             switch (wh_enchant)
             {
             case ENCH_FEAR:      msg = " looks frightened!";      break;
-            case ENCH_CONFUSION: msg = " looks rather confused."; break;
             case ENCH_CHARM:     msg = " submits to your will.";  break;
             default:             msg = nullptr;                   break;
             }
@@ -3350,7 +3343,7 @@ bool bolt::misses_player()
                                player_shield_class() + 40);
 
         dprf(DIAG_BEAM, "Beamshield: hit: %d, block %d", testhit, block);
-        if (testhit < block || omnireflected)
+        if ((testhit < block && hit != AUTOMATIC_HIT) || omnireflected)
         {
             bool penet = false;
 
@@ -4716,8 +4709,6 @@ bool bolt::god_cares() const
  */
 void bolt::hit_shield(actor* blocker) const
 {
-    if (flavour == BEAM_ACID)
-        blocker->corrode_equipment();
     if (blocker->is_player())
         you.maybe_degrade_bone_armour(BONE_ARMOUR_HIT_RATIO);
 }
@@ -4788,6 +4779,21 @@ bool bolt::attempt_block(monster* mon)
     return rc;
 }
 
+/// Is the given monster a bush or bush-like 'monster', and can the given beam
+/// travel through it without harm?
+bool bolt::bush_immune(const monster &mons) const
+{
+    return
+        (mons_species(mons.type) == MONS_BUSH || mons.type == MONS_BRIAR_PATCH)
+        && !pierce && !is_explosion
+        && !is_enchantment()
+        && target != mons.pos()
+        && origin_spell != SPELL_STICKY_FLAME
+        && origin_spell != SPELL_STICKY_FLAME_RANGE
+        && origin_spell != SPELL_STICKY_FLAME_SPLASH
+        && origin_spell != SPELL_CHAIN_LIGHTNING;
+}
+
 void bolt::affect_monster(monster* mon)
 {
     // Don't hit dead monsters.
@@ -4805,7 +4811,7 @@ void bolt::affect_monster(monster* mon)
         {
             if (testbits(mon->flags, MF_DEMONIC_GUARDIAN))
                 mpr("Your demonic guardian avoids your attack.");
-            else
+            else if (!bush_immune(*mon))
             {
                 simple_god_message(
                     make_stringf(" protects %s plant from harm.",
@@ -5130,17 +5136,8 @@ bool bolt::ignores_monster(const monster* mon) const
     }
 
     // Missiles go past bushes and briar patches, unless aimed directly at them
-    if ((mons_species(mon->type) == MONS_BUSH || mon->type == MONS_BRIAR_PATCH)
-        && !pierce && !is_explosion
-        && !is_enchantment()
-        && target != mon->pos()
-        && origin_spell != SPELL_STICKY_FLAME
-        && origin_spell != SPELL_STICKY_FLAME_RANGE
-        && origin_spell != SPELL_STICKY_FLAME_SPLASH
-        && origin_spell != SPELL_CHAIN_LIGHTNING)
-    {
+    if (bush_immune(*mon))
         return true;
-    }
 
     if (shoot_through_monster(*this, mon))
         return true;

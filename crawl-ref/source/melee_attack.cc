@@ -3698,5 +3698,6 @@ bool melee_attack::_vamp_wants_blood_from_monster(const monster* mon)
     return you.species == SP_VAMPIRE
            && you.hunger_state < HS_SATIATED
            && !mon->is_summoned()
-           && mons_has_blood(mon->type);
+           && mons_has_blood(mon->type)
+           && !testbits(mon->flags, MF_SPECTRALISED);
 }

@@ -4969,6 +4969,31 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
     mi.description = unmarshallString(th);
     mi.quote = unmarshallString(th);
 
+    uint64_t holi_flags = unmarshallUnsigned(th);
+#if TAG_MAJOR_VERSION == 34
+    if (th.getMinorVersion() >= TAG_MINOR_MULTI_HOLI)
+    {
+#endif
+        mi.holi.flags = holi_flags;
+#if TAG_MAJOR_VERSION == 34
+    }
+    else
+        mi.holi.flags = 1<<holi_flags;
+#endif
+
+#if TAG_MAJOR_VERSION == 34
+    // XXX: special case MH_UNDEAD becoming MH_UNDEAD | MH_NATURAL
+    // to save MF_FAKE_UNDEAD. Beware if you add a NATURAL bit
+    // to an undead monster.
+    if (mons_class_holiness(mi.type) & ~mi.holi
+        && !(mi.holi & MH_UNDEAD) && !(mons_class_holiness(mi.type) & MH_NATURAL))
+    {
+        mi.holi |= mons_class_holiness(mi.type);
+    }
+#endif
+
+    unmarshallUnsigned(th, mi.mintel);
+
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() >= TAG_MINOR_MON_HD_INFO)
     {
@@ -4994,30 +5019,9 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
     }
 #endif
 
-    uint64_t holi_flags = unmarshallUnsigned(th);
-#if TAG_MAJOR_VERSION == 34
-    if (th.getMinorVersion() >= TAG_MINOR_MULTI_HOLI)
-    {
-#endif
-        mi.holi.flags = holi_flags;
-#if TAG_MAJOR_VERSION == 34
-    }
-    else
-        mi.holi.flags = 1<<holi_flags;
-#endif
+    mi.mr = mons_class_res_magic(mi.type, mi.base_type);
+    mi.can_see_invis = mons_class_sees_invis(mi.type, mi.base_type);
 
-#if TAG_MAJOR_VERSION == 34
-    // XXX: special case MH_UNDEAD becoming MH_UNDEAD | MH_NATURAL
-    // to save MF_FAKE_UNDEAD. Beware if you add a NATURAL bit
-    // to an undead monster.
-    if (mons_class_holiness(mi.type) & ~mi.holi
-        && !(mi.holi & MH_UNDEAD) && !(mons_class_holiness(mi.type) & MH_NATURAL))
-    {
-        mi.holi |= mons_class_holiness(mi.type);
-    }
-#endif
-
-    unmarshallUnsigned(th, mi.mintel);
     mi.mresists = unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     if (mi.mresists & MR_OLD_RES_ACID)
@@ -5950,6 +5954,12 @@ void unmarshallMonster(reader &th, monster& m)
     {
         m.props[ORIGINAL_TYPE_KEY].get_int() =
             get_monster_by_name(m.props["original_name"].get_string());
+    }
+
+    if (m.props.exists("given beogh weapon"))
+    {
+        m.props.erase("given beogh weapon");
+        m.props[BEOGH_MELEE_WPN_GIFT_KEY] = true;
     }
 #endif
 

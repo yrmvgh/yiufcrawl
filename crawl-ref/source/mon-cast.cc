@@ -934,10 +934,10 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
 
     case SPELL_FLASH_FREEZE:
         beam.name     = "flash freeze";
-        beam.damage   = dice_def(3, 9 + (power / 13));
+        beam.damage   = dice_def(3, 7 + (power / 12));
         beam.colour   = WHITE;
         beam.flavour  = BEAM_ICE;
-        beam.hit      = AUTOMATIC_HIT;
+        beam.hit      = 5 + power / 3;
         break;
 
     case SPELL_SAP_MAGIC:
@@ -1223,8 +1223,8 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_REPEL_MISSILES:
     case SPELL_DEFLECT_MISSILES:
     case SPELL_SUMMON_SCARABS:
-    case SPELL_HUNTING_CRY:
 #if TAG_MAJOR_VERSION == 34
+    case SPELL_HUNTING_CRY:
     case SPELL_CONDENSATION_SHIELD:
 #endif
     case SPELL_CONTROL_UNDEAD:
@@ -4867,28 +4867,10 @@ extern const spell_type serpent_of_hell_breaths[][3] =
     }
 };
 
-/**
- * Get the enchant_type for a given chanted spell.
- * This probably could be further generalized and maybe move into a map.
- * I'll return to this later.
- *
- * @param chant The spell_type to convert to an enchant_type.
- */
-static enchant_type get_enchant_type_from_chant(spell_type chant)
-{
-    switch (chant)
-    {
-        default:
-            return ENCH_NONE;
-        case SPELL_WORD_OF_RECALL:
-            return ENCH_WORD_OF_RECALL;
-    }
-}
-
-static bool _spell_charged(monster *mons, int count)
+static bool _spell_charged(monster *mons)
 {
     mon_enchant ench = mons->get_ench(ENCH_SPELL_CHARGED);
-    if (ench.ench == ENCH_NONE || ench.degree < count)
+    if (ench.ench == ENCH_NONE || ench.degree < max_mons_charge(mons->type))
     {
         if (ench.ench == ENCH_NONE)
         {
@@ -5049,7 +5031,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
         pbolt.flavour    = BEAM_WATER;
 
-        int damage_taken = roll_dice(3, 7 + mons->get_hit_dice());
+        int damage_taken = roll_dice(3, 7 + mons->spell_hd(spell_cast));
         damage_taken = foe->beam_resists(pbolt, damage_taken, false);
         damage_taken = foe->apply_ac(damage_taken);
 
@@ -5924,7 +5906,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_IOOD:
-        if (mons->type == MONS_ORB_SPIDER && !_spell_charged(mons, 1))
+        if (mons->type == MONS_ORB_SPIDER && !_spell_charged(mons))
             return;
         if (orig_noise)
             mons_cast_noise(mons, pbolt, spell_cast, slot_flags);
@@ -6010,8 +5992,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_WORD_OF_RECALL:
     {
-        mon_enchant chant_timer =
-            mon_enchant(get_enchant_type_from_chant(spell_cast), 1, mons, 30);
+        mon_enchant chant_timer = mon_enchant(ENCH_WORD_OF_RECALL, 1, mons, 30);
         mons->add_ench(chant_timer);
         mons->speed_increment -= 30;
         return;
@@ -6371,9 +6352,6 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         cast_scattershot(mons, splpow, foe->pos());
         return;
 
-    case SPELL_HUNTING_CRY:
-        return;
-
     case SPELL_CONJURE_FLAME:
         if (in_bounds(pbolt.target))
         {
@@ -6415,11 +6393,8 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_FIRE_STORM:
-        if (mons->type == MONS_SALAMANDER_STORMCALLER
-            && !_spell_charged(mons, 2))
-        {
+        if (mons->type == MONS_SALAMANDER_STORMCALLER && !_spell_charged(mons))
             return;
-        }
         if (orig_noise)
             mons_cast_noise(mons, pbolt, spell_cast, slot_flags);
         break;
@@ -6821,9 +6796,6 @@ void mons_cast_noise(monster* mons, const bolt &pbolt,
 {
     bool force_silent = false;
     noise_flag_type noise_flags = NF_NONE;
-
-    if (spell_cast == SPELL_HUNTING_CRY)
-        noise_flags = (noise_flag_type)(noise_flags | NF_HUNTING_CRY);
 
     if (mons->type == MONS_SHADOW_DRAGON)
         // Draining breath is silent.
@@ -7916,7 +7888,11 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
         return _mons_mass_confuse(mon, false) < 0;
 
     case SPELL_THROW:
-        return !_get_throw_victim(*mon);
+    {
+        const actor* victim = _get_throw_victim(*mon);
+        return !victim || _choose_throwing_target(*mon, *victim,
+                                                  _throw_site_score).origin();
+    }
 
     case SPELL_THROW_ALLY:
         return !_find_ally_to_throw(*mon);
@@ -8005,9 +7981,6 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_DEFLECT_MISSILES:
         return mon->has_ench(ENCH_DEFLECT_MISSILES);
 
-    case SPELL_HUNTING_CRY:
-        return !foe;
-
     case SPELL_PARALYSIS_GAZE:
     case SPELL_CONFUSION_GAZE:
     case SPELL_DRAINING_GAZE:
@@ -8078,6 +8051,7 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_IGNITE_POISON_SINGLE:
     case SPELL_CONDENSATION_SHIELD:
     case SPELL_STONESKIN:
+    case SPELL_HUNTING_CRY:
 #endif
     case SPELL_NO_SPELL:
         return true;

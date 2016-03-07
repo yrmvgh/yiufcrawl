@@ -10,7 +10,8 @@
 #include "itemprop-enum.h" // brand_type
 #include "spl-cast.h"
 
-#define BEOGH_WPN_GIFT_KEY "given beogh weapon"
+#define BEOGH_RANGE_WPN_GIFT_KEY "given beogh range weapon"
+#define BEOGH_MELEE_WPN_GIFT_KEY "given beogh melee weapon"
 #define BEOGH_ARM_GIFT_KEY "given beogh armour"
 #define BEOGH_SH_GIFT_KEY "given beogh shield"
 
@@ -32,6 +33,7 @@ const char * const GOZAG_SHOP_TYPE_KEY       = "gozag_shop_type_%d";
 const char * const GOZAG_SHOP_SUFFIX_KEY     = "gozag_shop_suffix_%d";
 const char * const GOZAG_SHOP_COST_KEY       = "gozag_shop_cost_%d";
 
+#define GOZAG_GOLD_AURA_KEY "gozag_gold_aura_amount"
 #define GOZAG_POTION_PETITION_AMOUNT 400
 #define GOZAG_SHOP_BASE_MULTIPLIER 100
 #define GOZAG_SHOP_MOD_MULTIPLIER 25
@@ -75,6 +77,7 @@ bool jiyva_remove_bad_mutation();
 
 bool beogh_can_gift_items_to(const monster* mons, bool quiet = true);
 bool beogh_gift_item();
+bool beogh_resurrect();
 
 bool yred_injury_mirror();
 void yred_make_enslaved_soul(monster* mon, bool force_hostile = false);
@@ -140,7 +143,7 @@ bool gozag_bribe_branch();
 
 spret_type qazlal_upheaval(coord_def target, bool quiet = false,
                            bool fail = false);
-void qazlal_elemental_force();
+spret_type qazlal_elemental_force(bool fail);
 bool qazlal_disaster_area();
 
 void init_sac_index();

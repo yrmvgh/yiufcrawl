@@ -1301,33 +1301,27 @@ static void _jiyva_mutate_player()
         mutate(RANDOM_BAD_MUTATION, "Jiyva's wrath", true, false, true);
 }
 
+static bool _choose_slimify_target(const monster* mon)
+{
+    return mon_can_be_slimified(mon) && mon->attitude == ATT_HOSTILE;
+}
+
 /**
- * Make Jiyva slmify a nearby enemy.
+ * Make Jiyva slimify a nearby enemy.
  */
-static void _jiyva_slimify()
+static bool _jiyva_slimify()
 {
     monster* mon = nullptr;
+    mon = choose_random_nearby_monster(0, _choose_slimify_target);
 
-    const int max_tries = 10;
-    bool success = false;
-    for (int i = 0; i < max_tries; i++)
-    {
-        mon = choose_random_nearby_monster(0);
-
-        if (mon && mon_can_be_slimified(mon) && mon->attitude == ATT_HOSTILE)
-        {
-            success = true;
-            break;
-        }
-    }
-
-    if (!success)
-        return;
+    if (!mon)
+        return false;
 
     simple_god_message(make_stringf("'s putrescence saturates %s!",
                                     mon->name(DESC_THE).c_str()).c_str(),
                        GOD_JIYVA);
     slimify_monster(mon, true);
+    return true;
 }
 
 /**
@@ -1406,8 +1400,12 @@ static bool _jiyva_retribution()
     if (you.can_safely_mutate() && one_chance_in(7))
         _jiyva_mutate_player();
     // Don't create hostile slimes while under penance.
-    else if (!you_worship(god) && there_are_monsters_nearby() && coinflip())
-        _jiyva_slimify();
+    else if (!you_worship(god)
+             && coinflip()
+             && _jiyva_slimify())
+    {
+        return true;
+    }
     else if (!one_chance_in(3) || you_worship(god))
         _jiyva_tmut();
     else
@@ -1624,30 +1622,52 @@ static bool _dithmenos_retribution()
     return true;
 }
 
+static const pop_entry pop_qazlal_wrath[] =
+{
+  {  0, 12, 25, SEMI, MONS_AIR_ELEMENTAL },
+  {  4, 12, 50, FLAT, MONS_WIND_DRAKE },
+  { 10, 22, 50, SEMI, MONS_SPARK_WASP },
+  { 18, 27, 50, RISE, MONS_STORM_DRAGON },
+
+  {  0, 12, 25, SEMI, MONS_FIRE_ELEMENTAL },
+  {  4, 12, 50, FLAT, MONS_FIRE_CRAB },
+  {  8, 16, 30, FLAT, MONS_LINDWURM },
+  { 12, 27, 50, SEMI, MONS_FIRE_DRAGON },
+
+  {  0, 12, 25, SEMI, MONS_WATER_ELEMENTAL },
+  {  2, 10, 50, FLAT, MONS_RIME_DRAKE },
+  { 12, 27, 50, SEMI, MONS_ICE_DRAGON },
+  { 20, 27, 30, RISE, MONS_SHARD_SHRIKE },
+
+  {  0, 12, 25, SEMI, MONS_EARTH_ELEMENTAL },
+  {  2, 10, 50, FLAT, MONS_BASILISK },
+  {  4, 14, 30, FLAT, MONS_BOULDER_BEETLE },
+  { 18, 27, 50, RISE, MONS_IRON_DRAGON },
+
+  { 0,0,0,FLAT,MONS_0 }
+};
+
 /**
- * Summon Qazlal's elemental minions to destroy the player!
+ * Summon elemental creatures to destroy the player!
  */
 static void _qazlal_summon_elementals()
 {
     const god_type god = GOD_QAZLAL;
 
-    mgen_data temp =
-        mgen_data::hostile_at(MONS_NO_MONSTER,
-                              _god_wrath_name(god),
-                              true, 0, 0, you.pos(), MG_NONE, god);
-
-    temp.hd = you.experience_level;
-    temp.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
-
-    const int how_many = 1 + (you.experience_level / 5);
+    const int how_many = 1 + div_rand_round(you.experience_level, 7);
     bool success = false;
 
     for (int i = 0; i < how_many; i++)
     {
-        temp.cls = random_choose(MONS_FIRE_ELEMENTAL,
-                                 MONS_WATER_ELEMENTAL,
-                                 MONS_AIR_ELEMENTAL,
-                                 MONS_EARTH_ELEMENTAL);
+        monster_type mon = pick_monster_from(pop_qazlal_wrath,
+                                             you.experience_level);
+
+        mgen_data temp =
+            mgen_data::hostile_at(mon, _god_wrath_name(god),
+                                  true, 0, 0, you.pos(), MG_NONE, god);
+
+        temp.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
+
         if (create_monster(temp, false))
             success = true;
     }

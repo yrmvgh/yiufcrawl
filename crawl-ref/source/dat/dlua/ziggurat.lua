@@ -3,11 +3,6 @@
 --
 -- Code for ziggurats.
 --
--- Important notes:
--- ----------------
--- Functions that are attached to Lua markers' onclimb properties
--- cannot be closures, because Lua markers must be saved and closure
--- upvalues cannot (yet) be saved.
 ------------------------------------------------------------------------------
 
 function zig()
@@ -40,11 +35,6 @@ function initialise_ziggurat(z, portal)
   z.colour = ziggurat_wall_colour()
 end
 
-function callback.ziggurat_initialiser(portal)
-  dgn.persist.ziggurat = { }
-  initialise_ziggurat(dgn.persist.ziggurat, portal)
-end
-
 -- Common setup for ziggurat levels.
 function ziggurat_level(e)
   e.tags("allow_dup")
@@ -66,6 +56,10 @@ function ziggurat_awaken_all(mons)
 end
 
 function ziggurat_build_level(e)
+  if you.depth() == 1 then
+    dgn.persist.ziggurat = { }
+    initialise_ziggurat(dgn.persist.ziggurat, portal)
+  end
   local builder = zig().builder
 
   -- Deeper levels can have all monsters awake.
@@ -347,7 +341,7 @@ end), { weight = 2 }))
 mset(with_props(spec_fn(function ()
   local d = 10 + you.zigs_completed() * 2
   local e = 12 + you.zigs_completed() * 3
-  return "fire elemental / fire drake / hell hound / efreet / " ..
+  return "fire elemental / hell hound / efreet / " ..
          "fire dragon w:" .. d .. " / fire giant w:" .. d .. " / " ..
          "salamander stormcaller w:" .. d .. " / orb of fire w:" .. e
 end), { weight = 2 }))
@@ -355,7 +349,7 @@ end), { weight = 2 }))
 mset(with_props(spec_fn(function ()
   local d = 10 + you.zigs_completed() * 2
   local e = 10 + you.zigs_completed() * 3
-  return "ice beast / ice devil / simulacrum / " ..
+  return "ice beast / ice devil / simulacrum / rime drake / " ..
          "ice dragon w:" .. d .. " / frost giant w:" .. d .. " / " ..
          "blizzard demon w:" .. d .. " / white draconian knight w:" .. e .. " / " ..
          "shard shrike w:" .. e .. " / ice fiend w:" .. e
@@ -425,7 +419,7 @@ end), { weight = 2 }))
 mset(with_props(spec_fn(function ()
   local d = 20 + you.zigs_completed() * 2
   local e = 20 + you.zigs_completed() * 3
-  return "swamp drake w:20 / fire drake w:20 / wind drake / death drake w:20 / " ..
+  return "swamp drake w:20 / rime drake w:20 / wind drake / death drake w:20 / " ..
          "wyvern / hydra / steam dragon w:20 / mottled dragon w:20 / " ..
          "swamp dragon w:" .. d .. " / fire dragon w:" .. d .. " / " ..
          "ice dragon w:" .. d .. " / storm dragon w:" .. d .. " / " ..

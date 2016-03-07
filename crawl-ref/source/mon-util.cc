@@ -59,6 +59,7 @@
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
+#include "tiledef-player.h"
 #include "tilepick.h"
 #include "tileview.h"
 #include "timed_effects.h"
@@ -1245,9 +1246,17 @@ bool mons_is_conjured(monster_type mc)
            || mons_class_flag(mc, M_CONJURED);
 }
 
+size_type mons_class_body_size(monster_type mc)
+{
+    // Should pass base_type to get the right size for zombies, skeletons &c.
+    // For normal monsters, base_type is set to type in the constructor.
+    const monsterentry *e = get_monster_data(mc);
+    return e ? e->size : SIZE_MEDIUM;
+}
+
 int max_corpse_chunks(monster_type mc)
 {
-    switch (monster_info(mc).body_size())
+    switch (mons_class_body_size(mc))
     {
     case SIZE_TINY:
         return 1;
@@ -1302,6 +1311,20 @@ monster_type mons_species(monster_type mc)
     return me ? me->species : MONS_PROGRAM_BUG;
 }
 
+static monster_type _draco_or_demonspawn_subspecies(monster_type type,
+                                                    monster_type base)
+{
+    const monster_type species = mons_species(type);
+
+    if ((species == MONS_DRACONIAN || species == MONS_DEMONSPAWN)
+        && type != species)
+    {
+        return base;
+    }
+
+    return species;
+}
+
 monster_type draco_or_demonspawn_subspecies(const monster* mon)
 {
     ASSERT(mons_genus(mon->type) == MONS_DRACONIAN
@@ -1313,15 +1336,7 @@ monster_type draco_or_demonspawn_subspecies(const monster* mon)
         return player_species_to_mons_species(mon->ghost->species);
     }
 
-    monster_type retval = mons_species(mon->type);
-
-    if ((retval == MONS_DRACONIAN || retval == MONS_DEMONSPAWN)
-        && mon->type != retval)
-    {
-        retval = mon->base_monster;
-    }
-
-    return retval;
+    return _draco_or_demonspawn_subspecies(mon->type, mon->base_monster);
 }
 
 monster_type mons_detected_base(monster_type mc)
@@ -1704,7 +1719,8 @@ bool mons_can_use_stairs(const monster* mon, dungeon_feature_type stair)
         return false;
 
     if (mon->has_ench(ENCH_FRIENDLY_BRIBED)
-        && (feat_is_branch_entrance(stair) || feat_is_branch_exit(stair)))
+        && (feat_is_branch_entrance(stair) || feat_is_branch_exit(stair)
+            || stair == DNGN_ENTER_HELL || stair == DNGN_EXIT_HELL))
     {
         return false;
     }
@@ -1723,7 +1739,7 @@ bool mons_enslaved_soul(const monster* mon)
     return testbits(mon->flags, MF_ENSLAVED_SOUL);
 }
 
-bool name_zombie(monster* mon, monster_type mc, const string &mon_name)
+void name_zombie(monster* mon, monster_type mc, const string &mon_name)
 {
     mon->mname = mon_name;
 
@@ -1753,14 +1769,12 @@ bool name_zombie(monster* mon, monster_type mc, const string &mon_name)
     // we still want to allow it if overridden.
     if (!mon->props.exists("dbname"))
         mon->props["dbname"] = mons_class_name(mon->type);
-
-    return true;
 }
 
-bool name_zombie(monster* mon, const monster* orig)
+void name_zombie(monster* mon, const monster* orig)
 {
     if (!mons_is_unique(orig->type) && orig->mname.empty())
-        return false;
+        return;
 
     string name;
 
@@ -1769,7 +1783,10 @@ bool name_zombie(monster* mon, const monster* orig)
     else
         name = mons_type_name(orig->type, DESC_PLAIN);
 
-    return name_zombie(mon, orig->type, name);
+    name_zombie(mon, orig->type, name);
+    mon->flags |= orig->flags & (MF_NAME_SUFFIX
+                                 | MF_NAME_ADJECTIVE
+                                 | MF_NAME_DESCRIPTOR);
 }
 
 // Derived undead deal 80% of the damage of the base form.
@@ -2034,6 +2051,52 @@ int mons_class_hit_dice(monster_type mc)
 {
     const monsterentry *me = get_monster_data(mc);
     return me ? me->HD : 0;
+}
+
+/**
+ * What base MR does a monster of the given type have?
+ *
+ * @param type    The monster type in question.
+ * @param base    The base type of the monster. (For e.g. draconians.)
+ * @return        The MR of a normal monster of that type.
+ */
+int mons_class_res_magic(monster_type type, monster_type base)
+{
+    const monster_type base_type =
+        base != MONS_NO_MONSTER &&
+        (mons_is_draconian(type) || mons_is_demonspawn(type))
+            ? _draco_or_demonspawn_subspecies(type, base)
+            : type;
+
+    const int type_mr = (get_monster_data(base_type))->resist_magic;
+
+    // Negative values get multiplied with monster hit dice.
+    if (type_mr >= 0)
+        return type_mr;
+    return mons_class_hit_dice(base_type) * -type_mr * 4 / 3;
+}
+
+/**
+ * Can a monster of the given type see invisible creatures?
+ *
+ * @param type    The monster type in question.
+ * @param base    The base type of the monster. (For e.g. draconians.)
+ * @return        Whether a normal monster of that type can see invisible
+ *                things.
+ */
+bool mons_class_sees_invis(monster_type type, monster_type base)
+{
+    if (mons_class_flag(type, M_SEE_INVIS))
+        return true;
+
+    if (base != MONS_NO_MONSTER && mons_is_demonspawn(type) // XXX: add dracs here? latent bug otherwise
+        && mons_class_flag(_draco_or_demonspawn_subspecies(type, base),
+                           M_SEE_INVIS))
+    {
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -4719,7 +4782,7 @@ mon_body_shape get_mon_shape(const monster* mon)
 
 /**
  * Get the monster body shape of the given monster type.
- * @param mon  The monster type in question.
+ * @param mc  The monster type in question.
  * @return     The mon_body_shape type of this monster type.
  */
 mon_body_shape get_mon_shape(const monster_type mc)
@@ -4732,6 +4795,43 @@ mon_body_shape get_mon_shape(const monster_type mc)
 
     ASSERT_smc();
     return smc->shape;
+}
+
+/**
+ * What's the normal tile for a given monster type?
+ *
+ * @param mc    The monster type in question.
+ * @return      The tile for that monster, or TILEP_MONS_PROGRAM_BUG for mons
+ *              with variable tiles (e.g. merfolk, hydras, slime creatures).
+ */
+tileidx_t get_mon_base_tile(monster_type mc)
+{
+    ASSERT_smc();
+    return smc->tile;
+}
+
+/**
+ * Does a monster display its weapon on its tile? If so, where?
+ *
+ * @param mc    The monster type in question.
+ * @return      The weapon offset/display data for that monster.
+ */
+equipment_display* mon_weapon_display(monster_type mc)
+{
+    ASSERT_smc();
+    return &smc->weapon_display;
+}
+
+/**
+ * Does a monster display its shield on its tile? If so, where?
+ *
+ * @param mc    The monster type in question.
+ * @return      The shield offset/display data for that monster.
+ */
+equipment_display* mon_shield_display(monster_type mc)
+{
+    ASSERT_smc();
+    return &smc->shield_display;
 }
 
 /**
@@ -5527,5 +5627,26 @@ void init_mutant_beast(monster &mons, short HD, vector<int> beast_facets,
             default:
                 break;
         }
+    }
+}
+
+/**
+ * If a monster needs to charge up to cast a spell (by 'casting' the spell
+ * repeatedly), how many charges does it need until it can actually set the
+ * spell off?
+ *
+ * @param m     The type of monster in question.
+ * @return      The required number of charges.
+ */
+int max_mons_charge(monster_type m)
+{
+    switch (m)
+    {
+        case MONS_ORB_SPIDER:
+            return 1;
+        case MONS_SALAMANDER_STORMCALLER:
+            return 2;
+        default:
+            return 0;
     }
 }
