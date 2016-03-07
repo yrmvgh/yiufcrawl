@@ -53,7 +53,14 @@ void adjust_item(FixedVector< item_def, ENDOFPACK > &inv, int from_slot)
         if (prompt_failed(from_slot))
             return;
 
-        mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        if(&inv == &you.inv1)
+        {
+            mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        }
+        else
+        {
+            mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY).c_str());
+        }
     }
 
     const int to_slot = prompt_invent_item(inv, "Adjust to which letter? ",
@@ -199,29 +206,43 @@ void swap_inv_slots(FixedVector< item_def, ENDOFPACK > &inv, int from_slot, int 
     inv[from_slot].link = from_slot;
     inv[to_slot].link  = to_slot;
 
-    for (int i = 0; i < NUM_EQUIP; i++)
+    if(&inv == &you.inv1)
     {
-        if (you.equip[i] == from_slot)
-            you.equip[i] = to_slot;
-        else if (you.equip[i] == to_slot)
-            you.equip[i] = from_slot;
-    }
+        for (int i = 0; i < NUM_EQUIP; i++)
+        {
+            if (you.equip[i] == from_slot)
+                you.equip[i] = to_slot;
+            else if (you.equip[i] == to_slot)
+                you.equip[i] = from_slot;
+        }
 
-    if (verbose)
+        if (verbose)
+        {
+            mprf_nocap("%s", inv[to_slot].name(DESC_INVENTORY_EQUIP).c_str());
+
+            if (inv[from_slot].defined())
+                mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        }
+
+        if (to_slot == you.equip[EQ_WEAPON] || from_slot == you.equip[EQ_WEAPON])
+        {
+            you.wield_change = true;
+            you.m_quiver.on_weapon_changed();
+        }
+        else // just to make sure
+            you.redraw_quiver = true;
+
+    }
+    else
     {
-        mprf_nocap("%s", inv[to_slot].name(DESC_INVENTORY_EQUIP).c_str());
+        if (verbose)
+        {
+            mprf_nocap("%s", inv[to_slot].name(DESC_INVENTORY).c_str());
 
-        if (inv[from_slot].defined())
-            mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY_EQUIP).c_str());
+            if (inv[from_slot].defined())
+                mprf_nocap("%s", inv[from_slot].name(DESC_INVENTORY).c_str());
+        }
     }
-
-    if (to_slot == you.equip[EQ_WEAPON] || from_slot == you.equip[EQ_WEAPON])
-    {
-        you.wield_change = true;
-        you.m_quiver.on_weapon_changed();
-    }
-    else // just to make sure
-        you.redraw_quiver = true;
 
     // Swap the moved items in last_pickup if they're there.
     if (!you.last_pickup.empty())

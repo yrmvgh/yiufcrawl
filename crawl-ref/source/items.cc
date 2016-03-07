@@ -3408,7 +3408,7 @@ bool item_def::defined() const
  */
 bool item_def::isValid() const
 {
-	return base_type < NUM_OBJECT_CLASSES && quantity < 1000;
+	return base_type < NUM_OBJECT_CLASSES; // && quantity < 1000;
 }
 
 bool isValidItem(FixedVector< item_def, ENDOFPACK > &inv, int obj)
