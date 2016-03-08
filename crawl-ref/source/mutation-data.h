@@ -18,7 +18,7 @@ struct mutation_def
 static const mutation_def mut_data[] =
 {
 
-{ MUT_TOUGH_SKIN, 0, 3, mutflag::GOOD, true,
+{ MUT_TOUGH_SKIN, 1, 3, mutflag::GOOD, true,
   "tough skin",
 
   {"You have tough skin (AC +1).",
@@ -1777,7 +1777,7 @@ static const mutation_def mut_data[] =
    "an exoskeleton",
 },
 
-{ MUT_FUMES, 0, 2, mutflag::GOOD, false,
+{ MUT_FUMES, 1, 2, mutflag::GOOD, false,
   "fuming",
 
   {"You emit clouds of smoke.", "You frequently emit clouds of smoke.", ""},
@@ -1798,7 +1798,7 @@ static const mutation_def mut_data[] =
   "a black mark",
 },
 
-{ MUT_COLD_BLOODED, 0, 1, mutflag::BAD, true,
+{ MUT_COLD_BLOODED, 1, 1, mutflag::BAD, true,
   "cold-blooded",
 
   {"You are cold-blooded and may be slowed by cold attacks.", "", ""},
@@ -1808,7 +1808,7 @@ static const mutation_def mut_data[] =
   "cold blood",
 },
 
-{ MUT_FLAME_CLOUD_IMMUNITY, 0, 1, mutflag::GOOD, false,
+{ MUT_FLAME_CLOUD_IMMUNITY, 1, 1, mutflag::GOOD, false,
   "flame cloud immunity",
 
   {"You are immune to clouds of flame.", "", ""},
@@ -1818,7 +1818,7 @@ static const mutation_def mut_data[] =
   "immunity to flaming clouds",
 },
 
-{ MUT_FREEZING_CLOUD_IMMUNITY, 0, 1, mutflag::GOOD, false,
+{ MUT_FREEZING_CLOUD_IMMUNITY, 1, 1, mutflag::GOOD, false,
   "freezing cloud immunity",
 
   {"You are immune to freezing clouds.", "", ""},
@@ -1828,7 +1828,7 @@ static const mutation_def mut_data[] =
   "immunity to freezing clouds",
 },
 
-{ MUT_SUSTAIN_ATTRIBUTES, 0, 1, mutflag::GOOD, false,
+{ MUT_SUSTAIN_ATTRIBUTES, 1, 1, mutflag::GOOD, false,
     "sustain attributes",
 
     {"Your attributes are resistant to harm.", "", ""},
@@ -1838,7 +1838,7 @@ static const mutation_def mut_data[] =
     "sustained attributes",
 },
 
-{ MUT_NO_DRINK, 0, 1, mutflag::BAD, false,
+{ MUT_NO_DRINK, 1, 1, mutflag::BAD, false,
   "inability to drink while threatened",
 
   {"You cannot drink potions while threatened.", "", ""},
@@ -1848,7 +1848,7 @@ static const mutation_def mut_data[] =
   "an inability to drink potions while threatened",
 },
 
-{ MUT_NO_READ, 0, 1, mutflag::BAD, false,
+{ MUT_NO_READ, 1, 1, mutflag::BAD, false,
   "inability to read while threatened",
 
   {"You cannot read scrolls while threatened.", "", ""},
@@ -1858,7 +1858,7 @@ static const mutation_def mut_data[] =
   "an inability to drink while threatened",
 },
 
-{ MUT_MISSING_HAND, 0, 1, mutflag::BAD, false,
+{ MUT_MISSING_HAND, 1, 1, mutflag::BAD, false,
   "missing a hand",
 
   {"You are missing a hand.", "", ""},
@@ -2048,7 +2048,7 @@ static const mutation_def mut_data[] =
   "inability to use Transmutations magic",
 },
 
-{ MUT_PHYSICAL_VULNERABILITY, 0, 3, mutflag::BAD, false,
+{ MUT_PHYSICAL_VULNERABILITY, 1, 3, mutflag::BAD, false,
   "reduced AC",
 
   {"You take slightly more damage. (AC -3)",
@@ -2064,7 +2064,7 @@ static const mutation_def mut_data[] =
     "vulnerability to harm (AC -3)",
 },
 
-{ MUT_SLOW_REFLEXES, 0, 3, mutflag::BAD, false,
+{ MUT_SLOW_REFLEXES, 1, 3, mutflag::BAD, false,
   "reduced EV",
 
   {"You have somewhat slow reflexes. (EV -3)",
@@ -2080,7 +2080,7 @@ static const mutation_def mut_data[] =
     "slowed reflexes (EV -3)",
 },
 
-{ MUT_MAGICAL_VULNERABILITY, 0, 3, mutflag::BAD, false,
+{ MUT_MAGICAL_VULNERABILITY, 1, 3, mutflag::BAD, false,
   "magic vulnerability",
 
   {"You are slightly vulnerable to magic.",
@@ -2096,7 +2096,7 @@ static const mutation_def mut_data[] =
     "vulnerability to magic (MR-)",
 },
 
-{ MUT_ANTI_WIZARDRY, 0, 3, mutflag::BAD, false,
+{ MUT_ANTI_WIZARDRY, 1, 3, mutflag::BAD, false,
   "disrupted magic",
 
   {"Your casting is slightly disrupted.",
@@ -2164,7 +2164,7 @@ static const mutation_def mut_data[] =
    "claws that catch",
 },
 
-{ MUT_MISSING_EYE, 0, 1, mutflag::BAD, false,
+{ MUT_MISSING_EYE, 1, 1, mutflag::BAD, false,
   "missing an eye",
 
   {"You are missing an eye, making it more difficult to aim.", "", ""},
@@ -2174,7 +2174,7 @@ static const mutation_def mut_data[] =
    "a missing eye",
 },
 
-{ MUT_TEMPERATURE_SENSITIVITY, 0, 1, mutflag::BAD, false,
+{ MUT_TEMPERATURE_SENSITIVITY, 1, 1, mutflag::BAD, false,
   "temperature sensitive",
 
   {"You are sensitive to extremes of temperature (rF-, rC-).", "", ""},
@@ -2184,7 +2184,7 @@ static const mutation_def mut_data[] =
    "temperature sensitivity (rF-, rC-)",
 },
 
-{ MUT_INSIGHT, 4, 3, mutflag::GOOD, false,
+{ MUT_INSIGHT, 2, 3, mutflag::GOOD, false,
   "insightful",
 
   {"You occasionally figure out what unidentified objects are.",
@@ -2212,7 +2212,7 @@ static const mutation_def mut_data[] =
    "a glow that surrounds you",
 },
 
-{ MUT_EPHEMERAL, 4, 3, mutflag::GOOD, false,
+{ MUT_EPHEMERAL, 1, 3, mutflag::GOOD, false,
   "ephemeral",
 
   {"Attacks rarely pass right through you.",
