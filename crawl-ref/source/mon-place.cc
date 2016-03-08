@@ -274,8 +274,10 @@ static void _apply_ood(level_id &place)
     // moderate OODs go up to 100% after a ramp-up period.
 
     if (place.branch == BRANCH_DUNGEON
+    	&& crawl_state.difficulty != DIFFICULTY_HARD
         && (place.depth == 1 && env.turns_on_level < 701
-         || place.depth == 2 && (env.turns_on_level < 584 || one_chance_in(4))))
+         || place.depth == 2 && (env.turns_on_level < 584 || one_chance_in(4)))
+		 || place.depth < 6 && crawl_state.difficulty == DIFFICULTY_EASY)
     {
         return;
     }

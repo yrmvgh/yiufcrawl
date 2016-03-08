@@ -3822,6 +3822,17 @@ void game_options::read_option_line(const string &str, bool runscript)
         else
             constants.insert(field);
     }
+    else if (key == "difficulty")
+    {
+    	if (field == "easy")
+    		difficulty = DIFFICULTY_EASY;
+    	else if (field == "normal")
+    		difficulty = DIFFICULTY_NORMAL;
+    	else if (field == "hard")
+    		difficulty = DIFFICULTY_HARD;
+    	else
+    		difficulty = DIFFICULTY_ASK;
+    }
     else INT_OPTION(view_delay, 0, INT_MAX);
     else BOOL_OPTION(arena_dump_msgs);
     else BOOL_OPTION(arena_dump_msgs_all);

@@ -393,6 +393,7 @@ static void _setup_generic(const newgame_def& ng);
 void setup_game(const newgame_def& ng)
 {
     crawl_state.type = ng.type;
+    crawl_state.difficulty = ng.difficulty;
     crawl_state.map  = ng.map;
 
     switch (crawl_state.type)
@@ -490,7 +491,10 @@ static void _setup_generic(const newgame_def& ng)
     if (crawl_state.game_is_sprint())
         _give_bonus_items();
 
-    // Give tutorial skills etc
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        newgame_make_item(OBJ_POTIONS, POT_HEAL_WOUNDS);
+
+    	// Give tutorial skills etc
     if (crawl_state.game_is_tutorial())
         _setup_tutorial_miscs();
 

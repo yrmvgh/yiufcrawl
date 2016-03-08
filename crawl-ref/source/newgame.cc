@@ -35,6 +35,8 @@ static void _choose_gamemode_map(newgame_def& ng, newgame_def& ng_choice,
                                  const newgame_def& defaults);
 static bool _choose_weapon(newgame_def& ng, newgame_def& ng_choice,
                           const newgame_def& defaults);
+static void _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
+                           const newgame_def& defaults);
 
 ////////////////////////////////////////////////////////////////////////
 // Remember player's startup options
@@ -440,6 +442,8 @@ static void _choose_char(newgame_def& ng, newgame_def& choice,
     }
 #endif
 
+    _choose_difficulty(ng, choice, defaults);
+
     while (true)
     {
         if (choice.allowed_combos.size())
@@ -569,6 +573,8 @@ bool choose_game(newgame_def& ng, newgame_def& choice,
     // Set these again, since _mark_fully_random may reset ng.
     ng.name = choice.name;
     ng.type = choice.type;
+
+    ng.difficulty = choice.difficulty;
 
 #ifndef DGAMELAUNCH
     // New: pick name _after_ character choices.
@@ -1881,6 +1887,34 @@ static bool _choose_weapon(newgame_def& ng, newgame_def& ng_choice,
     }
 
     return true;
+}
+
+static void _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
+                           const newgame_def& defaults)
+{
+	if (Options.difficulty != DIFFICULTY_ASK) {
+		ng_choice.difficulty = Options.difficulty;
+		return;
+	}
+
+	mprf(MSGCH_PROMPT, "What difficulty level would you like to play today ((E)asy, (N)ormal, (H)ard)? [N]");
+	int ch = toupper(get_ch());
+
+	if (ch == 'E')
+	{
+		ng_choice.difficulty = DIFFICULTY_EASY;
+		mprf(MSGCH_PROMPT, "Easy does it...");
+	}
+	else if (ch = 'H')
+	{
+		ng_choice.difficulty = DIFFICULTY_HARD;
+		mprf(MSGCH_PROMPT, "You are brave my friend to choose the hard path...");
+	}
+	else
+	{
+		ng_choice.difficulty = DIFFICULTY_NORMAL;
+		mprf(MSGCH_PROMPT, "A nice normal game...");
+	}
 }
 
 static void _construct_gamemode_map_menu(const mapref_vector& maps,

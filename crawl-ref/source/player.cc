@@ -3764,6 +3764,12 @@ unsigned int exp_needed(int lev, int exp_apt)
     if (exp_apt == -99)
         exp_apt = species_exp_modifier(you.species);
 
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    	exp_apt++;
+
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    	exp_apt--;
+
     return (unsigned int) ((level - 1) * apt_to_factor(exp_apt - 1));
 }
 
@@ -4194,6 +4200,9 @@ int get_real_hp(bool trans, bool rotted)
         hitp = hitp * 4 / 5;
 #endif
 
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    	hitp = hitp * 3 / 2;
+
     return max(1, hitp);
 }
 
@@ -4238,6 +4247,9 @@ int get_real_mp(bool include_items)
         enp /= 3;
 
     enp = max(enp, 0);
+
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    	enp = enp * 3 / 2;
 
     return enp;
 }

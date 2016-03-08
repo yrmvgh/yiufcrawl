@@ -179,6 +179,14 @@ public:
     DEF_BITFIELD_OPERATORS(fieldT, __VA_ARGS__, )
 // The comma suppresses "ISO C99 requires rest arguments to be used"
 
+enum game_difficulty_level
+{
+	DIFFICULTY_ASK,
+	DIFFICULTY_EASY,
+	DIFFICULTY_NORMAL,
+	DIFFICULTY_HARD,
+};
+
 enum lang_t
 {
     LANG_EN = 0,

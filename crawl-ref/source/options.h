@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include "enum.h"
 #include "feature.h"
 #include "newgame_def.h"
 #include "pattern.h"
@@ -531,6 +532,8 @@ public:
                                         // recorded here.
 
     newgame_def game;      // Choices for new game.
+
+    game_difficulty_level difficulty;
 
 private:
     typedef map<string, string> string_map;

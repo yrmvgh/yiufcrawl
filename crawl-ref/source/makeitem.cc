@@ -1292,23 +1292,66 @@ static monster_type _choose_random_monster_corpse()
  */
 static int _random_wand_subtype()
 {
-    // total weight 84 [historical]
-    return random_choose_weighted(20, WAND_FLAME,
-                                  20, WAND_LIGHTNING,
-                                  20, WAND_ICEBLAST,
-                                  12, WAND_SLOWING,
-                                  12, WAND_PARALYSIS,
-                                  12, WAND_CONFUSION,
-                                  12, WAND_POLYMORPH,
-                                  12, WAND_RANDOM_EFFECTS,
-                                  12, WAND_ACID,
-                                  10, WAND_DISINTEGRATION,
-                                  10, WAND_DIGGING,
-                                  6, WAND_ENSLAVEMENT,
-                                  6, WAND_TELEPORTATION,
-                                  2, WAND_HASTING,
-                                  2, WAND_HEAL_WOUNDS,
-                                  0);
+	int result;
+	switch(crawl_state.difficulty)
+	{
+	case DIFFICULTY_EASY:
+		result = random_choose_weighted(20, WAND_FLAME,
+	                                  20, WAND_LIGHTNING,
+	                                  20, WAND_ICEBLAST,
+	                                  12, WAND_SLOWING,
+	                                  12, WAND_PARALYSIS,
+	                                  12, WAND_CONFUSION,
+	                                  12, WAND_POLYMORPH,
+	                                  12, WAND_RANDOM_EFFECTS,
+	                                  12, WAND_ACID,
+	                                  10, WAND_DISINTEGRATION,
+	                                  10, WAND_DIGGING,
+	                                  8, WAND_ENSLAVEMENT,
+	                                  8, WAND_TELEPORTATION,
+	                                  4, WAND_HASTING,
+	                                  4, WAND_HEAL_WOUNDS,
+	                                  0);
+		break;
+	case DIFFICULTY_HARD:
+		result = random_choose_weighted(20, WAND_FLAME,
+	                                  20, WAND_LIGHTNING,
+	                                  20, WAND_ICEBLAST,
+	                                  12, WAND_SLOWING,
+	                                  12, WAND_PARALYSIS,
+	                                  12, WAND_CONFUSION,
+	                                  12, WAND_POLYMORPH,
+	                                  12, WAND_RANDOM_EFFECTS,
+	                                  12, WAND_ACID,
+	                                  10, WAND_DISINTEGRATION,
+	                                  10, WAND_DIGGING,
+	                                  6, WAND_ENSLAVEMENT,
+	                                  3, WAND_TELEPORTATION,
+	                                  1, WAND_HASTING,
+	                                  1, WAND_HEAL_WOUNDS,
+	                                  0);
+		break;
+	default:
+		result = random_choose_weighted(20, WAND_FLAME,
+	                                  20, WAND_LIGHTNING,
+	                                  20, WAND_ICEBLAST,
+	                                  12, WAND_SLOWING,
+	                                  12, WAND_PARALYSIS,
+	                                  12, WAND_CONFUSION,
+	                                  12, WAND_POLYMORPH,
+	                                  12, WAND_RANDOM_EFFECTS,
+	                                  12, WAND_ACID,
+	                                  10, WAND_DISINTEGRATION,
+	                                  10, WAND_DIGGING,
+	                                  6, WAND_ENSLAVEMENT,
+	                                  6, WAND_TELEPORTATION,
+	                                  2, WAND_HASTING,
+	                                  2, WAND_HEAL_WOUNDS,
+	                                  0);
+		break;
+	}
+
+    return result;
 }
 
 /**
@@ -1422,27 +1465,75 @@ static void _generate_potion_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-            // total weight is 1065
-            stype = random_choose_weighted(192, POT_CURING,
-                                            72, POT_DEGENERATION,
-                                            72, POT_LIGNIFY,
-                                            72, POT_FLIGHT,
-                                            66, POT_MIGHT,
-                                            66, POT_AGILITY,
-                                            66, POT_BRILLIANCE,
-                                            63, POT_HASTE,
-                                            46, POT_MUTATION,
-                                            40, POT_HEAL_WOUNDS,
-                                            35, POT_INVISIBILITY,
-                                            35, POT_RESISTANCE,
-                                            35, POT_MAGIC,
-                                            35, POT_BERSERK_RAGE,
-                                            34, POT_CANCELLATION,
-                                            34, POT_AMBROSIA,
-                                            34, POT_CURE_MUTATION,
-                                            11, POT_BENEFICIAL_MUTATION,
-                                             2, POT_EXPERIENCE,
-                                             0);
+        	switch(crawl_state.difficulty)
+        	{
+        	case DIFFICULTY_EASY:
+				stype = random_choose_weighted(192, POT_CURING,
+												72, POT_DEGENERATION,
+												72, POT_LIGNIFY,
+												72, POT_FLIGHT,
+												66, POT_MIGHT,
+												66, POT_AGILITY,
+												66, POT_BRILLIANCE,
+												63, POT_HASTE,
+												46, POT_MUTATION,
+												40*2, POT_HEAL_WOUNDS,
+												35, POT_INVISIBILITY,
+												35, POT_RESISTANCE,
+												35*2, POT_MAGIC,
+												35, POT_BERSERK_RAGE,
+												34, POT_CANCELLATION,
+												34, POT_AMBROSIA,
+												34, POT_CURE_MUTATION,
+												11, POT_BENEFICIAL_MUTATION,
+												 2, POT_EXPERIENCE,
+												 0);
+        		break;
+        	case DIFFICULTY_HARD:
+				stype = random_choose_weighted(192, POT_CURING,
+												72, POT_DEGENERATION,
+												72, POT_LIGNIFY,
+												72, POT_FLIGHT,
+												66, POT_MIGHT,
+												66, POT_AGILITY,
+												66, POT_BRILLIANCE,
+												63, POT_HASTE,
+												46, POT_MUTATION,
+												40/2, POT_HEAL_WOUNDS,
+												35, POT_INVISIBILITY,
+												35, POT_RESISTANCE,
+												35/2, POT_MAGIC,
+												35, POT_BERSERK_RAGE,
+												34, POT_CANCELLATION,
+												34, POT_AMBROSIA,
+												34, POT_CURE_MUTATION,
+												11, POT_BENEFICIAL_MUTATION,
+												 2, POT_EXPERIENCE,
+												 0);
+        		break;
+        	default:
+				stype = random_choose_weighted(192, POT_CURING,
+												72, POT_DEGENERATION,
+												72, POT_LIGNIFY,
+												72, POT_FLIGHT,
+												66, POT_MIGHT,
+												66, POT_AGILITY,
+												66, POT_BRILLIANCE,
+												63, POT_HASTE,
+												46, POT_MUTATION,
+												40, POT_HEAL_WOUNDS,
+												35, POT_INVISIBILITY,
+												35, POT_RESISTANCE,
+												35, POT_MAGIC,
+												35, POT_BERSERK_RAGE,
+												34, POT_CANCELLATION,
+												34, POT_AMBROSIA,
+												34, POT_CURE_MUTATION,
+												11, POT_BENEFICIAL_MUTATION,
+												 2, POT_EXPERIENCE,
+												 0);
+				break;
+        	}
         }
         while (agent == GOD_XOM
                && _is_boring_item(OBJ_POTIONS, stype)
@@ -1482,7 +1573,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  32, SCR_FEAR,
                  32, SCR_FOG,
                  32, SCR_RANDOM_USELESSNESS,
-                 32, SCR_BLINKING,
+                 32*(crawl_state.difficulty == DIFFICULTY_EASY ? 2 : 1), SCR_BLINKING,
                  // [Cha] don't generate noise scrolls if in sprint
                  32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
                  32, SCR_IMMOLATION,
@@ -2053,6 +2144,8 @@ int items(bool allow_uniques,
             item.quantity = 100 + random2(400);
         else
             item.quantity = 1 + random2avg(19, 2) + random2(item_level);
+        if (crawl_state.difficulty == DIFFICULTY_EASY)
+        	item.quantity = item.quantity * 3 / 2;
         break;
     }
 

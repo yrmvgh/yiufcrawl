@@ -28,6 +28,21 @@ Check out the github wiki for this project if you want to see what my future pla
     * The adjust command '=' can now also be applied to the (c)onsumables. 
     * The spell list command has been moved from 'I' to 's'. 
 
+* Game difficulty levels
+    * At game start, or in the init file, you can specify that the game is easy, normal, or hard. 
+    * Normal is the standard, unmodified parameters.
+    * Easy:
+        * reduces the chances of out of depth monsters spawning
+        * starts the player with higher hp and mp
+        * increases chances of spawning healing potions, magic potions, and wands of healing, hasting, tele, and blink scrolls
+        * increases the amount of gold spawned
+        * starts player with a healing potion
+        * faster level advancement (exp apt + 1)
+    * Hard:
+        * increases the chances of out of depth monsters spawning
+        * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting, tele
+        * slower level advancement (exp apt - 1)
+
 * Unequipping shields
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
 

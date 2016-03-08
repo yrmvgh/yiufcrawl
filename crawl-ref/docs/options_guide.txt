@@ -18,7 +18,7 @@ The contents of this text are:
                 name, remember_name, weapon, species, background,
                 combo, random_pick, good_random, restart_after_game,
                 restart_after_save, default_manual_training,
-                autopickup_starting_ammo
+                autopickup_starting_ammo, difficulty
 2-  File System and Sound.
                 crawl_dir, morgue_dir, save_dir, macro_dir, sound
 3-  Interface.
@@ -381,6 +381,10 @@ autopickup_starting_ammo = true
         for Earth Elementalists and arrows for Transmuters). Even when this
         option is set, autopickup of those items can be disabled from the
         \ menu once the game has begun.
+
+difficulty = ask | easy | normal | hard
+        Sets the difficulty of the next game started, or ask when starting a
+        new game. Normal is the unmodified original form of the game. 
 
 2-  File System.
 ================
