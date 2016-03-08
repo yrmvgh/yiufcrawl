@@ -16,6 +16,7 @@ channel.multiturn = mute
 channel.rotten_meat = mute
 confirm_butcher        = never
 default_manual_training = true
+difficulty = easy
 easy_confirm  = all
 easy_eat_chunks        = true
 easy_unequip = true
@@ -54,7 +55,6 @@ tile_skip_title = true
 tile_use_small_layout = false
 travel_delay = -1
 wiz_mode         = no
-
 
 spell_slot ^= ^Blink:b
 spell_slot ^= Battle:b

@@ -773,6 +773,7 @@ void game_options::reset_options()
     show_game_turns = true;
 
     game = newgame_def();
+    difficulty = DIFFICULTY_ASK;
 
     remember_name = true;
 
