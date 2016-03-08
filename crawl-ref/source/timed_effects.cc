@@ -15,6 +15,7 @@
 #include "cloud.h"
 #include "coordit.h"
 #include "database.h"
+#include "decks.h"
 #include "dgn-shoals.h"
 #include "dgnevent.h"
 #include "dungeon.h"
@@ -24,6 +25,7 @@
 #include "fprop.h"
 #include "godpassive.h"
 #include "items.h"
+#include "itemprop.h"
 #include "invent.h"
 #include "libutil.h"
 #include "mapmark.h"
@@ -964,7 +966,14 @@ static void _handle_insight(int time_delta)
     	        			)
     	        {
     	        	if (is_deck(item) && !top_card_is_known(item))
-    	                deck_identify_first(item.slot);
+    	        	{
+	    	            set_ident_flags(item, ISFLAG_IDENT_MASK);
+	    	            set_ident_type(item, true);
+	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+    	        		mprf(MSGCH_INTRINSIC_GAIN, "You gain insight into: %s", after.c_str());
+    	                deck_identify_first(item);
+    	                break;
+    	        	}
     	        	else
     	        	{
         	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
