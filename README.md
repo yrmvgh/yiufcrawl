@@ -42,6 +42,7 @@ Check out the github wiki for this project if you want to see what my future pla
         * increases the chances of out of depth monsters spawning
         * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting, tele
         * slower level advancement (exp apt - 1)
+    * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
