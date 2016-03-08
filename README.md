@@ -9,6 +9,8 @@ doesn't take much effort to share it with others, and maybe some of my crazy ide
 course you are welcome to submit changes to this fork or even make another fork if you don't like the direction I'm taking this one. 
 This fork is in sync with the original DCSS repo as of Feb 2016. I intend to keep merging in non-conflicting changes from the main DCSS project.
 
+Check out the github wiki for this project if you want to see what my future plans are: https://github.com/jeremygurr/dcssca/wiki/Future-Plans
+
 ## Major modifications from the original DCSS
 
 * Summoning
@@ -66,7 +68,8 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
     * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
 
 * Halfling
-    * added wild magic 3 mutation at the beginning, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
+    * added wild magic 1 mutation at the beginning, eventually growing into wild magic 3 as they gain experience, making it much more difficult for them to cast spells, 
+      but they are quite powerful when they do. 
     * added an extraordinary level of magic resistance
 
 * Hill Orc
