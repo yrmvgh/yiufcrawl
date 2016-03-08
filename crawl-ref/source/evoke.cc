@@ -731,7 +731,7 @@ void zap_wand(int slot)
 		delay = 160 / max(1, delay);
 		delay = min(10, delay);
 		delay = max(2, delay);
-        char buf[40];
+        char buf[200];
         sprintf(buf, "Evoking this wand will take %d turns, are you sure?", delay);
 		if(yesno(string(buf).c_str(), false, 'y'))
 		    start_delay(DELAY_WAND_HEAL, delay - 1);
