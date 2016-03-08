@@ -957,18 +957,28 @@ static void _handle_insight(int time_delta)
     		// this give the player the option to move items to the top so that they are more likely to be identified first
     		for(auto &item : *inv)
     		{
-    	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
+    	        if (item.defined()
+    	        		&& (
+    	        			(item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
+							|| is_deck(item) && !top_card_is_known(item)
+    	        			)
     	        {
-    	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
-					int bitToCheck = 1 << random2(4);
-					if((item.flags & bitToCheck) == 0) {
-						item.flags |= bitToCheck;
-	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
-	    	    		if(before != after) {
-							success = true;
-							break;
-	    	    		}
-					}
+    	        	if (is_deck(item) && !top_card_is_known(item))
+    	                deck_identify_first(item.slot);
+    	        	else
+    	        	{
+        	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+    					int bitToCheck = 1 << random2(4);
+    					if((item.flags & bitToCheck) == 0) {
+    	    	            set_ident_flags(item, bitToCheck);
+    	    	            set_ident_type(item, true);
+    	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+    	    	    		if(before != after) {
+    							success = true;
+    							break;
+    	    	    		}
+    					}
+    	        	}
     	        }
     	        if(++attempt > 100) break;
     	    }
