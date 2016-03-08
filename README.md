@@ -18,7 +18,6 @@ This fork is in sync with the original DCSS repo as of Feb 2016. I intend to kee
       before. 
     * how much magic a summon drains is reduced by higher spell power
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
-    * you can't regenerate magic while you have any summons
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
