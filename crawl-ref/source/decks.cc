@@ -789,7 +789,12 @@ static void _deck_ident(item_def& deck)
 
 bool deck_identify_first(int slot)
 {
-    item_def& deck(you.inv1[slot]);
+    return deck_identify_first(you.inv1[slot]);
+}
+
+bool deck_identify_first(item_def& item)
+{
+    item_def& deck(item);
     if (top_card_is_known(deck))
         return false;
 

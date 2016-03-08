@@ -15,6 +15,7 @@
 #include "cloud.h"
 #include "coordit.h"
 #include "database.h"
+#include "decks.h"
 #include "dgn-shoals.h"
 #include "dgnevent.h"
 #include "dungeon.h"
@@ -24,6 +25,7 @@
 #include "fprop.h"
 #include "godpassive.h"
 #include "items.h"
+#include "itemprop.h"
 #include "invent.h"
 #include "libutil.h"
 #include "mapmark.h"
@@ -957,18 +959,35 @@ static void _handle_insight(int time_delta)
     		// this give the player the option to move items to the top so that they are more likely to be identified first
     		for(auto &item : *inv)
     		{
-    	        if (item.defined() && (item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
+    	        if (item.defined()
+    	        		&& (
+    	        			(item.flags & ISFLAG_IDENT_MASK) < ISFLAG_IDENT_MASK)
+							|| is_deck(item) && !top_card_is_known(item)
+    	        			)
     	        {
-    	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
-					int bitToCheck = 1 << random2(4);
-					if((item.flags & bitToCheck) == 0) {
-						item.flags |= bitToCheck;
+    	        	if (is_deck(item) && !top_card_is_known(item))
+    	        	{
+	    	            set_ident_flags(item, ISFLAG_IDENT_MASK);
+	    	            set_ident_type(item, true);
 	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
-	    	    		if(before != after) {
-							success = true;
-							break;
-	    	    		}
-					}
+    	        		mprf(MSGCH_INTRINSIC_GAIN, "You gain insight into: %s", after.c_str());
+    	                deck_identify_first(item);
+    	                break;
+    	        	}
+    	        	else
+    	        	{
+        	    		before = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+    					int bitToCheck = 1 << random2(4);
+    					if((item.flags & bitToCheck) == 0) {
+    	    	            set_ident_flags(item, bitToCheck);
+    	    	            set_ident_type(item, true);
+    	    	    		after = get_menu_colour_prefix_tags(item, DESC_A).c_str();
+    	    	    		if(before != after) {
+    							success = true;
+    							break;
+    	    	    		}
+    					}
+    	        	}
     	        }
     	        if(++attempt > 100) break;
     	    }
