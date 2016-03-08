@@ -84,7 +84,8 @@ Check out the github wiki for this project if you want to see what my future pla
     * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
 
 * Halfling
-    * added wild magic 3 mutation at the beginning, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
+    * added wild magic 1 mutation at the beginning, eventually growing into wild magic 3 as they gain experience, making it much more difficult for them to cast spells, 
+      but they are quite powerful when they do. 
     * added an extraordinary level of magic resistance
 
 * Hill Orc
