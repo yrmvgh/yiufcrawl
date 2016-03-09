@@ -2919,6 +2919,14 @@ int gozag_service_fee()
     return fee;
 }
 
+bool poor_god_choice_for_player(god_type which_god)
+{
+	if (you.spells[0] != SPELL_NO_SPELL && which_god == GOD_TROG)
+		return true;
+
+	return false;
+}
+
 bool player_can_join_god(god_type which_god)
 {
     if (you.species == SP_DEMIGOD)

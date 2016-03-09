@@ -140,6 +140,7 @@ void delayed_monster_done(string success, string failure,
                           delayed_callback callback = nullptr);
 
 bool do_god_gift(bool forced = false);
+bool poor_god_choice_for_player(god_type which_god);
 
 vector<god_type> temple_god_list();
 vector<god_type> nontemple_god_list();
