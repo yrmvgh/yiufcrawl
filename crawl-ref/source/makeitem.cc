@@ -1484,7 +1484,7 @@ static void _generate_potion_item(item_def& item, int force_type,
 												35, POT_BERSERK_RAGE,
 												34, POT_CANCELLATION,
 												34, POT_AMBROSIA,
-												34, POT_CURE_MUTATION,
+												34*2, POT_CURE_MUTATION,
 												11, POT_BENEFICIAL_MUTATION,
 												 2, POT_EXPERIENCE,
 												 0);
