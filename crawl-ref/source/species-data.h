@@ -810,7 +810,6 @@ static const map<species_type, species_def> species_data =
     { "You are healed by all types of fire, even holy and hellish.",
       "Unarmed attacks will do fire damage.",
       "Cold and water do twice as much damage to you.",
-      "You need no food.",
       "You have no legs.",
       "Fire heals you."
     },
