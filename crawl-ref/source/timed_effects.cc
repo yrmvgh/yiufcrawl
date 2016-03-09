@@ -941,7 +941,6 @@ static void _handle_insight(int time_delta)
     	if (x_chance_in_y(1 << (lev*2), 64)) {
     		string before, after;
     		bool success = false;
-    		int attempt = 0;
 
     		FixedVector< item_def, ENDOFPACK > *inv;
     		if(one_chance_in(3)) {
@@ -989,7 +988,6 @@ static void _handle_insight(int time_delta)
     					}
     	        	}
     	        }
-    	        if(++attempt > 100) break;
     	    }
 
         	if(success)
