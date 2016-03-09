@@ -525,7 +525,7 @@ int resist_adjust_damage(const actor* defender, beam_type flavour, int rawdamage
     	}
     	else if (flavour == BEAM_COLD || flavour == BEAM_WATER)
     	{
-        	resistible = resistible << 1;
+        	resistible = resistible << 2;
     	}
     }
 
