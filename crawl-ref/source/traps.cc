@@ -1134,6 +1134,11 @@ void search_around()
 // but are capped at 5 (damage) and 4 (escape).
 static int damage_or_escape_net(int hold)
 {
+    if(player_ephemeral_passthrough()) {
+        mpr("The net passes through you.");
+        return 4;
+    }
+
     // Spriggan: little (+2)
     // Halfling, Kobold: small (+1)
     // Human, Elf, ...: medium (0)
@@ -1175,9 +1180,6 @@ static int damage_or_escape_net(int hold)
         escape++;
     if (x_chance_in_y(you.evasion(), 20))
         escape++;
-    if(player_ephemeral_passthrough()) {
-    	escape++;
-    }
 
     // Dangerous monsters around you add urgency.
     if (there_are_monsters_nearby(true))
@@ -1223,7 +1225,11 @@ static void _free_self_from_web()
     if (trap && trap->type == TRAP_WEB)
     {
         // if so, roll a chance to escape the web (based on str).
-        if (x_chance_in_y(40 - you.stat(STAT_STR), 66))
+    	if(player_ephemeral_passthrough())
+    	{
+            mpr("The web passes through you.");
+    	}
+    	else if (x_chance_in_y(40 - you.stat(STAT_STR), 66))
         {
             mpr("You struggle to detach yourself from the web.");
             // but you actually accomplished nothing!
