@@ -1596,18 +1596,17 @@ bool activate_talent(const talent& tal)
 
 static int _calc_breath_ability_range(ability_type ability)
 {
-    // Following monster draconian abilities.
     switch (ability)
     {
-    case ABIL_BREATHE_FIRE:         return 6;
-    case ABIL_BREATHE_FROST:        return 6;
-    case ABIL_BREATHE_MEPHITIC:     return 7;
-    case ABIL_BREATHE_LIGHTNING:    return 8;
-    case ABIL_SPIT_ACID:            return 8;
-    case ABIL_BREATHE_POWER:        return 8;
+    case ABIL_BREATHE_FIRE:         return 5;
+    case ABIL_BREATHE_FROST:        return 5;
+    case ABIL_BREATHE_MEPHITIC:     return 6;
+    case ABIL_BREATHE_LIGHTNING:    return 7;
+    case ABIL_SPIT_ACID:            return 7;
+    case ABIL_BREATHE_POWER:        return 7;
     case ABIL_BREATHE_STICKY_FLAME: return 1;
-    case ABIL_BREATHE_STEAM:        return 7;
-    case ABIL_BREATHE_POISON:       return 7;
+    case ABIL_BREATHE_STEAM:        return 6;
+    case ABIL_BREATHE_POISON:       return 6;
     default:
         die("Bad breath type!");
         break;
@@ -1737,7 +1736,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     {
         int power = you.experience_level
                 + player_mutation_level(MUT_SPIT_POISON) * 5;
-        beam.range = 6;         // following Venom Bolt
+        beam.range = 5;         // following Venom Bolt
 
         if (!spell_direction(abild, beam)
             || !player_tracer(ZAP_SPIT_POISON, power, beam))
@@ -2920,6 +2919,12 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
 
         item_def& wand(you.inv1[item_slot]);
+
+        if (!item_is_rechargeable(wand))
+        {
+            mpr("You cannot supercharge that!");
+            return SPRET_ABORT;
+        }
 
         string prompt = "Do you wish to have " + wand.name(DESC_YOUR)
                            + " supercharged?";

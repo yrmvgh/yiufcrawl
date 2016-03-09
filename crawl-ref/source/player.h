@@ -1126,6 +1126,6 @@ bool temperature_effect(int which);
 int temperature_colour(int temp);
 string temperature_string(int temp);
 string temperature_text(int temp);
-bool player_ephemeral_passthrough(const string &whatIsAttacking = nullptr, bool showMessage = false);
+bool player_ephemeral_passthrough(const string &whatIsAttacking = "", bool showMessage = false);
 
 #endif

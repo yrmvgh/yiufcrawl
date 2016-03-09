@@ -3797,6 +3797,7 @@ static bool _ms_ranged_spell(spell_type monspell, bool attack_only = false,
     case SPELL_BLINK_AWAY:
     case SPELL_BERSERKER_RAGE:
     case SPELL_SWIFTNESS:
+    case SPELL_BATTLECRY:
         return false;
 
     // The animation spells don't work through transparent walls and
@@ -3820,7 +3821,7 @@ static bool _ms_ranged_spell(spell_type monspell, bool attack_only = false,
     case SPELL_TELEPORT_OTHER:
     case SPELL_BLINK_OTHER_CLOSE:
     case SPELL_BLINK_OTHER:
-        return ench_too;
+        return !attack_only && ench_too;
 
     default:
         // All conjurations count as ranged spells.
@@ -4807,31 +4808,21 @@ mon_body_shape get_mon_shape(const monster_type mc)
 tileidx_t get_mon_base_tile(monster_type mc)
 {
     ASSERT_smc();
-    return smc->tile;
+    return smc->tile.base;
 }
 
 /**
- * Does a monster display its weapon on its tile? If so, where?
+ * How should a given monster type's tile vary?
  *
  * @param mc    The monster type in question.
- * @return      The weapon offset/display data for that monster.
+ * @return      An enum describing how display of the monster should vary
+ *              (by individual monster instance, or whether they're in water,
+ *              etc)
  */
-equipment_display* mon_weapon_display(monster_type mc)
+mon_type_tile_variation get_mon_tile_variation(monster_type mc)
 {
     ASSERT_smc();
-    return &smc->weapon_display;
-}
-
-/**
- * Does a monster display its shield on its tile? If so, where?
- *
- * @param mc    The monster type in question.
- * @return      The shield offset/display data for that monster.
- */
-equipment_display* mon_shield_display(monster_type mc)
-{
-    ASSERT_smc();
-    return &smc->shield_display;
+    return smc->tile.variation;
 }
 
 /**
