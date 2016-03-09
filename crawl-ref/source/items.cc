@@ -423,7 +423,6 @@ bool dec_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
 bool dec_mitm_item_quantity(int obj, int amount)
 {
     item_def &item = mitm[obj];
-	ASSERT(item.isValid());
     if (amount > item.quantity)
         amount = item.quantity; // can't use min due to type mismatch
 
@@ -444,7 +443,6 @@ bool dec_mitm_item_quantity(int obj, int amount)
 
 void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int amount)
 {
-	ASSERT(isValidItem(inv, obj));
     if (you.equip[EQ_WEAPON] == obj)
         you.wield_change = true;
 
@@ -454,7 +452,6 @@ void inc_inv_item_quantity(FixedVector< item_def, ENDOFPACK > &inv, int obj, int
 
 void inc_mitm_item_quantity(int obj, int amount)
 {
-	ASSERT(mitm[obj].isValid());
     mitm[obj].quantity += amount;
 }
 
