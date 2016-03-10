@@ -430,6 +430,23 @@ NORETURN static void _launch_game()
                     << species_name(you.species)
                     << " " << get_job_name(you.char_class) << ".</yellow>"
                     << endl;
+
+        msg::stream << "<yellow>";
+        switch(crawl_state.difficulty)
+        {
+        case DIFFICULTY_EASY:
+        	msg::stream << "EASY MODE: You decided to play it safe, huh? That's okay, I can respect that." << endl;
+        	break;
+        case DIFFICULTY_NORMAL:
+        	msg::stream << "NORMAL MODE: Things will be normal. For crawl anyway. Which isn't anywhere close to normal." << endl;
+        	break;
+        case DIFFICULTY_HARD:
+        	msg::stream << "HARD MODE: You can give up any hope of winning right now. Seriously. You don't have a chance." << endl;
+        	break;
+        default:
+        	break;
+        }
+        msg::stream << "</yellow>";
     }
 
 #ifdef USE_TILE

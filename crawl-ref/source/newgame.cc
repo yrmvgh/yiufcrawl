@@ -35,7 +35,7 @@ static void _choose_gamemode_map(newgame_def& ng, newgame_def& ng_choice,
                                  const newgame_def& defaults);
 static bool _choose_weapon(newgame_def& ng, newgame_def& ng_choice,
                           const newgame_def& defaults);
-static void _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
+static bool _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
                            const newgame_def& defaults);
 
 ////////////////////////////////////////////////////////////////////////
@@ -1889,32 +1889,138 @@ static bool _choose_weapon(newgame_def& ng, newgame_def& ng_choice,
     return true;
 }
 
-static void _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
+static bool _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
                            const newgame_def& defaults)
 {
 	if (Options.difficulty != DIFFICULTY_ASK) {
 		ng_choice.difficulty = Options.difficulty;
-		return;
+		return true;
 	}
 
-	mprf(MSGCH_PROMPT, "What difficulty level would you like to play today ((E)asy, (N)ormal, (H)ard)? [N]");
-	int ch = toupper(get_ch());
+	PrecisionMenu menu;
+	menu.set_select_type(PrecisionMenu::PRECISION_SINGLESELECT);
+	MenuFreeform* freeform = new MenuFreeform();
+	freeform->init(coord_def(1,1), coord_def(get_number_of_cols(),
+				   get_number_of_lines()), "freeform");
+	menu.attach_object(freeform);
+	menu.set_active_object(freeform);
 
-	if (ch == 'E')
+	static const int ITEMS_START_Y = 5;
+	TextItem* tmp = nullptr;
+	string text;
+
+	for (int difficulty = 0; difficulty < 3; difficulty ++)
 	{
-		ng_choice.difficulty = DIFFICULTY_EASY;
-		mprf(MSGCH_PROMPT, "Easy does it...");
+		coord_def min_coord(0,0);
+		coord_def max_coord(0,0);
+
+		tmp = new TextItem();
+		text.clear();
+
+		tmp->set_highlight_colour(GREEN);
+
+		switch(difficulty)
+		{
+		case 0:
+			tmp->set_fg_colour(GREEN);
+			tmp->add_hotkey('e');
+			tmp->set_id(DIFFICULTY_EASY);
+			text += "e - Easy";
+			break;
+		case 1:
+			tmp->set_fg_colour(WHITE);
+			tmp->add_hotkey('n');
+			tmp->set_id(DIFFICULTY_NORMAL);
+			text += "n - Normal";
+			freeform->set_active_item(tmp);
+			break;
+		case 2:
+			tmp->set_fg_colour(RED);
+			tmp->add_hotkey('h');
+			tmp->set_id(DIFFICULTY_HARD);
+			text += "h - Hard";
+			break;
+		}
+
+	//	tmp->set_fg_colour(LIGHTGRAY);
+	//	tmp->set_highlight_colour(BLUE);
+
+		// Fill to column width to give extra padding for the highlight
+		text.append(WEAPON_COLUMN_WIDTH - text.size() - 1 , ' ');
+		tmp->set_text(text);
+
+		min_coord.x = X_MARGIN;
+		min_coord.y = ITEMS_START_Y + difficulty;
+		max_coord.x = min_coord.x + text.size();
+		max_coord.y = min_coord.y + 1;
+		tmp->set_bounds(min_coord, max_coord);
+
+		freeform->attach_item(tmp);
+		tmp->set_visible(true);
 	}
-	else if (ch = 'H')
+
+	BoxMenuHighlighter* highlighter = new BoxMenuHighlighter(&menu);
+	highlighter->init(coord_def(0,0), coord_def(0,0), "highlighter");
+	menu.attach_object(highlighter);
+
+#ifdef USE_TILE_LOCAL
+	tiles.get_crt()->attach_menu(&menu);
+#endif
+
+	freeform->set_visible(true);
+	highlighter->set_visible(true);
+
+	textcolour(CYAN);
+	cprintf("\nWhat difficulty level would you like to play today?  ");
+
+	ng_choice.difficulty = DIFFICULTY_ASK;
+	while (ng_choice.difficulty == DIFFICULTY_ASK)
 	{
-		ng_choice.difficulty = DIFFICULTY_HARD;
-		mprf(MSGCH_PROMPT, "You are brave my friend to choose the hard path...");
+		menu.draw_menu();
+
+		int keyn = getch_ck();
+
+        if (!menu.process_key(keyn))
+        {
+            // Process all the keys that are not attached to items
+            switch (keyn)
+            {
+            case 'X':
+            case CONTROL('Q'):
+                cprintf("\nGoodbye!");
+#ifdef USE_TILE_WEB
+                tiles.send_exit_reason("cancel");
+#endif
+                end(0);
+                break;
+            case ' ':
+            	CASE_ESCAPE
+            case CK_MOUSE_CMD:
+                return false;
+            default:
+                // if we get this far, we did not get a significant selection
+                // from the menu, nor did we get an escape character
+                // continue the while loop from the beginning and poll a new key
+                continue;
+            }
+        }
+
+		// We have a significant key input!
+		// Construct selection vector
+		vector<MenuItem*> selection = menu.get_selected_items();
+		// There should only be one selection, otherwise something broke
+		if (selection.size() != 1)
+		{
+			// poll a new key
+			continue;
+		}
+
+		// Get the stored id from the selection
+		int selection_ID = selection.at(0)->get_id();
+		ng_choice.difficulty = static_cast<game_difficulty_level> (selection_ID);
 	}
-	else
-	{
-		ng_choice.difficulty = DIFFICULTY_NORMAL;
-		mprf(MSGCH_PROMPT, "A nice normal game...");
-	}
+
+	return true;
 }
 
 static void _construct_gamemode_map_menu(const mapref_vector& maps,
