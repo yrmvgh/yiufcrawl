@@ -1022,8 +1022,8 @@ int monster::cost_of_maintaining_summon()
     	const int power = calc_spell_power(spell_used, true);
 		cost = spell_difficulty(spell_used);
 
-    	cost = stepup(cost, 2, 10);		// spell level 1 -> 14  level 2 -> 20  4 -> 40  6 -> 80  8 -> 160
-    	cost *= 1000;					// to get it to the right chance out of 1000 to cost a mana point
+    	cost = stepup(cost, 10, 3, 2);
+    	cost *= 3000;
     	cost /= max(1, power);					// higher power will lower the cost (make mana points be subtracted less freq
     }
 
@@ -1076,38 +1076,40 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
     if (me.ench == ENCH_ABJ && player_summoned_this_creature)
     {
             // enchantment is not based on duration, but instead steadily drains mana of summoner
-			if(one_chance_in(3)) {
-				if(you.species == SP_DJINNI
-					? 100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20
-					: 100 * player_who_summoned_this->magic_points / player_who_summoned_this->max_magic_points < 10
-					)
+		if(you.species == SP_DJINNI
+			? 100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20
+			: 100 * player_who_summoned_this->magic_points / player_who_summoned_this->max_magic_points < 10
+			)
+		{
+			del_ench(me.ench);
+		} else {
+			if(one_chance_in(4))
+			{
+				int cost = one_chance_in(6)
+						? (one_chance_in(6)	? 10 : 3)
+						  : 1
+						;
+				cost *= summonCost;
+
+				if (cost < 1000)
 				{
-					del_ench(me.ench);
-				} else {
-					int cost = one_chance_in(3)
-							? (one_chance_in(3)	? 20 : 5)
-							  : 1
-							;
-					cost *= summonCost;
+					cost = x_chance_in_y(cost, 1000) ? 1 : 0;
+				}
+				else
+				{
+					cost /= 1000;
+					cost = max(1, cost);
+				}
 
-					if (cost < 1000)
-					{
-						cost = x_chance_in_y(cost, 1000) ? 1 : 0;
-					}
-					else
-					{
-						cost /= 1000;
-						cost = max(1, cost);
-					}
-
-					if (cost > 0)
-					{
-						dec_mp(cost, true);
-				        you.redraw_magic_points = true;
-					}
+				if (cost > 0)
+				{
+					dec_mp(cost, true);
+					mprf("summon cost: %d   magic cost: %d", summonCost, cost);
+					you.redraw_magic_points = true;
 				}
 			}
 			return false;
+		}
     }
 
     if (!decay_degree)

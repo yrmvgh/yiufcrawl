@@ -595,7 +595,7 @@ static const ability_def Ability_List[] =
 
 	{ ABIL_LIGNIFY, "Lignify", 0, 0, 200, 0, {FAIL_XL, 45, 2}, abflag::NONE },
 	{ ABIL_UNCURSE, "Remove Curse", 1, 0, 0, 0, {FAIL_XL, 45, 2}, abflag::PERMANENT_MP },
-	{ ABIL_RELEASE_SUMMONS, "Release Summoned Creatures", 0, 0, 0, 0, {FAIL_XL, 45, 2}, abflag::NONE },
+	{ ABIL_RELEASE_SUMMONS, "Release Summoned Creatures", 0, 0, 0, 0, {FAIL_XL, 0, 0}, abflag::NONE },
 };
 
 static const ability_def& get_ability_def(ability_type abil)
