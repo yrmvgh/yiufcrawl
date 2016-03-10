@@ -20,6 +20,8 @@ Check out the github wiki for this project if you want to see what my future pla
       before. 
     * how much magic a summon drains is reduced by higher spell power
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
+    * summoners start with a +1 dagger and 2 more max MP to make getting off the ground a little more possible. It's still tough though. Don't summon more than
+      one at once, and focus on boosting your spell power until you can sustain more powerful creatures. 
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,

@@ -498,6 +498,14 @@ static void _setup_generic(const newgame_def& ng)
 
     initialise_item_descriptions();
 
+    if (you.species == SP_TENGU)
+    {
+    	for (int ring = 0; ring < NUM_RINGS; ring++)
+    	{
+            you.force_autopickup[OBJ_JEWELLERY][ring] = -1;
+    	}
+    }
+
     // A first pass to link the items properly.
     for (int i = 0; i < ENDOFPACK; ++i)
     {
