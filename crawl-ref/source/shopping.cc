@@ -1254,7 +1254,7 @@ class ShopEntry : public InvEntry
         const string keystr = colour_to_str(keycol);
         const string itemstr =
             colour_to_str(menu_colour(text, item_prefix(*item), tag));
-        return make_stringf("<%s>%c%c%c%c</%s><%s>%4d gold   %s%s</%s>",
+        return make_stringf(" <%s>%c%c%c%c</%s><%s>%4d gold   %s%s</%s>",
                             keystr.c_str(),
                             hotkeys[0],
                             need_cursor ? '[' : ' ',
@@ -1383,11 +1383,14 @@ void ShopMenu::purchase_selected()
         ASSERT(cost == 0);
         buying_from_list = true;
         for (auto item : items)
-            if (shopping_list.is_on_list(*dynamic_cast<ShopEntry*>(item)->item, &pos))
+        {
+            const item_def& it = *dynamic_cast<ShopEntry*>(item)->item;
+            if (shopping_list.is_on_list(it, &pos))
             {
                 selected.push_back(item);
-                cost += item_price(*dynamic_cast<ShopEntry*>(item)->item, shop);
+                cost += item_price(it, shop);
             }
+        }
     }
     if (selected.empty())
         return;
@@ -1722,7 +1725,7 @@ string shop_type_name(shop_type type)
     }
 }
 
-static string _shop_type_suffix(shop_type type, const coord_def &where)
+static const char *_shop_type_suffix(shop_type type, const coord_def &where)
 {
     if (type == SHOP_GENERAL
         || type == SHOP_GENERAL_ANTIQUE
@@ -1731,10 +1734,11 @@ static string _shop_type_suffix(shop_type type, const coord_def &where)
         return "";
     }
 
-    const char* suffixnames[] = {"Shoppe", "Boutique", "Emporium", "Shop"};
-    const int temp = (where.x + where.y) % 4;
-
-    return string(suffixnames[temp]);
+    static const char * const suffixnames[] =
+    {
+        "Shoppe", "Boutique", "Emporium", "Shop"
+    };
+    return suffixnames[(where.x + where.y) % ARRAYSZ(suffixnames)];
 }
 
 string shop_name(const shop_struct& shop)

@@ -60,6 +60,7 @@
 #include "state.h"
 #include "stringutil.h"
 #include "terrain.h"
+#include "tiledef-player.h"
 #include "tilepick.h"
 #include "tileview.h"
 #include "timed_effects.h"
@@ -3852,6 +3853,7 @@ static bool _ms_ranged_spell(spell_type monspell, bool attack_only = false,
     case SPELL_BLINK_AWAY:
     case SPELL_BERSERKER_RAGE:
     case SPELL_SWIFTNESS:
+    case SPELL_BATTLECRY:
         return false;
 
     // The animation spells don't work through transparent walls and
@@ -3875,7 +3877,7 @@ static bool _ms_ranged_spell(spell_type monspell, bool attack_only = false,
     case SPELL_TELEPORT_OTHER:
     case SPELL_BLINK_OTHER_CLOSE:
     case SPELL_BLINK_OTHER:
-        return ench_too;
+        return !attack_only && ench_too;
 
     default:
         // All conjurations count as ranged spells.
@@ -4837,7 +4839,7 @@ mon_body_shape get_mon_shape(const monster* mon)
 
 /**
  * Get the monster body shape of the given monster type.
- * @param mon  The monster type in question.
+ * @param mc  The monster type in question.
  * @return     The mon_body_shape type of this monster type.
  */
 mon_body_shape get_mon_shape(const monster_type mc)
@@ -4850,6 +4852,33 @@ mon_body_shape get_mon_shape(const monster_type mc)
 
     ASSERT_smc();
     return smc->shape;
+}
+
+/**
+ * What's the normal tile for a given monster type?
+ *
+ * @param mc    The monster type in question.
+ * @return      The tile for that monster, or TILEP_MONS_PROGRAM_BUG for mons
+ *              with variable tiles (e.g. merfolk, hydras, slime creatures).
+ */
+tileidx_t get_mon_base_tile(monster_type mc)
+{
+    ASSERT_smc();
+    return smc->tile.base;
+}
+
+/**
+ * How should a given monster type's tile vary?
+ *
+ * @param mc    The monster type in question.
+ * @return      An enum describing how display of the monster should vary
+ *              (by individual monster instance, or whether they're in water,
+ *              etc)
+ */
+mon_type_tile_variation get_mon_tile_variation(monster_type mc)
+{
+    ASSERT_smc();
+    return smc->tile.variation;
 }
 
 /**

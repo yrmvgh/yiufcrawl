@@ -16,6 +16,7 @@
 #include <sstream>
 
 #include "ability.h"
+#include "abyss.h"
 #include "act-iter.h"
 #include "areas.h"
 #include "art-enum.h"
@@ -411,6 +412,10 @@ void moveto_location_effects(dungeon_feature_type old_feat,
     if (is_feat_dangerous(new_grid))
         fall_into_a_pool(new_grid);
 
+    // called after fall_into_a_pool, in case of emergency untransform
+    if (you.species == SP_MERFOLK)
+        merfolk_check_swimming(stepped);
+
     if (you.ground_level())
     {
         if (player_likes_lava(false))
@@ -440,20 +445,6 @@ void moveto_location_effects(dungeon_feature_type old_feat,
                 mpr("You slowly pull yourself out of the lava.");
                 you.time_taken *= 2;
             }
-        }
-
-        if (you.species == SP_MERFOLK)
-        {
-            if (feat_is_water(new_grid) // We're entering water
-                // We're not transformed, or with a form compatible with tail
-                && (you.form == TRAN_NONE
-                    || you.form == TRAN_APPENDAGE
-                    || you.form == TRAN_BLADE_HANDS))
-            {
-                merfolk_start_swimming(stepped);
-            }
-            else if (!feat_is_water(new_grid) && !is_feat_dangerous(new_grid))
-                merfolk_stop_swimming();
         }
 
         if (feat_is_water(new_grid) && !stepped)
@@ -2638,6 +2629,26 @@ static void _recharge_xp_evokers(int exp)
     }
 }
 
+/// Make progress toward the abyss spawning an exit/stairs.
+static void _reduce_abyss_xp_timer(int exp)
+{
+    if (!player_in_branch(BRANCH_ABYSS))
+        return;
+
+    const int xp_factor =
+        max(min((int)exp_needed(you.experience_level+1, 0) / 7,
+                you.experience_level * 425),
+            you.experience_level*2 + 15) / 5;
+
+    if (!you.props.exists(ABYSS_STAIR_XP_KEY))
+        you.props[ABYSS_STAIR_XP_KEY] = EXIT_XP_COST;
+    const int reqd_xp = you.props[ABYSS_STAIR_XP_KEY].get_int();
+    const int new_req = reqd_xp - div_rand_round(exp, xp_factor);
+    dprf("reducing xp timer from %d to %d (factor = %d)",
+         reqd_xp, new_req, xp_factor);
+    you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
+}
+
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
     if (crawl_state.game_is_arena())
@@ -2743,6 +2754,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     }
 
     _recharge_xp_evokers(exp_gained);
+    _reduce_abyss_xp_timer(exp_gained);
 
     if (you.attribute[ATTR_XP_DRAIN])
     {

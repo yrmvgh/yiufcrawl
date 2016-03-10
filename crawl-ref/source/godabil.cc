@@ -1616,7 +1616,8 @@ void trog_remove_trogs_hand()
  */
 static bool _given_gift(const monster* mon)
 {
-    return mon->props.exists(BEOGH_WPN_GIFT_KEY)
+    return mon->props.exists(BEOGH_RANGE_WPN_GIFT_KEY)
+            || mon->props.exists(BEOGH_MELEE_WPN_GIFT_KEY)
             || mon->props.exists(BEOGH_ARM_GIFT_KEY)
             || mon->props.exists(BEOGH_SH_GIFT_KEY);
 }
@@ -1727,14 +1728,23 @@ bool beogh_gift_item()
     const bool weapon = gift.base_type == OBJ_WEAPONS;
     const bool range_weapon = weapon && is_range_weapon(gift);
     const item_def* mons_weapon = mons->weapon();
+    const item_def* mons_alt_weapon = mons->mslot_item(MSLOT_ALT_WEAPON);
 
     if (weapon && !mons->could_wield(gift)
         || body_armour && !check_armour_size(gift, mons->body_size())
-        || shield && mons_weapon && mons->hands_reqd(*mons_weapon) == HANDS_TWO
         || !item_is_selected(gift, OSEL_BEOGH_GIFT))
     {
         mprf("You can't give that to %s.", mons->name(DESC_THE, false).c_str());
 
+        return false;
+    }
+    else if (shield
+             && (mons_weapon && mons->hands_reqd(*mons_weapon) == HANDS_TWO
+                 || mons_alt_weapon
+                    && mons->hands_reqd(*mons_alt_weapon) == HANDS_TWO))
+    {
+        mprf("%s can't equip that with a two-handed weapon.",
+             mons->name(DESC_THE, false).c_str());
         return false;
     }
 
@@ -1761,8 +1771,10 @@ bool beogh_gift_item()
         mons->props[BEOGH_SH_GIFT_KEY] = true;
     else if (body_armour)
         mons->props[BEOGH_ARM_GIFT_KEY] = true;
+    else if (range_weapon)
+        mons->props[BEOGH_RANGE_WPN_GIFT_KEY] = true;
     else
-        mons->props[BEOGH_WPN_GIFT_KEY] = true;
+        mons->props[BEOGH_MELEE_WPN_GIFT_KEY] = true;
 
     return true;
 }
@@ -1780,6 +1792,7 @@ bool beogh_resurrect()
                        + "?").c_str(), true, 'n'))
             {
                 corpse = &*si;
+                break;
             }
         }
     if (!corpse)
