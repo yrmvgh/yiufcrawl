@@ -1085,8 +1085,8 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 					del_ench(me.ench);
 				} else {
 					int cost = one_chance_in(4)
-							? (one_chance_in(4)	? 8 + random2(8) : 4 + random2(4))
-							  : random2(4)
+							? (one_chance_in(4)	? 20 : 5)
+							  : 1
 							;
 					cost *= summonCost;
 
