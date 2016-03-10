@@ -46,7 +46,8 @@ newgame_def::newgame_def()
     : name(), type(GAME_TYPE_NORMAL),
       species(SP_UNKNOWN), job(JOB_UNKNOWN),
       weapon(WPN_UNKNOWN),
-      fully_random(false)
+      fully_random(false),
+	  difficulty(DIFFICULTY_ASK)
 {
 }
 
@@ -55,6 +56,7 @@ void newgame_def::clear_character()
     species  = SP_UNKNOWN;
     job      = JOB_UNKNOWN;
     weapon   = WPN_UNKNOWN;
+    difficulty = DIFFICULTY_ASK;
 }
 
 enum MenuOptions
@@ -573,7 +575,6 @@ bool choose_game(newgame_def& ng, newgame_def& choice,
     // Set these again, since _mark_fully_random may reset ng.
     ng.name = choice.name;
     ng.type = choice.type;
-
     ng.difficulty = choice.difficulty;
 
 #ifndef DGAMELAUNCH
@@ -1892,8 +1893,8 @@ static bool _choose_weapon(newgame_def& ng, newgame_def& ng_choice,
 static bool _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
                            const newgame_def& defaults)
 {
-	if (Options.difficulty != DIFFICULTY_ASK) {
-		ng_choice.difficulty = Options.difficulty;
+	if (ng_choice.difficulty != DIFFICULTY_ASK)
+	{
 		return true;
 	}
 
@@ -1977,33 +1978,8 @@ static bool _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
 	while (ng_choice.difficulty == DIFFICULTY_ASK)
 	{
 		menu.draw_menu();
-
 		int keyn = getch_ck();
-
-        if (!menu.process_key(keyn))
-        {
-            // Process all the keys that are not attached to items
-            switch (keyn)
-            {
-            case 'X':
-            case CONTROL('Q'):
-                cprintf("\nGoodbye!");
-#ifdef USE_TILE_WEB
-                tiles.send_exit_reason("cancel");
-#endif
-                end(0);
-                break;
-            case ' ':
-            	CASE_ESCAPE
-            case CK_MOUSE_CMD:
-                return false;
-            default:
-                // if we get this far, we did not get a significant selection
-                // from the menu, nor did we get an escape character
-                // continue the while loop from the beginning and poll a new key
-                continue;
-            }
-        }
+        menu.process_key(keyn);
 
 		// We have a significant key input!
 		// Construct selection vector

@@ -533,8 +533,6 @@ public:
 
     newgame_def game;      // Choices for new game.
 
-    game_difficulty_level difficulty;
-
 private:
     typedef map<string, string> string_map;
     string_map     aliases;

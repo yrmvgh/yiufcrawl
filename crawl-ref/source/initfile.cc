@@ -275,6 +275,21 @@ static string _weapon_to_str(weapon_type wpn_type)
     }
 }
 
+static string _difficulty_to_str(game_difficulty_level diff)
+{
+    switch (diff)
+    {
+    case DIFFICULTY_EASY:
+        return "easy";
+    case DIFFICULTY_NORMAL:
+        return "normal";
+    case DIFFICULTY_HARD:
+        return "hard";
+    default:
+        return "ask";
+    }
+}
+
 // Summon types can be any of mon_summon_type (enum.h), or a relevant summoning
 // spell.
 int str_to_summon_type(const string &str)
@@ -773,7 +788,6 @@ void game_options::reset_options()
     show_game_turns = true;
 
     game = newgame_def();
-    difficulty = DIFFICULTY_ASK;
 
     remember_name = true;
 
@@ -1640,7 +1654,9 @@ static void write_newgame_options(const newgame_def& prefs, FILE *f)
         fprintf(f, "background = %s\n", _job_to_str(prefs.job).c_str());
     if (prefs.weapon != WPN_UNKNOWN)
         fprintf(f, "weapon = %s\n", _weapon_to_str(prefs.weapon).c_str());
-    fprintf(f, "fully_random = %s\n", prefs.fully_random ? "yes" : "no");
+    if (prefs.difficulty != DIFFICULTY_ASK)
+         fprintf(f, "difficulty = %s\n", _difficulty_to_str(prefs.difficulty).c_str());
+     fprintf(f, "fully_random = %s\n", prefs.fully_random ? "yes" : "no");
 }
 #endif // !DISABLE_STICKY_STARTUP_OPTIONS
 
@@ -3826,13 +3842,13 @@ void game_options::read_option_line(const string &str, bool runscript)
     else if (key == "difficulty")
     {
     	if (field == "easy")
-    		difficulty = DIFFICULTY_EASY;
+    		game.difficulty = DIFFICULTY_EASY;
     	else if (field == "normal")
-    		difficulty = DIFFICULTY_NORMAL;
+    		game.difficulty = DIFFICULTY_NORMAL;
     	else if (field == "hard")
-    		difficulty = DIFFICULTY_HARD;
+    		game.difficulty = DIFFICULTY_HARD;
     	else
-    		difficulty = DIFFICULTY_ASK;
+    		game.difficulty = DIFFICULTY_ASK;
     }
     else INT_OPTION(view_delay, 0, INT_MAX);
     else BOOL_OPTION(arena_dump_msgs);
