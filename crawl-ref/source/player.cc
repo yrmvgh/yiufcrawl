@@ -8597,6 +8597,14 @@ int player::inaccuracy() const
     return degree;
 }
 
+bool can_use(const item_def &item)
+{
+    if (you.species == SP_TENGU && item.base_type == OBJ_JEWELLERY && item.sub_type < NUM_RINGS)
+    	return false;
+
+    return true;
+}
+
 /**
  * Handle effects that occur after the player character stops berserking.
  */

@@ -296,8 +296,8 @@ static const ability_def Ability_List[] =
     { ABIL_SPIT_ACID, "Spit Acid",
         0, 0, 125, 0, {FAIL_XL, 30, 1}, abflag::BREATH },
 
-    { ABIL_FLY, "Fly", 3, 0, 100, 0, {FAIL_XL, 42, 3}, abflag::NONE },
-    { ABIL_STOP_FLYING, "Stop Flying", 0, 0, 0, 0, {}, abflag::NONE },
+    { ABIL_FLY, "Fly", 0, 0, 100, 0, {FAIL_XL, 42, 3}, abflag::NONE },
+    { ABIL_STOP_FLYING, "Stop Flying", 0, 0, 0, 0, {FAIL_XL, 0, 0}, abflag::NONE },
     { ABIL_HELLFIRE, "Hellfire",
         0, 150, 200, 0, {FAIL_XL, 50, 1}, abflag::NONE },
 

@@ -1084,15 +1084,27 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 				{
 					del_ench(me.ench);
 				} else {
-					int cost = one_chance_in(4)
-							? (one_chance_in(4)	? 8 + random2(8) : 4 + random2(4))
-							  : random2(4)
+					int cost = one_chance_in(3)
+							? (one_chance_in(3)	? 20 : 5)
+							  : 1
 							;
 					cost *= summonCost;
-					cost /= 1000;
-					cost = max(1, cost);
-					dec_mp(cost, true);
-			        you.redraw_magic_points = true;
+
+					if (cost < 1000)
+					{
+						cost = x_chance_in_y(cost, 1000) ? 1 : 0;
+					}
+					else
+					{
+						cost /= 1000;
+						cost = max(1, cost);
+					}
+
+					if (cost > 0)
+					{
+						dec_mp(cost, true);
+				        you.redraw_magic_points = true;
+					}
 				}
 			}
 			return false;
