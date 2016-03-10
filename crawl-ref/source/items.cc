@@ -60,6 +60,7 @@
 #include "orb.h"
 #include "output.h"
 #include "place.h"
+#include "player.h"
 #include "player-equip.h"
 #include "player.h"
 #include "prompt.h"
@@ -2885,6 +2886,9 @@ bool item_needs_autopickup(const item_def &item, bool ignore_force)
     if (item.props.exists("needs_autopickup"))
         return true;
 
+    if (!can_use(item))
+    	return false;
+
     return _is_option_autopickup(item, ignore_force);
 }
 
@@ -2993,6 +2997,9 @@ static bool _item_different_than_inv(const item_def& pickup_item,
 
 static bool _interesting_explore_pickup(const item_def& item)
 {
+	if (!can_use(item))
+		return false;
+
     if (!(Options.explore_stop & ES_GREEDY_PICKUP_MASK))
         return false;
 

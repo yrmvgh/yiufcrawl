@@ -783,6 +783,7 @@ public:
                                 killer_type killer = KILL_NONE,
                                 int killernum = -1) override;
 
+
     ////////////////////////////////////////////////////////////////
 
     PlaceInfo& get_place_info() const ; // Current place info
@@ -1127,5 +1128,6 @@ int temperature_colour(int temp);
 string temperature_string(int temp);
 string temperature_text(int temp);
 bool player_ephemeral_passthrough(const string &whatIsAttacking = "", bool showMessage = false);
+bool can_use(const item_def &item);
 
 #endif
