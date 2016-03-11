@@ -2174,7 +2174,7 @@ static const mutation_def mut_data[] =
    "a missing eye",
 },
 
-{ MUT_TEMPERATURE_SENSITIVITY, 1, 1, mutflag::BAD, false,
+{ MUT_TEMPERATURE_SENSITIVITY, 2, 1, mutflag::BAD, false,
   "temperature sensitive",
 
   {"You are sensitive to extremes of temperature (rF-, rC-).", "", ""},
@@ -2212,13 +2212,13 @@ static const mutation_def mut_data[] =
    "a glow that surrounds you",
 },
 
-{ MUT_EPHEMERAL, 1, 3, mutflag::GOOD, false,
+{ MUT_EPHEMERAL, 0, 3, mutflag::GOOD, false,
   "ephemeral",
 
   {"Attacks rarely pass right through you.",
    "Attacks sometimes pass right through you.",
    "Attacks often pass right through you."},
-  {"You become more ephemeral.",
+  {"You become slightly ephemeral.",
    "You become more ephemeral.",
    "You become more ephemeral."},
   {"You are no longer ephemeral.", "You become less ephemeral.", "You become less ephemeral."},
