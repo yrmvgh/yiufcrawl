@@ -404,6 +404,8 @@ public:
     // Number of viewport refreshes.
     unsigned int frame_no;
 
+    // normally 1000, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
+    int amplification;
 
     // ---------------------
     // The save file itself.

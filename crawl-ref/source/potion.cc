@@ -17,6 +17,7 @@
 #include "itemname.h"
 #include "itemprop.h"
 #include "item_use.h"
+#include "macro.h"
 #include "message.h"
 #include "misc.h"
 #include "mutation.h"
@@ -796,20 +797,73 @@ public:
 
     bool effect(bool = true, int = 40, bool=true) const override
     {
-        const bool mutated = mutate(RANDOM_GOOD_MUTATION,
-                                    "potion of beneficial mutation",
-                                    true, false, false, true);
-        if (undead_mutation_rot())
-        {
-            mpr("You feel dead inside.");
-            return mutated;
-        }
+        bool mutated = false;
 
-        if (mutated)
-            mpr("You feel fantastic!");
-        else
-            mpr("You feel fantastic for a moment.");
+    	if(you.amplification > 0)
+    	{
+    		while(you.amplification > 0)
+    		{
+    	        mutated |= mutate(RANDOM_GOOD_MUTATION,
+    	                                    "potion of beneficial mutation",
+    	                                    true, false, false, true);
+    	        if (undead_mutation_rot())
+    	        {
+    	            mpr("You feel dead inside.");
+    	            break;
+    	        }
+
+    	        you.amplification -= 1000;
+    		}
+
+    		if (mutated)
+                mpr("You feel fantastic!");
+            else
+                mpr("You feel fantastic for a moment.");
+    	}
+    	else
+    	{
+    		bool addBadMutation = false;
+    		bool removeGoodMutation = false;
+
+    		while(true)
+    		{
+    		    mprf(MSGCH_PROMPT, "Would you like to add a random bad mutation, or remove a random good one? (b or g)");
+    		    unsigned char keyin = get_ch();
+
+    		    if(keyin == 'b')
+    		    {
+    		    	addBadMutation = true;
+    		    	break;
+    		    }
+    		    else if(keyin == 'g')
+    		    {
+    		    	removeGoodMutation = true;
+    		    	break;
+    		    }
+    		}
+
+    		you.amplification *= -1;
+    		while(you.amplification > 0)
+    		{
+        		if(addBadMutation)
+        	        mutated |= mutate(RANDOM_BAD_MUTATION,
+        	                                    "inverted potion of beneficial mutation",
+        	                                    true, false, false, true);
+
+        		if (removeGoodMutation)
+                    mutated |= delete_mutation(RANDOM_GOOD_MUTATION,
+                                               "inverted potion of beneficial mutation", false);
+
+        		you.amplification -= 1000;
+    		}
+
+    		if (mutated)
+                mpr("You don't feel so good...");
+    	}
+
         learned_something_new(HINT_YOU_MUTATED);
+
+    	you.amplification = 1000;
         return mutated;
     }
 

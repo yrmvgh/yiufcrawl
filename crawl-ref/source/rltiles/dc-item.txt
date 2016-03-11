@@ -647,8 +647,12 @@ i-silence SCR_SILENCE
 i-amnesia SCR_AMNESIA
 %back scroll-grey
 #### Remove curse foo when TAG_MAJOR_VERSION > 34
-i-curse-jewellery SCR_CURSE_JEWELLERY SCR_ID_LAST
+i-curse-jewellery SCR_CURSE_JEWELLERY
 %back none
+i-amnesia SCR_AMPLIFICATION
+%back scroll-grey
+i-amnesia SCR_INVERSION SCR_ID_LAST
+%back scroll-grey
 
 ##################OBJ_JEWELLERY
 ############ring

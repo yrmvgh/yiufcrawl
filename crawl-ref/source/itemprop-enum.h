@@ -383,6 +383,8 @@ enum scroll_type
 #if TAG_MAJOR_VERSION == 34
     SCR_CURSE_JEWELLERY,
 #endif
+    SCR_AMPLIFICATION,
+    SCR_INVERSION,
     NUM_SCROLLS
 };
 
