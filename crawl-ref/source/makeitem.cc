@@ -1558,35 +1558,70 @@ static void _generate_scroll_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-            // total weight:    784  if depth_mod < 4
-            //                  903  otherwise
-            //                 -112  in sprint
-            item.sub_type = random_choose_weighted(
-                200, SCR_IDENTIFY,
-                112, SCR_REMOVE_CURSE,
-                 // [Cha] don't generate teleportation scrolls if in sprint
-                 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
-                 40, SCR_ENCHANT_ARMOUR,
-                 40, SCR_ENCHANT_WEAPON,
-                 40, SCR_MAGIC_MAPPING,
-                 40, SCR_AMNESIA,
-                 32, SCR_FEAR,
-                 32, SCR_FOG,
-                 32, SCR_RANDOM_USELESSNESS,
-                 32*(crawl_state.difficulty == DIFFICULTY_EASY ? 2 : 1), SCR_BLINKING,
-                 // [Cha] don't generate noise scrolls if in sprint
-                 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
-                 32, SCR_IMMOLATION,
-                 20, SCR_RECHARGING,
-                 // Higher-level scrolls.
-                 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
-                 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
-                 0);
+        	switch(crawl_state.difficulty)
+        	{
+        	case DIFFICULTY_EASY:
+				item.sub_type = random_choose_weighted(
+					200, SCR_IDENTIFY,
+					112, SCR_REMOVE_CURSE,
+					 // [Cha] don't generate teleportation scrolls if in sprint
+					 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
+					 40, SCR_ENCHANT_ARMOUR,
+					 40, SCR_ENCHANT_WEAPON,
+					 40, SCR_MAGIC_MAPPING,
+					 40, SCR_AMNESIA,
+					 32, SCR_FEAR,
+					 32, SCR_FOG,
+					 32, SCR_RANDOM_USELESSNESS,
+					 32*2, SCR_BLINKING,
+					 // [Cha] don't generate noise scrolls if in sprint
+					 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
+					 32, SCR_IMMOLATION,
+					 20, SCR_RECHARGING,
+					 20*2, SCR_INVERSION,
+					 // Higher-level scrolls.
+					 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
+					 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
+					 15*2, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
+					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
+					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
+					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
+					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
+					 10*2, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
+					 0);
+				break;
+        	case DIFFICULTY_NORMAL:
+        	case DIFFICULTY_HARD:
+				item.sub_type = random_choose_weighted(
+						200, SCR_IDENTIFY,
+						112, SCR_REMOVE_CURSE,
+						 // [Cha] don't generate teleportation scrolls if in sprint
+						 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
+						 40, SCR_ENCHANT_ARMOUR,
+						 40, SCR_ENCHANT_WEAPON,
+						 40, SCR_MAGIC_MAPPING,
+						 40, SCR_AMNESIA,
+						 32, SCR_FEAR,
+						 32, SCR_FOG,
+						 32, SCR_RANDOM_USELESSNESS,
+						 32, SCR_BLINKING,
+						 // [Cha] don't generate noise scrolls if in sprint
+						 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
+						 32, SCR_IMMOLATION,
+						 20, SCR_RECHARGING,
+						 20, SCR_INVERSION,
+						 // Higher-level scrolls.
+						 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
+						 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
+						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
+						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
+						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
+						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
+						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
+						 10, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
+						 0);
+				break;
+        	}
         }
         while (item.sub_type == NUM_SCROLLS
                || agent == GOD_XOM

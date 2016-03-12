@@ -17,6 +17,7 @@
 #include "itemname.h"
 #include "itemprop.h"
 #include "item_use.h"
+#include "macro.h"
 #include "message.h"
 #include "misc.h"
 #include "mutation.h"
@@ -138,6 +139,52 @@ public:
         you.duration[DUR_POISONING] = 0;
         you.disease = 0;
         you.duration[DUR_CONF] = 0;
+        return true;
+    }
+};
+
+class PotionDarkness : public PotionEffect
+{
+private:
+    PotionDarkness() : PotionEffect(POT_DARKNESS) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionDarkness);
+public:
+    static const PotionDarkness &instance()
+    {
+        static PotionDarkness inst; return inst;
+    }
+
+    bool can_quaff(string *reason = nullptr) const override
+    {
+        return true;
+    }
+
+    bool effect(bool=true, int=40, bool is_device = true) const override
+    {
+        mpr("Not implemented yet.");
+        return true;
+    }
+};
+
+class PotionPatience : public PotionEffect
+{
+private:
+    PotionPatience() : PotionEffect(POT_PATIENCE) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionPatience);
+public:
+    static const PotionPatience &instance()
+    {
+        static PotionPatience inst; return inst;
+    }
+
+    bool can_quaff(string *reason = nullptr) const override
+    {
+        return true;
+    }
+
+    bool effect(bool=true, int=40, bool is_device = true) const override
+    {
+        mpr("Not implemented yet.");
         return true;
     }
 };
@@ -796,20 +843,73 @@ public:
 
     bool effect(bool = true, int = 40, bool=true) const override
     {
-        const bool mutated = mutate(RANDOM_GOOD_MUTATION,
-                                    "potion of beneficial mutation",
-                                    true, false, false, true);
-        if (undead_mutation_rot())
-        {
-            mpr("You feel dead inside.");
-            return mutated;
-        }
+        bool mutated = false;
 
-        if (mutated)
-            mpr("You feel fantastic!");
-        else
-            mpr("You feel fantastic for a moment.");
+    	if(you.amplification > 0)
+    	{
+    		while(you.amplification > 0)
+    		{
+    	        mutated |= mutate(RANDOM_GOOD_MUTATION,
+    	                                    "potion of beneficial mutation",
+    	                                    true, false, false, true);
+    	        if (undead_mutation_rot())
+    	        {
+    	            mpr("You feel dead inside.");
+    	            break;
+    	        }
+
+    	        you.amplification -= 1000;
+    		}
+
+    		if (mutated)
+                mpr("You feel fantastic!");
+            else
+                mpr("You feel fantastic for a moment.");
+    	}
+    	else
+    	{
+    		bool addBadMutation = false;
+    		bool removeGoodMutation = false;
+
+    		while(true)
+    		{
+    		    mprf(MSGCH_PROMPT, "Would you like to add a random bad mutation, or remove a random good one? (b or g)");
+    		    unsigned char keyin = get_ch();
+
+    		    if(keyin == 'b')
+    		    {
+    		    	addBadMutation = true;
+    		    	break;
+    		    }
+    		    else if(keyin == 'g')
+    		    {
+    		    	removeGoodMutation = true;
+    		    	break;
+    		    }
+    		}
+
+    		you.amplification *= -1;
+    		while(you.amplification > 0)
+    		{
+        		if(addBadMutation)
+        	        mutated |= mutate(RANDOM_BAD_MUTATION,
+        	                                    "inverted potion of beneficial mutation",
+        	                                    true, false, false, true);
+
+        		if (removeGoodMutation)
+                    mutated |= delete_mutation(RANDOM_GOOD_MUTATION,
+                                               "inverted potion of beneficial mutation", false);
+
+        		you.amplification -= 1000;
+    		}
+
+    		if (mutated)
+                mpr("You don't feel so good...");
+    	}
+
         learned_something_new(HINT_YOU_MUTATED);
+
+    	you.amplification = 1000;
         return mutated;
     }
 
@@ -1222,50 +1322,42 @@ public:
 
 static const PotionEffect* potion_effects[] =
 {
-    &PotionCuring::instance(),
-    &PotionHealWounds::instance(),
-    &PotionHaste::instance(),
-    &PotionMight::instance(),
-    &PotionBrilliance::instance(),
-    &PotionAgility::instance(),
+	&PotionAgility::instance(),
+	&PotionAmbrosia::instance(),
+	&PotionBeneficialMutation::instance(),
+	&PotionBerserk::instance(),
+	&PotionBlood::instance(),
+	&PotionBrilliance::instance(),
+	&PotionCancellation::instance(),
+	&PotionCureMutation::instance(),
+	&PotionCuring::instance(),
+	&PotionDarkness::instance(),
+	&PotionDegeneration::instance(),
+	&PotionExperience::instance(),
+	&PotionFlight::instance(),
+	&PotionHaste::instance(),
+	&PotionHealWounds::instance(),
+	&PotionInvisibility::instance(),
+	&PotionLignify::instance(),
+	&PotionMagic::instance(),
+	&PotionMight::instance(),
+	&PotionMutation::instance(),
+	&PotionPatience::instance(),
+	&PotionPoison::instance(),
+	&PotionResistance::instance(),
 #if TAG_MAJOR_VERSION == 34
-    &PotionGainStrength::instance(),
-    &PotionGainDexterity::instance(),
-    &PotionGainIntelligence::instance(),
+	&PotionBloodCoagulated::instance(),
+	&PotionDecay::instance(),
+	&PotionGainDexterity::instance(),
+	&PotionGainIntelligence::instance(),
+	&PotionGainStrength::instance(),
+	&PotionPorridge::instance(),
+	&PotionRestoreAbilities::instance(),
+	&PotionSlowing::instance(),
+	&PotionPoison::instance(),
+	&PotionWater::instance(),
 #endif
-    &PotionFlight::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionPoison::instance(),
-    &PotionSlowing::instance(),
-#endif
-    &PotionCancellation::instance(),
-    &PotionAmbrosia::instance(),
-    &PotionInvisibility::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionPorridge::instance(),
-#endif
-    &PotionDegeneration::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionDecay::instance(),
-    &PotionWater::instance(),
-#endif
-    &PotionExperience::instance(),
-    &PotionMagic::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionRestoreAbilities::instance(),
-    &PotionPoison::instance(),
-#endif
-    &PotionBerserk::instance(),
-    &PotionCureMutation::instance(),
-    &PotionMutation::instance(),
-    &PotionResistance::instance(),
-    &PotionBlood::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionBloodCoagulated::instance(),
-#endif
-    &PotionLignify::instance(),
-    &PotionBeneficialMutation::instance(),
-    &PotionStale::instance()
+	&PotionStale::instance(),
 };
 
 const PotionEffect* get_potion_effect(potion_type pot)

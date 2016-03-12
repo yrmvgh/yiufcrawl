@@ -2384,6 +2384,8 @@ static bool _is_cancellable_scroll(scroll_type scroll)
 {
     return scroll == SCR_IDENTIFY
            || scroll == SCR_BLINKING
+           || scroll == SCR_AMPLIFICATION
+           || scroll == SCR_INVERSION
            || scroll == SCR_RECHARGING
            || scroll == SCR_ENCHANT_ARMOUR
            || scroll == SCR_AMNESIA
@@ -2687,6 +2689,65 @@ void read_scroll(int item_slot)
 
         if (!cancel_scroll)
             mpr(pre_succ_msg); // ordering is iffy but w/e
+    }
+        break;
+
+    case SCR_AMPLIFICATION:
+    {
+        const bool safely_cancellable
+            = alreadyknown && !player_mutation_level(MUT_BLURRY_VISION);
+
+        if (!alreadyknown)
+        {
+            mpr(pre_succ_msg);
+            mpr("It is a scroll of amplification!");
+        }
+        else
+        {
+        	if(you.amplification > 0)
+        		cancel_scroll = !yesno("This will amplify the next scroll or potion used. Are you sure you want to use this now?", false, 'n');
+        	else
+        		cancel_scroll = !yesno("You recently used an inversion scroll. Reading this scroll now will reduce the effect of the next scroll, potion, or wand used. Are you sure you want to use this now?", false, 'n');
+        }
+
+        if (!cancel_scroll)
+        {
+        	if(you.amplification > 0)
+            	you.amplification *= 3;
+        	else
+        		you.amplification /= 3;
+
+            mpr(pre_succ_msg); // ordering is iffy but w/e
+        }
+    }
+        break;
+
+    case SCR_INVERSION:
+    {
+        const bool safely_cancellable
+            = alreadyknown && !player_mutation_level(MUT_BLURRY_VISION);
+
+        if (!alreadyknown)
+        {
+            mpr(pre_succ_msg);
+            mpr("It is a scroll of inversion!");
+        }
+        else
+        {
+        	if(you.amplification > 0)
+        		cancel_scroll = !yesno("This will reverse the effect of the next scroll or potion used. Are you sure you want to use this now?", false, 'n');
+        	else
+        	{
+        		cancel_scroll = !yesno("Since you've already read a scroll of inversion recently, reading this scroll would just invert the inversion. Are you sure you want to do that?", false, 'n');
+        	}
+        }
+
+        if (!cancel_scroll)
+        {
+           	you.amplification *= -1;
+
+            mpr(pre_succ_msg); // ordering is iffy but w/e
+        }
     }
         break;
 

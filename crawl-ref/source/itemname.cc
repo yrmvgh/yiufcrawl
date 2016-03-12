@@ -708,6 +708,8 @@ static const char* scroll_type_name(int scrolltype)
 #endif
     case SCR_IMMOLATION:         return "immolation";
     case SCR_BLINKING:           return "blinking";
+    case SCR_AMPLIFICATION:      return "amplification";
+    case SCR_INVERSION:          return "inversion";
     case SCR_MAGIC_MAPPING:      return "magic mapping";
     case SCR_FOG:                return "fog";
     case SCR_ACQUIREMENT:        return "acquirement";
