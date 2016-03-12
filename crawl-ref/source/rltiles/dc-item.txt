@@ -600,58 +600,78 @@ scroll SCROLL UNSEEN_SCROLL
 
 #### These must be in the same order as the enum in itemprop-enum.h!
 %sdir item/scroll
+%back scroll-cyan
+i-acquirement SCR_ACQUIREMENT SCR_ID_FIRST
 %back scroll-yellow
-i-identify SCR_IDENTIFY SCR_ID_FIRST
+i-amnesia SCR_AMNESIA
+%back scroll-cyan
+i-amplification SCR_AMPLIFICATION
 %back scroll-purple
-i-teleportation SCR_TELEPORTATION
-%back scroll-blue
-i-fear SCR_FEAR
-%back scroll-grey
-i-noise SCR_NOISE
-%back scroll-yellow
-i-remove_curse SCR_REMOVE_CURSE
-%back scroll-brown
-i-unholy_creation SCR_UNHOLY_CREATION
+i-blinking SCR_BLINKING
+%back scroll-green
+i-brand-weapon SCR_BRAND_WEAPON
+%back scroll-purple
+i-briars SCR_BRIARS
+%back scroll-purple
+i-displacement SCR_DISPLACEMENT
+%back scroll-green
+i-enchant_armour SCR_ENCHANT_ARMOUR
 %back scroll-green
 i-enchant-weapon SCR_ENCHANT_WEAPON
-i-enchant_armour SCR_ENCHANT_ARMOUR
+%back scroll-blue
+i-fear SCR_FEAR
+%back scroll-blue
+i-fog SCR_FOG
+%back scroll-red
+i-holy_word SCR_HOLY_WORD
+%back scroll-yellow
+i-identify SCR_IDENTIFY
+%back scroll-grey
+i-immolation SCR_IMMOLATION
+%back scroll-cyan
+i-infinity SCR_INFINITY
+%back scroll-grey
+i-inversion SCR_INVERSION
+%back scroll-grey
+i-karma SCR_KARMA
+%back scroll-yellow
+i-magic_mapping SCR_MAGIC_MAPPING
+%back scroll-grey
+i-noise SCR_NOISE
+%back scroll-grey
+i-random_uselessness SCR_RANDOM_USELESSNESS
+%back scroll-green
+i-recharging SCR_RECHARGING
+%back scroll-yellow
+i-remove_curse SCR_REMOVE_CURSE
+%back scroll-cyan
+i-replication SCR_REPLICATION
+%back scroll-cyan
+i-returning SCR_RETURNING
+%back scroll-red
+i-silence SCR_SILENCE
+%back scroll-purple
+i-teleportation SCR_TELEPORTATION
+%back scroll-brown
+#### summoning?
+i-unholy_creation SCR_UNHOLY_CREATION
 %back scroll-red
 i-torment SCR_TORMENT
 %back scroll-grey
-i-random_uselessness SCR_RANDOM_USELESSNESS
-%back scroll-grey
 #### Remove curse foo when TAG_MAJOR_VERSION > 34
 i-curse_weapon SCR_CURSE_WEAPON
+%back scroll-grey
 i-curse_armour SCR_CURSE_ARMOUR
-i-immolation SCR_IMMOLATION
-%back scroll-purple
-i-blinking SCR_BLINKING
-%back scroll-yellow
-i-magic_mapping SCR_MAGIC_MAPPING
-%back scroll-blue
-i-fog SCR_FOG
-%back scroll-cyan
-i-acquirement SCR_ACQUIREMENT
 %back scroll-green
 #if TAG_MAJOR_VERSION == 34 # Remove the two i-enchant-weapon
 i-enchant-weapon SCR_ENCHANT_WEAPON_II
-i-brand-weapon SCR_BRAND_WEAPON
-i-recharging SCR_RECHARGING
+%back scroll-green
 i-enchant-weapon SCR_ENCHANT_WEAPON_III
-%back scroll-red
-i-holy_word SCR_HOLY_WORD
-i-vulnerability SCR_VULNERABILITY
-%back scroll-red
-i-silence SCR_SILENCE
-%back scroll-yellow
-i-amnesia SCR_AMNESIA
 %back scroll-grey
 #### Remove curse foo when TAG_MAJOR_VERSION > 34
 i-curse-jewellery SCR_CURSE_JEWELLERY
-%back none
-i-amnesia SCR_AMPLIFICATION
-%back scroll-grey
-i-amnesia SCR_INVERSION SCR_ID_LAST
+%back scroll-red
+i-vulnerability SCR_VULNERABILITY SCR_ID_LAST
 %back scroll-grey
 
 ##################OBJ_JEWELLERY
@@ -821,41 +841,40 @@ sky_blue
 %sdir item/potion
 %back i-label
 # These must be in the same order as the enum in enum.h!
-i-curing POT_CURING POT_ID_FIRST
-i-heal-wounds POT_HEAL_WOUNDS
-i-haste POT_HASTE
-i-might POT_MIGHT
+i-agility POT_AGILITY POT_ID_FIRST
+i-ambrosia POT_AMBROSIA
+i-good-mutation POT_BENEFICIAL_MUTATION 
+i-berserk-rage POT_BERSERK_RAGE
+i-blood POT_BLOOD
 i-brilliance POT_BRILLIANCE
-i-agility POT_AGILITY
-# please remove these 3 when TAG_MAJOR_VERSION is bumped
+i-cancel POT_CANCELLATION
+i-cure-mutation POT_CURE_MUTATION
+i-curing POT_CURING
+i-curing POT_DARKNESS
+i-degeneration POT_DEGENERATION
+i-experience POT_EXPERIENCE
+i-flight POT_FLIGHT
+i-haste POT_HASTE
+i-heal-wounds POT_HEAL_WOUNDS
+i-invisibility POT_INVISIBILITY
+i-lignify POT_LIGNIFY
+i-magic POT_MAGIC
+i-might POT_MIGHT
+i-mutation POT_MUTATION
+i-mutation POT_PATIENCE
+i-poison POT_POISON_VULNERABILITY
+i-resistance POT_RESISTANCE
+# please remove when TAG_MAJOR_VERSION is bumped
+i-slowing POT_SLOWING
+i-porridge POT_PORRIDGE
 i-gain-strength POT_REMOVEME2
 i-gain-dexterity POT_REMOVEME3
 i-gain-intelligence POT_REMOVEME4
-i-flight POT_FLIGHT
-# please remove POT_POISON when TAG_MAJOR_VERSION is bumped
-i-poison POT_POISON
-i-slowing POT_SLOWING
-i-cancel POT_CANCELLATION
-i-ambrosia POT_AMBROSIA
-i-invisibility POT_INVISIBILITY
-i-porridge POT_PORRIDGE
-i-degeneration POT_DEGENERATION
-# please remove these 2 when TAG_MAJOR_VERSION is bumped
+i-restore-abilities POT_REMOVEME6
 i-decay POT_REMOVEME5
 i-confusion POT_REMOVE_ME
-i-experience POT_EXPERIENCE
-i-magic POT_MAGIC
-# remove these 2 when TAG_MAJOR_VERSION is bumped
-i-restore-abilities POT_REMOVEME6
-i-strong-poison POT_REMOVEME7
-i-berserk-rage POT_BERSERK_RAGE
-i-cure-mutation POT_CURE_MUTATION
-i-mutation POT_MUTATION
-i-resistance POT_RESISTANCE
-i-blood POT_BLOOD
 i-coagulated-blood POT_BLOOD_COAGULATED
-i-lignify POT_LIGNIFY
-i-good-mutation POT_BENEFICIAL_MUTATION POT_ID_LAST
+i-strong-poison POT_REMOVEME7 POT_ID_LAST
 %back none
 %rim 1
 

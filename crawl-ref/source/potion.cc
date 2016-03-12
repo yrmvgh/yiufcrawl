@@ -143,6 +143,52 @@ public:
     }
 };
 
+class PotionDarkness : public PotionEffect
+{
+private:
+    PotionDarkness() : PotionEffect(POT_DARKNESS) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionDarkness);
+public:
+    static const PotionDarkness &instance()
+    {
+        static PotionDarkness inst; return inst;
+    }
+
+    bool can_quaff(string *reason = nullptr) const override
+    {
+        return true;
+    }
+
+    bool effect(bool=true, int=40, bool is_device = true) const override
+    {
+        mpr("Not implemented yet.");
+        return true;
+    }
+};
+
+class PotionPatience : public PotionEffect
+{
+private:
+    PotionPatience() : PotionEffect(POT_PATIENCE) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionPatience);
+public:
+    static const PotionPatience &instance()
+    {
+        static PotionPatience inst; return inst;
+    }
+
+    bool can_quaff(string *reason = nullptr) const override
+    {
+        return true;
+    }
+
+    bool effect(bool=true, int=40, bool is_device = true) const override
+    {
+        mpr("Not implemented yet.");
+        return true;
+    }
+};
+
 class PotionHealWounds : public PotionEffect
 {
 private:
@@ -1276,50 +1322,42 @@ public:
 
 static const PotionEffect* potion_effects[] =
 {
-    &PotionCuring::instance(),
-    &PotionHealWounds::instance(),
-    &PotionHaste::instance(),
-    &PotionMight::instance(),
-    &PotionBrilliance::instance(),
-    &PotionAgility::instance(),
+	&PotionAgility::instance(),
+	&PotionAmbrosia::instance(),
+	&PotionBeneficialMutation::instance(),
+	&PotionBerserk::instance(),
+	&PotionBlood::instance(),
+	&PotionBrilliance::instance(),
+	&PotionCancellation::instance(),
+	&PotionCureMutation::instance(),
+	&PotionCuring::instance(),
+	&PotionDarkness::instance(),
+	&PotionDegeneration::instance(),
+	&PotionExperience::instance(),
+	&PotionFlight::instance(),
+	&PotionHaste::instance(),
+	&PotionHealWounds::instance(),
+	&PotionInvisibility::instance(),
+	&PotionLignify::instance(),
+	&PotionMagic::instance(),
+	&PotionMight::instance(),
+	&PotionMutation::instance(),
+	&PotionPatience::instance(),
+	&PotionPoison::instance(),
+	&PotionResistance::instance(),
 #if TAG_MAJOR_VERSION == 34
-    &PotionGainStrength::instance(),
-    &PotionGainDexterity::instance(),
-    &PotionGainIntelligence::instance(),
+	&PotionBloodCoagulated::instance(),
+	&PotionDecay::instance(),
+	&PotionGainDexterity::instance(),
+	&PotionGainIntelligence::instance(),
+	&PotionGainStrength::instance(),
+	&PotionPorridge::instance(),
+	&PotionRestoreAbilities::instance(),
+	&PotionSlowing::instance(),
+	&PotionPoison::instance(),
+	&PotionWater::instance(),
 #endif
-    &PotionFlight::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionPoison::instance(),
-    &PotionSlowing::instance(),
-#endif
-    &PotionCancellation::instance(),
-    &PotionAmbrosia::instance(),
-    &PotionInvisibility::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionPorridge::instance(),
-#endif
-    &PotionDegeneration::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionDecay::instance(),
-    &PotionWater::instance(),
-#endif
-    &PotionExperience::instance(),
-    &PotionMagic::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionRestoreAbilities::instance(),
-    &PotionPoison::instance(),
-#endif
-    &PotionBerserk::instance(),
-    &PotionCureMutation::instance(),
-    &PotionMutation::instance(),
-    &PotionResistance::instance(),
-    &PotionBlood::instance(),
-#if TAG_MAJOR_VERSION == 34
-    &PotionBloodCoagulated::instance(),
-#endif
-    &PotionLignify::instance(),
-    &PotionBeneficialMutation::instance(),
-    &PotionStale::instance()
+	&PotionStale::instance(),
 };
 
 const PotionEffect* get_potion_effect(potion_type pot)

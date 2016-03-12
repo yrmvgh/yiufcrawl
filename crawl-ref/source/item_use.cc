@@ -2707,7 +2707,7 @@ void read_scroll(int item_slot)
         	if(you.amplification > 0)
         		cancel_scroll = !yesno("This will amplify the next scroll or potion used. Are you sure you want to use this now?", false, 'n');
         	else
-        		cancel_scroll = !yesno("You recently used an invesion scroll. Reading this scroll now will reduce the effect of the next scroll or potion used. Are you sure you want to use this now?", false, 'n');
+        		cancel_scroll = !yesno("You recently used an inversion scroll. Reading this scroll now will reduce the effect of the next scroll, potion, or wand used. Are you sure you want to use this now?", false, 'n');
         }
 
         if (!cancel_scroll)

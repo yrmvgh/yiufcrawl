@@ -125,6 +125,7 @@ public:
 
     FixedVector<int8_t, NUM_EQUIP> equip;
     FixedBitVector<NUM_EQUIP> melded;
+    FixedBitVector<NUM_EQUIP> equip_slot_is_cursed;
     // Whether these are unrands that we should run the _*_world_reacts func for
     FixedBitVector<NUM_EQUIP> unrand_reacts;
 
@@ -406,6 +407,9 @@ public:
 
     // normally 1000, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
     int amplification;
+
+    // used by scrolls of returning
+    coord_def returnPosition;
 
     // ---------------------
     // The save file itself.

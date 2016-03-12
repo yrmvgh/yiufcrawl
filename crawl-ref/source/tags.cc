@@ -1360,6 +1360,9 @@ static void tag_construct_you(writer &th)
         marshallByte(th, you.equip[i]);
     for (int i = 0; i < NUM_EQUIP; ++i)
         marshallBoolean(th, you.melded[i]);
+    for (int i = 0; i < NUM_EQUIP; ++i)
+        marshallBoolean(th, you.equip_slot_is_cursed[i]);
+
 
     ASSERT_RANGE(you.magic_points, 0, you.max_magic_points + 1);
     marshallUByte(th, you.magic_points);
@@ -2322,6 +2325,11 @@ static void tag_read_you(reader &th)
         you.melded.set(i, unmarshallBoolean(th));
     for (int i = count; i < NUM_EQUIP; ++i)
         you.melded.set(i, false);
+
+    for (int i = 0; i < count; ++i)
+        you.equip_slot_is_cursed.set(i, unmarshallBoolean(th));
+    for (int i = count; i < NUM_EQUIP; ++i)
+        you.equip_slot_is_cursed.set(i, false);
 
     you.magic_points              = unmarshallUByte(th);
     you.max_magic_points          = unmarshallByte(th);

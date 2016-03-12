@@ -5223,6 +5223,7 @@ player::player()
     type             = MONS_PLAYER;
     mid              = MID_PLAYER;
     position.reset();
+    returnPosition.reset();
 
 #ifdef WIZARD
     wizard = Options.wiz_mode == WIZ_YES;
