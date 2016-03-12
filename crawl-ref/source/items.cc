@@ -2865,6 +2865,9 @@ static bool _is_option_autopickup(const item_def &item, bool ignore_force)
  */
 bool item_needs_autopickup(const item_def &item, bool ignore_force)
 {
+    if (!can_use(item))
+    	return false;
+
     if (in_inventory(item))
         return false;
 
@@ -2882,9 +2885,6 @@ bool item_needs_autopickup(const item_def &item, bool ignore_force)
 
     if (item.props.exists("needs_autopickup"))
         return true;
-
-    if (!can_use(item))
-    	return false;
 
     return _is_option_autopickup(item, ignore_force);
 }
