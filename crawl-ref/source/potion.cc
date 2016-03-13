@@ -402,6 +402,23 @@ public:
     }
 };
 
+class PotionBurning : public PotionEffect
+{
+private:
+    PotionBurning() : PotionEffect(POT_BURNING) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionBurning);
+public:
+    static const PotionBurning &instance()
+    {
+        static PotionBurning inst; return inst;
+    }
+
+    bool effect(bool=true, int pow = 40, bool=true) const override
+    {
+        return true;
+    }
+};
+
 class PotionAgility : public PotionEffect
 {
 private:
@@ -1328,6 +1345,7 @@ static const PotionEffect* potion_effects[] =
 	&PotionBerserk::instance(),
 	&PotionBlood::instance(),
 	&PotionBrilliance::instance(),
+	&PotionBurning::instance(),
 	&PotionCancellation::instance(),
 	&PotionCureMutation::instance(),
 	&PotionCuring::instance(),

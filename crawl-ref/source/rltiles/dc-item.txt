@@ -847,6 +847,7 @@ i-good-mutation POT_BENEFICIAL_MUTATION
 i-berserk-rage POT_BERSERK_RAGE
 i-blood POT_BLOOD
 i-brilliance POT_BRILLIANCE
+i-poison POT_BURNING
 i-cancel POT_CANCELLATION
 i-cure-mutation POT_CURE_MUTATION
 i-curing POT_CURING
