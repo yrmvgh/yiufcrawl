@@ -241,7 +241,7 @@ static bool _try_make_weapon_artefact(item_def& item, int force_type,
             do_curse_item(item);
 
         if (get_weapon_brand(item) == SPWPN_HOLY_WRATH)
-            item.flags &= (~ISFLAG_CURSED);
+            item.curse_weight = 0;
         return true;
     }
 
@@ -2288,7 +2288,7 @@ static bool _weapon_is_visibly_special(const item_def &item)
     if (item.is_mundane())
         return false;
 
-    if (item.flags & ISFLAG_CURSED && one_chance_in(3))
+    if (item.cursed() && one_chance_in(3))
         return true;
 
     return false;
@@ -2308,7 +2308,7 @@ static bool _armour_is_visibly_special(const item_def &item)
     if (item.is_mundane())
         return false;
 
-    if (item.flags & ISFLAG_CURSED && one_chance_in(3))
+    if (item.cursed() && one_chance_in(3))
         return true;
 
     return false;

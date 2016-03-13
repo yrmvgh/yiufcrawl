@@ -815,12 +815,8 @@ void auto_id_inventory()
             god_id_item(item, false);
 }
 
-void do_curse_item(item_def &item, bool quiet)
+void do_curse_item(item_def &item, bool quiet, int curseWeight)
 {
-    // Already cursed?
-    if (item.flags & ISFLAG_CURSED)
-        return;
-
     if (!is_weapon(item) && item.base_type != OBJ_ARMOUR
         && item.base_type != OBJ_JEWELLERY)
     {
@@ -858,7 +854,7 @@ void do_curse_item(item_def &item, bool quiet)
         item.flags |= ISFLAG_KNOW_CURSE;
     }
 
-    item.flags |= ISFLAG_CURSED;
+    item.curse_weight += curseWeight;
 
     // Xom is amused by the player's items being cursed, especially if
     // they're worn/equipped.
@@ -885,7 +881,7 @@ void do_curse_item(item_def &item, bool quiet)
 }
 
 void do_uncurse_item(item_def &item, bool inscribe, bool no_ash,
-                     bool check_bondage)
+                     bool check_bondage, int curseWeight)
 {
     if (!item.cursed())
     {
@@ -909,7 +905,8 @@ void do_uncurse_item(item_def &item, bool inscribe, bool no_ash,
         }
         item.flags |= ISFLAG_KNOW_CURSE;
     }
-    item.flags &= (~ISFLAG_CURSED);
+
+    item.curse_weight = max(0, item.curse_weight - curseWeight);
 
     if (check_bondage)
         ash_check_bondage();

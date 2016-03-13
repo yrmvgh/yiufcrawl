@@ -3285,7 +3285,7 @@ bool item_def::has_spells() const
 
 bool item_def::cursed() const
 {
-    return flags & ISFLAG_CURSED;
+    return curse_weight > 0;
 }
 
 bool item_def::launched_by(const item_def &launcher) const
@@ -4829,7 +4829,7 @@ item_info get_item_info(const item_def& item)
     }
 
     if (item_ident(item, ISFLAG_KNOW_CURSE))
-        ii.flags |= (item.flags & ISFLAG_CURSED);
+        ii.curse_weight = item.curse_weight;
 
     if (item_type_known(item))
     {
