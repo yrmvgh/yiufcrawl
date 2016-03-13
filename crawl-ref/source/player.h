@@ -124,8 +124,8 @@ public:
     int zigs_completed, zig_max;
 
     FixedVector<int8_t, NUM_EQUIP> equip;
+    FixedVector<int8_t, NUM_EQUIP> equip_slot_cursed_level;
     FixedBitVector<NUM_EQUIP> melded;
-    FixedBitVector<NUM_EQUIP> equip_slot_is_cursed;
     // Whether these are unrands that we should run the _*_world_reacts func for
     FixedBitVector<NUM_EQUIP> unrand_reacts;
 
