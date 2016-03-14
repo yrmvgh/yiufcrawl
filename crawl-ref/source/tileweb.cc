@@ -819,12 +819,12 @@ void TilesFramework::_send_player(bool force_full)
         _send_item(c.inv[i], get_item_info(you.inv1[i]), force_full);
         json_close_object(true);
     }
-    for (unsigned int i = 0; i < ENDOFPACK; ++i)
-    {
-        json_open_object(to_string(i));
-        _send_item(c.inv[i], get_item_info(you.inv2[i]), force_full);
-        json_close_object(true);
-    }
+//    for (unsigned int i = 0; i < ENDOFPACK; ++i)
+//    {
+//        json_open_object(to_string(i));
+//        _send_item(c.inv[i], get_item_info(you.inv2[i]), force_full);
+//        json_close_object(true);
+//    }
     json_close_object(true);
 
     json_open_object("equip");
