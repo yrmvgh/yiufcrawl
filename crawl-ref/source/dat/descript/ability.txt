@@ -823,8 +823,12 @@ Transference ability
 
 By passing through the realms of memory, force a targeted creature to exchange
 its existence with your ancestor's, leaving each where the other stood a moment
-before. If you remember your ancestor's death, the passage through memory will
-evoke a brief, weak echo of it.
+before.
+
+With great piety, those near the target will be caught in nostalgic
+recollections of an idyllic past, affecting even mindless constructs with no
+past of their own. This will slow them momentarily; Invocations skill will
+increase the duration of this effect.
 %%%%
 Ancestor Life: Knight ability
 

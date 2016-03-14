@@ -6994,6 +6994,24 @@ static coord_def _get_transference_target()
     return spd.target;
 }
 
+/// Slow any monsters near the destination of Tranferrence.
+static void _transfer_slow_nearby(coord_def destination)
+{
+    for (adjacent_iterator it(destination); it; ++it)
+    {
+        monster* mon = monster_at(*it);
+        if (!mon || mons_is_hepliaklqana_ancestor(mon->type))
+            continue;
+
+        // ~3-6 turns at 0 invo, ~6-18 turns at 27 invo
+        const int dur = random_range(30 + you.skill(SK_INVOCATIONS, 3),
+                                     60 + you.skill(SK_INVOCATIONS, 5));
+        // XXX: consider adjusting by target HD?
+        if (mon->add_ench(mon_enchant(ENCH_SLOW, 0, &you, dur)))
+            simple_monster_message(mon, " is slowed by nostalgia.");
+    }
+}
+
 /**
  * Activate Hepliaklqana's Transference ability, swapping the player's
  * ancestor with a targeted creature & potentially activating the deathswap
@@ -7083,6 +7101,9 @@ spret_type hepliaklqana_transference(bool fail)
 
     ancestor->apply_location_effects(destination);
     victim->apply_location_effects(target);
+
+    if (you.piety >= piety_breakpoint(5))
+        _transfer_slow_nearby(destination);
 
     return SPRET_SUCCESS;
 }
