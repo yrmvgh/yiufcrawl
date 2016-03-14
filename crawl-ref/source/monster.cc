@@ -6725,7 +6725,7 @@ int monster::spell_hd(spell_type spell) const
 {
     int hd = get_hit_dice();
     if (mons_is_hepliaklqana_ancestor(type))
-        hd = hd * 2 / 3;
+        hd = max(1, hd * 2 / 3);
     if (has_ench(ENCH_IDEALISED))
         hd *= 2;
     if (has_ench(ENCH_EMPOWERED_SPELLS))
