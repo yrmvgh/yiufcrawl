@@ -7040,8 +7040,10 @@ spret_type hepliaklqana_transference(bool fail)
     }
 
     const coord_def destination = ancestor->pos();
-    const bool uninhabitable = victim && !victim->is_habitable(destination);
+    if (victim == &you && !check_moveto(destination, "transfer"))
+        return SPRET_ABORT;
 
+    const bool uninhabitable = victim && !victim->is_habitable(destination);
     if (uninhabitable && victim_visible)
     {
         mprf("%s could never have existed in %s!",
