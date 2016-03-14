@@ -996,6 +996,36 @@ static void _handle_insight(int time_delta)
     }
 }
 
+static void _fade_curses(int time_delta)
+{
+	for (int i = 0; i < you.equip.size(); i++)
+	{
+		int8_t slot = you.equip[i];
+		if(slot)
+		{
+			item_def item = you.inv1[slot];
+			if(item.cursed())
+			{
+				int reduction_amount;
+				if (you.species == SP_DEMIGOD)
+
+					reduction_amount = stepup(you.piety / MAX_PIETY, 1, 2, 20);
+				}
+				else
+				{
+
+				}
+				item.curse_weight = max(0, item.curse_weight - reduction_amount);
+			}
+		}
+	}
+
+	for (int i = 0; i < you.equip_slot_cursed_level.size(); i++)
+	{
+
+	}
+}
+
 // Get around C++ dividing integers towards 0.
 static int _div(int num, int denom)
 {
@@ -1034,6 +1064,7 @@ static struct timed_effect timed_effects[] =
     { nullptr,                         0,     0, false },
 #endif
     { _handle_insight,               400,   800, false },
+    { _fade_curses,                  400,   800, false },
 };
 
 // Do various time related actions...

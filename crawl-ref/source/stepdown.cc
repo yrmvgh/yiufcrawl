@@ -21,7 +21,7 @@ double log2(double n)
 
 double _stepup(double power, double value, double divisor)
 {
-    return pow(2, value / divisor);
+    return pow(power, value / divisor);
 }
 
 int stepup(int value, int multiplier, int power, int divisor)
