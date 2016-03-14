@@ -1607,8 +1607,8 @@ mgen_data hepliaklqana_ancestor_gen_data()
     const monster_type type = you.props.exists(HEPLIAKLQANA_ALLY_TYPE_KEY) ?
         (monster_type)you.props[HEPLIAKLQANA_ALLY_TYPE_KEY].get_int() :
         MONS_ANCESTOR;
-    mgen_data mg(type, BEH_FRIENDLY, &you, 0, 0, you.pos());
-    mg.god = GOD_HEPLIAKLQANA;
+    mgen_data mg(type, BEH_FRIENDLY, &you, 0, 0, you.pos(),
+                 MHITYOU, MG_AUTOFOE, GOD_HEPLIAKLQANA);
     mg.hd = _hepliaklqana_ally_hd();
     mg.hp = _hepliaklqana_ally_hp();
     mg.extra_flags |= MF_NO_REWARD;
