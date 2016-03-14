@@ -4049,6 +4049,8 @@ void marshallItem(writer &th, const item_def &item, bool iinfo)
     marshallShort(th, item.pos.x);
     marshallShort(th, item.pos.y);
     marshallInt(th, item.flags);
+    marshallInt(th, item.curse_weight);
+    marshallInt(th, item.id_complexity);
 
     marshallShort(th, item.link);
     if (item.pos.x >= 0 && item.pos.y >= 0)
@@ -4127,6 +4129,8 @@ void unmarshallItem(reader &th, item_def &item)
     item.pos.x       = unmarshallShort(th);
     item.pos.y       = unmarshallShort(th);
     item.flags       = unmarshallInt(th);
+    item.curse_weight= unmarshallInt(th);
+    item.id_complexity=unmarshallInt(th);
     item.link        = unmarshallShort(th);
 #if TAG_MAJOR_VERSION == 34
     // ITEM_IN_SHOP was briefly NON_ITEM + NON_ITEM (1e85cf0), but that
