@@ -621,7 +621,6 @@ enum beam_type                  // bolt::flavour
     BEAM_CHAOS,
     BEAM_GHOSTLY_FLAME,
     BEAM_UNRAVELLED_MAGIC,
-    BEAM_HEPLIAKLQANA_EXPLOSION,
 
     // Enchantments
     BEAM_SLOW,

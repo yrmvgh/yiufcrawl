@@ -1756,11 +1756,6 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         }
         break;
 
-    case BEAM_HEPLIAKLQANA_EXPLOSION:
-        if (mons_is_hepliaklqana_ancestor(mons->type))
-            hurted = 0;
-        break;
-
     default:
         break;
     }
@@ -3867,13 +3862,6 @@ void bolt::affect_player()
     if (flavour == BEAM_DIGGING)
         return;
 
-    // Hepliaklqana explosions don't affect worshippers.
-    if (flavour == BEAM_HEPLIAKLQANA_EXPLOSION
-        && in_good_standing(GOD_HEPLIAKLQANA))
-    {
-        return;
-    }
-
     if (is_tracer)
     {
         tracer_affect_player();
@@ -5945,12 +5933,6 @@ void bolt::refine_for_explosion()
             seeMsg = explosion->seeMsg;
             hearMsg = make_stringf("You hear %s!", explosion->sound);
         }
-        else if (flavour == BEAM_HEPLIAKLQANA_EXPLOSION)
-        {
-            seeMsg = "A scouring light erupts from "
-                     + hepliaklqana_ally_name() + "!";
-            hearMsg = "You hear an explosion!";
-        }
         else
         {
             seeMsg  = "The beam explodes into a cloud of software bugs!";
@@ -6589,7 +6571,6 @@ static string _beam_type_name(beam_type type)
     case BEAM_UNRAVELLING:           return "unravelling";
     case BEAM_UNRAVELLED_MAGIC:      return "unravelled magic";
     case BEAM_SHARED_PAIN:           return "shared pain";
-    case BEAM_HEPLIAKLQANA_EXPLOSION:      return "all-erasing light";
 
     case NUM_BEAMS:                  die("invalid beam type");
     }
