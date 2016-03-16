@@ -1921,12 +1921,12 @@ static void _do_rest()
 
     if (i_feel_safe())
     {
+        unsummon_all();
         if ((you.hp == you.hp_max || !player_regenerates_hp())
             && (you.magic_points == you.max_magic_points
                 || !player_regenerates_mp()))
         {
             mpr("You start waiting.");
-            unsummon_all();
 
             _start_running(RDIR_REST, RMODE_WAIT_DURATION);
             return;
