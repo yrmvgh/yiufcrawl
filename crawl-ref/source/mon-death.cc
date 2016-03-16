@@ -443,6 +443,10 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     if (!no_coinflip && coinflip())
         return nullptr;
 
+    // 25% chance of dropping corpse if on hard mode, instead of 50%.
+    if (crawl_state.difficulty == DIFFICULTY_HARD && !no_coinflip && coinflip())
+        return nullptr;
+
     // The game can attempt to place a corpse for an out-of-bounds monster
     // if a shifter turns into a giant spore and explodes. In this
     // case we place no corpse since the explosion means anything left

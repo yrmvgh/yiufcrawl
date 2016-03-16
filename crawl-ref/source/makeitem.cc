@@ -2021,20 +2021,40 @@ int items(bool allow_uniques,
     {
         ASSERT(force_type == OBJ_RANDOM);
         // Total weight: 1960
-        item.base_type = random_choose_weighted(
-                                     1, OBJ_RODS,
-                                     9, OBJ_STAVES,
-                                    30, OBJ_BOOKS,
-                                    50, OBJ_JEWELLERY,
-                                    70, OBJ_WANDS,
-                                   140, OBJ_FOOD,
-                                   212, OBJ_ARMOUR,
-                                   212, OBJ_WEAPONS,
-                                   176, OBJ_POTIONS,
-                                   300, OBJ_MISSILES,
-                                   320, OBJ_SCROLLS,
-                                   440, OBJ_GOLD,
-                                     0);
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+        {
+            item.base_type = random_choose_weighted(
+                    1, OBJ_RODS,
+                    9, OBJ_STAVES,
+                    30, OBJ_BOOKS,
+                    50, OBJ_JEWELLERY,
+                    70, OBJ_WANDS,
+                    70, OBJ_FOOD,
+                    212, OBJ_ARMOUR,
+                    212, OBJ_WEAPONS,
+                    176, OBJ_POTIONS,
+                    300, OBJ_MISSILES,
+                    320, OBJ_SCROLLS,
+                    440, OBJ_GOLD,
+                    0);
+        }
+        else
+        {
+            item.base_type = random_choose_weighted(
+                    1, OBJ_RODS,
+                    9, OBJ_STAVES,
+                    30, OBJ_BOOKS,
+                    50, OBJ_JEWELLERY,
+                    70, OBJ_WANDS,
+                    140, OBJ_FOOD,
+                    212, OBJ_ARMOUR,
+                    212, OBJ_WEAPONS,
+                    176, OBJ_POTIONS,
+                    300, OBJ_MISSILES,
+                    320, OBJ_SCROLLS,
+                    440, OBJ_GOLD,
+                    0);
+        }
 
         // misc items placement wholly dependent upon current depth {dlb}:
         if (item_level > 7 && x_chance_in_y(21 + item_level, 3500))
@@ -2145,7 +2165,9 @@ int items(bool allow_uniques,
         else
             item.quantity = 1 + random2avg(19, 2) + random2(item_level);
         if (crawl_state.difficulty == DIFFICULTY_EASY)
-        	item.quantity = item.quantity * 3 / 2;
+        	item.quantity = item.quantity * 4 / 3;
+        else if (crawl_state.difficulty == DIFFICULTY_HARD)
+            item.quantity = item.quantity * 2 / 3;
         break;
     }
 
