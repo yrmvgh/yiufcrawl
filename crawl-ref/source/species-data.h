@@ -384,7 +384,7 @@ static const map<species_type, species_def> species_data =
       { MUT_TORMENT_RESISTANCE, 1, 1 },
       { MUT_COLD_RESISTANCE, 1, 1 },
       { MUT_CLAWS, 1, 1 }, { MUT_UNBREATHING, 1, 1 },
-      { MUT_POWERED_BY_DEATH, 1, 2 },
+      { MUT_POWERED_BY_DEATH, 1, 1 },
     },
     { "Your body is rotting away.",
       "You thrive on raw meat." },
