@@ -85,6 +85,7 @@ static void _ench_animation(int flavour, const monster* mon = nullptr,
                             bool force = false);
 static beam_type _chaos_beam_flavour(bolt* beam);
 static string _beam_type_name(beam_type type);
+static void _explosive_bolt_explode(bolt *parent, coord_def pos);
 
 tracer_info::tracer_info()
 {
@@ -880,7 +881,7 @@ void bolt::burn_wall_effect()
     // Fire only affects trees.
     if (!feat_is_tree(feat)
         || env.markers.property_at(pos(), MAT_ANY, "veto_fire") == "veto"
-        || !is_superhot())
+        || !can_burn_trees()) // sanity
     {
         finish_beam();
         return;
@@ -912,6 +913,8 @@ void bolt::burn_wall_effect()
         place_cloud(CLOUD_FOREST_FIRE, pos(), random2(30)+25, agent());
     obvious_effect = true;
 
+    if (_is_explosive_bolt(this))
+        _explosive_bolt_explode(this, pos());
     finish_beam();
 }
 
@@ -1072,7 +1075,7 @@ void bolt::affect_wall()
     {
         if (flavour == BEAM_DIGGING)
             digging_wall_effect();
-        else if (is_fiery() || flavour == BEAM_ELECTRICITY)
+        else if (can_burn_trees())
             burn_wall_effect();
         else if (flavour == BEAM_DISINTEGRATION || flavour == BEAM_DEVASTATION)
             destroy_wall_effect();
@@ -2770,17 +2773,16 @@ bool bolt::is_fiery() const
            || flavour == BEAM_LAVA;
 }
 
-bool bolt::is_superhot() const
+/// Can this bolt burn trees it hits?
+bool bolt::can_burn_trees() const
 {
-    if (!is_fiery() && flavour != BEAM_ELECTRICITY)
-        return false;
-
-    return origin_spell == SPELL_BOLT_OF_FIRE
+    // XXX: rethink this
+    return origin_spell == SPELL_LIGHTNING_BOLT
+           || origin_spell == SPELL_BOLT_OF_FIRE
            || origin_spell == SPELL_BOLT_OF_MAGMA
            || origin_spell == SPELL_FIREBALL
-           || origin_spell == SPELL_LIGHTNING_BOLT
-           || flavour == BEAM_HELLFIRE
-              && in_explosion_phase;
+           || origin_spell == SPELL_EXPLOSIVE_BOLT
+           || flavour == BEAM_HELLFIRE;
 }
 
 bool bolt::can_affect_wall(dungeon_feature_type wall) const
@@ -2793,11 +2795,8 @@ bool bolt::can_affect_wall(dungeon_feature_type wall) const
         return true;
     }
 
-    if (is_fiery() && feat_is_tree(wall))
-        return is_superhot();
-
-    if (flavour == BEAM_ELECTRICITY && feat_is_tree(wall))
-        return is_superhot();
+    if (can_burn_trees())
+        return feat_is_tree(wall);
 
     if (flavour == BEAM_DISINTEGRATION && damage.num >= 3
         || flavour == BEAM_DEVASTATION)
@@ -6030,7 +6029,7 @@ bool bolt::explode(bool show_more, bool hole_in_the_middle)
     // currently ever matters)
     hit_count.clear();
 
-    if (is_sanctuary(pos()))
+    if (is_sanctuary(pos()) && flavour != BEAM_VISUAL)
     {
         if (!is_tracer && you.see_cell(pos()) && !name.empty())
         {
@@ -6183,7 +6182,7 @@ void bolt::determine_affected_cells(explosion_map& m, const coord_def& delta,
         || delta.rdist() > r
         || count > 10*r
         || !map_bounds(loc)
-        || is_sanctuary(loc))
+        || is_sanctuary(loc) && flavour != BEAM_VISUAL)
     {
         return;
     }
@@ -6206,8 +6205,7 @@ void bolt::determine_affected_cells(explosion_map& m, const coord_def& delta,
     }
 
     if (feat_is_solid(dngn_feat) && !feat_is_wall(dngn_feat)
-        && !(delta.origin() && can_affect_wall(dngn_feat))
-        && stop_at_statues)
+        && !can_affect_wall(dngn_feat) && stop_at_statues)
     {
         return;
     }
@@ -6638,7 +6636,7 @@ bool shoot_through_monster(const bolt& beam, const monster* victim)
     mon_attitude_type origin_attitude;
     if (originator->is_player())
     {
-        origin_worships_fedhas = you_worship(GOD_FEDHAS);
+        origin_worships_fedhas = have_passive(passive_t::shoot_through_plants);
         origin_attitude = ATT_FRIENDLY;
     }
     else

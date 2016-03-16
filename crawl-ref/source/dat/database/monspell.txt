@@ -196,6 +196,10 @@ Call of Chaos cast
 unseen Call of Chaos cast
 
 @The_something@ calls on the powers of chaos!
+%%%%
+Wind Blast cast
+
+@The_monster@ summons a fierce blast of wind!
 #################################################
 # These have special hard-coded messaging.
 #################################################
@@ -680,7 +684,7 @@ curse skull cast
 %%%%
 silent curse skull cast
 
-@The_monster@ casts a spell.
+@The_monster@ rattles @possessive@ jaw silently.
 %%%%
 unseen curse skull cast
 
