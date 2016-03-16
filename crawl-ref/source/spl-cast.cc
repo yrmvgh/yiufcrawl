@@ -552,7 +552,7 @@ int raw_spell_fail(spell_type spell)
 
 int stepdown_spellpower(int power)
 {
-    return stepdown_value(power / 50, 50, 50, 150, SPELL_POWER_CAP);
+    return stepdown_value(power / 100, 50, 50, 150, SPELL_POWER_CAP);
 }
 
 int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
@@ -574,7 +574,7 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
             power /= skillcount;
         }
 
-        power += you.skill(SK_SPELLCASTING, SPELL_POWER_CAP / 2);
+        power += you.skill(SK_SPELLCASTING, SPELL_POWER_CAP / 3);
 
         // Brilliance boosts spell power a bit (equivalent to three
         // spell school levels).
