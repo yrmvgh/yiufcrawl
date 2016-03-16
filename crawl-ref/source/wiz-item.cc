@@ -349,7 +349,11 @@ void wizard_tweak_object()
     char specs[50];
     int keyin;
 
-    int item = prompt_invent_item(you.inv1, "Tweak which item? ", MT_INVLIST, -1);
+	FixedVector< item_def, ENDOFPACK > *inv;
+	if (!inv_from_prompt(inv, "Do you want to tweak"))
+		return;
+
+    int item = prompt_invent_item(*inv, "Tweak which item? ", MT_INVLIST, -1);
 
     if (prompt_failed(item))
         return;
@@ -357,7 +361,7 @@ void wizard_tweak_object()
     if (item == you.equip[EQ_WEAPON])
         you.wield_change = true;
 
-    const bool is_art = is_artefact(you.inv1[item]);
+    const bool is_art = is_artefact((*inv)[item]);
 
     while (true)
     {
@@ -365,7 +369,7 @@ void wizard_tweak_object()
 
         while (true)
         {
-            mprf_nocap("%s", you.inv1[item].name(DESC_INVENTORY_EQUIP).c_str());
+            mprf_nocap("%s", (*inv)[item].name(DESC_INVENTORY_EQUIP).c_str());
 
             mprf_nocap(MSGCH_PROMPT, "a - plus  b - plus2  c - %s  "
                                      "d - quantity  e - flags  ESC - exit",
@@ -376,15 +380,15 @@ void wizard_tweak_object()
             keyin = toalower(get_ch());
 
             if (keyin == 'a')
-                old_val = you.inv1[item].plus;
+                old_val = (*inv)[item].plus;
             else if (keyin == 'b')
-                old_val = you.inv1[item].plus2;
+                old_val = (*inv)[item].plus2;
             else if (keyin == 'c')
-                old_val = you.inv1[item].special;
+                old_val = (*inv)[item].special;
             else if (keyin == 'd')
-                old_val = you.inv1[item].quantity;
+                old_val = (*inv)[item].quantity;
             else if (keyin == 'e')
-                old_val = you.inv1[item].flags;
+                old_val = (*inv)[item].flags;
             else if (key_is_escape(keyin) || keyin == ' '
                     || keyin == '\r' || keyin == '\n')
             {
@@ -398,7 +402,7 @@ void wizard_tweak_object()
 
         if (is_art && keyin == 'c')
         {
-            _tweak_randart(you.inv1[item]);
+            _tweak_randart((*inv)[item]);
             continue;
         }
 
@@ -419,8 +423,8 @@ void wizard_tweak_object()
         int64_t new_val = strtoll(specs, &end, hex ? 16 : 0);
 
         if (keyin == 'e' && new_val & ISFLAG_ARTEFACT_MASK
-            && (!you.inv1[item].props.exists(KNOWN_PROPS_KEY)
-             || !you.inv1[item].props.exists(ARTEFACT_PROPS_KEY)))
+            && (!(*inv)[item].props.exists(KNOWN_PROPS_KEY)
+             || !(*inv)[item].props.exists(ARTEFACT_PROPS_KEY)))
         {
             mpr("You can't set this flag on a non-artefact.");
             continue;
@@ -433,15 +437,15 @@ void wizard_tweak_object()
         }
 
         if (keyin == 'a')
-            you.inv1[item].plus = new_val;
+            (*inv)[item].plus = new_val;
         else if (keyin == 'b')
-            you.inv1[item].plus2 = new_val;
+            (*inv)[item].plus2 = new_val;
         else if (keyin == 'c')
-            you.inv1[item].special = new_val;
+            (*inv)[item].special = new_val;
         else if (keyin == 'd')
-            you.inv1[item].quantity = new_val;
+            (*inv)[item].quantity = new_val;
         else if (keyin == 'e')
-            you.inv1[item].flags = new_val;
+            (*inv)[item].flags = new_val;
         else
             die("unhandled keyin");
 

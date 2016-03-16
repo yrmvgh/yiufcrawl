@@ -2059,23 +2059,33 @@ bool enchant_weapon(item_def &wpn, bool quiet)
 // Returns true if the scroll is used up.
 static bool _identify(bool alreadyknown, const string &pre_msg)
 {
-	FixedVector< item_def, ENDOFPACK > *inv;
-	inv_from_prompt(inv, "Do you want to identify");
+//	FixedVector< item_def, ENDOFPACK > *inv = &you.inv1;
+	vector<SelItem> selected_items;
+	int item_slot = -1;
+    item_def* item;
 
-    int item_slot = -1;
     while (true)
     {
         if (item_slot == -1)
         {
-            item_slot = prompt_invent_item(
-            		(*inv),
-                "Identify which item? (\\ to view known items)",
-                MT_INVLIST, OSEL_UNIDENT, true, true, false, 0,
-                -1, nullptr, OPER_ANY, true, true);
+            prompt_invent_item2(
+            		selected_items,
+	                "Identify which item? (\\ to view known items)",
+	                MT_INVLIST, OSEL_UNIDENT, true, true, false, 0,
+	                -1, nullptr, OPER_ANY, true, true);
+            if(selected_items.empty())
+            {
+            	item_slot = PROMPT_ABORT;
+            }
+            else
+            {
+            	item = const_cast<item_def*>(selected_items[0].item);
+            	item_slot = item->slot;
+            }
         }
 
-        if (item_slot == PROMPT_NOTHING)
-            return !alreadyknown;
+//        if (item_slot == PROMPT_NOTHING)
+//            return !alreadyknown;
 
         if (item_slot == PROMPT_ABORT)
         {
@@ -2093,9 +2103,8 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
             }
         }
 
-        item_def& item((*inv)[item_slot]);
-        if (fully_identified(item)
-            && (!is_deck(item) || top_card_is_known(item)))
+        if (fully_identified(*item)
+            && (!is_deck(*item) || top_card_is_known(*item)))
         {
             mpr("Choose an unidentified item, or Esc to abort.");
             more();
@@ -2106,25 +2115,25 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
         if (alreadyknown)
             mpr(pre_msg);
 
-        set_ident_type(item, true);
-        set_ident_flags(item, ISFLAG_IDENT_MASK);
+        set_ident_type(*item, true);
+        set_ident_flags(*item, ISFLAG_IDENT_MASK);
 
-        if (is_deck(item) && !top_card_is_known(item))
+        if (is_deck(*item) && !top_card_is_known(*item))
             deck_identify_first(item_slot);
 
         // Output identified item.
-        mprf_nocap("%s", item.name(DESC_INVENTORY_EQUIP).c_str());
+        mprf_nocap("%s", item->name(DESC_INVENTORY_EQUIP).c_str());
         if (item_slot == you.equip[EQ_WEAPON])
             you.wield_change = true;
 
-        if (item.is_type(OBJ_JEWELLERY, AMU_INACCURACY)
+        if (item->is_type(OBJ_JEWELLERY, AMU_INACCURACY)
             && item_slot == you.equip[EQ_AMULET]
-            && !item_known_cursed(item))
+            && !item_known_cursed(*item))
         {
             learned_something_new(HINT_INACCURACY);
         }
 
-        auto_assign_item_slot(item);
+        auto_assign_item_slot(*item);
         return true;
     }
 }
