@@ -4226,7 +4226,7 @@ int get_real_hp(bool trans, bool rotted)
 #endif
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	hitp = hitp * 3 / 2;
+    	hitp += 10;
 
     return max(1, hitp);
 }

@@ -39,15 +39,18 @@ http://crawl.homedns.org/
     * Normal is the standard, unmodified parameters.
     * Easy:
         * reduces the chances of out of depth monsters spawning
-        * starts the player with higher hp and mp
+        * starts the player with 10 more hp
         * increases chances of spawning healing potions, magic potions, and wands of healing, hasting, tele, and blink scrolls
-        * increases the amount of gold spawned
+        * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 1)
     * Hard:
         * increases the chances of out of depth monsters spawning
-        * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting, tele
+        * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting
         * slower level advancement (exp apt - 1)
+        * 33% less gold spawned
+        * 50% less permafood spawned
+        * 25% less corpses dropped
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields
