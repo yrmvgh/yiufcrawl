@@ -1295,6 +1295,9 @@ int player_hunger_rate(bool temp)
     if (hunger < 1)
         hunger = 1;
 
+    if (you.duration[DUR_FLIGHT] && you.species != SP_DJINNI)
+        hunger <<= 2;
+
     return hunger;
 }
 
