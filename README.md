@@ -72,8 +72,8 @@ http://crawl.homedns.org/
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?
     * They have very low magic resistance.
-    * They have the glow mutation, which increases with experience, which reduces their stealth. However, at level 3, it expands how far they can see. 
-    * Cold and water damage does double the resistable amount of damage, in addition to the penalties of having one level of cold vulnerability. A ring of ice
+    * They have the glow mutation, which increases with experience, which reduces their stealth.
+    * Cold and water damage does triple the resistable amount of damage, in addition to the penalties of having one level of cold vulnerability. A ring of ice
       would be very valuable here, reducing the cold damage done, as well as increasing the healing from fire damage. Unfortunately, there is no water
       resistance buff... muahahaha....
     * Unarmed combat gets a fire brand. 
@@ -156,8 +156,7 @@ http://crawl.homedns.org/
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
-    * I'm experimenting with a unified spell list, with all of the essential info at once (instead of the toggle). This should probably be an option, or auto
-      detect when the screen is wide enough, but I'm not exactly sure how to do this yet. Suggestions welcome. 
+    * There is now a unified spell list which removes the need to toggle between two views.
     * All spells have the same spell cap... now even basic spells can continue to grow in power late in the game. 
     * the effect of spell casting skill on spell success and power has been increased.
     * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that
@@ -172,6 +171,7 @@ http://crawl.homedns.org/
     * less common, but fully recharge the wand.
 
 * Potions of magic
+    * less common
     * fully restore magic
 
 * Damage numbers are shown
