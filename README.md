@@ -15,6 +15,26 @@ There are two known servers running this fork at this time:
 https://crawl.project357.org/
 http://crawl.homedns.org/
 
+## Objectives
+
+(Not necessarily all that different form mainstream crawl, just different in exactly how I interpret these...)
+
+* No boring species, gods, monsters, items, branches, etc.
+    * I never play humans in the mainstream crawl. It's just never interesting for me to do so, since they don't have any real benefit over any other species.
+      So in this version, I amplified the differences between species, especially the "boring" ones I never play, to make each species more appealing in it's
+      own way. 
+    * My philosophy is to first try and make a problem area more interesting. If that seems utterly impossible, then it should be removed. 
+    * For example, Djinni was removed from mainstream crawl because of serious problems with it's design. I brought it back, changed the design dramatically,
+      and now I believe it is a fun and interesting species to play without the major issues it was removed for in the first place. 
+* A more fun experience for new players and intermediate players.
+    * Current mainstream crawl seems to heavily favor making the game fun for extreme veterans and experts. New players have a very hard time finding enough fun
+      in the game to justify investing the time needed to really get good at it.
+    * A wiki shouldn't be required to have fun with the game. I'm hardly a newbie with many hundreds of hours of crawl gametime experience, yet I still feel
+      like I have to lean on the wiki from time to time because of the way mainstream crawl is designed. 
+    * Example: Mainstream crawls refusal to show how much damage a given attack is doing makes it very difficult for new players to figure out which attacking
+      strategies / weapons / buffs are most effective. Just adding a simple damage number makes it so much easier to see if the flame tongue spell is really
+      accomplishing more than just trying to bash them with a morningstar.
+
 ## Major modifications from the original DCSS
 
 * Summoning
