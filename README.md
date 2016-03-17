@@ -49,8 +49,6 @@ http://crawl.homedns.org/
         * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting
         * slower level advancement (exp apt - 1)
         * 33% less gold spawned
-        * 50% less permafood spawned
-        * 25% less corpses dropped
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields
