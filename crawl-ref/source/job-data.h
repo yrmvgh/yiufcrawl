@@ -224,7 +224,7 @@ static const map<job_type, job_def> job_data =
     0, 7, 5,
     { SP_DEEP_ELF, SP_HILL_ORC, SP_VINE_STALKER, SP_MERFOLK, SP_TENGU,
       SP_VAMPIRE, },
-    { "short sword plus:1", "robe", "book of Callings" },
+    { "dagger plus:1", "robe", "book of Callings" },
     WCHOICE_NONE,
     { { SK_SUMMONINGS, 4 }, { SK_SPELLCASTING, 2 }, { SK_DODGING, 2 },
       { SK_STEALTH, 2 }, },

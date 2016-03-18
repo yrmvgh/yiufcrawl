@@ -59,7 +59,7 @@ http://crawl.homedns.org/
       before. 
     * how much magic a summon drains is reduced by higher spell power
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
-    * summoners start with a +1 dagger and 2 more max MP to make getting off the ground a little more possible. It's still tough though. Don't summon more than
+    * summoners start with a +1 dagger to make getting off the ground a little more possible. It's still tough though. Don't summon more than
       one at once, and focus on boosting your spell power until you can sustain more powerful creatures. 
 
 * Game difficulty levels
