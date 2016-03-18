@@ -40,6 +40,18 @@ http://crawl.homedns.org/
 
 ## Major modifications from the original DCSS
 
+* Inventory expansion
+    * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
+      evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 
+    * The drop command has been split into two also: 'd' to drop inventory items, 'D' to drop consumable items.
+    * The adjust command '=' can now also be applied to the (c)onsumables. 
+    * The spell list command has been moved from 'I' to 's'. 
+
+* Damage numbers are shown
+    * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
+      personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
+      descriptions whether or not a change is actually improving my attacking effectiveness. 
+
 * Summoning
     * no summon caps. Instead, summoned creatures continuously drain mana from the summoner, until there is no longer mana to support them, and then they
       disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
@@ -49,13 +61,6 @@ http://crawl.homedns.org/
     * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
     * summoners start with a +1 dagger and 2 more max MP to make getting off the ground a little more possible. It's still tough though. Don't summon more than
       one at once, and focus on boosting your spell power until you can sustain more powerful creatures. 
-
-* Inventory expansion
-    * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
-      evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 
-    * The drop command has been split into two also: 'd' to drop inventory items, 'D' to drop consumable items.
-    * The adjust command '=' can now also be applied to the (c)onsumables. 
-    * The spell list command has been moved from 'I' to 's'. 
 
 * Game difficulty levels
     * At game start, or in the init file, you can specify that the game is easy, normal, or hard. 
@@ -76,6 +81,11 @@ http://crawl.homedns.org/
 
 * Unequipping shields
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
+
+* Movement
+    * Moving in the same direction as the previous turn takes 20% less time than the base movement speed (for both players and monsters). Zig zagging across the room 
+      now no longer takes exactly the same amount of time as a straight course. This enables players that can cross water / fly over hazards get a slight advantage 
+      over a creature that must maneuver around it. 
 
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
@@ -170,6 +180,7 @@ http://crawl.homedns.org/
 * Lava Orcs
     * brought back but not modified much yet. 
     * can't worship Dith.
+    * probably still quite broken until I have the time to attempt to smooth out their problematic areas (if it is even possible).
 
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
@@ -195,16 +206,7 @@ http://crawl.homedns.org/
     * less common
     * fully restore magic
 
-* Damage numbers are shown
-    * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
-      personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
-      descriptions whether or not a change is actually improving my attacking effectiveness. 
-
 * Gozag
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
       gold benefit the same as before. 
-
-* Movement
-    * diagonal movement takes 40% longer than straight movement. Zig zagging across the room now no longer takes exactly the same amount of time as a straight
-      course. This enables players that can cross water / fly over hazards get a slight advantage over a creature that must maneuver around it. Plan your movement wisely...
 
