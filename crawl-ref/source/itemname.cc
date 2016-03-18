@@ -144,6 +144,11 @@ string item_def::name(description_level_type descrip, bool terse, bool ident,
     if (descrip == DESC_NONE)
         return "";
 
+    if (is_consumable(base_type) && descrip == DESC_INVENTORY_EQUIP)
+    {
+        descrip = DESC_INVENTORY;
+    }
+
     ostringstream buff;
 
     const string auxname = name_aux(descrip, terse, ident, with_inscription,

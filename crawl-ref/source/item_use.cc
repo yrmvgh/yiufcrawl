@@ -2119,7 +2119,9 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
         set_ident_flags(*item, ISFLAG_IDENT_MASK);
 
         if (is_deck(*item) && !top_card_is_known(*item))
-            deck_identify_first(item_slot);
+            deck_identify_first(*item);
+
+        item_slot = item->link;
 
         // Output identified item.
         mprf_nocap("%s", item->name(DESC_INVENTORY_EQUIP).c_str());

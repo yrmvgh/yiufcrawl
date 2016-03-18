@@ -834,11 +834,11 @@ menu_letter InvMenu::load_items(const vector<const item_def*> &mitems,
                 continue;
 
             InvEntry * const ie = new InvEntry(*mitem);
-            while(find(hotkeys.begin(), hotkeys.end(), ie->hotkeys[0]) != hotkeys.end() && ckey <= (int)'Z')
+
+            int count = 0;
+            while(find(hotkeys.begin(), hotkeys.end(), ie->hotkeys[0]) != hotkeys.end() && count++ < 52)
             {
                 ie->hotkeys[0] = ckey++;
-                if (ckey > (int)'z')
-                    ckey = (int)'A';
             }
 
             hotkeys.push_back(ie->hotkeys[0]);
