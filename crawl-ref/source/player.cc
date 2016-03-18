@@ -3790,10 +3790,10 @@ unsigned int exp_needed(int lev, int exp_apt)
         exp_apt = species_exp_modifier(you.species);
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	exp_apt++;
+    	exp_apt+=2;
 
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-    	exp_apt--;
+    	exp_apt-=2;
 
     return (unsigned int) ((level - 1) * apt_to_factor(exp_apt - 1));
 }

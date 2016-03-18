@@ -71,11 +71,11 @@ http://crawl.homedns.org/
         * increases chances of spawning healing potions, magic potions, and wands of healing, hasting, tele, and blink scrolls
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
-        * faster level advancement (exp apt + 1)
+        * faster level advancement (exp apt + 2)
     * Hard:
         * increases the chances of out of depth monsters spawning
         * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting
-        * slower level advancement (exp apt - 1)
+        * slower level advancement (exp apt - 2)
         * 33% less gold spawned
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
