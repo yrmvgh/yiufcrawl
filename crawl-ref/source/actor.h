@@ -445,6 +445,7 @@ public:
 
     void collide(coord_def newpos, const actor *agent, int pow);
 
+    coord_def      prev_direction;
 private:
     void end_constriction(mid_t whom, bool intentional, bool quiet);
 };

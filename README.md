@@ -28,12 +28,15 @@ http://crawl.homedns.org/
       and now I believe it is a fun and interesting species to play without the major issues it was removed for in the first place. 
 * A more fun experience for new players and intermediate players.
     * Current mainstream crawl seems to heavily favor making the game fun for extreme veterans and experts. New players have a very hard time finding enough fun
-      in the game to justify investing the time needed to really get good at it.
+      in the game to justify investing the time needed to really get good at it. Everything is balanced around understanding how to effectively use every item
+      in the game, a situation most players don't achieve until they've played the game for a very long time. 
+    * There should be a way for people who don't know how to properly use a blink scroll, or to effectively identify their inventory, for example, to still have fun.
     * A wiki shouldn't be required to have fun with the game. I'm hardly a newbie with many hundreds of hours of crawl gametime experience, yet I still feel
       like I have to lean on the wiki from time to time because of the way mainstream crawl is designed. 
-    * Example: Mainstream crawls refusal to show how much damage a given attack is doing makes it very difficult for new players to figure out which attacking
+    * Example: Mainstream crawl's refusal to show how much damage a given attack is doing makes it very difficult for new players to figure out which attacking
       strategies / weapons / buffs are most effective. Just adding a simple damage number makes it so much easier to see if the flame tongue spell is really
-      accomplishing more than just trying to bash them with a morningstar.
+      accomplishing more than just trying to bash them with a morningstar. This is somewhat ironic because I think the reason to avoid numbers is to make it
+      easier for new players... but in my experience it seems to be doing the opposite. 
 
 ## Major modifications from the original DCSS
 

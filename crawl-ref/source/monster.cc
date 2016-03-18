@@ -90,6 +90,7 @@ monster::monster()
     clear_constricted();
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
+    prev_direction = coord_def(0, 0);
 }
 
 // Empty destructor to keep unique_ptr happy with incomplete ghost_demon type.
@@ -198,6 +199,7 @@ void monster::init_with(const monster& mon)
     props             = mon.props;
     damage_friendly   = mon.damage_friendly;
     damage_total      = mon.damage_total;
+    prev_direction    = mon.prev_direction;
 
     if (mon.ghost.get())
         ghost.reset(new ghost_demon(*mon.ghost));

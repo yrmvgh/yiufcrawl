@@ -3662,7 +3662,8 @@ static bool _do_move_monster(monster& mons, const coord_def& delta)
     mons.seen_context = SC_NONE;
 
     // This appears to be the real one, ie where the movement occurs:
-    _swim_or_move_energy(mons, delta.is_diagonal() ? 140 : 100);
+    _swim_or_move_energy(mons, delta == mons.prev_direction ? 80 : 100);
+    mons.prev_direction = delta;
 
     _escape_water_hold(mons);
 
