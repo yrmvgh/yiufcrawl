@@ -772,10 +772,13 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     10, 8, 9, // 27
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_FANGS, 2, 1 }, { MUT_FANGS, 1, 8 },
+    {
+      { MUT_DEFORMED, 1, 1 },
+	  { MUT_FANGS, 2, 1 }, { MUT_FANGS, 1, 8 },
       { MUT_MANA_SHIELD, 1, 1 }, { MUT_ANTIMAGIC_BITE, 1, 1 },
       { MUT_NO_DEVICE_HEAL, 3, 1 }, { MUT_ROT_IMMUNITY, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_REGENERATION, 1, 6 },
+      { MUT_DEFORMED, 1, 12 },
       { MUT_REGENERATION, 1, 12 }, },
     { "You can turn into a tree at will." },
     {},

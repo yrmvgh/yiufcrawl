@@ -1183,6 +1183,9 @@ int player_regen()
         }
     }
 
+    if (you.form == TRAN_TREE)
+        rr = 0;
+
     return rr;
 }
 
@@ -4285,6 +4288,8 @@ bool player_regenerates_hp()
         return false;
     if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
         return false;
+    if (you.form == TRAN_TREE)
+        return false;
     return true;
 }
 
@@ -6033,11 +6038,12 @@ int player::base_ac_from(const item_def &armour, int scale) const
 
     // The deformed don't fit into body armour very well.
     // (This includes nagas and centaurs.)
+    int deformity = player_mutation_level(MUT_DEFORMED);
     if (get_armour_slot(armour) == EQ_BODY_ARMOUR
-            && (player_mutation_level(MUT_DEFORMED)
+        && (deformity
                 || player_mutation_level(MUT_PSEUDOPODS)))
     {
-        return AC - base_ac / 2;
+        return AC - (base_ac * deformity) / (1 + deformity);
     }
 
     return AC;

@@ -430,14 +430,23 @@ static const mutation_def mut_data[] =
    "enhanced sight",
 },
 
-{ MUT_DEFORMED, 8, 1,
+{ MUT_DEFORMED, 8, 2,
   mutflag::BAD | mutflag::XOM,
   true,
   "deformed body",
 
-  {"Armour fits poorly on your strangely shaped body.", "", ""},
-  {"Your body twists and deforms.", "", ""},
-  {"Your body's shape seems more normal.", "", ""},
+  {
+   "Armour fits poorly on your strangely shaped body.",
+   "Armour fits very poorly on your strangely shaped body.",
+   ""},
+  {
+   "Your body twists and deforms.",
+   "Your body twists and deforms.",
+   ""},
+  {
+   "Your body's shape seems more normal.",
+   "Your body's shape seems less deformed.",
+   ""},
 
   "deformation of the body",
 },

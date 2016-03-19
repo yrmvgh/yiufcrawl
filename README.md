@@ -183,6 +183,8 @@ http://crawl.homedns.org/
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
+    * added poor fitting armour mutation, forcing them to rely on their lignify ability more. They get a higher level of this mutation at level 12, reducing
+      their body armour effectiveness from 1/2 down to 1/3
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
@@ -203,6 +205,13 @@ http://crawl.homedns.org/
 * Potions of magic
     * less common
     * fully restore magic
+
+* Potions of lignification (and lignify ability of vinestalkers)
+    * lower initial AC (20 -> 15)
+    * higher AC scaling with experience (0.5 -> 1.5 AC per level)
+    * higher health boost (1.5x -> 2x)
+    * no hp regen while lignified
+    * intention is to make it useful even in late game. It's a rare consumable, it won't break the game by being a little more powerful later in the game. 
 
 * Gozag
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
