@@ -4192,7 +4192,7 @@ int get_real_hp(bool trans, bool rotted)
     int hitp;
 
     if (you.species == SP_TROLL)
-        hitp  = 50;
+        hitp  = 80;
     else
         hitp  = you.experience_level * 11 / 2 + 8;
 
