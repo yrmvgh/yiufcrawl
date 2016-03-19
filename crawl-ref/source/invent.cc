@@ -836,7 +836,7 @@ menu_letter InvMenu::load_items(const vector<const item_def*> &mitems,
             InvEntry * const ie = new InvEntry(*mitem);
 
             int count = 0;
-            while(find(hotkeys.begin(), hotkeys.end(), ie->hotkeys[0]) != hotkeys.end() && count++ < 52)
+            while(find(hotkeys.begin(), hotkeys.end(), ie->hotkeys[0]) != hotkeys.end() && count++ < 52 && ie->hotkeys[0] != ' ')
             {
                 ie->hotkeys[0] = ckey++;
             }
