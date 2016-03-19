@@ -6043,7 +6043,7 @@ int player::base_ac_from(const item_def &armour, int scale) const
         && (deformity
                 || player_mutation_level(MUT_PSEUDOPODS)))
     {
-        return AC - (base_ac * deformity) / (1 + deformity);
+        return AC - (base_ac * deformity) / 3;
     }
 
     return AC;

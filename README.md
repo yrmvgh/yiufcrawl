@@ -183,8 +183,8 @@ http://crawl.homedns.org/
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
-    * added poor fitting armour mutation, forcing them to rely on their lignify ability more. They get a higher level of this mutation at level 12, reducing
-      their body armour effectiveness from 1/2 down to 1/3
+    * added poor fitting armour mutation, forcing them to rely on their lignify ability more. That mutation was changed slightly, so that level 1 gives 2/3 of
+      normal AC, level 2 gives 1/3 of normal AC. They get level 2 of this mutation at level 12.
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
