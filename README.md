@@ -83,9 +83,7 @@ http://crawl.homedns.org/
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
 
 * Movement
-    * Moving in the same direction as the previous turn takes 20% less time than the base movement speed (for both players and monsters). Zig zagging across the room 
-      now no longer takes exactly the same amount of time as a straight course. This enables players that can cross water / fly over hazards get a slight advantage 
-      over a creature that must maneuver around it. 
+    * Changing direction 90 degrees slows movement by 20%. Changing direction 180 degrees slows movement by an additional 20%. 
 
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
