@@ -149,6 +149,9 @@ http://crawl.homedns.org/
 * Ogre
     * has permanent powered by pain mutation at the beginning. This gives them occasional boosts as they are damaged. 
     * significantly increased health aptitude, making them have by far the greatest health pool of all species. 
+    * added poor fitting armour mutation. That mutation was changed slightly, so that level 1 gives 2/3 of
+      normal AC, level 2 gives 1/3 of normal AC. They get level 1 at exp level 10, and level 2 of this mutation at exp level 15.
+    * no stat growth with experience level increase. Stats can only be affected by items.
 
 * Octopode
     * has permanent augmentation mutation at the beginning. This boosts their fighting and magic usage when they have a high amount of health, making them
@@ -163,6 +166,8 @@ http://crawl.homedns.org/
 
 * Troll
     * they now gain several different elemental resistances as they gain levels
+    * start with higher hp than normal, but never gain hp with level increases. They can increase hp by training fighting or through items, but late game they
+      will have much lower hp than normal.
 
 * Deep Dwarf
     * recharge ability has been split in two: lesser recharge (costs 1 PMP), and greater recharge (costs 3 PMP). Greater recharge is required to recharge
@@ -184,8 +189,7 @@ http://crawl.homedns.org/
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
-    * added poor fitting armour mutation, forcing them to rely on their lignify ability more. That mutation was changed slightly, so that level 1 gives 2/3 of
-      normal AC, level 2 gives 1/3 of normal AC. They get level 2 of this mutation at level 12.
+    * can't wear body armour at all
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.

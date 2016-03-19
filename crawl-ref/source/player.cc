@@ -2911,7 +2911,7 @@ void level_change(bool skip_attribute_increase)
 
             // Must do this before actually changing experience_level,
             // so we will re-prompt on load if a hup is received.
-            if (manual_stat_level && !skip_attribute_increase)
+            if (manual_stat_level && !skip_attribute_increase && you.species != SP_OGRE)
                 if (!attribute_increase())
                     return; // abort level gain, the xp is still there
 
@@ -4191,7 +4191,11 @@ int get_real_hp(bool trans, bool rotted)
 {
     int hitp;
 
-    hitp  = you.experience_level * 11 / 2 + 8;
+    if (you.species == SP_TROLL)
+        hitp  = 50;
+    else
+        hitp  = you.experience_level * 11 / 2 + 8;
+
     hitp += you.hp_max_adj_perm;
     // Important: we shouldn't add Heroism boosts here.
     hitp += you.experience_level * you.skill(SK_FIGHTING, 5, true) / 70
