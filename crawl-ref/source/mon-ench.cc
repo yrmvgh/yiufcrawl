@@ -1102,7 +1102,7 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
             if (cost > 0)
             {
                 dec_mp(cost, true);
-                mprf("summon cost: %d   magic cost: %d", summonCost, cost);
+//                mprf("summon cost: %d   magic cost: %d", summonCost, cost);
                 you.redraw_magic_points = true;
             }
 			return false;
