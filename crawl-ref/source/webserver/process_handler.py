@@ -301,6 +301,7 @@ class CrawlProcessHandlerBase(object):
             "spectator_count": self.watcher_count(),
             "idle_time": (self.idle_time() if self.is_idle() else 0),
             "game_id": self.game_params["id"],
+            "diff": self.game_params["diff"],
             }
         for key in CrawlProcessHandlerBase.interesting_info:
             if key in self.where:
