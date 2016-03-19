@@ -1023,8 +1023,8 @@ int monster::cost_of_maintaining_summon()
 		cost = spell_difficulty(spell_used);
 
     	cost = stepup(cost, 1, 2, 1);
-    	cost *= 4000;
-    	cost /= max(1, stepup(power, 50, 2, 50));
+    	cost *= 2000;
+    	cost /= max(1, stepup(power, 25, 2, 25));
     }
 
 	return cost;
