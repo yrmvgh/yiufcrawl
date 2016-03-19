@@ -3533,11 +3533,14 @@ static void _move_player(coord_def move)
             env.travel_trail.push_back(you.pos());
 
         you.time_taken *= player_movement_speed();
-        if (move.x && move.x == -you.prev_direction.x || move.y && move.y == -you.prev_direction.y)
-            you.time_taken = you.time_taken * 12 / 10;
-        if (move.x == -you.prev_direction.x && move.y == -you.prev_direction.y)
-            you.time_taken = you.time_taken * 12 / 10;
-        you.prev_direction = move;
+        if (!Options.old_movement)
+        {
+            if (move.x && move.x == -you.prev_direction.x || move.y && move.y == -you.prev_direction.y)
+                you.time_taken = you.time_taken * 12 / 10;
+            if (move.x == -you.prev_direction.x && move.y == -you.prev_direction.y)
+                you.time_taken = you.time_taken * 12 / 10;
+            you.prev_direction = move;
+        }
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
 

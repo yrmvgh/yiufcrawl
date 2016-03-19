@@ -84,6 +84,7 @@ http://crawl.homedns.org/
 
 * Movement
     * Changing direction 90 degrees slows movement by 20%. Changing direction 180 degrees slows movement by an additional 20%. 
+    * There is an option to disable this: old\_movement = true
 
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 

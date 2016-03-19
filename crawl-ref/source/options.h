@@ -417,6 +417,7 @@ public:
                                    // fraction of HP or MP
 
     bool        regex_search; // whether to default to regex search for ^F
+    bool        old_movement;
 
     lang_t              language;         // Translation to use.
     const char*         lang_name;        // Database name of the language.
