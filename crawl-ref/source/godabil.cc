@@ -6871,25 +6871,24 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
         { ABIL_HEPLIAKLQANA_TYPE_HEXER, MONS_ANCESTOR_HEXER },
     };
 
-    const monster_type *ancestor_type = map_find(ancestor_types,
-                                                 ancestor_choice);
-    ASSERT(ancestor_type);
+    auto ancestor_mapped = map_find(ancestor_types, ancestor_choice);
+    ASSERT(ancestor_mapped);
+    const auto ancestor_type = *ancestor_mapped;
+    const string ancestor_type_name = mons_type_name(ancestor_type, DESC_A);
+
     if (!yesno(make_stringf("Are you sure you want to remember your ancestor "
-                            "as %s?",
-                            mons_type_name(*ancestor_type,
-                                           DESC_A).c_str()).c_str(),
+                            "as %s?", ancestor_type_name.c_str()).c_str(),
                false, 'n'))
     {
         canned_msg(MSG_OK);
         return false;
     }
 
-    you.props[HEPLIAKLQANA_ALLY_TYPE_KEY] = *ancestor_type;
+    you.props[HEPLIAKLQANA_ALLY_TYPE_KEY] = ancestor_type;
 
-    monster* ancestor = hepliaklqana_ancestor_mon();
-    if (ancestor)
+    if (monster* ancestor = hepliaklqana_ancestor_mon())
     {
-        ancestor->type = *ancestor_type;
+        ancestor->type = ancestor_type;
         give_weapon(ancestor, -1);
         ASSERT(ancestor->weapon());
         give_shield(ancestor);
@@ -6897,12 +6896,11 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
     }
 
     simple_god_message(" will remember this.");
-    take_note(Note(NOTE_ANCESTOR_TYPE, 0, 0,
-                   mons_type_name(*ancestor_type, DESC_A)));
+    take_note(Note(NOTE_ANCESTOR_TYPE, 0, 0, ancestor_type_name));
     const string mile_text
         = make_stringf("remembered their ancestor %s as %s.",
                        hepliaklqana_ally_name().c_str(),
-                       mons_type_name(*ancestor_type, DESC_A).c_str());
+                       ancestor_type_name.c_str());
     mark_milestone("ancestor.class", mile_text);
     return true;
 }
