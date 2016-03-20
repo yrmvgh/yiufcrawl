@@ -1108,6 +1108,15 @@ void mprf(const char *format, ...)
     va_end(argp);
 }
 
+void wprf(const char *format, ...)
+{
+    va_list argp;
+    va_start(argp, format);
+    if (you.wizard)
+        mprf(format, argp);
+    va_end(argp);
+}
+
 void mprf_nojoin(msg_channel_type channel, const char *format, ...)
 {
     va_list argp;

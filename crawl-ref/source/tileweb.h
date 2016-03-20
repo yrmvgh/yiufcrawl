@@ -60,6 +60,7 @@ struct player_info
     int8_t intel, intel_max;
     int8_t dex, dex_max;
 
+    int difficulty;
     int experience_level;
     int8_t exp_progress;
     int gold;

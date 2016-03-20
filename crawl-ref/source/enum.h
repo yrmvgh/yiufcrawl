@@ -182,7 +182,7 @@ public:
 enum game_difficulty_level
 {
 	DIFFICULTY_ASK,
-	DIFFICULTY_EASY,
+	DIFFICULTY_EASY = 1,
 	DIFFICULTY_NORMAL,
 	DIFFICULTY_HARD,
 };
