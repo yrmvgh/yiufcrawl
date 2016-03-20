@@ -1608,6 +1608,11 @@ void scorefile_entry::init(time_t dt)
         pt += num_runes * 10000;
         pt += num_runes * (num_runes + 2) * 1000;
 
+        if(crawl_state.difficulty == DIFFICULTY_EASY)
+            pt >>= 2;
+        if(crawl_state.difficulty == DIFFICULTY_HARD)
+            pt <<= 2;
+
         points = pt;
     }
 
