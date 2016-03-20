@@ -466,7 +466,7 @@ TAGS:   bailey_axe no_rotate
 MONS:   gnoll ; mundane halberd | halberd ego:electrocution ident:type
 MONS:   orc warrior / orc knight
 NSUBST: e = 1:e / *:d
-ITEM:   potion of curing / potion of heal wounds / potion of magic / nothing /\
+ITEM:   potion of curing / potion of heal wounds w:3 / potion of magic / nothing /\
         potion of might w:5 / potion of haste w:2 / potion of berserk rage w:3
 ITEM:   potion of experience q:1 w:30 / potion of cure mutation w:30 /\
         potion of beneficial mutation q:2 w:30
@@ -632,7 +632,7 @@ TAGS:   bailey_axe no_item_gen no_monster_gen
 #
 # I believe that loot is a bit much, but other baileys suffer from that as
 # well... added the warlord in an attempt to make it more even.  --dpeg
-ITEM:   potion of curing / potion of heal wounds / potion of resistance w:5 / \
+ITEM:   potion of curing / potion of heal wounds w:3 / potion of resistance w:5 / \
         potion of might w:5 / potion of brilliance w:5 / potion of agility w:5 / \
         potion of magic w:5 / potion of haste w:5 / \
         scroll of teleportation / scroll of blinking / scroll of identify / \
@@ -918,7 +918,7 @@ NAME:   bailey_polearm_5
 ORIENT: encompass
 TAGS:   bailey_polearm no_item_gen no_monster_gen
 ITEM:   potion of beneficial mutation q:1 / potion of experience q:1
-ITEM:   potion of curing / potion of heal wounds / potion of might w:5 /\
+ITEM:   potion of curing / potion of heal wounds w:3 / potion of might w:5 /\
         potion of berserk rage w:3 / potion of haste w:2 /\
         potion of invisibility w:3 / potion of resistance w:2
 ITEM:   scroll of brand weapon w:5 / scroll of acquirement q:1 w:5 /\
@@ -1154,7 +1154,7 @@ ENDMAP
 NAME:   bailey_axe_bossmonster_kennysheep
 ORIENT: encompass
 TAGS:   bailey_axe no_item_gen no_monster_gen no_pool_fixup
-ITEM:   potion of curing / potion of heal wounds / potion of resistance w:5 / \
+ITEM:   potion of curing / potion of heal wounds w:3 / potion of resistance w:5 / \
             potion of might w:5 / potion of brilliance w:5 / potion of agility w:5 / \
             potion of magic w:5 / potion of haste w:5 / \
             scroll of teleportation / scroll of blinking / scroll of identify / \
