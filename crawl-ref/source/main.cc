@@ -3536,9 +3536,9 @@ static void _move_player(coord_def move)
         if (!Options.old_movement)
         {
             if (move.x && move.x == -you.prev_direction.x || move.y && move.y == -you.prev_direction.y)
-                you.time_taken = you.time_taken * 12 / 10;
+                you.time_taken = you.time_taken * 15 / 10;
             if (move.x == -you.prev_direction.x && move.y == -you.prev_direction.y)
-                you.time_taken = you.time_taken * 12 / 10;
+                you.time_taken = you.time_taken * 15 / 10;
             you.prev_direction = move;
         }
         you.time_taken = div_rand_round(you.time_taken, 10);
