@@ -6901,7 +6901,7 @@ bool hepliaklqana_choose_ancestor_type(int ancestor_choice)
                    mons_type_name(*ancestor_type, DESC_A)));
     const string mile_text
         = make_stringf("remembered their ancestor %s as %s.",
-                       apostrophise(hepliaklqana_ally_name()).c_str(),
+                       hepliaklqana_ally_name().c_str(),
                        mons_type_name(*ancestor_type, DESC_A).c_str());
     mark_milestone("ancestor.class", mile_text);
     return true;
