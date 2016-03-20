@@ -72,12 +72,14 @@ http://crawl.homedns.org/
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 2)
+        * 1/4 normal score
     * Hard:
         * increases the chances of out of depth monsters spawning
         * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting
         * slower level advancement (exp apt - 2)
         * 33% less gold spawned
         * 25% less health
+        * 4x normal score
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields
