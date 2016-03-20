@@ -7136,9 +7136,9 @@ static void _hepliaklqana_choose_name()
 static void _hepliaklqana_choose_gender()
 {
     static const string gender_names[] = { "neither", "male", "female" };
-    const uint32_t current_gender
+    const int current_gender
         = you.props[HEPLIAKLQANA_ALLY_GENDER_KEY].get_int();
-    ASSERT(current_gender < ARRAYSZ(gender_names));
+    ASSERT(size_t(current_gender) < ARRAYSZ(gender_names));
 
     mprf(MSGCH_PROMPT,
          "Was %s a) male, b) female, or c) neither? (Currently %s.)\n",
