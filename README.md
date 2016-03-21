@@ -86,7 +86,8 @@ http://crawl.homedns.org/
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
 
 * Movement
-    * Changing direction 90 degrees slows movement by 50%. Changing direction 180 degrees slows movement by an additional 50%. 
+    * Changing direction 90 degrees slows movement by 50%. Changing direction 180 degrees slows movement by 100%. Other movement is 10% faster than normal to 
+      balance things out. 
     * There is an option to disable this: old\_movement = true
 
 * Traps

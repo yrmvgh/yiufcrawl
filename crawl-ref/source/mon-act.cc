@@ -3664,10 +3664,12 @@ static bool _do_move_monster(monster& mons, const coord_def& delta)
     // This appears to be the real one, ie where the movement occurs:
     int energy = 100;
     if (!Options.old_movement) {
-        if (delta.x && delta.x == -mons.prev_direction.x || delta.y && delta.y == -mons.prev_direction.y)
-            energy = energy * 15 / 10;
         if (delta.x == -mons.prev_direction.x && delta.y == -mons.prev_direction.y)
+            energy = energy * 2;
+        else if (delta.x && delta.x == -mons.prev_direction.x || delta.y && delta.y == -mons.prev_direction.y)
             energy = energy * 15 / 10;
+        else
+            energy = energy * 9 / 10;
     }
     _swim_or_move_energy(mons, energy);
     mons.prev_direction = delta;
