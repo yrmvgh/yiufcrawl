@@ -46,6 +46,7 @@ http://crawl.homedns.org/
     * The drop command has been split into two also: 'd' to drop inventory items, 'D' to drop consumable items.
     * The adjust command '=' can now also be applied to the (c)onsumables. 
     * The spell list command has been moved from 'I' to 's'. 
+    * Wands automatically stack in inventory, possibly exceeding max capacity. 
 
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
