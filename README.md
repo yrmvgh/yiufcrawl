@@ -156,11 +156,11 @@ http://crawl.homedns.org/
       but they have poor shield, armour, and dodging aptitudes. 
 
 * Ogre
-    * has permanent powered by pain mutation at the beginning. This gives them occasional boosts as they are damaged. 
+    * has permanent powered by pain mutation at level 12. This gives them occasional boosts as they are damaged. 
+    * powered by pain was modified so that it only works 2/3 of the time on normal, and 1/3 of the time on hard.
     * significantly increased health aptitude, making them have by far the greatest health pool of all species. 
     * added poor fitting armour mutation. That mutation was changed slightly, so that level 1 gives 2/3 of
       normal AC, level 2 gives 1/3 of normal AC. They get level 1 at exp level 10, and level 2 of this mutation at exp level 15.
-    * no stat growth with experience level increase. Stats can only be affected by items.
 
 * Octopode
     * has permanent augmentation mutation at the beginning. This boosts their fighting and magic usage when they have a high amount of health, making them

@@ -2911,7 +2911,7 @@ void level_change(bool skip_attribute_increase)
 
             // Must do this before actually changing experience_level,
             // so we will re-prompt on load if a hup is received.
-            if (manual_stat_level && !skip_attribute_increase && you.species != SP_OGRE)
+            if (manual_stat_level && !skip_attribute_increase)
                 if (!attribute_increase())
                     return; // abort level gain, the xp is still there
 
