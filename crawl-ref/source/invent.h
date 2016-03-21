@@ -194,6 +194,7 @@ bool any_items_of_type(FixedVector< item_def, ENDOFPACK > &inv, int type_expect,
 string no_selectables_message(int item_selector);
 
 string slot_description(FixedVector< item_def, ENDOFPACK > &inv);
+string slot_description_both();
 
 int prompt_invent_item(
 					   FixedVector< item_def, ENDOFPACK > &inv,

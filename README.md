@@ -86,8 +86,12 @@ http://crawl.homedns.org/
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
 
 * Movement
-    * Changing direction 90 degrees slows movement by 20%. Changing direction 180 degrees slows movement by an additional 20%. 
+    * Changing direction 90 degrees slows movement by 50%. Changing direction 180 degrees slows movement by an additional 50%. 
     * There is an option to disable this: old\_movement = true
+
+* Traps
+    * Shafting doesn't happen in the first 2 floors of dungeon
+    * Shafting has a max depth of 1 for easy, 3 for normal, and 5 for hard.
 
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 

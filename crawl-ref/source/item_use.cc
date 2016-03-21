@@ -70,6 +70,8 @@
 static bool _safe_to_remove_or_wear(const item_def &item, bool remove,
                                     bool quiet = false);
 
+bool _playerUnequipsShield();
+
 bool _playerUnequipsShield()
 {
 	if (yesno("Unequip your shield first?", false, 'n'))
