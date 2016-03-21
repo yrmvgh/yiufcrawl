@@ -3475,6 +3475,7 @@ int count_summons(const actor *summoner, spell_type spell)
     return count;
 }
 
+int _unsummon_all(const actor *summoner);
 int _unsummon_all(const actor *summoner)
 {
     int count = 0;
