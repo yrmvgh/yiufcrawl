@@ -1636,6 +1636,9 @@ bool is_valid_shaft_level(bool known)
         return false;
     }
 
+    if (place.depth < 3 && place.branch == BRANCH_DUNGEON)
+        return false;
+
     if (!is_connected_branch(place))
         return false;
 
@@ -1674,18 +1677,40 @@ static level_id _generic_shaft_dest(level_pos lpos, bool known = false)
     // Knowingly entering one is more likely to drop you 1 level.
     // Falling in unknowingly can drop you 1/2/3 levels with equal chance.
 
-    if (known)
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        lid.depth = 1;
+    else if (crawl_state.difficulty == DIFFICULTY_HARD)
     {
-        // Chances are 2/3 for 1 level, 1/3 for 2 levels
-        if (one_chance_in(3))
-            lid.depth += 2;
+        if (known)
+        {
+            // Chances are 2/3 for 1 level, 1/3 for 3 levels
+            if (one_chance_in(3))
+                lid.depth += 3;
+            else
+                lid.depth += 1;
+        }
         else
-            lid.depth += 1;
+        {
+            // 33.3% for 1, 2, 3 from D:3, less before
+            lid.depth += 1 + random2(min(lid.depth, 5));
+        }
     }
     else
     {
-        // 33.3% for 1, 2, 3 from D:3, less before
-        lid.depth += 1 + random2(min(lid.depth, 3));
+        // DIFFICULTY_NORMAL
+        if (known)
+        {
+            // Chances are 2/3 for 1 level, 1/3 for 2 levels
+            if (one_chance_in(3))
+                lid.depth += 2;
+            else
+                lid.depth += 1;
+        }
+        else
+        {
+            // 33.3% for 1, 2, 3 from D:3, less before
+            lid.depth += 1 + random2(min(lid.depth, 3));
+        }
     }
 
     if (lid.depth > max_depth)
