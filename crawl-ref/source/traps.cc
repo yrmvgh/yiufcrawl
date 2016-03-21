@@ -1679,25 +1679,9 @@ static level_id _generic_shaft_dest(level_pos lpos, bool known = false)
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
         lid.depth = 1;
-    else if (crawl_state.difficulty == DIFFICULTY_HARD)
+   else
     {
-        if (known)
-        {
-            // Chances are 2/3 for 1 level, 1/3 for 3 levels
-            if (one_chance_in(3))
-                lid.depth += 3;
-            else
-                lid.depth += 1;
-        }
-        else
-        {
-            // 33.3% for 1, 2, 3 from D:3, less before
-            lid.depth += 1 + random2(min(lid.depth, 5));
-        }
-    }
-    else
-    {
-        // DIFFICULTY_NORMAL
+        // DIFFICULTY_NORMAL or DIFFICULTY_HARD
         if (known)
         {
             // Chances are 2/3 for 1 level, 1/3 for 2 levels
