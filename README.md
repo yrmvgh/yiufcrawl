@@ -226,6 +226,9 @@ http://crawl.homedns.org/
     * no hp regen while lignified
     * intention is to make it useful even in late game. It's a rare consumable, it won't break the game by being a little more powerful later in the game. 
 
+* Mutation tweaks
+    * powered by pain works as often as before on easy, only 2/3 of the time on normal, and 1/3 of the time on hard. 
+
 * Gozag
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
       gold benefit the same as before. 

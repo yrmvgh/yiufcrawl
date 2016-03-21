@@ -676,29 +676,38 @@ static void _powered_by_pain(int dam)
         && (random2(dam) > 4 + div_rand_round(you.experience_level, 4)
             || dam >= you.hp_max / 2))
     {
-        switch (random2(4))
+        int chance = 3;
+        if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+            chance = 2;
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+            chance = 1;
+
+        if (x_chance_in_y(chance, 3))
         {
-        case 0:
-        case 1:
-        {
-            if (you.magic_points < you.max_magic_points)
+            switch (random2(4))
             {
-                mpr("You focus on the pain.");
-                int mp = roll_dice(3, 2 + 3 * level);
-                canned_msg(MSG_GAIN_MAGIC);
-                inc_mp(mp);
-                break;
+                case 0:
+                case 1:
+                {
+                    if (you.magic_points < you.max_magic_points)
+                    {
+                        mpr("You focus on the pain.");
+                        int mp = roll_dice(3, 2 + 3 * level);
+                        canned_msg(MSG_GAIN_MAGIC);
+                        inc_mp(mp);
+                        break;
+                    }
+                    break;
+                }
+                case 2:
+                    mpr("You focus on the pain.");
+                    potionlike_effect(POT_MIGHT, level * 20);
+                    break;
+                case 3:
+                    mpr("You focus on the pain.");
+                    potionlike_effect(POT_AGILITY, level * 20);
+                    break;
             }
-            break;
-        }
-        case 2:
-            mpr("You focus on the pain.");
-            potionlike_effect(POT_MIGHT, level * 20);
-            break;
-        case 3:
-            mpr("You focus on the pain.");
-            potionlike_effect(POT_AGILITY, level * 20);
-            break;
         }
     }
 }
