@@ -1163,15 +1163,15 @@ static void _redraw_title()
 //    if (!small_layout)
 //    {
         if (you.wizard)
-            _draw_wizmode_flag("WIZARD");
+            _draw_wizmode_flag("WIZ");
         else if (you.explore)
-            _draw_wizmode_flag("EXPLORE");
+            _draw_wizmode_flag("EXP");
         else if (crawl_state.difficulty == DIFFICULTY_EASY)
             _draw_wizmode_flag("EASY");
         else if (crawl_state.difficulty == DIFFICULTY_HARD)
             _draw_wizmode_flag("HARD");
         else if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-            _draw_wizmode_flag("NORMAL");
+            _draw_wizmode_flag("NORM");
 //    }
 #ifdef DGL_SIMPLE_MESSAGING
     update_message_status();
