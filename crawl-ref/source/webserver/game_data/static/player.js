@@ -280,13 +280,13 @@ function ($, comm, enums, map_knowledge, messages, options) {
     {
         $("#stats_titleline").text(player.name + " " + player.title);
         if (player.wizard)
-            $("#stats_wizmode").text("WIZARD");
-        else if (player.diff == 1)
-            $("#stats_wizmode").text("EASY");
-        else if (player.diff == 2)
-            $("#stats_wizmode").text("NORMAL");
-        else if (player.diff == 3)
-            $("#stats_wizmode").text("HARD");
+            $("#stats_wizmode").text("-WIZARD-");
+        else if (player.diff == "1")
+            $("#stats_wizmode").text("-EASY-");
+        else if (player.diff == "2")
+            $("#stats_wizmode").text("-NORMAL-");
+        else if (player.diff == "3")
+            $("#stats_wizmode").text("-HARD-");
         else
             $("#stats_wizmode").text("");
 
