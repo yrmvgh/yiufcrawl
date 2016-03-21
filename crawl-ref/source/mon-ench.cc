@@ -1017,7 +1017,7 @@ int monster::cost_of_maintaining_summon()
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
 	int cost = 0;
-    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS && spell_used >= 0)
+    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS && spell_used >= 0 && get_spell_disciplines(spell_used) & SPTYP_SUMMONING)
     {
     	const int power = calc_spell_power(spell_used, true);
 		cost = spell_difficulty(spell_used);
