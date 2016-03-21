@@ -116,6 +116,7 @@ def bind_server():
     if hasattr(config, "no_cache") and config.no_cache:
         settings["static_handler_class"] = NoCacheHandler
 
+    MorgueHandler.set_path(global_morgue_path)
     application = tornado.web.Application([
             (r"/", MainHandler),
             (r"/socket", CrawlWebSocket),

@@ -254,7 +254,6 @@ class CrawlProcessHandlerBase(object):
             h.update(self.crawl_version)
         v = h.hexdigest()
         GameDataHandler.add_version(v, os.path.join(self.client_path, "static"))
-        MorgueHandler.add_version(v, self.morgue_path)
 
         templ_path = os.path.join(self.client_path, "templates")
         loader = DynamicTemplateLoader.get(templ_path)
