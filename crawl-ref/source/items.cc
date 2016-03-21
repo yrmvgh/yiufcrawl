@@ -1434,7 +1434,9 @@ bool is_stackable_item(const item_def &item)
         || item.base_type == OBJ_FOOD
         || item.base_type == OBJ_SCROLLS
         || item.base_type == OBJ_POTIONS
-        || item.base_type == OBJ_GOLD)
+        || item.base_type == OBJ_GOLD
+        || item.base_type == OBJ_WANDS
+            )
     {
         return true;
     }
@@ -1848,6 +1850,11 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
 
         merge_item_stacks(it, (*inv)[inv_slot], quant_got);
         inc_inv_item_quantity((*inv), inv_slot, quant_got);
+        if (it.base_type == OBJ_WANDS)
+        {
+            (*inv)[inv_slot].charges += it.charges;
+        }
+
         you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
