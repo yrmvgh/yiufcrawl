@@ -1849,11 +1849,10 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
         }
 
         merge_item_stacks(it, (*inv)[inv_slot], quant_got);
-        inc_inv_item_quantity((*inv), inv_slot, quant_got);
         if (it.base_type == OBJ_WANDS)
-        {
             (*inv)[inv_slot].charges += it.charges;
-        }
+        else
+            inc_inv_item_quantity((*inv), inv_slot, quant_got);
 
         you.last_pickup[inv_slot] = quant_got;
 
