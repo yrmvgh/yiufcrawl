@@ -279,7 +279,16 @@ function ($, comm, enums, map_knowledge, messages, options) {
     function update_stats_pane()
     {
         $("#stats_titleline").text(player.name + " " + player.title);
-        $("#stats_wizmode").text(player.wizard ? "*WIZARD*" : "");
+        if (player.wizard)
+            $("#stats_wizmode").text("WIZARD");
+        else if (player.diff == 1)
+            $("#stats_wizmode").text("EASY");
+        else if (player.diff == 2)
+            $("#stats_wizmode").text("NORMAL");
+        else if (player.diff == 3)
+            $("#stats_wizmode").text("HARD");
+        else
+            $("#stats_wizmode").text("");
 
         var do_temperature = false;
         var do_contam = false;
