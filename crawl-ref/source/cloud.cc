@@ -1170,16 +1170,15 @@ static int _actor_cloud_damage(const actor *act,
         }
 
         if (act->is_player())
-            mpr("You are struck by lightning!");
+            mprf("You are struck by lightning! (%d)", lightning_dam);
         else if (you.can_see(*act))
         {
-            simple_monster_message(act->as_monster(),
-                                   " is struck by lightning.");
+            mprf("%s is struck by lightning. (%d)", act->as_monster()->name(DESC_THE).c_str(), lightning_dam);
         }
         else if (you.see_cell(act->pos()))
         {
-            mpr("Lightning from the thunderstorm strikes something you cannot "
-                "see.");
+            mprf("Lightning from the thunderstorm strikes something you cannot "
+                "see. (%d)", lightning_dam);
         }
         noisy(spell_effect_noise(SPELL_LIGHTNING_BOLT), act->pos(),
               act->is_player() || you.see_cell(act->pos())
