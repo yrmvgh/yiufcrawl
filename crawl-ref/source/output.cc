@@ -1160,8 +1160,8 @@ static void _redraw_title()
     CGOTOXY(1, 1, GOTO_STAT);
     textcolour(small_layout && you.wizard ? LIGHTMAGENTA : YELLOW);
     CPRINTF("%s", chop_string(title, WIDTH).c_str());
-    if (!small_layout)
-    {
+//    if (!small_layout)
+//    {
         if (you.wizard)
             _draw_wizmode_flag("WIZARD");
         else if (you.explore)
@@ -1172,7 +1172,7 @@ static void _redraw_title()
             _draw_wizmode_flag("HARD");
         else if (crawl_state.difficulty == DIFFICULTY_NORMAL)
             _draw_wizmode_flag("NORMAL");
-    }
+//    }
 #ifdef DGL_SIMPLE_MESSAGING
     update_message_status();
 #endif
