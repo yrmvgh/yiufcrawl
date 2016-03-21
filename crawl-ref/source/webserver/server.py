@@ -11,7 +11,7 @@ import logging, logging.handlers
 from config import *
 from util import *
 from ws_handler import *
-from game_data_handler import GameDataHandler
+from game_data_handler import GameDataHandler, MorgueHandler
 import process_handler
 
 class MainHandler(tornado.web.RequestHandler):
@@ -119,7 +119,8 @@ def bind_server():
     application = tornado.web.Application([
             (r"/", MainHandler),
             (r"/socket", CrawlWebSocket),
-            (r"/gamedata/(.*)/(.*)", GameDataHandler)
+            (r"/gamedata/(.*)/(.*)", GameDataHandler),
+            (r"/morgue/(.*)/(.*)", MorgueHandler)
             ], gzip=True, **settings)
 
     kwargs = {}

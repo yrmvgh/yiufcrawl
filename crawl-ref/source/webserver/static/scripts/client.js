@@ -803,6 +803,7 @@ function (exports, $, key_conversion, chat, comm) {
 
         var username_entry = $(make_watch_link(data));
         username_entry.text(data.username);
+
         set("username", username_entry);
         set("game_id", data.game_id);
         set("diff", data.diff);
