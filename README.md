@@ -48,8 +48,9 @@ http://crawl.homedns.org/
     * The spell list command has been moved from 'I' to 's'. 
     * Wands automatically stack in inventory, possibly exceeding max capacity. 
 
-* Monsters can't use stairs
+* Monsters can't use stairs, but if they hurt you while going up or down stairs, you are interrupted
     * eliminates ability of player to pull apart groups of monsters into bite size pieces. 
+    * eliminates easy escapes on stairs when monsters can still inflict damage (even ranged ones).
 
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
