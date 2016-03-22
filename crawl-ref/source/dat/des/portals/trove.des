@@ -583,7 +583,7 @@ KITEM:   E = any amulet useful good_item / any amulet randart w:2
 KITEM:   f = acquire armour w:5 / any useful armour good_item / any armour w:2
 KITEM:   F = acquire weapon w:5 / any useful weapon good_item / any weapon w:2
 KITEM:   B = acquire book / acquire:sif_muna book / any book
-KITEM:   g = potion of curing / potion of heal wounds w:3 / potion of experience / \
+KITEM:   g = potion of curing / potion of heal wounds w:5 / potion of experience / \
              potion of cure mutation q:1 / potion of beneficial mutation q:1 / \
              potion of might / potion of agility / potion of brilliance / \
              potion of resistance / potion of magic / potion of haste
@@ -953,8 +953,8 @@ NAME:    trove_alchemists_storehouse
 TAGS:    no_item_gen no_monster_gen allow_dup no_species_mu
 WEIGHT:  5
 ORIENT:  encompass
-ITEM:    potion of curing / potion of heal wounds w:3 / \
-         potion of curing q:2 / potion of heal wounds w:3 q:2
+ITEM:    potion of curing / potion of heal wounds w:5 / \
+         potion of curing q:2 / potion of heal wounds w:5 q:2
 ITEM:    potion of experience q:1 / potion of beneficial mutation q:1 w:30
 ITEM:    potion of might / potion of resistance / \
          potion of magic / potion of haste / \
