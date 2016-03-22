@@ -1329,6 +1329,9 @@ static bool _should_stop_activity(const delay_queue_item &item,
         return false;
     }
 
+    if (ai == AI_HP_LOSS && player_stair_delay())
+        return true;
+
     // No monster will attack you inside a sanctuary,
     // so presence of monsters won't matter.
     if (ai == AI_SEE_MONSTER && is_sanctuary(you.pos()))
@@ -1646,8 +1649,8 @@ bool interrupt_activity(activity_interrupt_type ai,
     if (_should_stop_activity(item, ai, at))
     {
         _monster_warning(ai, at, item.type, msgs_buf);
-        // Teleport stops stair delays.
-        stop_delay(ai == AI_TELEPORT, ai == AI_MONSTER_ATTACKS);
+        // Teleport or hp loss stops stair delays.
+        stop_delay(ai == AI_TELEPORT || ai == AI_HP_LOSS, ai == AI_MONSTER_ATTACKS);
 
         return true;
     }
