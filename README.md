@@ -48,6 +48,9 @@ http://crawl.homedns.org/
     * The spell list command has been moved from 'I' to 's'. 
     * Wands automatically stack in inventory, possibly exceeding max capacity. 
 
+* Monsters can't use stairs
+    * eliminates ability of player to pull apart groups of monsters into bite size pieces. 
+
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
