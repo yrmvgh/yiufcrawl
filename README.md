@@ -43,7 +43,7 @@ http://crawl.homedns.org/
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
       evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 
-    * The drop command has been split into two also: 'd' to drop inventory items, 'D' to drop consumable items.
+    * The drop command has been split into two also: 'd' to drop inventory items, control-D to drop consumable items.
     * The adjust command '=' can now also be applied to the (c)onsumables. 
     * The spell list command has been moved from 'I' to 's'. 
     * Wands automatically stack in inventory, possibly exceeding max capacity. 
