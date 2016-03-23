@@ -924,11 +924,10 @@ command_type travel()
 
     if (you.running.is_explore())
     {
+        unsummon_all();
+
         if (Options.explore_auto_rest && !you.is_sufficiently_rested())
-        {
-            unsummon_all();
             return CMD_WAIT;
-        }
 
         // Exploring.
         if (grd(you.pos()) == DNGN_ENTER_SHOP

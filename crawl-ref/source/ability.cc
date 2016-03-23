@@ -3270,7 +3270,7 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     if (you.species == SP_VINE_STALKER)
         _add_talent(talents, ABIL_LIGNIFY, check_confused);
 
-    if (player_has_summons()) {
+    if (player_has_summons(true)) {
         _add_talent(talents, ABIL_RELEASE_SUMMONS, check_confused);
     }
 

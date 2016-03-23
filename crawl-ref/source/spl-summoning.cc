@@ -3486,9 +3486,12 @@ int _unsummon_all(const actor *summoner)
 
         if (summoner->mid == mi->summoner)
         {
-            mi->del_ench(ENCH_ABJ);
-            mi->del_ench(ENCH_FAKE_ABJURATION);
-            count++;
+            if (summoner != &you || mi->cost_of_maintaining_summon() > 0)
+            {
+                mi->del_ench(ENCH_ABJ);
+                mi->del_ench(ENCH_FAKE_ABJURATION);
+                count++;
+            }
         }
     }
 
@@ -3500,17 +3503,15 @@ int unsummon_all()
 	return _unsummon_all(&you);
 }
 
-bool player_has_summons()
+bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
     for (monster_iterator mi; mi; ++mi)
     {
-        actor *sourceAgent = actor_by_mid(mi->summoner);
-
-        if (sourceAgent && sourceAgent->is_player())
+        if (!from_summoning_spell || mi->cost_of_maintaining_summon() > 0)
         {
-        	found = true;
-        	break;
+            found = true;
+            break;
         }
     }
 
