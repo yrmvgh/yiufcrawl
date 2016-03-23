@@ -2184,3 +2184,9 @@ void merfolk_stop_swimming()
     init_player_doll();
 #endif
 }
+
+bool is_self_transforming_spell(spell_type spell)
+{
+    return get_spell_disciplines(spell) & SPTYP_TRANSMUTATION && !spell_is_targettable(spell) && spell != SPELL_STICKS_TO_SNAKES;
+}
+

@@ -469,11 +469,16 @@ bool spell_harms_area(spell_type spell)
 // for Xom acting (more power = more likely to grab his attention) {dlb}
 int spell_mana(spell_type which_spell)
 {
-	if(is_summon_spell(which_spell)) {
-		return 1;
-	}
+    int cost = 0;
+	if (is_summon_spell(which_spell))
+		cost = 1;
+    else
+        cost =  _seekspell(which_spell)->level;
 
-    return _seekspell(which_spell)->level;
+    if (is_self_transforming_spell(which_spell))
+        cost *= 3;
+
+    return cost;
 }
 
 // applied in naughties (more difficult = higher level knowledge = worse)
@@ -538,6 +543,10 @@ spschools_type get_spell_disciplines(spell_type spell)
     return _seekspell(spell)->disciplines;
 }
 
+bool spell_is_targettable(spell_type spell)
+{
+    return _seekspell(spell)->min_range > -1;
+}
 int count_bits(uint64_t bits)
 {
     uint64_t n;

@@ -67,6 +67,11 @@ http://crawl.homedns.org/
     * summoners start with a +1 dagger to make getting off the ground a little more possible. It's still tough though. Don't summon more than
       one at once, and focus on boosting your spell power until you can sustain more powerful creatures. 
 
+* Transmutation
+    * It costs 3x more to cast a self-transforming spell
+    * transformations don't time out
+    * power of the transformation is based on spell power
+
 * Game difficulty levels
     * At game start, or in the init file, you can specify that the game is easy, normal, or hard. 
     * Normal is the standard, unmodified parameters.
