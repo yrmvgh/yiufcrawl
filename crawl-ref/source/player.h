@@ -349,8 +349,7 @@ public:
 
     // The last spell cast by the player.
     spell_type last_cast_spell;
-    map<int,int> last_pickup;
-
+    map<item_def*,int> last_pickup;
 
     // ---------------------------
     // Volatile (same-turn) state:

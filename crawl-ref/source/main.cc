@@ -2187,7 +2187,7 @@ void process_command(command_type cmd)
                 break;
 
             case CMD_DROP_LAST:
-                drop_last(you.inv1);
+                drop_last();
                 break;
 
             case CMD_EVOKE:

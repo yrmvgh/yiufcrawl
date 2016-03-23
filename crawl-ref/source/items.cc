@@ -1322,7 +1322,7 @@ void pickup(bool partial_quantity)
 
     // Store last_pickup in case we need to restore it.
     // Then clear it to fill with items picked up.
-    map<int,int> tmp_l_p = you.last_pickup;
+    auto tmp_l_p = you.last_pickup;
     you.last_pickup.clear();
 
     if (o == NON_ITEM)
@@ -1854,7 +1854,7 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
         else
             inc_inv_item_quantity((*inv), inv_slot, quant_got);
 
-        you.last_pickup[inv_slot] = quant_got;
+        you.last_pickup[&(*inv)[inv_slot]] = quant_got;
 
         if (!quiet)
         {
@@ -1996,7 +1996,7 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     }
 
     you.m_quiver.on_inv_quantity_changed(freeslot, quant_got);
-    you.last_pickup[item.link] = quant_got;
+    you.last_pickup[&item] = quant_got;
     item_skills(item, you.start_train);
 
     if (const item_def* newitem = auto_assign_item_slot(item))
@@ -2490,20 +2490,20 @@ bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int qu
     dec_inv_item_quantity(inv, item_dropped, quant_drop);
     you.turn_is_over = true;
 
-    you.last_pickup.erase(item_dropped);
+    you.last_pickup.erase(&item);
 
     return true;
 }
 
-void drop_last(FixedVector< item_def, ENDOFPACK > &inv)
+void drop_last()
 {
     vector<SelItem> items_to_drop;
 
     for (const auto &entry : you.last_pickup)
     {
-        const item_def* item = &(inv[entry.first]);
+        const item_def* item = entry.first;
         if (item->quantity > 0)
-            items_to_drop.emplace_back(entry.first, entry.second, item);
+            items_to_drop.emplace_back(item->link, entry.second, item);
     }
 
     if (items_to_drop.empty())
@@ -3130,7 +3130,7 @@ static void _do_autopickup()
 
     // Store last_pickup in case we need to restore it.
     // Then clear it to fill with items picked up.
-    map<int,int> tmp_l_p = you.last_pickup;
+    auto tmp_l_p = you.last_pickup;
     you.last_pickup.clear();
 
     int o = you.visible_igrd(you.pos());

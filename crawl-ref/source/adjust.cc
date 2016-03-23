@@ -248,13 +248,16 @@ void swap_inv_slots(FixedVector< item_def, ENDOFPACK > &inv, int from_slot, int 
     if (!you.last_pickup.empty())
     {
         auto &last_pickup = you.last_pickup;
-        int to_count = lookup(last_pickup, to_slot, 0);
-        int from_count = lookup(last_pickup, from_slot, 0);
-        last_pickup.erase(to_slot);
-        last_pickup.erase(from_slot);
+        const auto to_item = &inv[to_slot];
+        const auto from_item = &inv[from_slot];
+
+        int to_count = lookup(last_pickup, to_item, 0);
+        int from_count = lookup(last_pickup, from_item, 0);
+        last_pickup.erase(to_item);
+        last_pickup.erase(from_item);
         if (from_count > 0)
-            last_pickup[to_slot] = from_count;
+            last_pickup[to_item] = from_count;
         if (to_count > 0)
-            last_pickup[from_slot] = to_count;
+            last_pickup[from_item] = to_count;
     }
 }
