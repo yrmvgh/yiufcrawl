@@ -1529,7 +1529,8 @@ static void tag_construct_you(writer &th)
 
     handle_real_time();
 
-    marshallInt(th, you.real_time);
+    // TODO: maybe switch to marshalling real_time_ms.
+    marshallInt(th, you.real_time());
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
 
@@ -2171,16 +2172,14 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     you.jiyva_second_name = unmarshallString2(th);
 
     you.wizard            = unmarshallBoolean(th);
+
     // this was mistakenly inserted in the middle for a few tag versions - this
     // just makes sure that games generated in that time period are still
     // readable, but should not be used for new games
 #if TAG_CHR_FORMAT == 0
-    if (major == 34
-        && (minor >= TAG_MINOR_EXPLORE_MODE
-            && minor < TAG_MINOR_FIX_EXPLORE_MODE))
-    {
+    // TAG_MINOR_EXPLORE_MODE and TAG_MINOR_FIX_EXPLORE_MODE
+    if (major == 34 && (minor >= 121 && minor < 130))
         you.explore = unmarshallBoolean(th);
-    }
 #endif
 
     crawl_state.type = (game_type) unmarshallUByte(th);
@@ -2211,9 +2210,7 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     if (major > 34 || major == 34 && minor >= 29)
         crawl_state.map = unmarshallString2(th);
 
-#if TAG_MAJOR_VERSION == 34
-    if (minor >= TAG_MINOR_FIX_EXPLORE_MODE)
-#endif
+    if (major > 34 || major == 34 && minor >= 130)
         you.explore = unmarshallBoolean(th);
 }
 
@@ -3164,7 +3161,8 @@ static void tag_read_you(reader &th)
     // time of character creation
     you.birth_time = unmarshallInt(th);
 
-    you.real_time  = unmarshallInt(th);
+    const int real_time  = unmarshallInt(th);
+    you.real_time_ms = chrono::milliseconds(real_time * 1000);
     you.num_turns  = unmarshallInt(th);
     you.exploration = unmarshallInt(th);
 
@@ -5207,6 +5205,8 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
              || mi.type == MONS_SPELLFORGED_SERVITOR)
             && th.getMinorVersion() < TAG_MINOR_EXORCISE)
         && th.getMinorVersion() >= TAG_MINOR_GHOST_SINV
+#else
+        )
 #endif
         )
     {

@@ -2863,7 +2863,6 @@ void monster::expose_to_element(beam_type flavour, int strength,
         break;
     case BEAM_FIRE:
     case BEAM_LAVA:
-    case BEAM_HELLFIRE:
     case BEAM_STICKY_FLAME:
     case BEAM_STEAM:
         if (has_ench(ENCH_OZOCUBUS_ARMOUR))
@@ -3605,7 +3604,8 @@ mon_holy_type monster::holiness(bool /*temp*/) const
         holi |= MH_EVIL;
 
     if (has_attack_flavour(AF_DRAIN_XP)
-        || has_attack_flavour(AF_VAMPIRIC))
+        || has_attack_flavour(AF_VAMPIRIC)
+        || has_attack_flavour(AF_MIASMATA))
     {
         holi |= MH_EVIL;
     }
@@ -3738,7 +3738,7 @@ int monster::known_chaos(bool check_spells_god) const
     }
 
     if (has_attack_flavour(AF_MUTATE)
-        || has_attack_flavour(AF_CHAOS))
+        || has_attack_flavour(AF_CHAOTIC))
     {
         chaotic++;
     }
@@ -3790,9 +3790,9 @@ bool monster::is_insubstantial() const
     return mons_class_flag(type, M_INSUBSTANTIAL);
 }
 
-bool monster::res_hellfire() const
+bool monster::res_damnation() const
 {
-    return get_mons_resist(this, MR_RES_FIRE) >= 4;
+    return get_mons_resist(this, MR_RES_FIRE) >= 4; // XXX: ???
 }
 
 int monster::res_fire() const

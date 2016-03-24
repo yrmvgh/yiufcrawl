@@ -454,7 +454,7 @@ static string _randart_descrip(const item_def &item)
         { ARTP_REGENERATION, "It increases your rate of regeneration.", false},
         { ARTP_RCORR, "It protects you from acid and corrosion.", false},
         { ARTP_RMUT, "It protects you from mutation.", false},
-        { ARTP_CORRODE, "It may corrode your equipment when you take damage.", false},
+        { ARTP_CORRODE, "It may corrode you when you take damage.", false},
         { ARTP_DRAIN, "It causes draining when unequipped.", false},
         { ARTP_CONFUSE, "It may confuse you when you take damage.", false},
         { ARTP_FRAGILE, "It will be destroyed if unequipped.", false },
@@ -542,8 +542,8 @@ static const char *trap_names[] =
     "shaft", "passage", "pressure plate", "web",
 #if TAG_MAJOR_VERSION == 34
     "gas", "teleport",
+    "shadow", "dormant shadow",
 #endif
-     "shadow", "dormant shadow",
 };
 
 string trap_name(trap_type trap)
@@ -705,7 +705,7 @@ static string _describe_demon(const string& name, bool flying)
         " It is difficult to look away.",
         " It is constantly speaking in tongues.",
         " It babbles unendingly.",
-        " Its body is scorched from hellfire.",
+        " Its body is scourged by damnation.",
         " Its body is extensively scarred.",
         " You find it difficult to look away.",
     };
@@ -2971,7 +2971,7 @@ static const char* _describe_attack_flavour(attack_flavour flavour)
     case AF_DISTORT:         return "cause wild translocation effects";
     case AF_RAGE:            return "cause berserking";
     case AF_STICKY_FLAME:    return "apply sticky flame";
-    case AF_CHAOS:           return "cause unpredictable effects";
+    case AF_CHAOTIC:         return "cause unpredictable effects";
     case AF_STEAL:           return "steal items";
     case AF_CRUSH:           return "constrict";
     case AF_REACH:           return "deal damage from a distance";
@@ -2990,6 +2990,7 @@ static const char* _describe_attack_flavour(attack_flavour flavour)
     case AF_TRAMPLE:         return "knock back the defender";
     case AF_REACH_STING:     return "cause poisoning from a distance";
     case AF_WEAKNESS:        return "cause weakness";
+    case AF_MIASMATA:        return "surround the defender with miasma";
     default:                 return "";
     }
 }
@@ -3555,7 +3556,9 @@ void get_monster_db_desc(const monster_info& mi, describe_info &inf,
         break;
 
     case MONS_MUTANT_BEAST:
-        inf.body << _describe_mutant_beast(mi) << "\n";
+        // vault renames get their own descriptions
+        if (mi.mname.empty() || !mi.is(MB_NAME_REPLACE))
+            inf.body << _describe_mutant_beast(mi) << "\n";
         break;
 
     case MONS_PROGRAM_BUG:

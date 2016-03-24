@@ -102,7 +102,7 @@ enum attack_flavour
     AF_DISTORT,
     AF_RAGE,
     AF_STICKY_FLAME,
-    AF_CHAOS,
+    AF_CHAOTIC,
     AF_STEAL,
 #if TAG_MAJOR_VERSION == 34
     AF_STEAL_FOOD,
@@ -132,6 +132,7 @@ enum attack_flavour
     AF_SWOOP, // Swoops in to perform a melee attack if far away.
     AF_TRAMPLE, // Trampling effect.
     AF_WEAKNESS,
+    AF_MIASMATA,
 };
 
 // Non-spell "summoning" types to give to monster::mark_summoned(), or
@@ -197,7 +198,7 @@ enum mon_resist_flags
     MR_RES_ELEC          = 1 << 0,
     MR_RES_POISON        = 1 << 3,
     MR_RES_FIRE          = 1 << 6,
-    MR_RES_HELLFIRE      = mrd(MR_RES_FIRE, 4),
+    MR_RES_DAMNATION      = mrd(MR_RES_FIRE, 4), // XXX: ???
     MR_RES_COLD          = 1 << 9,
     MR_RES_NEG           = 1 << 12,
     MR_RES_ROTTING       = 1 << 15,

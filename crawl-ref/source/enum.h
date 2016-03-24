@@ -244,7 +244,7 @@ enum ability_type
 
     // Species-specific abilities.
     // Demonspawn-only
-    ABIL_HELLFIRE,
+    ABIL_DAMNATION,
     // Tengu, Draconians
     ABIL_FLY,
 #if TAG_MAJOR_VERSION == 34
@@ -592,7 +592,7 @@ enum beam_type                  // bolt::flavour
 
     BEAM_SPORE,
     BEAM_POISON_ARROW,
-    BEAM_HELLFIRE,
+    BEAM_DAMNATION,
     BEAM_STICKY_FLAME,
     BEAM_STEAM,
     BEAM_ENERGY,
@@ -1883,8 +1883,8 @@ enum duration_type
 #endif
     DUR_WEAK,
     DUR_DIMENSION_ANCHOR,
-    DUR_ANTIMAGIC,
 #if TAG_MAJOR_VERSION == 34
+    DUR_ANTIMAGIC,
     DUR_SPIRIT_HOWL,
 #endif
     DUR_INFUSION,
@@ -1907,7 +1907,9 @@ enum duration_type
     DUR_POISON_VULN,
     DUR_FROZEN,
     DUR_SAP_MAGIC,
+#if TAG_MAJOR_VERSION == 34
     DUR_MAGIC_SAPPED,
+#endif
     DUR_PORTAL_PROJECTILE,
     DUR_FORESTED,
     DUR_DRAGON_CALL,
@@ -1976,8 +1978,8 @@ enum enchant_type
     ENCH_SLEEPY,         //   Monster can't wake until this wears off.
 #endif
     ENCH_HELD,           //   Caught in a net.
-    ENCH_BATTLE_FRENZY,  //   Monster is in a battle frenzy.
 #if TAG_MAJOR_VERSION == 34
+    ENCH_OLD_BATTLE_FRENZY,
     ENCH_TEMP_PACIF,
 #endif
     ENCH_PETRIFYING,
@@ -2030,8 +2032,10 @@ enum enchant_type
     ENCH_SILVER_CORONA,  // Zin's silver light.
     ENCH_RECITE_TIMER,   // Was recited against.
     ENCH_INNER_FLAME,
-    ENCH_ROUSED,         // Monster has been roused to greatness
-    ENCH_BREATH_WEAPON,  // just a simple timer for dragon breathweapon spam
+#if TAG_MAJOR_VERSION == 34
+    ENCH_OLD_ROUSED,
+#endif
+    ENCH_BREATH_WEAPON,  // timer for breathweapon/similar spam
     ENCH_DEATHS_DOOR,
     ENCH_ROLLING,        // Boulder Beetle in ball form
     ENCH_OZOCUBUS_ARMOUR,
@@ -2875,7 +2879,7 @@ enum monster_type                      // menv[].type
 #endif
     MONS_DEEP_ELF_KNIGHT,
 #if TAG_MAJOR_VERSION > 34
-    MONS_DEEP_ELF_ARCHER
+    MONS_DEEP_ELF_ARCHER,
 #endif
     MONS_DEEP_ELF_MAGE,
 #if TAG_MAJOR_VERSION == 34
@@ -3101,7 +3105,7 @@ enum monster_type                      // menv[].type
     MONS_HELL_SENTINEL,
     MONS_BRIMSTONE_FIEND,
     MONS_ICE_FIEND,
-    MONS_SHADOW_FIEND,
+    MONS_TZITZIMITL,
     MONS_PANDEMONIUM_LORD,
 
     // Spiritual beings ('R')
@@ -3667,7 +3671,7 @@ enum mutation_type
     MUT_FLAME_CLOUD_IMMUNITY,
 #endif
     MUT_HERBIVOROUS,
-    MUT_HURL_HELLFIRE,
+    MUT_HURL_DAMNATION,
 
     MUT_FAST,
     MUT_FAST_METABOLISM,
@@ -4294,7 +4298,7 @@ enum spell_type
     SPELL_STING,
     SPELL_SUBLIMATION_OF_BLOOD,
     SPELL_TUKIMAS_DANCE,
-    SPELL_HELLFIRE,
+    SPELL_HURL_DAMNATION,
     SPELL_SUMMON_DEMON,
 #if TAG_MAJOR_VERSION == 34
     SPELL_DEMONIC_HORDE,
@@ -4383,7 +4387,7 @@ enum spell_type
     SPELL_GOLUBRIAS_PASSAGE,
 
     // Mostly monster-only spells after this point:
-    SPELL_HELLFIRE_BURST,
+    SPELL_CALL_DOWN_DAMNATION,
 #if TAG_MAJOR_VERSION == 34
     SPELL_VAMPIRE_SUMMON,
 #endif
@@ -4754,7 +4758,7 @@ enum zap_type
     ZAP_DISPEL_UNDEAD,
     ZAP_BANISHMENT,
     ZAP_STING,
-    ZAP_HELLFIRE,
+    ZAP_DAMNATION,
     ZAP_IRON_SHOT,
     ZAP_STONE_ARROW,
     ZAP_SHOCK,
@@ -4846,8 +4850,7 @@ enum daction_type
     DACT_OLD_ENSLAVED_SOULS_POOF = 16,
 #if TAG_MAJOR_VERSION == 34
     DACT_HOLY_NEW_ATTEMPT,
-#endif
-#if TAG_MAJOR_VERSION > 34
+#else
     DACT_SLIME_NEW_ATTEMPT,
 #endif
     DACT_HOLY_PETS_GO_NEUTRAL,

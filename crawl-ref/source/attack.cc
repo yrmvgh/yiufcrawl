@@ -204,10 +204,6 @@ int attack::calc_to_hit(bool random)
                               || (weapon && is_range_weapon(*weapon)
                                          && using_weapon()));
 
-        // horror penalty
-        if (you.duration[DUR_HORROR])
-            mhit -= you.props[HORROR_PENALTY_KEY].get_int();
-
         // hunger penalty
         if (you.hunger_state <= HS_STARVING)
             mhit -= 3;
@@ -1508,7 +1504,7 @@ attack_flavour attack::random_chaos_attack_flavour()
                                          10, AF_COLD,
                                          10, AF_ELEC,
                                          10, AF_POISON,
-                                         10, AF_CHAOS,
+                                         10, AF_CHAOTIC,
                                           5, AF_DRAIN_XP,
                                           5, AF_VAMPIRIC,
                                           5, AF_HOLY,
@@ -1785,14 +1781,11 @@ bool attack::apply_damage_brand(const char *what)
         break;
 
     default:
-        if (using_weapon() && is_unrandom_artefact(*weapon, UNRAND_HELLFIRE))
+        if (using_weapon() && is_unrandom_artefact(*weapon, UNRAND_DAMNATION))
         {
-            calc_elemental_brand_damage(BEAM_HELLFIRE,
-                                        defender->is_icy() ? "melt" : "burn",
-                                        what);
-            defender->expose_to_element(BEAM_HELLFIRE);
+            calc_elemental_brand_damage(BEAM_DAMNATION, "damn", what);
+            defender->expose_to_element(BEAM_DAMNATION);
             attacker->god_conduct(DID_UNHOLY, 2 + random2(3));
-            attacker->god_conduct(DID_FIRE, 10 + random2(5));
         }
         break;
     }

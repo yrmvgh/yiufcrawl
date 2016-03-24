@@ -7,6 +7,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <chrono>
 #include <list>
 #include <memory>
 #include <vector>
@@ -91,7 +92,6 @@ public:
     bool          wizard;            // true if player has entered wiz mode.
     bool          explore;           // true if player has entered explore mode.
     time_t        birth_time;        // start time of game
-
 
     // ----------------
     // Long-term state:
@@ -252,11 +252,14 @@ public:
     uint8_t normal_vision;        // how far the species gets to see
     uint8_t current_vision;       // current sight radius (cells)
 
-    int           real_time;            // real time played (in seconds)
-    int           num_turns;            // number of turns taken
-    int           exploration;          // levels explored (16.16 bit real number)
+    int real_time() { return real_time_ms.count() / 1000; }
+    chrono::milliseconds real_time_ms;       // real time played
+    chrono::milliseconds real_time_delta;    // real time since last command
 
-    int           last_view_update;     // what turn was the view last updated?
+    int num_turns;            // number of turns taken
+    int exploration;          // levels explored (16.16 bit real number)
+
+    int                       last_view_update;     // what turn was the view last updated?
 
     // Warning: these two are quite different.
     //
@@ -340,7 +343,8 @@ public:
 
     delay_queue_type delay_queue;       // pending actions
 
-    time_t last_keypress_time;
+    chrono::time_point<chrono::system_clock> last_keypress_time;
+
     bool xray_vision;
     int8_t bondage_level;  // how much an Ash worshipper is into bondage
     int8_t bondage[NUM_ET];
@@ -677,7 +681,7 @@ public:
     bool is_unbreathing() const override;
     bool is_insubstantial() const override;
     int res_acid(bool calc_unid = true) const override;
-    bool res_hellfire() const override { return false; };
+    bool res_damnation() const override { return false; };
     int res_fire() const override;
     int res_steam() const override;
     int res_cold() const override;
@@ -975,7 +979,6 @@ int slaying_bonus(bool ranged = false);
 unsigned int exp_needed(int lev, int exp_apt = -99);
 bool will_gain_life(int lev);
 
-int get_expiration_threshold(duration_type dur);
 bool dur_expiring(duration_type dur);
 void display_char_status();
 

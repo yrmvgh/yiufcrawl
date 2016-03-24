@@ -1526,7 +1526,7 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
 
 bool player::res_corr(bool calc_unid, bool items) const
 {
-    if (religion == GOD_JIYVA && piety >= piety_breakpoint(2))
+    if (have_passive(passive_t::resist_corrosion))
         return true;
 
     if (get_form()->res_acid())
@@ -3354,7 +3354,7 @@ int check_stealth()
     }
 
     // If you're surrounded by a storm, you're inherently pretty conspicuous.
-    if (in_good_standing(GOD_QAZLAL, 0))
+    if (have_passive(passive_t::storm_shield))
     {
         stealth = stealth
                   * (MAX_PIETY - min((int)you.piety, piety_breakpoint(5)))
@@ -3370,62 +3370,6 @@ int check_stealth()
     return stealth;
 }
 
-// Returns the medium duration value which is usually announced by a special
-// message ("XY is about to time out") or a change of colour in the
-// status display.
-// Note that these values cannot be relied on when playing since there are
-// random decrements precisely to avoid this.
-int get_expiration_threshold(duration_type dur)
-{
-    switch (dur)
-    {
-    case DUR_PETRIFYING:
-        return 1 * BASELINE_DELAY;
-
-    case DUR_QUAD_DAMAGE:
-        return 3 * BASELINE_DELAY; // per client.qc
-
-    case DUR_FIRE_SHIELD:
-    case DUR_SILENCE: // no message
-        return 5 * BASELINE_DELAY;
-
-    case DUR_REGENERATION:
-    case DUR_RESISTANCE:
-    case DUR_SWIFTNESS:
-    case DUR_INVIS:
-    case DUR_HASTE:
-    case DUR_BERSERK:
-    case DUR_ICY_ARMOUR:
-    case DUR_DEATH_CHANNEL:
-    case DUR_SHROUD_OF_GOLUBRIA:
-    case DUR_INFUSION:
-    case DUR_SONG_OF_SLAYING:
-    case DUR_TROGS_HAND:
-    case DUR_QAZLAL_FIRE_RES:
-    case DUR_QAZLAL_COLD_RES:
-    case DUR_QAZLAL_ELEC_RES:
-    case DUR_QAZLAL_AC:
-        return 6 * BASELINE_DELAY;
-
-    case DUR_FLIGHT:
-    case DUR_TRANSFORMATION: // not on status
-    case DUR_DEATHS_DOOR:    // not on status
-    case DUR_SLIMIFY:
-    case DUR_DEVICE_SURGE:
-        return 10 * BASELINE_DELAY;
-
-    // These get no messages when they "flicker".
-    case DUR_CONFUSING_TOUCH:
-        return 20 * BASELINE_DELAY;
-
-    case DUR_ANTIMAGIC:
-        return you.hp_max; // not so severe anymore
-
-    default:
-        return 0;
-    }
-}
-
 // Is a given duration about to expire?
 bool dur_expiring(duration_type dur)
 {
@@ -3433,7 +3377,7 @@ bool dur_expiring(duration_type dur)
     if (value <= 0)
         return false;
 
-    return value <= get_expiration_threshold(dur);
+    return value <= duration_expire_point(dur);
 }
 
 static void _output_expiring_message(duration_type dur, const char* msg)
@@ -3817,7 +3761,7 @@ int slaying_bonus(bool ranged)
         ret += you.props[SONG_OF_SLAYING_KEY].get_int();
 
     if (you.duration[DUR_HORROR])
-        ret += you.props[HORROR_PENALTY_KEY].get_int();
+        ret -= you.props[HORROR_PENALTY_KEY].get_int();
 
     return ret;
 }
@@ -4306,7 +4250,7 @@ bool player_regenerates_mp()
     if (you.spirit_shield() && you.species == SP_DEEP_DWARF)
         return false;
     // Pakellas blocks MP regeneration.
-    if (you_worship(GOD_PAKELLAS) || player_under_penance(GOD_PAKELLAS))
+    if (have_passive(passive_t::no_mp_regen) || player_under_penance(GOD_PAKELLAS))
         return false;
     return true;
 }
@@ -4370,7 +4314,11 @@ void contaminate_player(int change, bool controlled, bool msg)
     int old_level  = get_contamination_level();
     int new_level  = 0;
 
-    you.magic_contamination = max(0, min(250000, you.magic_contamination + change));
+    if (change > 0 && player_equip_unrand(UNRAND_ETHERIC_CAGE))
+        change *= 2;
+
+    you.magic_contamination = max(0, min(250000,
+                                         you.magic_contamination + change));
 
     new_level = get_contamination_level();
 
@@ -5381,7 +5329,8 @@ player::player()
     normal_vision    = LOS_RADIUS;
     current_vision   = LOS_RADIUS;
 
-    real_time        = 0;
+    real_time_ms     = chrono::milliseconds::zero();
+    real_time_delta  = chrono::milliseconds::zero();
     num_turns        = 0;
     exploration      = 0;
 
@@ -5432,7 +5381,7 @@ player::player()
 
     delay_queue.clear();
 
-    last_keypress_time = time(0);
+    last_keypress_time = chrono::system_clock::now();
 
     action_count.clear();
 
@@ -5819,7 +5768,7 @@ int player::missile_deflection() const
     if (attribute[ATTR_REPEL_MISSILES]
         || player_mutation_level(MUT_DISTORTION_FIELD) == 3
         || scan_artefacts(ARTP_RMSL, true)
-        || in_good_standing(GOD_QAZLAL, 3))
+        || have_passive(passive_t::upgraded_storm_shield))
     {
         return 1;
     }
@@ -7182,7 +7131,6 @@ bool player::sicken(int amount)
     if (disease > 210 * BASELINE_DELAY)
         disease = 210 * BASELINE_DELAY;
 
-    learned_something_new(HINT_YOU_SICK);
     return true;
 }
 

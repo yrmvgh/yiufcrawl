@@ -1504,8 +1504,8 @@ static void _druid_final_boon(const monster* mons)
     for (int i = 0; i < num; ++i)
     {
         simple_monster_message(beasts[i], " seems to grow more fierce.");
-        beasts[i]->add_ench(mon_enchant(ENCH_BATTLE_FRENZY, 1, mons,
-                                        random_range(120, 200)));
+        beasts[i]->add_ench(mon_enchant(ENCH_MIGHT, 1, mons,
+                                        random_range(100, 160)));
     }
 }
 
@@ -2084,8 +2084,7 @@ item_def* monster_die(monster* mons, killer_type killer,
             // killing born-friendly monsters.
             if (gives_player_xp
                 && (have_passive(passive_t::restore_hp)
-                    || you_worship(GOD_PAKELLAS)
-                    || you_worship(GOD_VEHUMET)
+                    || have_passive(passive_t::mp_on_kill)
                     || have_passive(passive_t::restore_hp_mp_vs_unholy)
                        && (mons->is_evil() || mons->is_unholy()))
                 && !mons_is_object(mons->type)
@@ -2106,16 +2105,18 @@ item_def* monster_die(monster* mons, killer_type killer,
                     mp_heal = random2(2 + mons->get_experience_level() / 3);
                 }
 
-                switch (you.religion)
+                if (have_passive(passive_t::mp_on_kill))
                 {
-                case GOD_VEHUMET:
-                    mp_heal = 1 + random2(mons->get_experience_level() / 2);
-                    break;
-                case GOD_PAKELLAS:
-                    mp_heal = random2(2 + mons->get_experience_level() / 6);
-                    break;
-                default:
-                    break;
+                    switch (you.religion)
+                    {
+                    case GOD_PAKELLAS:
+                        mp_heal = random2(2 + mons->get_experience_level() / 6);
+                        break;
+                    case GOD_VEHUMET:
+                    default:
+                        mp_heal = 1 + random2(mons->get_experience_level() / 2);
+                        break;
+                    }
                 }
 
                 if (you.species == SP_DJINNI)
