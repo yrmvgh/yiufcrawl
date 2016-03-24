@@ -2501,6 +2501,7 @@ mon_spell_slot drac_breath(monster_type drac_type)
     case MONS_RED_DRACONIAN:     sp = SPELL_SEARING_BREATH; break;
     case MONS_WHITE_DRACONIAN:   sp = SPELL_CHILLING_BREATH; break;
     case MONS_DRACONIAN:
+    case MONS_BAI_SUZHEN:
     case MONS_GREY_DRACONIAN:    sp = SPELL_NO_SPELL; break;
     case MONS_PALE_DRACONIAN:    sp = SPELL_STEAM_BALL; break;
 
@@ -2758,7 +2759,7 @@ void mons_load_spells(monster* mon)
         return mon->load_ghost_spells();
 
     mon->spells.clear();
-    if (mons_genus(mon->type) == MONS_DRACONIAN && mon->type != MONS_BAI_SUZHEN)
+    if (mons_genus(mon->type) == MONS_DRACONIAN)
     {
         mon_spell_slot breath = drac_breath(draco_or_demonspawn_subspecies(mon));
         if (breath.spell != SPELL_NO_SPELL)
