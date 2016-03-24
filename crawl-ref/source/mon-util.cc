@@ -195,12 +195,12 @@ void init_mon_name_cache()
         const monster_type mon   = monster_type(mtype);
 
         // Deal sensibly with duplicate entries; refuse or allow the
-        // insert, depending on which should take precedence. Mostly we
-        // don't care, except looking up "rakshasa" and getting _FAKE
-        // breaks ?/M rakshasa.
+        // insert, depending on which should take precedence. Some
+        // uniques of multiple forms can get away with this, though.
         if (Mon_Name_Cache.count(name))
         {
             if (mon == MONS_PLAYER_SHADOW
+                || mon == MONS_BAI_SUZHEN_DRAGON
                 || mon != MONS_SERPENT_OF_HELL
                    && mons_species(mon) == MONS_SERPENT_OF_HELL)
             {
@@ -2758,7 +2758,7 @@ void mons_load_spells(monster* mon)
         return mon->load_ghost_spells();
 
     mon->spells.clear();
-    if (mons_genus(mon->type) == MONS_DRACONIAN)
+    if (mons_genus(mon->type) == MONS_DRACONIAN && mon->type != MONS_BAI_SUZHEN)
     {
         mon_spell_slot breath = drac_breath(draco_or_demonspawn_subspecies(mon));
         if (breath.spell != SPELL_NO_SPELL)
@@ -2870,6 +2870,11 @@ void define_monster(monster* mons)
         draconian_change_colour(mons);
         monbase = mons->base_monster;
         col = mons->colour;
+        break;
+
+    case MONS_BAI_SUZHEN:
+        // XXX: A hack to keep her an unknown draconian colour.
+        monbase = MONS_BAI_SUZHEN;
         break;
 
     case MONS_STARCURSED_MASS:

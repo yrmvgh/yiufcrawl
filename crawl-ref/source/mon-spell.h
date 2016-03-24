@@ -2092,4 +2092,16 @@ static const mon_spellbook mspell_list[] =
         { SPELL_FLASH_FREEZE, 62, MON_SPELL_NATURAL | MON_SPELL_BREATH },
       }
     },
+
+    { MST_BAI_SUZHEN,
+      {
+        { SPELL_SUMMON_HYDRA, 40, MON_SPELL_WIZARD },
+      }
+    },
+
+    { MST_BAI_SUZHEN_DRAGON,
+      {
+        { SPELL_PRIMAL_WAVE, 60, MON_SPELL_NATURAL | MON_SPELL_BREATH },
+      }
+    },
 };
