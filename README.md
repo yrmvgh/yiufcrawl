@@ -78,18 +78,18 @@ http://crawl.homedns.org/
     * Easy:
         * reduces the chances of out of depth monsters spawning
         * starts the player with 10 more hp
-        * increases chances of spawning healing potions, magic potions, and wands of healing, hasting, tele, and blink scrolls
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 2)
         * 1/4 normal score
+        * healing potions heal 100% of health
     * Hard:
         * increases the chances of out of depth monsters spawning
-        * reduces the chances of spawning healing potions, magic potions, and wands of healing, hasting
         * slower level advancement (exp apt - 2)
         * 33% less gold spawned
         * 25% less health
         * 4x normal score
+        * healing potions heal 25% of health, minimum of 20 points
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields
@@ -218,8 +218,9 @@ http://crawl.homedns.org/
       void. Not much of a void, since I hardly used it anyway. Magma Bolt has been put in the Flames Book as a level 5 spell alongside Fireball. 
 
 * Potions and wands of heal wounds
-    * now fully heal the target
-    * less than half as common to find around the dungeon
+    * easy mode: heals 100% of max hp
+    * normal mode: heals 50% of max hp (minimum of 20 points)
+    * hard mode: heals 25% of max hp (minimum of 20 points)
     * wands of heal wounds take from 2 to 10 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
 
 * Recharge scrolls

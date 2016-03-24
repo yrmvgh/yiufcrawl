@@ -1292,64 +1292,22 @@ static monster_type _choose_random_monster_corpse()
  */
 static int _random_wand_subtype()
 {
-	int result;
-	switch(crawl_state.difficulty)
-	{
-	case DIFFICULTY_EASY:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  8, WAND_ENSLAVEMENT,
-	                                  8, WAND_TELEPORTATION,
-	                                  4, WAND_HASTING,
-	                                  4, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	case DIFFICULTY_HARD:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  6, WAND_ENSLAVEMENT,
-	                                  3, WAND_TELEPORTATION,
-	                                  1, WAND_HASTING,
-	                                  1, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	default:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  6, WAND_ENSLAVEMENT,
-	                                  6, WAND_TELEPORTATION,
-	                                  2, WAND_HASTING,
-	                                  2, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	}
+    int result = random_choose_weighted(20, WAND_FLAME,
+                                        20, WAND_LIGHTNING,
+                                        20, WAND_ICEBLAST,
+                                        12, WAND_SLOWING,
+                                        12, WAND_PARALYSIS,
+                                        12, WAND_CONFUSION,
+                                        12, WAND_POLYMORPH,
+                                        12, WAND_RANDOM_EFFECTS,
+                                        12, WAND_ACID,
+                                        10, WAND_DISINTEGRATION,
+                                        10, WAND_DIGGING,
+                                        6, WAND_ENSLAVEMENT,
+                                        6, WAND_TELEPORTATION,
+                                        2, WAND_HASTING,
+                                        2, WAND_HEAL_WOUNDS,
+                                        0);
 
     return result;
 }
@@ -1465,75 +1423,26 @@ static void _generate_potion_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-        	switch(crawl_state.difficulty)
-        	{
-        	case DIFFICULTY_EASY:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40*2, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35*2, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34*2, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-        		break;
-        	case DIFFICULTY_HARD:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40/2, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35/2, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-        		break;
-        	default:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-				break;
-        	}
+            stype = random_choose_weighted(192, POT_CURING,
+                                            95, POT_HEAL_WOUNDS,
+                                            72, POT_DEGENERATION,
+                                            72, POT_LIGNIFY,
+                                            72, POT_FLIGHT,
+                                            66, POT_MIGHT,
+                                            66, POT_AGILITY,
+                                            66, POT_BRILLIANCE,
+                                            63, POT_HASTE,
+                                            46, POT_MUTATION,
+                                            35, POT_INVISIBILITY,
+                                            35, POT_RESISTANCE,
+                                            35, POT_MAGIC,
+                                            35, POT_BERSERK_RAGE,
+                                            34, POT_CANCELLATION,
+                                            34, POT_AMBROSIA,
+                                            34, POT_CURE_MUTATION,
+                                            11, POT_BENEFICIAL_MUTATION,
+                                             2, POT_EXPERIENCE,
+                                             0);
         }
         while (agent == GOD_XOM
                && _is_boring_item(OBJ_POTIONS, stype)
