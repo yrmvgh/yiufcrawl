@@ -198,11 +198,11 @@ public:
                 mpr("You feel completely better.");
                 break;
             case DIFFICULTY_NORMAL:
-                amount = you.hp_max;
+                amount = you.hp_max/2;
                 mpr("You feel much better.");
                 break;
             case DIFFICULTY_HARD:
-                amount = you.hp_max;
+                amount = you.hp_max/4;
                 mpr("You feel a little better.");
                 break;
             default:
@@ -632,7 +632,28 @@ public:
         {
             return PotionHealWounds::instance().effect(true, pow, false);
         }
-        inc_mp(you.max_magic_points);
+
+        int amount = 0;
+        switch(crawl_state.difficulty)
+        {
+            case DIFFICULTY_EASY:
+                amount = you.max_magic_points;
+                break;
+            case DIFFICULTY_NORMAL:
+                amount = you.max_magic_points/2;
+                break;
+            case DIFFICULTY_HARD:
+                amount = you.max_magic_points/4;
+                break;
+            default:
+                // should not be possible
+                break;
+        }
+
+        // give at least 10 points
+        amount = max(10, amount);
+
+        inc_mp(amount);
         mpr("Magic courses through your body.");
         return true;
     }

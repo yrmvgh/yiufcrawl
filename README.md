@@ -227,8 +227,10 @@ http://crawl.homedns.org/
     * less common, but fully recharge the wand.
 
 * Potions of magic
-    * less common
-    * fully restore magic
+    * easy mode: gives 100% magic
+    * normal mode: gives 50% magic
+    * hard mode: give 25% magic
+    * restores a minimum of 10 points
 
 * Potions of lignification (and lignify ability of vinestalkers)
     * lower initial AC (20 -> 15)
