@@ -447,7 +447,8 @@ enum activity_interrupt_type
     AI_FULL_MP,                     // Player has recovered all mp
     AI_HUNGRY,                      // Hunger increased
     AI_MESSAGE,                     // Message was displayed
-    AI_HP_LOSS,
+    AI_HP_LOSS_FROM_OTHER,          // maybe from poison, or self inflicted?
+    AI_HP_LOSS_FROM_MONSTER,        // only if a monster attack successfully damaged the player
     AI_STAT_CHANGE,
     AI_SEE_MONSTER,
     AI_MONSTER_ATTACKS,

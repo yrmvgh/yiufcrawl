@@ -19,6 +19,8 @@ double log2(double n)
 }
 #endif
 
+double _stepup(double power, double value, double divisor);
+
 double _stepup(double power, double value, double divisor)
 {
     return pow(power, value / divisor);

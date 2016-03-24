@@ -937,7 +937,7 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
     }
     ait_hp_loss hpl(dam, death_type);
     if(dam > 0) {
-        interrupt_activity(AI_HP_LOSS, &hpl);
+        interrupt_activity(source == MID_NOBODY ? AI_HP_LOSS_FROM_OTHER : AI_HP_LOSS_FROM_MONSTER, &hpl);
     }
 
     if (dam > 0 && death_type != KILLED_BY_POISON)

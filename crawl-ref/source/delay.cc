@@ -1329,7 +1329,7 @@ static bool _should_stop_activity(const delay_queue_item &item,
         return false;
     }
 
-    if (ai == AI_HP_LOSS && player_stair_delay())
+    if (ai == AI_HP_LOSS_FROM_MONSTER && player_stair_delay())
         return true;
 
     // No monster will attack you inside a sanctuary,
@@ -1650,7 +1650,7 @@ bool interrupt_activity(activity_interrupt_type ai,
     {
         _monster_warning(ai, at, item.type, msgs_buf);
         // Teleport or hp loss stops stair delays.
-        stop_delay(ai == AI_TELEPORT || ai == AI_HP_LOSS, ai == AI_MONSTER_ATTACKS);
+        stop_delay(ai == AI_TELEPORT || ai == AI_HP_LOSS_FROM_MONSTER, ai == AI_MONSTER_ATTACKS);
 
         return true;
     }
@@ -1690,7 +1690,7 @@ bool interrupt_activity(activity_interrupt_type ai,
 static const char *activity_interrupt_names[] =
 {
     "force", "keypress", "full_hp", "full_mp", "hungry", "message",
-    "hp_loss", "stat", "monster", "monster_attack", "teleport", "hit_monster",
+    "hp_loss_other", "hp_loss_monster", "stat", "monster", "monster_attack", "teleport", "hit_monster",
     "sense_monster", "mimic"
 };
 
