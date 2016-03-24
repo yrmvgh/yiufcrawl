@@ -603,12 +603,8 @@ unsigned int item_value(item_def item, bool ident)
             bool good = false;
             switch (item.sub_type)
             {
-            case WAND_HEAL_WOUNDS:
-                valued += 400;
-                good = true;
-                break;
-
             case WAND_HASTING:
+            case WAND_HEAL_WOUNDS:
                 valued += 240;
                 good = true;
                 break;
@@ -680,17 +676,16 @@ unsigned int item_value(item_def item, bool ident)
                 valued += 350;
                 break;
 
-            case POT_HEAL_WOUNDS:
             case POT_CURE_MUTATION:
                 valued += 250;
                 break;
 
-            case POT_MAGIC:
             case POT_RESISTANCE:
             case POT_HASTE:
                 valued += 100;
                 break;
 
+            case POT_MAGIC:
             case POT_INVISIBILITY:
             case POT_CANCELLATION:
             case POT_AMBROSIA:
@@ -698,6 +693,7 @@ unsigned int item_value(item_def item, bool ident)
                 break;
 
             case POT_BERSERK_RAGE:
+            case POT_HEAL_WOUNDS:
 #if TAG_MAJOR_VERSION == 34
             case POT_RESTORE_ABILITIES:
 #endif
