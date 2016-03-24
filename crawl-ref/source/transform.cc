@@ -1657,6 +1657,7 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
                bool just_check, string *fail_reason)
 {
     const transformation_type previous_trans = you.form;
+
     const bool was_flying = you.airborne();
     bool success = true;
     string msg;
@@ -1693,36 +1694,8 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
     // This must occur before the untransform() and the undead_state() check.
     if (previous_trans == which_trans)
     {
-        if (just_check)
-            return true;
-
-        // update power
-        if (which_trans != TRAN_NONE)
-        {
-            you.props[TRANSFORM_POW_KEY] = pow;
-            you.redraw_armour_class = true;
-            // ^ could check more carefully for the exact cases, but I'm
-            // worried about making the code too fragile
-
-            if (which_trans == TRAN_HYDRA)
-            {
-                const int heads = you.heads();
-                set_hydra_form_heads(div_rand_round(pow, 10));
-                _print_head_change_message(heads, you.heads());
-            }
-        }
-
-        int dur = _transform_duration(which_trans, pow);
-        if (you.duration[DUR_TRANSFORMATION] < dur * BASELINE_DELAY)
-        {
-            mpr("You extend your transformation's duration.");
-            you.duration[DUR_TRANSFORMATION] = dur * BASELINE_DELAY;
-
-        }
-        else if (!involuntary && which_trans != TRAN_NONE)
-            mpr("You fail to extend your transformation any further.");
-
-        return true;
+        mpr("You are already in that form.");
+        return false;
     }
 
     // the undead cannot enter most forms.
