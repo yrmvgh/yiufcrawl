@@ -514,7 +514,7 @@ ITEM:    great mace good_item / battleaxe good_item / glaive good_item / \
 :   " / animal skin " .. coldres .. " / nothing w:60")
 ITEM:    potion of resistance w:5 / potion of beneficial mutation q:1 w:5 / \
          potion of might / potion of flight / \
-         potion of heal wounds w:2 / any potion w:1
+         potion of heal wounds w:5 / any potion w:1
 MAP
                   xxxxx        xxxxxxxx
                 xxx...xxxx  xxxx12....xx
