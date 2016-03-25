@@ -3556,9 +3556,9 @@ static void _move_player(coord_def move)
         you.time_taken *= player_movement_speed();
         if (!Options.old_movement)
         {
-            if (move.x == -you.prev_direction.x && move.y == -you.prev_direction.y)
+            if (move.is_reversal(you.prev_direction))
                 you.time_taken = you.time_taken * 20 / 10;
-            else if (move.x && move.x == -you.prev_direction.x || move.y && move.y == -you.prev_direction.y)
+            else if (move.is_sharp_turn(you.prev_direction))
                 you.time_taken = you.time_taken * 15 / 10;
             else
                 you.time_taken = you.time_taken * 9 / 10;
