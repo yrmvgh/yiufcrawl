@@ -468,7 +468,6 @@ static const map<species_type, species_def> species_data =
     10, 8, 6, // 24
     { STAT_STR }, 5,
 	{
-			{ MUT_SUBDUED_MAGIC, 3, 1 },
 	},
     {},
     {},
@@ -564,7 +563,9 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     12, 5, 5, // 22
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_HORNS, 2, 1 }, },
+    { { MUT_HORNS, 2, 1 },
+	  { MUT_SUBDUED_MAGIC, 3, 1 },
+	},
     { "You reflexively headbutt those who attack you in melee." },
     { "retaliatory headbutt" },
     { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_BERSERKER },

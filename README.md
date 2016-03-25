@@ -148,9 +148,6 @@ http://crawl.homedns.org/
       but they are quite powerful when they do. 
     * added an extraordinary level of magic resistance
 
-* Hill Orc
-    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
-
 * Kobold
     * added permanent evolution mutation. Although this sounds similar to how demonspawns work, it actually plays quite differently, because the player will occasionally
       get random bad mutations, and sometimes have to adjust their play style to compensate. There is also a greater than normal chance that evolve will replace
@@ -159,6 +156,9 @@ http://crawl.homedns.org/
       cool demonspawn specific ones.
     * as a result of their highly mutable nature, they cannot worship Zin.
       
+* Minotaur
+    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
+
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
     * removed the misshapen armour restriction. Body armour gives full benefit, unlike with centaurs. This better balances the fact that not only are they slow,
