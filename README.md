@@ -172,8 +172,8 @@ http://crawl.homedns.org/
       normal AC, level 2 gives 1/3 of normal AC. They get level 1 at exp level 10, and level 2 of this mutation at exp level 15.
 
 * Octopode
-    * has permanent augmentation mutation at the beginning. This boosts their fighting and magic usage when they have a high amount of health, making them
-      significantly easier early on.
+    * has permanent augmentation mutation 1 after level 6. This boosts their fighting and magic usage when they have a high amount of health, making them
+      significantly easier early on. Then their gelatinous body advances to level 3 by exp level 8.
 
 * Tengu
     * start with clarity
