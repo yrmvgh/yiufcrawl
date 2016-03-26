@@ -529,8 +529,11 @@ int raw_spell_fail(spell_type spell)
 
     chance2 += get_form()->spellcasting_penalty;
 
-    chance2 -= 7 * player_mutation_level(MUT_SUBDUED_MAGIC);
-    chance2 += 7 * player_mutation_level(MUT_WILD_MAGIC);
+    const int wild = player_mutation_level(MUT_WILD_MAGIC);
+    const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
+    chance2 -= 7 * subdued * subdued;
+    chance2 += 7 * wild * wild;
+    
     chance2 += 4 * player_mutation_level(MUT_ANTI_WIZARDRY);
 
     if (player_equip_unrand(UNRAND_HIGH_COUNCIL))
@@ -592,8 +595,10 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         // Wild magic boosts spell power but decreases success rate.
         if (!fail_rate_check)
         {
-            power *= (10 + 5 * player_mutation_level(MUT_WILD_MAGIC));
-            power /= (10 + 5 * player_mutation_level(MUT_SUBDUED_MAGIC));
+            const int wild = player_mutation_level(MUT_WILD_MAGIC);
+            const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
+            power *= (10 + 5 * wild * wild);
+            power /= (10 + 5 * subdued * subdued);
         }
 
         // Augmentation boosts spell power at high HP.
