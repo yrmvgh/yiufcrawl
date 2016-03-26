@@ -221,7 +221,7 @@ http://crawl.homedns.org/
     * easy mode: heals 100% of max hp
     * normal mode: heals 50% of max hp (minimum of 20 points)
     * hard mode: heals 25% of max hp (minimum of 20 points)
-    * wands of heal wounds take from 2 to 10 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
+    * wands of heal wounds take from 2 to 20 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
