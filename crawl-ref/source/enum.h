@@ -4164,9 +4164,7 @@ enum species_type
     SP_HUMAN,
     SP_HIGH_ELF,
     SP_DEEP_ELF,
-#if TAG_MAJOR_VERSION == 34
     SP_SLUDGE_ELF,
-#endif
     SP_HALFLING,
     SP_HILL_ORC,
     SP_KOBOLD,

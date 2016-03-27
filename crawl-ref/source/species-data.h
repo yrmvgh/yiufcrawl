@@ -321,6 +321,41 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_DJINNI, {
+    "Dj",
+    "Djinni", "Djinn", nullptr,
+    SPF_NONE,
+    0, 0, 0,
+    9, 2,
+    MONS_DJINNI,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    {
+        { MUT_EPHEMERAL, 3, 1 },
+        { MUT_COLD_VULNERABILITY, 1, 1 },
+        { MUT_INSIGHT, 1, 1 },
+        { MUT_GLOW, 1, 4 },
+        { MUT_EPHEMERAL, -1, 6 },
+        { MUT_GLOW, 1, 8 },
+        { MUT_INSIGHT, 1, 9 },
+        { MUT_GLOW, 1, 12 },
+        { MUT_EPHEMERAL, -1, 12 },
+        { MUT_INSIGHT, 1, 15 },
+    },
+    { "You are healed by all types of fire, even holy and hellish.",
+      "Unarmed attacks will do fire damage.",
+      "Cold and water do twice as much damage to you.",
+      "You have no legs.",
+      "Fire heals you."
+    },
+    { },
+    { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
+      JOB_ARCANE_MARKSMAN, JOB_SKALD, JOB_TRANSMUTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,
+      JOB_FIRE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_ARTIFICER},
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
 { SP_FELID, {
     "Fe",
     "Felid", "Feline", "Cat",
@@ -564,7 +599,6 @@ static const map<species_type, species_def> species_data =
     12, 5, 5, // 22
     { STAT_STR, STAT_DEX }, 4,
     { { MUT_HORNS, 2, 1 },
-	  { MUT_SUBDUED_MAGIC, 3, 1 },
 	},
     { "You reflexively headbutt those who attack you in melee." },
     { "retaliatory headbutt" },
@@ -673,6 +707,26 @@ static const map<species_type, species_def> species_data =
       JOB_VENOM_MAGE },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
+} },
+
+{ SP_SLUDGE_ELF, {
+    "SE",
+    "Sludge Elf", "Elven", "Elf",
+    SPF_ELVEN,
+    0, -1, 1,
+    15, 3,
+    MONS_ELF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    6, 6, 6, // 18
+    { STAT_INT, STAT_DEX }, 4,
+    {
+    	{ MUT_SUBDUED_MAGIC, 3, 1 },
+    },
+    {},
+    {},
+    { JOB_HUNTER
+      },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
 } },
 
 { SP_SPRIGGAN, {
@@ -798,59 +852,7 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_DJINNI, {
-    "Dj",
-    "Djinni", "Djinn", nullptr,
-    SPF_NONE,
-    0, 0, 0,
-    9, 2,
-    MONS_DJINNI,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    {
-    		{ MUT_EPHEMERAL, 3, 1 },
-    		{ MUT_COLD_VULNERABILITY, 1, 1 },
-    		{ MUT_INSIGHT, 1, 1 },
-    		{ MUT_GLOW, 1, 4 },
-    		{ MUT_EPHEMERAL, -1, 6 },
-    		{ MUT_GLOW, 1, 8 },
-    		{ MUT_INSIGHT, 1, 9 },
-    		{ MUT_GLOW, 1, 12 },
-    		{ MUT_EPHEMERAL, -1, 12 },
-    		{ MUT_INSIGHT, 1, 15 },
-    },
-    { "You are healed by all types of fire, even holy and hellish.",
-      "Unarmed attacks will do fire damage.",
-      "Cold and water do twice as much damage to you.",
-      "You have no legs.",
-      "Fire heals you."
-    },
-    { },
-    { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
-    JOB_ARCANE_MARKSMAN, JOB_SKALD, JOB_TRANSMUTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,
-    JOB_FIRE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_ARTIFICER},
-    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
-} },
-
 #if TAG_MAJOR_VERSION == 34
-{ SP_SLUDGE_ELF, {
-    "SE",
-    "Sludge Elf", "Elven", "Elf",
-    SPF_ELVEN,
-    0, -1, 1,
-    15, 3,
-    MONS_ELF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_INT, STAT_DEX }, 4,
-    {},
-    {},
-    {},
-    {}, // not a starting race
-    {}, // not a starting race
-} },
-
 
 #endif
 // Ideally this wouldn't be necessary...
