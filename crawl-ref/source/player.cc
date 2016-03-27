@@ -6174,9 +6174,15 @@ int player::evasion(ev_ignore_type evit, const actor* act) const
     const int invis_penalty = attacker_invis && !(evit & EV_IGNORE_HELPLESS) ?
                               10 : 0;
 
+    int amount_of_stairs_penalty = 7;
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        amount_of_stairs_penalty = 1;
+    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+        amount_of_stairs_penalty = 3;
+
     const int stairs_penalty = player_stair_delay()
                                 && !(evit & EV_IGNORE_HELPLESS) ?
-                                    5 :
+                                    amount_of_stairs_penalty :
                                     0;
 
     return base_evasion - constrict_penalty - invis_penalty - stairs_penalty;
