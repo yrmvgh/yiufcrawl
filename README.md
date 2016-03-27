@@ -176,11 +176,14 @@ http://crawl.homedns.org/
       significantly easier early on. Then their gelatinous body advances to level 3 by exp level 8.
 
 * Tengu
-    * start with clarity
     * while flying, their speed and dodging increases based on their experience level.
     * start with shock resistance
     * start with thin skeletal structure
     * can't wear rings at all
+    * have a new mutation called enchantment absorbtion which gives a chance that enchantments used against the player will instead be absorbed into their magic pool
+        * at xp 6 they get enchantment absorb 1, which means 10% of the time the enchantment is absorbed
+        * at xp 12 they get ench absorb 2 = 40% of the time it is absorbed
+        * at xp 18 they get ench absorb 3 = 90% of the time it is absorbed, making them *almost* immune to magic enchantments.
 
 * Troll
     * they now gain several different elemental resistances as they gain levels

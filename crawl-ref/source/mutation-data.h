@@ -2224,7 +2224,7 @@ static const mutation_def mut_data[] =
    "a glow that surrounds you",
 },
 
-{ MUT_EPHEMERAL, 0, 3, mutflag::GOOD, false,
+{ MUT_EPHEMERAL, 1, 3, mutflag::GOOD, false,
   "ephemeral",
 
   {"Attacks rarely pass right through you.",
@@ -2235,6 +2235,20 @@ static const mutation_def mut_data[] =
    "You become more ephemeral."},
   {"You are no longer ephemeral.", "You become less ephemeral.", "You become less ephemeral."},
 
-   "a ephemeral body",
+  "an ephemeral body",
+},
+
+{ MUT_ABSORB_ENCH, 1, 3, mutflag::GOOD, false,
+  "absorb enchantments",
+
+  {"Enchantments targetting you are occasionally absorbed.",
+   "Enchantments targetting you are often absorbed.",
+   "Enchantments targetting you are usually absorbed."},
+  {"An enchantment absorbing field forms around you.",
+   "Your enchantment absorbing field becomes stronger.",
+   "Your enchantment absorbing field becomes stronger."},
+  {"Your enchantment absorbing field disappears.", "Your enchantment absorbing field becomes weaker.", "Your enchantment absorbing field becomes weaker."},
+
+   "an enchantment absorbing field surrounds you",
 },
 };

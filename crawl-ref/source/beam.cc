@@ -3434,6 +3434,17 @@ bool bolt::misses_player()
 
 void bolt::affect_player_enchantment(bool resistible)
 {
+    const int absorption_level = player_mutation_level(MUT_ABSORB_ENCH);
+    if (resistible && absorption_level)
+    {
+        if (x_chance_in_y(absorption_level * absorption_level, 10))
+        {
+            mprf("You absorb the magic.");
+            inc_mp(2 + ench_power/10);
+            return;
+        }
+    }
+
     if (resistible
         && has_saving_throw()
         && you.check_res_magic(ench_power) > 0)
