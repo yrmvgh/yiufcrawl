@@ -273,7 +273,7 @@ private:
     void monster_post_hit(monster* mon, int dmg);
     // for players
     void affect_player();
-    bool misses_player();
+    bool misses_player(int hurted);
 public:
     void affect_player_enchantment(bool resistible = true);
 private:

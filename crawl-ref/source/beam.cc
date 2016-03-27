@@ -3280,7 +3280,7 @@ bool bolt::pierces_shields() const
     return range_used_on_hit() == 0;
 }
 
-bool bolt::misses_player()
+bool bolt::misses_player(int hurted)
 {
     if (flavour == BEAM_VISUAL)
         return true;
@@ -3292,7 +3292,7 @@ bool bolt::misses_player()
         if (hit_verb.empty())
             hit_verb = engulfs ? "engulfs" : "hits";
         if (flavour != BEAM_VISUAL && !is_enchantment())
-            mprf("The %s %s you!", name.c_str(), hit_verb.c_str());
+            mprf("The %s %s you! (%d)", name.c_str(), hit_verb.c_str(), hurted);
         return false;
     }
 
@@ -3906,13 +3906,6 @@ void bolt::affect_player()
         return;
     }
 
-    if (misses_player())
-        return;
-
-    const bool engulfs = is_explosion || is_big_cloud();
-
-    msg_generated = true;
-
     // FIXME: Lots of duplicated code here (compare handling of
     // monsters)
     int hurted = 0;
@@ -3932,6 +3925,13 @@ void bolt::affect_player()
     dprf(DIAG_BEAM, "Player damage: before AC=%d; after AC=%d",
                     preac, postac);
 #endif
+
+    if (misses_player(hurted))
+        return;
+
+    const bool engulfs = is_explosion || is_big_cloud();
+
+    msg_generated = true;
 
     practise(EX_BEAM_WILL_HIT);
 
