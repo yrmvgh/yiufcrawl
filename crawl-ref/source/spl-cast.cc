@@ -529,11 +529,6 @@ int raw_spell_fail(spell_type spell)
 
     chance2 += get_form()->spellcasting_penalty;
 
-    const int wild = player_mutation_level(MUT_WILD_MAGIC);
-    const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
-    chance2 -= 7 * subdued * subdued;
-    chance2 += 7 * wild * wild;
-    
     chance2 += 4 * player_mutation_level(MUT_ANTI_WIZARDRY);
 
     if (player_equip_unrand(UNRAND_HIGH_COUNCIL))
@@ -546,6 +541,11 @@ int raw_spell_fail(spell_type spell)
 
     // Apply the effects of Vehumet and items of wizardry.
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
+
+    const int wild = player_mutation_level(MUT_WILD_MAGIC);
+    const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
+    chance2 >>= subdued;
+    chance2 <<= wild;
 
     if (chance2 > 100)
         chance2 = 100;
