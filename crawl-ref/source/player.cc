@@ -2019,7 +2019,7 @@ int player_movement_speed()
 
     // Tengu can move slightly faster when flying.
     if (you.tengu_flight())
-        mv -= 2 + you.experience_level / 5;
+        mv -= 2 + you.experience_level / 10;
 
     if (you.duration[DUR_FROZEN])
         mv += 4;
@@ -2290,7 +2290,7 @@ static int _player_scale_evasion(int prescaled_ev, const int scale)
     // Flying Tengu get a 20% evasion bonus.
     if (you.tengu_flight())
     {
-        const int ev_bonus = max(1 * scale, prescaled_ev * you.experience_level / 30);
+        const int ev_bonus = max(1 * scale, prescaled_ev * you.experience_level / 60);
         return prescaled_ev + ev_bonus;
     }
 
