@@ -2053,7 +2053,7 @@ bool enchant_weapon(item_def &wpn, bool quiet)
             success = true;
         }
         // Mark the item as uncursed, whether or not it was cursed initially.
-        do_uncurse_item(wpn, true, true);
+        do_uncurse_item(wpn, true);
     }
 
     if (!success && !quiet)
@@ -2197,7 +2197,7 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm)
         hide2armour(arm);
         ac_change = property(arm, PARM_AC) - ac_change;
 
-        do_uncurse_item(arm, true, true);
+        do_uncurse_item(arm, true);
 
         // No additional enchantment.
         return true;
@@ -2216,7 +2216,7 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm)
             else
                 canned_msg(MSG_NOTHING_HAPPENS);
         }
-        do_uncurse_item(arm, true, true);
+        do_uncurse_item(arm, true);
         return is_cursed; // was_cursed, really
     }
 
@@ -2229,7 +2229,7 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm)
 
     arm.plus++;
     ac_change++;
-    do_uncurse_item(arm, true, true);
+    do_uncurse_item(arm, true);
 
     return true;
 }

@@ -1615,6 +1615,9 @@ void scorefile_entry::init(time_t dt)
 
         points = pt;
     }
+    else
+        ASSERT(crawl_state.game_is_sprint());
+        // only sprint should use custom scores
 
     race = you.species;
     job  = you.char_class;

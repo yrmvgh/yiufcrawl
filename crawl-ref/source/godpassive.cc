@@ -840,7 +840,7 @@ map<skill_type, int8_t> ash_get_boosted_skills(eq_type type)
             boost[SK_STAVES] = 1;
 
         }
-        // Rods and staves with an evokable ability but no melee effect.
+        // Staves with an evokable ability but no melee effect.
         else if (is_weapon(*wpn)
                  && item_is_evokable(*wpn, false, false, false, false, false))
         {
@@ -1174,9 +1174,7 @@ monster* shadow_monster(bool equip)
     item_def* wpn = you.weapon();
     if (equip
         && wpn
-        && (wpn->base_type == OBJ_WEAPONS
-            || wpn->base_type == OBJ_STAVES
-            || wpn->base_type == OBJ_RODS))
+        && is_weapon(*wpn))
     {
         wpn_index = get_mitm_slot(10);
         if (wpn_index == NON_ITEM)
@@ -1186,11 +1184,6 @@ monster* shadow_monster(bool equip)
         {
             new_item.base_type = OBJ_WEAPONS;
             new_item.sub_type  = WPN_STAFF;
-        }
-        else if (wpn->base_type == OBJ_RODS)
-        {
-            new_item.base_type = OBJ_WEAPONS;
-            new_item.sub_type  = WPN_ROD;
         }
         else
         {

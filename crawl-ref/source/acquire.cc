@@ -688,9 +688,7 @@ static int _acquirement_misc_subtype(bool divine, int & /*quantity*/)
         {MISC_FAN_OF_GALES,
             (you.seen_misc[MISC_FAN_OF_GALES] ?       0 : 15)},
         {MISC_STONE_OF_TREMORS,
-            (you.seen_misc[MISC_STONE_OF_TREMORS] ?   0 : 15)},
-        {MISC_LANTERN_OF_SHADOWS,
-            (you.seen_misc[MISC_LANTERN_OF_SHADOWS] ? 0 :  7)}
+            (you.seen_misc[MISC_STONE_OF_TREMORS] ?   0 : 15)}
     };
 
     int result = *random_choose_weighted(choices);
@@ -1444,7 +1442,7 @@ int acquirement_create_item(object_class_type class_wanted,
         if (have_passive(passive_t::want_curses))
             do_curse_item(acq_item, true);
         else
-            do_uncurse_item(acq_item, false);
+            do_uncurse_item(acq_item);
 
         if (acq_item.base_type == OBJ_BOOKS)
         {

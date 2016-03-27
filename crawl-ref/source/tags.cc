@@ -1330,6 +1330,13 @@ static void tag_construct_char(writer &th)
     marshallByte(th, you.explore);
 }
 
+/// is a custom scoring mechanism being stored?
+static bool _calc_score_exists() {
+    lua_stack_cleaner clean(dlua);
+    dlua.pushglobal("dgn.persist.calc_score");
+    return !lua_isnil(dlua, -1);
+}
+
 static void tag_construct_you(writer &th)
 {
     marshallInt(th, you.last_mid);
@@ -1621,6 +1628,10 @@ static void tag_construct_you(writer &th)
         marshallInt(th, you.game_seeds[i]);
 
     CANARY;
+
+    // don't let vault caching errors leave a normal game with sprint scoring
+    if (!crawl_state.game_is_sprint())
+        ASSERT(!_calc_score_exists());
 
     if (!dlua.callfn("dgn_save_data", "u", &th))
         mprf(MSGCH_ERROR, "Failed to save Lua data: %s", dlua.error.c_str());
@@ -4235,8 +4246,8 @@ void unmarshallItem(reader &th, item_def &item)
         item.plus = 1;
     }
 
-    // was spiked flail; rods can't spawn
-    if (item.is_type(OBJ_WEAPONS, WPN_ROD)
+    // was spiked flail
+    if (item.is_type(OBJ_WEAPONS, WPN_SPIKED_FLAIL)
         && th.getMinorVersion() <= TAG_MINOR_FORGOTTEN_MAP)
     {
         item.sub_type = WPN_FLAIL;
@@ -4532,6 +4543,9 @@ void unmarshallItem(reader &th, item_def &item)
     {
         item.used_count = 0;
     }
+
+    if (item.base_type == OBJ_RODS && item.cursed())
+        do_uncurse_item(item); // rods can't be cursed anymore
 #endif
 
     if (is_unrandom_artefact(item))

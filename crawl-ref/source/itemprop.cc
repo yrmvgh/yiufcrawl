@@ -311,9 +311,11 @@ static const weapon_def Weapon_prop[] =
     { WPN_CLUB,              "club",                5,  3, 13,
         SK_MACES_FLAILS, SIZE_LITTLE,  SIZE_LITTLE, MI_NONE,
         DAMV_CRUSHING, 10, 0, {} },
-    { WPN_ROD,               "rod",                 5,  3, 13,
+#if TAG_MAJOR_VERSION == 34
+    { WPN_SPIKED_FLAIL,      "spiked flail",        5,  3, 13,
         SK_MACES_FLAILS, SIZE_LITTLE,  SIZE_LITTLE, MI_NONE,
         DAMV_CRUSHING, 0, 0, {} },
+#endif
     { WPN_WHIP,              "whip",                6,  2, 11,
         SK_MACES_FLAILS, SIZE_LITTLE,  SIZE_LITTLE, MI_NONE,
         DAMV_SLASHING, 4, 0, {
@@ -884,12 +886,22 @@ void do_curse_item(item_def &item, bool quiet)
     }
 }
 
-void do_uncurse_item(item_def &item, bool inscribe, bool no_ash,
-                     bool check_bondage)
+/**
+ * Attempt to un-curse the given item.
+ *
+ * @param item      The item in question.
+ * @param no_ash    Whether Ashenzari should attempt to intercept the curse
+ *                  removal. (I.e.: it's something removing curses from your
+ *                  items that's not a scroll of remove curse.)
+ * @param check_bondage     Whether to update the player's Ash bondage status.
+ *                          (Ash ?rc delays this until later.)
+ */
+void do_uncurse_item(item_def &item, bool no_ash, bool check_bondage)
 {
+    const bool in_inv = in_inventory(item);
     if (!item.cursed())
     {
-        if (in_inventory(item))
+        if (in_inv)
             item.flags |= ISFLAG_KNOW_CURSE;
         return;
     }
@@ -900,7 +912,7 @@ void do_uncurse_item(item_def &item, bool inscribe, bool no_ash,
         return;
     }
 
-    if (in_inventory(item))
+    if (in_inv)
     {
         if (you.equip[EQ_WEAPON] == item.link)
         {
@@ -911,7 +923,7 @@ void do_uncurse_item(item_def &item, bool inscribe, bool no_ash,
     }
     item.flags &= (~ISFLAG_CURSED);
 
-    if (check_bondage)
+    if (check_bondage && in_inv)
         ash_check_bondage();
 }
 
@@ -1719,14 +1731,10 @@ int get_vorpal_type(const item_def &item)
 
 int get_damage_type(const item_def &item)
 {
-    int ret = DAM_BASH;
-
-    if (item.base_type == OBJ_RODS)
-        ret = DAM_BLUDGEON;
     if (item.base_type == OBJ_WEAPONS)
-        ret = (Weapon_prop[Weapon_index[item.sub_type]].dam_type & DAM_MASK);
+        return Weapon_prop[Weapon_index[item.sub_type]].dam_type & DAM_MASK;
 
-    return ret;
+    return DAM_BASH;
 }
 
 static bool _does_damage_type(const item_def &item, int dam_type)
@@ -1760,7 +1768,6 @@ int single_damage_type(const item_def &item)
 hands_reqd_type basic_hands_reqd(const item_def &item, size_type size)
 {
     const int wpn_type = OBJ_WEAPONS == item.base_type ? item.sub_type :
-                         OBJ_RODS == item.base_type    ? WPN_ROD :
                          OBJ_STAVES == item.base_type  ? WPN_STAFF :
                                                          WPN_UNKNOWN;
 
@@ -1834,14 +1841,14 @@ bool is_blessed_weapon_type(int wpn_type)
 
 /**
  * Is the weapon type provided magical (& can't be generated in a usual way)?
- * (I.e., magic staffs & rods.)
+ * (I.e., magic staves.)
  *
  * @param wpn_type  The weapon_type under consideration.
- * @return          Whether it's a magic staff or rod.
+ * @return          Whether it's a magic staff.
  */
 bool is_magic_weapon_type(int wpn_type)
 {
-    return wpn_type == WPN_STAFF || wpn_type == WPN_ROD;
+    return wpn_type == WPN_STAFF;
 }
 
 
@@ -1946,8 +1953,6 @@ skill_type item_attack_skill(const item_def &item)
 {
     if (item.base_type == OBJ_WEAPONS)
         return Weapon_prop[ Weapon_index[item.sub_type] ].skill;
-    else if (item.base_type == OBJ_RODS)
-        return SK_MACES_FLAILS; // Rods are short and stubby
     else if (item.base_type == OBJ_STAVES)
         return SK_STAVES;
     else if (item.base_type == OBJ_MISSILES && !has_launcher(item))
@@ -2059,12 +2064,9 @@ bool is_weapon_wieldable(const item_def &item, size_type size)
 {
     ASSERT(is_weapon(item));
 
-    // Staves and rods are currently wieldable for everyone just to be nice.
-    if (item.base_type == OBJ_STAVES || item.base_type == OBJ_RODS
-        || item_attack_skill(item) == SK_STAVES)
-    {
+    // Staves are currently wieldable for everyone just to be nice.
+    if (item.base_type == OBJ_STAVES || item_attack_skill(item) == SK_STAVES)
         return true;
-    }
 
     return Weapon_prop[Weapon_index[item.sub_type]].min_2h_size <= size;
 }
@@ -2694,8 +2696,7 @@ int property(const item_def &item, int prop_type)
         break;
 
     case OBJ_STAVES:
-    case OBJ_RODS:
-        weapon_sub = (item.base_type == OBJ_RODS) ? WPN_ROD : WPN_STAFF;
+        weapon_sub = WPN_STAFF;
 
         if (prop_type == PWPN_DAMAGE)
             return Weapon_prop[ Weapon_index[weapon_sub] ].dam;

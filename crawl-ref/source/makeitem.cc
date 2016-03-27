@@ -1261,7 +1261,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
 
     if (armour_is_hide(item))
     {
-        do_uncurse_item(item, false);
+        do_uncurse_item(item);
         item.plus = 0;
         set_ident_flags(item, ISFLAG_IDENT_MASK);
     }
@@ -1819,7 +1819,6 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
                                       MISC_BOX_OF_BEASTS,
                                       MISC_SACK_OF_SPIDERS,
                                       MISC_CRYSTAL_BALL_OF_ENERGY,
-                                      MISC_LANTERN_OF_SHADOWS,
                                       MISC_PHANTOM_MIRROR);
     }
 
