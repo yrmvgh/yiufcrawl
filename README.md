@@ -156,8 +156,11 @@ http://crawl.homedns.org/
       cool demonspawn specific ones.
     * as a result of their highly mutable nature, they cannot worship Zin.
       
-* Minotaur
-    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
+* Sludge Elf
+    * brought back because I needed a species to experiment with. 
+    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result. 
+      This enables them to cast high level, low power requirement spells early or even in heavy armour, that would be impossible for others. 
+    * their starting attributes are unusually low.
 
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
