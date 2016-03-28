@@ -435,8 +435,8 @@ static int _beam_to_resist(const actor* defender, beam_type flavour)
         case BEAM_FIRE:
         case BEAM_LAVA:
             return defender->res_fire();
-        case BEAM_HELLFIRE:
-            return defender->res_hellfire();
+        case BEAM_DAMNATION:
+            return defender->res_damnation();
         case BEAM_STEAM:
             return defender->res_steam();
         case BEAM_COLD:
@@ -519,7 +519,7 @@ int resist_adjust_damage(const actor* defender, beam_type flavour, int rawdamage
 
     if (!is_mon && you.species == SP_DJINNI)
     {
-    	if (flavour == BEAM_FIRE || flavour == BEAM_HELLFIRE || flavour == BEAM_LAVA || flavour == BEAM_STEAM || flavour == BEAM_STICKY_FLAME)
+    	if (flavour == BEAM_FIRE || flavour == BEAM_LAVA || flavour == BEAM_STEAM || flavour == BEAM_STICKY_FLAME)
 		{
         	resistible = -(resistible >> 3);
     	}

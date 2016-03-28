@@ -56,6 +56,7 @@
 #include "unicode.h"
 #include "unwind.h"
 #include "view.h"
+#include "spl-summoning.h"
 
 enum IntertravelDestination
 {
@@ -923,6 +924,8 @@ command_type travel()
 
     if (you.running.is_explore())
     {
+        unsummon_all();
+
         if (Options.explore_auto_rest && !you.is_sufficiently_rested())
             return CMD_WAIT;
 

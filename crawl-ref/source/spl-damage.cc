@@ -140,15 +140,14 @@ spret_type cast_fire_storm(int pow, bolt &beam, bool fail)
     return SPRET_SUCCESS;
 }
 
-// No setup/cast split here as monster hellfire is completely different.
-// Sad, but needed to maintain balance - monster hellfirers get asymmetric
-// torment too.
-bool cast_hellfire_burst(int pow, bolt &beam)
+// No setup/cast split here as monster damnation is completely different.
+// XXX make this not true
+bool cast_smitey_damnation(int pow, bolt &beam)
 {
-    beam.name              = "burst of hellfire";
-    beam.aux_source        = "burst of hellfire";
+    beam.name              = "damnation";
+    beam.aux_source        = "damnation";
     beam.ex_size           = 1;
-    beam.flavour           = BEAM_HELLFIRE;
+    beam.flavour           = BEAM_DAMNATION;
     beam.real_flavour      = beam.flavour;
     beam.glyph             = dchar_glyph(DCHAR_FIRED_BURST);
     beam.colour            = LIGHTRED;
@@ -172,7 +171,7 @@ bool cast_hellfire_burst(int pow, bolt &beam)
         return false;
     }
 
-    mpr("You call forth a pillar of hellfire!");
+    mpr("You call forth a pillar of damnation!");
 
     beam.is_tracer = false;
     beam.in_explosion_phase = false;
@@ -1464,7 +1463,13 @@ static int _irradiate_cell(coord_def where, int pow, actor *agent)
     dprf("irr for %d (%d pow, max %d)", dam, pow, max_dam);
 
     if (agent->is_player())
+    {
         _player_hurt_monster(*mons, dam, BEAM_MMISSILE);
+
+        // Why are you casting this spell at all while worshipping Zin?
+        if (is_sanctuary(you.pos()) || is_sanctuary(mons->pos()))
+            remove_sanctuary(true);
+    }
     else
         mons->hurt(agent, dam, BEAM_MMISSILE);
 

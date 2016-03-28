@@ -1261,7 +1261,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
 
     if (armour_is_hide(item))
     {
-        do_uncurse_item(item, false);
+        do_uncurse_item(item);
         item.plus = 0;
         set_ident_flags(item, ISFLAG_IDENT_MASK);
     }
@@ -1292,64 +1292,22 @@ static monster_type _choose_random_monster_corpse()
  */
 static int _random_wand_subtype()
 {
-	int result;
-	switch(crawl_state.difficulty)
-	{
-	case DIFFICULTY_EASY:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  8, WAND_ENSLAVEMENT,
-	                                  8, WAND_TELEPORTATION,
-	                                  4, WAND_HASTING,
-	                                  4, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	case DIFFICULTY_HARD:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  6, WAND_ENSLAVEMENT,
-	                                  3, WAND_TELEPORTATION,
-	                                  1, WAND_HASTING,
-	                                  1, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	default:
-		result = random_choose_weighted(20, WAND_FLAME,
-	                                  20, WAND_LIGHTNING,
-	                                  20, WAND_ICEBLAST,
-	                                  12, WAND_SLOWING,
-	                                  12, WAND_PARALYSIS,
-	                                  12, WAND_CONFUSION,
-	                                  12, WAND_POLYMORPH,
-	                                  12, WAND_RANDOM_EFFECTS,
-	                                  12, WAND_ACID,
-	                                  10, WAND_DISINTEGRATION,
-	                                  10, WAND_DIGGING,
-	                                  6, WAND_ENSLAVEMENT,
-	                                  6, WAND_TELEPORTATION,
-	                                  2, WAND_HASTING,
-	                                  2, WAND_HEAL_WOUNDS,
-	                                  0);
-		break;
-	}
+    int result = random_choose_weighted(20, WAND_FLAME,
+                                        20, WAND_LIGHTNING,
+                                        20, WAND_ICEBLAST,
+                                        12, WAND_SLOWING,
+                                        12, WAND_PARALYSIS,
+                                        12, WAND_CONFUSION,
+                                        12, WAND_POLYMORPH,
+                                        12, WAND_RANDOM_EFFECTS,
+                                        12, WAND_ACID,
+                                        10, WAND_DISINTEGRATION,
+                                        10, WAND_DIGGING,
+                                        6, WAND_ENSLAVEMENT,
+                                        6, WAND_TELEPORTATION,
+                                        2, WAND_HASTING,
+                                        2, WAND_HEAL_WOUNDS,
+                                        0);
 
     return result;
 }
@@ -1465,75 +1423,26 @@ static void _generate_potion_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-        	switch(crawl_state.difficulty)
-        	{
-        	case DIFFICULTY_EASY:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40*2, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35*2, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34*2, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-        		break;
-        	case DIFFICULTY_HARD:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40/2, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35/2, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-        		break;
-        	default:
-				stype = random_choose_weighted(192, POT_CURING,
-												72, POT_DEGENERATION,
-												72, POT_LIGNIFY,
-												72, POT_FLIGHT,
-												66, POT_MIGHT,
-												66, POT_AGILITY,
-												66, POT_BRILLIANCE,
-												63, POT_HASTE,
-												46, POT_MUTATION,
-												40, POT_HEAL_WOUNDS,
-												35, POT_INVISIBILITY,
-												35, POT_RESISTANCE,
-												35, POT_MAGIC,
-												35, POT_BERSERK_RAGE,
-												34, POT_CANCELLATION,
-												34, POT_AMBROSIA,
-												34, POT_CURE_MUTATION,
-												11, POT_BENEFICIAL_MUTATION,
-												 2, POT_EXPERIENCE,
-												 0);
-				break;
-        	}
+            stype = random_choose_weighted(192, POT_CURING,
+                                            95, POT_HEAL_WOUNDS,
+                                            72, POT_DEGENERATION,
+                                            72, POT_LIGNIFY,
+                                            72, POT_FLIGHT,
+                                            66, POT_MIGHT,
+                                            66, POT_AGILITY,
+                                            66, POT_BRILLIANCE,
+                                            63, POT_HASTE,
+                                            46, POT_MUTATION,
+                                            35, POT_INVISIBILITY,
+                                            35, POT_RESISTANCE,
+                                            35, POT_MAGIC,
+                                            35, POT_BERSERK_RAGE,
+                                            34, POT_CANCELLATION,
+                                            34, POT_AMBROSIA,
+                                            34, POT_CURE_MUTATION,
+                                            11, POT_BENEFICIAL_MUTATION,
+                                             2, POT_EXPERIENCE,
+                                             0);
         }
         while (agent == GOD_XOM
                && _is_boring_item(OBJ_POTIONS, stype)
@@ -1945,7 +1854,6 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
                                       MISC_BOX_OF_BEASTS,
                                       MISC_SACK_OF_SPIDERS,
                                       MISC_CRYSTAL_BALL_OF_ENERGY,
-                                      MISC_LANTERN_OF_SHADOWS,
                                       MISC_PHANTOM_MIRROR);
     }
 
@@ -2056,20 +1964,40 @@ int items(bool allow_uniques,
     {
         ASSERT(force_type == OBJ_RANDOM);
         // Total weight: 1960
-        item.base_type = random_choose_weighted(
-                                     1, OBJ_RODS,
-                                     9, OBJ_STAVES,
-                                    30, OBJ_BOOKS,
-                                    50, OBJ_JEWELLERY,
-                                    70, OBJ_WANDS,
-                                   140, OBJ_FOOD,
-                                   212, OBJ_ARMOUR,
-                                   212, OBJ_WEAPONS,
-                                   176, OBJ_POTIONS,
-                                   300, OBJ_MISSILES,
-                                   320, OBJ_SCROLLS,
-                                   440, OBJ_GOLD,
-                                     0);
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+        {
+            item.base_type = random_choose_weighted(
+                    1, OBJ_RODS,
+                    9, OBJ_STAVES,
+                    30, OBJ_BOOKS,
+                    50, OBJ_JEWELLERY,
+                    70, OBJ_WANDS,
+                    140, OBJ_FOOD,
+                    212, OBJ_ARMOUR,
+                    212, OBJ_WEAPONS,
+                    176, OBJ_POTIONS,
+                    300, OBJ_MISSILES,
+                    320, OBJ_SCROLLS,
+                    440, OBJ_GOLD,
+                    0);
+        }
+        else
+        {
+            item.base_type = random_choose_weighted(
+                    1, OBJ_RODS,
+                    9, OBJ_STAVES,
+                    30, OBJ_BOOKS,
+                    50, OBJ_JEWELLERY,
+                    70, OBJ_WANDS,
+                    140, OBJ_FOOD,
+                    212, OBJ_ARMOUR,
+                    212, OBJ_WEAPONS,
+                    176, OBJ_POTIONS,
+                    300, OBJ_MISSILES,
+                    320, OBJ_SCROLLS,
+                    440, OBJ_GOLD,
+                    0);
+        }
 
         // misc items placement wholly dependent upon current depth {dlb}:
         if (item_level > 7 && x_chance_in_y(21 + item_level, 3500))
@@ -2180,7 +2108,9 @@ int items(bool allow_uniques,
         else
             item.quantity = 1 + random2avg(19, 2) + random2(item_level);
         if (crawl_state.difficulty == DIFFICULTY_EASY)
-        	item.quantity = item.quantity * 3 / 2;
+        	item.quantity = item.quantity * 4 / 3;
+        else if (crawl_state.difficulty == DIFFICULTY_HARD)
+            item.quantity = item.quantity * 2 / 3;
         break;
     }
 
@@ -2208,11 +2138,11 @@ int items(bool allow_uniques,
     item.link = NON_ITEM;
 
     // Note that item might be invalidated now, since p could have changed.
-    ASSERTM(mitm[p].is_valid(),
-            "idx: %d, qty: %hd, base: %d, sub: %d, spe: %d, col: %d, rnd: %d",
-            item.index(), item.quantity,
-            (int)item.base_type, (int)item.sub_type, item.special,
-            (int)item.get_colour(), (int)item.rnd);
+//    ASSERTM(mitm[p].is_valid(),
+//            "idx: %d, qty: %hd, base: %d, sub: %d, spe: %d, col: %d, rnd: %d",
+//            item.index(), item.quantity,
+//            (int)item.base_type, (int)item.sub_type, item.special,
+//            (int)item.get_colour(), (int)item.rnd);
     return p;
 }
 

@@ -243,6 +243,8 @@ public:
     bool        no_dark_brand;    // Attribute for branding friendly monsters
     bool        macro_meta_entry; // Allow user to use numeric sequences when
                                   // creating macros
+    int         autofight_warning;      // Amount of real time required between
+                                        // two autofight commands
     bool        cloud_status;     // Whether to show a cloud status light
 
     int         fire_items_start; // index of first item for fire command
@@ -417,6 +419,7 @@ public:
                                    // fraction of HP or MP
 
     bool        regex_search; // whether to default to regex search for ^F
+    bool        old_movement;
 
     lang_t              language;         // Translation to use.
     const char*         lang_name;        // Database name of the language.

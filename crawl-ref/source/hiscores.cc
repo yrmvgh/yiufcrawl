@@ -1608,8 +1608,16 @@ void scorefile_entry::init(time_t dt)
         pt += num_runes * 10000;
         pt += num_runes * (num_runes + 2) * 1000;
 
+        if(crawl_state.difficulty == DIFFICULTY_EASY)
+            pt >>= 2;
+        if(crawl_state.difficulty == DIFFICULTY_HARD)
+            pt <<= 2;
+
         points = pt;
     }
+    else
+        ASSERT(crawl_state.game_is_sprint());
+        // only sprint should use custom scores
 
     race = you.species;
     job  = you.char_class;
@@ -1695,8 +1703,8 @@ void scorefile_entry::init(time_t dt)
     birth_time = you.birth_time;     // start time of game
     death_time = (dt != 0 ? dt : time(nullptr)); // end time of game
 
-    handle_real_time(death_time);
-    real_time = you.real_time;
+    handle_real_time(chrono::system_clock::from_time_t(death_time));
+    real_time = you.real_time();
 
     num_turns = you.num_turns;
     num_aut = you.elapsed_time;

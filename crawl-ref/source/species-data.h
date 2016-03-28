@@ -321,6 +321,41 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_DJINNI, {
+    "Dj",
+    "Djinni", "Djinn", nullptr,
+    SPF_NONE,
+    0, 0, 0,
+    9, 2,
+    MONS_DJINNI,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    {
+        { MUT_EPHEMERAL, 3, 1 },
+        { MUT_COLD_VULNERABILITY, 1, 1 },
+        { MUT_INSIGHT, 1, 1 },
+        { MUT_GLOW, 1, 4 },
+        { MUT_EPHEMERAL, -1, 6 },
+        { MUT_GLOW, 1, 8 },
+        { MUT_INSIGHT, 1, 9 },
+        { MUT_GLOW, 1, 12 },
+        { MUT_EPHEMERAL, -1, 12 },
+        { MUT_INSIGHT, 1, 15 },
+    },
+    { "You are healed by all types of fire, even holy and hellish.",
+      "Unarmed attacks will do fire damage.",
+      "Cold and water do twice as much damage to you.",
+      "You have no legs.",
+      "Fire heals you."
+    },
+    { },
+    { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
+      JOB_ARCANE_MARKSMAN, JOB_SKALD, JOB_TRANSMUTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,
+      JOB_FIRE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_ARTIFICER},
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
 { SP_FELID, {
     "Fe",
     "Felid", "Feline", "Cat",
@@ -384,7 +419,7 @@ static const map<species_type, species_def> species_data =
       { MUT_TORMENT_RESISTANCE, 1, 1 },
       { MUT_COLD_RESISTANCE, 1, 1 },
       { MUT_CLAWS, 1, 1 }, { MUT_UNBREATHING, 1, 1 },
-      { MUT_POWERED_BY_DEATH, 1, 2 },
+      { MUT_POWERED_BY_DEATH, 1, 1 },
     },
     { "Your body is rotting away.",
       "You thrive on raw meat." },
@@ -468,7 +503,6 @@ static const map<species_type, species_def> species_data =
     10, 8, 6, // 24
     { STAT_STR }, 5,
 	{
-			{ MUT_SUBDUED_MAGIC, 3, 1 },
 	},
     {},
     {},
@@ -564,7 +598,8 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     12, 5, 5, // 22
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_HORNS, 2, 1 }, },
+    { { MUT_HORNS, 2, 1 },
+	},
     { "You reflexively headbutt those who attack you in melee." },
     { "retaliatory headbutt" },
     { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_BERSERKER },
@@ -631,11 +666,13 @@ static const map<species_type, species_def> species_data =
     9, 4,
     MONS_OGRE,
     HT_LAND, US_ALIVE, SIZE_LARGE,
-    15, 7, 4, // 26
+    12, 7, 5, // 24
     { STAT_STR }, 3,
     {
-    		{ MUT_TOUGH_SKIN, 1, 1 },
-    		{ MUT_POWERED_BY_PAIN, 1, 1 },
+            { MUT_TOUGH_SKIN, 1, 1 },
+            { MUT_DEFORMED, 1, 10 },
+    		{ MUT_POWERED_BY_PAIN, 1, 12 },
+            { MUT_DEFORMED, 1, 15 },
     },
     {},
     {},
@@ -672,6 +709,26 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_SLUDGE_ELF, {
+    "SE",
+    "Sludge Elf", "Elven", "Elf",
+    SPF_ELVEN,
+    0, -1, 1,
+    15, 3,
+    MONS_ELF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    6, 6, 6, // 18
+    { STAT_INT, STAT_DEX }, 4,
+    {
+    	{ MUT_SUBDUED_MAGIC, 3, 1 },
+    },
+    {},
+    {},
+    { JOB_HUNTER
+      },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
 { SP_SPRIGGAN, {
     "Sp",
     "Spriggan", nullptr, nullptr,
@@ -701,10 +758,15 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     6, 8, 10, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_BEAK, 1, 1 }, { MUT_TALONS, 3, 1 },
-      { MUT_TENGU_FLIGHT, 1, 1 }, { MUT_TENGU_FLIGHT, 1, 10 },
-      { MUT_SHOCK_RESISTANCE, 1, 1 }, { MUT_CLARITY, 1, 10 },
-      { MUT_THIN_SKELETAL_STRUCTURE, 2, 1 },
+    { { MUT_BEAK, 1, 1 },
+	  { MUT_TALONS, 3, 1 },
+      { MUT_TENGU_FLIGHT, 1, 1 },
+	  { MUT_SHOCK_RESISTANCE, 1, 1 },
+	  { MUT_THIN_SKELETAL_STRUCTURE, 2, 1 },
+	  { MUT_ABSORB_ENCH, 1, 6 },
+	  { MUT_TENGU_FLIGHT, 1, 10 },
+	  { MUT_ABSORB_ENCH, 1, 12 },
+	  { MUT_ABSORB_ENCH, 1, 18 },
     },
     {},
     {},
@@ -718,22 +780,25 @@ static const map<species_type, species_def> species_data =
     "Tr",
     "Troll", "Trollish", nullptr,
     SPF_NONE,
-    0, 3, -2,
+    0, 0, 0,
     9, 5,
     MONS_TROLL,
     HT_LAND, US_ALIVE, SIZE_LARGE,
     12, 4, 10, // 26
     { STAT_STR, STAT_DEX }, 3,
-    { { MUT_TOUGH_SKIN, 2, 1 }, { MUT_REGENERATION, 2, 1 }, { MUT_CLAWS, 3, 1 },
-      { MUT_GOURMAND, 1, 1 }, { MUT_FAST_METABOLISM, 3, 1 },
-      { MUT_SHAGGY_FUR, 1, 1 },
-	  { MUT_SHAGGY_FUR, 1, 5 },
-      { MUT_COLD_RESISTANCE, 1, 5 },
+    { { MUT_TOUGH_SKIN, 2, 1 },
+      { MUT_REGENERATION, 2, 1 },
+      { MUT_CLAWS, 3, 1 },
+      { MUT_GOURMAND, 1, 1 },
+      { MUT_FAST_METABOLISM, 3, 1 },
       { MUT_SHAGGY_FUR, 1, 10 },
-      { MUT_SHOCK_RESISTANCE, 1, 10 },
-      { MUT_HEAT_RESISTANCE, 1, 10 },
-      { MUT_HEAT_RESISTANCE, 1, 15 },
-      { MUT_POISON_RESISTANCE, 1, 15 },
+	  { MUT_SHAGGY_FUR, 1, 12 },
+      { MUT_COLD_RESISTANCE, 1, 14 },
+      { MUT_SHAGGY_FUR, 1, 16 },
+      { MUT_SHOCK_RESISTANCE, 1, 18 },
+      { MUT_HEAT_RESISTANCE, 1, 20 },
+      { MUT_POISON_RESISTANCE, 1, 22 },
+      { MUT_HEAT_RESISTANCE, 1, 24 },
     },
     {},
     {},
@@ -772,7 +837,9 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     10, 8, 9, // 27
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_FANGS, 2, 1 }, { MUT_FANGS, 1, 8 },
+    {
+      { MUT_NO_ARMOUR, 1, 1 },
+	  { MUT_FANGS, 2, 1 }, { MUT_FANGS, 1, 8 },
       { MUT_MANA_SHIELD, 1, 1 }, { MUT_ANTIMAGIC_BITE, 1, 1 },
       { MUT_NO_DEVICE_HEAL, 3, 1 }, { MUT_ROT_IMMUNITY, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_REGENERATION, 1, 6 },
@@ -785,59 +852,7 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_DJINNI, {
-    "Dj",
-    "Djinni", "Djinn", nullptr,
-    SPF_NONE,
-    0, 0, 0,
-    9, 2,
-    MONS_DJINNI,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    {
-    		{ MUT_EPHEMERAL, 3, 1 },
-    		{ MUT_COLD_VULNERABILITY, 1, 1 },
-    		{ MUT_INSIGHT, 1, 1 },
-    		{ MUT_GLOW, 1, 4 },
-    		{ MUT_EPHEMERAL, -1, 6 },
-    		{ MUT_GLOW, 1, 8 },
-    		{ MUT_INSIGHT, 1, 9 },
-    		{ MUT_GLOW, 1, 12 },
-    		{ MUT_EPHEMERAL, -1, 12 },
-    		{ MUT_INSIGHT, 1, 15 },
-    },
-    { "You are healed by all types of fire, even holy and hellish.",
-      "Unarmed attacks will do fire damage.",
-      "Cold and water do twice as much damage to you.",
-      "You have no legs.",
-      "Fire heals you."
-    },
-    { },
-    { JOB_FIGHTER, JOB_HUNTER, JOB_ABYSSAL_KNIGHT, JOB_DEATH_KNIGHT, JOB_WARPER,
-    JOB_ARCANE_MARKSMAN, JOB_SKALD, JOB_TRANSMUTER, JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER,
-    JOB_FIRE_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_ARTIFICER},
-    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
-} },
-
 #if TAG_MAJOR_VERSION == 34
-{ SP_SLUDGE_ELF, {
-    "SE",
-    "Sludge Elf", "Elven", "Elf",
-    SPF_ELVEN,
-    0, -1, 1,
-    15, 3,
-    MONS_ELF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_INT, STAT_DEX }, 4,
-    {},
-    {},
-    {},
-    {}, // not a starting race
-    {}, // not a starting race
-} },
-
 
 #endif
 // Ideally this wouldn't be necessary...

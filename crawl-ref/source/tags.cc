@@ -1330,6 +1330,13 @@ static void tag_construct_char(writer &th)
     marshallByte(th, you.explore);
 }
 
+/// is a custom scoring mechanism being stored?
+static bool _calc_score_exists() {
+    lua_stack_cleaner clean(dlua);
+    dlua.pushglobal("dgn.persist.calc_score");
+    return !lua_isnil(dlua, -1);
+}
+
 static void tag_construct_you(writer &th)
 {
     marshallInt(th, you.last_mid);
@@ -1532,7 +1539,8 @@ static void tag_construct_you(writer &th)
 
     handle_real_time();
 
-    marshallInt(th, you.real_time);
+    // TODO: maybe switch to marshalling real_time_ms.
+    marshallInt(th, you.real_time());
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
     marshallInt(th, you.amplification);
@@ -1624,6 +1632,10 @@ static void tag_construct_you(writer &th)
         marshallInt(th, you.game_seeds[i]);
 
     CANARY;
+
+    // don't let vault caching errors leave a normal game with sprint scoring
+    if (!crawl_state.game_is_sprint())
+        ASSERT(!_calc_score_exists());
 
     if (!dlua.callfn("dgn_save_data", "u", &th))
         mprf(MSGCH_ERROR, "Failed to save Lua data: %s", dlua.error.c_str());
@@ -2175,16 +2187,14 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     you.jiyva_second_name = unmarshallString2(th);
 
     you.wizard            = unmarshallBoolean(th);
+
     // this was mistakenly inserted in the middle for a few tag versions - this
     // just makes sure that games generated in that time period are still
     // readable, but should not be used for new games
 #if TAG_CHR_FORMAT == 0
-    if (major == 34
-        && (minor >= TAG_MINOR_EXPLORE_MODE
-            && minor < TAG_MINOR_FIX_EXPLORE_MODE))
-    {
+    // TAG_MINOR_EXPLORE_MODE and TAG_MINOR_FIX_EXPLORE_MODE
+    if (major == 34 && (minor >= 121 && minor < 130))
         you.explore = unmarshallBoolean(th);
-    }
 #endif
 
     crawl_state.type = (game_type) unmarshallUByte(th);
@@ -2215,9 +2225,7 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     if (major > 34 || major == 34 && minor >= 29)
         crawl_state.map = unmarshallString2(th);
 
-#if TAG_MAJOR_VERSION == 34
-    if (minor >= TAG_MINOR_FIX_EXPLORE_MODE)
-#endif
+    if (major > 34 || major == 34 && minor >= 130)
         you.explore = unmarshallBoolean(th);
 }
 
@@ -3173,7 +3181,8 @@ static void tag_read_you(reader &th)
     // time of character creation
     you.birth_time = unmarshallInt(th);
 
-    you.real_time  = unmarshallInt(th);
+    const int real_time  = unmarshallInt(th);
+    you.real_time_ms = chrono::milliseconds(real_time * 1000);
     you.num_turns  = unmarshallInt(th);
     you.exploration = unmarshallInt(th);
     you.amplification = unmarshallInt(th);
@@ -4251,8 +4260,8 @@ void unmarshallItem(reader &th, item_def &item)
         item.plus = 1;
     }
 
-    // was spiked flail; rods can't spawn
-    if (item.is_type(OBJ_WEAPONS, WPN_ROD)
+    // was spiked flail
+    if (item.is_type(OBJ_WEAPONS, WPN_SPIKED_FLAIL)
         && th.getMinorVersion() <= TAG_MINOR_FORGOTTEN_MAP)
     {
         item.sub_type = WPN_FLAIL;
@@ -4548,6 +4557,9 @@ void unmarshallItem(reader &th, item_def &item)
     {
         item.used_count = 0;
     }
+
+    if (item.base_type == OBJ_RODS && item.cursed())
+        do_uncurse_item(item); // rods can't be cursed anymore
 #endif
 
     if (is_unrandom_artefact(item))
@@ -5221,6 +5233,8 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
              || mi.type == MONS_SPELLFORGED_SERVITOR)
             && th.getMinorVersion() < TAG_MINOR_EXORCISE)
         && th.getMinorVersion() >= TAG_MINOR_GHOST_SINV
+#else
+        )
 #endif
         )
     {

@@ -124,6 +124,6 @@ int summons_limit(spell_type spell);
 int count_summons(const actor *summoner, spell_type spell);
 bool is_summon_spell(spell_type spell);
 int unsummon_all();
-bool player_has_summons();
+bool player_has_summons(bool from_summoning_spell = false);
 
 #endif

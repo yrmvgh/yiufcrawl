@@ -1592,10 +1592,12 @@ dungeon_feature_type trap_category(trap_type type)
         return DNGN_TRAP_ZOT;
     case TRAP_GOLUBRIA:
         return DNGN_PASSAGE_OF_GOLUBRIA;
+#if TAG_MAJOR_VERSION == 34
     case TRAP_SHADOW:
         return DNGN_TRAP_SHADOW;
     case TRAP_SHADOW_DORMANT:
         return DNGN_TRAP_SHADOW_DORMANT;
+#endif
 
     case TRAP_ARROW:
     case TRAP_SPEAR:
@@ -1635,6 +1637,9 @@ bool is_valid_shaft_level(bool known)
     {
         return false;
     }
+
+    if (place.depth < 3 && place.branch == BRANCH_DUNGEON)
+        return false;
 
     if (!is_connected_branch(place))
         return false;

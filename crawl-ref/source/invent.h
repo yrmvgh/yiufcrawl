@@ -147,6 +147,7 @@ public:
     // Not an override, but an overload. Not virtual!
     void set_title(MenuEntry *title, bool first = true);
     void set_title(FixedVector< item_def, ENDOFPACK > &inv, const string &s);
+    void set_title2(const string &s);
 
     // Loads items into the menu. If "procfn" is provided, it'll be called
     // for each MenuEntry added.
@@ -164,6 +165,8 @@ public:
     // title to the stock title. If "procfn" is provided, it'll be called for
     // each MenuEntry added, *excluding the title*.
     void load_inv_items(FixedVector< item_def, ENDOFPACK > &inv, int item_selector = OSEL_ANY, int excluded_slot = -1,
+                        MenuEntry *(*procfn)(MenuEntry *me) = nullptr);
+    void load_inv_items2(int item_selector = OSEL_ANY, int excluded_slot = -1,
                         MenuEntry *(*procfn)(MenuEntry *me) = nullptr);
 
     vector<SelItem> get_selitems() const;
@@ -191,9 +194,25 @@ bool any_items_of_type(FixedVector< item_def, ENDOFPACK > &inv, int type_expect,
 string no_selectables_message(int item_selector);
 
 string slot_description(FixedVector< item_def, ENDOFPACK > &inv);
+string slot_description_both();
 
 int prompt_invent_item(
 					   FixedVector< item_def, ENDOFPACK > &inv,
+					   const char *prompt,
+                       menu_type type,
+                       int type_expect,
+                       bool must_exist = true,
+                       bool auto_list = true,
+                       bool allow_easy_quit = true,
+                       const char other_valid_char = '\0',
+                       int excluded_slot = -1,
+                       int *const count = nullptr,
+                       operation_types oper = OPER_ANY,
+                       bool allow_list_known = false,
+                       bool do_warning = true);
+
+void prompt_invent_item2(
+		               vector<SelItem> &selected_items,
 					   const char *prompt,
                        menu_type type,
                        int type_expect,

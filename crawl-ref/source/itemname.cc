@@ -144,6 +144,11 @@ string item_def::name(description_level_type descrip, bool terse, bool ident,
     if (descrip == DESC_NONE)
         return "";
 
+    if (is_consumable(base_type) && descrip == DESC_INVENTORY_EQUIP)
+    {
+        descrip = DESC_INVENTORY;
+    }
+
     ostringstream buff;
 
     const string auxname = name_aux(descrip, terse, ident, with_inscription,
@@ -255,11 +260,8 @@ string item_def::name(description_level_type descrip, bool terse, bool ident,
                 switch (eq)
                 {
                 case EQ_WEAPON:
-                    if (base_type == OBJ_WEAPONS || base_type == OBJ_STAVES
-                        || base_type == OBJ_RODS)
-                    {
+                    if (is_weapon(*this))
                         buff << " (weapon)";
-                    }
                     else if (you.species == SP_FELID)
                         buff << " (in mouth)";
                     else
@@ -972,7 +974,9 @@ static string misc_type_name(int type, bool known)
 #endif
     case MISC_FAN_OF_GALES:              return "fan of gales";
     case MISC_LAMP_OF_FIRE:              return "lamp of fire";
-    case MISC_LANTERN_OF_SHADOWS:        return "lantern of shadows";
+#if TAG_MAJOR_VERSION == 34
+    case MISC_BUGGY_LANTERN_OF_SHADOWS:  return "removed lantern of shadows";
+#endif
     case MISC_HORN_OF_GERYON:            return "horn of Geryon";
     case MISC_DISC_OF_STORMS:            return "disc of storms";
 #if TAG_MAJOR_VERSION == 34
@@ -1269,8 +1273,8 @@ string ego_type_string(const item_def &item, bool terse, int override_brand)
             return "";
     case OBJ_MISSILES:
         // HACKHACKHACK
-        if (item.props.exists(HELLFIRE_BOLT_KEY))
-            return "hellfire";
+        if (item.props.exists(DAMNATION_BOLT_KEY))
+            return "damnation";
         return missile_brand_name(item, terse ? MBN_TERSE : MBN_BRAND);
     case OBJ_JEWELLERY:
         return jewellery_effect_name(item.sub_type, terse);
@@ -1650,8 +1654,8 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
 
         if (!terse && !dbname)
         {
-            if (props.exists(HELLFIRE_BOLT_KEY))
-                buff << "hellfire ";
+            if (props.exists(DAMNATION_BOLT_KEY)) // hack alert
+                buff << "damnation ";
             else if (_missile_brand_is_prefix(msl_brand))
                 buff << missile_brand_name(*this, MBN_NAME) << ' ';
         }
@@ -1666,8 +1670,8 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
         {
             if (terse)
             {
-                if (props.exists(HELLFIRE_BOLT_KEY))
-                    buff << " (hellfire)";
+                if (props.exists(DAMNATION_BOLT_KEY)) // still a hack
+                    buff << " (damnation)";
                 else
                     buff << " (" <<  missile_brand_name(*this, MBN_TERSE) << ")";
             }
@@ -3827,7 +3831,9 @@ bool is_useless_item(const item_def &item, bool temp)
             return item_type_known(item);
 #endif
         // These can always be used.
-        case MISC_LANTERN_OF_SHADOWS:
+#if TAG_MAJOR_VERSION == 34
+        case MISC_BUGGY_LANTERN_OF_SHADOWS:
+#endif
         case MISC_ZIGGURAT:
             return false;
 
@@ -3947,7 +3953,6 @@ string item_prefix(const item_def &item, bool temp)
         break;
 
     case OBJ_STAVES:
-    case OBJ_RODS:
     case OBJ_WEAPONS:
         if (is_range_weapon(item))
             prefixes.push_back("ranged");

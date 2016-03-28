@@ -19,24 +19,26 @@ double log2(double n)
 }
 #endif
 
-double _stepup(double power, double value, double divisor)
+double _stepup(double multiplier, double power, double value, double divisor);
+
+double _stepup(double multiplier, double power, double value, double divisor)
 {
-    return pow(power, value / divisor);
+    return multiplier * pow(power, value / divisor);
 }
 
 int stepup(int value, int multiplier, int power, int divisor)
 {
-    return multiplier * _stepup(power, value, divisor);
+    return _stepup(multiplier, power, value, divisor);
 }
 
-double stepdown(double value, double step)
+double stepdown(double value, double step, double base)
 {
-    return step * log2(1 + value / step);
+    return step * log(1 + value / step) / log(base);
 }
 
-int stepdown(int value, int step, rounding_type rounding, int max)
+int stepdown(int value, int step, rounding_type rounding, int max, double base)
 {
-    double ret = stepdown((double) value, double(step));
+    double ret = stepdown((double) value, double(step), double(base));
 
     if (max > 0 && ret > max)
         return max;

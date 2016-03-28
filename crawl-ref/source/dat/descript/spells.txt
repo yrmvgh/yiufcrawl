@@ -58,7 +58,9 @@ Avatar Song spell
 
 Sings a powerfully haunting song; in addition to making nearby victims
 unwilling to move away from the singer, it calls forth drowned souls from
-any nearby bodies of deep water.
+any nearby bodies of deep water. Extremely loud noises, such as those produced
+by lightning or scrolls of noise, will disrupt the effect, as will leaving the
+caster's line of sight.
 %%%%
 Awaken Earth spell
 
@@ -228,7 +230,9 @@ morale. They have no noticeable effect.
 %%%%
 Cause Fear spell
 
-Causes fear in those near to the caster.
+Causes fear in those near to the caster. Adventurers suffering from this effect
+find that extremely loud noises, such as those produced by lightning or scrolls
+of noise, will disrupt it, as will leaving the caster's line of sight.
 %%%%
 Chain of Chaos spell
 
@@ -512,7 +516,7 @@ target will be unable to be put to sleep again for some time.
 %%%%
 Entropic Weave spell
 
-Corrodes away the target's equipment.
+Corrodes the target, with no direct line of fire required.
 %%%%
 Excruciating Wounds spell
 
@@ -542,7 +546,7 @@ short-lived fire vortices.
 %%%%
 Fire Summon spell
 
-Summons demons of flame and hellfire.
+Summons demons of flame and damnation.
 %%%%
 Fireball spell
 
@@ -630,17 +634,17 @@ Heal Other spell
 
 Heals a nearby ally.
 %%%%
-Hellfire Burst spell
+Call Down Damnation spell
 
-Blasts a targeted enemy with hellfire, with no direct line of fire required.
-This ball of unholy flames explodes on impact, and is not affected by any means
-of protection such as armour or resistances. However, certain creatures,
-usually those able to create hellfire themselves, are immune to hellfire
-entirely.
+Blasts a targeted enemy with damnation, with no direct line of fire required.
+These unholy forces harm the victim and anyone adjacent, and are not affected
+by any means of protection, such as armour or resistances. However, certain
+creatures, usually those able to invoke damnation themselves, are entirely
+unscathed by damnation.
 %%%%
-Hellfire spell
+Hurl Damnation spell
 
-<Hellfire ability>
+<Damnation ability>
 %%%%
 Holy Breath spell
 
@@ -823,7 +827,9 @@ Conjures up a short-lived cloud of noxious fumes, which may cause confusion.
 %%%%
 Mesmerise spell
 
-Makes a targeted creature unwilling to move away from the caster.
+Makes a targeted creature unwilling to move away from the caster. Extremely
+loud noises, such as those produced by lightning or scrolls of noise, will
+disrupt the effect, as will leaving the caster's line of sight.
 %%%%
 Metabolic Englaciation spell
 
@@ -1125,7 +1131,8 @@ Simulacra cannot leave the level they were created on.
 Siren Song spell
 
 Sings a haunting song, making nearby victims unwilling to move away from the
-singer.
+singer. Extremely loud noises, such as those produced by lightning or scrolls
+of noise, will disrupt the effect, as will leaving the caster's line of sight.
 %%%%
 Sleep spell
 

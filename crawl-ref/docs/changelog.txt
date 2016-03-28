@@ -1,4 +1,4 @@
-Stone Soup 0.18 (up to 0.18-a0-1521-g59d19af)
+Stone Soup 0.18 (up to 0.18-a0-1619-gee06bbb)
 --------------------------------------------
 
 Highlights
@@ -7,6 +7,7 @@ Highlights
 
 Branches, Environment
 ---------------------
+* Killing monsters in the Abyss eventually spawns exits and down-stairs.
 * Ziggurat portals no longer appear in Pan.
 * After clearing multiple ziggurats, enemies found in later ziggurats will be
   considerably more dangerous.
@@ -83,6 +84,7 @@ Items
     armour.
   - Unrand: The +3 Warlock's Mirror {reflection}, a buckler that allows
     reflection of piercing effects and enchantments, among other things.
+* The Etheric Cage now multiplies gained contam, instead of generating it.
 * The robe of vines now grants slightly less regeneration.
 * The Majin-Bo now speaks occasionally.
 * The captain's cutlass now causes bonus damage when disarming.
@@ -99,6 +101,7 @@ Items
   only have the *Tele teleportitis effect.
 * Potions of cure mutation are slightly more common.
 * Potions of degeneration now cause 1-3 damage to every stat.
+* The Damnation card has been renamed to Exile.
 * Removed items:
   - Amulets of resist mutation, stasis, warding, and corrosion.
   - Wands of cold, fire, frost, magic darts, invisibility, draining, and
@@ -120,6 +123,9 @@ Monsters
   - Dart slugs, slow-moving, squishy gastropods with a ranged dart attack.
   - Howler monkeys, fast and extremely loud creatures, often found in packs.
   - Rime drakes, small flying lizards which breathe Flash Freeze.
+* Shadow Fiends are now Tzitzimimeh, made somewhat stronger and given attacks
+  that surround their targets in a ring of miasma clouds.
+* Hellfire has been renamed to Damnation, and no longer melts ice.
 * Chaos champions lose Chaotic Mirror and instead gain Call of Chaos, an
   ability which applies (usually) positive status effects to nearby allies.
 * Mnoleg gains Call of Chaos (as above), Random Bolt, and Dig.
@@ -179,6 +185,7 @@ Spells
   damage bonus as before.
 * Song of Slaying now increases its slaying bonus with every kill, but caps at
   +9 total.
+* Tukima's Dance's power multiplier has been reduced.
 * Spectral Weapon now bases the strength of the summoned weapon on spell power
   instead of weapon skill.
 * Alistair's Intoxication is now level 5 and gives Vertigo status instead of
@@ -196,6 +203,7 @@ Interface
 * Earth elementalists now have their stones start on b.
 * Characters starting with a primary ranged weapon now have their melee weapon
   on b by default.
+* New autofight_warning option, to combat accidentally holding down tab.
 * An option is added to the butchering prompt to allow butchering only
   (e)dible corpses.
 * Auto-eat now triggers for ghouls if they are rotted.
@@ -204,6 +212,7 @@ Interface
 * Many previously hardcoded forced mores are now optional and present in the
   default init.txt.
 * New character dump option: skill_gains, which shows when skills were gained.
+* A s(T)atus effect lookup has been added to ?/.
 
 Stone Soup 0.17 (20151106)
 --------------------------

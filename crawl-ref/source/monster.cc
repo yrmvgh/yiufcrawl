@@ -90,6 +90,7 @@ monster::monster()
     clear_constricted();
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
+    prev_direction = coord_def(0, 0);
 }
 
 // Empty destructor to keep unique_ptr happy with incomplete ghost_demon type.
@@ -198,6 +199,7 @@ void monster::init_with(const monster& mon)
     props             = mon.props;
     damage_friendly   = mon.damage_friendly;
     damage_total      = mon.damage_total;
+    prev_direction    = mon.prev_direction;
 
     if (mon.ghost.get())
         ghost.reset(new ghost_demon(*mon.ghost));
@@ -570,11 +572,11 @@ bool monster::can_wield(const item_def& item, bool ignore_curse,
 }
 
 /**
- * Checks whether the monster could ever wield the given weapon, regardless of
+ * Checks whether the monster could ever wield the given item, regardless of
  * what they're currently wielding or any other state.
  *
  * @param item              The item to wield.
- * @param ignore_brand      Whether to disregard the weapon's brand.
+ * @param ignore_brand      Whether to disregard the item's brand.
  * @return                  Whether the monster could potentially wield the
  *                          item.
  */
@@ -592,7 +594,7 @@ bool monster::could_wield(const item_def &item, bool ignore_brand,
         return false;
 
     // Wimpy monsters (e.g. kobolds, goblins) can't use halberds, etc.
-    if (!is_weapon_wieldable(item, body_size()))
+    if (is_weapon(item) && !is_weapon_wieldable(item, body_size()))
         return false;
 
     if (!ignore_brand)
@@ -1536,7 +1538,7 @@ bool monster::pickup_melee_weapon(item_def &item, bool msg)
             const int old_wpn_dam = mons_weapon_damage_rating(*weap)
                                     + _ego_damage_bonus(*weap);
 
-            bool new_wpn_better = (new_wpn_dam > old_wpn_dam);
+            bool new_wpn_better = new_wpn_dam > old_wpn_dam;
             if (new_wpn_dam == old_wpn_dam)
             {
                 // Use shopping value as a crude estimate of resistances etc.
@@ -1551,7 +1553,11 @@ bool monster::pickup_melee_weapon(item_def &item, bool msg)
                     new_wpn_better = true;
             }
 
-            if (new_wpn_better && !weap->cursed())
+            if (item.base_type == OBJ_RODS)
+                new_wpn_better = true; // rods are good.
+
+            if (new_wpn_better && !weap->cursed()
+                && weap->base_type != OBJ_RODS) // rods are good
             {
                 if (!dual_wielding
                     || slot == MSLOT_WEAPON
@@ -1946,6 +1952,22 @@ bool monster::pickup_weapon(item_def &item, bool msg, bool force)
     return false;
 }
 
+bool monster::pickup_rod(item_def &item, bool msg, bool force)
+{
+    // duplicating some relevant melee weapon pickup checks
+    if (!force &&
+            (!could_wield(item)
+            || type == MONS_DEEP_ELF_BLADEMASTER
+            || type == MONS_DEEP_ELF_MASTER_ARCHER)
+            || props.exists(BEOGH_MELEE_WPN_GIFT_KEY))
+    {
+        // XXX: check to see whether this type of rod is evocable by monsters!
+        return false;
+    }
+
+    return pickup_melee_weapon(item, msg);
+}
+
 /**
  * Have a monster pick up a missile item.
  *
@@ -2159,8 +2181,9 @@ bool monster::pickup_item(item_def &item, bool msg, bool force)
     // Hostiles won't pick them up if they were ever dropped/thrown by you.
     case OBJ_STAVES:
     case OBJ_WEAPONS:
-    case OBJ_RODS:
         return pickup_weapon(item, msg, force);
+    case OBJ_RODS:
+        return pickup_rod(item, msg, force);
     case OBJ_MISSILES:
         return pickup_missile(item, msg, force);
     // Other types can always be picked up
@@ -2861,7 +2884,6 @@ void monster::expose_to_element(beam_type flavour, int strength,
         break;
     case BEAM_FIRE:
     case BEAM_LAVA:
-    case BEAM_HELLFIRE:
     case BEAM_STICKY_FLAME:
     case BEAM_STEAM:
         if (has_ench(ENCH_OZOCUBUS_ARMOUR))
@@ -3603,7 +3625,8 @@ mon_holy_type monster::holiness(bool /*temp*/) const
         holi |= MH_EVIL;
 
     if (has_attack_flavour(AF_DRAIN_XP)
-        || has_attack_flavour(AF_VAMPIRIC))
+        || has_attack_flavour(AF_VAMPIRIC)
+        || has_attack_flavour(AF_MIASMATA))
     {
         holi |= MH_EVIL;
     }
@@ -3736,7 +3759,7 @@ int monster::known_chaos(bool check_spells_god) const
     }
 
     if (has_attack_flavour(AF_MUTATE)
-        || has_attack_flavour(AF_CHAOS))
+        || has_attack_flavour(AF_CHAOTIC))
     {
         chaotic++;
     }
@@ -3788,9 +3811,9 @@ bool monster::is_insubstantial() const
     return mons_class_flag(type, M_INSUBSTANTIAL);
 }
 
-bool monster::res_hellfire() const
+bool monster::res_damnation() const
 {
-    return get_mons_resist(this, MR_RES_FIRE) >= 4;
+    return get_mons_resist(this, MR_RES_FIRE) >= 4; // XXX: ???
 }
 
 int monster::res_fire() const
@@ -6480,7 +6503,7 @@ item_def* monster::take_item(int steal_what, mon_inv_type mslot)
     equip(new_item, true);
 
     // Item is gone from player's inventory.
-    dec_inv_item_quantity(you.inv1, steal_what, new_item.quantity);
+    dec_inv_item_quantity(you.inv2, steal_what, new_item.quantity);
 
     return &new_item;
 }

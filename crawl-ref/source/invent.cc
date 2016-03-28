@@ -339,9 +339,21 @@ string slot_description(FixedVector< item_def, ENDOFPACK > &inv)
     return make_stringf("%d/%d slots", inv_count(inv), ENDOFPACK);
 }
 
+string slot_description_both()
+{
+    return make_stringf("%d/%d slots", inv_count(you.inv1) + inv_count(you.inv2), ENDOFPACK*2);
+}
+
 void InvMenu::set_title(FixedVector< item_def, ENDOFPACK > &inv, const string &s)
 {
     set_title(new InvTitle(this, s.empty() ? "Inventory: " + slot_description(inv)
+                                           : s,
+                           title_annotate));
+}
+
+void InvMenu::set_title2(const string &s)
+{
+    set_title(new InvTitle(this, s.empty() ? "Inventory: " + slot_description_both()
                                            : s,
                            title_annotate));
 }
@@ -472,6 +484,22 @@ void InvMenu::load_inv_items(FixedVector< item_def, ENDOFPACK > &inv,
         set_title(inv, no_selectables_message(item_selector));
     else
         set_title(inv, "");
+}
+
+void InvMenu::load_inv_items2(
+							 int item_selector, int excluded_slot,
+                             MenuEntry *(*procfn)(MenuEntry *me))
+{
+    vector<const item_def *> tobeshown;
+    _get_inv_items_to_show(you.inv1, tobeshown, item_selector, excluded_slot);
+    _get_inv_items_to_show(you.inv2, tobeshown, item_selector, excluded_slot);
+
+    load_items(tobeshown, procfn);
+
+//    if (!item_count())
+//        set_title(inv, no_selectables_message(item_selector));
+//    else
+        set_title(you.inv1, "");
 }
 
 #ifdef USE_TILE
@@ -765,6 +793,7 @@ menu_letter InvMenu::load_items(const vector<const item_def*> &mitems,
         inv_class[mitem->base_type]++;
 
     vector<InvEntry*> items_in_class;
+    vector<int> hotkeys;
     const menu_sort_condition *cond = nullptr;
     if (sort) cond = find_menu_sort_condition();
 
@@ -805,6 +834,15 @@ menu_letter InvMenu::load_items(const vector<const item_def*> &mitems,
                 continue;
 
             InvEntry * const ie = new InvEntry(*mitem);
+
+            int count = 0;
+            while(find(hotkeys.begin(), hotkeys.end(), ie->hotkeys[0]) != hotkeys.end() && count++ < 52 && ie->hotkeys[0] != ' ')
+            {
+                ie->hotkeys[0] = ckey++;
+            }
+
+            hotkeys.push_back(ie->hotkeys[0]);
+
             if (mitem->sub_type == get_max_subtype(mitem->base_type))
                 forced_first = ie;
             else
@@ -1179,6 +1217,42 @@ static unsigned char _invent_select(FixedVector< item_def, ENDOFPACK > &inv,
     // Don't override title if there are no items.
     if (title && menu.item_count())
         menu.set_title(inv, title);
+
+    menu.show(true);
+
+    if (items)
+        *items = menu.get_selitems();
+
+    return menu.getkey();
+}
+
+// Use title = nullptr for stock Inventory title
+// type = MT_DROP allows the multidrop toggle
+// like _invent_select, but for both inventories
+static unsigned char _invent_select2(const char *title = nullptr,
+                                    menu_type type = MT_INVLIST,
+                                    int item_selector = OSEL_ANY,
+                                    int excluded_slot = -1,
+                                    int flags = MF_NOSELECT,
+                                    invtitle_annotator titlefn = nullptr,
+                                    vector<SelItem> *items = nullptr,
+                                    vector<text_pattern> *filter = nullptr,
+                                    Menu::selitem_tfn selitemfn = nullptr,
+                                    const vector<SelItem> *pre_select = nullptr)
+{
+    InvMenu menu(flags | MF_ALLOW_FORMATTING);
+
+    menu.set_preselect(pre_select);
+    menu.set_title_annotator(titlefn);
+    menu.f_selitem = selitemfn;
+    if (filter)
+        menu.set_select_filter(*filter);
+    menu.load_inv_items2(item_selector, excluded_slot);
+    menu.set_type(type);
+
+    // Don't override title if there are no items.
+    if (title && menu.item_count())
+        menu.set_title2(title);
 
     menu.show(true);
 
@@ -1574,11 +1648,6 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
     {
         return true;
     }
-
-    // Rods are special-cased here, since I'm worried about the effects on
-    // monster behaviour of no longer counting them as melee weapons.
-    if (item.base_type == OBJ_RODS && oper == OPER_ATTACK)
-        return true;
 
     // The consequences of evokables are generally known unless it's a deck
     // and you don't know what kind of a deck it is.
@@ -1977,6 +2046,178 @@ int prompt_invent_item(FixedVector< item_def, ENDOFPACK > &inv,
     return ret;
 }
 
+/**
+ * returns items in the given vector: selected_items
+ */
+void prompt_invent_item2(
+		vector<SelItem> &selected_items,
+		const char *prompt,
+        menu_type mtype, int type_expect,
+        bool must_exist, bool auto_list,
+        bool allow_easy_quit,
+        const char other_valid_char,
+        int excluded_slot,
+        int *const count,
+        operation_types oper,
+        bool allow_list_known,
+        bool do_warning)
+{
+
+    if (!any_items_of_type(you.inv1, type_expect, excluded_slot)
+        && type_expect == OSEL_THROWABLE
+        && (oper == OPER_FIRE || oper == OPER_QUIVER)
+        && mtype == MT_INVLIST)
+    {
+        type_expect = OSEL_ANY;
+    }
+
+    if (!(
+    		any_items_of_type(you.inv1, type_expect, excluded_slot)
+    		|| any_items_of_type(you.inv2, type_expect, excluded_slot)
+			)
+        && type_expect != OSEL_WIELD)
+    {
+        mprf(MSGCH_PROMPT, "%s",
+             no_selectables_message(type_expect).c_str());
+        return;
+    }
+
+    unsigned char  keyin = 0;
+    bool           need_redraw = false;
+    bool           need_prompt = true;
+    bool           need_getch  = true;
+
+    if (auto_list)
+    {
+        need_getch = false;
+
+        if (any_items_of_type(you.inv1, type_expect)
+        	|| any_items_of_type(you.inv2, type_expect)
+        )
+            keyin = '?';
+        else
+            keyin = '*';
+    }
+
+    while (true)
+    {
+        if (need_redraw && !crawl_state.doing_prev_cmd_again)
+        {
+            redraw_screen();
+            clear_messages();
+        }
+
+        if (need_prompt)
+        {
+            mprf(MSGCH_PROMPT, "%s (<w>?</w> for menu, <w>Esc</w> to quit)",
+                 prompt);
+        }
+        else
+            flush_prev_message();
+
+        if (need_getch)
+            keyin = get_ch();
+
+        need_redraw = false;
+        need_prompt = true;
+        need_getch  = true;
+
+        // Note:  We handle any "special" character first, so that
+        //        it can be used to override the others.
+        if (other_valid_char != 0 && keyin == other_valid_char)
+        {
+            break;
+        }
+        else if (keyin == '?' || keyin == '*')
+        {
+            // The "view inventory listing" mode.
+            keyin = _invent_select2(
+                        prompt,
+                        mtype,
+                        keyin == '*' ? OSEL_ANY : type_expect,
+                        excluded_slot,
+                        MF_SINGLESELECT | MF_ANYPRINTABLE | MF_NO_SELECT_QTY
+                            | MF_EASY_EXIT,
+                        nullptr,
+                        &selected_items);
+
+            if (allow_list_known && keyin == '\\')
+            {
+                check_item_knowledge();
+                keyin = '?';
+            }
+
+            need_prompt = false;
+            need_getch  = false;
+
+            // Don't redraw if we're just going to display another listing
+            need_redraw = (keyin != '?' && keyin != '*')
+                          && !(count && auto_list && isadigit(keyin));
+
+            if (!selected_items.empty())
+            {
+                if (count)
+                    *count = selected_items[0].quantity;
+
+                if (!crawl_state.doing_prev_cmd_again)
+                {
+                    redraw_screen();
+                    clear_messages();
+                }
+            }
+        }
+        else if (count != nullptr && isadigit(keyin))
+        {
+            // The "read in quantity" mode
+            keyin = _get_invent_quant(keyin, *count);
+
+            need_prompt = false;
+            need_getch  = false;
+
+            if (auto_list)
+                need_redraw = true;
+        }
+        else if (count == nullptr && isadigit(keyin) && !selected_items.empty())
+        {
+            // scan for our item
+            item_def item = *selected_items[0].item;
+            if (item.isValid())
+            {
+                if (!do_warning || check_warning_inscriptions(item, oper))
+                    break;
+            }
+        }
+        else if (key_is_escape(keyin)
+                 || (Options.easy_quit_item_prompts
+                     && allow_easy_quit && keyin == ' '))
+        {
+            break;
+        }
+        else if (allow_list_known && keyin == '\\')
+        {
+            check_item_knowledge();
+            keyin = '?';
+            need_getch = false;
+        }
+        else if (isaalpha(keyin))
+        {
+        	break;
+        }
+        else if (!isspace(keyin))
+        {
+            // We've got a character we don't understand...
+            canned_msg(MSG_HUH);
+        }
+        else
+        {
+            // We're going to loop back up, so don't draw another prompt.
+            need_prompt = false;
+        }
+    }
+
+    return;
+}
+
 bool prompt_failed(int retval)
 {
     if (retval != PROMPT_ABORT && retval != PROMPT_NOTHING)
@@ -1994,12 +2235,8 @@ bool prompt_failed(int retval)
 // wielded to be used normally.
 bool item_is_wieldable(const item_def &item)
 {
-    if (is_weapon(item))
+    if (is_weapon(item) || item.base_type == OBJ_RODS)
         return you.species != SP_FELID;
-
-    // The lantern needs to be wielded to be used.
-    if (item.is_type(OBJ_MISCELLANY, MISC_LANTERN_OF_SHADOWS))
-        return true;
 
     if (item.base_type == OBJ_MISSILES
         && (item.sub_type == MI_STONE
@@ -2109,15 +2346,15 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
             mpr("That item cannot be evoked!");
         return false;
 
-    case OBJ_MISCELLANY:
-        if (item.sub_type != MISC_LANTERN_OF_SHADOWS
 #if TAG_MAJOR_VERSION == 34
+    case OBJ_MISCELLANY:
+        if (item.sub_type != MISC_BUGGY_LANTERN_OF_SHADOWS
             && item.sub_type != MISC_BUGGY_EBONY_CASKET
-#endif
             )
         {
             return true;
         }
+#endif
         // else fall through
     default:
         if (msg)

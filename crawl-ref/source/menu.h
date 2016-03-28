@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <ctime>
+#include <chrono>
 #include <string>
 #include <vector>
 
@@ -129,7 +130,10 @@ public:
 
     void add_hotkey(int key)
     {
-        if (key && !is_hotkey(key))
+        if (
+        		key
+        		&& !is_hotkey(key)
+				)
             hotkeys.push_back(key);
     }
 

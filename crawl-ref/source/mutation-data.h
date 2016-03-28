@@ -430,14 +430,26 @@ static const mutation_def mut_data[] =
    "enhanced sight",
 },
 
-{ MUT_DEFORMED, 8, 1,
+{ MUT_DEFORMED, 8, 3,
   mutflag::BAD | mutflag::XOM,
   true,
   "deformed body",
 
-  {"Armour fits poorly on your strangely shaped body.", "", ""},
-  {"Your body twists and deforms.", "", ""},
-  {"Your body's shape seems more normal.", "", ""},
+  {
+   "Armour fits poorly on your strangely shaped body.",
+   "Armour fits very poorly on your strangely shaped body.",
+   "Body armour provides no benefit to your strangely shaped body."
+  },
+  {
+   "Your body twists and deforms.",
+   "Your body twists and deforms.",
+   "Your body twists and deforms.",
+  },
+  {
+   "Your body's shape seems more normal.",
+   "Your body's shape seems less deformed.",
+   "Your body's shape seems less deformed.",
+  },
 
   "deformation of the body",
 },
@@ -784,14 +796,14 @@ static const mutation_def mut_data[] =
   "demonic bird flight magic",
 },
 
-{ MUT_HURL_HELLFIRE, 0, 1, mutflag::GOOD, false,
-  "hurl hellfire",
+{ MUT_HURL_DAMNATION, 0, 1, mutflag::GOOD, false,
+  "hurl damnation",
 
-  {"You can hurl blasts of hellfire.", "", ""},
-  {"You smell fire and brimstone.", "", ""},
+  {"You can hurl damnation.", "", ""},
+  {"You smell a hint of brimstone.", "", ""},
   {"", "", ""},
 
-  "the ability to hurl hellfire",
+  "the ability to hurl damnation",
 },
 
 // body-slot facets
@@ -2212,7 +2224,7 @@ static const mutation_def mut_data[] =
    "a glow that surrounds you",
 },
 
-{ MUT_EPHEMERAL, 0, 3, mutflag::GOOD, false,
+{ MUT_EPHEMERAL, 1, 3, mutflag::GOOD, false,
   "ephemeral",
 
   {"Attacks rarely pass right through you.",
@@ -2223,6 +2235,20 @@ static const mutation_def mut_data[] =
    "You become more ephemeral."},
   {"You are no longer ephemeral.", "You become less ephemeral.", "You become less ephemeral."},
 
-   "a ephemeral body",
+  "an ephemeral body",
+},
+
+{ MUT_ABSORB_ENCH, 1, 3, mutflag::GOOD, false,
+  "absorb enchantments",
+
+  {"Enchantments targetting you are occasionally absorbed.",
+   "Enchantments targetting you are often absorbed.",
+   "Enchantments targetting you are usually absorbed."},
+  {"An enchantment absorbing field forms around you.",
+   "Your enchantment absorbing field becomes stronger.",
+   "Your enchantment absorbing field becomes stronger."},
+  {"Your enchantment absorbing field disappears.", "Your enchantment absorbing field becomes weaker.", "Your enchantment absorbing field becomes weaker."},
+
+   "an enchantment absorbing field surrounds you",
 },
 };

@@ -19,6 +19,7 @@
 #include "directn.h"
 #include "english.h"
 #include "env.h"
+#include "godpassive.h"
 #include "godabil.h"
 #include "libutil.h"
 #include "message.h"
@@ -34,6 +35,7 @@
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
+#include "tiledef-gui.h"    // spell tiles
 #include "transform.h"
 
 struct spell_desc
@@ -66,7 +68,8 @@ struct spell_desc
     // used even if the spell is not casted directly (by Xom, for instance).
     int effect_noise;
 
-    const char  *target_prompt;
+    /// Icon for the spell in e.g. spellbooks, casting menus, etc.
+    tileidx_t tile;
 };
 
 #include "spl-data.h"
@@ -324,6 +327,45 @@ bool add_spell_to_memory(spell_type spell)
     return true;
 }
 
+static void _remove_spell_attributes(spell_type spell)
+{
+    switch (spell)
+    {
+    case SPELL_DEFLECT_MISSILES:
+        if (you.attribute[ATTR_DEFLECT_MISSILES])
+        {
+            const int orig_defl = you.missile_deflection();
+            you.attribute[ATTR_DEFLECT_MISSILES] = 0;
+            mprf(MSGCH_DURATION, "You feel %s from missiles.",
+                                 you.missile_deflection() < orig_defl
+                                 ? "less protected"
+                                 : "your spell is no longer protecting you");
+        }
+        break;
+    case SPELL_REPEL_MISSILES:
+        if (you.attribute[ATTR_REPEL_MISSILES])
+        {
+            const int orig_defl = you.missile_deflection();
+            you.attribute[ATTR_REPEL_MISSILES] = 0;
+            mprf(MSGCH_DURATION, "You feel %s from missiles.",
+                                 you.missile_deflection() < orig_defl
+                                 ? "less protected"
+                                 : "your spell is no longer protecting you");
+        }
+        break;
+    case SPELL_DELAYED_FIREBALL:
+        if (you.attribute[ATTR_DELAYED_FIREBALL])
+        {
+            you.attribute[ATTR_DELAYED_FIREBALL] = 0;
+            mprf(MSGCH_DURATION, "Your charged fireball dissipates.");
+        }
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
 bool del_spell_from_memory_by_slot(int slot)
 {
     ASSERT_RANGE(slot, 0, MAX_KNOWN_SPELLS);
@@ -334,6 +376,8 @@ bool del_spell_from_memory_by_slot(int slot)
     spell_skills(you.spells[slot], you.stop_train);
 
     mprf("Your memory of %s unravels.", spell_title(you.spells[slot]));
+    _remove_spell_attributes(you.spells[slot]);
+
     you.spells[slot] = SPELL_NO_SPELL;
 
     for (int j = 0; j < 52; j++)
@@ -393,7 +437,7 @@ int spell_hunger(spell_type which_spell, bool rod)
 // an unobstructed beam path, such as fire storm.
 bool spell_is_direct_explosion(spell_type spell)
 {
-    return spell == SPELL_FIRE_STORM || spell == SPELL_HELLFIRE_BURST;
+    return spell == SPELL_FIRE_STORM || spell == SPELL_CALL_DOWN_DAMNATION;
 }
 
 bool spell_harms_target(spell_type spell)
@@ -426,11 +470,16 @@ bool spell_harms_area(spell_type spell)
 // for Xom acting (more power = more likely to grab his attention) {dlb}
 int spell_mana(spell_type which_spell)
 {
-//	if(is_summon_spell(which_spell)) {
-//		return 1;
-//	}
+    int cost = 0;
+	if (is_summon_spell(which_spell))
+		cost = 1;
+    else
+        cost =  _seekspell(which_spell)->level;
 
-    return _seekspell(which_spell)->level;
+    if (is_self_transforming_spell(which_spell))
+        cost *= 3;
+
+    return cost;
 }
 
 // applied in naughties (more difficult = higher level knowledge = worse)
@@ -465,7 +514,23 @@ unsigned int get_spell_flags(spell_type which_spell)
 
 const char *get_spell_target_prompt(spell_type which_spell)
 {
-    return _seekspell(which_spell)->target_prompt;
+    switch (which_spell)
+    {
+    case SPELL_APPORTATION:
+        return "Apport";
+    case SPELL_SMITING:
+        return "Smite";
+    case SPELL_LRD:
+        return "Fragment what (e.g. wall or brittle monster)?";
+    default:
+        return nullptr;
+    }
+}
+
+/// What's the icon for the given spell?
+tileidx_t get_spell_tile(spell_type which_spell)
+{
+    return _seekspell(which_spell)->tile;
 }
 
 bool spell_typematch(spell_type which_spell, spschool_flag_type which_disc)
@@ -479,6 +544,10 @@ spschools_type get_spell_disciplines(spell_type spell)
     return _seekspell(spell)->disciplines;
 }
 
+bool spell_is_targettable(spell_type spell)
+{
+    return _seekspell(spell)->min_range > -1;
+}
 int count_bits(uint64_t bits)
 {
     uint64_t n;
@@ -949,7 +1018,7 @@ int spell_range(spell_type spell, int pow, bool player_spell)
 
     if (player_spell
         && vehumet_supports_spell(spell)
-        && in_good_standing(GOD_VEHUMET, 3)
+        && have_passive(passive_t::spells_range)
         && maxrange > 1
         && spell != SPELL_GLACIATE)
     {

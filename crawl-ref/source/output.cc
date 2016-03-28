@@ -857,15 +857,11 @@ static void _print_stats_wp(int y)
     string text;
     if (you.weapon())
     {
-        item_def wpn = *you.weapon();
+        item_def wpn = *you.weapon(); // copy
 
-        if (you.duration[DUR_CORROSION])
-        {
-            if (wpn.base_type == OBJ_RODS)
-                wpn.rod_plus -= 4 * you.props["corrosion_amount"].get_int();
-            else
-                wpn.plus -= 4 * you.props["corrosion_amount"].get_int();
-        }
+        if (you.duration[DUR_CORROSION] && wpn.base_type == OBJ_WEAPONS)
+            wpn.plus -= 4 * you.props["corrosion_amount"].get_int();
+
         text = wpn.name(DESC_PLAIN, true, false, true);
     }
     else
@@ -1160,10 +1156,19 @@ static void _redraw_title()
     CGOTOXY(1, 1, GOTO_STAT);
     textcolour(small_layout && you.wizard ? LIGHTMAGENTA : YELLOW);
     CPRINTF("%s", chop_string(title, WIDTH).c_str());
-    if (you.wizard && !small_layout)
-        _draw_wizmode_flag("WIZARD");
-    else if (you.explore && !small_layout)
-        _draw_wizmode_flag("EXPLORE");
+//    if (!small_layout)
+//    {
+        if (you.wizard)
+            _draw_wizmode_flag("WIZARD");
+        else if (you.explore)
+            _draw_wizmode_flag("EXPLORE");
+        else if (crawl_state.difficulty == DIFFICULTY_EASY)
+            _draw_wizmode_flag("EASY");
+        else if (crawl_state.difficulty == DIFFICULTY_HARD)
+            _draw_wizmode_flag("HARD");
+        else if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+            _draw_wizmode_flag("NORMAL");
+//    }
 #ifdef DGL_SIMPLE_MESSAGING
     update_message_status();
 #endif
@@ -1958,7 +1963,7 @@ static string _overview_screen_title(int sw)
 
     handle_real_time();
     string time_turns = make_stringf(" Turns: %d, Time: ", you.num_turns)
-                      + make_time_string(you.real_time, true);
+                      + make_time_string(you.real_time(), true);
 
     const int char_width = strwidth(species_job);
     const int title_width = strwidth(title);

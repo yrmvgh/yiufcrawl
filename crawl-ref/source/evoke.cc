@@ -75,41 +75,6 @@
 #include "view.h"
 #include "xom.h"
 
-void shadow_lantern_effect()
-{
-    int n = div_rand_round(you.time_taken, 10);
-    for (int i = 0; i < n; ++i)
-    {
-        if (you.magic_points > 0)
-        {
-            dec_mp(1);
-
-            if (x_chance_in_y(
-                    player_adjust_evoc_power(
-                        you.skill_rdiv(SK_EVOCATIONS, 1, 5) + 1),
-                    14))
-            {
-                create_monster(mgen_data(MONS_SHADOW, BEH_FRIENDLY, &you, 2,
-                               MON_SUMM_LANTERN, you.pos()));
-
-                did_god_conduct(DID_NECROMANCY, 1);
-            }
-        }
-        else
-            expire_lantern_shadows();
-    }
-}
-
-void expire_lantern_shadows()
-{
-    for (monster_iterator mi; mi; ++mi)
-    {
-        int stype = 0;
-        if (mi->is_summoned(0, &stype) && stype == MON_SUMM_LANTERN)
-            mi->del_ench(ENCH_ABJ);
-    }
-}
-
 static bool _reaching_weapon_attack(const item_def& wpn)
 {
     if (you.confused())
@@ -727,13 +692,13 @@ void zap_wand(int slot)
 
 	if(wand.sub_type == WAND_HEAL_WOUNDS && aimed_at_self)
 	{
-		int delay = stepup(you.skill(SK_EVOCATIONS), 6, 10);
-		delay = 160 / max(1, delay);
-		delay = min(10, delay);
+		int delay = stepup(you.skill(SK_EVOCATIONS), 100, 2, 5);
+		delay = 4000 / max(1, delay);
+		delay = min(20, delay);
 		delay = max(2, delay);
         char buf[200];
         sprintf(buf, "Evoking this wand will take %d turns, are you sure?", delay);
-		if(yesno(string(buf).c_str(), false, 'y'))
+		if(yesno(string(buf).c_str(), true, 'n'))
 		    start_delay(DELAY_WAND_HEAL, delay - 1);
 		else
 			return;
@@ -2014,12 +1979,6 @@ static bool _stone_of_tremors()
     return true;
 }
 
-// Used for phials and water nymphs.
-bool can_flood_feature(dungeon_feature_type feat)
-{
-    return feat_has_solid_floor(feat);
-}
-
 static bool _phial_of_floods()
 {
     dist target;
@@ -2061,7 +2020,8 @@ static bool _phial_of_floods()
                       40 + you.skill_rdiv(SK_EVOCATIONS, 8, 3));
         for (distance_iterator di(center, true, false, 2); di && num > 0; ++di)
         {
-            if (can_flood_feature(grd(*di))
+            const dungeon_feature_type feat = grd(*di);
+            if ((feat == DNGN_FLOOR || feat == DNGN_SHALLOW_WATER)
                 && cell_see_cell(center, *di, LOS_NO_TRANS))
             {
                 num--;

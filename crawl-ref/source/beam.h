@@ -216,7 +216,7 @@ private:
     bool is_blockable() const;
     bool is_omnireflectable() const;
     bool is_fiery() const;
-    bool is_superhot() const;
+    bool can_burn_trees() const;
     bool is_bouncy(dungeon_feature_type feat) const;
     bool stop_at_target() const;
     bool harmless_to_player() const;
@@ -273,7 +273,7 @@ private:
     void monster_post_hit(monster* mon, int dmg);
     // for players
     void affect_player();
-    bool misses_player();
+    bool misses_player(int hurted);
 public:
     void affect_player_enchantment(bool resistible = true);
 private:

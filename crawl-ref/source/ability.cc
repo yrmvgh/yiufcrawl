@@ -178,6 +178,12 @@ static skill_type _invo_skill()
         case GOD_NEMELEX_XOBEH:
         case GOD_PAKELLAS:
             return SK_EVOCATIONS;
+        case GOD_ASHENZARI:
+        case GOD_JIYVA:
+        case GOD_GOZAG:
+        case GOD_RU:
+        case GOD_TROG:
+            return SK_NONE; // ugh
         default:
             return SK_INVOCATIONS;
     }
@@ -214,10 +220,11 @@ struct failure_info
             return base_chance - you.skill(SK_EVOCATIONS, variable_fail_mult);
         case FAIL_INVO:
         {
+            const int sk_mod = _invo_skill() == SK_NONE ? 0 :
+                                 you.skill(_invo_skill(), variable_fail_mult);
             const int piety_mod
                 = piety_fail_denom ? you.piety / piety_fail_denom : 0;
-            return base_chance - you.skill(_invo_skill(), variable_fail_mult)
-                               - piety_mod;
+            return base_chance - sk_mod - piety_mod;
         }
         default:
             die("unknown failure basis %d!", basis);
@@ -298,7 +305,7 @@ static const ability_def Ability_List[] =
 
     { ABIL_FLY, "Fly", 0, 0, 100, 0, {FAIL_XL, 42, 3}, abflag::NONE },
     { ABIL_STOP_FLYING, "Stop Flying", 0, 0, 0, 0, {FAIL_XL, 0, 0}, abflag::NONE },
-    { ABIL_HELLFIRE, "Hellfire",
+    { ABIL_DAMNATION, "Damnation",
         0, 150, 200, 0, {FAIL_XL, 50, 1}, abflag::NONE },
 
     { ABIL_DELAYED_FIREBALL, "Release Delayed Fireball",
@@ -1948,9 +1955,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         break;
 
     // DEMONIC POWERS:
-    case ABIL_HELLFIRE:
+    case ABIL_DAMNATION:
         fail_check();
-        if (your_spells(SPELL_HELLFIRE,
+        if (your_spells(SPELL_HURL_DAMNATION,
                         you.experience_level * 10,
                         false, false, true) == SPRET_ABORT)
         {
@@ -1995,7 +2002,10 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         else
         {
             if (!you_worship(GOD_PAKELLAS) && you.penance[GOD_PAKELLAS])
-                pakellas_evoke_backfire(SPELL_FLY);
+            {
+                pakellas_evoke_backfire(SPELL_REPEL_MISSILES);
+                // we'd use SPELL_FLY, but that was removed...
+            }
             else if (!pakellas_device_surge())
                 return SPRET_FAIL;
             surge_power(you.spec_evoke());
@@ -2697,17 +2707,17 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
     case ABIL_ASHENZARI_CURSE:
     {
         fail_check();
-        auto iter = find_if(begin(you.inv1), end(you.inv1),
+        auto iter = find_if(begin(you.inv2), end(you.inv2),
                 [] (const item_def &it) -> bool
                 {
                     return it.defined()
                            && it.is_type(OBJ_SCROLLS, SCR_REMOVE_CURSE)
                            && check_warning_inscriptions(it, OPER_DESTROY);
                 });
-        if (iter != end(you.inv1))
+        if (iter != end(you.inv2))
         {
             if (ashenzari_curse_item(iter->quantity))
-                dec_inv_item_quantity(you.inv1, iter - begin(you.inv2), 1);
+                dec_inv_item_quantity(you.inv2, iter - begin(you.inv2), 1);
             else
                 return SPRET_ABORT;
         }
@@ -3263,7 +3273,7 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     if (you.species == SP_VINE_STALKER)
         _add_talent(talents, ABIL_LIGNIFY, check_confused);
 
-    if (player_has_summons()) {
+    if (player_has_summons(true)) {
         _add_talent(talents, ABIL_RELEASE_SUMMONS, check_confused);
     }
 
@@ -3315,8 +3325,8 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         _add_talent(talents, ABIL_STOP_FLYING, check_confused);
 
     // Mutations
-    if (player_mutation_level(MUT_HURL_HELLFIRE))
-        _add_talent(talents, ABIL_HELLFIRE, check_confused);
+    if (player_mutation_level(MUT_HURL_DAMNATION))
+        _add_talent(talents, ABIL_DAMNATION, check_confused);
 
     if (you.duration[DUR_TRANSFORMATION] && !you.transform_uncancellable)
         _add_talent(talents, ABIL_END_TRANSFORMATION, check_confused);

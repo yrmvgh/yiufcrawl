@@ -16,8 +16,8 @@ enum rounding_type
 };
 
 int stepup(int value, int multiplier = 1, int power = 2, int divisor = 1);
-double stepdown(double value, double step);
-int stepdown(int value, int step, rounding_type = ROUND_CLOSE, int max = 0);
+double stepdown(double value, double step, double base = 2);
+int stepdown(int value, int step, rounding_type = ROUND_CLOSE, int max = 0, double base = 2);
 int stepdown_value(int base_value, int stepping, int first_step,
                    int /*last_step*/, int ceiling_value);
 

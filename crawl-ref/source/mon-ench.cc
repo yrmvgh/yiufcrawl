@@ -1017,14 +1017,14 @@ int monster::cost_of_maintaining_summon()
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
 	int cost = 0;
-    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS && spell_used >= 0)
+    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS && spell_used >= 0 && get_spell_disciplines(spell_used) & SPTYP_SUMMONING)
     {
     	const int power = calc_spell_power(spell_used, true);
 		cost = spell_difficulty(spell_used);
 
-    	cost = stepup(cost, 10, 3, 2);
-    	cost *= 3000;
-    	cost /= max(1, power);					// higher power will lower the cost (make mana points be subtracted less freq
+    	cost = stepup(cost, 1, 2, 1);
+    	cost *= 2000;
+    	cost /= max(1, stepup(power, 25, 2, 25));
     }
 
 	return cost;
@@ -1083,31 +1083,28 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 		{
 			del_ench(me.ench);
 		} else {
-			if(one_chance_in(4))
-			{
-				int cost = one_chance_in(6)
-						? (one_chance_in(6)	? 10 : 3)
-						  : 1
-						;
-				cost *= summonCost;
+            int cost = one_chance_in(6)
+                    ? (one_chance_in(6)	? 10 : 3)
+                      : 1
+                    ;
+            cost *= summonCost;
 
-				if (cost < 1000)
-				{
-					cost = x_chance_in_y(cost, 1000) ? 1 : 0;
-				}
-				else
-				{
-					cost /= 1000;
-					cost = max(1, cost);
-				}
+            if (cost < 1000)
+            {
+                cost = x_chance_in_y(cost, 1000) ? 1 : 0;
+            }
+            else
+            {
+                cost /= 1000;
+                cost = max(1, cost);
+            }
 
-				if (cost > 0)
-				{
-					dec_mp(cost, true);
-//					mprf("summon cost: %d   magic cost: %d", summonCost, cost);
-					you.redraw_magic_points = true;
-				}
-			}
+            if (cost > 0)
+            {
+                dec_mp(cost, true);
+                wprf("summon cost: %d   magic cost: %d", summonCost, cost);
+                you.redraw_magic_points = true;
+            }
 			return false;
 		}
     }
@@ -1521,8 +1518,6 @@ void monster::apply_enchantment(const mon_enchant &me)
         invalidate_agrid();
         break;
 
-    case ENCH_BATTLE_FRENZY:
-    case ENCH_ROUSED:
     case ENCH_DRAINED:
         decay_enchantment(en, false);
         break;
@@ -2143,9 +2138,9 @@ static const char *enchant_names[] =
 #if TAG_MAJOR_VERSION == 34
     "sleepy",
 #endif
-    "held", "battle_frenzy",
+    "held",
 #if TAG_MAJOR_VERSION == 34
-    "temp_pacif",
+     "battle_frenzy", "temp_pacif",
 #endif
     "petrifying",
     "petrified", "lowered_mr", "soul_ripe", "slowly_dying", "eat_items",
@@ -2164,10 +2159,17 @@ static const char *enchant_names[] =
 #endif
     "regen",
     "magic_res", "mirror_dam", "stoneskin", "fear inspiring", "temporarily pacified",
-    "withdrawn", "attached", "guardian_timer", "flight",
-    "liquefying", "tornado", "fake_abjuration",
+    "withdrawn",
+#if TAG_MAJOR_VERSION == 34
+    "attached",
+#endif
+    "guardian_timer", "flight", "liquefying", "tornado", "fake_abjuration",
     "dazed", "mute", "blind", "dumb", "mad", "silver_corona", "recite timer",
-    "inner_flame", "roused", "breath timer", "deaths_door", "rolling",
+    "inner_flame",
+#if TAG_MAJOR_VERSION == 34
+    "roused",
+#endif
+    "breath timer", "deaths_door", "rolling",
     "ozocubus_armour", "wretched", "screamed", "rune_of_recall", "injury bond",
     "drowning", "flayed", "haunting",
 #if TAG_MAJOR_VERSION == 34

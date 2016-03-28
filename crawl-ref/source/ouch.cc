@@ -78,8 +78,7 @@
 void maybe_melt_player_enchantments(beam_type flavour, int damage)
 {
     if (flavour == BEAM_FIRE || flavour == BEAM_LAVA
-        || flavour == BEAM_HELLFIRE || flavour == BEAM_STICKY_FLAME
-        || flavour == BEAM_STEAM)
+        || flavour == BEAM_STICKY_FLAME || flavour == BEAM_STEAM)
     {
         if (you.mutation[MUT_ICEMAIL])
         {
@@ -100,7 +99,6 @@ void maybe_melt_player_enchantments(beam_type flavour, int damage)
     }
 }
 
-// NOTE: DOES NOT check for hellfire!!!
 int check_your_resists(int hurted, beam_type flavour, string source,
                        bolt *beam, bool doEffects)
 {
@@ -163,13 +161,8 @@ int check_your_resists(int hurted, beam_type flavour, string source,
         }
         break;
 
-    case BEAM_HELLFIRE:
-        if(you.species == SP_DJINNI) {
-//            you.heal(hurted);
-//        	hurted = 0;
-        	if(doEffects) canned_msg(MSG_GAIN_HEALTH);
-        }
-        break;
+    case BEAM_DAMNATION:
+        break; // sucks to be you (:
 
     case BEAM_COLD:
         hurted = resist_adjust_damage(&you, flavour, hurted);
@@ -676,29 +669,38 @@ static void _powered_by_pain(int dam)
         && (random2(dam) > 4 + div_rand_round(you.experience_level, 4)
             || dam >= you.hp_max / 2))
     {
-        switch (random2(4))
+        int chance = 3;
+        if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+            chance = 2;
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+            chance = 1;
+
+        if (x_chance_in_y(chance, 3))
         {
-        case 0:
-        case 1:
-        {
-            if (you.magic_points < you.max_magic_points)
+            switch (random2(4))
             {
-                mpr("You focus on the pain.");
-                int mp = roll_dice(3, 2 + 3 * level);
-                canned_msg(MSG_GAIN_MAGIC);
-                inc_mp(mp);
-                break;
+                case 0:
+                case 1:
+                {
+                    if (you.magic_points < you.max_magic_points)
+                    {
+                        mpr("You focus on the pain.");
+                        int mp = roll_dice(3, 2 + 3 * level);
+                        canned_msg(MSG_GAIN_MAGIC);
+                        inc_mp(mp);
+                        break;
+                    }
+                    break;
+                }
+                case 2:
+                    mpr("You focus on the pain.");
+                    potionlike_effect(POT_MIGHT, level * 20);
+                    break;
+                case 3:
+                    mpr("You focus on the pain.");
+                    potionlike_effect(POT_AGILITY, level * 20);
+                    break;
             }
-            break;
-        }
-        case 2:
-            mpr("You focus on the pain.");
-            potionlike_effect(POT_MIGHT, level * 20);
-            break;
-        case 3:
-            mpr("You focus on the pain.");
-            potionlike_effect(POT_AGILITY, level * 20);
-            break;
         }
     }
 }
@@ -935,7 +937,7 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
     }
     ait_hp_loss hpl(dam, death_type);
     if(dam > 0) {
-        interrupt_activity(AI_HP_LOSS, &hpl);
+        interrupt_activity(source == MID_NOBODY ? AI_HP_LOSS_FROM_OTHER : AI_HP_LOSS_FROM_MONSTER, &hpl);
     }
 
     if (dam > 0 && death_type != KILLED_BY_POISON)

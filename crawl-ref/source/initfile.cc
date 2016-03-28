@@ -308,8 +308,6 @@ int str_to_summon_type(const string &str)
         return MON_SUMM_WRATH;
     if (str == "aid")
         return MON_SUMM_AID;
-    if (str == "lantern")
-        return MON_SUMM_LANTERN;
 
     return spell_by_name(str);
 }
@@ -821,6 +819,7 @@ void game_options::reset_options()
     easy_quit_item_prompts = true;
     allow_self_target      = CONFIRM_PROMPT;
     hp_warning             = 30;
+    autofight_warning      = 0;
     magic_point_warning    = 0;
     skill_focus            = SKM_FOCUS_ON;
     cloud_status           = !is_tiles();
@@ -947,6 +946,7 @@ void game_options::reset_options()
     pizzas.clear();
 
     regex_search = false;
+    old_movement = false;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
@@ -1076,7 +1076,7 @@ void game_options::reset_options()
 
     tile_show_minihealthbar  = true;
     tile_show_minimagicbar   = true;
-    tile_show_demon_tier     = true;
+    tile_show_demon_tier     = false;
 #ifdef USE_TILE_WEB
     // disabled by default due to performance issues
     tile_water_anim          = false;
@@ -2884,6 +2884,7 @@ void game_options::read_option_line(const string &str, bool runscript)
                 [](string p) { return !trimmed_string(p).empty(); });
     }
     else BOOL_OPTION(regex_search);
+    else BOOL_OPTION(old_movement);
 #if !defined(DGAMELAUNCH) || defined(DGL_REMEMBER_NAME)
     else BOOL_OPTION(remember_name);
 #endif
@@ -2896,6 +2897,7 @@ void game_options::read_option_line(const string &str, bool runscript)
     else BOOL_OPTION(show_newturn_mark);
     else BOOL_OPTION(show_game_turns);
     else INT_OPTION(hp_warning, 0, 100);
+    else INT_OPTION(autofight_warning, 0, 1000);
     else INT_OPTION_NAMED("mp_warning", magic_point_warning, 0, 100);
     else LIST_OPTION(note_monsters);
     else LIST_OPTION(note_messages);

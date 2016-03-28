@@ -164,12 +164,12 @@ static bool _decrement_a_duration(duration_type dur, int delay,
         return false;
 
     ASSERT(!midloss || midmsg != nullptr);
-    const int midpoint = get_expiration_threshold(dur);
+    const int midpoint = duration_expire_point(dur);
     ASSERTM(!midloss || midloss * BASELINE_DELAY < midpoint,
             "midpoint delay loss %d not less than duration midpoint %d",
             midloss * BASELINE_DELAY, midpoint);
 
-    int old_dur = you.duration[dur];
+    const int old_dur = you.duration[dur];
     you.duration[dur] -= delay;
 
     // If we cross the midpoint, handle midloss and print the midpoint message.
@@ -552,9 +552,7 @@ static void _decrement_durations()
 
     // Vampire bat transformations are permanent (until ended), unless they
     // are uncancellable (polymorph wand on a full vampire).
-    if (you.species != SP_VAMPIRE || you.form != TRAN_BAT
-        || you.duration[DUR_TRANSFORMATION] <= 5 * BASELINE_DELAY
-        || you.transform_uncancellable)
+    if (you.transform_uncancellable)
     {
         if (_decrement_a_duration(DUR_TRANSFORMATION, delay, nullptr, random2(3),
                                   "Your transformation is almost over."))
@@ -888,9 +886,6 @@ void player_reacts()
     // Too annoying for regular diagnostics.
     mprf(MSGCH_DIAGNOSTICS, "stealth: %d", stealth);
 #endif
-
-    if (you.attribute[ATTR_SHADOWS])
-        shadow_lantern_effect();
 
     if (you.species == SP_LAVA_ORC)
         temperature_check();

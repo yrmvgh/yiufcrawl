@@ -283,7 +283,7 @@ public:
     virtual bool is_unbreathing() const = 0;
     virtual bool is_insubstantial() const = 0;
     virtual int res_acid(bool calc_unid = true) const = 0;
-    virtual bool res_hellfire() const = 0;
+    virtual bool res_damnation() const = 0;
     virtual int res_fire() const = 0;
     virtual int res_steam() const = 0;
     virtual int res_cold() const = 0;
@@ -445,6 +445,7 @@ public:
 
     void collide(coord_def newpos, const actor *agent, int pow);
 
+    coord_def      prev_direction;
 private:
     void end_constriction(mid_t whom, bool intentional, bool quiet);
 };

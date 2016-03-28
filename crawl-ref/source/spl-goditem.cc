@@ -641,7 +641,7 @@ static bool _selectively_remove_curse(const string &pre_msg)
         if (!used && !pre_msg.empty())
             mpr(pre_msg);
 
-        do_uncurse_item(item, true, false, false);
+        do_uncurse_item(item, false, false);
         used = true;
     }
 }
@@ -674,7 +674,7 @@ bool remove_curse(bool alreadyknown, const string &pre_msg)
 
     // Players can no longer wield armour and jewellery as weapons, so we do
     // not need to check whether the EQ_WEAPON slot actually contains a weapon:
-    // only weapons (and rods and staves) are both wieldable and cursable.
+    // only weapons (and staves) are both wieldable and cursable.
     for (int i = EQ_WEAPON; i < NUM_EQUIP; i++)
     {
         // Melded equipment can also get uncursed this way.
@@ -780,6 +780,11 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
     monster *mon;
     string targname;
 
+    vector<coord_def> veto_spots(8);
+    for (adjacent_iterator ai(where); ai; ++ai)
+        veto_spots.push_back(*ai);
+    const vector<coord_def> adj_spots = veto_spots;
+
     if (zin)
     {
         // We need to get this now because we won't be able to see
@@ -788,11 +793,6 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
         targname = mon->name(DESC_THE);
         bool success = true;
         bool none_vis = true;
-
-        vector<coord_def> veto_spots(8);
-        for (adjacent_iterator ai(where); ai; ++ai)
-            veto_spots.push_back(*ai);
-        vector<coord_def> adj_spots = veto_spots;
 
         // Check that any adjacent creatures can be pushed out of the way.
         for (adjacent_iterator ai(where); ai; ++ai)
@@ -845,6 +845,7 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
         }
     }
 
+    veto_spots = adj_spots;
     for (adjacent_iterator ai(where); ai; ++ai)
     {
         // This is where power comes in.
@@ -857,9 +858,10 @@ static bool _do_imprison(int pow, const coord_def& where, bool zin)
             if (actor* act = actor_at(*ai))
             {
                 coord_def newpos;
-                get_push_space(*ai, newpos, act, true);
+                get_push_space(*ai, newpos, act, true, &veto_spots);
                 ASSERT(!newpos.origin());
                 act->move_to_pos(newpos);
+                veto_spots.push_back(newpos);
             }
         }
 

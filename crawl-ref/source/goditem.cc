@@ -208,8 +208,6 @@ bool is_evil_item(const item_def& item)
     case OBJ_BOOKS:
     case OBJ_RODS:
         return _is_bookrod_type(item, is_evil_spell);
-    case OBJ_MISCELLANY:
-        return item.sub_type == MISC_LANTERN_OF_SHADOWS;
     case OBJ_JEWELLERY:
         return item.sub_type == AMU_HARM;
     default:
@@ -410,10 +408,6 @@ static bool _is_potentially_fiery_item(const item_def& item)
 
 bool is_fiery_item(const item_def& item)
 {
-    // Flaming Death is handled through its fire brand.
-    if (is_unrandom_artefact(item, UNRAND_HELLFIRE))
-        return true;
-
     switch (item.base_type)
     {
     case OBJ_WEAPONS:

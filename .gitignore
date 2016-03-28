@@ -20,3 +20,6 @@ crawlDebug
 .DS_Store
 README.html
 *.o-*
+.idea
+*.swp
+*CMakeLists.txt

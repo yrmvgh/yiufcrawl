@@ -247,6 +247,20 @@ struct coord_def
     {
     	return !is_orthagonal();
     }
+
+    bool is_sharp_turn(const coord_def other) const
+    {
+        int dx = x - other.x;
+        int dy = y - other.y;
+        dx = (dx < 0 ? -dx : dx);
+        dy = (dy < 0 ? -dy : dy);
+        return dx + dy >= 2;
+    }
+
+    bool is_reversal(const coord_def other) const
+    {
+        return x == -other.x && y == -other.y && (x > 0 || y > 0);
+    }
 };
 
 extern const coord_def INVALID_COORD;

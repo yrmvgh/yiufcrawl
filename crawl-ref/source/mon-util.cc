@@ -1002,32 +1002,6 @@ bool mons_is_abyssal_only(monster_type mc)
     }
 }
 
-bool mons_is_poisoner(const monster* mon)
-{
-    if (mon->search_slots([] (const mon_spell_slot& slot)
-                             { return slot.flags & MON_SPELL_NATURAL
-                                      && spell_typematch(slot.spell,
-                                                         SPTYP_POISON); } ))
-    {
-        return true;
-    }
-
-    if (mon->has_attack_flavour(AF_POISON)
-        || mon->has_attack_flavour(AF_POISON_STRONG))
-    {
-        return true;
-    }
-
-    if (mon->type == MONS_DANCING_WEAPON
-        && mon->primary_weapon()
-        && get_weapon_brand(*mon->primary_weapon()) == SPWPN_VENOM)
-    {
-        return true;
-    }
-
-    return false;
-}
-
 // Monsters considered as "slime" for Jiyva.
 bool mons_class_is_slime(monster_type mc)
 {
@@ -1121,7 +1095,9 @@ static void _mimic_vanish(const coord_def& pos, const string& name)
  */
 static void _destroy_mimic_feature(const coord_def &pos)
 {
+#if TAG_MAJOR_VERSION == 34
     const dungeon_feature_type feat = grd(pos);
+#endif
 
     unnotice_feature(level_pos(level_id::current(), pos));
     grd(pos) = DNGN_FLOOR;
@@ -2223,8 +2199,8 @@ int exper_value(const monster* mon, bool real)
             case SPELL_PARALYSE:
             case SPELL_SMITING:
             case SPELL_SUMMON_EYEBALLS:
-            case SPELL_HELLFIRE_BURST:
-            case SPELL_HELLFIRE:
+            case SPELL_CALL_DOWN_DAMNATION:
+            case SPELL_HURL_DAMNATION:
             case SPELL_SYMBOL_OF_TORMENT:
             case SPELL_GLACIATE:
             case SPELL_FIRE_STORM:
@@ -3744,87 +3720,55 @@ bool mons_should_fire(bolt &beam, bool ignore_good_idea)
                         100);
 }
 
-static bool _ms_los_spell(spell_type monspell)
-{
-    // True, the tentacles _are_ summoned, but they are restricted to
-    // water just like the kraken is, so it makes more sense not to
-    // count them here.
-    if (monspell == SPELL_CREATE_TENTACLES)
-        return false;
-
-    if (monspell == SPELL_SMITING
-        || monspell == SPELL_AIRSTRIKE
-        || monspell == SPELL_HAUNT
-        || monspell == SPELL_SUMMON_SPECTRAL_ORCS
-        || spell_typematch(monspell, SPTYP_SUMMONING))
-    {
-        return true;
-    }
-
-    return false;
-}
-
+/**
+ * Can monsters use the given spell effectively from range? (If a monster has
+ * the given spell, should it try to keep its distance from its enemies?)
+ *
+ * @param monspell      The spell in question.
+ * @param attack_only   Whether to only count spells which directly harm
+ *                      enemies (damage or stat drain). Overrides ench_too.
+ * @param ench_too      Whether to count temporary debilitating effects (Slow,
+ *                      etc).
+ * @return              Whether the given spell should be considered 'ranged'.
+ */
 static bool _ms_ranged_spell(spell_type monspell, bool attack_only = false,
                              bool ench_too = true)
 {
-    // Check for Smiting specially, so it's not filtered along
-    // with the summon spells.
-    if (attack_only
-        && (monspell == SPELL_SMITING
-            || monspell == SPELL_AIRSTRIKE
-            || monspell == SPELL_PORTAL_PROJECTILE))
+    // summoning spells are usable from ranged, but not direct attacks.
+    if (spell_typematch(monspell, SPTYP_SUMMONING)
+        || monspell == SPELL_CONJURE_BALL_LIGHTNING)
     {
-        return true;
+        return !attack_only;
     }
 
-    // These spells are ranged, but aren't direct attack spells.
-    if (_ms_los_spell(monspell))
-        return !attack_only;
+    const unsigned int flags = get_spell_flags(monspell);
+
+    // buffs & escape spells aren't considered 'ranged'.
+    if (testbits(flags, SPFLAG_SELFENCH)
+        || spell_typematch(monspell, SPTYP_CHARMS)
+        || testbits(flags, SPFLAG_ESCAPE)
+        || monspell == SPELL_BLINK_OTHER_CLOSE)
+    {
+        return false;
+    }
+
+    // conjurations are attacks.
+    if (spell_typematch(monspell, SPTYP_CONJURATION))
+        return true;
+
+    // hexes that aren't conjurations or summons are enchantments.
+    if (spell_typematch(monspell, SPTYP_HEXES))
+        return !attack_only && ench_too;
 
     switch (monspell)
     {
     case SPELL_NO_SPELL:
     case SPELL_CANTRIP:
-    case SPELL_HASTE:
-    case SPELL_MIGHT:
-    case SPELL_MINOR_HEALING:
-    case SPELL_MAJOR_HEALING:
-    case SPELL_TELEPORT_SELF:
-    case SPELL_INVISIBILITY:
-    case SPELL_BLINK:
     case SPELL_BLINK_CLOSE:
-    case SPELL_BLINK_RANGE:
-    case SPELL_BLINK_AWAY:
-    case SPELL_BERSERKER_RAGE:
-    case SPELL_SWIFTNESS:
-    case SPELL_BATTLECRY:
         return false;
 
-    // The animation spells don't work through transparent walls and
-    // thus are listed here instead of above.
-    case SPELL_ANIMATE_DEAD:
-    case SPELL_ANIMATE_SKELETON:
-        return !attack_only;
-
-    // XXX: can this list not be hard-coded to prevent problems in the future?
-    case SPELL_CORONA:
-    case SPELL_CONFUSE:
-    case SPELL_SLOW:
-    case SPELL_PARALYSE:
-    case SPELL_SLEEP:
-    case SPELL_HIBERNATION:
-    case SPELL_CAUSE_FEAR:
-    case SPELL_LEDAS_LIQUEFACTION:
-    case SPELL_MESMERISE:
-    case SPELL_MASS_CONFUSION:
-    case SPELL_ENGLACIATION:
-    case SPELL_TELEPORT_OTHER:
-    case SPELL_BLINK_OTHER_CLOSE:
-    case SPELL_BLINK_OTHER:
-        return !attack_only && ench_too;
-
     default:
-        // All conjurations count as ranged spells.
+        // Everything else is probably some kind of attack, hopefully.
         return true;
     }
 }
@@ -4037,7 +3981,7 @@ static const spell_type smitey_spells[] = {
     SPELL_SMITING,
     SPELL_AIRSTRIKE,
     SPELL_SYMBOL_OF_TORMENT,
-    SPELL_HELLFIRE_BURST,
+    SPELL_CALL_DOWN_DAMNATION,
     SPELL_FIRE_STORM,
     SPELL_SHATTER,
     SPELL_TORNADO,          // dubious
@@ -4739,7 +4683,9 @@ string do_mon_str_replacements(const string &in_msg, const monster* mons,
         "growls",
         "hisses",
         "sneers",       // S_DEMON_TAUNT
+#if TAG_MAJOR_VERSION == 34
         "caws",
+#endif
         "says",         // S_CHERUB -- they just speak normally.
         "rumbles",
         "buggily says", // NUM_SHOUTS
@@ -4824,6 +4770,20 @@ mon_type_tile_variation get_mon_tile_variation(monster_type mc)
     ASSERT_smc();
     return smc->tile.variation;
 }
+
+/**
+ * What's the normal tile for corpses of a given monster type?
+ *
+ * @param mc    The monster type in question.
+ * @return      The tile for that monster's corpse; may be varied slightly
+ *              further in some special cases (ugly things, klowns).
+ */
+tileidx_t get_mon_base_corpse_tile(monster_type mc)
+{
+    ASSERT_smc();
+    return smc->corpse_tile;
+}
+
 
 /**
  * Get a DB lookup string for the given monster body shape.
@@ -5053,6 +5013,27 @@ void debug_mondata()
 
         if (md->shape == MON_SHAPE_BUGGY)
             fails += make_stringf("%s has no defined shape\n", name);
+
+        const bool has_corpse_tile = md->corpse_tile
+                                     && md->corpse_tile != TILE_ERROR;
+        if (md->species != mc)
+        {
+            if (has_corpse_tile)
+            {
+                fails +=
+                    make_stringf("%s isn't a species but has a corpse tile\n",
+                                 name);
+            }
+        }
+        else if (md->corpse_thingy == CE_NOCORPSE)
+        {
+            if (has_corpse_tile)
+            {
+                fails += make_stringf("%s has a corpse tile & no corpse\n",
+                                      name);
+            }
+        } else if (!has_corpse_tile)
+            fails += make_stringf("%s has a corpse but no corpse tile\n", name);
     }
 
     if (!fails.empty())

@@ -404,6 +404,10 @@ static bool _tag_follower_at(const coord_def &pos, bool &real_follower)
         return false;
     }
 
+    // don't allow enemies to follow player up stairs
+    if (!fol->friendly())
+        return false;
+
     real_follower = true;
 
     // Monster is chasing player through stairs.

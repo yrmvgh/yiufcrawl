@@ -790,6 +790,7 @@ static bool _handle_evoke_equipment(monster& mons)
     // TODO: check non-ring, non-amulet equipment
     item_def* jewel = mons.mslot_item(MSLOT_JEWELLERY);
     if (mons.asleep()
+        || mons_is_confused(&mons)
         || !jewel
         || !one_chance_in(3)
         || mons_itemuse(&mons) < MONUSE_STARTING_EQUIPMENT
@@ -1047,6 +1048,7 @@ static bolt& _generate_item_beem(bolt &beem, bolt& from, monster& mons)
     beem.thrower      = from.thrower;
     beem.pierce       = from.pierce ;
     beem.is_explosion = from.is_explosion;
+    beem.origin_spell = from.origin_spell;
     beem.evoked       = true;
     return beem;
 }
@@ -1186,6 +1188,7 @@ static bool _handle_rod(monster &mons, bolt &beem)
     //        out of sight of the player [rob]
     if (!you.see_cell(mons.pos())
         || mons.asleep()
+        || mons_is_confused(&mons)
         || mons_itemuse(&mons) < MONUSE_STARTING_EQUIPMENT
         || mons.has_ench(ENCH_SUBMERGED)
         || coinflip()
@@ -1257,14 +1260,7 @@ static bool _handle_rod(monster &mons, bolt &beem)
     beem.aux_source =
         rod->name(DESC_QUALNAME, false, true, false, false);
 
-    if (mons.confused())
-    {
-        beem.target = dgn_random_point_from(mons.pos(), LOS_RADIUS);
-        if (beem.target.origin())
-            return false;
-        zap = true;
-    }
-    else if (mzap == SPELL_THUNDERBOLT)
+    if (mzap == SPELL_THUNDERBOLT)
         zap = _thunderbolt_tracer(mons, power, beem.target);
     else if (mzap == SPELL_CLOUD_CONE)
         zap = mons_should_cloud_cone(&mons, power, beem.target);
@@ -2594,7 +2590,7 @@ static void _post_monster_move(monster* mons)
     if (mons->type == MONS_WATER_NYMPH)
     {
         for (adjacent_iterator ai(mons->pos(), false); ai; ++ai)
-            if (can_flood_feature(grd(*ai))
+            if (feat_has_solid_floor(grd(*ai))
                 && (coinflip() || *ai == mons->pos()))
             {
                 if (grd(*ai) != DNGN_SHALLOW_WATER && grd(*ai) != DNGN_FLOOR
@@ -2800,7 +2796,7 @@ static bool _monster_eat_item(monster* mons)
         return false;
 
     // Friendly jellies won't eat (unless worshipping Jiyva).
-    if (mons->friendly() && !you_worship(GOD_JIYVA))
+    if (mons->friendly() && !have_passive(passive_t::jelly_eating))
         return false;
 
     // Off-limit squares are off-limit.
@@ -3661,7 +3657,17 @@ static bool _do_move_monster(monster& mons, const coord_def& delta)
     mons.seen_context = SC_NONE;
 
     // This appears to be the real one, ie where the movement occurs:
-    _swim_or_move_energy(mons, delta.is_diagonal() ? 140 : 100);
+    int energy = 100;
+    if (!Options.old_movement) {
+        if (delta.is_reversal(mons.prev_direction))
+            energy = energy * 2;
+        else if (delta.is_sharp_turn(mons.prev_direction))
+            energy = energy * 15 / 10;
+        else
+            energy = energy * 9 / 10;
+    }
+    _swim_or_move_energy(mons, energy);
+    mons.prev_direction = delta;
 
     _escape_water_hold(mons);
 

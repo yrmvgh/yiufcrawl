@@ -29,6 +29,7 @@
 #include "stringutil.h"
 #include "transform.h"
 #include "xom.h"
+#include "state.h"
 
 int _xom_factor(bool was_known);
 
@@ -237,13 +238,31 @@ public:
         }
 
         int amount = 0;
-		// full healing for potions and wands
-		amount = you.hp_max;
+        switch(crawl_state.difficulty)
+        {
+            case DIFFICULTY_EASY:
+                amount = you.hp_max;
+                mpr("You feel completely better.");
+                break;
+            case DIFFICULTY_NORMAL:
+                amount = you.hp_max/2;
+                mpr("You feel much better.");
+                break;
+            case DIFFICULTY_HARD:
+                amount = you.hp_max/4;
+                mpr("You feel a little better.");
+                break;
+            default:
+                // should not be possible
+                break;
+        }
+
+        // heal at least 20 points
+        amount = max(20, amount);
 
         // Pay for rot right off the top.
         amount = unrot_hp(amount);
         inc_hp(amount);
-        mpr("You feel much better.");
         return true;
     }
 };
@@ -677,7 +696,28 @@ public:
         {
             return PotionHealWounds::instance().effect(true, pow, false);
         }
-        inc_mp(you.max_magic_points);
+
+        int amount = 0;
+        switch(crawl_state.difficulty)
+        {
+            case DIFFICULTY_EASY:
+                amount = you.max_magic_points;
+                break;
+            case DIFFICULTY_NORMAL:
+                amount = you.max_magic_points/2;
+                break;
+            case DIFFICULTY_HARD:
+                amount = you.max_magic_points/4;
+                break;
+            default:
+                // should not be possible
+                break;
+        }
+
+        // give at least 10 points
+        amount = max(10, amount);
+
+        inc_mp(amount);
         mpr("Magic courses through your body.");
         return true;
     }

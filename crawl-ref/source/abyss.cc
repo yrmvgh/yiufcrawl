@@ -2006,10 +2006,9 @@ void abyss_maybe_spawn_xp_exit()
     {
         return;
     }
-    const bool stairs = you.props.exists(ABYSS_SPAWNED_XP_EXIT_KEY)
+    const bool stairs = !at_branch_bottom()
+                        && you.props.exists(ABYSS_SPAWNED_XP_EXIT_KEY)
                         && you.props[ABYSS_SPAWNED_XP_EXIT_KEY].get_bool();
-    if (stairs && at_branch_bottom())
-        return; // can't go deeper!
 
     destroy_wall(you.pos()); // fires listeners etc even if it wasn't a wall
     grd(you.pos()) = stairs ? DNGN_ABYSSAL_STAIR : DNGN_EXIT_ABYSS;
@@ -2019,8 +2018,6 @@ void abyss_maybe_spawn_xp_exit()
          "The substance of the Abyss twists in disgust,"
          " and a gateway leading %s appears!", stairs ? "down" : "out");
 
-    // stairs cost twice as much as an exit - if you're looking to go down,
-    // you're more capable and can handle fighting a little longer
-    you.props[ABYSS_STAIR_XP_KEY] = EXIT_XP_COST * 2;
+    you.props[ABYSS_STAIR_XP_KEY] = EXIT_XP_COST;
     you.props[ABYSS_SPAWNED_XP_EXIT_KEY] = true;
 }
