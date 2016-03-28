@@ -1570,27 +1570,27 @@ static int _beastly_appendage_level(int appendage)
  * Print an appropriate message when the number of heads the player has
  * changes during a refresh of hydra form.
  */
-static void _print_head_change_message(int old_heads, int new_heads)
-{
-    if (old_heads == new_heads)
-        return;
+//static void _print_head_change_message(int old_heads, int new_heads)
+//{
+//    if (old_heads == new_heads)
+//        return;
 
-    const int delta = abs(old_heads - new_heads);
-    const bool plural = delta != 1;
-    if (old_heads > new_heads)
-    {
-        if (plural)
-            mprf("%d of your heads shrink away.", delta);
-        else
-            mpr("One of your heads shrinks away.");
-        return;
-    }
+//    const int delta = abs(old_heads - new_heads);
+//    const bool plural = delta != 1;
+//    if (old_heads > new_heads)
+//    {
+//        if (plural)
+//            mprf("%d of your heads shrink away.", delta);
+//        else
+//            mpr("One of your heads shrinks away.");
+//        return;
+//    }
 
-    if (plural)
-        mprf("%d new heads grow.", delta);
-    else
-        mpr("A new head grows.");
-}
+//    if (plural)
+//        mprf("%d new heads grow.", delta);
+//    else
+//        mpr("A new head grows.");
+//}
 
 /**
  * Is the player alive enough to become the given form?
