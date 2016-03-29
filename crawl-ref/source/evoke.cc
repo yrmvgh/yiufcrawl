@@ -692,16 +692,7 @@ void zap_wand(int slot)
 
 	if(wand.sub_type == WAND_HEAL_WOUNDS && aimed_at_self)
 	{
-		int delay = stepup(you.skill(SK_EVOCATIONS), 100, 2, 5);
-		delay = 4000 / max(1, delay);
-		delay = min(20, delay);
-		delay = max(2, delay);
-        char buf[200];
-        sprintf(buf, "Evoking this wand will take %d turns, are you sure?", delay);
-		if(yesno(string(buf).c_str(), true, 'n'))
-		    start_delay(DELAY_WAND_HEAL, delay - 1);
-		else
-			return;
+        start_delay(DELAY_WAND_HEAL, 2, power);
 	}
 	else
 	{
