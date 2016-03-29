@@ -17,8 +17,8 @@ This fork is in sync with the original DCSS repo as of Apr 2016. I intend to kee
 Check out the github wiki for this project if you want to see what my future plans are: https://github.com/jeremygurr/dcssca/wiki/Future-Plans
 
 There are two known servers running this fork at this time: 
-https://crawl.project357.org/
-http://crawl.homedns.org/
+- https://crawl.project357.org/
+- http://crawl.homedns.org/
 
 Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
 with my goals here, or with concerns you have about my future plans. 
