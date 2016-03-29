@@ -183,7 +183,7 @@ int attack::calc_to_hit(bool random)
         }
 
         // weapon bonus contribution
-        if (using_weapon())
+        if (using_weapon() && !weapon->super_cursed())
         {
             if (weapon->base_type == OBJ_WEAPONS)
             {

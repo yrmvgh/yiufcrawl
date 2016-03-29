@@ -1005,6 +1005,9 @@ void artefact_properties(const item_def &item,
                          artefact_properties_t  &proprt,
                          artefact_known_props_t &known)
 {
+    if (item.super_cursed())
+        return;
+
     ASSERT(is_artefact(item));
     if (!item.props.exists(KNOWN_PROPS_KEY))
         return;

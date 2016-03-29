@@ -895,7 +895,13 @@ int player::wearing(equipment_type slot, int sub_type, bool calc_unid) const
                 && (calc_unid
                     || item_type_known(*item)))
             {
-                ret += (slot == EQ_RINGS_PLUS ? item->plus : 1);
+                int bonus = 1;
+                if (slot == EQ_RINGS_PLUS)
+                    if (item->super_cursed())
+                        bonus = 0;
+                    else
+                        bonus = item->plus;
+                ret += bonus;
             }
         }
         break;
@@ -935,7 +941,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         // Hands can have more than just weapons.
         if ((item = slot_item(EQ_WEAPON))
             && item->base_type == OBJ_WEAPONS
-            && get_weapon_brand(*item) == special)
+            && get_weapon_brand(*item) == special
+            && !item->super_cursed()
+            )
         {
             ret++;
         }
@@ -956,7 +964,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         {
             if ((item = slot_item(static_cast<equipment_type>(i)))
                 && get_armour_ego_type(*item) == special
-                && (calc_unid || item_type_known(*item)))
+                && (calc_unid || item_type_known(*item))
+                && !item->super_cursed()
+                )
             {
                 ret++;
             }
@@ -969,7 +979,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         // Check a specific armour slot for an ego type:
         if ((item = slot_item(static_cast<equipment_type>(slot)))
             && get_armour_ego_type(*item) == special
-            && (calc_unid || item_type_known(*item)))
+            && (calc_unid || item_type_known(*item))
+            && !item->super_cursed()
+            )
         {
             ret++;
         }
@@ -3823,9 +3835,12 @@ int player::scan_artefacts(artefact_prop_type which_property,
         int val = artefact_property(inv1[eq], which_property, known);
         if (calc_unid || known)
         {
+            const item_def &item = inv1[eq];
             retval += val;
-            if (matches && val)
-                matches->push_back(inv1[eq]);
+            if (matches && val && !item.super_cursed())
+            {
+                matches->push_back(item);
+            }
         }
     }
 
