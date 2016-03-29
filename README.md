@@ -6,13 +6,13 @@ For those who don't know how to clone from a git repo: install git on your syste
     git clone https://github.com/jeremygurr/dcssca.git -b v1.0
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
-The majority of my changes center around increasing the richness of the different species in DCSS. 
+Many of my changes center around increasing the richness of the different species in DCSS. 
 I would repeatedly take the species that I considered most boring to play, and alter that species until it was a compelling choice for me to play. 
 I know quite well that I am not nearly as experienced in playing this game as many others are, and likely some of these changes may break important things that
 I don't yet understand because of that lack of experience, but I figured since I am having so much fun with this fork, it
 doesn't take much effort to share it with others, and maybe some of my crazy ideas may be merged into the main DCSS repo. And of
 course you are welcome to submit changes to this fork or even make another fork if you don't like the direction I'm taking this one. 
-This fork is in sync with the original DCSS repo as of Feb 2016. I intend to keep merging in non-conflicting changes from the main DCSS project.
+This fork is in sync with the original DCSS repo as of Apr 2016. I intend to keep merging in non-conflicting changes from the main DCSS project.
 
 Check out the github wiki for this project if you want to see what my future plans are: https://github.com/jeremygurr/dcssca/wiki/Future-Plans
 
