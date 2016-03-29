@@ -20,6 +20,9 @@ There are two known servers running this fork at this time:
 https://crawl.project357.org/
 http://crawl.homedns.org/
 
+Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
+with my goals here, or with concerns you have about my future plans. 
+
 ## Objectives
 
 (Not necessarily all that different form mainstream crawl, just different in exactly how I interpret these...)
