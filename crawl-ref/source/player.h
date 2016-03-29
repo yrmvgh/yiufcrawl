@@ -127,6 +127,7 @@ public:
     int zigs_completed, zig_max;
 
     FixedVector<int8_t, NUM_EQUIP> equip;
+    FixedVector<int8_t, NUM_EQUIP> equip_slot_cursed_level;
     FixedBitVector<NUM_EQUIP> melded;
     // Whether these are unrands that we should run the _*_world_reacts func for
     FixedBitVector<NUM_EQUIP> unrand_reacts;
@@ -410,6 +411,11 @@ public:
     // Number of viewport refreshes.
     unsigned int frame_no;
 
+    // normally 1000, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
+    int amplification;
+
+    // used by scrolls of returning
+    coord_def returnPosition;
 
     // ---------------------
     // The save file itself.

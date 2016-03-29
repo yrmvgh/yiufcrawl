@@ -588,6 +588,8 @@ struct item_def
                                    /// random cosmetics. 0 = uninitialized
     short          quantity;       ///< number of items
     iflags_t       flags;          ///< item status flags
+    int 		   curse_weight;    ///< how hard it is to remove this curse
+    int			   id_complexity;   ///< how much identification work is left
 
     /// The location of the item. Items in player inventory are indicated by
     /// pos (-1, -1), items in monster inventory by (-2, -2), and items
@@ -611,6 +613,7 @@ struct item_def
 public:
     item_def() : base_type(OBJ_UNASSIGNED), sub_type(0), plus(0), plus2(0),
                  special(0), rnd(0), quantity(0), flags(0),
+				 curse_weight(0), id_complexity(0),
                  pos(), link(NON_ITEM), slot(0), orig_place(),
                  orig_monnum(0), inscription()
     {
@@ -619,7 +622,7 @@ public:
     string name(description_level_type descrip, bool terse = false,
                 bool ident = false, bool with_inscription = true,
                 bool quantity_in_words = false,
-                iflags_t ignore_flags = 0x0) const;
+                iflags_t ignore_flags = 0x0, bool ignore_cursed = false) const;
     bool has_spells() const;
     bool cursed() const;
     colour_t get_colour() const;
@@ -679,7 +682,7 @@ public:
 
 private:
     string name_aux(description_level_type desc, bool terse, bool ident,
-                    bool with_inscription, iflags_t ignore_flags) const;
+                    bool with_inscription, iflags_t ignore_flags, bool ignore_curse = false) const;
 
     colour_t randart_colour() const;
 

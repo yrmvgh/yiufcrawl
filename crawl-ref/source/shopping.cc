@@ -771,6 +771,7 @@ unsigned int item_value(item_def item, bool ident)
         {
             switch (item.sub_type)
             {
+            case SCR_AMPLIFICATION:
             case SCR_ACQUIREMENT:
                 valued += 520;
                 break;
@@ -779,6 +780,7 @@ unsigned int item_value(item_def item, bool ident)
                 valued += 200;
                 break;
 
+            case SCR_INVERSION:
             case SCR_RECHARGING:
             case SCR_SUMMONING:
                 valued += 95;

@@ -51,9 +51,9 @@ bool item_type_removed(object_class_type base, int subtype);
 bool item_known_cursed(const item_def &item) PURE;
 bool item_is_cursable(const item_def &item, bool ignore_holy_wrath = false);
 bool curse_an_item(bool ignore_holy_wrath = false);
-void do_curse_item(item_def &item, bool quiet = true);
-void do_uncurse_item(item_def &item, bool no_ash = false,
-                     bool check_bondage = true);
+void do_curse_item(item_def &item, bool quiet = true, int curseWeight = 100);
+void do_uncurse_item(item_def &item, bool inscribe = true, bool no_ash = false,
+                     bool check_bondage = true, int curseWeight = 100);
 inline constexpr bool item_type_has_curses(object_class_type base_type)
 {
         return base_type == OBJ_WEAPONS || base_type == OBJ_ARMOUR

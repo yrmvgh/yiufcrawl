@@ -1367,6 +1367,9 @@ static void tag_construct_you(writer &th)
         marshallByte(th, you.equip[i]);
     for (int i = 0; i < NUM_EQUIP; ++i)
         marshallBoolean(th, you.melded[i]);
+    for (int i = 0; i < NUM_EQUIP; ++i)
+        marshallInt(th, you.equip_slot_cursed_level[i]);
+
 
     ASSERT_RANGE(you.magic_points, 0, you.max_magic_points + 1);
     marshallUByte(th, you.magic_points);
@@ -1540,6 +1543,7 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.real_time());
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
+    marshallInt(th, you.amplification);
 
     marshallInt(th, you.magic_contamination);
 
@@ -2329,6 +2333,11 @@ static void tag_read_you(reader &th)
         you.melded.set(i, unmarshallBoolean(th));
     for (int i = count; i < NUM_EQUIP; ++i)
         you.melded.set(i, false);
+
+    for (int i = 0; i < count; ++i)
+        you.equip_slot_cursed_level[i] = unmarshallInt(th);
+    for (int i = count; i < NUM_EQUIP; ++i)
+        you.equip_slot_cursed_level[i] = 0;
 
     you.magic_points              = unmarshallUByte(th);
     you.max_magic_points          = unmarshallByte(th);
@@ -3176,6 +3185,7 @@ static void tag_read_you(reader &th)
     you.real_time_ms = chrono::milliseconds(real_time * 1000);
     you.num_turns  = unmarshallInt(th);
     you.exploration = unmarshallInt(th);
+    you.amplification = unmarshallInt(th);
 
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_CONTAM_SCALE)
@@ -4048,6 +4058,8 @@ void marshallItem(writer &th, const item_def &item, bool iinfo)
     marshallShort(th, item.pos.x);
     marshallShort(th, item.pos.y);
     marshallInt(th, item.flags);
+    marshallInt(th, item.curse_weight);
+    marshallInt(th, item.id_complexity);
 
     marshallShort(th, item.link);
     if (item.pos.x >= 0 && item.pos.y >= 0)
@@ -4126,6 +4138,8 @@ void unmarshallItem(reader &th, item_def &item)
     item.pos.x       = unmarshallShort(th);
     item.pos.y       = unmarshallShort(th);
     item.flags       = unmarshallInt(th);
+    item.curse_weight= unmarshallInt(th);
+    item.id_complexity=unmarshallInt(th);
     item.link        = unmarshallShort(th);
 #if TAG_MAJOR_VERSION == 34
     // ITEM_IN_SHOP was briefly NON_ITEM + NON_ITEM (1e85cf0), but that

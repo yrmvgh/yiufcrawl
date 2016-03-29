@@ -818,7 +818,7 @@ void monster::equip_weapon(item_def &item, bool msg)
     {
         const string str = " wields " +
                            item.name(DESC_A, false, false, true, false,
-                                     ISFLAG_CURSED) + ".";
+                                     0, true) + ".";
         msg = simple_monster_message(this, str.c_str());
     }
 
@@ -961,7 +961,7 @@ void monster::unequip_weapon(item_def &item, bool msg)
     {
         const string str = " unwields " +
                            item.name(DESC_A, false, false, true, false,
-                                     ISFLAG_CURSED) + ".";
+                                     0, true) + ".";
         msg = simple_monster_message(this, str.c_str());
     }
 

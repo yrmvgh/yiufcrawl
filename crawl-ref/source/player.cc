@@ -5185,6 +5185,7 @@ player::player()
     type             = MONS_PLAYER;
     mid              = MID_PLAYER;
     position.reset();
+    returnPosition.reset();
 
 #ifdef WIZARD
     wizard = Options.wiz_mode == WIZ_YES;
@@ -5421,6 +5422,8 @@ player::player()
     on_current_level    = true;
     seen_portals        = 0;
     frame_no            = 0;
+
+    amplification       = 1000;
 
     save                = nullptr;
     prev_save_version.clear();

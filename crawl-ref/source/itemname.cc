@@ -133,7 +133,7 @@ static string _item_inscription(const item_def &item)
 
 string item_def::name(description_level_type descrip, bool terse, bool ident,
                       bool with_inscription, bool quantity_in_words,
-                      iflags_t ignore_flags) const
+                      iflags_t ignore_flags, bool ignore_cursed) const
 {
     if (crawl_state.game_is_arena())
     {
@@ -710,6 +710,8 @@ static const char* scroll_type_name(int scrolltype)
 #endif
     case SCR_IMMOLATION:         return "immolation";
     case SCR_BLINKING:           return "blinking";
+    case SCR_AMPLIFICATION:      return "amplification";
+    case SCR_INVERSION:          return "inversion";
     case SCR_MAGIC_MAPPING:      return "magic mapping";
     case SCR_FOG:                return "fog";
     case SCR_ACQUIREMENT:        return "acquirement";
@@ -1611,7 +1613,7 @@ static string _name_weapon(const item_def &weap, description_level_type desc,
 // Note that "terse" is only currently used for the "in hand" listing on
 // the game screen.
 string item_def::name_aux(description_level_type desc, bool terse, bool ident,
-                          bool with_inscription, iflags_t ignore_flags) const
+                          bool with_inscription, iflags_t ignore_flags, bool ignore_curse) const
 {
     // Shortcuts
     const int item_typ   = sub_type;
