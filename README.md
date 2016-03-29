@@ -1,5 +1,10 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
+Checkout branch v1.0 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off into v1.1.
+For those who don't know how to clone from a git repo: install git on your system, then type:
+
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.0
+
 This fork of DCSS is a playground for some ideas I wanted to try. 
 The majority of my changes center around increasing the richness of the different species in DCSS. 
 I would repeatedly take the species that I considered most boring to play, and alter that species until it was a compelling choice for me to play. 
@@ -14,6 +19,9 @@ Check out the github wiki for this project if you want to see what my future pla
 There are two known servers running this fork at this time: 
 https://crawl.project357.org/
 http://crawl.homedns.org/
+
+Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
+with my goals here, or with concerns you have about my future plans. 
 
 ## Objectives
 
@@ -156,8 +164,11 @@ http://crawl.homedns.org/
       cool demonspawn specific ones.
     * as a result of their highly mutable nature, they cannot worship Zin.
       
-* Minotaur
-    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result.
+* Sludge Elf
+    * brought back because I needed a species to experiment with. 
+    * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result. 
+      This enables them to cast high level, low power requirement spells early or even in heavy armour, that would be impossible for others. 
+    * their starting attributes are unusually low.
 
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning

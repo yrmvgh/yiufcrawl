@@ -1783,6 +1783,35 @@ void canned_msg(canned_message_type which_message)
 // distant or invisible to the player ... look elsewhere for a function
 // permitting output of "It" messages for the invisible {dlb}
 // Intentionally avoids info and str_pass now. - bwr
+bool monster_message(const monster* mons, const char *event, ...)
+{
+    msg_channel_type channel = MSGCH_PLAIN;
+    const description_level_type descrip = DESC_THE;
+
+    if (you.see_cell(mons->pos()))
+    {
+        string msg = mons->name(descrip);
+        msg += event;
+
+        if (channel == MSGCH_PLAIN && mons->wont_attack())
+            channel = MSGCH_FRIEND_ACTION;
+
+        va_list argp;
+        va_start(argp, event);
+        do_message_print(channel, 0, true, false, msg.c_str(), argp);
+        va_end(argp);
+
+        return true;
+    }
+
+
+    return false;
+}
+
+// Note that this function *completely* blocks messaging for monsters
+// distant or invisible to the player ... look elsewhere for a function
+// permitting output of "It" messages for the invisible {dlb}
+// Intentionally avoids info and str_pass now. - bwr
 bool simple_monster_message(const monster* mons, const char *event,
                             msg_channel_type channel,
                             int param,

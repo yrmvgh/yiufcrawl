@@ -27,6 +27,8 @@ void more(bool user_forced = false);
 
 void canned_msg(canned_message_type which_message);
 
+bool monster_message(const monster* mons, const char *event, ...);
+
 bool simple_monster_message(const monster* mons, const char *event,
                             msg_channel_type channel = MSGCH_PLAIN,
                             int param = 0,
