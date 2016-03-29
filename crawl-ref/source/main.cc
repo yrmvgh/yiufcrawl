@@ -3557,12 +3557,15 @@ static void _move_player(coord_def move)
         if (!Options.old_movement)
         {
             if (move.is_reversal(you.prev_direction))
-                you.time_taken = you.time_taken * 20 / 10;
+            {
+                you.time_taken = you.time_taken * 30 / 10;
+                you.prev_direction = move;
+            }
             else if (move.is_sharp_turn(you.prev_direction))
-                you.time_taken = you.time_taken * 15 / 10;
-            else
-                you.time_taken = you.time_taken * 9 / 10;
-            you.prev_direction = move;
+            {
+                you.time_taken = you.time_taken * 20 / 10;
+                you.prev_direction = move;
+            }
         }
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
