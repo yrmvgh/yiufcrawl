@@ -48,8 +48,8 @@ void debuff_monster(monster &mon);
 int detect_traps(int pow);
 int detect_items(int pow);
 int detect_creatures(int pow, bool telepathic = false);
-bool remove_curse(bool alreadyknown = true, const string &pre_msg = "");
-bool selective_remove_curse();
+bool remove_curse(const int power, bool alreadyknown = true, const string &pre_msg = "");
+bool selective_remove_curse(int power);
 #if TAG_MAJOR_VERSION == 34
 bool curse_item(bool armour, const string &pre_msg = "");
 #endif

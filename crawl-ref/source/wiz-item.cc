@@ -619,9 +619,9 @@ void wizard_make_object_randart()
 
     // Remove curse flag from item, unless worshipping Ashenzari.
     if (have_passive(passive_t::want_curses))
-        do_curse_item(item, true);
+        do_curse_item(item, 100, true);
     else
-        do_uncurse_item(item);
+        do_uncurse_item(item, MAX_CURSE_LEVEL);
 
     // If it was equipped, requip the item.
     if (eq != EQ_NONE)
@@ -646,7 +646,7 @@ void wizard_uncurse_item()
         item_def& item(you.inv1[i]);
 
         if (item.cursed())
-            do_uncurse_item(item);
+            do_uncurse_item(item, MAX_CURSE_LEVEL);
         else
         {
             if (!_item_type_can_be_cursed(item.base_type))
@@ -654,7 +654,7 @@ void wizard_uncurse_item()
                 mpr("That type of item cannot be cursed.");
                 return;
             }
-            do_curse_item(item);
+            do_curse_item(item, 100);
         }
         mprf_nocap("%s", item.name(DESC_INVENTORY_EQUIP).c_str());
     }

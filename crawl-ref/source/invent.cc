@@ -982,6 +982,18 @@ const char* item_slot_name(equipment_type type)
     case EQ_BOOTS:       return "boots";
     case EQ_SHIELD:      return "shield";
     case EQ_BODY_ARMOUR: return "body";
+    case EQ_LEFT_RING: return "left ring";
+    case EQ_RIGHT_RING: return "right ring";
+    case EQ_AMULET: return "amulet";
+    case EQ_RING_ONE: return "ring 1";
+    case EQ_RING_TWO: return "ring 2";
+    case EQ_RING_THREE: return "ring 3";
+    case EQ_RING_FOUR: return "ring 4";
+    case EQ_RING_FIVE: return "ring 5";
+    case EQ_RING_SIX: return "ring 6";
+    case EQ_RING_SEVEN: return "ring 7";
+    case EQ_RING_EIGHT: return "ring 8";
+    case EQ_RING_AMULET: return "ring amulet";
     default:             return "";
     }
 }

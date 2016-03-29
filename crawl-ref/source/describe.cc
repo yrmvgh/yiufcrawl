@@ -2007,7 +2007,7 @@ string get_item_description(const item_def &item, bool verbose,
     }
 
     if (!verbose && item_known_cursed(item))
-        description << "\nIt has a curse placed upon it.";
+        description << "\nIt has a curse placed upon it. (" << item.curse_weight << ") ";
     else
     {
         if (verbose)
@@ -2015,7 +2015,7 @@ string get_item_description(const item_def &item, bool verbose,
             if (need_extra_line)
                 description << "\n";
             if (item_known_cursed(item))
-                description << "\nIt has a curse placed upon it.";
+                description << "\nIt has a curse placed upon it. (" << item.curse_weight << ") ";
 
             if (is_artefact(item))
             {

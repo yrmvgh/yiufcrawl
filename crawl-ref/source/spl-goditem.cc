@@ -610,7 +610,7 @@ int detect_creatures(int pow, bool telepathic)
     return creatures_found;
 }
 
-static bool _selectively_remove_curse(const string &pre_msg)
+static bool _selectively_remove_curse(const int power, const string &pre_msg)
 {
     bool used = false;
 
@@ -641,15 +641,15 @@ static bool _selectively_remove_curse(const string &pre_msg)
         if (!used && !pre_msg.empty())
             mpr(pre_msg);
 
-        do_uncurse_item(item, false, false);
+        do_uncurse_item(item, false, false, power);
         used = true;
     }
 }
 
-bool selective_remove_curse()
+bool selective_remove_curse(int power)
 {
 	bool success = false;
-	if(_selectively_remove_curse(""))
+	if(_selectively_remove_curse(power, ""))
 	{
         ash_check_bondage();
         success = true;
@@ -657,11 +657,11 @@ bool selective_remove_curse()
 	return success;
 }
 
-bool remove_curse(bool alreadyknown, const string &pre_msg)
+bool remove_curse(const int power, bool alreadyknown, const string &pre_msg)
 {
     if (have_passive(passive_t::want_curses) && alreadyknown)
     {
-        if (_selectively_remove_curse(pre_msg))
+        if (_selectively_remove_curse(power, pre_msg))
         {
             ash_check_bondage();
             return true;
@@ -681,7 +681,7 @@ bool remove_curse(bool alreadyknown, const string &pre_msg)
         item_def * const it = you.slot_item(equipment_type(i), true);
         if (it && it->cursed())
         {
-            do_uncurse_item(*it);
+            do_uncurse_item(*it, power);
             success = true;
         }
     }

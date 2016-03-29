@@ -85,6 +85,7 @@
 const int DJ_MP_RATE = 1;
 
 static int _bone_armour_bonus();
+static void _fade_curses(int exp_gained);
 
 static void _moveto_maybe_repel_stairs()
 {
@@ -2787,6 +2788,34 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
             mprf(MSGCH_RECOVERY, "Your life force feels restored.");
         }
     }
+
+    _fade_curses(exp_gained);
+}
+
+static void _fade_curses(int exp_gained)
+{
+    for (int i = 0; i < you.equip.size(); i++)
+    {
+        int8_t slot = you.equip[i];
+        if(slot > -1)
+        {
+            item_def& item(you.inv1[slot]);
+            if(item.cursed())
+            {
+                if (you.species != SP_DEMIGOD && you.religion != GOD_ASHENZARI)
+                {
+                    int reduction_amount = 0;
+                    const int curseResistance = you.skill(SK_INVOCATIONS) + you.piety / 10;
+                    const int howMuchRaw = exp_gained * curseResistance;
+                    const int divisor = calc_skill_cost(you.skill_cost_level);
+                    reduction_amount = div_rand_round(howMuchRaw, divisor);
+                    item.curse_weight = max(0, item.curse_weight - reduction_amount);
+                    if (item.curse_weight == 0)
+                        mprf("The curse on %s has been lifted!", item.name(DESC_YOUR).c_str());
+                }
+            }
+        }
+    }
 }
 
 bool will_gain_life(int lev)
@@ -5226,6 +5255,7 @@ player::player()
     zig_max          = 0;
 
     equip.init(-1);
+    equip_slot_cursed_level.init(0);
     melded.reset();
     unrand_reacts.reset();
 

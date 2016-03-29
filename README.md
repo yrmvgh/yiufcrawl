@@ -48,6 +48,23 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
+### v1.1 (not yet released)
+
+* Curse enhancement
+    * Curses now have a curse level. 
+    * The curse on equipped items decay as a player gains experience, in proportion to their invocations skill and their piety. 
+    * Demigods don't have natural curse decay, they have to use scrolls. 
+    * Typical early game curses are at curse level 100. 
+    * Reading a remove curse scroll reduces the curse level by 100. 
+    * Once the curse level drops to 0, the item is no longer cursed. 
+    * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
+    * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.
+    * The same item can be cursed multiple times, increasing the curse level. 
+    * Curse level > 1000 will cause the bonuses of that item to be neutralized. A +5 long sword of poison becomes a +0 long sword, while the curse is above
+      1000. 
+
+### v1.0 (currently deployed)
+
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
       evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 

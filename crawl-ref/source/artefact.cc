@@ -992,7 +992,7 @@ static bool _init_artefact_properties(item_def &item)
     {
         if (i == ARTP_CURSE && prop[i] < 0)
         {
-            do_curse_item(item);
+            do_curse_item(item, 100);
             continue;
         }
         rap[i] = static_cast<short>(prop[i]);
@@ -1780,7 +1780,7 @@ bool make_item_unrandart(item_def &item, int unrand_index)
     _init_artefact_properties(item);
 
     if (unrand->prpty[ARTP_CURSE] != 0)
-        do_curse_item(item);
+        do_curse_item(item, 300);
 
     // get artefact appearance
     ASSERT(!item.props.exists(ARTEFACT_APPEAR_KEY));

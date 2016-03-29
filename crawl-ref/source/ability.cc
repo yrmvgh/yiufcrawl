@@ -3007,7 +3007,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_UNCURSE:
         fail_check();
-        if (!selective_remove_curse())
+        if (!selective_remove_curse(500))
         {
         	return SPRET_ABORT;
         }

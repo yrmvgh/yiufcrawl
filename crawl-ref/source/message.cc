@@ -1113,7 +1113,7 @@ void wprf(const char *format, ...)
     va_list argp;
     va_start(argp, format);
     if (you.wizard)
-        mprf(format, argp);
+    do_message_print(MSGCH_PLAIN, 0, true, false, format, argp);
     va_end(argp);
 }
 

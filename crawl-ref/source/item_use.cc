@@ -2714,9 +2714,6 @@ void read_scroll(int item_slot)
 
     case SCR_AMPLIFICATION:
     {
-        const bool safely_cancellable
-            = alreadyknown && !player_mutation_level(MUT_BLURRY_VISION);
-
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);
@@ -2744,9 +2741,6 @@ void read_scroll(int item_slot)
 
     case SCR_INVERSION:
     {
-        const bool safely_cancellable
-            = alreadyknown && !player_mutation_level(MUT_BLURRY_VISION);
-
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);
@@ -2776,14 +2770,19 @@ void read_scroll(int item_slot)
         break;
 
     case SCR_REMOVE_CURSE:
+    {
+        int power = 100 * you.amplification;
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);
-            remove_curse(false);
+            remove_curse(power, false);
         }
         else
-            cancel_scroll = !remove_curse(true, pre_succ_msg);
+            cancel_scroll = !remove_curse(power, true, pre_succ_msg);
+        if (!cancel_scroll)
+            you.amplification = 1;
         break;
+    }
 
     case SCR_ACQUIREMENT:
         mpr("This is a scroll of acquirement!");

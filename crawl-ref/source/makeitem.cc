@@ -238,7 +238,7 @@ static bool _try_make_weapon_artefact(item_def& item, int force_type,
         make_item_randart(item);
 
         if (cursed)
-            do_curse_item(item);
+            do_curse_item(item, one_chance_in(4) ? 500 : 100);
 
         if (get_weapon_brand(item) == SPWPN_HOLY_WRATH)
             item.curse_weight = 0;
@@ -447,7 +447,7 @@ static void _generate_weapon_item(item_def& item, bool allow_uniques,
         item.plus -= 1 + random2(3);
 
         if (item_level == ISPEC_BAD)
-            do_curse_item(item);
+            do_curse_item(item, 100);
     }
     else if ((force_good || is_demonic(item) || forced_ego
                     || x_chance_in_y(51 + item_level, 200))
@@ -484,7 +484,7 @@ static void _generate_weapon_item(item_def& item, bool allow_uniques,
         if (one_chance_in(12))
         {
             // Make a cursed item.
-            do_curse_item(item);
+            do_curse_item(item, 100);
             item.plus  -= random2(4);
             set_item_ego_type(item, OBJ_WEAPONS, SPWPN_NORMAL);
         }
@@ -772,7 +772,7 @@ static bool _try_make_armour_artefact(item_def& item, int force_type,
         // Determine enchantment and cursedness.
         if (one_chance_in(5))
         {
-            do_curse_item(item);
+            do_curse_item(item, 100);
             item.plus = 0;
         }
         else
@@ -787,7 +787,7 @@ static bool _try_make_armour_artefact(item_def& item, int force_type,
                 item.plus -= random2(max_plus + 6);
 
             if (item.plus < 0 && !one_chance_in(3))
-                do_curse_item(item);
+                do_curse_item(item, 100);
         }
 
         // On body armour, an enchantment of less than 0 is never viable.
@@ -1202,7 +1202,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
         item.plus -= 1 + random2(3);
 
         if (item_level == ISPEC_BAD)
-            do_curse_item(item);
+            do_curse_item(item, 100);
     }
     else if ((forced_ego || item.sub_type == ARM_HAT
                     || x_chance_in_y(51 + item_level, 250))
@@ -1230,7 +1230,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
     else if (one_chance_in(12))
     {
         // Make a bad (cursed) item.
-        do_curse_item(item);
+        do_curse_item(item, 100);
 
         if (one_chance_in(5))
             item.plus -= random2(3);
@@ -1261,7 +1261,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
 
     if (armour_is_hide(item))
     {
-        do_uncurse_item(item);
+        do_uncurse_item(item, 100);
         item.plus = 0;
         set_ident_flags(item, ISFLAG_IDENT_MASK);
     }
@@ -1467,70 +1467,34 @@ static void _generate_scroll_item(item_def& item, int force_type,
         int tries = 500;
         do
         {
-        	switch(crawl_state.difficulty)
-        	{
-        	case DIFFICULTY_EASY:
-				item.sub_type = random_choose_weighted(
-					200, SCR_IDENTIFY,
-					112, SCR_REMOVE_CURSE,
-					 // [Cha] don't generate teleportation scrolls if in sprint
-					 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
-					 40, SCR_ENCHANT_ARMOUR,
-					 40, SCR_ENCHANT_WEAPON,
-					 40, SCR_MAGIC_MAPPING,
-					 40, SCR_AMNESIA,
-					 32, SCR_FEAR,
-					 32, SCR_FOG,
-					 32, SCR_RANDOM_USELESSNESS,
-					 32*2, SCR_BLINKING,
-					 // [Cha] don't generate noise scrolls if in sprint
-					 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
-					 32, SCR_IMMOLATION,
-					 20, SCR_RECHARGING,
-					 20*2, SCR_INVERSION,
-					 // Higher-level scrolls.
-					 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
-					 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
-					 15*2, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
-					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
-					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
-					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
-					 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
-					 10*2, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
-					 0);
-				break;
-        	case DIFFICULTY_NORMAL:
-        	case DIFFICULTY_HARD:
-				item.sub_type = random_choose_weighted(
-						200, SCR_IDENTIFY,
-						112, SCR_REMOVE_CURSE,
-						 // [Cha] don't generate teleportation scrolls if in sprint
-						 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
-						 40, SCR_ENCHANT_ARMOUR,
-						 40, SCR_ENCHANT_WEAPON,
-						 40, SCR_MAGIC_MAPPING,
-						 40, SCR_AMNESIA,
-						 32, SCR_FEAR,
-						 32, SCR_FOG,
-						 32, SCR_RANDOM_USELESSNESS,
-						 32, SCR_BLINKING,
-						 // [Cha] don't generate noise scrolls if in sprint
-						 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
-						 32, SCR_IMMOLATION,
-						 20, SCR_RECHARGING,
-						 20, SCR_INVERSION,
-						 // Higher-level scrolls.
-						 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
-						 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
-						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
-						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
-						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
-						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
-						 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
-						 10, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
-						 0);
-				break;
-        	}
+            item.sub_type = random_choose_weighted(
+                200, SCR_IDENTIFY,
+                112, SCR_REMOVE_CURSE,
+                 // [Cha] don't generate teleportation scrolls if in sprint
+                 80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
+                 40, SCR_ENCHANT_ARMOUR,
+                 40, SCR_ENCHANT_WEAPON,
+                 40, SCR_MAGIC_MAPPING,
+                 40, SCR_AMNESIA,
+                 40, SCR_INVERSION,
+                 32, SCR_FEAR,
+                 32, SCR_FOG,
+                 32, SCR_RANDOM_USELESSNESS,
+                 32, SCR_BLINKING,
+                 // [Cha] don't generate noise scrolls if in sprint
+                 32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
+                 32, SCR_IMMOLATION,
+                 20, SCR_RECHARGING,
+                 // Higher-level scrolls.
+                 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
+                 20, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
+                 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
+                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
+                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
+                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
+                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
+                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD),
+                 0);
         }
         while (item.sub_type == NUM_SCROLLS
                || agent == GOD_XOM
@@ -1660,7 +1624,7 @@ static void _generate_staff_item(item_def& item, bool allow_uniques,
         item.sub_type = force_type;
 
     if (one_chance_in(16))
-        do_curse_item(item);
+        do_curse_item(item, 100);
 }
 
 static void _generate_rod_item(item_def& item, int force_type, int item_level)
@@ -1679,7 +1643,7 @@ static void _generate_rod_item(item_def& item, int force_type, int item_level)
     init_rod_mp(item, -1, item_level);
 
     if (one_chance_in(16))
-        do_curse_item(item);
+        do_curse_item(item, 100);
 }
 
 static void _generate_rune_item(item_def& item, int force_type)
@@ -1819,7 +1783,7 @@ static void _generate_jewellery_item(item_def& item, bool allow_uniques,
     item.plus = _determine_ring_plus(item.sub_type);
 
     if (item.plus < 0)
-        do_curse_item(item);
+        do_curse_item(item, 100);
 
     // All jewellery base types should now work. - bwr
     if (item_level == ISPEC_RANDART
@@ -1834,7 +1798,7 @@ static void _generate_jewellery_item(item_def& item, bool allow_uniques,
              || one_chance_in(50))
     {
         // Bad jewellery is always cursed {dlb}:
-        do_curse_item(item);
+        do_curse_item(item, 100);
     }
 }
 
