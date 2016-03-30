@@ -15,6 +15,7 @@ enum rounding_type
     ROUND_RANDOM
 };
 
+int qpow(int value, int num, int denom, int power);
 int stepup(int value, int multiplier = 1, int power = 2, int divisor = 1);
 double stepdown(double value, double step, double base = 2);
 int stepdown(int value, int step, rounding_type = ROUND_CLOSE, int max = 0, double base = 2);

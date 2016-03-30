@@ -724,9 +724,9 @@ static const map<species_type, species_def> species_data =
     },
     {},
     {},
-    { JOB_HUNTER
+    { JOB_MONK, JOB_ASSASSIN, JOB_HUNTER, JOB_TRANSMUTER, JOB_WARPER, JOB_NECROMANCER
       },
-    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS, SK_UNARMED_COMBAT },
 } },
 
 { SP_SPRIGGAN, {

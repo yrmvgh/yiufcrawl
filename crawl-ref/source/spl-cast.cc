@@ -527,6 +527,12 @@ int raw_spell_fail(spell_type spell)
         if (chance < cbrk[0])
             chance2 = cbrk[1];
 
+    const int wild = player_mutation_level(MUT_WILD_MAGIC);
+    chance2 = qpow(chance2, 3, 2, wild);
+
+    const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
+    chance2 = qpow(chance2, 2, 3, subdued);
+
     chance2 += get_form()->spellcasting_penalty;
 
     chance2 += 4 * player_mutation_level(MUT_ANTI_WIZARDRY);
@@ -541,11 +547,6 @@ int raw_spell_fail(spell_type spell)
 
     // Apply the effects of Vehumet and items of wizardry.
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
-
-    const int wild = player_mutation_level(MUT_WILD_MAGIC);
-    const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
-    chance2 >>= subdued;
-    chance2 <<= wild;
 
     if (chance2 > 100)
         chance2 = 100;
@@ -597,8 +598,8 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         {
             const int wild = player_mutation_level(MUT_WILD_MAGIC);
             const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
-            power *= (10 + 5 * wild * wild);
-            power /= (10 + 5 * subdued * subdued);
+            power *= (10 + 3 * wild * wild);
+            power /= (10 + 3 * subdued * subdued);
         }
 
         // Augmentation boosts spell power at high HP.
