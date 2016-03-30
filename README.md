@@ -48,6 +48,17 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
+* Eliminate pillar dancing and extended kiting (don't knock it until you've given it a fair chance, it really works)
+    * The first time a player moves, it takes 2.0 aut, independent of other factors.
+    * If the player moves again in the same general direction (within 45 degress or less of the original movement), then they move 10% faster than their normal
+      speed. As long as they don't stop (by doing something other than moving in a similar direction), they keep moving at the 10% faster than normal rate. 
+    * If they stop to attack, then next time they move it will take exactly 2.0 aut. It might take longer if their normal movement speed would take longer. 
+    * If they change directions by 90 degrees or more, they will pay again the 2.0 aut movement penalty. 
+    * Monsters move just like before, no change there. 
+    * Pillar dancing no longer will work because most monsters will easily be able to catch up.
+    * Players can still escape from monsters like before, with speed boosts (haste, species speed, swiftness, etc) making it easier.
+    * Extended kiting is impractical even for the fastest species with haste. Try it and you'll see what I mean. 
+
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
       evokables, etc. The 'I' command shows the consumables. Each can have 52 items. 
@@ -86,6 +97,7 @@ with my goals here, or with concerns you have about my future plans.
     * Easy:
         * reduces the chances of out of depth monsters spawning
         * starts the player with 10 more hp
+        * player has 50% more mp
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 2)
@@ -102,11 +114,6 @@ with my goals here, or with concerns you have about my future plans.
 
 * Unequipping shields
     * When trying to equip a weapon that is incompatible with a shield, the game will ask if you want to unequip the shield first, saving some hassel.
-
-* Movement
-    * Changing direction 90 degrees slows movement by 50%. Changing direction 180 degrees slows movement by 100%. Other movement is 10% faster than normal to 
-      balance things out. 
-    * There is an option to disable this: old\_movement = true
 
 * Traps
     * Shafting doesn't happen in the first 2 floors of dungeon
@@ -169,6 +176,7 @@ with my goals here, or with concerns you have about my future plans.
     * added subdued magic 3 mutation at the beginning, making it very easy for them to cast spells, but they are quite weak as a result. 
       This enables them to cast high level, low power requirement spells early or even in heavy armour, that would be impossible for others. 
     * their starting attributes are unusually low.
+    * they have a very low magic capacity.
 
 * Naga
     * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
@@ -231,14 +239,18 @@ with my goals here, or with concerns you have about my future plans.
     * Throw Flame has been removed from spell books. Monsters still cast it, but the player can't. Instead, Flame Tongue has been slightly enhanced to fill that
       void. Not much of a void, since I hardly used it anyway. Magma Bolt has been put in the Flames Book as a level 5 spell alongside Fireball. 
 
-* Potions and wands of heal wounds
+* Potions of heal wounds
     * easy mode: heals 100% of max hp
     * normal mode: heals 50% of max hp (minimum of 20 points)
     * hard mode: heals 25% of max hp (minimum of 20 points)
-    * wands of heal wounds take from 2 to 20 turns to execute successfully, depending on evocations, and may be interrupted by monsters (making them almost useless during combat).
+
+* Wands of heal wounds
+    * heal based on evocations skill
+    * always take 2 turns, uninterruptable
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
+    * each time a wand is recharged, it's max charges is cut in half.
 
 * Potions of magic
     * easy mode: gives 100% magic

@@ -1566,7 +1566,7 @@ bool item_is_rechargeable(const item_def &it, bool hide_charged)
 
         // Don't offer wands already maximally charged.
         if (item_ident(it, ISFLAG_KNOW_PLUSES)
-            && it.charges >= wand_max_charges(it))
+            && it.charges >= it.get_cap())
         {
             return false;
         }

@@ -1346,6 +1346,7 @@ static void _generate_wand_item(item_def& item, int force_type, int item_level)
         item.sub_type = _random_wand_subtype();
 
     // Generate charges randomly...
+    item.set_cap(wand_max_charges(item));
     item.plus = random2avg(wand_max_charges(item), 3);
 
     // ...but 0 charges is silly
