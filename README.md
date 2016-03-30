@@ -63,8 +63,7 @@ with my goals here, or with concerns you have about my future plans.
     
 * Curse enhancement
     * Curses now have a curse level. 
-    * The curse on equipped items decay as a player gains experience.
-    * Demigods don't have natural curse decay, they have to use scrolls. 
+    * The curse on equipped items decay as a player gains experience (unless the player worships Ash of course).
     * Typical early game curses are at curse level 100. 
     * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations. 
     * Once the curse level drops to 0, the item is no longer cursed. 

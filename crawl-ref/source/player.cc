@@ -2814,10 +2814,10 @@ static void _fade_curses(int exp_gained)
             item_def& item(you.inv1[slot]);
             if(item.cursed())
             {
-                if (you.species != SP_DEMIGOD && you.religion != GOD_ASHENZARI)
+                if (you.religion != GOD_ASHENZARI)
                 {
                     int reduction_amount = 0;
-                    const int curseResistance = you.skill(SK_INVOCATIONS) + you.piety / 10;
+                    const int curseResistance = you.species == SP_DEMIGOD ? 50 : 10;
                     const int howMuchRaw = exp_gained * curseResistance;
                     const int divisor = calc_skill_cost(you.skill_cost_level);
                     reduction_amount = div_rand_round(howMuchRaw, divisor);
