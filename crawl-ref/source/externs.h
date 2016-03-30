@@ -644,9 +644,9 @@ public:
             return 0;
     }
 
-    void set_cap(int charge_cap)
+    void set_cap(int max_charges)
     {
-        props[WAND_CAP].get_int() = charge_cap;
+        props[WAND_CAP].get_int() = max_charges;
     }
 
     /**

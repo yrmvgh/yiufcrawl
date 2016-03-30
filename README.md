@@ -48,7 +48,7 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
-### v1.1 (not yet released)
+### v1.1 (currently deployed)
 
 * Eliminate pillar dancing and extended kiting (don't knock it until you've given it a fair chance, it really works)
     * The first time a player moves, it takes 2.0 aut, independent of other factors.
