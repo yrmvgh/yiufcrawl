@@ -638,7 +638,10 @@ public:
 
     int get_cap() const
     {
-        return props[WAND_CAP].get_int();
+        if (props.exists(WAND_CAP))
+            return props[WAND_CAP].get_int();
+        else
+            return 0;
     }
 
     void set_cap(int charge_cap)

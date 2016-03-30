@@ -107,6 +107,9 @@ public:
     int hp_max_adj_temp;        // temporary max HP loss (rotting)
     int hp_max_adj_perm;        // base HPs from background (and permanent loss)
 
+    int sp;
+    int sp_max;
+
     int magic_points;
     int max_magic_points;
     int mp_max_adj;             // max MP loss (ability costs, tutorial bonus)
@@ -114,9 +117,11 @@ public:
     FixedVector<int8_t, NUM_STATS> stat_loss;
     FixedVector<int8_t, NUM_STATS> base_stats;
 
+    motion_type motion;
     int hunger;
     int disease;
     hunger_state_t hunger_state;
+    hunger_state_t target_hunger_state;
     uint8_t max_level;
     int hit_points_regeneration;
     int magic_points_regeneration;

@@ -1994,8 +1994,8 @@ int player_movement_speed()
 
     // transformations
     if (you.form == TRAN_BAT)
-        mv = 5; // but allowed minimum is six
-    else if (you.form == TRAN_PIG)
+        mv = 5;
+    else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
         mv = 7;
     else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
         mv = 8;

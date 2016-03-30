@@ -74,7 +74,7 @@ bool _playerUnequipsShield();
 
 bool _playerUnequipsShield()
 {
-	if (yesno("Unequip your shield first?", false, 'n'))
+	if (yesno("Unequip your shield first?", true, 'n'))
 	{
 		unequip_item(EQ_SHIELD);
 		return true;
