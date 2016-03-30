@@ -2049,6 +2049,159 @@ void process_command(command_type cmd)
         case CMD_RUN_LEFT: _start_running(RDIR_LEFT, RMODE_START); break;
         case CMD_RUN_DOWN_RIGHT: _start_running(RDIR_DOWN_RIGHT, RMODE_START); break;
         case CMD_RUN_RIGHT: _start_running(RDIR_RIGHT, RMODE_START); break;
+
+        case CMD_REPEAT_CMD:     _do_cmd_repeat();  break;
+        case CMD_PREV_CMD_AGAIN: _do_prev_cmd_again(); break;
+            // Repeat commands.
+        case CMD_MACRO_ADD:      macro_add_query();    break;
+            // Toggle commands.
+        case CMD_DISABLE_MORE: crawl_state.show_more_prompt = false; break;
+        case CMD_ENABLE_MORE:  crawl_state.show_more_prompt = true;  break;
+
+        case CMD_TOGGLE_AUTOPICKUP:
+            if (Options.autopickup_on < 1)
+                Options.autopickup_on = 1;
+            else
+                Options.autopickup_on = 0;
+            mprf("Autopickup is now %s.", Options.autopickup_on > 0 ? "on" : "off");
+            break;
+
+        case CMD_TOGGLE_TRAVEL_SPEED:        _toggle_travel_speed(); break;
+
+            // Map commands.
+        case CMD_CLEAR_MAP:       _do_clear_map();   break;
+        case CMD_DISPLAY_OVERMAP: display_overview(); break;
+        case CMD_DISPLAY_MAP:     _do_display_map(); break;
+
+        case CMD_SHOW_TERRAIN: toggle_show_terrain(); break;
+        case CMD_ADJUST_INVENTORY: adjust(); break;
+        case CMD_DISPLAY_SPELLS:       inspect_spells();         break;
+        case CMD_DISPLAY_CHARACTER_STATUS: display_char_status();          break;
+        case CMD_DISPLAY_COMMANDS:         list_commands(0, true);         break;
+        case CMD_DISPLAY_INVENTORY:        display_inventory(you.inv1, "Inventory: ");    break;
+        case CMD_DISPLAY_CONSUMABLES:      display_inventory(you.inv2, "Consumables: ");    break;
+        case CMD_DISPLAY_KNOWN_OBJECTS: check_item_knowledge(); redraw_screen(); break;
+        case CMD_DISPLAY_MUTATIONS: display_mutations(); redraw_screen();  break;
+        case CMD_DISPLAY_RUNES: display_runes(); redraw_screen();          break;
+        case CMD_DISPLAY_SKILLS:           skill_menu(); redraw_screen();  break;
+        case CMD_EXPERIENCE_CHECK:         _experience_check();            break;
+        case CMD_FULL_VIEW:                full_describe_view();           break;
+        case CMD_INSCRIBE_ITEM:            prompt_inscribe_item(you.inv1); break;
+        case CMD_LIST_ARMOUR:              list_armour();                  break;
+        case CMD_LIST_GOLD:                _do_list_gold();                break;
+        case CMD_LIST_JEWELLERY:           list_jewellery();               break;
+        case CMD_MAKE_NOTE:                make_user_note();               break;
+        case CMD_REPLAY_MESSAGES: replay_messages(); redraw_screen();      break;
+        case CMD_RESISTS_SCREEN:           print_overview_screen();        break;
+        case CMD_LOOKUP_HELP:           keyhelp_query_descriptions();      break;
+
+        case CMD_DISPLAY_RELIGION:
+        {
+#ifdef USE_TILE_WEB
+            tiles_crt_control show_as_menu(CRT_MENU, "describe_god");
+#endif
+            describe_god(you.religion, true);
+            redraw_screen();
+            break;
+        }
+
+        case CMD_READ_MESSAGES:
+#ifdef DGL_SIMPLE_MESSAGING
+            if (SysEnv.have_messages)
+            read_messages();
+#endif
+            break;
+
+        case CMD_CHARACTER_DUMP:
+            if (!dump_char(you.your_name))
+                mpr("Char dump unsuccessful! Sorry about that.");
+#ifdef USE_TILE_WEB
+        else
+            tiles.send_dump_info("command", you.your_name);
+#endif
+            break;
+
+            // Travel commands.
+        case CMD_FIX_WAYPOINT:      travel_cache.add_waypoint(); break;
+
+            // Mouse commands.
+        case CMD_MOUSE_MOVE:
+        {
+            const coord_def dest = crawl_view.screen2grid(crawl_view.mousep);
+            if (in_bounds(dest))
+                terse_describe_square(dest);
+            break;
+        }
+
+            // Quiver commands.
+        case CMD_QUIVER_ITEM:           choose_item_for_quiver(); break;
+        case CMD_CYCLE_QUIVER_FORWARD:  _do_cycle_quiver(+1);     break;
+        case CMD_CYCLE_QUIVER_BACKWARD: _do_cycle_quiver(-1);     break;
+
+#ifdef WIZARD
+        case CMD_WIZARD: _handle_wizard_command(); break;
+    case CMD_EXPLORE_MODE: _enter_explore_mode(); break;
+#endif
+
+            // Game commands.
+        case CMD_REDRAW_SCREEN: redraw_screen(); break;
+
+#ifdef USE_UNIX_SIGNALS
+        case CMD_SUSPEND_GAME:
+            // CTRL-Z suspend behaviour is implemented here,
+            // because we want to have CTRL-Y available...
+            // and unfortunately they tend to be stuck together.
+            clrscr();
+#if !defined(USE_TILE_LOCAL) && !defined(TARGET_OS_WINDOWS)
+            console_shutdown();
+            kill(0, SIGTSTP);
+            console_startup();
+#endif
+            redraw_screen();
+            break;
+#endif
+
+        case CMD_SAVE_GAME:
+        {
+            const char * const prompt
+                = (Options.restart_after_game && Options.restart_after_save)
+                  ? "Save game and return to main menu?"
+                  : "Save game and exit?";
+            explicit_keymap map;
+            map['S'] = 'y';
+            if (yesno(prompt, true, 'n', true, true, false, &map))
+                save_game(true);
+            else
+                canned_msg(MSG_OK);
+            break;
+        }
+
+        case CMD_SAVE_GAME_NOW:
+            mpr("Saving game... please wait.");
+            save_game(true);
+            break;
+
+        case CMD_QUIT:
+            if (crawl_state.disables[DIS_CONFIRMATIONS]
+                || yes_or_no("Are you sure you want to abandon this character and quit the game?"))
+            {
+                ouch(INSTANT_DEATH, KILLED_BY_QUITTING);
+            }
+            else
+                canned_msg(MSG_OK);
+            break;
+
+        case CMD_LUA_CONSOLE:
+            debug_terp_dlua(clua);
+            break;
+
+#ifdef TOUCH_UI
+        case CMD_SHOW_KEYBOARD:
+        ASSERT(wm);
+        wm->show_keyboard();
+        break;
+#endif
+
         default: player_moved = false; break;
     }
 
@@ -2107,30 +2260,6 @@ void process_command(command_type cmd)
 
             case CMD_OPEN_DOOR:      _open_door(); break;
 
-                // Repeat commands.
-            case CMD_REPEAT_CMD:     _do_cmd_repeat();  break;
-            case CMD_PREV_CMD_AGAIN: _do_prev_cmd_again(); break;
-            case CMD_MACRO_ADD:      macro_add_query();    break;
-
-                // Toggle commands.
-            case CMD_DISABLE_MORE: crawl_state.show_more_prompt = false; break;
-            case CMD_ENABLE_MORE:  crawl_state.show_more_prompt = true;  break;
-
-            case CMD_TOGGLE_AUTOPICKUP:
-                if (Options.autopickup_on < 1)
-                    Options.autopickup_on = 1;
-                else
-                    Options.autopickup_on = 0;
-                mprf("Autopickup is now %s.", Options.autopickup_on > 0 ? "on" : "off");
-                break;
-
-            case CMD_TOGGLE_TRAVEL_SPEED:        _toggle_travel_speed(); break;
-
-                // Map commands.
-            case CMD_CLEAR_MAP:       _do_clear_map();   break;
-            case CMD_DISPLAY_OVERMAP: display_overview(); break;
-            case CMD_DISPLAY_MAP:     _do_display_map(); break;
-
 #ifdef TOUCH_UI
             // zoom commands
     case CMD_ZOOM_IN:   tiles.zoom_dungeon(true); break;
@@ -2149,9 +2278,6 @@ void process_command(command_type cmd)
                 if (player_on_single_stack() && !you.running)
                     pickup(true);
                 break;
-            case CMD_SHOW_TERRAIN: toggle_show_terrain(); break;
-            case CMD_ADJUST_INVENTORY: adjust(); break;
-
             case CMD_SAFE_WAIT:
                 if (!i_feel_safe(true))
                     break;
@@ -2170,7 +2296,6 @@ void process_command(command_type cmd)
                 // Action commands.
             case CMD_BUTCHER:              butchery();               break;
             case CMD_CAST_SPELL:           do_cast_spell_cmd(false); break;
-            case CMD_DISPLAY_SPELLS:       inspect_spells();         break;
             case CMD_EAT:                  eat_food();               break;
             case CMD_FIRE:                 fire_thing();             break;
             case CMD_FORCE_CAST_SPELL:     do_cast_spell_cmd(true);  break;
@@ -2222,65 +2347,9 @@ void process_command(command_type cmd)
                 break;
 
                 // Informational commands.
-            case CMD_DISPLAY_CHARACTER_STATUS: display_char_status();          break;
-            case CMD_DISPLAY_COMMANDS:         list_commands(0, true);         break;
-            case CMD_DISPLAY_INVENTORY:        display_inventory(you.inv1, "Inventory: ");    break;
-            case CMD_DISPLAY_CONSUMABLES:      display_inventory(you.inv2, "Consumables: ");    break;
-            case CMD_DISPLAY_KNOWN_OBJECTS: check_item_knowledge(); redraw_screen(); break;
-            case CMD_DISPLAY_MUTATIONS: display_mutations(); redraw_screen();  break;
-            case CMD_DISPLAY_RUNES: display_runes(); redraw_screen();          break;
-            case CMD_DISPLAY_SKILLS:           skill_menu(); redraw_screen();  break;
-            case CMD_EXPERIENCE_CHECK:         _experience_check();            break;
-            case CMD_FULL_VIEW:                full_describe_view();           break;
-            case CMD_INSCRIBE_ITEM:            prompt_inscribe_item(you.inv1); break;
-            case CMD_LIST_ARMOUR:              list_armour();                  break;
-            case CMD_LIST_GOLD:                _do_list_gold();                break;
-            case CMD_LIST_JEWELLERY:           list_jewellery();               break;
-            case CMD_MAKE_NOTE:                make_user_note();               break;
-            case CMD_REPLAY_MESSAGES: replay_messages(); redraw_screen();      break;
-            case CMD_RESISTS_SCREEN:           print_overview_screen();        break;
-            case CMD_LOOKUP_HELP:           keyhelp_query_descriptions();      break;
-
-            case CMD_DISPLAY_RELIGION:
-            {
-#ifdef USE_TILE_WEB
-                tiles_crt_control show_as_menu(CRT_MENU, "describe_god");
-#endif
-                describe_god(you.religion, true);
-                redraw_screen();
-                break;
-            }
-
-            case CMD_READ_MESSAGES:
-#ifdef DGL_SIMPLE_MESSAGING
-                if (SysEnv.have_messages)
-            read_messages();
-#endif
-                break;
-
-            case CMD_CHARACTER_DUMP:
-                if (!dump_char(you.your_name))
-                    mpr("Char dump unsuccessful! Sorry about that.");
-#ifdef USE_TILE_WEB
-            else
-            tiles.send_dump_info("command", you.your_name);
-#endif
-                break;
-
-                // Travel commands.
-            case CMD_FIX_WAYPOINT:      travel_cache.add_waypoint(); break;
             case CMD_INTERLEVEL_TRAVEL: do_interlevel_travel();      break;
             case CMD_ANNOTATE_LEVEL:    annotate_level();            break;
             case CMD_EXPLORE:           do_explore_cmd();            break;
-
-                // Mouse commands.
-            case CMD_MOUSE_MOVE:
-            {
-                const coord_def dest = crawl_view.screen2grid(crawl_view.mousep);
-                if (in_bounds(dest))
-                    terse_describe_square(dest);
-                break;
-            }
 
             case CMD_MOUSE_CLICK:
             {
@@ -2306,75 +2375,6 @@ void process_command(command_type cmd)
                 }
                 break;
             }
-
-                // Quiver commands.
-            case CMD_QUIVER_ITEM:           choose_item_for_quiver(); break;
-            case CMD_CYCLE_QUIVER_FORWARD:  _do_cycle_quiver(+1);     break;
-            case CMD_CYCLE_QUIVER_BACKWARD: _do_cycle_quiver(-1);     break;
-
-#ifdef WIZARD
-            case CMD_WIZARD: _handle_wizard_command(); break;
-    case CMD_EXPLORE_MODE: _enter_explore_mode(); break;
-#endif
-
-                // Game commands.
-            case CMD_REDRAW_SCREEN: redraw_screen(); break;
-
-#ifdef USE_UNIX_SIGNALS
-            case CMD_SUSPEND_GAME:
-                // CTRL-Z suspend behaviour is implemented here,
-                // because we want to have CTRL-Y available...
-                // and unfortunately they tend to be stuck together.
-                clrscr();
-#if !defined(USE_TILE_LOCAL) && !defined(TARGET_OS_WINDOWS)
-                console_shutdown();
-                kill(0, SIGTSTP);
-                console_startup();
-#endif
-                redraw_screen();
-                break;
-#endif
-
-            case CMD_SAVE_GAME:
-            {
-                const char * const prompt
-                        = (Options.restart_after_game && Options.restart_after_save)
-                          ? "Save game and return to main menu?"
-                          : "Save game and exit?";
-                explicit_keymap map;
-                map['S'] = 'y';
-                if (yesno(prompt, true, 'n', true, true, false, &map))
-                    save_game(true);
-                else
-                    canned_msg(MSG_OK);
-                break;
-            }
-
-            case CMD_SAVE_GAME_NOW:
-                mpr("Saving game... please wait.");
-                save_game(true);
-                break;
-
-            case CMD_QUIT:
-                if (crawl_state.disables[DIS_CONFIRMATIONS]
-                    || yes_or_no("Are you sure you want to abandon this character and quit the game?"))
-                {
-                    ouch(INSTANT_DEATH, KILLED_BY_QUITTING);
-                }
-                else
-                    canned_msg(MSG_OK);
-                break;
-
-            case CMD_LUA_CONSOLE:
-                debug_terp_dlua(clua);
-                break;
-
-#ifdef TOUCH_UI
-            case CMD_SHOW_KEYBOARD:
-        ASSERT(wm);
-        wm->show_keyboard();
-        break;
-#endif
 
             case CMD_NO_CMD:
             default:
