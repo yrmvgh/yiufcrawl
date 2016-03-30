@@ -85,6 +85,7 @@
 const int DJ_MP_RATE = 1;
 
 static int _bone_armour_bonus();
+static void _fade_curses(int exp_gained);
 
 static void _moveto_maybe_repel_stairs()
 {
@@ -894,7 +895,13 @@ int player::wearing(equipment_type slot, int sub_type, bool calc_unid) const
                 && (calc_unid
                     || item_type_known(*item)))
             {
-                ret += (slot == EQ_RINGS_PLUS ? item->plus : 1);
+                int bonus = 1;
+                if (slot == EQ_RINGS_PLUS)
+                    if (item->super_cursed())
+                        bonus = 0;
+                    else
+                        bonus = item->plus;
+                ret += bonus;
             }
         }
         break;
@@ -934,7 +941,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         // Hands can have more than just weapons.
         if ((item = slot_item(EQ_WEAPON))
             && item->base_type == OBJ_WEAPONS
-            && get_weapon_brand(*item) == special)
+            && get_weapon_brand(*item) == special
+            && !item->super_cursed()
+            )
         {
             ret++;
         }
@@ -955,7 +964,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         {
             if ((item = slot_item(static_cast<equipment_type>(i)))
                 && get_armour_ego_type(*item) == special
-                && (calc_unid || item_type_known(*item)))
+                && (calc_unid || item_type_known(*item))
+                && !item->super_cursed()
+                )
             {
                 ret++;
             }
@@ -968,7 +979,9 @@ int player::wearing_ego(equipment_type slot, int special, bool calc_unid) const
         // Check a specific armour slot for an ego type:
         if ((item = slot_item(static_cast<equipment_type>(slot)))
             && get_armour_ego_type(*item) == special
-            && (calc_unid || item_type_known(*item)))
+            && (calc_unid || item_type_known(*item))
+            && !item->super_cursed()
+            )
         {
             ret++;
         }
@@ -2787,6 +2800,34 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
             mprf(MSGCH_RECOVERY, "Your life force feels restored.");
         }
     }
+
+    _fade_curses(exp_gained);
+}
+
+static void _fade_curses(int exp_gained)
+{
+    for (int i = 0; i < you.equip.size(); i++)
+    {
+        int8_t slot = you.equip[i];
+        if(slot > -1)
+        {
+            item_def& item(you.inv1[slot]);
+            if(item.cursed())
+            {
+                if (you.species != SP_DEMIGOD && you.religion != GOD_ASHENZARI)
+                {
+                    int reduction_amount = 0;
+                    const int curseResistance = you.skill(SK_INVOCATIONS) + you.piety / 10;
+                    const int howMuchRaw = exp_gained * curseResistance;
+                    const int divisor = calc_skill_cost(you.skill_cost_level);
+                    reduction_amount = div_rand_round(howMuchRaw, divisor);
+                    item.curse_weight = max(0, item.curse_weight - reduction_amount);
+                    if (item.curse_weight == 0)
+                        mprf("The curse on %s has been lifted!", item.name(DESC_YOUR).c_str());
+                }
+            }
+        }
+    }
 }
 
 bool will_gain_life(int lev)
@@ -3794,9 +3835,12 @@ int player::scan_artefacts(artefact_prop_type which_property,
         int val = artefact_property(inv1[eq], which_property, known);
         if (calc_unid || known)
         {
+            const item_def &item = inv1[eq];
             retval += val;
-            if (matches && val)
-                matches->push_back(inv1[eq]);
+            if (matches && val && !item.super_cursed())
+            {
+                matches->push_back(item);
+            }
         }
     }
 
@@ -5226,6 +5270,7 @@ player::player()
     zig_max          = 0;
 
     equip.init(-1);
+    equip_slot_cursed_level.init(0);
     melded.reset();
     unrand_reacts.reset();
 

@@ -325,7 +325,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         }
 
         if (one_chance_in(3))
-            do_curse_item(item);
+            do_curse_item(item, 100);
         break;
 
     case MONS_EDMUND:
@@ -1513,7 +1513,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         item_set_appearance(i);
 
     if (force_uncursed)
-        do_uncurse_item(i);
+        do_uncurse_item(i, MAX_CURSE_LEVEL);
 
     if (!is_artefact(mitm[thing_created]) && !floor_tile.empty())
     {

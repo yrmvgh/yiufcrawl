@@ -36,6 +36,8 @@
 
 static iflags_t _full_ident_mask(const item_def& item);
 
+void curse_slot(int slot_to_curse, int power);
+
 // XXX: Name strings in most of the following are currently unused!
 struct armour_def
 {
@@ -760,8 +762,9 @@ bool item_is_cursable(const item_def &item, bool ignore_holy_wrath)
 {
     if (!item_type_has_curses(item.base_type))
         return false;
-    if (item_known_cursed(item))
-        return false;
+    // even if the item is cursed, it may be more cursed
+//    if (item_known_cursed(item))
+//        return false;
     if (!ignore_holy_wrath && item.base_type == OBJ_WEAPONS
         && get_weapon_brand(item) == SPWPN_HOLY_WRATH)
     {
@@ -770,8 +773,48 @@ bool item_is_cursable(const item_def &item, bool ignore_holy_wrath)
     return true;
 }
 
+bool curse_a_slot(int power)
+{
+    // allowing these would enable mummy scumming
+    if (have_passive(passive_t::want_curses))
+    {
+        mprf(MSGCH_GOD, "The curse is absorbed by %s.",
+             god_name(you.religion).c_str());
+        return false;
+    }
+
+    int slot_to_curse = -1;
+    int tries = 0;
+    while (slot_to_curse == -1 && tries++ < 10)
+    {
+        int slot = random2(NUM_EQUIP);
+        if (you_can_wear((equipment_type) slot) != MB_FALSE)
+            slot_to_curse = slot;
+    }
+
+    curse_slot(slot_to_curse, power);
+
+    return true;
+}
+
+void curse_slot(int slot_to_curse, int power)
+{
+    you.equip_slot_cursed_level[slot_to_curse] += power;
+    int8_t i = you.equip[slot_to_curse];
+    if (i != -1)
+    {
+        you.inv1[i].curse_weight += you.equip_slot_cursed_level[slot_to_curse];
+        you.equip_slot_cursed_level[slot_to_curse] = 0;
+        mprf("%s has been cursed.", you.inv1[i].name(DESC_YOUR).c_str());
+    }
+    else
+    {
+        mprf("Your %s slot has been cursed.", item_slot_name((equipment_type) slot_to_curse));
+    }
+}
+
 // Curses a random player inventory item.
-bool curse_an_item(bool ignore_holy_wrath)
+bool curse_an_item(int power, bool ignore_holy_wrath)
 {
     // allowing these would enable mummy scumming
     if (have_passive(passive_t::want_curses))
@@ -802,7 +845,7 @@ bool curse_an_item(bool ignore_holy_wrath)
     if (!found)
         return false;
 
-    do_curse_item(*found, false);
+    do_curse_item(*found, power, false);
 
     return true;
 }
@@ -817,7 +860,7 @@ void auto_id_inventory()
             god_id_item(item, false);
 }
 
-void do_curse_item(item_def &item, bool quiet, int curseWeight)
+void do_curse_item(item_def &item, int power, bool quiet)
 {
     if (!is_weapon(item) && item.base_type != OBJ_ARMOUR
         && item.base_type != OBJ_JEWELLERY)
@@ -856,7 +899,9 @@ void do_curse_item(item_def &item, bool quiet, int curseWeight)
         item.flags |= ISFLAG_KNOW_CURSE;
     }
 
-    item.curse_weight += curseWeight;
+    item.curse_weight += power;
+    if (item.curse_weight > MAX_CURSE_LEVEL)
+        item.curse_weight = MAX_CURSE_LEVEL;
 
     // Xom is amused by the player's items being cursed, especially if
     // they're worn/equipped.
@@ -892,8 +937,8 @@ void do_curse_item(item_def &item, bool quiet, int curseWeight)
  * @param check_bondage     Whether to update the player's Ash bondage status.
  *                          (Ash ?rc delays this until later.)
  */
-void do_uncurse_item(item_def &item, bool no_ash,
-                     bool check_bondage, int curseWeight)
+void do_uncurse_item(item_def &item, int power, bool no_ash,
+                     bool check_bondage)
 {
     const bool in_inv = in_inventory(item);
     if (!item.cursed())
@@ -919,7 +964,12 @@ void do_uncurse_item(item_def &item, bool no_ash,
         item.flags |= ISFLAG_KNOW_CURSE;
     }
 
-    item.curse_weight = max(0, item.curse_weight - curseWeight);
+    item.curse_weight = max(0, item.curse_weight - power);
+
+    if (item.curse_weight > 0)
+        mprf("The curse weakens.");
+    else
+        mprf("The curse is lifted.");
 
     if (check_bondage && in_inv)
         ash_check_bondage();

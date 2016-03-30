@@ -2260,8 +2260,8 @@ static void _curse_card(int power, deck_rarity_type rarity)
     else
     {
         // Curse 1.5 items on average.
-        if (curse_an_item() && coinflip())
-            curse_an_item();
+        if (curse_an_item(min(500, power)) && coinflip())
+            curse_an_item(min(500, power));
     }
 }
 

@@ -48,6 +48,8 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
+### v1.1 (not yet released)
+
 * Eliminate pillar dancing and extended kiting (don't knock it until you've given it a fair chance, it really works)
     * The first time a player moves, it takes 2.0 aut, independent of other factors.
     * If the player moves again in the same general direction (within 45 degress or less of the original movement), then they move 10% faster than their normal
@@ -58,6 +60,21 @@ with my goals here, or with concerns you have about my future plans.
     * Pillar dancing no longer will work because most monsters will easily be able to catch up.
     * Players can still escape from monsters like before, with speed boosts (haste, species speed, swiftness, etc) making it easier.
     * Extended kiting is impractical even for the fastest species with haste. Try it and you'll see what I mean. 
+    
+* Curse enhancement
+    * Curses now have a curse level. 
+    * The curse on equipped items decay as a player gains experience.
+    * Demigods don't have natural curse decay, they have to use scrolls. 
+    * Typical early game curses are at curse level 100. 
+    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations. 
+    * Once the curse level drops to 0, the item is no longer cursed. 
+    * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
+    * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.
+    * The same item can be cursed multiple times, increasing the curse level. 
+    * Curse level > 1000 will cause the bonuses of that item to be neutralized. A +5 long sword of poison becomes a +0 long sword, while the curse is above
+      1000. 
+
+### v1.0 (currently deployed)
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,

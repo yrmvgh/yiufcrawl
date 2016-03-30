@@ -870,9 +870,7 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
     switch (mons->type)
     {
         case MONS_MENKAURE:
-        case MONS_MUMMY:
-            return;
-
+        case MONS_MUMMY:          pow = 1; break;
         case MONS_GUARDIAN_MUMMY: pow = 3; break;
         case MONS_MUMMY_PRIEST:   pow = 8; break;
         case MONS_GREATER_MUMMY:  pow = 11; break;
@@ -909,14 +907,25 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
         return;
 
     if (target->is_player())
-        mprf(MSGCH_MONSTER_SPELL, "You feel extremely nervous for a moment...");
+    {
+        // Kiku protects you from ordinary mummy curses.
+        if (in_good_standing(GOD_KIKUBAAQUDGHA, 1))
+        {
+            simple_god_message(" averts the curse.");
+            return;
+        }
+
+        mprf(MSGCH_MONSTER_SPELL, "You feel nervous for a moment...");
+    }
     else if (you.can_see(*target))
     {
         mprf(MSGCH_MONSTER_SPELL, "A malignant aura surrounds %s.",
              target->name(DESC_THE).c_str());
     }
+
+    curse_a_slot(pow * 100);
     const string cause = make_stringf("%s death curse",
-                            apostrophise(mons->name(DESC_A)).c_str());
+                                      apostrophise(mons->name(DESC_A)).c_str());
     MiscastEffect(target, mons, MUMMY_MISCAST, SPTYP_NECROMANCY,
                   pow, random2avg(88, 3), cause.c_str());
 }

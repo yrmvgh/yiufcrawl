@@ -957,7 +957,7 @@ void MiscastEffect::_hexes(int severity)
             if (target->is_player())
             {
                 mpr("You sense a malignant aura.");
-                curse_an_item();
+                curse_an_item(200);
                 break;
             }
             // Intentional fall-through for monsters.
@@ -1113,7 +1113,7 @@ void MiscastEffect::_charms(int severity)
             if (target->is_player())
             {
                 mpr("You sense a malignant aura.");
-                curse_an_item();
+                curse_an_item(200);
                 break;
             }
             // Intentional fall-through for monsters.

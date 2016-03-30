@@ -3294,6 +3294,11 @@ bool item_def::cursed() const
     return curse_weight > 0;
 }
 
+bool item_def::super_cursed() const
+{
+    return curse_weight > 1000;
+}
+
 bool item_def::launched_by(const item_def &launcher) const
 {
     if (base_type != OBJ_MISSILES)

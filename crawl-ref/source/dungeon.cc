@@ -4232,9 +4232,9 @@ static bool _apply_item_props(item_def &item, const item_spec &spec,
     }
 
     if (props.exists("cursed"))
-        do_curse_item(item);
+        do_curse_item(item, 100);
     else if (props.exists("uncursed"))
-        do_uncurse_item(item);
+        do_uncurse_item(item, MAX_CURSE_LEVEL);
     if (props.exists("useful") && is_useless_item(item, false)
         && !allow_useless)
     {
