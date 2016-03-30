@@ -36,6 +36,11 @@ double stepdown(double value, double step, double base)
     return step * log(1 + value / step) / log(base);
 }
 
+int qpow(int value, int num, int denom, int power)
+{
+    return (double)value * pow((double)num/(double)denom, power);
+}
+
 int stepdown(int value, int step, rounding_type rounding, int max, double base)
 {
     double ret = stepdown((double) value, double(step), double(base));
