@@ -1346,6 +1346,7 @@ static void _generate_wand_item(item_def& item, int force_type, int item_level)
         item.sub_type = _random_wand_subtype();
 
     // Generate charges randomly...
+    item.set_cap(wand_max_charges(item));
     item.plus = random2avg(wand_max_charges(item), 3);
 
     // ...but 0 charges is silly
@@ -1476,7 +1477,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  40, SCR_ENCHANT_WEAPON,
                  40, SCR_MAGIC_MAPPING,
                  40, SCR_AMNESIA,
-                 40, SCR_INVERSION,
+//                 40, SCR_INVERSION,
                  32, SCR_FEAR,
                  32, SCR_FOG,
                  32, SCR_RANDOM_USELESSNESS,
@@ -1487,7 +1488,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  20, SCR_RECHARGING,
                  // Higher-level scrolls.
                  27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
-                 20, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
+//                 20, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
                  17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),

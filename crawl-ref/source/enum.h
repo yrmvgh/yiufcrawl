@@ -2248,6 +2248,13 @@ enum holy_word_source_type
     HOLY_WORD_TSO,     // weapon blessing
 };
 
+enum motion_type
+{
+    MOTION_SNEAKING,
+    MOTION_WALKING,
+    MOTION_RUNNING,
+};
+
 enum hunger_state_t                    // you.hunger_state
 {
     HS_FAINTING,

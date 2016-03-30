@@ -67,6 +67,12 @@ void equip_item(equipment_type slot, int item_slot, bool msg)
     ASSERT(!you.melded[slot]);
 
     you.equip[slot] = item_slot;
+    const int slot_curse = you.equip_slot_cursed_level[slot];
+    if (slot_curse > 0)
+    {
+        you.inv1[item_slot].curse_weight = slot_curse;
+        you.equip_slot_cursed_level[slot] = 0;
+    }
 
     equip_effect(slot, item_slot, false, msg);
     ash_check_bondage();

@@ -1370,10 +1370,15 @@ static void tag_construct_you(writer &th)
     for (int i = 0; i < NUM_EQUIP; ++i)
         marshallInt(th, you.equip_slot_cursed_level[i]);
 
+    marshallUByte(th, you.sp);
+    marshallUByte(th, you.sp_max);
 
     ASSERT_RANGE(you.magic_points, 0, you.max_magic_points + 1);
     marshallUByte(th, you.magic_points);
-    marshallByte(th, you.max_magic_points);
+    marshallUByte(th, you.max_magic_points);
+
+    marshallUByte(th, you.target_hunger_state);
+    marshallUByte(th, you.motion);
 
     COMPILE_CHECK(NUM_STATS == 3);
     for (int i = 0; i < NUM_STATS; ++i)
@@ -2339,8 +2344,13 @@ static void tag_read_you(reader &th)
     for (int i = count; i < NUM_EQUIP; ++i)
         you.equip_slot_cursed_level[i] = 0;
 
+    you.sp                        = unmarshallUByte(th);
+    you.sp_max                    = unmarshallUByte(th);
     you.magic_points              = unmarshallUByte(th);
-    you.max_magic_points          = unmarshallByte(th);
+    you.max_magic_points          = unmarshallUByte(th);
+
+    you.target_hunger_state       = (hunger_state_t) unmarshallUByte(th);
+    you.motion                    = (motion_type) unmarshallUByte(th);
 
     for (int i = 0; i < NUM_STATS; ++i)
         you.base_stats[i] = unmarshallByte(th);

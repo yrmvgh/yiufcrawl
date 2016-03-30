@@ -1994,8 +1994,8 @@ int player_movement_speed()
 
     // transformations
     if (you.form == TRAN_BAT)
-        mv = 5; // but allowed minimum is six
-    else if (you.form == TRAN_PIG)
+        mv = 5;
+    else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
         mv = 7;
     else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
         mv = 8;
@@ -2814,10 +2814,10 @@ static void _fade_curses(int exp_gained)
             item_def& item(you.inv1[slot]);
             if(item.cursed())
             {
-                if (you.species != SP_DEMIGOD && you.religion != GOD_ASHENZARI)
+                if (you.religion != GOD_ASHENZARI)
                 {
                     int reduction_amount = 0;
-                    const int curseResistance = you.skill(SK_INVOCATIONS) + you.piety / 10;
+                    const int curseResistance = you.species == SP_DEMIGOD ? 50 : 10;
                     const int howMuchRaw = exp_gained * curseResistance;
                     const int divisor = calc_skill_cost(you.skill_cost_level);
                     reduction_amount = div_rand_round(howMuchRaw, divisor);
@@ -4268,7 +4268,7 @@ int get_real_mp(bool include_items)
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))
         enp /= 3;
 
-    enp = max(enp, 0);
+    enp = max(enp, 4);
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
     	enp = enp * 3 / 2;

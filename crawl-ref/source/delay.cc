@@ -372,13 +372,6 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
         break;
 
     case DELAY_WAND_HEAL:
-        if (stop_stair_travel)
-        {
-			mpr("Your healing is interrupted.");
-			_pop_delay();
-			break;
-		}
-
     case DELAY_DROP_ITEM:         // one turn... only used for easy armour drops
     case DELAY_JEWELLERY_ON:      // one turn
     case DELAY_UNINTERRUPTIBLE:   // never stoppable
@@ -1024,7 +1017,7 @@ static void _finish_delay(const delay_queue_item &delay)
     case DELAY_WAND_HEAL:
     {
     	const PotionEffect* potion = get_potion_effect(POT_HEAL_WOUNDS);
-    	potion->effect();
+    	potion->effect(true, delay.parm1, true);
         break;
     }
 

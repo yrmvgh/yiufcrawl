@@ -28,6 +28,8 @@
 #include "store.h"
 #include "tiledef_defines.h"
 
+#define WAND_CAP "wand_cap"
+
 struct tile_flavour
 {
     unsigned short floor_idx;
@@ -632,6 +634,19 @@ public:
     bool is_type(int base, int sub) const
     {
         return base_type == base && sub_type == sub;
+    }
+
+    int get_cap() const
+    {
+        if (props.exists(WAND_CAP))
+            return props[WAND_CAP].get_int();
+        else
+            return 0;
+    }
+
+    void set_cap(int charge_cap)
+    {
+        props[WAND_CAP].get_int() = charge_cap;
     }
 
     /**

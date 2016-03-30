@@ -74,7 +74,7 @@ bool _playerUnequipsShield();
 
 bool _playerUnequipsShield()
 {
-	if (yesno("Unequip your shield first?", false, 'n'))
+	if (yesno("Unequip your shield first?", true, 'n'))
 	{
 		unequip_item(EQ_SHIELD);
 		return true;
@@ -2771,7 +2771,7 @@ void read_scroll(int item_slot)
 
     case SCR_REMOVE_CURSE:
     {
-        int power = 100 * you.amplification;
+        int power = (100 + you.skill(SK_INVOCATIONS) * 50) * you.amplification;
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);

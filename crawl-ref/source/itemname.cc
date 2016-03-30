@@ -1795,7 +1795,7 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
         }
 
         if (know_pluses)
-            buff << " (" << charges << "/" << wand_max_charges(*this) << ")";
+            buff << " (" << charges << "/" << (*this).get_cap() << ")";
         else if (!dbname && with_inscription)
         {
             if (used_count == ZAPCOUNT_EMPTY)
@@ -2568,7 +2568,11 @@ static void _add_fake_item(object_class_type base, int sub,
     ptmp->rnd       = 1;
 
     if (base == OBJ_WANDS && sub != NUM_WANDS)
-        ptmp->charges = wand_max_charges(*ptmp);
+    {
+        const int full = wand_max_charges(*ptmp);
+        ptmp->charges = full;
+        ptmp->set_cap(full);
+    }
     else if (base == OBJ_GOLD)
         ptmp->quantity = 18;
     else if (ptmp->is_type(OBJ_FOOD, FOOD_CHUNK))

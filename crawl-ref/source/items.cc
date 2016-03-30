@@ -4541,7 +4541,8 @@ bool get_item_by_name(item_def *item, const char* specs,
         break;
 
     case OBJ_WANDS:
-        item->plus = wand_max_charges(*item);
+        item->set_cap(wand_max_charges(*item));
+        item->plus = item->get_cap();
         break;
 
     case OBJ_RODS:

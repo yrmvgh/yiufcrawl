@@ -1829,7 +1829,7 @@ string get_item_description(const item_def &item, bool verbose,
 
         if (item_type_known(item) && !item_ident(item, ISFLAG_KNOW_PLUSES))
         {
-            description << "\nIt can have at most " << wand_max_charges(item)
+            description << "\nIt can have at most " << item.get_cap()
                         << " charges.";
         }
 

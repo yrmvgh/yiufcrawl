@@ -53,7 +53,7 @@ static const int STEALTH_PIP = 50;
 static const int BONE_ARMOUR_HIT_RATIO = 50;
 
 /// The minimum aut cost for a player move (before haste)
-static const int FASTEST_PLAYER_MOVE_SPEED = 2;
+static const int FASTEST_PLAYER_MOVE_SPEED = 4;
 // relevant for swiftness, etc
 
 // Min delay for thrown projectiles.
@@ -107,6 +107,9 @@ public:
     int hp_max_adj_temp;        // temporary max HP loss (rotting)
     int hp_max_adj_perm;        // base HPs from background (and permanent loss)
 
+    int sp;
+    int sp_max;
+
     int magic_points;
     int max_magic_points;
     int mp_max_adj;             // max MP loss (ability costs, tutorial bonus)
@@ -114,9 +117,11 @@ public:
     FixedVector<int8_t, NUM_STATS> stat_loss;
     FixedVector<int8_t, NUM_STATS> base_stats;
 
+    motion_type motion;
     int hunger;
     int disease;
     hunger_state_t hunger_state;
+    hunger_state_t target_hunger_state;
     uint8_t max_level;
     int hit_points_regeneration;
     int magic_points_regeneration;
@@ -127,7 +132,7 @@ public:
     int zigs_completed, zig_max;
 
     FixedVector<int8_t, NUM_EQUIP> equip;
-    FixedVector<int8_t, NUM_EQUIP> equip_slot_cursed_level;
+    FixedVector<int, NUM_EQUIP> equip_slot_cursed_level;
     FixedBitVector<NUM_EQUIP> melded;
     // Whether these are unrands that we should run the _*_world_reacts func for
     FixedBitVector<NUM_EQUIP> unrand_reacts;

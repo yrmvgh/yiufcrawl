@@ -131,6 +131,11 @@ item_def* newgame_make_item(object_class_type base,
     item.plus      = plus;
     item.brand     = force_ego;
 
+    if (item.base_type == OBJ_WANDS)
+    {
+        item.set_cap(wand_max_charges(item));
+    }
+
     // If the character is restricted in wearing the requested armour,
     // hand out a replacement instead.
     if (item.base_type == OBJ_ARMOUR

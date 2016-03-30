@@ -238,24 +238,30 @@ public:
         }
 
         int amount = 0;
-        switch(crawl_state.difficulty)
+        if (is_device)
         {
-            case DIFFICULTY_EASY:
-                amount = you.hp_max;
-                mpr("You feel completely better.");
-                break;
-            case DIFFICULTY_NORMAL:
-                amount = you.hp_max/2;
-                mpr("You feel much better.");
-                break;
-            case DIFFICULTY_HARD:
-                amount = you.hp_max/4;
-                mpr("You feel a little better.");
-                break;
-            default:
-                // should not be possible
-                break;
+            amount = you.hp_max * power / 200;
+            mpr("You feel better.");
         }
+        else switch(crawl_state.difficulty)
+            {
+                case DIFFICULTY_EASY:
+                    amount = you.hp_max;
+                    mpr("You feel completely better.");
+                    break;
+                case DIFFICULTY_NORMAL:
+                    amount = you.hp_max/2;
+                    mpr("You feel much better.");
+                    break;
+                case DIFFICULTY_HARD:
+                    amount = you.hp_max/4;
+                    mpr("You feel a little better.");
+                    break;
+                default:
+                    // should not be possible
+                    break;
+            }
+
 
         // heal at least 20 points
         amount = max(20, amount);
