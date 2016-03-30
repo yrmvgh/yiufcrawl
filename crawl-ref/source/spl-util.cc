@@ -476,8 +476,8 @@ int spell_mana(spell_type which_spell)
     else
         cost =  _seekspell(which_spell)->level;
 
-//    if (is_self_transforming_spell(which_spell))
-//        cost *= 3;
+    if (is_self_transforming_spell(which_spell))
+        cost *= 3;
 
     return cost;
 }
