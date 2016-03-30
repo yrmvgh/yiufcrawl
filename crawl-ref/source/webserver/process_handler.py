@@ -523,6 +523,8 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
         ttyrec_path = self.config_path("ttyrec_path")
         if ttyrec_path:
             self.ttyrec_filename = os.path.join(ttyrec_path, self.lock_basename)
+            if not os.access(ttyrec_path, os.F_OK):
+                os.makedirs(ttyrec_path)
 
         processes[os.path.abspath(self.socketpath)] = self
 
