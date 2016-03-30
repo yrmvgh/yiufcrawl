@@ -2202,6 +2202,26 @@ void process_command(command_type cmd)
         break;
 #endif
 
+#ifdef CLUA_BINDINGS
+        case CMD_AUTOFIGHT:
+    case CMD_AUTOFIGHT_NOMOVE:
+    {
+        const char * const fnname = cmd == CMD_AUTOFIGHT ? "hit_closest"
+                                                         : "hit_closest_nomove";
+        if (Options.autofight_warning > 0
+            && !is_processing_macro()
+            && you.real_time_delta
+               <= chrono::milliseconds(Options.autofight_warning)
+            && (crawl_state.prev_cmd == CMD_AUTOFIGHT
+                || crawl_state.prev_cmd == CMD_AUTOFIGHT_NOMOVE))
+        {
+            mprf(MSGCH_DANGER, "You should not fight recklessly!");
+        }
+        else if (!clua.callfn(fnname, 0, 0))
+            mprf(MSGCH_ERROR, "Lua error: %s", clua.error.c_str());
+        break;
+    }
+#endif
         default: player_moved = false; break;
     }
 
@@ -2231,26 +2251,6 @@ void process_command(command_type cmd)
             case CMD_CLOSE_DOOR_RIGHT:      _close_door({ 1,  0}); break;
             case CMD_CLOSE_DOOR:            _close_door({ 0,  0}); break;
 
-#ifdef CLUA_BINDINGS
-    case CMD_AUTOFIGHT:
-    case CMD_AUTOFIGHT_NOMOVE:
-    {
-        const char * const fnname = cmd == CMD_AUTOFIGHT ? "hit_closest"
-                                                         : "hit_closest_nomove";
-        if (Options.autofight_warning > 0
-            && !is_processing_macro()
-            && you.real_time_delta
-               <= chrono::milliseconds(Options.autofight_warning)
-            && (crawl_state.prev_cmd == CMD_AUTOFIGHT
-                || crawl_state.prev_cmd == CMD_AUTOFIGHT_NOMOVE))
-        {
-            mprf(MSGCH_DANGER, "You should not fight recklessly!");
-        }
-        else if (!clua.callfn(fnname, 0, 0))
-            mprf(MSGCH_ERROR, "Lua error: %s", clua.error.c_str());
-        break;
-    }
-#endif
             case CMD_REST:            _do_rest(); break;
 
             case CMD_GO_UPSTAIRS:
