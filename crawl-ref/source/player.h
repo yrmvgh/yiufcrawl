@@ -53,7 +53,7 @@ static const int STEALTH_PIP = 50;
 static const int BONE_ARMOUR_HIT_RATIO = 50;
 
 /// The minimum aut cost for a player move (before haste)
-static const int FASTEST_PLAYER_MOVE_SPEED = 2;
+static const int FASTEST_PLAYER_MOVE_SPEED = 4;
 // relevant for swiftness, etc
 
 // Min delay for thrown projectiles.

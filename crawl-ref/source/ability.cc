@@ -2957,6 +2957,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             wand.charges = 9 * wand_charge_value(wand.sub_type) / 2;
             wand.used_count = ZAPCOUNT_RECHARGED;
             wand.props[PAKELLAS_SUPERCHARGE_KEY].get_bool() = true;
+            wand.set_cap(wand_max_charges(wand));
         }
 
         you.wield_change = true;

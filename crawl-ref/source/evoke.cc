@@ -692,16 +692,7 @@ void zap_wand(int slot)
 
 	if(wand.sub_type == WAND_HEAL_WOUNDS && aimed_at_self)
 	{
-		int delay = stepup(you.skill(SK_EVOCATIONS), 100, 2, 5);
-		delay = 4000 / max(1, delay);
-		delay = min(20, delay);
-		delay = max(2, delay);
-        char buf[200];
-        sprintf(buf, "Evoking this wand will take %d turns, are you sure?", delay);
-		if(yesno(string(buf).c_str(), true, 'n'))
-		    start_delay(DELAY_WAND_HEAL, delay - 1);
-		else
-			return;
+        start_delay(DELAY_WAND_HEAL, 2, power);
 	}
 	else
 	{
@@ -843,18 +834,8 @@ int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg,
 
         if (wand.base_type == OBJ_WANDS)
         {
-//            int charge_gain = wand_max_charges(wand) / 3;
-
-            const int new_charges = wand_max_charges(wand);
-//                num > 0 && den > 0
-//                ? min<int>(charge_gain * 3,
-//                           max<int>(wand.charges + 1,
-//                                    wand.charges + 3 * charge_gain * num / den))
-//                : max<int>(wand.charges,
-//                           min(charge_gain * 3,
-//                               wand.charges +
-//                               1 + random2avg(((charge_gain - 1) * 3) + 1, 3)));
-
+            const int new_charges = wand.get_cap();
+            wand.set_cap(wand.get_cap() / 2 + wand.get_cap() % 2);
             const bool charged = (new_charges > wand.plus);
 
             string desc;
