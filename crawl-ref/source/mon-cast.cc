@@ -5005,28 +5005,29 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_AIRSTRIKE:
     {
-        // Damage averages 14 for 5HD, 18 for 10HD, 28 for 20HD, +50% if flying.
-        if (foe->is_player())
-        {
-            if (you.airborne())
-                mpr("The air twists around and violently strikes you in flight!");
-            else
-                mpr("The air twists around and strikes you!");
-        }
-        else
-        {
-            simple_monster_message(foe->as_monster(),
-                                   " is struck by the twisting air!");
-        }
-
-        pbolt.flavour = BEAM_AIR;
-
         int damage_taken = 10 + 2 * mons->get_hit_dice();
         damage_taken = foe->beam_resists(pbolt, damage_taken, false);
 
         // Previous method of damage calculation (in line with player
         // airstrike) had absurd variance.
         damage_taken = foe->apply_ac(random2avg(damage_taken, 3));
+
+        // Damage averages 14 for 5HD, 18 for 10HD, 28 for 20HD, +50% if flying.
+        if (foe->is_player())
+        {
+            if (you.airborne())
+                mprf("The air twists around and violently strikes you in flight! (%d)", damage_taken);
+            else
+                mprf("The air twists around and strikes you! (%d)", damage_taken);
+        }
+        else
+        {
+            simple_monster_message(foe->as_monster(),
+                                   " is struck by the twisting air! (%d)", damage_taken);
+        }
+
+        pbolt.flavour = BEAM_AIR;
+
         foe->hurt(mons, damage_taken, BEAM_MISSILE, KILLED_BY_BEAM,
                   "", "by the air");
         return;
@@ -5044,7 +5045,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         if (foe->is_player())
             mprf("%s smites you! (%d)", _god_name(god).c_str(), damage);
         else
-            simple_monster_message(foe->as_monster(), " is smitten.");
+            simple_monster_message(foe->as_monster(), " is smitten. (%d)", damage);
         return;
     }
 
