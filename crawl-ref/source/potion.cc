@@ -224,7 +224,7 @@ public:
         return true;
     }
 
-    bool effect(bool=true, int power=40, bool is_device=true) const override
+    bool effect(bool=true, int power=40, bool is_device=false) const override
     {
         if (you.duration[DUR_DEATHS_DOOR])
         {
