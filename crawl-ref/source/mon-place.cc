@@ -683,7 +683,12 @@ monster_type resolve_monster_type(monster_type mon_type,
                    || mon_type == RANDOM_COMPATIBLE_MONSTER
                       && _is_incompatible_monster((monster_type)type)
                    || mon_type == RANDOM_BANDLESS_MONSTER
-                      && _is_banded_monster((monster_type)type));
+                      && _is_banded_monster((monster_type)type)
+                   || mon_type == MONS_PLAYER_GHOST
+                      && place->branch == BRANCH_DUNGEON
+                      &&   (crawl_state.difficulty == DIFFICULTY_EASY && place->depth < 10
+                         || crawl_state.difficulty == DIFFICULTY_NORMAL && place->depth < 5)
+                );
 
             int base = vault_mon_bases[i];
             bool banded = vault_mon_bands[i];
