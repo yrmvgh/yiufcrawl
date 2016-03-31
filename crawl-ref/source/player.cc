@@ -2804,6 +2804,12 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     _fade_curses(exp_gained);
 }
 
+bool player_is_immune_to_curses()
+{
+    return you.species == SP_MUMMY
+           && you.religion != GOD_ASHENZARI;
+}
+
 static void _fade_curses(int exp_gained)
 {
     for (int i = 0; i < you.equip.size(); i++)
@@ -2817,7 +2823,7 @@ static void _fade_curses(int exp_gained)
                 if (you.religion != GOD_ASHENZARI)
                 {
                     int reduction_amount = 0;
-                    const int curseResistance = you.species == SP_DEMIGOD ? 50 : 10;
+                    const int curseResistance = you.species == SP_DEMIGOD ? 10 : 2;
                     const int howMuchRaw = exp_gained * curseResistance;
                     const int divisor = calc_skill_cost(you.skill_cost_level);
                     reduction_amount = div_rand_round(howMuchRaw, divisor);
