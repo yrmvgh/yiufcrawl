@@ -12,6 +12,10 @@
 Some of these changes will make the game much easier for the player, but that is intended to be solved by making the game harder by implementing some of the
 other ideas presented here. 
 
+## Spell casting time
+
+Time it takes to cast a spell should vary by spellcasting skill from 1.5 (at 0) to 0.5 (at 20).
+
 ## Add stamina
 
 This is a huge change, but maybe when everything else is done this could be fun to play with. Stamina would be a new quantity like Health and Magic. Stamina of
