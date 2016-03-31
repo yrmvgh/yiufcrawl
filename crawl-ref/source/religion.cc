@@ -2936,9 +2936,6 @@ bool player_can_join_god(god_type which_god)
     if (which_god == GOD_ZIN && you.species == SP_KOBOLD)
     	return false;
 
-    if (which_god == GOD_ASHENZARI && you.species == SP_MUMMY)
-    	return false;
-
     if (is_good_god(which_god) && you.undead_or_demonic())
         return false;
 

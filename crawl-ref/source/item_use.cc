@@ -113,7 +113,7 @@ bool can_wield(const item_def *weapon, bool say_reason,
         && you.weapon()
         && is_weapon(*you.weapon())
         && you.weapon()->cursed()
-        && you.species != SP_MUMMY)
+        && !player_is_immune_to_curses())
     {
         SAY(mprf("You can't unwield your weapon%s!",
                  !unwield ? " to draw a new one" : ""));
@@ -884,7 +884,7 @@ bool takeoff_armour(int item)
     }
 
     // If we get here, we're wearing the item.
-    if (invitem.cursed() && you.species != SP_MUMMY)
+    if (invitem.cursed() && !player_is_immune_to_curses())
     {
         mprf("%s is stuck to your body!", invitem.name(DESC_YOUR).c_str());
         return false;
@@ -1231,7 +1231,7 @@ static bool _swap_rings(int ring_slot)
                 }
             }
 
-            if (ring->cursed() && you.species != SP_MUMMY)
+            if (ring->cursed() && !player_is_immune_to_curses())
                 cursed++;
             else if (strstr(ring->inscription.c_str(), "=R"))
             {
@@ -1619,7 +1619,7 @@ bool remove_ring(int slot, bool announce)
         return false;
     }
 
-    if (you.inv1[you.equip[hand_used]].cursed() && you.species != SP_MUMMY)
+    if (you.inv1[you.equip[hand_used]].cursed() && !player_is_immune_to_curses())
     {
         if (announce)
         {

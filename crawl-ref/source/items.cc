@@ -2418,7 +2418,7 @@ bool drop_item(FixedVector< item_def, ENDOFPACK > &inv, int item_dropped, int qu
 
         if (item_dropped == you.equip[EQ_WEAPON]
             && item.base_type == OBJ_WEAPONS && item.cursed()
-            && you.species != SP_MUMMY)
+            && !player_is_immune_to_curses())
         {
             mprf("%s is stuck to you!", item.name(DESC_THE).c_str());
             return false;
