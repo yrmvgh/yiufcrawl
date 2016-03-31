@@ -6,7 +6,7 @@
 * They are basically in order of when I will implement them, although I often change that order.
 
 *************************************
-# Version 2
+# Version 1.2
 *************************************
 
 Some of these changes will make the game much easier for the player, but that is intended to be solved by making the game harder by implementing some of the
@@ -38,6 +38,33 @@ I think this helps with my mission to make things easier for new players. Even t
 complexity than is added: spell hunger mechanics, vampiric weapon function, regeneration costing more hunger, exhaustion from berserking and spitting poison.
 All of this collapses into a single simple system. 
 
+## Remove eating and chopping
+
+There will still be a food clock, but it will be automatically managed. The player will set a target satiation level (defaults to just above hungry). Each time
+a player rests, if the satiation level would drop below the target, the player automatically eats any edible corpses that haven't rotted yet (no more carrying
+around chunks), or permafood from their inventory if there aren't enough corpses. Vampires can still target various satiation levels depending on how alive they
+want to be. Both the 'e' command and the 'c' command will be gone. 
+
+Note: you will not be able to eat in the middle of a battle any more, so prepare accordingly. If you end up starving mid battle, you need to escape and try
+again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
+target satiation level high enough and having sufficient rest time between battles. 
+
+## Regeneration comes from food
+
+Instead of specifically making regen enchancers burn through more food on a case by case basis, all regeneration that happens will do so in exchange for food.
+Different races can have different conversion rates. If health, magic, and stamina are full, no food is consumed. So naturally, anything that accelerates
+regeneration, also accelerates food consumption, without special casing or code having to be inserted into each place it happens. Spells will no longer cost
+hunger, higher level spells will just cost more magic, and the magic regen that follows will burn more food. 
+
+Since mummies can't eat, they can't regenerate with food like other species. Their regeneration comes from death energy that is present in a level (which is
+based on how many corpses there are when the mummy is resting). If there are no corpses on a level, the mummy stops regenerating, despite of spell of
+regeneration, items of regeneration, etc. Regeneration *always* has a price, even for a mummy. This makes a mummy very powerful when in a battle with many
+enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
+
+*************************************
+# Version 1.3
+*************************************
+
 ## Magic costs no longer are fixed for spells
 
 Spell magic costs will be changed to be geometric instead of linear
@@ -68,125 +95,35 @@ Cost of a level 9 spell at
 This also allows us to more clearly vary costs for different kinds of spells. Currently transmutation spells cost 3 times as much to cast, because they last
 indefinitely, so after this change is made, the different spell costs will show up in the spell list menu. 
 
+## Expansion of identification mini game
 
-## Regeneration comes from food
+Identification becomes pointless after about halfway through the game, with identify scrolls nearly worthless. I think that can be changed in a fun way to carry
+through all the way to the end of a 15 rune run. Here's a crude outline of some ideas I've had:
 
-Instead of specifically making regen enchancers burn through more food on a case by case basis, all regeneration that happens will do so in exchange for food.
-Different races can have different conversion rates. If health, magic, and stamina are full, no food is consumed. So naturally, anything that accelerates
-regeneration, also accelerates food consumption, without special casing or code having to be inserted into each place it happens. Spells will no longer cost
-hunger, higher level spells will just cost more magic, and the magic regen that follows will burn more food. 
+Identity scrolls don't always work. For the main beginning usages, they will always work. But occasionally there will be a powerful unique item, that requires
+more "identification power". Identification power is based purely on the players intelligence, enabling those with lower intelligence to quaff a brilliance
+potion if necessary to identify some of the harder items. But I'm not talking about scrolls being lost when failing, like they were long ago. If you attempt to
+identify something that's out of your league, the game will tell you that you aren't yet smart enough to do that, but the identify scroll will remain in your
+inventory. 
 
-Since mummies can't eat, they can't regenerate with food like other species. Their regeneration comes from death energy that is present in a level (which is
-based on how many corpses there are when the mummy is resting). If there are no corpses on a level, the mummy stops regenerating, despite of spell of
-regeneration, items of regeneration, etc. Regeneration *always* has a price, even for a mummy. This makes a mummy very powerful when in a battle with many
-enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
+There will be more rare and super rare items, both good and bad, that will be more difficult to identify than normal. Super rare potions and scrolls, as well as
+unique weapons and armour. They would be infrequent enough not to cause a nuisance, but rewarding enough to be worth some effort to unlock their awesomeness.
+Identify scrolls will also be less common, forcing the player to consider carefully how to best use them. Do I read-id all my scrolls, but use ID scrolls on my
+potions? Or do I save the ID scrolls for more exotic items and quaff-id the potions too? Things should be balanced closely enough that there isn't a trivial
+solution to those questions. It should vary based on character combo and the various random circumstances that happen. This also increases the value of
+alternative forms of identification, such as Ash's powers, and the Djinni's native "insight" mutation, or even the rare chance that a non-djinni could get that
+mutation. 
 
-## Remove eating and chopping
+Brilliance potions will be more rare, but may be stacked to boost the effect further, so that even low intelligence characters could identify some advanced
+items. Or an amplification scroll could be used (see below) in combination with the brilliance potion and / or identify scroll. 
 
-There will still be a food clock, but it will be automatically managed. The player will set a target satiation level (defaults to just above hungry). Each time
-a player rests, if the satiation level would drop below the target, the player automatically eats any edible corpses that haven't rotted yet (no more carrying
-around chunks), or permafood from their inventory if there aren't enough corpses. Vampires can still target various satiation levels depending on how alive they
-want to be. Both the 'e' command and the 'c' command will be gone. 
+3/4 of the unique items can still be identified by wearing them, although some will be cursed, and a more rare remove curse will be required (see below). But
+1/4 of them can't be equipped at all until they are identified. They will tend to have an extra enchantment beyond what the other 3/4 have, and will never be
+cursed. 
 
-Note: you will not be able to eat in the middle of a battle any more, so prepare accordingly. If you end up starving mid battle, you need to escape and try
-again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
-target satiation level high enough and having sufficient rest time between battles. 
-
-## Remove some stairs on orb run
-
-For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
-still providing more than one way up.
-
-## Elemental distinction
-
-(Some of this crawl already has, it's just all laid out in this form for completeness)
-
-I'd like to see more distinct differences between the elemental magics. 
-
-Electric attacks should not be dodgeable, and can penetrate multiple enemies and bounce off walls. Although it is logical that electric attacks would also
-bypass armour, that is too much. Rarely do monsters resist this.
-
-Ice attacks should bypass armour and have a chance of slowing the attacker (any attacker not cold resistant, not just reptiles). Monsters are often resistant to
-this.
-
-Poison attacks are all about lingering damage, or confusing effects. Monsters are often resistant to this.
-
-Acid attacks are about degrading armour or weapon effectiveness. Rarely do monsters resist this.
-
-Earth attacks should be good against heavy armour, with slow, powerful blows, although they are more easily dodged, have a chance to stun the target, and are
-not resistible. 
-
-Fire damage should be distinct from these others. It can be resisted by armour, can be dodged, and elemental resistance to it isn't hard to come by. Maybe it
-just does more immediate damage than the other elements. Would be nice to find a more distinguishing characteristic though.
-
-## More intuitive auto-pickup mechanism
-
-The current auto-pickup menu and options in the rc file are both not powerful enough to avoid some awkwardness and inconvenience, and also somewhat hard to
-understand and use for new players. The problem is that what I want to autopickup varies based on my character combo and the stage of the game I'm in at the
-time. So I pull up the autopickup menu a few times to set things up. That part isn't too bad, but what if I want to pick up any long swords, but leave behind
-other weapons? What if I'm okay with picking up cursed weapons, or what if I'm not? There is no way to set that now, so I have to either pick up all weapons, or
-manually move over to any weapons and pick them up, which causes me to often miss items of value in some cases. Or what if you only want to pick up artifact
-armour, ignoring the rest?
-
-Maybe instead of the configuration menu, the game can just intelligently respond to what the player does. At the beginning, the autopickup system picks
-everything up. The player decides that he doesn't have any use for maces, so he drops the common mace that he has. That is automatically removed from the
-auto-pickup list. But branded and unique maces will still be picked up. If he then drops a mace of flaming, all maces of flaming are no longer on the
-auto-pickup list, but artifacts will still be picked up. Since all artifacts are unique, dropping an artifact will only take that exact one off of the list,
-other artifacts will still be picked up. Now if you drop an unidentified rare mace, that means you don't want any maces, so none will be picked up in the
-future. Then if you go to manually pick up a mace again, that will change your auto-pickup options too.
-
-This would probably just be an option: adaptive-autopickup = true  or something like that.
-
-## Each rune picked up makes the game harder
-
-Each rune has a specific curse associated with it which makes the game more challenging. Ascending with the orb with 8 runes is dramatically more difficult than
-ascending with 3, because of the additional 5 game altering curses. A 15 rune ascension would be nearly impossible on hard mode. Should be like a once a year
-event that someone actually pulls off a 15 rune ascension under this change in hard mode. Even in easy mode, a 15 rune ascension should be impossible except for
-the most elite of players. 
-
-This increase of difficulty is necessary to compensate for some of these other changes which make the game easier, especially the removal of level caps.
-
-### Rune curse ideas:
-
-* serpentine: stairs randomly teleport nearer monsters ~every 50 turns
-* decaying: player rots at a steady rate. 
-* barnacled: player movement is slowed down by 0.2
-* gossamer: traps more common and more deadly
-* abyssal: monster spawning increased to be like abyss
-* silver: ascending stairs sometimes moves player to a cluster of monsters on same floor instead
-* slimy: player randomly mutates, good or bad 50/50
-* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer. 
-* glowing: contamination doesn't auto decay. Can be cured by drinking any potion. 
-* fiery: monster damage increased by 25%
-* magical: power of monster spells increased
-* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn. 
-* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters. 
-* iron: walls are all indestructable, but paths to stairs are always guaranteed. 
-* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player. 
-* obsidian: walls and trees adjacent to the player occasionally come to life and attack the player, but don't move. When the player moves away from a living
-* wall, it eventually fades back into a normal wall. 
-* bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
-
-## No more level 27 caps
-
-Level max is 99 instead of 27, which will be impossible to ever attain. But you might, in some extended game cases get a few levels past 27. I suspect that the
-reasons for the level 27 cap can be fixed in a better way. This change will allow me to test this theory. I think part of it is to discourage long term grinding
-to get higher levels or points. If other changes mentioned in this doc are made (especially removing experience from kills), and points are based on how many
-runes you have on not on kills or XL, and especially if you are rewarded for completing it more quickly (which I think is the way crawl is already), there will
-be no incentive for grinding.  
-
-This level 99 cap would apply to XL and skill levels. It is not expected that people would get past 30 in most cases, but no longer do you lose all value in
-progression. A great deal of the fun in these games comes from improving your character through extending their attributes in meaningful ways, and the level 27
-cap just cuts out that fun in late game. 
-
-## Double sided branches
-
-* if it is a rune branch, the rune is in the middle floor of that branch.
-* there is an entrance / exit at the bottom of the branch in addition to the one at the top. Always two ways in
-  and out of a branch.
-* bottom half of the branch is an optional challenge area for those who are having too easy of a time. 
-* branches may be the same length (which would significantly shorten the game, since you are only required 
-  to travel half the distance to get the rune) or extended a little. We'll experiment and find what's most fun.
+*************************************
+# Version 1.4
+*************************************
 
 ## Scroll of Amplification
 
@@ -351,6 +288,92 @@ the player chooses 1. Some of the items could be multiples, e.g. 4 cure mutation
 will provide a list of 12 items instead of 4. Player still only chooses 1. Inverted form of this presents one random item to the player, which they get 4 of.
 Amplified inverted form gives 12 copies of 1 random item. Xom loves this particular usage of inversion scrolls...
 
+## Remove some stairs on orb run
+
+For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
+still providing more than one way up.
+
+*************************************
+# Version 1.5
+*************************************
+
+## More intuitive auto-pickup mechanism
+
+The current auto-pickup menu and options in the rc file are both not powerful enough to avoid some awkwardness and inconvenience, and also somewhat hard to
+understand and use for new players. The problem is that what I want to autopickup varies based on my character combo and the stage of the game I'm in at the
+time. So I pull up the autopickup menu a few times to set things up. That part isn't too bad, but what if I want to pick up any long swords, but leave behind
+other weapons? What if I'm okay with picking up cursed weapons, or what if I'm not? There is no way to set that now, so I have to either pick up all weapons, or
+manually move over to any weapons and pick them up, which causes me to often miss items of value in some cases. Or what if you only want to pick up artifact
+armour, ignoring the rest?
+
+Maybe instead of the configuration menu, the game can just intelligently respond to what the player does. At the beginning, the autopickup system picks
+everything up. The player decides that he doesn't have any use for maces, so he drops the common mace that he has. That is automatically removed from the
+auto-pickup list. But branded and unique maces will still be picked up. If he then drops a mace of flaming, all maces of flaming are no longer on the
+auto-pickup list, but artifacts will still be picked up. Since all artifacts are unique, dropping an artifact will only take that exact one off of the list,
+other artifacts will still be picked up. Now if you drop an unidentified rare mace, that means you don't want any maces, so none will be picked up in the
+future. Then if you go to manually pick up a mace again, that will change your auto-pickup options too.
+
+This would probably just be an option: adaptive-autopickup = true  or something like that.
+
+## Each rune picked up makes the game harder
+
+Each rune has a specific curse associated with it which makes the game more challenging. Ascending with the orb with 8 runes is dramatically more difficult than
+ascending with 3, because of the additional 5 game altering curses. A 15 rune ascension would be nearly impossible on hard mode. Should be like a once a year
+event that someone actually pulls off a 15 rune ascension under this change in hard mode. Even in easy mode, a 15 rune ascension should be impossible except for
+the most elite of players. 
+
+This increase of difficulty is necessary to compensate for some of these other changes which make the game easier, especially the removal of level caps.
+
+### Rune curse ideas:
+
+* serpentine: stairs randomly teleport nearer monsters ~every 50 turns
+* decaying: player rots at a steady rate. 
+* barnacled: player movement is slowed down by 0.2
+* gossamer: traps more common and more deadly
+* abyssal: monster spawning increased to be like abyss
+* silver: ascending stairs sometimes moves player to a cluster of monsters on same floor instead
+* slimy: player randomly mutates, good or bad 50/50
+* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer. 
+* glowing: contamination doesn't auto decay. Can be cured by drinking any potion. 
+* fiery: monster damage increased by 25%
+* magical: power of monster spells increased
+* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn. 
+* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters. 
+* iron: walls are all indestructable, but paths to stairs are always guaranteed. 
+* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player. 
+* obsidian: walls and trees adjacent to the player occasionally come to life and attack the player, but don't move. When the player moves away from a living
+* wall, it eventually fades back into a normal wall. 
+* bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
+
+*************************************
+# Version 1.5
+*************************************
+
+## No more level 27 caps
+
+Level max is 99 instead of 27, which will be impossible to ever attain. But you might, in some extended game cases get a few levels past 27. I suspect that the
+reasons for the level 27 cap can be fixed in a better way. This change will allow me to test this theory. I think part of it is to discourage long term grinding
+to get higher levels or points. If other changes mentioned in this doc are made (especially removing experience from kills), and points are based on how many
+runes you have on not on kills or XL, and especially if you are rewarded for completing it more quickly (which I think is the way crawl is already), there will
+be no incentive for grinding.  
+
+This level 99 cap would apply to XL and skill levels. It is not expected that people would get past 30 in most cases, but no longer do you lose all value in
+progression. A great deal of the fun in these games comes from improving your character through extending their attributes in meaningful ways, and the level 27
+cap just cuts out that fun in late game. 
+
+## Double sided branches
+
+* if it is a rune branch, the rune is in the middle floor of that branch.
+* there is an entrance / exit at the bottom of the branch in addition to the one at the top. Always two ways in
+  and out of a branch.
+* bottom half of the branch is an optional challenge area for those who are having too easy of a time. 
+* branches may be the same length (which would significantly shorten the game, since you are only required 
+  to travel half the distance to get the rune) or extended a little. We'll experiment and find what's most fun.
+
+*************************************
+# Version 1.6
+*************************************
+
 ## Altar destruction
 
 Destroying an altar will bring that god's wrath down upon you, but in exchange, you gain an immediate boost of experience. For those of you that find hard mode
@@ -378,36 +401,14 @@ higher accuracy and spell potency.
 
 The wand will only affect movement speed. Attack speed will be normal. 
 
-## Expansion of identification mini game
-
-Identification becomes pointless after about halfway through the game, with identify scrolls nearly worthless. I think that can be changed in a fun way to carry
-through all the way to the end of a 15 rune run. Here's a crude outline of some ideas I've had:
-
-Identity scrolls don't always work. For the main beginning usages, they will always work. But occasionally there will be a powerful unique item, that requires
-more "identification power". Identification power is based purely on the players intelligence, enabling those with lower intelligence to quaff a brilliance
-potion if necessary to identify some of the harder items. But I'm not talking about scrolls being lost when failing, like they were long ago. If you attempt to
-identify something that's out of your league, the game will tell you that you aren't yet smart enough to do that, but the identify scroll will remain in your
-inventory. 
-
-There will be more rare and super rare items, both good and bad, that will be more difficult to identify than normal. Super rare potions and scrolls, as well as
-unique weapons and armour. They would be infrequent enough not to cause a nuisance, but rewarding enough to be worth some effort to unlock their awesomeness.
-Identify scrolls will also be less common, forcing the player to consider carefully how to best use them. Do I read-id all my scrolls, but use ID scrolls on my
-potions? Or do I save the ID scrolls for more exotic items and quaff-id the potions too? Things should be balanced closely enough that there isn't a trivial
-solution to those questions. It should vary based on character combo and the various random circumstances that happen. This also increases the value of
-alternative forms of identification, such as Ash's powers, and the Djinni's native "insight" mutation, or even the rare chance that a non-djinni could get that
-mutation. 
-
-Brilliance potions will be more rare, but may be stacked to boost the effect further, so that even low intelligence characters could identify some advanced
-items. Or an amplification scroll could be used (see below) in combination with the brilliance potion and / or identify scroll. 
-
-3/4 of the unique items can still be identified by wearing them, although some will be cursed, and a more rare remove curse will be required (see below). But
-1/4 of them can't be equipped at all until they are identified. They will tend to have an extra enchantment beyond what the other 3/4 have, and will never be
-cursed. 
-
 ## Make abyss more of a challenge for late game players
 
 Possibly add more depth to the abyss (is it infinite anyway?), with harder challenges the deeper you go, so that being cast into the abyss late game is actually
 pretty scary still. 
+
+*************************************
+# Version 1.7
+*************************************
 
 ## Merge rods into wands
 
@@ -439,7 +440,7 @@ monsters, getting unintentionally banished). Scumming type activities will reduc
 levels, which will cause Xom to make things more interesting for you. He's nice like that. 
 
 *************************************
-# Version 3
+# Version 1.8
 *************************************
 
 ## Experience rework
@@ -541,6 +542,10 @@ Teleportation traps are useful and interesting, as well as shaft traps. So they 
 
 Dragons ought to be harder than they are. A single dragon, even one of the weaker variety, ought to be a couple times more deadly than a hydra. 
 
+*************************************
+# Version 1.9
+*************************************
+
 ## Score changes
 
 Scoring should be based purely on runes obtained and difficulty level, not on speed or kills or anything else. Since each additional rune picked up makes the
@@ -588,14 +593,19 @@ Maybe not all spells would have all 3 classes, but it would be simpler if they d
 Example spells:
 
     Level
-    1-3     Blink                   Conjure Flame   Force Lance     Freeze          Swiftness       Call Imp
-    4-6     Semicontrolled Blink    Fire Ball       Air Strike      Freezing Cloud  Haste           Summon Demon
-    7-9     Controlled Blink        Fire Storm      Tornado         Glaciate        Phase Shift     Summon Greater Demon
+    1-3     Blink                   Conjure Flame   Force Lance     Freeze          Swiftness       
+    4-6     Semicontrolled Blink    Fire Ball       Air Strike      Freezing Cloud  Haste           
+    7-9     Controlled Blink        Fire Storm      Tornado         Glaciate        Phase Shift     
 
     Level
-    1-3     Summon Butterflies          Sticks to Snakes        Stoneskin       Beastly Appendage   Spider Form
-    4-6     Monstrous Menagerie         Sticks to Hydra         Statue Form     Blade Hands         Hydra Form
-    7-9     Summon Horrible Things      Sticks to Dragons       Passwall        Song of Slaying     Dragon Form
+    1-3     Call Imp                Spider Form
+    4-6     Summon Demon            Hydra Form
+    7-9     Summon Greater Demon    Dragon Form
+
+    Level
+    1-3     Summon Butterflies          Sticks to Snakes        Stoneskin       Beastly Appendage   
+    4-6     Monstrous Menagerie         Sticks to Hydra         Statue Form     Blade Hands         
+    7-9     Summon Horrible Things      Sticks to Dragons       Passwall        Song of Slaying     
 
     Level
     1-3     Infusion                Confuse             Animate Skeleton    Zombie Form         Sneak
@@ -629,4 +639,26 @@ Hide makes a player undetectable (if they haven't been seen yet) if they are nex
 
 Invisibility is more powerful than normal invisibility, since it auto hides when stopped next to a wall. Higher power levels makes it harder even for monsters
 with see invisible to detect the player.
+
+## Elemental distinction
+
+(Some of this crawl already has, it's just all laid out in this form for completeness)
+
+I'd like to see more distinct differences between the elemental magics. 
+
+Electric attacks should not be dodgeable, and can penetrate multiple enemies and bounce off walls. Although it is logical that electric attacks would also
+bypass armour, that is too much. Rarely do monsters resist this.
+
+Ice attacks should bypass armour and have a chance of slowing the attacker (any attacker not cold resistant, not just reptiles). Monsters are often resistant to
+this.
+
+Poison attacks are all about lingering damage, or confusing effects. Monsters are often resistant to this.
+
+Acid attacks are about degrading armour or weapon effectiveness. Rarely do monsters resist this.
+
+Earth attacks should be good against heavy armour, with slow, powerful blows, although they are more easily dodged, have a chance to stun the target, and are
+not resistible. 
+
+Fire damage should be distinct from these others. It can be resisted by armour, can be dodged, and elemental resistance to it isn't hard to come by. Maybe it
+just does more immediate damage than the other elements. Would be nice to find a more distinguishing characteristic though.
 

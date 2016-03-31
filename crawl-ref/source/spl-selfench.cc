@@ -299,7 +299,7 @@ spret_type cast_swiftness(int power, bool fail)
         return SPRET_ABORT;
     }
 
-    if (!you.duration[DUR_SWIFTNESS] && player_movement_speed() <= 6)
+    if (!you.duration[DUR_SWIFTNESS] && player_movement_speed() <= FASTEST_PLAYER_MOVE_SPEED)
     {
         mpr("You can't move any more quickly.");
         return SPRET_ABORT;
