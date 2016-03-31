@@ -118,6 +118,10 @@ with my goals here, or with concerns you have about my future plans.
         * faster level advancement (exp apt + 2)
         * 1/4 normal score
         * healing potions heal 100% of health
+        * ghosts don't spawn above level 10 of dungeon
+    * Normal:
+        * ghosts don't spawn above level 5 of dungeon
+        * healing potions heal 50% of health, minimum of 20 points
     * Hard:
         * increases the chances of out of depth monsters spawning
         * slower level advancement (exp apt - 2)
