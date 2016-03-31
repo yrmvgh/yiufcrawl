@@ -14,7 +14,7 @@ doesn't take much effort to share it with others, and maybe some of my crazy ide
 course you are welcome to submit changes to this fork or even make another fork if you don't like the direction I'm taking this one. 
 This fork is in sync with the original DCSS repo as of Apr 2016. I intend to keep merging in non-conflicting changes from the main DCSS project.
 
-Check out the github wiki for this project if you want to see what my future plans are: https://github.com/jeremygurr/dcssca/wiki/Future-Plans
+Check out the FUTURE.md file in the same directory as the README.md for details about what features I'm considering on implementing.
 
 There are two known servers running this fork at this time: 
 - https://crawl.project357.org/
