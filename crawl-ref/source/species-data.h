@@ -790,7 +790,6 @@ static const map<species_type, species_def> species_data =
       { MUT_REGENERATION, 2, 1 },
       { MUT_CLAWS, 3, 1 },
       { MUT_GOURMAND, 1, 1 },
-      { MUT_FAST_METABOLISM, 3, 1 },
       { MUT_SHAGGY_FUR, 1, 10 },
 	  { MUT_SHAGGY_FUR, 1, 12 },
       { MUT_COLD_RESISTANCE, 1, 14 },
