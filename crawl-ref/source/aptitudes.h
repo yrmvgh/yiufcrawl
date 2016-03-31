@@ -188,7 +188,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
     APT(SP_HALFLING,        SK_UNARMED_COMBAT, -2),
     APT(SP_HALFLING,        SK_SPELLCASTING,   -3),
-    APT(SP_HALFLING,        SK_CONJURATIONS,   -2),
+    APT(SP_HALFLING,        SK_CONJURATIONS,    2),
     APT(SP_HALFLING,        SK_HEXES,          -1),
     APT(SP_HALFLING,        SK_CHARMS,          1),
     APT(SP_HALFLING,        SK_SUMMONINGS,     -1),

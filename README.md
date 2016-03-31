@@ -70,8 +70,7 @@ with my goals here, or with concerns you have about my future plans.
     * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
     * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.
     * The same item can be cursed multiple times, increasing the curse level. 
-    * Curse level > 1000 will cause the bonuses of that item to be neutralized. A +5 long sword of poison becomes a +0 long sword, while the curse is above
-      1000. 
+    * Curse level > 1000 will cause the bonuses of that item to be neutralized. A +5 long sword of poison becomes a +0 long sword, while the curse is above 1000. 
 
 ### v1.0 (currently deployed)
 
@@ -176,9 +175,9 @@ with my goals here, or with concerns you have about my future plans.
     * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
 
 * Halfling
-    * added wild magic 1 mutation at the beginning, eventually growing into wild magic 3 as they gain experience, making it much more difficult for them to cast spells, 
-      but they are quite powerful when they do. 
+    * added wild magic mutation at the level 4, 8, and 12, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
     * added an extraordinary level of magic resistance
+    * improved conjuration apt from -2 to +2
 
 * Kobold
     * added permanent evolution mutation. Although this sounds similar to how demonspawns work, it actually plays quite differently, because the player will occasionally
