@@ -160,9 +160,10 @@ with my goals here, or with concerns you have about my future plans.
       that attacks (both melee and ranged) will completely pass through the Djinni. 
     * Dithmenos rejects Dj of course
 
-* Mummies
+* Mummy
     * initial attributes improved greatly, making early game much easier, but long term they are weaker, gaining levels more slowly than before
     * immunity to curses, so trying out cursed armour or weapons isn't a problem
+    * can worship Ash, but their curse immunity leaves
 
 * Felid
     * can wear 4 rings. Why not? They have four identical "hands"... I find that this helps to balance their severe limitations a bit better and make the early
