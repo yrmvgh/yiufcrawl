@@ -3894,8 +3894,7 @@ bool ashenzari_curse_item(int num_rc)
 {
     ASSERT(num_rc > 0);
     const string prompt_msg = make_stringf(
-            "Curse which item? (%d remove curse scroll%s left)"
-            " (Esc to abort)",
+            "Curse which item? (%d remove curse scroll%s left)",
             num_rc, num_rc == 1 ? "" : "s");
     const int item_slot = prompt_invent_item(you.inv1, prompt_msg.c_str(), MT_INVLIST,
                                              OSEL_CURSABLE,
