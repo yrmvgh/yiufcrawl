@@ -143,7 +143,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_SLUDGE_ELF,      SK_THROWING,        1),
     APT(SP_SLUDGE_ELF,      SK_ARMOUR,         -2),
     APT(SP_SLUDGE_ELF,      SK_DODGING,         2),
-    APT(SP_SLUDGE_ELF,      SK_STEALTH,         2),
+    APT(SP_SLUDGE_ELF,      SK_STEALTH,         0),
 //    APT(SP_SLUDGE_ELF,      SK_STABBING,      UNUSABLE_SKILL),
     APT(SP_SLUDGE_ELF,      SK_SHIELDS,        -2),
 //    APT(SP_SLUDGE_ELF,      SK_TRAPS,         UNUSABLE_SKILL),
@@ -178,7 +178,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_HALFLING,        SK_THROWING,        1),
     APT(SP_HALFLING,        SK_ARMOUR,          1),
     APT(SP_HALFLING,        SK_DODGING,         1),
-    APT(SP_HALFLING,        SK_STEALTH,         2),
+    APT(SP_HALFLING,        SK_STEALTH,         0),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_HALFLING,        SK_STABBING,      UNUSABLE_SKILL),
 #endif
@@ -188,7 +188,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
     APT(SP_HALFLING,        SK_UNARMED_COMBAT, -2),
     APT(SP_HALFLING,        SK_SPELLCASTING,   -3),
-    APT(SP_HALFLING,        SK_CONJURATIONS,   -2),
+    APT(SP_HALFLING,        SK_CONJURATIONS,    2),
     APT(SP_HALFLING,        SK_HEXES,          -1),
     APT(SP_HALFLING,        SK_CHARMS,          1),
     APT(SP_HALFLING,        SK_SUMMONINGS,     -1),
