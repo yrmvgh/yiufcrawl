@@ -12,9 +12,16 @@
 Some of these changes will make the game much easier for the player, but that is intended to be solved by making the game harder by implementing some of the
 other ideas presented here. 
 
-## Spell casting time
+## Remove eating and chopping
 
-Time it takes to cast a spell should vary by spellcasting skill from 1.5 (at 0) to 0.5 (at 20).
+There will still be a food clock, but it will be automatically managed. The player will set a target satiation level (defaults to just above hungry). Each time
+a player rests, if the satiation level would drop below the target, the player automatically eats any edible corpses that haven't rotted yet (no more carrying
+around chunks), or permafood from their inventory if there aren't enough corpses. Vampires can still target various satiation levels depending on how alive they
+want to be. Both the 'e' command and the 'c' command will be gone. 
+
+Note: you will not be able to eat in the middle of a battle any more, so prepare accordingly. If you end up starving mid battle, you need to escape and try
+again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
+target satiation level high enough and having sufficient rest time between battles. 
 
 ## Add stamina
 
@@ -42,17 +49,6 @@ I think this helps with my mission to make things easier for new players. Even t
 complexity than is added: spell hunger mechanics, vampiric weapon function, regeneration costing more hunger, exhaustion from berserking and spitting poison.
 All of this collapses into a single simple system. 
 
-## Remove eating and chopping
-
-There will still be a food clock, but it will be automatically managed. The player will set a target satiation level (defaults to just above hungry). Each time
-a player rests, if the satiation level would drop below the target, the player automatically eats any edible corpses that haven't rotted yet (no more carrying
-around chunks), or permafood from their inventory if there aren't enough corpses. Vampires can still target various satiation levels depending on how alive they
-want to be. Both the 'e' command and the 'c' command will be gone. 
-
-Note: you will not be able to eat in the middle of a battle any more, so prepare accordingly. If you end up starving mid battle, you need to escape and try
-again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
-target satiation level high enough and having sufficient rest time between battles. 
-
 ## Regeneration comes from food
 
 Instead of specifically making regen enchancers burn through more food on a case by case basis, all regeneration that happens will do so in exchange for food.
@@ -68,36 +64,6 @@ enemies that drop corpses. However, they are particularly weak when battling ene
 *************************************
 # Version 1.3
 *************************************
-
-## Magic costs no longer are fixed for spells
-
-Spell magic costs will be changed to be geometric instead of linear
-
-    Level 1 spell: 10 
-    Level 2 spell: 16
-    Level 3 spell: 25
-    Level 4 spell: 40
-    ...
-    Level 8 spell: 254
-    Level 9 spell: 403
-
-Of course players would have 10 times more magic capacity in this new system, so 403 points here would be the same as 40 points in the old system. Then they
-would be adjusted according to spellcasting skill. 0 spellcasting skill would require the base cost of a spell. 
-
-Cost of a level 9 spell at
- 
-    0 spellcasting: 403
-    1 spellcasting: 376
-    2 spellcasting: 351
-    5 spellcasting: 285
-    10 spellcasting: 202
-    15 spellcasting: 143
-    20 spellcasting: 101
-    25 spellcasting: 71
-    30 spellcasting: 50
-
-This also allows us to more clearly vary costs for different kinds of spells. Currently transmutation spells cost 3 times as much to cast, because they last
-indefinitely, so after this change is made, the different spell costs will show up in the spell list menu. 
 
 ## Expansion of identification mini game
 
@@ -124,10 +90,6 @@ items. Or an amplification scroll could be used (see below) in combination with 
 3/4 of the unique items can still be identified by wearing them, although some will be cursed, and a more rare remove curse will be required (see below). But
 1/4 of them can't be equipped at all until they are identified. They will tend to have an extra enchantment beyond what the other 3/4 have, and will never be
 cursed. 
-
-*************************************
-# Version 1.4
-*************************************
 
 ## Scroll of Amplification
 
@@ -285,6 +247,10 @@ these are very rare, so they won't tend to clutter up your inventory.
     turns. Inverted version reverses the balancing effect. If balance would normally take 70% HP to 60% HP, 
     then it goes the other way instead (to 80% HP). Inverted example: HP%/MP%/SP% 20/20/60 -> 7/7/87.
 
+*************************************
+# Version 1.4
+*************************************
+
 ## Improved acquirement
 
 After reading a scroll of acquirement, a list of 4 random items is presented, with a good chance that each will be valuable and useful (but not guaranteed) and
@@ -296,28 +262,6 @@ Amplified inverted form gives 12 copies of 1 random item. Xom loves this particu
 
 For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
 still providing more than one way up.
-
-*************************************
-# Version 1.5
-*************************************
-
-## More intuitive auto-pickup mechanism
-
-The current auto-pickup menu and options in the rc file are both not powerful enough to avoid some awkwardness and inconvenience, and also somewhat hard to
-understand and use for new players. The problem is that what I want to autopickup varies based on my character combo and the stage of the game I'm in at the
-time. So I pull up the autopickup menu a few times to set things up. That part isn't too bad, but what if I want to pick up any long swords, but leave behind
-other weapons? What if I'm okay with picking up cursed weapons, or what if I'm not? There is no way to set that now, so I have to either pick up all weapons, or
-manually move over to any weapons and pick them up, which causes me to often miss items of value in some cases. Or what if you only want to pick up artifact
-armour, ignoring the rest?
-
-Maybe instead of the configuration menu, the game can just intelligently respond to what the player does. At the beginning, the autopickup system picks
-everything up. The player decides that he doesn't have any use for maces, so he drops the common mace that he has. That is automatically removed from the
-auto-pickup list. But branded and unique maces will still be picked up. If he then drops a mace of flaming, all maces of flaming are no longer on the
-auto-pickup list, but artifacts will still be picked up. Since all artifacts are unique, dropping an artifact will only take that exact one off of the list,
-other artifacts will still be picked up. Now if you drop an unidentified rare mace, that means you don't want any maces, so none will be picked up in the
-future. Then if you go to manually pick up a mace again, that will change your auto-pickup options too.
-
-This would probably just be an option: adaptive-autopickup = true  or something like that.
 
 ## Each rune picked up makes the game harder
 
@@ -352,6 +296,40 @@ This increase of difficulty is necessary to compensate for some of these other c
 *************************************
 # Version 1.5
 *************************************
+
+## Spell casting time
+
+Time it takes to cast a spell should vary by spellcasting skill from 1.5 (at 0) to 0.5 (at 20).
+
+## Magic costs no longer are fixed for spells
+
+Spell magic costs will be changed to be geometric instead of linear
+
+    Level 1 spell: 10 
+    Level 2 spell: 16
+    Level 3 spell: 25
+    Level 4 spell: 40
+    ...
+    Level 8 spell: 254
+    Level 9 spell: 403
+
+Of course players would have 10 times more magic capacity in this new system, so 403 points here would be the same as 40 points in the old system. Then they
+would be adjusted according to spellcasting skill. 0 spellcasting skill would require the base cost of a spell. 
+
+Cost of a level 9 spell at
+ 
+    0 spellcasting: 403
+    1 spellcasting: 376
+    2 spellcasting: 351
+    5 spellcasting: 285
+    10 spellcasting: 202
+    15 spellcasting: 143
+    20 spellcasting: 101
+    25 spellcasting: 71
+    30 spellcasting: 50
+
+This also allows us to more clearly vary costs for different kinds of spells. Currently transmutation spells cost 3 times as much to cast, because they last
+indefinitely, so after this change is made, the different spell costs will show up in the spell list menu. 
 
 ## No more level 27 caps
 
@@ -671,4 +649,22 @@ Fire damage should be distinct from these others. It can be resisted by armour, 
 just does more immediate damage than the other elements. It should have a lingering effect on others. Maybe it's just better at area effects. If an enemy is 
 damaged with fire, there's a chance it could also damage a nearby enemy (but not going any further, unlike chain lightning). Even simple fire bolts should have
 a little explosion when they hit, possibly damaging nearby enemies. 
+
+## More intuitive auto-pickup mechanism
+
+The current auto-pickup menu and options in the rc file are both not powerful enough to avoid some awkwardness and inconvenience, and also somewhat hard to
+understand and use for new players. The problem is that what I want to autopickup varies based on my character combo and the stage of the game I'm in at the
+time. So I pull up the autopickup menu a few times to set things up. That part isn't too bad, but what if I want to pick up any long swords, but leave behind
+other weapons? What if I'm okay with picking up cursed weapons, or what if I'm not? There is no way to set that now, so I have to either pick up all weapons, or
+manually move over to any weapons and pick them up, which causes me to often miss items of value in some cases. Or what if you only want to pick up artifact
+armour, ignoring the rest?
+
+Maybe instead of the configuration menu, the game can just intelligently respond to what the player does. At the beginning, the autopickup system picks
+everything up. The player decides that he doesn't have any use for maces, so he drops the common mace that he has. That is automatically removed from the
+auto-pickup list. But branded and unique maces will still be picked up. If he then drops a mace of flaming, all maces of flaming are no longer on the
+auto-pickup list, but artifacts will still be picked up. Since all artifacts are unique, dropping an artifact will only take that exact one off of the list,
+other artifacts will still be picked up. Now if you drop an unidentified rare mace, that means you don't want any maces, so none will be picked up in the
+future. Then if you go to manually pick up a mace again, that will change your auto-pickup options too.
+
+This would probably just be an option: adaptive-autopickup = true  or something like that.
 
