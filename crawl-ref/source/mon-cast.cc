@@ -5022,7 +5022,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         }
         else
         {
-            simple_monster_message(foe->as_monster(),
+            monster_message(foe->as_monster(),
                                    " is struck by the twisting air! (%d)", damage_taken);
         }
 
@@ -5045,7 +5045,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         if (foe->is_player())
             mprf("%s smites you! (%d)", _god_name(god).c_str(), damage);
         else
-            simple_monster_message(foe->as_monster(), " is smitten. (%d)", damage);
+            monster_message(foe->as_monster(), " is smitten. (%d)", damage);
         return;
     }
 
