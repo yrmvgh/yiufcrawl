@@ -12,6 +12,10 @@
 Some of these changes will make the game much easier for the player, but that is intended to be solved by making the game harder by implementing some of the
 other ideas presented here. 
 
+## Spell casting time
+
+Time it takes to cast a spell should vary by spellcasting skill from 1.5 (at 0) to 0.5 (at 20).
+
 ## Add stamina
 
 This is a huge change, but maybe when everything else is done this could be fun to play with. Stamina would be a new quantity like Health and Magic. Stamina of
@@ -542,6 +546,10 @@ Teleportation traps are useful and interesting, as well as shaft traps. So they 
 
 Dragons ought to be harder than they are. A single dragon, even one of the weaker variety, ought to be a couple times more deadly than a hydra. 
 
+## New Species
+
+A slime species and a fairy species would be nice. I would like an even 30 species. Any species needed beyond that should replace the most boring species.
+
 *************************************
 # Version 1.9
 *************************************
@@ -598,9 +606,9 @@ Example spells:
     7-9     Controlled Blink        Fire Storm      Tornado         Glaciate        Phase Shift     
 
     Level
-    1-3     Call Imp                Spider Form
-    4-6     Summon Demon            Hydra Form
-    7-9     Summon Greater Demon    Dragon Form
+    1-3     Call Imp                Spider Form     Sting           Inner Flame
+    4-6     Summon Demon            Hydra Form      Venom Bolt      Ignite Poison
+    7-9     Summon Greater Demon    Dragon Form     Poison Arrow    
 
     Level
     1-3     Summon Butterflies          Sticks to Snakes        Stoneskin       Beastly Appendage   
@@ -613,9 +621,9 @@ Example spells:
     7-9     Tukima's Dance          Discord             Resurrection        Necromutation       Invisibility
 
     Level
-    1-3     Sting/Venom Bolt        Metabolic Englaciation      Summon Jackal
+    1-3     Mephitic Cloud          Metabolic Englaciation      Summon Jackal
     4-6     Poison Cloud            Ensorcelled Hibernation     Summon Warg
-    7-9     Ignite Poison           Freezing Paralysis          Summon Hellhound
+    7-9                             Freezing Paralysis          Summon Hellhound
 
 Notes: 
 
@@ -660,5 +668,7 @@ Earth attacks should be good against heavy armour, with slow, powerful blows, al
 not resistible. 
 
 Fire damage should be distinct from these others. It can be resisted by armour, can be dodged, and elemental resistance to it isn't hard to come by. Maybe it
-just does more immediate damage than the other elements. Would be nice to find a more distinguishing characteristic though.
+just does more immediate damage than the other elements. It should have a lingering effect on others. Maybe it's just better at area effects. If an enemy is 
+damaged with fire, there's a chance it could also damage a nearby enemy (but not going any further, unlike chain lightning). Even simple fire bolts should have
+a little explosion when they hit, possibly damaging nearby enemies. 
 

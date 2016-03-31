@@ -1117,7 +1117,8 @@ static int _player_bonus_regen()
     }
 
     // Fast heal mutation.
-    rr += player_mutation_level(MUT_REGENERATION) * 20;
+    if (you.species != SP_TROLL)
+        rr += player_mutation_level(MUT_REGENERATION) * 20;
 
     // Powered By Death mutation, boosts regen by variable strength
     // if the duration of the effect is still active.
@@ -2008,7 +2009,7 @@ int player_movement_speed()
 
     // armour
     if (you.run())
-        mv -= 1;
+        mv -= 2;
 
 	if (you.species == SP_LAVA_ORC) {
 		if (you.temperature < TEMP_COOL) {
@@ -2032,7 +2033,7 @@ int player_movement_speed()
 
     // Tengu can move slightly faster when flying.
     if (you.tengu_flight())
-        mv -= 2 + you.experience_level / 10;
+        mv -= 2 + you.experience_level / 7;
 
     if (you.duration[DUR_FROZEN])
         mv += 4;
