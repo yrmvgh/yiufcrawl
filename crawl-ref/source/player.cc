@@ -2813,7 +2813,7 @@ bool player_is_immune_to_curses()
 
 static void _fade_curses(int exp_gained)
 {
-    for (int i = 0; i < you.equip.size(); i++)
+    for (unsigned int i = 0; i < you.equip.size(); i++)
     {
         int8_t slot = you.equip[i];
         if(slot > -1)

@@ -432,7 +432,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_OGRE,            SK_EVOCATIONS,     -2),
 
     // SP_TROLL
-    APT(SP_TROLL,           SK_FIGHTING,       -2),
+    APT(SP_TROLL,           SK_FIGHTING,       -4),
     APT(SP_TROLL,           SK_SHORT_BLADES,   -2),
     APT(SP_TROLL,           SK_LONG_BLADES,    -1),
     APT(SP_TROLL,           SK_AXES,           -1),
@@ -443,18 +443,18 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_TROLL,           SK_BOWS,           -4),
     APT(SP_TROLL,           SK_CROSSBOWS,      -4),
     APT(SP_TROLL,           SK_THROWING,       -1),
-    APT(SP_TROLL,           SK_ARMOUR,         -2),
-    APT(SP_TROLL,           SK_DODGING,        -2),
+    APT(SP_TROLL,           SK_ARMOUR,          4),
+    APT(SP_TROLL,           SK_DODGING,         4),
     APT(SP_TROLL,           SK_STEALTH,        -4),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_TROLL,           SK_STABBING,      UNUSABLE_SKILL),
 #endif
-    APT(SP_TROLL,           SK_SHIELDS,        -2),
+    APT(SP_TROLL,           SK_SHIELDS,         4),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_TROLL,           SK_TRAPS,         UNUSABLE_SKILL),
 #endif
     APT(SP_TROLL,           SK_UNARMED_COMBAT,  0),
-    APT(SP_TROLL,           SK_SPELLCASTING,   -5),
+    APT(SP_TROLL,           SK_SPELLCASTING,   -8),
     APT(SP_TROLL,           SK_CONJURATIONS,   -1),
     APT(SP_TROLL,           SK_HEXES,          -2),
     APT(SP_TROLL,           SK_CHARMS,         -2),
