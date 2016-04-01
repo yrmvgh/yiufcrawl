@@ -5,12 +5,10 @@
 
 * They are basically in order of when I will implement them, although I often change that order.
 
-*************************************
+* Some of these changes will make the game much easier for the player, and some will make the game much harder. Hopefully they balance out overall. We'll see...
+
 # Version 1.2
 *************************************
-
-Some of these changes will make the game much easier for the player, but that is intended to be solved by making the game harder by implementing some of the
-other ideas presented here. 
 
 ## Remove eating and chopping
 
@@ -25,15 +23,15 @@ target satiation level high enough and having sufficient rest time between battl
 
 ## Add stamina
 
-This is a huge change, but maybe when everything else is done this could be fun to play with. Stamina would be a new quantity like Health and Magic. Stamina of
-course would be the primary resource used by fighters, like magic is used for ... magic... users... ;P ...  But this opens up a bunch of new interesting buffs
+Stamina would be a new quantity like Health and Magic. Stamina of
+course would be the primary resource used by fighters, like magic is for magic users. This opens up a bunch of new interesting buffs
 and maluses, spells, potions, etc. With this would be the option to "run", which burns through stamina quickly, but gives you slightly more movement speed. This
 would replace the existing "Exhausted" status with a more interesting drain of stamina when berserk, etc, are used. Running of course could be used on top of
 the "swiftness" spell for added speed. 
 
 So the "walking" speed of all species would be the same, and it would be set to slightly slower than most monsters, probably at 1.1, where most monsters would
 be 1.0. Walking won't consume any stamina. However, a player can hit a key to switch to running mode, which burns through stamina but maybe a normal species
-would travel at 0.8 when running. A centaur could run at 0.7, while a spriggan maybe 0.6. A tengu flying could move even faster, maybe 0.4, but flying burns
+would travel at 0.9 when running. A centaur could run at 0.7, while a spriggan maybe 0.6. A tengu flying could move even faster, maybe 0.4, but flying burns
 through stamina twice as quickly, and a tengu running on the ground is no faster than normal (just 0.9). But all would have to stop running after stamina ran
 out. Running with heavy armour would increase stamina burn. Also attacking costs some stamina, and attacking with a heavier weapon when the character doesn't
 have much strength will cost even more. 
@@ -61,7 +59,6 @@ based on how many corpses there are when the mummy is resting). If there are no 
 regeneration, items of regeneration, etc. Regeneration *always* has a price, even for a mummy. This makes a mummy very powerful when in a battle with many
 enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
 
-*************************************
 # Version 1.3
 *************************************
 
@@ -247,7 +244,6 @@ these are very rare, so they won't tend to clutter up your inventory.
     turns. Inverted version reverses the balancing effect. If balance would normally take 70% HP to 60% HP, 
     then it goes the other way instead (to 80% HP). Inverted example: HP%/MP%/SP% 20/20/60 -> 7/7/87.
 
-*************************************
 # Version 1.4
 *************************************
 
@@ -293,7 +289,6 @@ This increase of difficulty is necessary to compensate for some of these other c
 * wall, it eventually fades back into a normal wall. 
 * bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
 
-*************************************
 # Version 1.5
 *************************************
 
@@ -352,7 +347,6 @@ cap just cuts out that fun in late game.
 * branches may be the same length (which would significantly shorten the game, since you are only required 
   to travel half the distance to get the rune) or extended a little. We'll experiment and find what's most fun.
 
-*************************************
 # Version 1.6
 *************************************
 
@@ -388,7 +382,6 @@ The wand will only affect movement speed. Attack speed will be normal.
 Possibly add more depth to the abyss (is it infinite anyway?), with harder challenges the deeper you go, so that being cast into the abyss late game is actually
 pretty scary still. 
 
-*************************************
 # Version 1.7
 *************************************
 
@@ -421,7 +414,6 @@ does will benefit you at higher piety (like normal). Gaining piety is based on d
 monsters, getting unintentionally banished). Scumming type activities will reduce piety quickly. Playing it safe too much will also end up with lower piety
 levels, which will cause Xom to make things more interesting for you. He's nice like that. 
 
-*************************************
 # Version 1.8
 *************************************
 
@@ -528,7 +520,6 @@ Dragons ought to be harder than they are. A single dragon, even one of the weake
 
 A slime species and a fairy species would be nice. I would like an even 30 species. Any species needed beyond that should replace the most boring species.
 
-*************************************
 # Version 1.9
 *************************************
 
