@@ -179,7 +179,7 @@ with my goals here, or with concerns you have about my future plans.
     * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
 
 * Halfling
-    * added wild magic mutation at the level 4, 8, and 12, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
+    * added wild magic mutation at the level 6, 12, and 18, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
     * added an extraordinary level of magic resistance
     * improved conjuration apt from -2 to +2
 
