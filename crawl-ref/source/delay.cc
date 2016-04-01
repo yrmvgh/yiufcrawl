@@ -355,22 +355,10 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
         }
         break;
 
-    case DELAY_PASSWALL:
-        if (stop_stair_travel)
-        {
-            mpr("Your meditation is interrupted.");
-            _pop_delay();
-        }
         break;
 
     case DELAY_SHAFT_SELF:
-        if (stop_stair_travel)
-        {
-            mpr("You stop digging.");
-            _pop_delay();
-        }
-        break;
-
+    case DELAY_PASSWALL:
     case DELAY_WAND_HEAL:
     case DELAY_DROP_ITEM:         // one turn... only used for easy armour drops
     case DELAY_JEWELLERY_ON:      // one turn
