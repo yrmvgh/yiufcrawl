@@ -199,9 +199,8 @@ with my goals here, or with concerns you have about my future plans.
     * they have a very low magic capacity.
 
 * Naga
-    * increased effectiveness of their poison spitting ability, making them a bit easier in the beginning
-    * removed the misshapen armour restriction. Body armour gives full benefit, unlike with centaurs. This better balances the fact that not only are they slow,
-      but they have poor shield, armour, and dodging aptitudes. 
+    * poison spitting advances to level 2 at xp level 6, and to level 3 at xp level 12.
+    * made them even slower, but the slowness comes more steadily, gaining slow mutation at 1, 4, and 8.
 
 * Ogre
     * has permanent powered by pain mutation at level 12. This gives them occasional boosts as they are damaged. 
