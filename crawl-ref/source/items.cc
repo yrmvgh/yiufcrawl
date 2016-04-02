@@ -65,6 +65,7 @@
 #include "player.h"
 #include "prompt.h"
 #include "quiver.h"
+#include "randbook.h"
 #include "religion.h"
 #include "rot.h"
 #include "shopping.h"
@@ -4529,10 +4530,7 @@ bool get_item_by_name(item_def *item, const char* specs,
             item->skill_points = random_range(2000, 3000);
         }
         else if (type_wanted == BOOK_RANDART_THEME)
-        {
-            make_book_theme_randart(*item, SPTYP_NONE, SPTYP_NONE,
-                                    5 + coinflip(), 20);
-        }
+            build_themed_book(*item, capped_spell_filter(20));
         else if (type_wanted == BOOK_RANDART_LEVEL)
         {
             int level = random_range(1, 9);
