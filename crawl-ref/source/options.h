@@ -420,6 +420,7 @@ public:
 
     bool        regex_search; // whether to default to regex search for ^F
     bool        old_movement;
+    int         danger_mode_threshold; // enter danger mode if player's health is less than this percentage of the last damage done.
 
     lang_t              language;         // Translation to use.
     const char*         lang_name;        // Database name of the language.

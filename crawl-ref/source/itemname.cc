@@ -1589,7 +1589,6 @@ static string _name_weapon(const item_def &weap, description_level_type desc,
 
         const string short_name
             = curse_prefix + plus_text + get_artefact_base_name(weap, true);
-        dprf("short: %s", short_name.c_str());
         return short_name;
     }
 

@@ -1029,7 +1029,20 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
 
         // Even if we have low HP messages off, we'll still give a
         // big hit warning (in this case, a hit for half our HPs) -- bwr
-        if (dam > 0 && you.hp_max <= dam * 2)
+        if (Options.danger_mode_threshold > 0 && dam > Options.danger_mode_threshold * you.hp / 100 && dam < you.hp)
+        {
+            if (crawl_state.danger_mode == 0)
+            {
+                mprf(MSGCH_DANGER, "Damage (%d) was greater than %d%% of your hp (%d)!!!", dam, Options.danger_mode_threshold, you.hp);
+                for(int i = 0; i < 10; i++)
+                    flash_view_delay(UA_ALWAYS_ON, RED, 100);
+                more(true);
+            }
+
+            crawl_state.danger_mode = 10;
+        }
+
+        else if (dam > 0 && you.hp_max <= dam * 2)
             mprf(MSGCH_DANGER, "Ouch! That really hurt! (%d)", dam);
 
         if (you.hp > 0 && dam > 0)

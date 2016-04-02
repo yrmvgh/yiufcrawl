@@ -416,7 +416,7 @@ public:
     // Number of viewport refreshes.
     unsigned int frame_no;
 
-    // normally 1000, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
+    // normally 1, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
     int amplification;
 
     // used by scrolls of returning
@@ -1019,6 +1019,7 @@ bool enough_mp(int minimum, bool suppress_msg, bool abort_macros = true);
 
 void calc_hp();
 void calc_mp();
+void recalc_and_scale_hp();
 
 void dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
 void dec_mp(int mp_loss, bool silent = false);

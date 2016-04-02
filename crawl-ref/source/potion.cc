@@ -820,6 +820,23 @@ public:
         return true;
     }
 
+    bool quaff(bool was_known) const override
+    {
+        if (was_known && !check_known_quaff())
+            return false;
+
+        if (was_known
+            && how_mutated(false, true) > how_mutated(false, true, false)
+            && !yesno("Your transient mutations will not be cured; Quaff anyway?",
+                      false, 'n'))
+        {
+            canned_msg(MSG_OK);
+            return false;
+        }
+        effect();
+        return true;
+    }
+
     bool effect(bool=true, int=40, bool=true) const override
     {
         mpr("It has a very clean taste.");
@@ -921,7 +938,7 @@ public:
     	            break;
     	        }
 
-    	        you.amplification -= 1000;
+    	        you.amplification--;
     		}
 
     		if (mutated)
@@ -963,7 +980,7 @@ public:
                     mutated |= delete_mutation(RANDOM_GOOD_MUTATION,
                                                "inverted potion of beneficial mutation", false);
 
-        		you.amplification -= 1000;
+        		you.amplification -= 1;
     		}
 
     		if (mutated)
@@ -972,7 +989,7 @@ public:
 
         learned_something_new(HINT_YOU_MUTATED);
 
-    	you.amplification = 1000;
+    	you.amplification = 1;
         return mutated;
     }
 

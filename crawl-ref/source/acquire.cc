@@ -30,6 +30,7 @@
 #include "macro.h"
 #include "message.h"
 #include "output.h"
+#include "randbook.h"
 #include "random.h"
 #include "religion.h"
 #include "skills.h"
@@ -1079,20 +1080,8 @@ static bool _do_book_acquirement(item_def &book, int agent)
         // else intentional fall-through
     }
     case BOOK_RANDART_THEME:
-    {
-        // Acquired randart books have a chance of being named after the player.
-        const string owner = agent == AQ_SCROLL && one_chance_in(12) ?
-                                you.your_name :
-                                "";
-
-        book.sub_type = BOOK_RANDART_THEME;
-        if (!make_book_theme_randart(book, SPTYP_NONE, SPTYP_NONE,
-                                     5 + coinflip(), 20, SPELL_NO_SPELL, owner))
-        {
-            return false;
-        }
+        acquire_themed_randbook(book, agent);
         break;
-    }
 
     case BOOK_RANDART_LEVEL:
     {

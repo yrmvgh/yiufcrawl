@@ -34,6 +34,7 @@ with my goals here, or with concerns you have about my future plans.
     * My philosophy is to first try and make a problem area more interesting. If that seems utterly impossible, then it should be removed. 
     * For example, Djinni was removed from mainstream crawl because of serious problems with it's design. I brought it back, changed the design dramatically,
       and now I believe it is a fun and interesting species to play without the major issues it was removed for in the first place. 
+      
 * A more fun experience for new players and intermediate players.
     * Current mainstream crawl seems to heavily favor making the game fun for extreme veterans and experts. New players have a very hard time finding enough fun
       in the game to justify investing the time needed to really get good at it. Everything is balanced around understanding how to effectively use every item
@@ -50,6 +51,16 @@ with my goals here, or with concerns you have about my future plans.
 
 ### v1.1 (currently deployed)
 
+* Better low health warnings, especially for new players
+    * A new option, called danger_mode_threshold was made which defaults to 30. 
+    * If damage is done to the player exceeding danger_mode_threadhold percent of the player's current hp, danger mode is switched to on, and a special
+      warning message is given, the screen flashes, and the player is given a "more" message. This message appears only if danger mode is off. 
+    * Danger mode stays on until no "danger" events have happened for 10 turns.
+    * Example: A player has 20 health left, the danger_mode_threshold is set to 20, the player isn't currently in danger mode, and he gets hit for 5
+      damage. 5 is less than 30% of 20, so no warning message is given. Then the player is hit for 5 points of damage again, and since 5 damage is more
+      than 30% of 15, the danger message is given, and danger mode is turned on. No more warnings will be given until things quiet down. 
+    * This is disabled by setting danger_mode_threshold to 0.
+    
 * Eliminate pillar dancing and extended kiting (don't knock it until you've given it a fair chance, it really works)
     * The first time a player moves, it takes 2.0 aut, independent of other factors.
     * If the player moves again in the same general direction (within 45 degress or less of the original movement), then they move 10% faster than their normal
