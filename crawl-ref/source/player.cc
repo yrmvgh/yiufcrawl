@@ -4293,7 +4293,11 @@ int get_real_mp(bool include_items)
     enp = max(enp, 4);
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp = enp * 3 / 2;
+    	enp += 12;
+    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+        enp += 8;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp += 4;
 
     return enp;
 }

@@ -236,7 +236,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
     {
     case MONS_KOBOLD:
         // A few of the smarter kobolds have blowguns.
-        if (one_chance_in(10) && level > 1)
+        if (one_chance_in(10) && level > 3)
         {
             item.base_type = OBJ_WEAPONS;
             item.sub_type  = WPN_BLOWGUN;
