@@ -81,6 +81,7 @@
 #include "transform.h"
 #include "unwind.h"
 #include "version.h"
+#include "mutation.h"
 
 // defined in dgn-overview.cc
 extern map<branch_type, set<level_id> > stair_level;
@@ -2692,8 +2693,8 @@ static void tag_read_you(reader &th)
     ASSERT_RANGE(count, 0, NUM_MUTATIONS + 1);
     for (int j = 0; j < count; ++j)
     {
-        you.mutation[j]         = unmarshallUByte(th);
-        you.innate_mutation[j]  = unmarshallUByte(th);
+        you.mutation[j]         = min(mutation_max_levels(j), unmarshallUByte(th));
+        you.innate_mutation[j]  = min(mutation_max_levels(j), unmarshallUByte(th));
 #if TAG_MAJOR_VERSION == 34
         if (th.getMinorVersion() >= TAG_MINOR_TEMP_MUTATIONS
             && th.getMinorVersion() != TAG_MINOR_0_11)
