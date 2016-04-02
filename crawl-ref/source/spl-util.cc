@@ -544,10 +544,6 @@ spschools_type get_spell_disciplines(spell_type spell)
     return _seekspell(spell)->disciplines;
 }
 
-bool spell_is_targettable(spell_type spell)
-{
-    return _seekspell(spell)->min_range > -1;
-}
 int count_bits(uint64_t bits)
 {
     uint64_t n;

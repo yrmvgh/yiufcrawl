@@ -645,18 +645,19 @@ void wizard_uncurse_item()
     if (!prompt_failed(i))
     {
         item_def& item(you.inv1[i]);
-
-        if (item.cursed())
+        const int curse_level = prompt_for_quantity("What curse level (>1000 = heavy curse, 100 = standard light curse, 0 = uncursed)? ");
+        if (curse_level == 0)
             do_uncurse_item(item, MAX_CURSE_LEVEL);
-        else
+        if (curse_level > 0)
         {
             if (!_item_type_can_be_cursed(item.base_type))
             {
                 mpr("That type of item cannot be cursed.");
                 return;
             }
-            do_curse_item(item, 100);
+            do_curse_item(item, curse_level);
         }
+
         mprf_nocap("%s", item.name(DESC_INVENTORY_EQUIP).c_str());
     }
 }

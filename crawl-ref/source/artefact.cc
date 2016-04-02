@@ -485,6 +485,9 @@ static void _populate_item_intrinsic_artps(const item_def &item,
                                              artefact_properties_t &proprt,
                                              artefact_known_props_t &known)
 {
+    if (item.super_cursed())
+        return;
+
     switch (item.base_type)
     {
         case OBJ_ARMOUR:
