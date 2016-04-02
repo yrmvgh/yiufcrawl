@@ -3287,7 +3287,7 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     }
 
     // Spit Poison, possibly upgraded to Breathe Poison.
-    if (player_mutation_level(MUT_SPIT_POISON) == 3)
+    if (player_mutation_level(MUT_SPIT_POISON) >= 3)
         _add_talent(talents, ABIL_BREATHE_POISON, check_confused);
     else if (player_mutation_level(MUT_SPIT_POISON))
         _add_talent(talents, ABIL_SPIT_POISON, check_confused);
