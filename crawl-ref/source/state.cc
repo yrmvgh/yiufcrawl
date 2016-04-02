@@ -53,7 +53,7 @@ game_state::game_state()
 #endif
       invisible_targeting(false),
       darken_range(nullptr), unsaved_macros(false), disables(),
-      minor_version(-1), save_rcs_version(), mon_act(nullptr)
+      minor_version(-1), save_rcs_version(), mon_act(nullptr), danger_mode(0)
 {
     reset_cmd_repeat();
     reset_cmd_again();

@@ -1305,6 +1305,13 @@ regex_search = false
 3-h     Messages and Display Enhancements.
 ------------------------------------------
 
+danger_mode_threshold = 30
+        if 0, this option is disabled. Gives a special warning, and forces
+        the player to press a key, whenever damage is done to the player
+        which exceeds danger_mode_threshold % of the player's current hp.
+        This warning is only given once until things calm down (after 10
+        turns of not triggering danger mode).
+
 hp_warning = 10
         hp_warning gives "* * * LOW HITPOINT WARNING * * *" on the
         danger channel when the player takes damage and their hitpoints

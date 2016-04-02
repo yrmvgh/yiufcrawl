@@ -128,6 +128,7 @@ struct game_state
     std::string save_rcs_version;
 
     game_difficulty_level difficulty;
+    int danger_mode;
 
 protected:
     void reset_cmd_repeat();

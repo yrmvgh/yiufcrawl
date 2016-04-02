@@ -3197,7 +3197,7 @@ static void tag_read_you(reader &th)
     you.num_turns  = unmarshallInt(th);
     you.exploration = unmarshallInt(th);
     you.amplification = unmarshallInt(th);
-    if(you.amplification > 100)
+    if(you.amplification > 100 || you.amplification == 0)
         you.amplification = 1;
 
 #if TAG_MAJOR_VERSION == 34
