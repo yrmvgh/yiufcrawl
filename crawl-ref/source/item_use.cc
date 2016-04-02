@@ -76,7 +76,7 @@ bool _playerUnequipsShield()
 {
 	if (yesno("Unequip your shield first?", true, 'n'))
 	{
-		unequip_item(EQ_SHIELD);
+        takeoff_armour(you.equip[EQ_SHIELD]);
 		return true;
 	}
 	else
