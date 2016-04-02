@@ -323,7 +323,10 @@ string item_def::name(description_level_type descrip, bool terse, bool ident,
         && !testbits(ignore_flags, ISFLAG_KNOW_CURSE)
         && (ident || item_ident(*this, ISFLAG_KNOW_CURSE)))
     {
-        buff << " (curse)";
+        if (super_cursed())
+            buff << " (heavy curse)";
+        else
+            buff << " (curse)";
     }
 
     return buff.str();
@@ -1420,7 +1423,9 @@ static string _curse_prefix(const item_def &weap, description_level_type desc,
     if (!_know_curse(weap, desc, ident, ignore_flags) || terse)
         return "";
 
-    if (weap.cursed())
+    if (weap.super_cursed())
+        return "heavily cursed ";
+    else if (weap.cursed())
         return "cursed ";
 
     if (!Options.show_uncursed)
@@ -1683,7 +1688,9 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
     case OBJ_ARMOUR:
         if (know_curse && !terse)
         {
-            if (cursed())
+            if (super_cursed())
+                buff << "heavily cursed ";
+            else if (cursed())
                 buff << "cursed ";
             else if (Options.show_uncursed && !know_pluses)
                 buff << "uncursed ";
@@ -1911,7 +1918,9 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
 
         if (know_curse && !terse)
         {
-            if (cursed())
+            if (super_cursed())
+                buff << "heavily cursed ";
+            else if (cursed())
                 buff << "cursed ";
             else if (Options.show_uncursed && desc != DESC_PLAIN
                      && (!is_randart || !know_type)
@@ -1952,8 +1961,11 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
                      << " ring";
             }
         }
-        if (know_curse && cursed() && terse)
-            buff << " (curse)";
+        if (know_curse && terse)
+            if (super_cursed())
+                buff << " (heavy curse)";
+            else if (cursed())
+                buff << " (curse)";
         break;
     }
     case OBJ_MISCELLANY:
@@ -2000,7 +2012,9 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
     case OBJ_RODS:
         if (know_curse && !terse)
         {
-            if (cursed())
+            if (super_cursed())
+                buff << "heavily cursed ";
+            else if (cursed())
                 buff << "cursed ";
             else if (Options.show_uncursed && desc != DESC_PLAIN
                      && !know_pluses
@@ -2040,7 +2054,9 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
     case OBJ_STAVES:
         if (know_curse && !terse)
         {
-            if (cursed())
+            if (super_cursed())
+                buff << "heavily cursed ";
+            else if (cursed())
                 buff << "cursed ";
             else if (Options.show_uncursed && desc != DESC_PLAIN
                      && (!know_type || !is_artefact(*this)))
@@ -2062,8 +2078,11 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
         else
             buff << "staff of " << staff_type_name(item_typ);
 
-        if (know_curse && cursed() && terse)
-            buff << " (curse)";
+        if (know_curse && terse)
+            if (super_cursed())
+                buff << " (heavy curse)";
+            else if (super_cursed())
+                buff << " (curse)";
         break;
 
     // rearranged 15 Apr 2000 {dlb}:

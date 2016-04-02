@@ -3297,6 +3297,9 @@ bool item_def::cursed() const
 
 bool item_def::super_cursed() const
 {
+    if(curse_weight > 1000)
+        dprf("Super cursed item!");
+
     return curse_weight > 1000;
 }
 
