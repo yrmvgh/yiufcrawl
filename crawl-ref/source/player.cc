@@ -5475,7 +5475,7 @@ player::player()
     seen_portals        = 0;
     frame_no            = 0;
 
-    amplification       = 1000;
+    amplification       = 1;
 
     save                = nullptr;
     prev_save_version.clear();

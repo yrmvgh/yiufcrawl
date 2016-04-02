@@ -921,7 +921,7 @@ public:
     	            break;
     	        }
 
-    	        you.amplification -= 1000;
+    	        you.amplification--;
     		}
 
     		if (mutated)
@@ -963,7 +963,7 @@ public:
                     mutated |= delete_mutation(RANDOM_GOOD_MUTATION,
                                                "inverted potion of beneficial mutation", false);
 
-        		you.amplification -= 1000;
+        		you.amplification -= 1;
     		}
 
     		if (mutated)
@@ -972,7 +972,7 @@ public:
 
         learned_something_new(HINT_YOU_MUTATED);
 
-    	you.amplification = 1000;
+    	you.amplification = 1;
         return mutated;
     }
 
