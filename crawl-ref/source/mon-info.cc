@@ -1237,8 +1237,8 @@ string monster_info::pluralised_name(bool fullname) const
     else if (mons_genus(type) == MONS_DEMONSPAWN)
         return pluralise_monster(mons_type_name(MONS_DEMONSPAWN, DESC_PLAIN));
     else if (type == MONS_UGLY_THING || type == MONS_VERY_UGLY_THING
-             || type == MONS_DANCING_WEAPON || type == MONS_MUTANT_BEAST
-             || !fullname)
+             || type == MONS_DANCING_WEAPON || type == MONS_SPECTRAL_WEAPON
+             || type == MONS_MUTANT_BEAST || !fullname)
     {
         return pluralise_monster(mons_type_name(type, DESC_PLAIN));
     }
@@ -1786,4 +1786,11 @@ void get_monster_info(vector<monster_info>& mons)
         }
     }
     sort(mons.begin(), mons.end(), monster_info::less_than_wrapper);
+}
+
+monster_type monster_info::draco_or_demonspawn_subspecies() const
+{
+    if (type == MONS_PLAYER_ILLUSION && mons_genus(type) == MONS_DRACONIAN)
+        return player_species_to_mons_species(i_ghost.species);
+    return ::draco_or_demonspawn_subspecies(type, base_type);
 }
