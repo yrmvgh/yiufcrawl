@@ -1185,8 +1185,9 @@ ENDMAP
 # Elven Outpost
 #   50-50 chance of spiral arms, 50-50 chance of a moat
 NAME:    elves_outpost_lemuel
-DEPTH:   D:11-, Orc, Elf
-MONS:    deep elf mage
+DEPTH:   D:11-, Orc:3-, Elf
+MONS:    deep elf fighter
+MONS:    w:20 deep elf mage / deep elf conjurer / deep elf summoner
 SHUFFLE: ?_/bb, _'/ww
 SUBST:   ?_' = .
 NSUBST:  1 = 2:% / 2 = 1% / *:1
@@ -4929,7 +4930,7 @@ cc...cc
 ENDMAP
 
 NAME:   kennysheep_orc_chapel
-DEPTH:  D:3-4, Orc
+DEPTH:  D:3-4, Orc:2-
 SUBST:  $ = $.
 : if you.in_branch("Orc") then
 KMONS:  1 = orc high priest band
