@@ -791,6 +791,7 @@ int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg,
         		sel = OSEL_RECHARGE_ADVANCED;
         		break;
         	case RECHARGE_TYPE_EITHER:
+            case RECHARGE_TYPE_PAKELLAS:
         		sel = OSEL_RECHARGE;
         		break;
         	}
@@ -835,7 +836,8 @@ int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg,
         if (wand.base_type == OBJ_WANDS)
         {
             const int new_charges = wand.get_cap();
-            wand.set_cap(wand.get_cap() / 2 + wand.get_cap() % 2);
+            if (rechargeType != RECHARGE_TYPE_PAKELLAS)
+                wand.set_cap(wand.get_cap() / 2 + wand.get_cap() % 2);
             const bool charged = (new_charges > wand.plus);
 
             string desc;
