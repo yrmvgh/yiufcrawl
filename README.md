@@ -93,9 +93,13 @@ with my goals here, or with concerns you have about my future plans.
     * The spell list command has been moved from 'I' to 's'. 
     * Wands automatically stack in inventory, possibly exceeding max capacity. 
 
-* Monsters can't use stairs, but if they hurt you while going up or down stairs, you are interrupted
-    * eliminates ability of player to pull apart groups of monsters into bite size pieces. 
-    * eliminates easy escapes on stairs when monsters can still inflict damage (even ranged ones).
+* Stair changes
+    * Monsters can't use stairs, but if they hurt you while going up or down stairs, you are interrupted.
+        * Eliminates ability of player to pull apart groups of monsters into bite size pieces. 
+        * Eliminates easy escapes on stairs when monsters can still inflict damage (even ranged ones).
+    * If you take the stairs, but then immediately go back through the stairs again, you can't be interrupted.
+        * Avoids the situation where a player goes onto a level surrounded by dangerous monsters, but can't escape
+          back to the previous level. 
 
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
@@ -235,10 +239,16 @@ with my goals here, or with concerns you have about my future plans.
         * at xp 18 they get ench absorb 3 = 90% of the time it is absorbed, making them *almost* immune to magic enchantments.
 
 * Troll
-    * they now gain several different elemental resistances as they gain levels
-    * start with higher hp than normal, but never gain hp with level increases. They can increase hp by training fighting or through items, but late game they
-      will have much lower hp than normal.
-
+    * split into two subspecies
+    * Cave Troll
+        * like old troll, except with a couple more shaggy fur mutations that come in later
+    * Moon Troll
+        * gain several different elemental resistances as they gain levels
+        * start with higher hp than normal, but never gain hp with level increases. They can increase hp by training fighting or through items, but late game they
+          will have much lower hp than normal.
+        * better magic aptitudes, but spellcasting skill is still bad
+        * apt 0 defensive skills (to help make up for their very low health later in the game).
+          
 * Deep Dwarf
     * recharge ability has been split in two: lesser recharge (costs 1 PMP), and greater recharge (costs 3 PMP). Greater recharge is required to recharge
       wands of healing, haste, and teleport

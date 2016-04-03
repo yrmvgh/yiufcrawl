@@ -2015,6 +2015,11 @@ static void _do_list_gold()
 // e.g. list_jewellery, etc.
 void process_command(command_type cmd)
 {
+    if (crawl_state.free_stair_escape
+        && cmd != CMD_GO_UPSTAIRS
+        && cmd != CMD_GO_DOWNSTAIRS)
+        crawl_state.free_stair_escape = false;
+
     you.apply_berserk_penalty = true;
     bool player_moved = true;
     switch (cmd) {

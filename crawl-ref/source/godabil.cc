@@ -1087,16 +1087,19 @@ bool zin_recite_to_single_monster(const coord_def& where)
         break;
 
     case ZIN_SMITE:
+    {
+        int damage = 7 + (random2(spellpower) * 33 / 191);
         if (minor)
-            simple_monster_message(mon, " is smitten by the wrath of Zin.");
+            monster_message(mon, " is smitten by the wrath of Zin. (%d)", damage);
         else
-            simple_monster_message(mon, " is blasted by the fury of Zin!");
+            monster_message(mon, " is blasted by the fury of Zin! (%d)", damage);
         // XXX: This duplicates code in cast_smiting().
-        mon->hurt(&you, 7 + (random2(spellpower) * 33 / 191));
+        mon->hurt(&you, damage);
         if (mon->alive())
             print_wounds(mon);
         affected = true;
         break;
+    }
 
     case ZIN_BLIND:
         if (mon->add_ench(mon_enchant(ENCH_BLIND, degree, &you, INFINITE_DURATION)))
@@ -1158,18 +1161,19 @@ bool zin_recite_to_single_monster(const coord_def& where)
             dice_def dam_dice(0, 5 + spellpower/7);  // Dice added below if applicable.
             dam_dice.num = degree;
 
-            int damage = dam_dice.roll();
-            if (damage > 0)
+            int d = dam_dice.roll();
+            if (d > 0)
             {
-                mon->hurt(&you, damage, BEAM_MISSILE, KILLED_BY_BEAM,
+                mon->hurt(&you, d, BEAM_MISSILE, KILLED_BY_BEAM,
                           "", "", false);
 
                 if (mon->alive())
                 {
-                    simple_monster_message(mon,
-                      (damage < 25) ? "'s chaotic flesh sizzles and spatters!" :
-                      (damage < 50) ? "'s chaotic flesh bubbles and boils."
-                                    : "'s chaotic flesh runs like molten wax.");
+                    monster_message(mon,
+                      (d < 25) ? "'s chaotic flesh sizzles and spatters! (%d)" :
+                      (d < 50) ? "'s chaotic flesh bubbles and boils. (%d)"
+                                    : "'s chaotic flesh runs like molten wax. (%d)"
+                            , d);
 
                     print_wounds(mon);
                     behaviour_event(mon, ME_WHACK, &you);
@@ -1177,8 +1181,8 @@ bool zin_recite_to_single_monster(const coord_def& where)
                 }
                 else
                 {
-                    simple_monster_message(mon,
-                        " melts away into a sizzling puddle of chaotic flesh.");
+                    monster_message(mon,
+                        " melts away into a sizzling puddle of chaotic flesh. (%d)", d);
                     monster_die(mon, KILL_YOU, NON_MONSTER);
                 }
             }
@@ -3894,8 +3898,7 @@ bool ashenzari_curse_item(int num_rc)
 {
     ASSERT(num_rc > 0);
     const string prompt_msg = make_stringf(
-            "Curse which item? (%d remove curse scroll%s left)"
-            " (Esc to abort)",
+            "Curse which item? (%d remove curse scroll%s left)",
             num_rc, num_rc == 1 ? "" : "s");
     const int item_slot = prompt_invent_item(you.inv1, prompt_msg.c_str(), MT_INVLIST,
                                              OSEL_CURSABLE,
