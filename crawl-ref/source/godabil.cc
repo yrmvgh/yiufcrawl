@@ -1087,12 +1087,13 @@ bool zin_recite_to_single_monster(const coord_def& where)
         break;
 
     case ZIN_SMITE:
+        int damage = 7 + (random2(spellpower) * 33 / 191);
         if (minor)
-            simple_monster_message(mon, " is smitten by the wrath of Zin.");
+            monster_message(mon, " is smitten by the wrath of Zin. (%d)", damage);
         else
-            simple_monster_message(mon, " is blasted by the fury of Zin!");
+            monster_message(mon, " is blasted by the fury of Zin! (%d)", damage);
         // XXX: This duplicates code in cast_smiting().
-        mon->hurt(&you, 7 + (random2(spellpower) * 33 / 191));
+        mon->hurt(&you, damage);
         if (mon->alive())
             print_wounds(mon);
         affected = true;
@@ -1166,10 +1167,11 @@ bool zin_recite_to_single_monster(const coord_def& where)
 
                 if (mon->alive())
                 {
-                    simple_monster_message(mon,
-                      (damage < 25) ? "'s chaotic flesh sizzles and spatters!" :
-                      (damage < 50) ? "'s chaotic flesh bubbles and boils."
-                                    : "'s chaotic flesh runs like molten wax.");
+                    monster_message(mon,
+                      (damage < 25) ? "'s chaotic flesh sizzles and spatters! (%d)" :
+                      (damage < 50) ? "'s chaotic flesh bubbles and boils. (%d)"
+                                    : "'s chaotic flesh runs like molten wax. (%d)"
+                            , damage);
 
                     print_wounds(mon);
                     behaviour_event(mon, ME_WHACK, &you);
@@ -1177,8 +1179,8 @@ bool zin_recite_to_single_monster(const coord_def& where)
                 }
                 else
                 {
-                    simple_monster_message(mon,
-                        " melts away into a sizzling puddle of chaotic flesh.");
+                    monster_message(mon,
+                        " melts away into a sizzling puddle of chaotic flesh. (%d)", damage);
                     monster_die(mon, KILL_YOU, NON_MONSTER);
                 }
             }
