@@ -1,3 +1,5 @@
+#include "enum.h"
+
 enum species_flag
 {
     SPF_NONE        = 0,
@@ -413,13 +415,17 @@ static const map<species_type, species_def> species_data =
     "Fo",
     "Formicid", nullptr, "Ant",
     SPF_NONE,
-    1, 0, 0,
+    1, 2, 0,
     15, 4,
     MONS_FORMICID,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     12, 7, 6, // 25
     { STAT_STR, STAT_INT }, 4,
-    { { MUT_ANTENNAE, 3, 1 }, },
+    {
+        { MUT_FAST, 1, 1 },
+        { MUT_ANTENNAE, 3, 1 },
+        { MUT_POISON_VULNERABILITY, 1, 1 },
+    },
     { "You are under a permanent stasis effect.",
       "You can dig through walls and to a lower floor.",
       "Your four strong arms can wield two-handed weapons with a shield." },

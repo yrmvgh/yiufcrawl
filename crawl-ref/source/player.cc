@@ -1702,6 +1702,8 @@ int player_res_poison(bool calc_unid, bool temp, bool items)
 
     // mutations:
     rp += player_mutation_level(MUT_POISON_RESISTANCE, temp);
+    rp -= player_mutation_level(MUT_POISON_VULNERABILITY, temp);
+
     rp += player_mutation_level(MUT_SLIMY_GREEN_SCALES, temp) == 3 ? 1 : 0;
 
     // Only thirsty vampires are naturally poison resistant.

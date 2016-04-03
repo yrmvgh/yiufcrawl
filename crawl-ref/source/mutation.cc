@@ -131,7 +131,7 @@ static const int conflict[][3] =
     { MUT_STRONG,              MUT_WEAK,                   1},
     { MUT_CLEVER,              MUT_DOPEY,                  1},
     { MUT_AGILE,               MUT_CLUMSY,                 1},
-    { MUT_SLOW_REGENERATION,        MUT_NO_DEVICE_HEAL,    1},
+    { MUT_SLOW_REGENERATION,   MUT_NO_DEVICE_HEAL,         1},
     { MUT_ROBUST,              MUT_FRAIL,                  1},
     { MUT_HIGH_MAGIC,          MUT_LOW_MAGIC,              1},
     { MUT_WILD_MAGIC,          MUT_SUBDUED_MAGIC,          1},
@@ -152,6 +152,7 @@ static const int conflict[][3] =
     { MUT_MAGIC_RESISTANCE,    MUT_MAGICAL_VULNERABILITY, -1},
     { MUT_CAMOUFLAGE,    	   MUT_GLOW, 				  -1},
     { MUT_NIGHTSTALKER,    	   MUT_GLOW, 				  -1},
+    { MUT_POISON_RESISTANCE,   MUT_POISON_VULNERABILITY,  -1},
 };
 
 equipment_type beastly_slot(int mut)
