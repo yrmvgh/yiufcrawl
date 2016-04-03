@@ -640,7 +640,7 @@ static const map<species_type, species_def> species_data =
         9, 3,
         MONS_TROLL,
         HT_LAND, US_ALIVE, SIZE_LARGE,
-        10, 6, 8, // 24
+        12, 4, 8, // 24
         { STAT_STR, STAT_DEX }, 2,
         { { MUT_TOUGH_SKIN, 2, 1 },
           { MUT_REGENERATION, 2, 1 },
@@ -660,7 +660,7 @@ static const map<species_type, species_def> species_data =
         },
         {},
         {},
-        { JOB_FIGHTER, JOB_MONK, JOB_HUNTER, JOB_BERSERKER, JOB_WARPER,
+        { JOB_FIGHTER, JOB_MONK, JOB_HUNTER, JOB_BERSERKER, JOB_WARPER, JOB_NECROMANCER,
           JOB_EARTH_ELEMENTALIST, JOB_WIZARD },
         { SK_UNARMED_COMBAT, SK_MACES_FLAILS },
 } },
