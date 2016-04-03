@@ -8,7 +8,6 @@
 * Some of these changes will make the game much easier for the player, and some will make the game much harder. Hopefully they balance out overall. We'll see...
 
 # Version 1.2
-*************************************
 
 ## Remove eating and chopping
 
@@ -60,7 +59,6 @@ regeneration, items of regeneration, etc. Regeneration *always* has a price, eve
 enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
 
 # Version 1.3
-*************************************
 
 ## Expansion of identification mini game
 
@@ -245,7 +243,6 @@ these are very rare, so they won't tend to clutter up your inventory.
     then it goes the other way instead (to 80% HP). Inverted example: HP%/MP%/SP% 20/20/60 -> 7/7/87.
 
 # Version 1.4
-*************************************
 
 ## Improved acquirement
 
@@ -290,7 +287,6 @@ This increase of difficulty is necessary to compensate for some of these other c
 * bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
 
 # Version 1.5
-*************************************
 
 ## Spell casting time
 
@@ -348,7 +344,6 @@ cap just cuts out that fun in late game.
   to travel half the distance to get the rune) or extended a little. We'll experiment and find what's most fun.
 
 # Version 1.6
-*************************************
 
 ## Altar destruction
 
@@ -383,7 +378,6 @@ Possibly add more depth to the abyss (is it infinite anyway?), with harder chall
 pretty scary still. 
 
 # Version 1.7
-*************************************
 
 ## Merge rods into wands
 
@@ -415,7 +409,6 @@ monsters, getting unintentionally banished). Scumming type activities will reduc
 levels, which will cause Xom to make things more interesting for you. He's nice like that. 
 
 # Version 1.8
-*************************************
 
 ## Experience rework
 
@@ -521,7 +514,6 @@ Dragons ought to be harder than they are. A single dragon, even one of the weake
 A slime species and a fairy species would be nice. I would like an even 30 species. Any species needed beyond that should replace the most boring species.
 
 # Version 1.9
-*************************************
 
 ## Score changes
 
