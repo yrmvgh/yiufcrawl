@@ -93,9 +93,13 @@ with my goals here, or with concerns you have about my future plans.
     * The spell list command has been moved from 'I' to 's'. 
     * Wands automatically stack in inventory, possibly exceeding max capacity. 
 
-* Monsters can't use stairs, but if they hurt you while going up or down stairs, you are interrupted
-    * eliminates ability of player to pull apart groups of monsters into bite size pieces. 
-    * eliminates easy escapes on stairs when monsters can still inflict damage (even ranged ones).
+* Stair changes
+    * Monsters can't use stairs, but if they hurt you while going up or down stairs, you are interrupted.
+        * Eliminates ability of player to pull apart groups of monsters into bite size pieces. 
+        * Eliminates easy escapes on stairs when monsters can still inflict damage (even ranged ones).
+    * If you take the stairs, but then immediately go back through the stairs again, you can't be interrupted.
+        * Avoids the situation where a player goes onto a level surrounded by dangerous monsters, but can't escape
+          back to the previous level. 
 
 * Damage numbers are shown
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I

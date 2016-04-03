@@ -1087,6 +1087,7 @@ bool zin_recite_to_single_monster(const coord_def& where)
         break;
 
     case ZIN_SMITE:
+    {
         int damage = 7 + (random2(spellpower) * 33 / 191);
         if (minor)
             monster_message(mon, " is smitten by the wrath of Zin. (%d)", damage);
@@ -1098,6 +1099,7 @@ bool zin_recite_to_single_monster(const coord_def& where)
             print_wounds(mon);
         affected = true;
         break;
+    }
 
     case ZIN_BLIND:
         if (mon->add_ench(mon_enchant(ENCH_BLIND, degree, &you, INFINITE_DURATION)))
@@ -1159,19 +1161,19 @@ bool zin_recite_to_single_monster(const coord_def& where)
             dice_def dam_dice(0, 5 + spellpower/7);  // Dice added below if applicable.
             dam_dice.num = degree;
 
-            int damage = dam_dice.roll();
-            if (damage > 0)
+            int d = dam_dice.roll();
+            if (d > 0)
             {
-                mon->hurt(&you, damage, BEAM_MISSILE, KILLED_BY_BEAM,
+                mon->hurt(&you, d, BEAM_MISSILE, KILLED_BY_BEAM,
                           "", "", false);
 
                 if (mon->alive())
                 {
                     monster_message(mon,
-                      (damage < 25) ? "'s chaotic flesh sizzles and spatters! (%d)" :
-                      (damage < 50) ? "'s chaotic flesh bubbles and boils. (%d)"
+                      (d < 25) ? "'s chaotic flesh sizzles and spatters! (%d)" :
+                      (d < 50) ? "'s chaotic flesh bubbles and boils. (%d)"
                                     : "'s chaotic flesh runs like molten wax. (%d)"
-                            , damage);
+                            , d);
 
                     print_wounds(mon);
                     behaviour_event(mon, ME_WHACK, &you);
@@ -1180,7 +1182,7 @@ bool zin_recite_to_single_monster(const coord_def& where)
                 else
                 {
                     monster_message(mon,
-                        " melts away into a sizzling puddle of chaotic flesh. (%d)", damage);
+                        " melts away into a sizzling puddle of chaotic flesh. (%d)", d);
                     monster_die(mon, KILL_YOU, NON_MONSTER);
                 }
             }

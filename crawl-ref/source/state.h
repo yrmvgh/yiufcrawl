@@ -129,6 +129,7 @@ struct game_state
 
     game_difficulty_level difficulty;
     int danger_mode;
+    bool free_stair_escape;
 
 protected:
     void reset_cmd_repeat();
@@ -141,7 +142,9 @@ protected:
     vector<monster* > mon_act_stack;
 
 public:
-    game_state();
+    game_state() {
+        free_stair_escape = false;
+    };
 
     void add_startup_error(const string &error);
     void show_startup_errors();
