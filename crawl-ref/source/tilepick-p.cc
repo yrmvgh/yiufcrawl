@@ -584,7 +584,8 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
         return TILEP_BASE_NAGA;
     case SP_OGRE:
         return TILEP_BASE_OGRE;
-    case SP_TROLL:
+    case SP_MOON_TROLL:
+    case SP_CAVE_TROLL:
         return TILEP_BASE_TROLL;
     case SP_BASE_DRACONIAN:
     case SP_RED_DRACONIAN:
@@ -712,7 +713,8 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
         case SP_MUMMY:
             hair = 0;
             break;
-        case SP_TROLL:
+        case SP_CAVE_TROLL:
+        case SP_MOON_TROLL:
             hair = TILEP_HAIR_TROLL;
             break;
         case SP_BASE_DRACONIAN:

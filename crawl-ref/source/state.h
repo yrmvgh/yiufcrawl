@@ -142,9 +142,7 @@ protected:
     vector<monster* > mon_act_stack;
 
 public:
-    game_state() {
-        free_stair_escape = false;
-    };
+    game_state();
 
     void add_startup_error(const string &error);
     void show_startup_errors();

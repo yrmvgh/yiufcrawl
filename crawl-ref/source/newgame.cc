@@ -164,29 +164,42 @@ void choose_tutorial_character(newgame_def& ng_choice)
 static const species_type species_order[] =
 {
     // comparatively human-like looks
-    SP_HUMAN,          SP_HIGH_ELF,
-    SP_DEEP_ELF,       SP_SLUDGE_ELF,
+    SP_HUMAN,
+    SP_HIGH_ELF,
+    SP_DEEP_ELF,
+    SP_SLUDGE_ELF,
     SP_DEEP_DWARF,
-    SP_HILL_ORC,	   SP_LAVA_ORC,
+    SP_HILL_ORC,
+    SP_LAVA_ORC,
     // small species
-    SP_HALFLING,       SP_KOBOLD,
+    SP_HALFLING,
+    SP_KOBOLD,
     SP_SPRIGGAN,
     // large species
-    SP_OGRE,           SP_TROLL,
+    SP_OGRE,
+    SP_CAVE_TROLL,
+    SP_MOON_TROLL,
     // significantly different body type from human ("monstrous")
-    SP_NAGA,           SP_CENTAUR,
-    SP_MERFOLK,        SP_MINOTAUR,
-    SP_TENGU,          SP_BASE_DRACONIAN,
-    SP_GARGOYLE,       SP_FORMICID,
+    SP_NAGA,
+    SP_CENTAUR,
+    SP_MERFOLK,
+    SP_MINOTAUR,
+    SP_TENGU,
+    SP_BASE_DRACONIAN,
+    SP_GARGOYLE,
+    SP_FORMICID,
     // mostly human shape but made of a strange substance
     SP_VINE_STALKER,
     // celestial species
-    SP_DEMIGOD,        SP_DEMONSPAWN,
+    SP_DEMIGOD,
+    SP_DEMONSPAWN,
     // undead species
-    SP_MUMMY,          SP_GHOUL,
+    SP_MUMMY,
+    SP_GHOUL,
     SP_VAMPIRE,
     // not humanoid at all
-    SP_FELID,          SP_OCTOPODE,
+    SP_FELID,
+    SP_OCTOPODE,
 	SP_DJINNI,
 };
 COMPILE_CHECK(ARRAYSZ(species_order) <= NUM_SPECIES);

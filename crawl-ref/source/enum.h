@@ -4171,7 +4171,7 @@ enum species_type
     SP_MUMMY,
     SP_NAGA,
     SP_OGRE,
-    SP_TROLL,
+    SP_CAVE_TROLL,
 
     SP_RED_DRACONIAN,
       SP_FIRST_NONBASE_DRACONIAN = SP_RED_DRACONIAN,
@@ -4202,6 +4202,7 @@ enum species_type
     SP_GARGOYLE,
     SP_FORMICID,
     SP_VINE_STALKER,
+    SP_MOON_TROLL,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

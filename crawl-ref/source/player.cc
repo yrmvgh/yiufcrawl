@@ -1117,8 +1117,7 @@ static int _player_bonus_regen()
     }
 
     // Fast heal mutation.
-    if (you.species != SP_TROLL)
-        rr += player_mutation_level(MUT_REGENERATION) * 20;
+    rr += player_mutation_level(MUT_REGENERATION) * 20;
 
     // Powered By Death mutation, boosts regen by variable strength
     // if the duration of the effect is still active.
@@ -1248,7 +1247,7 @@ int player_hunger_rate(bool temp)
     if (temp && you.form == TRAN_BAT && you.species == SP_VAMPIRE)
         return 1;
 
-    if (you.species == SP_TROLL)
+    if (you.species == SP_CAVE_TROLL)
         hunger += 3;            // in addition to the +3 for fast metabolism
 
     if (temp
@@ -4201,7 +4200,7 @@ int get_real_hp(bool trans, bool rotted)
 {
     int hitp;
 
-    if (you.species == SP_TROLL)
+    if (you.species == SP_MOON_TROLL)
         hitp  = 80;
     else
         hitp  = you.experience_level * 11 / 2 + 8;
