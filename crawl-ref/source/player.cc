@@ -1196,9 +1196,6 @@ int player_regen()
         }
     }
 
-    if (you.form == TRAN_TREE)
-        rr = 0;
-
     return rr;
 }
 
