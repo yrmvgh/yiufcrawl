@@ -1186,8 +1186,7 @@ ENDMAP
 #   50-50 chance of spiral arms, 50-50 chance of a moat
 NAME:    elves_outpost_lemuel
 DEPTH:   D:11-, Orc:3-, Elf
-MONS:    deep elf fighter
-MONS:    w:20 deep elf mage / deep elf conjurer / deep elf summoner
+MONS:    deep elf mage
 SHUFFLE: ?_/bb, _'/ww
 SUBST:   ?_' = .
 NSUBST:  1 = 2:% / 2 = 1% / *:1
