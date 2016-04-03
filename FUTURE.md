@@ -8,7 +8,6 @@
 * Some of these changes will make the game much easier for the player, and some will make the game much harder. Hopefully they balance out overall. We'll see...
 
 # Version 1.2
-*************************************
 
 ## Remove eating and chopping
 
