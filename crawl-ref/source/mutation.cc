@@ -1376,7 +1376,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
 
     bool gain_msg = true;
 
-    while (count-- > 0)
+    while (count-- > 0 && you.mutation[mutat] < mutation_max_levels(mutat))
     {
         you.mutation[mutat]++;
 
@@ -2199,7 +2199,7 @@ bool perma_mutate(mutation_type which_mut, int how_much, const string &reason)
     int levels = 0;
     if (how_much > 0)
     {
-        while (how_much-- > 0)
+        while (how_much-- > 0 && you.mutation[which_mut] < mutation_max_levels(which_mut) && you.innate_mutation[which_mut] < mutation_max_levels(which_mut))
         {
             dprf("Perma Mutate: %d, %d, %d", cap,
                  you.mutation[which_mut], you.innate_mutation[which_mut]);
