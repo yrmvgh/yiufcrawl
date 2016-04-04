@@ -292,7 +292,7 @@ with my goals here, or with concerns you have about my future plans.
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
-    * each time a wand is recharged, it's max charges is cut in half.
+    * each time a wand is recharged, it's max charge capacity is cut in half.
 
 * Potions of magic
     * easy mode: gives 100% magic
@@ -314,3 +314,5 @@ with my goals here, or with concerns you have about my future plans.
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
       gold benefit the same as before. 
 
+* Minor item tweaks
+    * ring of magical power now gives you 50% more mp, or 9 mp (like before), whichever is higher, making this ring still have some late game value.

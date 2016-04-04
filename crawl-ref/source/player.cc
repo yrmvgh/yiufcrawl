@@ -4278,8 +4278,12 @@ int get_real_mp(bool include_items)
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
     {
-        enp +=  9 * you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
-        enp +=      you.scan_artefacts(ARTP_MAGICAL_POWER);
+        const int num_magic_rings = you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
+        for (int i = 0; i < num_magic_rings; i++)
+        {
+            enp = max(9, enp * 3 / 2);
+        }
+        enp += you.scan_artefacts(ARTP_MAGICAL_POWER);
 
         if (you.wearing(EQ_STAFF, STAFF_POWER))
             enp += 15;
