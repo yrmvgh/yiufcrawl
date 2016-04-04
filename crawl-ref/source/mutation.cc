@@ -211,11 +211,14 @@ void init_mut_index()
         const mutation_type mut = mut_data[i].mutation;
         ASSERT_RANGE(mut, 0, NUM_MUTATIONS);
         ASSERT(mut_index[mut] == -1);
-        mut_index[mut] = i;
-        for (const auto flag : mutflags::range())
+        if (mut >= 0 && mut < NUM_MUTATIONS)
         {
-            if (_mut_has_use(mut_data[i], flag))
-                total_weight[flag] += _mut_weight(mut_data[i], flag);
+            mut_index[mut] = i;
+            for (const auto flag : mutflags::range())
+            {
+                if (_mut_has_use(mut_data[i], flag))
+                    total_weight[flag] += _mut_weight(mut_data[i], flag);
+            }
         }
     }
 }
