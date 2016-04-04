@@ -20,6 +20,43 @@ Note: you will not be able to eat in the middle of a battle any more, so prepare
 again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
 target satiation level high enough and having sufficient rest time between battles. 
 
+## Remove some stairs on orb run
+
+For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
+still providing more than one way up.
+
+## Each rune picked up makes the game harder
+
+Each rune has a specific curse associated with it which makes the game more challenging. Ascending with the orb with 8 runes is dramatically more difficult than
+ascending with 3, because of the additional 5 game altering curses. A 15 rune ascension would be nearly impossible on hard mode. Should be like a once a year
+event that someone actually pulls off a 15 rune ascension under this change in hard mode. Even in easy mode, a 15 rune ascension should be impossible except for
+the most elite of players. 
+
+This increase of difficulty is necessary to compensate for some of these other changes which make the game easier, especially the removal of level caps.
+
+### Rune curse ideas:
+
+* serpentine: stairs randomly teleport nearer monsters ~every 50 turns
+* decaying: player rots at a steady rate. 
+* barnacled: player movement is slowed down by 0.2
+* gossamer: traps more common and more deadly
+* abyssal: monster spawning increased to be like abyss
+* silver: ascending stairs sometimes moves player to a cluster of monsters on same floor instead
+* slimy: player randomly mutates, good or bad 50/50
+* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer. 
+* glowing: contamination doesn't auto decay. Can be cured by drinking any potion. 
+* fiery: monster damage increased by 25%
+* magical: power of monster spells increased
+* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn. 
+* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters. 
+* iron: walls are all indestructable, but paths to stairs are always guaranteed. 
+* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player. 
+* obsidian: walls and trees adjacent to the player occasionally come to life and attack the player, but don't move. When the player moves away from a living
+* wall, it eventually fades back into a normal wall. 
+* bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
+
+# Version 1.3
+
 ## Add stamina
 
 Stamina would be a new quantity like Health and Magic. Stamina of
@@ -58,7 +95,7 @@ based on how many corpses there are when the mummy is resting). If there are no 
 regeneration, items of regeneration, etc. Regeneration *always* has a price, even for a mummy. This makes a mummy very powerful when in a battle with many
 enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
 
-# Version 1.3
+# Version 1.4
 
 ## Expansion of identification mini game
 
@@ -242,49 +279,12 @@ these are very rare, so they won't tend to clutter up your inventory.
     turns. Inverted version reverses the balancing effect. If balance would normally take 70% HP to 60% HP, 
     then it goes the other way instead (to 80% HP). Inverted example: HP%/MP%/SP% 20/20/60 -> 7/7/87.
 
-# Version 1.4
-
 ## Improved acquirement
 
 After reading a scroll of acquirement, a list of 4 random items is presented, with a good chance that each will be valuable and useful (but not guaranteed) and
 the player chooses 1. Some of the items could be multiples, e.g. 4 cure mutation potions, 6 remove curse scrolls, a pile of 800 gold. Amplified version of this
 will provide a list of 12 items instead of 4. Player still only chooses 1. Inverted form of this presents one random item to the player, which they get 4 of.
 Amplified inverted form gives 12 copies of 1 random item. Xom loves this particular usage of inversion scrolls...
-
-## Remove some stairs on orb run
-
-For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
-still providing more than one way up.
-
-## Each rune picked up makes the game harder
-
-Each rune has a specific curse associated with it which makes the game more challenging. Ascending with the orb with 8 runes is dramatically more difficult than
-ascending with 3, because of the additional 5 game altering curses. A 15 rune ascension would be nearly impossible on hard mode. Should be like a once a year
-event that someone actually pulls off a 15 rune ascension under this change in hard mode. Even in easy mode, a 15 rune ascension should be impossible except for
-the most elite of players. 
-
-This increase of difficulty is necessary to compensate for some of these other changes which make the game easier, especially the removal of level caps.
-
-### Rune curse ideas:
-
-* serpentine: stairs randomly teleport nearer monsters ~every 50 turns
-* decaying: player rots at a steady rate. 
-* barnacled: player movement is slowed down by 0.2
-* gossamer: traps more common and more deadly
-* abyssal: monster spawning increased to be like abyss
-* silver: ascending stairs sometimes moves player to a cluster of monsters on same floor instead
-* slimy: player randomly mutates, good or bad 50/50
-* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer. 
-* glowing: contamination doesn't auto decay. Can be cured by drinking any potion. 
-* fiery: monster damage increased by 25%
-* magical: power of monster spells increased
-* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn. 
-* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters. 
-* iron: walls are all indestructable, but paths to stairs are always guaranteed. 
-* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player. 
-* obsidian: walls and trees adjacent to the player occasionally come to life and attack the player, but don't move. When the player moves away from a living
-* wall, it eventually fades back into a normal wall. 
-* bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
 
 # Version 1.5
 
