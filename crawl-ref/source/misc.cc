@@ -388,6 +388,8 @@ void bring_to_safety()
     if (player_in_branch(BRANCH_ABYSS))
         return abyss_teleport();
 
+
+
     coord_def best_pos, pos;
     double min_threat = DBL_MAX;
     int tries = 0;
