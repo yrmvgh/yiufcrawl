@@ -4275,6 +4275,14 @@ int get_real_mp(bool include_items)
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
+
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    	enp += 12;
+    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+        enp += 8;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp += 4;
+
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
     {
@@ -4293,14 +4301,6 @@ int get_real_mp(bool include_items)
         enp /= 3;
 
     enp = max(enp, 4);
-
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp += 12;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        enp += 8;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-        enp += 4;
-
     return enp;
 }
 
