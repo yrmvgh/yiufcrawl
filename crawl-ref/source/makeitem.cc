@@ -1411,11 +1411,14 @@ static void _generate_potion_item(item_def& item, int force_type,
 {
     item.quantity = 1;
 
-    if (one_chance_in(18))
-        item.quantity++;
+    if (force_type != POT_EXPERIENCE)
+    {
+        if (one_chance_in(18))
+            item.quantity++;
 
-    if (one_chance_in(25))
-        item.quantity++;
+        if (one_chance_in(25))
+            item.quantity++;
+    }
 
     if (force_type != OBJ_RANDOM)
         item.sub_type = force_type;
@@ -1443,7 +1446,7 @@ static void _generate_potion_item(item_def& item, int force_type,
                                             34, POT_AMBROSIA,
                                             34, POT_CURE_MUTATION,
                                             11, POT_BENEFICIAL_MUTATION,
-                                             2, POT_EXPERIENCE,
+                Options.old_experience ? 2 : 0, POT_EXPERIENCE,
                                              0);
         }
         while (agent == GOD_XOM

@@ -98,8 +98,10 @@ static void _place_chance_vaults();
 static void _place_minivaults();
 static int _place_uniques();
 static void _place_traps();
+static void _place_experience_potions();
 static void _prepare_water();
 static void _check_doors();
+static void _randomly_place_item(int item);
 
 static void _add_plant_clumps(int frequency = 10, int clump_density = 12,
                               int clump_radius = 4);
@@ -2257,6 +2259,8 @@ static void _build_dungeon_level(dungeon_feature_type dest_stairs_type)
         if (_mimic_at_level())
             _place_feature_mimics(dest_stairs_type);
 
+        if (!Options.old_experience)
+            _place_experience_potions();
         _place_traps();
 
         // Any vault-placement activity must happen before this check.
@@ -3035,6 +3039,19 @@ static bool _builder_normal()
 static bool _shaft_known(int depth)
 {
     return coinflip() && x_chance_in_y(3, depth);
+}
+
+static void _place_experience_potions()
+{
+    const int num_potions = 1;
+
+    dprf("attempting to place %d experience potions", num_potions);
+
+    for (int i = 0; i < num_potions; i++)
+    {
+        int item = items(true, OBJ_POTIONS, POT_EXPERIENCE, 99);
+        _randomly_place_item(item);
+    }
 }
 
 static void _place_traps()

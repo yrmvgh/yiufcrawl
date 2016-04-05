@@ -660,12 +660,19 @@ public:
             mpr("You feel more experienced!");
             // Defer calling level_change() until later in drink() to prevent
             // SIGHUP abuse.
-            adjust_level(1, true);
+
+            if (Options.old_experience)
+                adjust_level(1, true);
+            else
+                gain_floor_exp();
         }
         else
             mpr("A flood of memories washes over you.");
+        
         // these are included in default force_more_message
-        skill_menu(SKMF_EXPERIENCE, 750 * you.experience_level);
+        if (Options.old_experience)
+            skill_menu(SKMF_EXPERIENCE, 750 * you.experience_level);
+            
         return true;
     }
 };

@@ -81,6 +81,7 @@
 #include "travel.h"
 #include "view.h"
 #include "xom.h"
+#include "place.h"
 
 const int DJ_MP_RATE = 1;
 
@@ -2672,6 +2673,13 @@ static void _reduce_abyss_xp_timer(int exp)
     dprf("reducing xp timer from %d to %d (factor = %d)",
          reqd_xp, new_req, xp_factor);
     you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
+}
+
+void gain_floor_exp()
+{
+    const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+    const int exp = stepup2(how_deep + 1, 3, 3, 10) + 1;
+    gain_exp(exp);
 }
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)

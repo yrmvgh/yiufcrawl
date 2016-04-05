@@ -1070,7 +1070,7 @@ static int _xom_do_potion(bool debug = false)
                             POT_MIGHT, POT_AGILITY, POT_BRILLIANCE,
                             POT_INVISIBILITY, POT_BERSERK_RAGE, POT_EXPERIENCE);
 
-        if (pot == POT_EXPERIENCE && !one_chance_in(6))
+        if (pot == POT_EXPERIENCE && (!one_chance_in(6) || !Options.old_experience))
             pot = POT_BERSERK_RAGE;
     }
     while (!get_potion_effect(pot)->can_quaff());
