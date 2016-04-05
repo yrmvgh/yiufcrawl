@@ -17,8 +17,8 @@ This fork is in sync with the original DCSS repo as of Apr 2016. I intend to kee
 Check out the FUTURE.md file in the same directory as the README.md for details about what features I'm considering on implementing.
 
 There are two known servers running this fork at this time: 
-- https://crawl.project357.org/
-- http://crawl.homedns.org/
+- http://crawl.homedns.org/      (always has the latest code)
+- https://crawl.project357.org/  (probably more stable)
 
 Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
 with my goals here, or with concerns you have about my future plans. 
@@ -71,6 +71,9 @@ with my goals here, or with concerns you have about my future plans.
     * Pillar dancing no longer will work because most monsters will easily be able to catch up.
     * Players can still escape from monsters like before, with speed boosts (haste, species speed, swiftness, etc) making it easier.
     * Extended kiting is impractical even for the fastest species with haste. Try it and you'll see what I mean. 
+    * The 2.0 aut penalty mentioned is actually the greater of 2.0 or the normal speed of the player, so if you are playing Naga of Chei, your normal speed
+      might exceed 2.0, in which case your change-movement penalty is your normal speed. In effect, that means there is no penalty for creatures that are 
+      already slower than 2.0, since they can't kite anyway. 
     
 * Curse enhancement
     * Curses now have a curse level. 
@@ -151,7 +154,6 @@ with my goals here, or with concerns you have about my future plans.
 
 * Traps
     * Shafting doesn't happen in the first 2 floors of dungeon
-    * Shafting has a max depth of 1 for easy, 3 for normal, and 5 for hard.
 
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
@@ -290,7 +292,7 @@ with my goals here, or with concerns you have about my future plans.
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
-    * each time a wand is recharged, it's max charges is cut in half.
+    * each time a wand is recharged, it's max charge capacity is cut in half.
 
 * Potions of magic
     * easy mode: gives 100% magic
@@ -312,3 +314,5 @@ with my goals here, or with concerns you have about my future plans.
     * only half of corpses dropped change to gold, opening up gozag to many more species. There is a higher amount of gold dropped per corpse to make the total
       gold benefit the same as before. 
 
+* Minor item tweaks
+    * ring of magical power now gives you 50% more mp, or 9 mp (like before), whichever is higher, making this ring still have some late game value.

@@ -36,8 +36,6 @@
 
 static iflags_t _full_ident_mask(const item_def& item);
 
-void curse_slot(int slot_to_curse, int power);
-
 // XXX: Name strings in most of the following are currently unused!
 struct armour_def
 {
