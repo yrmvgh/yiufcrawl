@@ -83,6 +83,7 @@
 #include "viewchar.h"
 #include "view.h"
 #include "xom.h"
+#include "dgn-overview.h"
 
 static void _autoinscribe_item(item_def& item);
 static void _autoinscribe_floor_items();
@@ -427,6 +428,9 @@ bool dec_mitm_item_quantity(int obj, int amount)
     item_def &item = mitm[obj];
     if (amount > item.quantity)
         amount = item.quantity; // can't use min due to type mismatch
+
+    if (item.base_type == OBJ_POTIONS && item.sub_type == POT_EXPERIENCE)
+        add_experience_potion_annotation(level_id::current(), -1);
 
     if (item.quantity == amount)
     {
@@ -2211,6 +2215,9 @@ bool move_item_to_grid(int *const obj, const coord_def& p, bool silent)
         god_id_item(item);
         maybe_identify_base_type(item);
     }
+
+    if (item.base_type == OBJ_POTIONS && item.sub_type == POT_EXPERIENCE)
+        add_experience_potion_annotation(level_id::current(), 1);
 
     return true;
 }

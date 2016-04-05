@@ -92,6 +92,7 @@ extern map<level_pos, string> portal_notes;
 extern map<level_id, string> level_annotations;
 extern map<level_id, string> level_exclusions;
 extern map<level_id, string> level_uniques;
+extern map<level_id, int> level_experience;
 extern set<pair<string, level_id> > auto_unique_annotations;
 
 // defined in abyss.cc
@@ -1763,22 +1764,15 @@ static void tag_construct_you_dungeon(writer &th)
     // Root of the dungeon; usually BRANCH_DUNGEON.
     marshallInt(th, root_branch);
 
-    marshallMap(th, stair_level,
-                _marshall_as_int<branch_type>, _marshall_level_id_set);
-    marshallMap(th, shops_present,
-                _marshall_level_pos, _marshall_as_int<shop_type>);
-    marshallMap(th, altars_present,
-                _marshall_level_pos, _marshall_as_int<god_type>);
-    marshallMap(th, portals_present,
-                _marshall_level_pos, _marshall_as_int<branch_type>);
-    marshallMap(th, portal_notes,
-                _marshall_level_pos, marshallString);
-    marshallMap(th, level_annotations,
-                marshall_level_id, marshallString);
-    marshallMap(th, level_exclusions,
-                marshall_level_id, marshallString);
-    marshallMap(th, level_uniques,
-            marshall_level_id, marshallString);
+    marshallMap(th, stair_level, _marshall_as_int<branch_type>, _marshall_level_id_set);
+    marshallMap(th, shops_present, _marshall_level_pos, _marshall_as_int<shop_type>);
+    marshallMap(th, altars_present, _marshall_level_pos, _marshall_as_int<god_type>);
+    marshallMap(th, portals_present, _marshall_level_pos, _marshall_as_int<branch_type>);
+    marshallMap(th, portal_notes, _marshall_level_pos, marshallString);
+    marshallMap(th, level_annotations, marshall_level_id, marshallString);
+    marshallMap(th, level_exclusions, marshall_level_id, marshallString);
+    marshallMap(th, level_uniques, marshall_level_id, marshallString);
+    marshallMap(th, level_experience, marshall_level_id, _marshall_as_int<int>);
     marshallUniqueAnnotations(th);
 
     marshallPlaceInfo(th, you.global_info);
@@ -3859,20 +3853,14 @@ static void tag_read_you_dungeon(reader &th)
     unmarshallMap(th, stair_level,
                   unmarshall_int_as<branch_type>,
                   _unmarshall_level_id_set);
-    unmarshallMap(th, shops_present,
-                  _unmarshall_level_pos, unmarshall_int_as<shop_type>);
-    unmarshallMap(th, altars_present,
-                  _unmarshall_level_pos, unmarshall_int_as<god_type>);
-    unmarshallMap(th, portals_present,
-                  _unmarshall_level_pos, unmarshall_int_as<branch_type>);
-    unmarshallMap(th, portal_notes,
-                  _unmarshall_level_pos, unmarshallString);
-    unmarshallMap(th, level_annotations,
-                  unmarshall_level_id, unmarshallString);
-    unmarshallMap(th, level_exclusions,
-                  unmarshall_level_id, unmarshallString);
-    unmarshallMap(th, level_uniques,
-                  unmarshall_level_id, unmarshallString);
+    unmarshallMap(th, shops_present, _unmarshall_level_pos, unmarshall_int_as<shop_type>);
+    unmarshallMap(th, altars_present, _unmarshall_level_pos, unmarshall_int_as<god_type>);
+    unmarshallMap(th, portals_present, _unmarshall_level_pos, unmarshall_int_as<branch_type>);
+    unmarshallMap(th, portal_notes, _unmarshall_level_pos, unmarshallString);
+    unmarshallMap(th, level_annotations, unmarshall_level_id, unmarshallString);
+    unmarshallMap(th, level_exclusions, unmarshall_level_id, unmarshallString);
+    unmarshallMap(th, level_uniques, unmarshall_level_id, unmarshallString);
+    unmarshallMap(th, level_experience, unmarshall_level_id, unmarshallInt);
     unmarshallUniqueAnnotations(th);
 
     PlaceInfo place_info = unmarshallPlaceInfo(th);
