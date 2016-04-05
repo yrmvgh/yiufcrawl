@@ -2553,7 +2553,7 @@ static void tag_read_you(reader &th)
     for (int j = 0; j < count; ++j)
     {
         you.skills[j]          = unmarshallUByte(th);
-        ASSERT(you.skills[j] <= 27 || you.wizard);
+        ASSERT(you.skills[j] <= MAX_SKILL_LEVEL || you.wizard);
 
         you.train[j]    = unmarshallByte(th);
         you.train_alt[j]    = unmarshallByte(th);

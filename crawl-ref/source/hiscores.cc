@@ -1633,7 +1633,7 @@ void scorefile_entry::init(time_t dt)
     // Note all skills at level 27, and also all skills at level >= 15.
     for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
     {
-        if (you.skills[sk] == 27)
+        if (you.skills[sk] == MAX_SKILL_LEVEL)
         {
             if (!maxed_skills.empty())
                 maxed_skills += ",";
@@ -1719,7 +1719,7 @@ void scorefile_entry::init(time_t dt)
     scrolls_used = 0;
     pair<caction_type, int> p(CACT_USE, OBJ_SCROLLS);
 
-    const int maxlev = min<int>(you.max_level, 27);
+    const int maxlev = min<int>(you.max_level, MAX_SKILL_LEVEL);
     if (you.action_count.count(p))
         for (int i = 0; i < maxlev; i++)
             scrolls_used += you.action_count[p][i];

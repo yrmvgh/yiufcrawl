@@ -1135,7 +1135,7 @@ static void _sdump_action_counts(dump_params &par)
 {
     if (you.action_count.empty())
         return;
-    int max_lt = (min<int>(you.max_level, 27) - 1) / 3;
+    int max_lt = (min<int>(you.max_level, MAX_EXP_LEVEL) - 1) / 3;
 
     // Don't show both a total and 1..3 when there's only one tier.
     if (max_lt)

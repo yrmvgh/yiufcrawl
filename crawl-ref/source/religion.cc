@@ -2731,8 +2731,8 @@ void excommunication(bool voluntary, god_type new_god)
         if (you.transfer_skill_points > 0)
             ashenzari_end_transfer(false, true);
         you.duration[DUR_SCRYING] = 0;
-        you.exp_docked[old_god] = exp_needed(min<int>(you.max_level, 27) + 1)
-                                  - exp_needed(min<int>(you.max_level, 27));
+        you.exp_docked[old_god] = exp_needed(min<int>(you.max_level, MAX_EXP_LEVEL) + 1)
+                                  - exp_needed(min<int>(you.max_level, MAX_EXP_LEVEL));
         you.exp_docked_total[old_god] = you.exp_docked[old_god];
         _set_penance(old_god, 50);
         break;
@@ -2756,8 +2756,8 @@ void excommunication(bool voluntary, god_type new_god)
         add_daction(DACT_BRIBE_TIMEOUT);
         add_daction(DACT_REMOVE_GOZAG_SHOPS);
         shopping_list.remove_dead_shops();
-        you.exp_docked[old_god] = exp_needed(min<int>(you.max_level, 27) + 1)
-                                  - exp_needed(min<int>(you.max_level, 27));
+        you.exp_docked[old_god] = exp_needed(min<int>(you.max_level, MAX_EXP_LEVEL) + 1)
+                                  - exp_needed(min<int>(you.max_level, MAX_EXP_LEVEL));
         you.exp_docked_total[old_god] = you.exp_docked[old_god];
         _set_penance(old_god, 50);
         break;

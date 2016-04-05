@@ -312,7 +312,7 @@ static void _OLGREB_melee_effects(item_def* weapon, actor* attacker,
 
 static void _power_pluses(item_def *item)
 {
-    item->plus  = min(you.hp / 10, 27);
+    item->plus  = min(you.hp / 10, MAX_ITEM_PLUS);
 }
 
 static void _POWER_equip(item_def *item, bool *show_msgs, bool unmeld)

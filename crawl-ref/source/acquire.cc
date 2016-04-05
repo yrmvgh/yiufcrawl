@@ -229,10 +229,10 @@ static int _body_acquirement_weight(armour_type armour,
 
     // highest chance when armour skill = (displayed) evp - 3
     const int evp = armour_prop(armour, PARM_EVASION);
-    const int skill = min(27, you.skills[SK_ARMOUR] + 3);
+    const int skill = min(MAX_SKILL_LEVEL, you.skills[SK_ARMOUR] + 3);
     const int sk_diff = skill + evp / 10;
-    const int inv_diff = max(1, 27 - sk_diff);
-    // armour closest to ideal evp is 27^3 times as likely as the furthest away
+    const int inv_diff = max(1, MAX_SKILL_LEVEL - sk_diff);
+    // armour closest to ideal evp is MAX_SKILL_LEVEL^3 times as likely as the furthest away
     return base_weight * inv_diff * inv_diff * inv_diff;
 }
 
@@ -1006,7 +1006,7 @@ static bool _acquire_manual(item_def &book)
     {
         int skl = you.skills[sk];
 
-        if (skl == 27 || is_useless_skill(sk))
+        if (skl == MAX_SKILL_LEVEL || is_useless_skill(sk))
             continue;
 
         int w = (skl < 12) ? skl + 3 : max(0, 25 - skl);

@@ -5238,7 +5238,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         level_id place = (spell_cast == SPELL_SHADOW_CREATURES)
                          ? level_id::current()
                          : level_id(BRANCH_DUNGEON,
-                                    min(27, max(1, mons->spell_hd(spell_cast))));
+                                    min(MAX_BRANCH_DEPTH, max(1, mons->spell_hd(spell_cast))));
 
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 

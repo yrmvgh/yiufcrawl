@@ -2957,7 +2957,7 @@ void level_change(bool skip_attribute_increase)
             // Don't want to see the dead creature at the prompt.
             redraw_screen();
 
-            if (new_exp == 27)
+            if (new_exp == MAX_EXP_LEVEL)
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level 27, the final one!");
             else if (new_exp == you.get_max_xl())
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level %d, the highest you will ever reach!",
@@ -5974,10 +5974,10 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
         for (skill_type cross : get_crosstrain_skills(sk))
             effective_points += skill_points[cross] * 2 / 5;
     }
-    effective_points = min(effective_points, skill_exp_needed(27, sk));
+    effective_points = min(effective_points, skill_exp_needed(MAX_SKILL_LEVEL, sk));
     while (1)
     {
-        if (actual_skill < 27
+        if (actual_skill < MAX_SKILL_LEVEL
             && effective_points >= skill_exp_needed(actual_skill + 1, sk))
         {
             ++actual_skill;
@@ -6015,10 +6015,10 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
     if ((sk == SK_LONG_BLADES || sk == SK_SHORT_BLADES)
         && player_equip_unrand(UNRAND_FENCERS))
     {
-        level = min(level + 4 * scale, 27 * scale);
+        level = min(level + 4 * scale, MAX_SKILL_LEVEL * scale);
     }
     if (duration[DUR_HEROISM] && sk <= SK_LAST_MUNDANE)
-        level = min(level + 5 * scale, 27 * scale);
+        level = min(level + 5 * scale, MAX_SKILL_LEVEL * scale);
     return level;
 }
 

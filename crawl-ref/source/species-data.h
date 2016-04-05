@@ -427,8 +427,7 @@ static const map<species_type, species_def> species_data =
     {
         { MUT_FAST, 1, 1 },
         { MUT_ANTENNAE, 3, 1 },
-    // todo: later
-//        { MUT_POISON_VULNERABILITY, 1, 1 },
+        { MUT_POISON_VULNERABILITY, 1, 1 },
     },
     { "You are under a permanent stasis effect.",
       "You can dig through walls and to a lower floor.",

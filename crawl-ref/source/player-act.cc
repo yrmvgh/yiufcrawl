@@ -160,7 +160,11 @@ int player::get_experience_level() const
 
 int player::get_max_xl() const
 {
-    return 27 - player_mutation_level(MUT_INEXPERIENCED) * RU_SAC_XP_LEVELS;
+    const int inexperienced = player_mutation_level(MUT_INEXPERIENCED);
+    int max_xl = 27 - inexperienced * RU_SAC_XP_LEVELS;
+    if (!inexperienced)
+        max_xl = MAX_EXP_LEVEL;
+    return max_xl;
 }
 
 bool player::can_pass_through_feat(dungeon_feature_type grid) const

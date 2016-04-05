@@ -115,7 +115,7 @@ static bool _yred_random_zombified_hostile()
     {
         // XXX: better zombie selection?
         level_id place(BRANCH_DUNGEON,
-                       min(27, you.experience_level + 5));
+                       min(MAX_BRANCH_DEPTH, you.experience_level + 5));
         z_base = pick_local_zombifiable_monster(place, RANDOM_MONSTER,
                                                 you.pos());
     }
@@ -1596,7 +1596,7 @@ static bool _dithmenos_retribution()
                         4, MON_SUMM_WRATH, you.pos(), MHITYOU, MG_NONE, god,
                         MONS_NO_MONSTER, COLOUR_UNDEF, PROX_ANYWHERE,
                         level_id(BRANCH_DUNGEON,
-                                 min(27, you.experience_level + 5)),
+                                 min(MAX_BRANCH_DEPTH, you.experience_level + 5)),
                         0, 0, MF_NO_FLAGS, "", _god_wrath_name(god))))
             {
                 count++;

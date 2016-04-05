@@ -2149,7 +2149,7 @@ _schedule_ds_mutations(vector<mutation_type> muts)
 
     vector<player::demon_trait> out;
 
-    for (int level = 2; level <= 27; ++level)
+    for (int level = 2; level <= MAX_EXP_LEVEL; ++level)
         slots_left.push_back(level);
 
     while (!muts_left.empty())

@@ -903,12 +903,12 @@ int ash_skill_boost(skill_type sk, int scale)
                     * max(you.skill(sk, 10, true), 1) * species_apt_factor(sk);
 
     int level = you.skills[sk];
-    while (level < 27 && skill_points >= skill_exp_needed(level + 1, sk))
+    while (level < MAX_SKILL_LEVEL && skill_points >= skill_exp_needed(level + 1, sk))
         ++level;
 
     level = level * scale + get_skill_progress(sk, level, skill_points, scale);
 
-    return min(level, 27 * scale);
+    return min(level, MAX_SKILL_LEVEL * scale);
 }
 
 int gozag_gold_in_los(actor *whom)
@@ -1209,7 +1209,7 @@ monster* shadow_monster(bool equip)
     mon->flags      = MF_NO_REWARD | MF_JUST_SUMMONED | MF_SEEN
                     | MF_WAS_IN_VIEW | MF_HARD_RESET;
     mon->hit_points = you.hp;
-    mon->set_hit_dice(min(27, max(1,
+    mon->set_hit_dice(min(MAX_MONS_LEVEL, max(1,
                                   you.skill_rdiv(wpn_index != NON_ITEM
                                                  ? item_attack_skill(mitm[wpn_index])
                                                  : SK_UNARMED_COMBAT, 10, 20)

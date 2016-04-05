@@ -1055,7 +1055,7 @@ static bool _box_of_beasts(item_def &box)
     }
 
     // two rolls to reduce std deviation - +-6 so can get < max even at 27 sk
-    const int hd_min = min(27,
+    const int hd_min = min(MAX_SKILL_LEVEL,
                            player_adjust_evoc_power(
                                you.skill(SK_EVOCATIONS)
                                + random2(7) - random2(7)));
@@ -1132,7 +1132,7 @@ static bool _sack_of_spiders(item_def &sack)
     {
         // Invoke mon-pick with our custom list
         monster_type mon = pick_monster_from(pop_spiders,
-                                             max(1, min(27,
+                                             max(1, min(MAX_SKILL_LEVEL,
                                              player_adjust_evoc_power(
                                                  you.skill(SK_EVOCATIONS)))),
                                              _sack_of_spiders_veto_mon);
@@ -1165,7 +1165,7 @@ static bool _sack_of_spiders(item_def &sack)
             }
 
             int chance = 100 - (100 * (you.pos().distance_from((*mi)->pos()) - 1) / rad)
-                - player_adjust_evoc_power(2 * (27 - you.skill(SK_EVOCATIONS)));
+                - player_adjust_evoc_power(2 * max(0, 27 - you.skill(SK_EVOCATIONS)));
             if (x_chance_in_y(chance, 100))
             {
                 if (trap && trap->type == TRAP_WEB)

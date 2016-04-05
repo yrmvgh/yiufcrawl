@@ -1866,7 +1866,7 @@ static void _trackback(vector<level_id> &vec, branch_type branch, int subdepth)
 {
     if (subdepth < 1)
         return;
-    ASSERT(subdepth <= 27);
+    ASSERT(subdepth <= MAX_BRANCH_DEPTH);
 
     vec.emplace_back(branch, subdepth);
 

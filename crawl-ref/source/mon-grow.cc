@@ -70,7 +70,7 @@ static const monster_level_up mon_grow[] =
 mons_experience_levels::mons_experience_levels()
 {
     int experience = monster_xp_base;
-    for (int i = 1; i <= MAX_MONS_HD; ++i)
+    for (int i = 1; i <= MAX_MONS_LEVEL; ++i)
     {
         mexp[i] = experience;
 
@@ -159,7 +159,7 @@ bool monster::level_up_change()
 
 bool monster::level_up()
 {
-    if (get_experience_level() >= MAX_MONS_HD)
+    if (get_experience_level() >= MAX_MONS_LEVEL)
         return false;
 
     set_hit_dice(get_experience_level() + 1);
@@ -193,7 +193,7 @@ void monster::init_experience()
     if (experience || !alive())
         return;
     set_hit_dice(max(get_experience_level(), 1));
-    experience = mexplevs[min(get_experience_level(), MAX_MONS_HD)];
+    experience = mexplevs[min(get_experience_level(), MAX_MONS_LEVEL)];
 }
 
 bool monster::gain_exp(int exp, int max_levels_to_gain)
@@ -202,7 +202,7 @@ bool monster::gain_exp(int exp, int max_levels_to_gain)
         return false;
 
     init_experience();
-    if (get_experience_level() >= MAX_MONS_HD)
+    if (get_experience_level() >= MAX_MONS_LEVEL)
         return false;
 
     // Only natural monsters can level-up.
@@ -222,7 +222,7 @@ bool monster::gain_exp(int exp, int max_levels_to_gain)
     const monster mcopy(*this);
     int levels_gained = 0;
     // Monsters can normally gain a maximum of two levels from one kill.
-    while (get_experience_level() < MAX_MONS_HD
+    while (get_experience_level() < MAX_MONS_LEVEL
            && experience >= mexplevs[get_experience_level() + 1]
            && level_up()
            && ++levels_gained < max_levels_to_gain);
@@ -235,7 +235,7 @@ bool monster::gain_exp(int exp, int max_levels_to_gain)
             simple_monster_message(&mcopy, " looks stronger.");
     }
 
-    if (get_experience_level() < MAX_MONS_HD
+    if (get_experience_level() < MAX_MONS_LEVEL
         && experience >= mexplevs[get_experience_level() + 1])
     {
         experience = (mexplevs[get_experience_level()]

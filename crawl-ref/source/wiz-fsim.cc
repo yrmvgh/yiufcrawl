@@ -536,7 +536,7 @@ static void _fsim_simple_scale(FILE * o, monster* mon, bool defense)
     mpr(title);
 
     const int iter_limit = Options.fsim_rounds;
-    for (int i = xl_mode ? 1 : 0; i <= 27; i++)
+    for (int i = xl_mode ? 1 : 0; i <= MAX_MONS_LEVEL; i++)
     {
         clear_messages();
 

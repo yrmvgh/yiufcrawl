@@ -493,7 +493,7 @@ void wizard_set_skill_level(skill_type skill)
     mpr(skill_name(skill));
     double amount = prompt_for_float("To what level? ");
 
-    if (amount < 0 || amount > 27)
+    if (amount < 0 || amount > MAX_EXP_LEVEL)
     {
         canned_msg(MSG_OK);
         return;
@@ -503,7 +503,7 @@ void wizard_set_skill_level(skill_type skill)
 
     set_skill_level(skill, amount);
 
-    if (amount == 27)
+    if (amount == MAX_EXP_LEVEL)
     {
         you.train[skill] = 0;
         you.train_alt[skill] = 0;
@@ -529,8 +529,8 @@ void wizard_set_all_skills()
         canned_msg(MSG_OK);
     else
     {
-        if (amount > 27)
-            amount = 27;
+        if (amount > MAX_SKILL_LEVEL)
+            amount = MAX_SKILL_LEVEL;
 
         for (skill_type sk = SK_FIRST_SKILL; sk < NUM_SKILLS; ++sk)
         {
@@ -539,7 +539,7 @@ void wizard_set_all_skills()
 
             set_skill_level(sk, amount);
 
-            if (amount == 27)
+            if (amount == MAX_SKILL_LEVEL)
             {
                 you.train[sk] = 0;
                 you.training[sk] = 0;
