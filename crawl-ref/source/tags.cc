@@ -1599,7 +1599,7 @@ static void tag_construct_you(writer &th)
     {
         marshallShort(th, ac.first.first);
         marshallInt(th, ac.first.second);
-        for (int k = 0; k < 27; k++)
+        for (int k = 0; k < MAX_EXP_LEVEL; k++)
             marshallInt(th, ac.second[k]);
     }
 
@@ -2241,7 +2241,7 @@ static void tag_read_you(reader &th)
 
     ASSERT_RANGE(you.species, 0, NUM_SPECIES);
     ASSERT_RANGE(you.char_class, 0, NUM_JOBS);
-    ASSERT_RANGE(you.experience_level, 1, 28);
+    ASSERT_RANGE(you.experience_level, 1, MAX_EXP_LEVEL + 1);
     ASSERT(you.religion < NUM_GODS);
     ASSERT_RANGE(crawl_state.type, GAME_TYPE_UNSPECIFIED + 1, NUM_GAME_TYPE);
     you.last_mid          = unmarshallInt(th);
@@ -2981,7 +2981,7 @@ static void tag_read_you(reader &th)
     {
         player::demon_trait dt;
         dt.level_gained = unmarshallByte(th);
-        ASSERT_RANGE(dt.level_gained, 1, 28);
+        ASSERT_RANGE(dt.level_gained, 1, MAX_EXP_LEVEL + 1);
         dt.mutation = static_cast<mutation_type>(unmarshallShort(th));
 #if TAG_MAJOR_VERSION == 34
         if (dt.mutation == MUT_CONSERVE_POTIONS)
@@ -3326,7 +3326,7 @@ static void tag_read_you(reader &th)
             subtype = subtype | (OBJ_MISSILES << 16);
         }
 #endif
-        for (int j = 0; j < 27; j++)
+        for (int j = 0; j < MAX_EXP_LEVEL; j++)
             you.action_count[make_pair(caction, subtype)][j] = unmarshallInt(th);
     }
 

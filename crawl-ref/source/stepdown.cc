@@ -19,16 +19,28 @@ double log2(double n)
 }
 #endif
 
-double _stepup(double multiplier, double power, double value, double divisor);
+double _stepup2(double value, double divisor, double exponent, double multiplier);
 
-double _stepup(double multiplier, double power, double value, double divisor)
+double _stepup2(double value, double divisor, double exponent, double multiplier)
 {
-    return multiplier * pow(power, value / divisor);
+    return multiplier * pow(value / divisor, exponent);
 }
 
-int stepup(int value, int multiplier, int power, int divisor)
+double _stepup(double multiplier, double base, double value, double divisor);
+
+double _stepup(double multiplier, double base, double value, double divisor)
 {
-    return _stepup(multiplier, power, value, divisor);
+    return multiplier * pow(base, value / divisor);
+}
+
+int stepup(int value, int multiplier, int base, int divisor)
+{
+    return _stepup(multiplier, base, value, divisor);
+}
+
+int stepup2(double value, int divisor, int exponent, int multiplier)
+{
+    return _stepup2(value, divisor, exponent, multiplier);
 }
 
 double stepdown(double value, double step, double base)

@@ -313,7 +313,7 @@ public:
     mid_t last_mid;
 
     // Count of various types of actions made.
-    map<pair<caction_type, int>, FixedVector<int, 27> > action_count;
+    map<pair<caction_type, int>, FixedVector<int, MAX_EXP_LEVEL> > action_count;
 
     // Which branches have been noted to have been left during this game.
     FixedBitVector<NUM_BRANCHES> branches_left;

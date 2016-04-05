@@ -3723,7 +3723,10 @@ bool player::stasis(bool calc_unid, bool items) const
 
 unsigned int exp_needed(int lev, int exp_apt)
 {
-    unsigned int level = 0;
+    if (lev <= 1)
+        return 0;
+
+//    unsigned int level = 0;
 
     // Note: For historical reasons, all of the following numbers are for a
     // species (like human) with XP aptitude 1, not 0 as one might expect.
@@ -3765,34 +3768,34 @@ unsigned int exp_needed(int lev, int exp_apt)
     //  26      930525    120330   8470
     //  27     1059325    128800   8470
 
-    switch (lev)
-    {
-    case 1:
-        level = 1;
-        break;
-    case 2:
-        level = 10;
-        break;
-    case 3:
-        level = 30;
-        break;
-    case 4:
-        level = 70;
-        break;
-
-    default:
-        if (lev < 13)
-        {
-            lev -= 4;
-            level = 10 + 10 * lev + (60 << lev);
-        }
-        else
-        {
-            lev -= 12;
-            level = 16675 + 5985 * lev + 4235 * lev * lev;
-        }
-        break;
-    }
+//    switch (lev)
+//    {
+//    case 1:
+//        level = 1;
+//        break;
+//    case 2:
+//        level = 10;
+//        break;
+//    case 3:
+//        level = 30;
+//        break;
+//    case 4:
+//        level = 70;
+//        break;
+//
+//    default:
+//        if (lev < 13)
+//        {
+//            lev -= 4;
+//            level = 10 + 10 * lev + (60 << lev);
+//        }
+//        else
+//        {
+//            lev -= 12;
+//            level = 16675 + 5985 * lev + 4235 * lev * lev;
+//        }
+//        break;
+//    }
 
     if (exp_apt == -99)
         exp_apt = species_exp_modifier(you.species);
@@ -3803,7 +3806,9 @@ unsigned int exp_needed(int lev, int exp_apt)
     if (crawl_state.difficulty == DIFFICULTY_HARD)
     	exp_apt-=2;
 
-    return (unsigned int) ((level - 1) * apt_to_factor(exp_apt - 1));
+    const float apt_factor = apt_to_factor(exp_apt - 1);
+    const int needed_exp = stepup2(lev, 2, 4) * 5 * apt_factor + 10;
+    return (unsigned int) needed_exp;
 }
 
 // returns bonuses from rings of slaying, etc.

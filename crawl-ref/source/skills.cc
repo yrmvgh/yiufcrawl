@@ -129,6 +129,7 @@ struct species_skill_aptitude
 };
 
 #include "aptitudes.h"
+#include "stepdown.h"
 
 // Traditionally, Spellcasting and In/Evocations formed the exceptions here:
 // Spellcasting skill was more expensive with about 130%, the other two got
@@ -152,27 +153,46 @@ static const int MAX_SKILL_COST_LEVEL = MAX_SKILL_LEVEL;
 // skill_cost_level makes skills more expensive for more experienced characters
 int calc_skill_cost(int skill_cost_level)
 {
-    const int cost[] = { 1, 2, 3, 4, 5,            // 1-5
-                         7, 8, 9, 13, 22,         // 6-10
-                         37, 48, 73, 98, 125,      // 11-15
-                         145, 170, 190, 212, 225,  // 16-20
-                         240, 255, 260, 265, 265,  // 21-25
-                         265, 265 };
-    COMPILE_CHECK(ARRAYSZ(cost) == MAX_SKILL_COST_LEVEL);
+//    const int cost[] = { 1, 2, 3, 4, 5,            // 1-5
+//                         7, 8, 9, 13, 22,         // 6-10
+//                         37, 48, 73, 98, 125,      // 11-15
+//                         145, 170, 190, 212, 225,  // 16-20
+//                         240, 255, 260, 265, 265,  // 21-25
+//                         265, 265 };
+//    COMPILE_CHECK(ARRAYSZ(cost) == MAX_SKILL_COST_LEVEL);
 
     ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
-    return cost[skill_cost_level - 1];
+    const int cost = stepup2(skill_cost_level, 6, 3, 5) + 1;
+    return cost;
+}
+
+unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
+{
+    if (lev <= 0)
+        return 0;
+//    const int exp[28] = { 0, 50, 150, 300, 500, 750,         // 0-5
+//                          1050, 1400, 1800, 2250, 2800,      // 6-10
+//                          3450, 4200, 5050, 6000, 7050,      // 11-15
+//                          8200, 9450, 10800, 12300, 13950,   // 16-20
+//                          15750, 17700, 19800, 22050, 24450, // 21-25
+//                          27000, 29750 };
+
+    ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
+    const int exp_needed = stepup2(lev + 1, 3, 3, 50) + 10;
+    const float apt = species_apt_factor(sk, sp);
+    const int result = exp_needed * apt;
+    return result;
 }
 
 /**
  * The baseline skill cost for the 'cost' interface on the m screen.
  *
- * @returns the XP needed to go from level 0 to level 1 with +0 apt.
+ * @returns the XP needed to go from level 1 to level 2 with +0 apt.
  */
 int skill_cost_baseline()
 {
-    return skill_exp_needed(1, SK_FIGHTING, SP_HUMAN)
-           - skill_exp_needed(0, SK_FIGHTING, SP_HUMAN);
+    return skill_exp_needed(2, SK_SHORT_BLADES, SP_HUMAN)
+           - skill_exp_needed(1, SK_SHORT_BLADES, SP_HUMAN);
 }
 
 /**
@@ -1474,19 +1494,6 @@ float apt_to_factor(int apt)
     return 1 / exp(log(2) * apt / APT_DOUBLE);
 }
 
-unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
-{
-    const int exp[28] = { 0, 50, 150, 300, 500, 750,         // 0-5
-                          1050, 1400, 1800, 2250, 2800,      // 6-10
-                          3450, 4200, 5050, 6000, 7050,      // 11-15
-                          8200, 9450, 10800, 12300, 13950,   // 16-20
-                          15750, 17700, 19800, 22050, 24450, // 21-25
-                          27000, 29750 };
-
-    ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
-    return exp[lev] * species_apt_factor(sk, sp);
-}
-
 int species_apt(skill_type skill, species_type species)
 {
     static bool spec_skills_initialised = false;
@@ -1795,6 +1802,9 @@ void fixup_skills()
         check_skill_level_change(sk);
     }
     init_can_train();
+
+    if (you.skill_cost_level == 0)
+        you.skill_cost_level = 1;
 
     if (you.exp_available >= calc_skill_cost(you.skill_cost_level))
         skill_menu(SKMF_EXPERIENCE);

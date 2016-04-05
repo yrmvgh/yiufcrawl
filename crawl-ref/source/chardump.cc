@@ -997,10 +997,10 @@ static void _sdump_vault_list(dump_params &par)
     }
 }
 
-static bool _sort_by_first(pair<int, FixedVector<int, 28> > a,
-                           pair<int, FixedVector<int, 28> > b)
+static bool _sort_by_first(pair<int, FixedVector<int, MAX_EXP_LEVEL+1> > a,
+                           pair<int, FixedVector<int, MAX_EXP_LEVEL+1> > b)
 {
-    for (int i = 0; i < 27; i++)
+    for (int i = 0; i < MAX_EXP_LEVEL; i++)
     {
         if (a.second[i] > b.second[i])
             return true;
@@ -1152,17 +1152,17 @@ static void _sdump_action_counts(dump_params &par)
 
     for (int cact = 0; cact < NUM_CACTIONS; cact++)
     {
-        vector<pair<int, FixedVector<int, 28> > > action_vec;
+        vector<pair<int, FixedVector<int, MAX_EXP_LEVEL+1> > > action_vec;
         for (const auto &entry : you.action_count)
         {
             if (entry.first.first != cact)
                 continue;
-            FixedVector<int, 28> v;
-            v[27] = 0;
-            for (int i = 0; i < 27; i++)
+            FixedVector<int, MAX_EXP_LEVEL+1> v;
+            v[MAX_EXP_LEVEL] = 0;
+            for (int i = 0; i < MAX_EXP_LEVEL; i++)
             {
                 v[i] = entry.second[i];
-                v[27] += v[i];
+                v[MAX_EXP_LEVEL] += v[i];
             }
             action_vec.emplace_back(entry.first.second, v);
         }
@@ -1188,7 +1188,7 @@ static void _sdump_action_counts(dump_params &par)
                 else
                     par.text += " |      ";
             }
-            par.text += make_stringf(" ||%6d", ac->second[27]);
+            par.text += make_stringf(" ||%6d", ac->second[MAX_EXP_LEVEL]);
             par.text += "\n";
         }
     }

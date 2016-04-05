@@ -123,8 +123,8 @@ const int LABYRINTH_BORDER = 4;
 // This value is used to make test_hit checks always succeed
 #define AUTOMATIC_HIT           1500
 
-const int MAX_EXP_LEVEL = 27;
-const int MAX_SKILL_LEVEL = 27;
+const int MAX_EXP_LEVEL = 99;
+const int MAX_SKILL_LEVEL = 99;
 const int MAX_ITEM_PLUS = 27;
 const int MAX_EXP_TOTAL = 8999999;
 const int MAX_MONS_LEVEL = 27;
