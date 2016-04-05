@@ -496,7 +496,7 @@ static void _setup_generic(const newgame_def& ng)
     if (crawl_state.game_is_sprint())
         _give_bonus_items();
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_EASY && you.species != SP_MUMMY)
         newgame_make_item(OBJ_POTIONS, POT_HEAL_WOUNDS);
 
     if (you.species == SP_FORMICID)
