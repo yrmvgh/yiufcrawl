@@ -2680,7 +2680,9 @@ const int experience_for_this_floor() {
     int exp = stepup2(how_deep + 1, 3, 3, 10) + 1;
     if (you.where_are_you == BRANCH_BAZAAR
         || you.where_are_you == BRANCH_TEMPLE
-        || you.where_are_you == BRANCH_TROVE)
+        || you.where_are_you == BRANCH_TROVE
+        || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
+            )
         exp = 0;
     return exp;
 }
