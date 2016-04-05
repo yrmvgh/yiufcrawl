@@ -948,6 +948,7 @@ void game_options::reset_options()
     regex_search = false;
     old_movement = false;
     danger_mode_threshold = 30;
+    old_experience = false;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
@@ -2886,6 +2887,7 @@ void game_options::read_option_line(const string &str, bool runscript)
     }
     else BOOL_OPTION(regex_search);
     else BOOL_OPTION(old_movement);
+    else BOOL_OPTION(old_experience);
     else INT_OPTION(danger_mode_threshold, 0, 100);
 #if !defined(DGAMELAUNCH) || defined(DGL_REMEMBER_NAME)
     else BOOL_OPTION(remember_name);

@@ -419,7 +419,8 @@ public:
                                    // fraction of HP or MP
 
     bool        regex_search; // whether to default to regex search for ^F
-    bool        old_movement;
+    bool        old_movement;           // original crawl movement, where direction changes aren't penalized
+    bool        old_experience;         // give experience from monster kills like before
     int         danger_mode_threshold; // enter danger mode if player's health is less than this percentage of the last damage done.
 
     lang_t              language;         // Translation to use.

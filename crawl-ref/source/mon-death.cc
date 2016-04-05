@@ -334,7 +334,8 @@ static void _give_player_experience(int experience, killer_type killer,
         return;
 
     unsigned int exp_gain = 0;
-    gain_exp(experience, &exp_gain);
+    if (Options.old_experience)
+        gain_exp(experience, &exp_gain);
 
     kill_category kc =
             (killer == KILL_YOU || killer == KILL_YOU_MISSILE) ? KC_YOU :
@@ -354,7 +355,10 @@ static void _give_player_experience(int experience, killer_type killer,
 
     // Give a message for monsters dying out of sight.
     if (exp_gain > 0 && !was_visible)
-        mpr("You feel a bit more experienced.");
+        if (Options.old_experience)
+            mpr("You feel a bit more experienced.");
+        else
+            mpr("You feel like you have one less thing to worry about.");
 
     if (kc == KC_YOU && have_passive(passive_t::share_exp))
         _beogh_spread_experience(experience / 2);
@@ -365,6 +369,7 @@ static void _give_experience(int player_exp, int monster_exp,
                              bool pet_kill, bool was_visible)
 {
     _give_player_experience(player_exp, killer, pet_kill, was_visible);
+
     _give_monster_experience(monster_exp, killer_index);
 }
 
