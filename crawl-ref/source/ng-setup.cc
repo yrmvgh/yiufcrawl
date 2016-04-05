@@ -499,7 +499,13 @@ static void _setup_generic(const newgame_def& ng)
     if (crawl_state.difficulty == DIFFICULTY_EASY)
         newgame_make_item(OBJ_POTIONS, POT_HEAL_WOUNDS);
 
-    	// Give tutorial skills etc
+    if (you.species == SP_FORMICID)
+    {
+        newgame_make_item(OBJ_POTIONS, POT_CURING);
+        newgame_make_item(OBJ_POTIONS, POT_CURING);
+    }
+
+    // Give tutorial skills etc
     if (crawl_state.game_is_tutorial())
         _setup_tutorial_miscs();
 

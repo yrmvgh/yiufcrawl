@@ -1,3 +1,5 @@
+#include "enum.h"
+
 struct mutation_def
 {
     mutation_type mutation;
@@ -2250,5 +2252,19 @@ static const mutation_def mut_data[] =
   {"Your enchantment absorbing field disappears.", "Your enchantment absorbing field becomes weaker.", "Your enchantment absorbing field becomes weaker."},
 
    "an enchantment absorbing field surrounds you",
+},
+
+{ MUT_POISON_VULNERABILITY, 2, 1, mutflag::BAD, false,
+  "poison vulnerable",
+
+  {"You are vulnerable to poison.",
+   "",
+   ""},
+  {"You become more afraid of poisons.",
+   "",
+   ""},
+  {"You are no longer afraid of poisons.", "", ""},
+
+  "you are vulnerable to poison",
 },
 };

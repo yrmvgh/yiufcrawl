@@ -1,3 +1,5 @@
+#include "enum.h"
+
 enum species_flag
 {
     SPF_NONE        = 0,
@@ -392,14 +394,17 @@ static const map<species_type, species_def> species_data =
     5, 9, 10, // 24
     { STAT_INT, STAT_DEX }, 5,
     {
-      { MUT_MANA_REGENERATION, 1, 1 },
-      { MUT_CARNIVOROUS, 3, 1 }, { MUT_FAST, 1, 1 }, { MUT_FANGS, 3, 1 },
-      { MUT_SHAGGY_FUR, 1, 1 }, { MUT_ACUTE_VISION, 1, 1 }, { MUT_PAWS, 1, 1 },
-      { MUT_SLOW_METABOLISM, 1, 1 }, { MUT_CLAWS, 1, 1 },
-      { MUT_MANA_REGENERATION, 1, 5 },
-      { MUT_SHAGGY_FUR, 1, 5 }, { MUT_FAST, 1, 5 },
-      { MUT_MANA_REGENERATION, 1, 10 },
-	  { MUT_FAST, 1, 10 }, { MUT_SHAGGY_FUR, 1, 10 },
+      { MUT_CARNIVOROUS, 3, 1 },
+      { MUT_FANGS, 3, 1 },
+      { MUT_SHAGGY_FUR, 1, 1 },
+      { MUT_ACUTE_VISION, 1, 1 },
+      { MUT_PAWS, 1, 1 },
+      { MUT_SLOW_METABOLISM, 1, 1 },
+      { MUT_CLAWS, 1, 1 },
+      { MUT_FAST, 1, 3 },
+      { MUT_SHAGGY_FUR, 1, 4 },
+      { MUT_FAST, 1, 6 },
+      { MUT_SHAGGY_FUR, 1, 8 },
     },
     { "You cannot wear armour.",
       "You are incapable of wielding weapons or throwing items." },
@@ -413,13 +418,18 @@ static const map<species_type, species_def> species_data =
     "Fo",
     "Formicid", nullptr, "Ant",
     SPF_NONE,
-    1, 0, 0,
+    1, 2, 0,
     15, 4,
     MONS_FORMICID,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     12, 7, 6, // 25
     { STAT_STR, STAT_INT }, 4,
-    { { MUT_ANTENNAE, 3, 1 }, },
+    {
+        { MUT_FAST, 1, 1 },
+        { MUT_ANTENNAE, 3, 1 },
+    // todo: later
+//        { MUT_POISON_VULNERABILITY, 1, 1 },
+    },
     { "You are under a permanent stasis effect.",
       "You can dig through walls and to a lower floor.",
       "Your four strong arms can wield two-handed weapons with a shield." },
@@ -488,9 +498,9 @@ static const map<species_type, species_def> species_data =
     {
     		{ MUT_MUTATION_RESISTANCE, 3, 1 },
     		{ MUT_ROT_IMMUNITY, 1, 1 },
-    		{ MUT_WILD_MAGIC, 1, 6 },
-    		{ MUT_WILD_MAGIC, 1, 12 },
-    		{ MUT_WILD_MAGIC, 1, 18 },
+    		{ MUT_WILD_MAGIC, 1, 8 },
+    		{ MUT_WILD_MAGIC, 1, 16 },
+    		{ MUT_WILD_MAGIC, 1, 24 },
     },
     {},
     {},
@@ -799,8 +809,11 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_LITTLE,
     4, 9, 13, // 26
     { STAT_INT, STAT_DEX }, 5,
-    { { MUT_FAST, 3, 1 }, { MUT_HERBIVOROUS, 3, 1 },
-      { MUT_ACUTE_VISION, 1, 1 }, { MUT_SLOW_METABOLISM, 2, 1 }, },
+    { { MUT_FAST, 3, 1 },
+      { MUT_HERBIVOROUS, 3, 1 },
+      { MUT_ACUTE_VISION, 1, 1 },
+      { MUT_SLOW_METABOLISM, 2, 1 },
+    },
     {},
     {},
     { JOB_ASSASSIN, JOB_ARTIFICER, JOB_ABYSSAL_KNIGHT, JOB_WARPER,

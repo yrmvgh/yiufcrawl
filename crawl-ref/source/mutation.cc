@@ -131,7 +131,7 @@ static const int conflict[][3] =
     { MUT_STRONG,              MUT_WEAK,                   1},
     { MUT_CLEVER,              MUT_DOPEY,                  1},
     { MUT_AGILE,               MUT_CLUMSY,                 1},
-    { MUT_SLOW_REGENERATION,        MUT_NO_DEVICE_HEAL,    1},
+    { MUT_SLOW_REGENERATION,   MUT_NO_DEVICE_HEAL,         1},
     { MUT_ROBUST,              MUT_FRAIL,                  1},
     { MUT_HIGH_MAGIC,          MUT_LOW_MAGIC,              1},
     { MUT_WILD_MAGIC,          MUT_SUBDUED_MAGIC,          1},
@@ -152,6 +152,7 @@ static const int conflict[][3] =
     { MUT_MAGIC_RESISTANCE,    MUT_MAGICAL_VULNERABILITY, -1},
     { MUT_CAMOUFLAGE,    	   MUT_GLOW, 				  -1},
     { MUT_NIGHTSTALKER,    	   MUT_GLOW, 				  -1},
+    { MUT_POISON_RESISTANCE,   MUT_POISON_VULNERABILITY,  -1},
 };
 
 equipment_type beastly_slot(int mut)
@@ -210,11 +211,14 @@ void init_mut_index()
         const mutation_type mut = mut_data[i].mutation;
         ASSERT_RANGE(mut, 0, NUM_MUTATIONS);
         ASSERT(mut_index[mut] == -1);
-        mut_index[mut] = i;
-        for (const auto flag : mutflags::range())
+        if (mut >= 0 && mut < NUM_MUTATIONS)
         {
-            if (_mut_has_use(mut_data[i], flag))
-                total_weight[flag] += _mut_weight(mut_data[i], flag);
+            mut_index[mut] = i;
+            for (const auto flag : mutflags::range())
+            {
+                if (_mut_has_use(mut_data[i], flag))
+                    total_weight[flag] += _mut_weight(mut_data[i], flag);
+            }
         }
     }
 }
@@ -1372,7 +1376,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
 
     bool gain_msg = true;
 
-    while (count-- > 0)
+    while (count-- > 0 && you.mutation[mutat] < mutation_max_levels(mutat))
     {
         you.mutation[mutat]++;
 
@@ -2195,7 +2199,7 @@ bool perma_mutate(mutation_type which_mut, int how_much, const string &reason)
     int levels = 0;
     if (how_much > 0)
     {
-        while (how_much-- > 0)
+        while (how_much-- > 0 && you.mutation[which_mut] < mutation_max_levels(which_mut) && you.innate_mutation[which_mut] < mutation_max_levels(which_mut))
         {
             dprf("Perma Mutate: %d, %d, %d", cap,
                  you.mutation[which_mut], you.innate_mutation[which_mut]);

@@ -1702,6 +1702,8 @@ int player_res_poison(bool calc_unid, bool temp, bool items)
 
     // mutations:
     rp += player_mutation_level(MUT_POISON_RESISTANCE, temp);
+    rp -= player_mutation_level(MUT_POISON_VULNERABILITY, temp);
+
     rp += player_mutation_level(MUT_SLIMY_GREEN_SCALES, temp) == 3 ? 1 : 0;
 
     // Only thirsty vampires are naturally poison resistant.
@@ -4273,11 +4275,23 @@ int get_real_mp(bool include_items)
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
+
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    	enp += 12;
+    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+        enp += 8;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp += 4;
+
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
     {
-        enp +=  9 * you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
-        enp +=      you.scan_artefacts(ARTP_MAGICAL_POWER);
+        const int num_magic_rings = you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
+        for (int i = 0; i < num_magic_rings; i++)
+        {
+            enp = max(9, enp * 3 / 2);
+        }
+        enp += you.scan_artefacts(ARTP_MAGICAL_POWER);
 
         if (you.wearing(EQ_STAFF, STAFF_POWER))
             enp += 15;
@@ -4287,14 +4301,6 @@ int get_real_mp(bool include_items)
         enp /= 3;
 
     enp = max(enp, 4);
-
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp += 12;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        enp += 8;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-        enp += 4;
-
     return enp;
 }
 
