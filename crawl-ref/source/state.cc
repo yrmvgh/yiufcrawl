@@ -53,7 +53,10 @@ game_state::game_state()
 #endif
       invisible_targeting(false),
       darken_range(nullptr), unsaved_macros(false), disables(),
-      minor_version(-1), save_rcs_version(), danger_mode(0), free_stair_escape(false), mon_act(nullptr)
+      minor_version(-1), save_rcs_version(), danger_mode(0),
+      free_stair_escape(false),
+      warn_about_experience(true),
+      mon_act(nullptr)
 {
     reset_cmd_repeat();
     reset_cmd_again();

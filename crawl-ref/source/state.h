@@ -130,6 +130,7 @@ struct game_state
     game_difficulty_level difficulty;
     int danger_mode;
     bool free_stair_escape;
+    bool warn_about_experience;
 
 protected:
     void reset_cmd_repeat();
