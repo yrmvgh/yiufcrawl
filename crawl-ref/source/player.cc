@@ -2675,6 +2675,12 @@ static void _reduce_abyss_xp_timer(int exp)
     you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
 }
 
+const int experience_for_this_floor() {
+    const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+    int exp = stepup2(how_deep + 1, 3, 3, 10) + 1;
+    return exp;
+}
+
 void gain_floor_exp()
 {
     const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
