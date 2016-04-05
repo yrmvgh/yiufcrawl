@@ -657,7 +657,7 @@ public:
     {
         if (you.experience_level < you.get_max_xl())
         {
-            mpr("You feel more experienced!");
+            mprf("You feel more experienced! (%d)", experience_for_this_floor());
             // Defer calling level_change() until later in drink() to prevent
             // SIGHUP abuse.
 
