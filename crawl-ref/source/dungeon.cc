@@ -2261,6 +2261,7 @@ static void _build_dungeon_level(dungeon_feature_type dest_stairs_type)
 
         if (!Options.old_experience)
             _place_experience_potions();
+
         _place_traps();
 
         // Any vault-placement activity must happen before this check.

@@ -1132,6 +1132,11 @@ static void _make_level(dungeon_feature_type stair_taken,
     // sanctuary
     env.sanctuary_pos  = coord_def(-1, -1);
     env.sanctuary_time = 0;
+
+    if (!Options.old_experience)
+    {
+        gain_floor_exp();
+    }
 }
 
 /**
