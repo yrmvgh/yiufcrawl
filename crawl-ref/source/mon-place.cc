@@ -304,7 +304,7 @@ static void _apply_ood(level_id &place)
     }
 
     // On D:13 and deeper, and for those who tarry, something extreme:
-    if (env.turns_on_level > 1400 - place.absdepth() * 117
+    if (Options.old_experience && env.turns_on_level > 1400 - place.absdepth() * 117
         && x_chance_in_y(_scale_spawn_parameter(2, 10000, 10000, 3000, 9000),
                          10000))
     {
