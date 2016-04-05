@@ -49,6 +49,23 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
+### v1.2 (currently deployed)
+
+* Experience overhaul
+    * Monsters don't give experience
+    * One potion of experience is generated on the floor of each level
+        * except for safe floors: temple, trove, bazaar
+    * The player gains experience by:
+        * drinking a potion of experience
+        * entering a floor for the first time
+        * destroying altars (coming soon)
+    * A potion of experience is dropped by all uniques and player ghosts
+    * Since mummies can't drink potions, they get much more experience for entering a new floor
+    * The amount of experience gained by drinking a potion of experience is based on what level the potion was drunk on. 
+        * Players are incentivized to go as deep as possible before drinking the experience potion, greatly increasing the danger. 
+    * Monster super spawning is no longer needed for players who spend too much time in a level. Since experience scumming is no longer possible, we don't
+      need it.
+
 ### v1.1 (currently deployed)
 
 * Better low health warnings, especially for new players
@@ -86,7 +103,7 @@ with my goals here, or with concerns you have about my future plans.
     * The same item can be cursed multiple times, increasing the curse level. 
     * Curse level > 1000 will cause the bonuses of that item to be neutralized. A +5 long sword of poison becomes a +0 long sword, while the curse is above 1000. 
 
-### v1.0 (currently deployed)
+### v1.0
 
 * Inventory expansion
     * The inventory has been divided into two groups: consumables (potions, scrolls, and food), and everything else. The 'i' command shows the weapons, armour,
