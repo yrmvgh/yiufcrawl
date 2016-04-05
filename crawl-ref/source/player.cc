@@ -2687,8 +2687,12 @@ const int experience_for_this_floor() {
 
 void gain_floor_exp()
 {
-    const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-    const int exp = stepup2(how_deep + 1, 3, 3, 10) + 1;
+    int exp = experience_for_this_floor();
+
+    // mummies can't drink experience potions, so they just get more experience per level than normal
+    if (you.species == SP_MUMMY)
+        exp <<= 3;
+
     gain_exp(exp);
 }
 
