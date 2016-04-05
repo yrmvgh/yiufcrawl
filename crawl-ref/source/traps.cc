@@ -1638,9 +1638,6 @@ bool is_valid_shaft_level(bool known)
         return false;
     }
 
-    if (place.depth < 3 && place.branch == BRANCH_DUNGEON)
-        return false;
-
     if (!is_connected_branch(place))
         return false;
 
