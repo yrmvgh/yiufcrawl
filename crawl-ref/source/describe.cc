@@ -1981,7 +1981,7 @@ string get_item_description(const item_def &item, bool verbose,
     {
         if (item.sub_type == POT_EXPERIENCE)
         {
-            description << "\n\nDrinking this potion on this floor will give "
+            description << "\n\nDrinking this on this level will give "
                         << experience_for_this_floor()
                         << " experience.";
         }
