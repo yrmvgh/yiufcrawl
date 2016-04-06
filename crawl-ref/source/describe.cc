@@ -1978,6 +1978,13 @@ string get_item_description(const item_def &item, bool verbose,
         break;
 
     case OBJ_POTIONS:
+    {
+        if (item.sub_type == POT_EXPERIENCE)
+        {
+            description << "\n\nDrinking this potion on this floor will give "
+                        << experience_for_this_floor()
+                        << " experience.";
+        }
 #ifdef DEBUG_BLOOD_POTIONS
         // List content of timer vector for blood potions.
         if (!dump && is_blood_potion(item))
@@ -1999,6 +2006,7 @@ string get_item_description(const item_def &item, bool verbose,
             }
         }
 #endif
+    }
 
     case OBJ_SCROLLS:
     case OBJ_ORBS:
