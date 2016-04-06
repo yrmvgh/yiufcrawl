@@ -153,16 +153,25 @@ static const int MAX_SKILL_COST_LEVEL = MAX_SKILL_LEVEL;
 // skill_cost_level makes skills more expensive for more experienced characters
 int calc_skill_cost(int skill_cost_level)
 {
-//    const int cost[] = { 1, 2, 3, 4, 5,            // 1-5
-//                         7, 8, 9, 13, 22,         // 6-10
-//                         37, 48, 73, 98, 125,      // 11-15
-//                         145, 170, 190, 212, 225,  // 16-20
-//                         240, 255, 260, 265, 265,  // 21-25
-//                         265, 265 };
-//    COMPILE_CHECK(ARRAYSZ(cost) == MAX_SKILL_COST_LEVEL);
+    int cost;
+    if (Options.old_experience)
+    {
+        const int cost_array[] = { 1, 2, 3, 4, 5,            // 1-5
+                             7, 8, 9, 13, 22,         // 6-10
+                             37, 48, 73, 98, 125,      // 11-15
+                             145, 170, 190, 212, 225,  // 16-20
+                             240, 255, 260, 265, 265,  // 21-25
+                             265, 265 };
+        COMPILE_CHECK(ARRAYSZ(cost_array) == MAX_SKILL_COST_LEVEL);
+        ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
+        cost = cost_array[skill_cost_level - 1];
+    }
+    else
+    {
+        ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
+        cost = stepup2(skill_cost_level, 6, 3, 5) + 1;
+    }
 
-    ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
-    const int cost = stepup2(skill_cost_level, 6, 3, 5) + 1;
     return cost;
 }
 
@@ -170,17 +179,27 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
 {
     if (lev <= 0)
         return 0;
-//    const int exp[28] = { 0, 50, 150, 300, 500, 750,         // 0-5
-//                          1050, 1400, 1800, 2250, 2800,      // 6-10
-//                          3450, 4200, 5050, 6000, 7050,      // 11-15
-//                          8200, 9450, 10800, 12300, 13950,   // 16-20
-//                          15750, 17700, 19800, 22050, 24450, // 21-25
-//                          27000, 29750 };
 
     ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
-    const int exp_needed = stepup2(lev + 1, 4, 3, 50) + 10;
-    const float apt = species_apt_factor(sk, sp);
-    const int result = exp_needed * apt;
+
+    int result;
+    if (Options.old_experience)
+    {
+        const int exp[28] = {0, 50, 150, 300, 500, 750,         // 0-5
+                             1050, 1400, 1800, 2250, 2800,      // 6-10
+                             3450, 4200, 5050, 6000, 7050,      // 11-15
+                             8200, 9450, 10800, 12300, 13950,   // 16-20
+                             15750, 17700, 19800, 22050, 24450, // 21-25
+                             27000, 29750};
+        result = exp[lev] * species_apt_factor(sk, sp);
+    }
+    else
+    {
+        const int exp_needed = stepup2(lev + 1, 4, 3, 50) + 10;
+        const float apt = species_apt_factor(sk, sp);
+        result = exp_needed * apt;
+    }
+
     return result;
 }
 
