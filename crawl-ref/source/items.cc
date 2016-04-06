@@ -64,6 +64,7 @@
 #include "player.h"
 #include "prompt.h"
 #include "quiver.h"
+#include "randbook.h"
 #include "religion.h"
 #include "rot.h"
 #include "shopping.h"
@@ -3226,15 +3227,16 @@ zap_type item_def::zap() const
 
     if (wand_sub_type == WAND_RANDOM_EFFECTS)
     {
-        // old wand types
+        // choose from all existing wands, except:
+        // (1) don't allow /hw, because it encourages stuff like curing rot
+        // (2) allow /invis even though that was removed, because it's fun
         return random_choose(ZAP_THROW_FLAME, ZAP_SLOW, ZAP_HASTE,
                              ZAP_PARALYSE, ZAP_CONFUSE,
-                             ZAP_FIREBALL, ZAP_TELEPORT_OTHER,
+                             ZAP_ICEBLAST, ZAP_TELEPORT_OTHER,
                              ZAP_LIGHTNING_BOLT, ZAP_POLYMORPH,
                              ZAP_ENSLAVEMENT, ZAP_BOLT_OF_DRAINING,
-                             ZAP_DISINTEGRATE, ZAP_DIG, ZAP_THROW_FROST,
-                             ZAP_MAGIC_DART, ZAP_INVISIBILITY,
-                             ZAP_BOLT_OF_COLD, ZAP_BOLT_OF_FIRE);
+                             ZAP_DISINTEGRATE, ZAP_DIG, ZAP_INVISIBILITY,
+                             ZAP_BOLT_OF_FIRE);
     }
 
     switch (wand_sub_type)
@@ -3784,8 +3786,6 @@ colour_t item_def::miscellany_colour() const
 
     switch (sub_type)
     {
-        case MISC_LANTERN_OF_SHADOWS:
-            return BLUE;
         case MISC_FAN_OF_GALES:
             return CYAN;
 #if TAG_MAJOR_VERSION == 34
@@ -3811,6 +3811,7 @@ colour_t item_def::miscellany_colour() const
         case MISC_SACK_OF_SPIDERS:
             return WHITE;
 #if TAG_MAJOR_VERSION == 34
+        case MISC_BUGGY_LANTERN_OF_SHADOWS:
         case MISC_BUGGY_EBONY_CASKET:
         case MISC_XOMS_CHESSBOARD:
             return DARKGREY;
@@ -4421,10 +4422,7 @@ bool get_item_by_name(item_def *item, const char* specs,
             item->skill_points = random_range(2000, 3000);
         }
         else if (type_wanted == BOOK_RANDART_THEME)
-        {
-            make_book_theme_randart(*item, SPTYP_NONE, SPTYP_NONE,
-                                    5 + coinflip(), 20);
-        }
+            build_themed_book(*item, capped_spell_filter(20));
         else if (type_wanted == BOOK_RANDART_LEVEL)
         {
             int level = random_range(1, 9);

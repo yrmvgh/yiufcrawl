@@ -44,17 +44,7 @@ static void _mark_unseen_monsters();
  */
 static void _calc_hp_artefact()
 {
-    // Rounding must be down or Deep Dwarves would abuse certain values.
-    // We can reduce errors by a factor of 100 by using partial hp we have.
-    int old_max = you.hp_max;
-    int hp = you.hp * 100 + you.hit_points_regeneration;
-    calc_hp();
-    int new_max = you.hp_max;
-    hp = hp * new_max / old_max;
-    if (hp < 100)
-        hp = 100;
-    set_hp(min(hp / 100, you.hp_max));
-    you.hit_points_regeneration = hp % 100;
+    recalc_and_scale_hp();
     if (you.hp_max <= 0) // Borgnjor's abusers...
         ouch(0, KILLED_BY_DRAINING);
 }
@@ -417,19 +407,6 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
     // And here we finally get to the special effects of wielding. {dlb}
     switch (item.base_type)
     {
-    case OBJ_MISCELLANY:
-    {
-        if (item.sub_type == MISC_LANTERN_OF_SHADOWS)
-        {
-            if (showMsgs)
-                mpr("The area is filled with flickering shadows.");
-
-            you.attribute[ATTR_SHADOWS] = 1;
-            update_vision_range();
-        }
-        break;
-    }
-
     case OBJ_STAVES:
     {
         set_ident_flags(item, ISFLAG_IDENT_MASK);
@@ -649,13 +626,7 @@ static void _unequip_weapon_effect(item_def& real_item, bool showMsgs,
     if (is_artefact(item))
         _unequip_artefact_effect(real_item, &showMsgs, meld, EQ_WEAPON);
 
-    if (item.is_type(OBJ_MISCELLANY, MISC_LANTERN_OF_SHADOWS))
-    {
-        you.attribute[ATTR_SHADOWS] = 0;
-        update_vision_range();
-        expire_lantern_shadows();
-    }
-    else if (item.base_type == OBJ_WEAPONS)
+    if (item.base_type == OBJ_WEAPONS)
     {
         const int brand = get_weapon_brand(item);
 

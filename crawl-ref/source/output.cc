@@ -870,15 +870,11 @@ static void _print_stats_wp(int y)
     string text;
     if (you.weapon())
     {
-        item_def wpn = *you.weapon();
+        item_def wpn = *you.weapon(); // copy
 
-        if (you.duration[DUR_CORROSION])
-        {
-            if (wpn.base_type == OBJ_RODS)
-                wpn.rod_plus -= 4 * you.props["corrosion_amount"].get_int();
-            else
-                wpn.plus -= 4 * you.props["corrosion_amount"].get_int();
-        }
+        if (you.duration[DUR_CORROSION] && wpn.base_type == OBJ_WEAPONS)
+            wpn.plus -= 4 * you.props["corrosion_amount"].get_int();
+
         text = wpn.name(DESC_PLAIN, true, false, true);
     }
     else
@@ -2011,7 +2007,7 @@ static string _overview_screen_title(int sw)
 
     handle_real_time();
     string time_turns = make_stringf(" Turns: %d, Time: ", you.num_turns)
-                      + make_time_string(you.real_time, true);
+                      + make_time_string(you.real_time(), true);
 
     const int char_width = strwidth(species_job);
     const int title_width = strwidth(title);

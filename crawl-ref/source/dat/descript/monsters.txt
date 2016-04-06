@@ -175,8 +175,7 @@ Frederick
 
 A svelte fighter-mage with a gold-rimmed monocle, a keen sense of tradition,
 and the blood of the gods running through his veins. He's here looking for a
-worthy opponent, but he's yet to find one - and he's been looking for quite a
-long time.
+worthy opponent, but he's yet to find one.
 %%%%
 Gastronok
 
@@ -410,7 +409,7 @@ Robin
 A mountain hobgoblin, recently come in search of the legendary Orb. Not
 foolhardy or reckless enough to delve into the depths of the Dungeon alone,
 Robin has built a small army of minions. Potential competitors will quickly
-find a stream of screaming goblins flying toward them - watch out!
+find a stream of screaming goblins flying toward them!
 %%%%
 Roxanne
 
@@ -489,7 +488,7 @@ An ancient and mighty dragon.
 %%%%
 the Serpent of Hell gehenna
 
-A huge red glowing three-headed dragon, burning with hellfire. It seems to be
+A huge, red-glowing, three-headed dragon, shrouded in damnation. It seems to be
 possessed by the very essence of Gehenna and its eternal fire.
 %%%%
 the Serpent of Hell cocytus
@@ -706,7 +705,7 @@ through, walking through it looks like a painful prospect.
 %%%%
 Brimstone Fiend
 
-A huge and powerful demon wreathed in hellfire, with great scaly wings. One of
+A huge and powerful demon wreathed in damnation, with great scaly wings. One of
 the most fearsome denizens of any of the Hells.
 %%%%
 burning bush
@@ -962,7 +961,7 @@ hide, powerful legs, and a memory to die for.
 doom hound
 
 A demon lapdog of the queen of Tartarus, bound to hunt her enemies. Though it
-may appear alone, it's unlikely to remain so for long - it has the terrible
+may appear alone, it's unlikely to remain so for long — it has the terrible
 power to set creatures of nightmare on its victim's trails, though it can
 only ever use this power exactly once.
 %%%%
@@ -979,7 +978,7 @@ conjurations to destroy anyone who dares to stand in its way.
 draconian caller
 
 While formidable in combat, this draconian specializes in summoning hordes of
-drakes.
+drakes and dragons.
 %%%%
 draconian knight
 
@@ -1388,7 +1387,7 @@ fires of Hell.
 %%%%
 hellion
 
-A frightful demon, covered in roaring hellfire.
+A hateful demon, desirous to see all life destroyed by its damnation.
 %%%%
 hellwing
 
@@ -2119,12 +2118,6 @@ shadow dragon
 
 A great umbral dragon, radiating evil and death. Its breath reeks of the grave.
 %%%%
-Shadow Fiend
-
-A horrible being that appears as a great mass of writhing shadows which
-occasionally reveals a huge, horned skeleton. It is one of the most terrible
-denizens of the many Hells.
-%%%%
 shadow imp
 
 A shadowy minor demon, with an affinity for the necromantic arts.
@@ -2497,6 +2490,13 @@ two-headed ogre
 
 A huge ogre with two heads on top of a bloated ogre body. It is capable of
 holding a weapon in each giant hand.
+%%%%
+Tzitzimitl
+
+A terrible liminal demon, a horrific fallen divinity, a mane of grasping claws
+and jaws of gnashing stone in a necklace of starry organs and a skirt of wiry
+bones. Formed waiting for the auspicious days when they will devour the sun,
+the astral skeletons tzitzimitl spread disease and incite despair.
 %%%%
 ufetubus
 
@@ -3165,7 +3165,7 @@ reassembling itself in eternal unrest.
 %%%%
 dread
 
-An affront to existence, a void in which there is only torment and hellfire.
+An affront to existence, a void in which there is only torment and damnation.
 Its unearthly form is torn and twisted, black and hollow. It is bereft of
 rational thought, knowing only hatred and the desire to desecrate your soul.
 %%%%
@@ -3192,8 +3192,8 @@ malevolence.
 %%%%
 vile
 
-An emaciated figure brimming with hellfire and plague. Its appearance signifies
-the end of days.
+An emaciated figure brimming with damnation and plague. Its appearance
+signifies the end of days.
 %%%%
 The Servant
 

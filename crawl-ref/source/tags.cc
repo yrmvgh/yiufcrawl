@@ -1329,6 +1329,13 @@ static void tag_construct_char(writer &th)
     marshallByte(th, you.explore);
 }
 
+/// is a custom scoring mechanism being stored?
+static bool _calc_score_exists() {
+    lua_stack_cleaner clean(dlua);
+    dlua.pushglobal("dgn.persist.calc_score");
+    return !lua_isnil(dlua, -1);
+}
+
 static void tag_construct_you(writer &th)
 {
     marshallInt(th, you.last_mid);
@@ -1528,7 +1535,8 @@ static void tag_construct_you(writer &th)
 
     handle_real_time();
 
-    marshallInt(th, you.real_time);
+    // TODO: maybe switch to marshalling real_time_ms.
+    marshallInt(th, you.real_time());
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
 
@@ -1619,6 +1627,10 @@ static void tag_construct_you(writer &th)
         marshallInt(th, you.game_seeds[i]);
 
     CANARY;
+
+    // don't let vault caching errors leave a normal game with sprint scoring
+    if (!crawl_state.game_is_sprint())
+        ASSERT(!_calc_score_exists());
 
     if (!dlua.callfn("dgn_save_data", "u", &th))
         mprf(MSGCH_ERROR, "Failed to save Lua data: %s", dlua.error.c_str());
@@ -2168,16 +2180,14 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     you.jiyva_second_name = unmarshallString2(th);
 
     you.wizard            = unmarshallBoolean(th);
+
     // this was mistakenly inserted in the middle for a few tag versions - this
     // just makes sure that games generated in that time period are still
     // readable, but should not be used for new games
 #if TAG_CHR_FORMAT == 0
-    if (major == 34
-        && (minor >= TAG_MINOR_EXPLORE_MODE
-            && minor < TAG_MINOR_FIX_EXPLORE_MODE))
-    {
+    // TAG_MINOR_EXPLORE_MODE and TAG_MINOR_FIX_EXPLORE_MODE
+    if (major == 34 && (minor >= 121 && minor < 130))
         you.explore = unmarshallBoolean(th);
-    }
 #endif
 
     crawl_state.type = (game_type) unmarshallUByte(th);
@@ -2206,9 +2216,7 @@ void tag_read_char(reader &th, uint8_t format, uint8_t major, uint8_t minor)
     if (major > 34 || major == 34 && minor >= 29)
         crawl_state.map = unmarshallString2(th);
 
-#if TAG_MAJOR_VERSION == 34
-    if (minor >= TAG_MINOR_FIX_EXPLORE_MODE)
-#endif
+    if (major > 34 || major == 34 && minor >= 130)
         you.explore = unmarshallBoolean(th);
 }
 
@@ -3161,7 +3169,8 @@ static void tag_read_you(reader &th)
     // time of character creation
     you.birth_time = unmarshallInt(th);
 
-    you.real_time  = unmarshallInt(th);
+    const int real_time  = unmarshallInt(th);
+    you.real_time_ms = chrono::milliseconds(real_time * 1000);
     you.num_turns  = unmarshallInt(th);
     you.exploration = unmarshallInt(th);
 
@@ -4212,8 +4221,8 @@ void unmarshallItem(reader &th, item_def &item)
         item.plus = 1;
     }
 
-    // was spiked flail; rods can't spawn
-    if (item.is_type(OBJ_WEAPONS, WPN_ROD)
+    // was spiked flail
+    if (item.is_type(OBJ_WEAPONS, WPN_SPIKED_FLAIL)
         && th.getMinorVersion() <= TAG_MINOR_FORGOTTEN_MAP)
     {
         item.sub_type = WPN_FLAIL;
@@ -4509,6 +4518,9 @@ void unmarshallItem(reader &th, item_def &item)
     {
         item.used_count = 0;
     }
+
+    if (item.base_type == OBJ_RODS && item.cursed())
+        do_uncurse_item(item); // rods can't be cursed anymore
 #endif
 
     if (is_unrandom_artefact(item))
@@ -4839,19 +4851,9 @@ void marshallMonsterInfo(writer &th, const monster_info& mi)
 #if TAG_MAJOR_VERSION == 34
     marshallUnsigned(th, mi.type);
     marshallUnsigned(th, mi.base_type);
-    if (mons_genus(mi.type) == MONS_DRACONIAN
-        || mons_genus(mi.type) == MONS_DEMONSPAWN)
-    {
-        marshallUnsigned(th, mi.draco_type);
-    }
 #else
     marshallShort(th, mi.type);
     marshallShort(th, mi.base_type);
-    if (mons_genus(mi.type) == MONS_DRACONIAN
-        || mons_genus(mi.type) == MONS_DEMONSPAWN)
-    {
-        marshallShort(th, mi.draco_type);
-    }
 #endif
     marshallUnsigned(th, mi.number);
     marshallInt(th, mi._colour);
@@ -4902,9 +4904,6 @@ void marshallMonsterInfo(writer &th, const monster_info& mi)
         marshallShort(th, mi.i_ghost.ac);
     }
 
-    if (mons_is_ghost_demon(mi.type))
-        marshallBoolean(th, mi.i_ghost.can_sinv);
-
     mi.props.write(th);
 }
 
@@ -4915,31 +4914,18 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
 #if TAG_MAJOR_VERSION == 34
     mi.type = unmarshallMonType_Info(th);
     ASSERT(!invalid_monster_type(mi.type));
-    // Default value.
-    mi.draco_type = mi.type;
     mi.base_type = unmarshallMonType_Info(th);
-    if (mons_genus(mi.type) == MONS_DEMONSPAWN
-        && th.getMinorVersion() < TAG_MINOR_DEMONSPAWN)
-    {
-        mi.draco_type = mi.base_type;
-    }
-    else if (mons_genus(mi.type) == MONS_DRACONIAN
+    if ((mons_genus(mi.type) == MONS_DRACONIAN
         || (mons_genus(mi.type) == MONS_DEMONSPAWN
             && th.getMinorVersion() >= TAG_MINOR_DEMONSPAWN))
+        && th.getMinorVersion() < TAG_MINOR_NO_DRACO_TYPE)
     {
-        mi.draco_type = unmarshallMonType_Info(th);
+        unmarshallMonType_Info(th); // was draco_type
     }
 #else
     mi.type = unmarshallMonType(th);
     ASSERT(!invalid_monster_type(mi.type));
-    // Default value.
-    mi.draco_type = mi.type;
     mi.base_type = unmarshallMonType(th);
-    if (mons_genus(mi.type) == MONS_DRACONIAN
-        || mons_genus(mi.type) == MONS_DEMONSPAWN)
-    {
-        mi.draco_type = unmarshallMonType(th);
-    }
 #endif
     unmarshallUnsigned(th, mi.number);
 #if TAG_MAJOR_VERSION == 34
@@ -5176,17 +5162,17 @@ void unmarshallMonsterInfo(reader &th, monster_info& mi)
         mi.i_ghost.damage = unmarshallShort(th);
         mi.i_ghost.ac = unmarshallShort(th);
     }
-    if ((mons_is_ghost_demon(mi.type)
 #if TAG_MAJOR_VERSION == 34
+    if ((mons_is_ghost_demon(mi.type)
          || (mi.type == MONS_LICH || mi.type == MONS_ANCIENT_LICH
              || mi.type == MONS_SPELLFORGED_SERVITOR)
             && th.getMinorVersion() < TAG_MINOR_EXORCISE)
         && th.getMinorVersion() >= TAG_MINOR_GHOST_SINV
-#endif
-        )
+        && th.getMinorVersion() < TAG_MINOR_GHOST_NOSINV)
     {
-        mi.i_ghost.can_sinv = unmarshallBoolean(th);
+        unmarshallBoolean(th); // was can_sinv
     }
+#endif
 
     mi.props.clear();
     mi.props.read(th);

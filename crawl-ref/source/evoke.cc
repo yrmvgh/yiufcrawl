@@ -73,46 +73,11 @@
 #include "view.h"
 #include "xom.h"
 
-void shadow_lantern_effect()
-{
-    int n = div_rand_round(you.time_taken, 10);
-    for (int i = 0; i < n; ++i)
-    {
-        if (you.magic_points > 0)
-        {
-            dec_mp(1);
-
-            if (x_chance_in_y(
-                    player_adjust_evoc_power(
-                        you.skill_rdiv(SK_EVOCATIONS, 1, 5) + 1),
-                    14))
-            {
-                create_monster(mgen_data(MONS_SHADOW, BEH_FRIENDLY, &you, 2,
-                               MON_SUMM_LANTERN, you.pos()));
-
-                did_god_conduct(DID_NECROMANCY, 1);
-            }
-        }
-        else
-            expire_lantern_shadows();
-    }
-}
-
-void expire_lantern_shadows()
-{
-    for (monster_iterator mi; mi; ++mi)
-    {
-        int stype = 0;
-        if (mi->is_summoned(0, &stype) && stype == MON_SUMM_LANTERN)
-            mi->del_ench(ENCH_ABJ);
-    }
-}
-
 static bool _reaching_weapon_attack(const item_def& wpn)
 {
     if (you.confused())
     {
-        mpr("You're too confused to attack without stumbling around!");
+        canned_msg(MSG_TOO_CONFUSED);
         return false;
     }
 
@@ -1985,12 +1950,6 @@ static bool _stone_of_tremors()
     return true;
 }
 
-// Used for phials and water nymphs.
-bool can_flood_feature(dungeon_feature_type feat)
-{
-    return feat_has_solid_floor(feat);
-}
-
 static bool _phial_of_floods()
 {
     dist target;
@@ -2032,7 +1991,8 @@ static bool _phial_of_floods()
                       40 + you.skill_rdiv(SK_EVOCATIONS, 8, 3));
         for (distance_iterator di(center, true, false, 2); di && num > 0; ++di)
         {
-            if (can_flood_feature(grd(*di))
+            const dungeon_feature_type feat = grd(*di);
+            if ((feat == DNGN_FLOOR || feat == DNGN_SHALLOW_WATER)
                 && cell_see_cell(center, *di, LOS_NO_TRANS))
             {
                 num--;
@@ -2253,12 +2213,6 @@ bool evoke_check(int slot, bool quiet)
             canned_msg(MSG_TOO_BERSERK);
         return false;
     }
-    else if (player_mutation_level(MUT_NO_ARTIFICE) && !reaching)
-    {
-        if (!quiet)
-            mpr("You cannot evoke magical items.");
-        return false;
-    }
     return true;
 }
 
@@ -2406,8 +2360,11 @@ bool evoke_item(int slot, bool check_range)
     case OBJ_MISCELLANY:
         did_work = true; // easier to do it this way for misc items
 
-        if (player_mutation_level(MUT_NO_ARTIFICE))
+        if (player_mutation_level(MUT_NO_ARTIFICE)
+            && item.sub_type != MISC_ZIGGURAT)
+        {
             return mpr("You cannot evoke magical items."), false;
+        }
 
         if (is_deck(item))
         {

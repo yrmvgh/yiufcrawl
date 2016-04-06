@@ -156,8 +156,6 @@ bool melee_attack::handle_phase_attempted()
                 }
                 else
                     count_action(CACT_MELEE, weapon->sub_type);
-            else if (weapon->base_type == OBJ_RODS)
-                count_action(CACT_MELEE, WPN_ROD);
             else if (weapon->base_type == OBJ_STAVES)
                 count_action(CACT_MELEE, WPN_STAFF);
         }
@@ -298,7 +296,8 @@ static bool _flavour_triggers_damageless(attack_flavour flavour)
            || flavour == AF_SHADOWSTAB
            || flavour == AF_DROWN
            || flavour == AF_CORRODE
-           || flavour == AF_HUNGER;
+           || flavour == AF_HUNGER
+           || flavour == AF_MIASMATA;
 }
 
 void melee_attack::apply_black_mark_effects()
@@ -1505,8 +1504,6 @@ void melee_attack::set_attack_verb(int damage)
         weap_type = WPN_UNARMED;
     else if (weapon->base_type == OBJ_STAVES)
         weap_type = WPN_STAFF;
-    else if (weapon->base_type == OBJ_RODS)
-        weap_type = WPN_ROD;
     else if (weapon->base_type == OBJ_WEAPONS
              && !is_range_weapon(*weapon))
     {
@@ -2615,7 +2612,7 @@ void melee_attack::mons_apply_attack_flavour()
     int base_damage = 0;
 
     attack_flavour flavour = attk_flavour;
-    if (flavour == AF_CHAOS)
+    if (flavour == AF_CHAOTIC)
         flavour = random_chaos_attack_flavour();
 
     // Note that if damage_done == 0 then this code won't be reached
@@ -2876,7 +2873,7 @@ void melee_attack::mons_apply_attack_flavour()
         mons_do_napalm();
         break;
 
-    case AF_CHAOS:
+    case AF_CHAOTIC:
         chaos_affects_defender();
         break;
 
@@ -3073,6 +3070,35 @@ void melee_attack::mons_apply_attack_flavour()
     case AF_WEAKNESS:
         if (coinflip())
             defender->weaken(attacker, 12);
+        break;
+
+    case AF_MIASMATA:
+        if (coinflip())
+            break;
+
+        if (needs_message)
+        {
+            mprf("The air around %s putrefies into miasma!",
+                 defender_name(false).c_str());
+        }
+
+        // Check for valid terrain, allow renewing miasma-only spots,
+        // don't allow clouds over allies unless they're resistant.
+        for (adjacent_iterator ai(defender->pos()); ai; ++ai)
+        {
+            if (cell_is_solid(*ai) ||
+                cloud_at(*ai) && cloud_at(*ai)->type == CLOUD_MIASMA)
+            {
+                continue;
+            }
+
+            const actor* act = actor_at(*ai);
+            if (act && mons_aligned(attacker, act) && act->res_rotting() < 1)
+                continue;
+
+            place_cloud(CLOUD_MIASMA, *ai, 6 + random2(5), attacker);
+        }
+
         break;
     }
 }
@@ -3563,30 +3589,9 @@ int melee_attack::apply_damage_modifiers(int damage, int damage_max)
     ASSERT(attacker->is_monster());
     monster *as_mon = attacker->as_monster();
 
-    int frenzy_degree = -1;
-
     // Berserk/mighted monsters get bonus damage.
-    if (as_mon->has_ench(ENCH_MIGHT)
-        || as_mon->has_ench(ENCH_BERSERK))
-    {
+    if (as_mon->has_ench(ENCH_MIGHT) || as_mon->has_ench(ENCH_BERSERK))
         damage = damage * 3 / 2;
-    }
-    else if (as_mon->has_ench(ENCH_BATTLE_FRENZY))
-        frenzy_degree = as_mon->get_ench(ENCH_BATTLE_FRENZY).degree;
-    else if (as_mon->has_ench(ENCH_ROUSED))
-        frenzy_degree = as_mon->get_ench(ENCH_ROUSED).degree;
-
-    if (frenzy_degree != -1)
-    {
-#ifdef DEBUG_DIAGNOSTICS
-        const int orig_damage = damage;
-#endif
-
-        damage = damage * (115 + frenzy_degree * 15) / 100;
-
-        dprf(DIAG_COMBAT, "%s frenzy damage: %d->%d",
-             attacker->name(DESC_PLAIN).c_str(), orig_damage, damage);
-    }
 
     if (as_mon->has_ench(ENCH_IDEALISED))
         damage *= 2; // !

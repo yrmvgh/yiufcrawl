@@ -208,8 +208,6 @@ bool is_evil_item(const item_def& item)
     case OBJ_BOOKS:
     case OBJ_RODS:
         return _is_bookrod_type(item, is_evil_spell);
-    case OBJ_MISCELLANY:
-        return item.sub_type == MISC_LANTERN_OF_SHADOWS;
     case OBJ_JEWELLERY:
         return item.sub_type == AMU_HARM;
     default:
@@ -410,10 +408,6 @@ static bool _is_potentially_fiery_item(const item_def& item)
 
 bool is_fiery_item(const item_def& item)
 {
-    // Flaming Death is handled through its fire brand.
-    if (is_unrandom_artefact(item, UNRAND_HELLFIRE))
-        return true;
-
     switch (item.base_type)
     {
     case OBJ_WEAPONS:
@@ -653,43 +647,4 @@ conduct_type god_hates_item_handling(const item_def &item)
 bool god_hates_item(const item_def &item)
 {
     return god_hates_item_handling(item) != DID_NOTHING;
-}
-
-// whether Xom finds a spell too uninteresting to put in a book gift
-static bool _spell_is_boring(spell_type spell)
-{
-    // Ideally, Xom would only like spells which have a random
-    // effect, are risky to use, or would otherwise amuse him, but
-    // that would be a really small number of spells.
-    return spell != SPELL_INNER_FLAME // Neutral, but in an amusing way.
-        || get_spell_flags(spell) & (SPFLAG_HELPFUL | SPFLAG_NEUTRAL
-                                     | SPFLAG_ESCAPE | SPFLAG_RECOVERY);
-}
-
-bool god_dislikes_spell_type(spell_type spell, god_type god)
-{
-    return god_hates_spell(spell, god) || god == GOD_XOM && _spell_is_boring(spell);
-}
-
-bool god_dislikes_spell_discipline(spschools_type discipline, god_type god)
-{
-    if (is_good_god(god) && (discipline & SPTYP_NECROMANCY))
-        return true;
-
-    switch (god)
-    {
-    case GOD_SHINING_ONE:
-        return bool(discipline & SPTYP_POISON);
-
-    case GOD_ELYVILON:
-        return bool(discipline & (SPTYP_CONJURATION | SPTYP_SUMMONING));
-
-    case GOD_DITHMENOS:
-        return bool(discipline & SPTYP_FIRE);
-
-    default:
-        break;
-    }
-
-    return false;
 }

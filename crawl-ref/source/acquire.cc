@@ -30,6 +30,7 @@
 #include "macro.h"
 #include "message.h"
 #include "output.h"
+#include "randbook.h"
 #include "random.h"
 #include "religion.h"
 #include "skills.h"
@@ -687,9 +688,7 @@ static int _acquirement_misc_subtype(bool divine, int & /*quantity*/)
         {MISC_FAN_OF_GALES,
             (you.seen_misc[MISC_FAN_OF_GALES] ?       0 : 15)},
         {MISC_STONE_OF_TREMORS,
-            (you.seen_misc[MISC_STONE_OF_TREMORS] ?   0 : 15)},
-        {MISC_LANTERN_OF_SHADOWS,
-            (you.seen_misc[MISC_LANTERN_OF_SHADOWS] ? 0 :  7)}
+            (you.seen_misc[MISC_STONE_OF_TREMORS] ?   0 : 15)}
     };
 
     int result = *random_choose_weighted(choices);
@@ -1080,20 +1079,8 @@ static bool _do_book_acquirement(item_def &book, int agent)
         // else intentional fall-through
     }
     case BOOK_RANDART_THEME:
-    {
-        // Acquired randart books have a chance of being named after the player.
-        const string owner = agent == AQ_SCROLL && one_chance_in(12) ?
-                                you.your_name :
-                                "";
-
-        book.sub_type = BOOK_RANDART_THEME;
-        if (!make_book_theme_randart(book, SPTYP_NONE, SPTYP_NONE,
-                                     5 + coinflip(), 20, SPELL_NO_SPELL, owner))
-        {
-            return false;
-        }
+        acquire_themed_randbook(book, agent);
         break;
-    }
 
     case BOOK_RANDART_LEVEL:
     {
@@ -1443,7 +1430,7 @@ int acquirement_create_item(object_class_type class_wanted,
         if (have_passive(passive_t::want_curses))
             do_curse_item(acq_item, true);
         else
-            do_uncurse_item(acq_item, false);
+            do_uncurse_item(acq_item);
 
         if (acq_item.base_type == OBJ_BOOKS)
         {

@@ -363,7 +363,7 @@ public:
     bool is_artificial(bool temp = true) const override;
     bool is_unbreathing() const override;
     bool is_insubstantial() const override;
-    bool res_hellfire() const override;
+    bool res_damnation() const override;
     int res_fire() const override;
     int res_steam() const override;
     int res_cold() const override;
@@ -575,6 +575,7 @@ private:
     bool pickup_launcher(item_def &launcher, bool msg, bool force = false);
     bool pickup_melee_weapon(item_def &item, bool msg);
     bool pickup_weapon(item_def &item, bool msg, bool force);
+    bool pickup_rod(item_def &item, bool msg, bool force);
     bool pickup_armour(item_def &item, bool msg, bool force);
     bool pickup_jewellery(item_def &item, bool msg, bool force);
     bool pickup_misc(item_def &item, bool msg, bool force);

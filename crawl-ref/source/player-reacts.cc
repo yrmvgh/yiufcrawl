@@ -166,12 +166,12 @@ static bool _decrement_a_duration(duration_type dur, int delay,
         return false;
 
     ASSERT(!midloss || midmsg != nullptr);
-    const int midpoint = get_expiration_threshold(dur);
+    const int midpoint = duration_expire_point(dur);
     ASSERTM(!midloss || midloss * BASELINE_DELAY < midpoint,
             "midpoint delay loss %d not less than duration midpoint %d",
             midloss * BASELINE_DELAY, midpoint);
 
-    int old_dur = you.duration[dur];
+    const int old_dur = you.duration[dur];
     you.duration[dur] -= delay;
 
     // If we cross the midpoint, handle midloss and print the midpoint message.
@@ -979,9 +979,6 @@ void player_reacts()
     // Too annoying for regular diagnostics.
     mprf(MSGCH_DIAGNOSTICS, "stealth: %d", stealth);
 #endif
-
-    if (you.attribute[ATTR_SHADOWS])
-        shadow_lantern_effect();
 
 #if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)

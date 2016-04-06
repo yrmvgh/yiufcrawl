@@ -290,7 +290,7 @@ static int _apply_spellcasting_success_boosts(spell_type spell, int chance)
 {
     int fail_reduce = 100;
 
-    if (in_good_standing(GOD_VEHUMET, 2) && vehumet_supports_spell(spell))
+    if (have_passive(passive_t::spells_success) && vehumet_supports_spell(spell))
     {
         // [dshaligram] Fail rate multiplier used to be .5, scaled
         // back to 67%.
@@ -376,8 +376,8 @@ int raw_spell_fail(spell_type spell)
 
     chance2 += get_form()->spellcasting_penalty;
 
-    chance2 -= 7 * player_mutation_level(MUT_SUBDUED_MAGIC);
-    chance2 += 7 * player_mutation_level(MUT_WILD_MAGIC);
+    chance2 -= 2 * player_mutation_level(MUT_SUBDUED_MAGIC);
+    chance2 += 4 * player_mutation_level(MUT_WILD_MAGIC);
     chance2 += 4 * player_mutation_level(MUT_ANTI_WIZARDRY);
 
     if (player_equip_unrand(UNRAND_HIGH_COUNCIL))
@@ -439,8 +439,8 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         // Wild magic boosts spell power but decreases success rate.
         if (!fail_rate_check)
         {
-            power *= (10 + 5 * player_mutation_level(MUT_WILD_MAGIC));
-            power /= (10 + 5 * player_mutation_level(MUT_SUBDUED_MAGIC));
+            power *= (10 + 3 * player_mutation_level(MUT_WILD_MAGIC));
+            power /= (10 + 3 * player_mutation_level(MUT_SUBDUED_MAGIC));
         }
 
         // Augmentation boosts spell power at high HP.
@@ -1104,8 +1104,8 @@ static unique_ptr<targetter> _spell_targetter(spell_type spell, int pow,
     {
     case SPELL_FIREBALL:
         return make_unique<targetter_beam>(&you, range, ZAP_FIREBALL, pow, 1, 1);
-    case SPELL_HELLFIRE:
-        return make_unique<targetter_beam>(&you, range, ZAP_HELLFIRE, pow, 1, 1);
+    case SPELL_HURL_DAMNATION:
+        return make_unique<targetter_beam>(&you, range, ZAP_DAMNATION, pow, 1, 1);
     case SPELL_MEPHITIC_CLOUD:
         return make_unique<targetter_beam>(&you, range, ZAP_BREATHE_MEPHITIC, pow,
                                            pow >= 100 ? 1 : 0, 1);
@@ -1382,6 +1382,7 @@ spret_type your_spells(spell_type spell, int powc,
                                       : GOD_NO_GOD;
 
     int fail = 0;
+#if TAG_MAJOR_VERSION == 34
     bool antimagic = false; // lost time but no other penalty
 
     if (allow_fail && you.duration[DUR_ANTIMAGIC]
@@ -1390,7 +1391,9 @@ spret_type your_spells(spell_type spell, int powc,
         mpr("You fail to access your magic.");
         fail = antimagic = true;
     }
-    else if (allow_fail)
+    else
+#endif
+    if (allow_fail)
     {
         int spfl = random2avg(100, 3);
 
@@ -1479,8 +1482,10 @@ spret_type your_spells(spell_type spell, int powc,
     }
     case SPRET_FAIL:
     {
+#if TAG_MAJOR_VERSION == 34
         if (antimagic)
             return SPRET_FAIL;
+#endif
 
         mprf("You miscast %s.", spell_title(spell));
         flush_input_buffer(FLUSH_ON_FAILURE);
@@ -1607,8 +1612,8 @@ static spret_type _do_cast(spell_type spell, int powc,
         return cast_fire_storm(powc, beam, fail);
 
     // Demonspawn ability, no failure.
-    case SPELL_HELLFIRE_BURST:
-        return cast_hellfire_burst(powc, beam) ? SPRET_SUCCESS : SPRET_ABORT;
+    case SPELL_CALL_DOWN_DAMNATION:
+        return cast_smitey_damnation(powc, beam) ? SPRET_SUCCESS : SPRET_ABORT;
 
     case SPELL_DELAYED_FIREBALL:
         return cast_delayed_fireball(fail);

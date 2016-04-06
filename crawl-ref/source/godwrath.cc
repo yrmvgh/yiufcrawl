@@ -187,7 +187,7 @@ static bool _dithmenos_random_shadow(const int count, const int tier)
 {
     monster_type mon_type = MONS_SHADOW;
     if (tier >= 2 && count == 0 && coinflip())
-        mon_type = MONS_SHADOW_FIEND;
+        mon_type = MONS_TZITZIMITL;
     else if (tier >= 1 && count < 3 && coinflip())
         mon_type = MONS_SHADOW_DEMON;
 
@@ -597,7 +597,7 @@ static bool _makhleb_call_down_destruction()
 
     if (avatar == nullptr)
     {
-        simple_god_message("has no time to deal with you just now.", god);
+        simple_god_message(" has no time to deal with you just now.", god);
         return false; // not a very dazzling divine experience...
     }
 
@@ -1243,9 +1243,9 @@ static spell_type _vehumet_wrath_type()
             return random_choose(SPELL_ORB_OF_ELECTRICITY,
                                  SPELL_FLASH_FREEZE);
         case 8:
-            return random_choose(SPELL_LEHUDIBS_CRYSTAL_SPEAR);
+            return SPELL_LEHUDIBS_CRYSTAL_SPEAR;
         case 9:
-            return random_choose(SPELL_FIRE_STORM, SPELL_HELLFIRE);
+            return SPELL_FIRE_STORM;
         default:
             return SPELL_NO_SPELL;
     }
@@ -1265,14 +1265,14 @@ static bool _vehumet_retribution()
     monster* avatar = get_avatar(god);
     if (!avatar)
     {
-        simple_god_message("has no time to deal with you just now.", god);
+        simple_god_message(" has no time to deal with you just now.", god);
         return false;
     }
 
     const spell_type spell = _vehumet_wrath_type();
     if (spell == SPELL_NO_SPELL)
     {
-        simple_god_message("has no time to deal with you just now.", god);
+        simple_god_message(" has no time to deal with you just now.", god);
         shadow_monster_reset(avatar);
         return false;
     }
@@ -1919,7 +1919,8 @@ bool divine_retribution(god_type god, bool no_bonus, bool force)
     {
     // One in ten chance that Xom might do something good...
     case GOD_XOM:
-        xom_acts(one_chance_in(10), abs(you.piety - HALF_MAX_PIETY));
+        xom_acts(abs(you.piety - HALF_MAX_PIETY),
+                 frombool(one_chance_in(10)));
         break;
     case GOD_SHINING_ONE:   do_more = _tso_retribution(); break;
     case GOD_ZIN:           do_more = _zin_retribution(); break;

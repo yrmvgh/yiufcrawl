@@ -617,11 +617,11 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
         beam.foe_ratio = random_range(40, 55);
         break;
 
-    case SPELL_HELLFIRE_BURST:
-        beam.aux_source   = "burst of hellfire";
-        beam.name         = "burst of hellfire";
+    case SPELL_CALL_DOWN_DAMNATION:
+        beam.aux_source   = "damnation";
+        beam.name         = "damnation";
         beam.ex_size      = 1;
-        beam.flavour      = BEAM_HELLFIRE;
+        beam.flavour      = BEAM_DAMNATION;
         beam.is_explosion = true;
         beam.colour       = LIGHTRED;
         beam.aux_source.clear();
@@ -738,14 +738,14 @@ bolt mons_spell_beam(monster* mons, spell_type spell_cast, int power,
         beam.flavour    = BEAM_MMISSILE;
         break;
 
-    case SPELL_HELLFIRE:           // fiend's hellfire
-        beam.name         = "blast of hellfire";
-        beam.aux_source   = "blast of hellfire";
+    case SPELL_HURL_DAMNATION:           // fiend's damnation
+        beam.name         = "damnation";
+        beam.aux_source   = "damnation";
         beam.colour       = LIGHTRED;
         beam.damage       = dice_def(3, 20);
         beam.hit          = 24;
-        beam.flavour      = BEAM_HELLFIRE;
-        beam.pierce       = true;
+        beam.flavour      = BEAM_DAMNATION;
+        beam.pierce       = true; // needed?
         beam.is_explosion = true;
         break;
 
@@ -1480,29 +1480,6 @@ static battlecry_type _get_cry_type(const monster& crier)
 }
 
 /**
- * What enchantment is granted by a given battlecry?
- *
- * @param type   The type of battlecry.
- * @return       The corresponding enchantment type; either 'battle frenzy' or
- *               'roused'.
- *               XXX: these enchantments are almost exactly identical, and
- *               should be merged.
- */
-static enchant_type _enchant_from_cry(battlecry_type type)
-{
-    switch (type)
-    {
-        case BATTLECRY_GOBLIN:
-        case BATTLECRY_ORC:
-            return ENCH_BATTLE_FRENZY;
-        case BATTLECRY_HOLY:
-        case BATTLECRY_NATURAL:
-        default:
-            return ENCH_ROUSED;
-    }
-}
-
-/**
  * Print the message that the player sees after a battlecry goes off.
  *
  * @param chief             The monster letting out the battlecry.
@@ -1593,9 +1570,6 @@ static bool _battle_cry(const monster& chief, bool check_only = false)
         return false;
 
     const battlecry_type type = _get_cry_type(chief);
-    const enchant_type battlecry = _enchant_from_cry(type);
-    // magnitude of the buff (either 30% or 45% dam increase)
-    const int level = chief.get_hit_dice() > 12? 2 : 1;
 
     int affected = 0;
 
@@ -1619,7 +1593,7 @@ static bool _battle_cry(const monster& chief, bool check_only = false)
             continue;
         }
 
-        // already has a very similar buff (XXX: does this work in reverse?)
+        // already buffed
         if (mons->has_ench(ENCH_MIGHT))
             continue;
 
@@ -1631,23 +1605,12 @@ static bool _battle_cry(const monster& chief, bool check_only = false)
             continue;
         }
 
-        mon_enchant ench = mi->get_ench(battlecry);
-        if (ench.ench != ENCH_NONE && ench.degree >= level)
-            continue; // already buffed as high as we would
-
         if (check_only)
             return true; // just need to check
 
         const int dur = random_range(12, 20) * speed_to_duration(mi->speed);
 
-        if (ench.ench != ENCH_NONE)
-        {
-            ench.degree   = level;
-            ench.duration = max(ench.duration, dur);
-            mi->update_ench(ench);
-        }
-        else
-            mi->add_ench(mon_enchant(battlecry, level, &chief, dur));
+        mi->add_ench(mon_enchant(ENCH_MIGHT, 1, &chief, dur));
 
         affected++;
         if (you.can_see(**mi))
@@ -2224,7 +2187,7 @@ static bool _ms_low_hitpoint_cast(monster* mon, mon_spell_slot slot)
     case SPELL_CONFUSE:
     case SPELL_DRAIN_LIFE:
     case SPELL_BANISHMENT:
-    case SPELL_HELLFIRE_BURST:
+    case SPELL_CALL_DOWN_DAMNATION:
     case SPELL_FIREBALL:
     case SPELL_AIRSTRIKE:
     case SPELL_IOOD:
@@ -3788,6 +3751,17 @@ static monster_type _pick_vermin()
                                   2, MONS_TARANTELLA,
                                   2, MONS_JUMPING_SPIDER,
                                   3, MONS_DEMONIC_CRAWLER,
+                                  0);
+}
+
+static monster_type _pick_drake()
+{
+    return random_choose_weighted(5, MONS_SWAMP_DRAKE,
+                                  5, MONS_KOMODO_DRAGON,
+                                  5, MONS_WIND_DRAKE,
+                                  6, MONS_RIME_DRAKE,
+                                  6, MONS_DEATH_DRAKE,
+                                  3, MONS_LINDWURM,
                                   0);
 }
 
@@ -5566,7 +5540,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                       mons->pos(), mons->foe, MG_NONE, god));
         return;
 
-    // Journey -- Added in Summon Lizards and Draconians
+    // Journey -- Added in Summon Lizards
     case SPELL_SUMMON_DRAKES:
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 
@@ -5577,19 +5551,8 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
             for (sumcount = 0; sumcount < sumcount2; ++sumcount)
             {
-                bool drag = false;
-                monster_type mon = summon_any_dragon(DRAGON_LIZARD);
-
-                if (mon == MONS_DRAGON)
-                {
-                    drag = true;
-                    mon = summon_any_dragon(DRAGON_DRAGON);
-                }
-
+                monster_type mon = _pick_drake();
                 monsters.push_back(mon);
-
-                if (drag)
-                    break;
             }
 
             for (monster_type type : monsters)
@@ -7757,10 +7720,12 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_SUMMON_SPECTRAL_ORCS:
     case SPELL_SMITING:
     case SPELL_HOLY_FLAMES:
-    case SPELL_AIRSTRIKE:
     case SPELL_SUMMON_MUSHROOMS:
     case SPELL_ENTROPIC_WEAVE:
         return !foe;
+
+    case SPELL_AIRSTRIKE:
+        return !foe || foe->res_wind();
 
     case SPELL_FREEZE:
         return !foe || !adjacent(mon->pos(), foe->pos());

@@ -15,8 +15,8 @@
 #include "itemprop.h"
 #include "items.h"
 #include "mon-place.h"
+#include "randbook.h" // roxanne, roxanne...
 #include "religion.h" // upgrade_hepliaklqana_weapon
-#include "spl-book.h"
 #include "state.h"
 #include "tilepick.h"
 #include "unwind.h"
@@ -137,8 +137,8 @@ static void _give_wand(monster* mon, int level)
     // Don't give top-tier wands before 5 HD, except to Ijyb and not in sprint.
     const bool no_high_tier =
             (mon->get_experience_level() < 5
-            || mons_class_flag(mon->type, M_NO_HT_WAND))
-                && (mon->type != MONS_IJYB || crawl_state.game_is_sprint());
+                || mons_class_flag(mon->type, M_NO_HT_WAND))
+            && (mon->type != MONS_IJYB || crawl_state.game_is_sprint());
 
     const int idx = items(false, OBJ_WANDS, OBJ_RANDOM, level);
 
@@ -1521,7 +1521,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         item_set_appearance(i);
 
     if (force_uncursed)
-        do_uncurse_item(i, false);
+        do_uncurse_item(i);
 
     if (!is_artefact(mitm[thing_created]) && !floor_tile.empty())
     {
@@ -1814,13 +1814,6 @@ static void _give_shield(monster* mon, int level)
                                                    : ARM_SHIELD,
                                   level);
         }
-        break;
-
-    case MONS_OCTOPODE_CRUSHER:
-        if (one_chance_in(3))
-            level = ISPEC_GOOD_ITEM;
-        if (coinflip())
-            make_item_for_monster(mon, OBJ_ARMOUR, ARM_SHIELD, level);
         break;
 
     case MONS_DRACONIAN_KNIGHT:
@@ -2166,13 +2159,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs, bool merc)
     case MONS_MERFOLK_JAVELINEER:
         item.base_type = OBJ_ARMOUR;
         item.sub_type  = ARM_LEATHER_ARMOUR;
-        break;
-
-    case MONS_OCTOPODE_CRUSHER:
-        if (one_chance_in(3))
-            level = ISPEC_GOOD_ITEM;
-        item.base_type = OBJ_ARMOUR;
-        item.sub_type  = ARM_HAT;
         break;
 
     case MONS_ANGEL:

@@ -1729,7 +1729,7 @@ tileidx_t tileidx_monster(const monster_info& mons)
         ch |= TILE_FLAG_PAIN_MIRROR;
     if (mons.is(MB_HASTED))
         ch |= TILE_FLAG_HASTED;
-    if (mons.is(MB_STRONG) || mons.is(MB_FRENZIED) || mons.is(MB_ROUSED))
+    if (mons.is(MB_STRONG))
         ch |= TILE_FLAG_MIGHT;
     if (mons.is(MB_PETRIFYING))
         ch |= TILE_FLAG_PETRIFYING;
@@ -2360,8 +2360,10 @@ static tileidx_t _tileidx_misc(const item_def &item)
         return evoker_is_charged(item) ? TILE_MISC_PHIAL_OF_FLOODS
                                        : TILE_MISC_PHIAL_OF_FLOODS_INERT;
 
-    case MISC_LANTERN_OF_SHADOWS:
+#if TAG_MAJOR_VERSION == 34
+    case MISC_BUGGY_LANTERN_OF_SHADOWS:
         return TILE_MISC_LANTERN_OF_SHADOWS;
+#endif
 
     case MISC_HORN_OF_GERYON:
         return TILE_MISC_HORN_OF_GERYON;
@@ -2883,8 +2885,8 @@ tileidx_t tileidx_bolt(const bolt &bolt)
         break;
 
     case LIGHTRED:
-        if (bolt.name.find("hellfire") != string::npos)
-            return TILE_BOLT_HELLFIRE;
+        if (bolt.name.find("damnation") != string::npos)
+            return TILE_BOLT_DAMNATION;
         break;
 
     case LIGHTMAGENTA:
@@ -2930,7 +2932,7 @@ tileidx_t tileidx_bolt(const bolt &bolt)
 
     case CYAN:
         if (bolt.name == "slug dart")
-            return TILE_BOLT_STONE_ARROW;
+            return TILE_BOLT_STONE_ARROW + dir;
         break;
 
     case ETC_MUTAGENIC:
@@ -3266,8 +3268,8 @@ tileidx_t tileidx_ability(const ability_type ability)
 
     // Species-specific abilities.
     // Demonspawn-only
-    case ABIL_HELLFIRE:
-        return TILEG_ABILITY_HELLFIRE;
+    case ABIL_DAMNATION:
+        return TILEG_ABILITY_HURL_DAMNATION;
     // Tengu, Draconians
     case ABIL_FLY:
         return TILEG_ABILITY_FLIGHT;
@@ -3279,8 +3281,10 @@ tileidx_t tileidx_ability(const ability_type ability)
     // Vampires
     case ABIL_TRAN_BAT:
         return TILEG_ABILITY_BAT_FORM;
+#if TAG_MAJOR_VERSION == 34
     case ABIL_BOTTLE_BLOOD:
         return TILEG_ABILITY_BOTTLE_BLOOD;
+#endif
     // Deep Dwarves
     case ABIL_RECHARGING:
         return TILEG_ABILITY_RECHARGE;

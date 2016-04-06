@@ -1605,6 +1605,9 @@ void scorefile_entry::init(time_t dt)
 
         points = pt;
     }
+    else
+        ASSERT(crawl_state.game_is_sprint());
+        // only sprint should use custom scores
 
     race = you.species;
     job  = you.char_class;
@@ -1690,8 +1693,8 @@ void scorefile_entry::init(time_t dt)
     birth_time = you.birth_time;     // start time of game
     death_time = (dt != 0 ? dt : time(nullptr)); // end time of game
 
-    handle_real_time(death_time);
-    real_time = you.real_time;
+    handle_real_time(chrono::system_clock::from_time_t(death_time));
+    real_time = you.real_time();
 
     num_turns = you.num_turns;
     num_aut = you.elapsed_time;

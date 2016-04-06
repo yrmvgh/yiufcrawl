@@ -359,7 +359,6 @@ mon_attitude_type mons_attitude(const monster* m);
 
 bool mons_is_native_in_branch(const monster* mons,
                               const branch_type branch = you.where_are_you);
-bool mons_is_poisoner(const monster* mon);
 
 // Whether the monster is temporarily confused (class_too = false)
 // or confused at all (class_too = true; temporarily or by class).
@@ -382,6 +381,8 @@ bool mons_eats_items(const monster* mon);
 monster_type mons_genus(monster_type mc);
 monster_type mons_species(monster_type mc);
 monster_type draco_or_demonspawn_subspecies(const monster* mon);
+monster_type draco_or_demonspawn_subspecies(monster_type type,
+                                            monster_type base);
 monster_type mons_detected_base(monster_type mt);
 bool mons_is_siren_beholder(monster_type mc);
 bool mons_is_siren_beholder(const monster* mons);

@@ -1025,32 +1025,6 @@ bool mons_is_abyssal_only(monster_type mc)
     }
 }
 
-bool mons_is_poisoner(const monster* mon)
-{
-    if (mon->search_slots([] (const mon_spell_slot& slot)
-                             { return slot.flags & MON_SPELL_NATURAL
-                                      && spell_typematch(slot.spell,
-                                                         SPTYP_POISON); } ))
-    {
-        return true;
-    }
-
-    if (mon->has_attack_flavour(AF_POISON)
-        || mon->has_attack_flavour(AF_POISON_STRONG))
-    {
-        return true;
-    }
-
-    if (mon->type == MONS_DANCING_WEAPON
-        && mon->primary_weapon()
-        && get_weapon_brand(*mon->primary_weapon()) == SPWPN_VENOM)
-    {
-        return true;
-    }
-
-    return false;
-}
-
 // Monsters considered as "slime" for Jiyva.
 bool mons_class_is_slime(monster_type mc)
 {
@@ -1144,7 +1118,9 @@ static void _mimic_vanish(const coord_def& pos, const string& name)
  */
 static void _destroy_mimic_feature(const coord_def &pos)
 {
+#if TAG_MAJOR_VERSION == 34
     const dungeon_feature_type feat = grd(pos);
+#endif
 
     unnotice_feature(level_pos(level_id::current(), pos));
     grd(pos) = DNGN_FLOOR;
@@ -1334,8 +1310,8 @@ monster_type mons_species(monster_type mc)
     return me ? me->species : MONS_PROGRAM_BUG;
 }
 
-static monster_type _draco_or_demonspawn_subspecies(monster_type type,
-                                                    monster_type base)
+monster_type draco_or_demonspawn_subspecies(monster_type type,
+                                            monster_type base)
 {
     const monster_type species = mons_species(type);
 
@@ -1359,7 +1335,7 @@ monster_type draco_or_demonspawn_subspecies(const monster* mon)
         return player_species_to_mons_species(mon->ghost->species);
     }
 
-    return _draco_or_demonspawn_subspecies(mon->type, mon->base_monster);
+    return draco_or_demonspawn_subspecies(mon->type, mon->base_monster);
 }
 
 monster_type mons_detected_base(monster_type mc)
@@ -1686,6 +1662,18 @@ monster_type mons_zombie_base(const monster* mon)
 
 bool mons_class_is_zombified(monster_type mc)
 {
+#if TAG_MAJOR_VERSION == 34
+    switch (mc)
+    {
+        case MONS_ZOMBIE_SMALL:     case MONS_ZOMBIE_LARGE:
+        case MONS_SKELETON_SMALL:   case MONS_SKELETON_LARGE:
+        case MONS_SIMULACRUM_SMALL: case MONS_SIMULACRUM_LARGE:
+            return true;
+        default:
+            break;
+    }
+#endif
+
     return mc == MONS_ZOMBIE
         || mc == MONS_SKELETON
         || mc == MONS_SIMULACRUM
@@ -2121,7 +2109,7 @@ int mons_class_res_magic(monster_type type, monster_type base)
     const monster_type base_type =
         base != MONS_NO_MONSTER &&
         (mons_is_draconian(type) || mons_is_demonspawn(type))
-            ? _draco_or_demonspawn_subspecies(type, base)
+            ? draco_or_demonspawn_subspecies(type, base)
             : type;
 
     const int type_mr = (get_monster_data(base_type))->resist_magic;
@@ -2146,7 +2134,7 @@ bool mons_class_sees_invis(monster_type type, monster_type base)
         return true;
 
     if (base != MONS_NO_MONSTER && mons_is_demonspawn(type) // XXX: add dracs here? latent bug otherwise
-        && mons_class_flag(_draco_or_demonspawn_subspecies(type, base),
+        && mons_class_flag(draco_or_demonspawn_subspecies(type, base),
                            M_SEE_INVIS))
     {
         return true;
@@ -2279,8 +2267,8 @@ int exper_value(const monster* mon, bool real)
             case SPELL_PARALYSE:
             case SPELL_SMITING:
             case SPELL_SUMMON_EYEBALLS:
-            case SPELL_HELLFIRE_BURST:
-            case SPELL_HELLFIRE:
+            case SPELL_CALL_DOWN_DAMNATION:
+            case SPELL_HURL_DAMNATION:
             case SPELL_SYMBOL_OF_TORMENT:
             case SPELL_GLACIATE:
             case SPELL_FIRE_STORM:
@@ -4061,7 +4049,7 @@ static const spell_type smitey_spells[] = {
     SPELL_SMITING,
     SPELL_AIRSTRIKE,
     SPELL_SYMBOL_OF_TORMENT,
-    SPELL_HELLFIRE_BURST,
+    SPELL_CALL_DOWN_DAMNATION,
     SPELL_FIRE_STORM,
     SPELL_SHATTER,
     SPELL_TORNADO,          // dubious
@@ -4763,7 +4751,9 @@ string do_mon_str_replacements(const string &in_msg, const monster* mons,
         "growls",
         "hisses",
         "sneers",       // S_DEMON_TAUNT
+#if TAG_MAJOR_VERSION == 34
         "caws",
+#endif
         "says",         // S_CHERUB -- they just speak normally.
         "rumbles",
         "buggily says", // NUM_SHOUTS

@@ -18,6 +18,7 @@
 #include "itemprop.h"
 #include "items.h"
 #include "libutil.h" // map_find
+#include "randbook.h"
 #include "spl-book.h"
 #include "state.h"
 #include "stepdown.h"
@@ -1261,7 +1262,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
 
     if (armour_is_hide(item))
     {
-        do_uncurse_item(item, false);
+        do_uncurse_item(item);
         item.plus = 0;
         set_ident_flags(item, ISFLAG_IDENT_MASK);
     }
@@ -1580,10 +1581,7 @@ static void _generate_book_item(item_def& item, bool allow_uniques,
     }
 
     if (item.sub_type == BOOK_RANDART_THEME)
-    {
-        make_book_theme_randart(item, SPTYP_NONE, SPTYP_NONE,
-                                5 + coinflip(), 20);
-    }
+        build_themed_book(item, capped_spell_filter(20));
     else if (item.sub_type == BOOK_RANDART_LEVEL)
     {
         int max_level  = min(9, max(1, item_level / 3));
@@ -1819,7 +1817,6 @@ static void _generate_misc_item(item_def& item, int force_type, int force_ego)
                                       MISC_BOX_OF_BEASTS,
                                       MISC_SACK_OF_SPIDERS,
                                       MISC_CRYSTAL_BALL_OF_ENERGY,
-                                      MISC_LANTERN_OF_SHADOWS,
                                       MISC_PHANTOM_MIRROR);
     }
 

@@ -19,6 +19,7 @@
 #include "directn.h"
 #include "english.h"
 #include "env.h"
+#include "godpassive.h"
 #include "godabil.h"
 #include "libutil.h"
 #include "message.h"
@@ -436,7 +437,7 @@ int spell_hunger(spell_type which_spell, bool rod)
 // an unobstructed beam path, such as fire storm.
 bool spell_is_direct_explosion(spell_type spell)
 {
-    return spell == SPELL_FIRE_STORM || spell == SPELL_HELLFIRE_BURST;
+    return spell == SPELL_FIRE_STORM || spell == SPELL_CALL_DOWN_DAMNATION;
 }
 
 bool spell_harms_target(spell_type spell)
@@ -544,16 +545,6 @@ int count_bits(uint64_t bits)
             c++;
 
     return c;
-}
-
-// NOTE: Assumes that any single spell won't belong to conflicting
-// disciplines.
-bool disciplines_conflict(spschools_type disc1, spschools_type disc2)
-{
-    const spschools_type combined = disc1 | disc2;
-
-    return (combined & SPTYP_EARTH) && (combined & SPTYP_AIR)
-           || (combined & SPTYP_FIRE)  && (combined & SPTYP_ICE);
 }
 
 const char *spell_title(spell_type spell)
@@ -1003,7 +994,7 @@ int spell_range(spell_type spell, int pow, bool player_spell)
 
     if (player_spell
         && vehumet_supports_spell(spell)
-        && in_good_standing(GOD_VEHUMET, 3)
+        && have_passive(passive_t::spells_range)
         && maxrange > 1
         && spell != SPELL_GLACIATE)
     {

@@ -52,13 +52,12 @@ bool item_known_cursed(const item_def &item) PURE;
 bool item_is_cursable(const item_def &item, bool ignore_holy_wrath = false);
 bool curse_an_item(bool ignore_holy_wrath = false);
 void do_curse_item(item_def &item, bool quiet = true);
-void do_uncurse_item(item_def &item, bool inscribe = true, bool no_ash = false,
+void do_uncurse_item(item_def &item, bool no_ash = false,
                      bool check_bondage = true);
 inline constexpr bool item_type_has_curses(object_class_type base_type)
 {
         return base_type == OBJ_WEAPONS || base_type == OBJ_ARMOUR
-               || base_type == OBJ_JEWELLERY || base_type == OBJ_STAVES
-               || base_type == OBJ_RODS;
+               || base_type == OBJ_JEWELLERY || base_type == OBJ_STAVES;
 }
 
 // stationary:
@@ -244,9 +243,7 @@ void seen_item(const item_def &item);
 
 static inline bool is_weapon(const item_def &item)
 {
-    return item.base_type == OBJ_WEAPONS
-           || item.base_type == OBJ_STAVES
-           || item.base_type == OBJ_RODS;
+    return item.base_type == OBJ_WEAPONS || item.base_type == OBJ_STAVES;
 }
 
 void remove_whitespace(string &str);
