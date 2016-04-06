@@ -313,6 +313,9 @@ bool builder(bool enable_random_maps, dungeon_feature_type dest_stairs_type)
                 for (monster_iterator mi; mi; ++mi)
                     gozag_set_bribe(*mi);
 
+                if (!Options.old_experience)
+                    _place_experience_potions();
+
                 return true;
             }
         }
@@ -2260,9 +2263,6 @@ static void _build_dungeon_level(dungeon_feature_type dest_stairs_type)
 
         if (_mimic_at_level())
             _place_feature_mimics(dest_stairs_type);
-
-        if (!Options.old_experience)
-            _place_experience_potions();
 
         _place_traps();
 
