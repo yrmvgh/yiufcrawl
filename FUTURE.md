@@ -410,21 +410,6 @@ levels, which will cause Xom to make things more interesting for you. He's nice 
 
 # Version 1.8
 
-## Experience rework
-
-Because a player primarily gains experience through killing monsters, there is always the fear of grinding to get to higher experience levels, and a lot of
-limitations have been added to crawl in an attempt to mitigate this. So no longer will players get experience from kills. Experience will come from reaching new
-levels and branches in the dungeon, and from quaffing potions and fountains of experience (which will be more common than they are now). Potions of experience
-will give experience based on the difficulty of the branch level they drink it on, encouraging delaying consuming the potion for as long as possible, creating a
-natural challenge as a player rushes to get as deep as possible with the lowest amount of experience. Fountains of experience will be fixed in place, however,
-so a player should just drink those at the first opportunity. No longer do we have to worry about players hanging around in a level for too long, trying to get
-more experience. Of course potions of experience are generated once when the level is generated, and are never dropped by monsters, so there is no chance of
-grinding monsters for experience. 
-
-Piety for some gods will still come from killing monsters, but for others killing monsters will be completely unnecessary. Conceivably, there could be
-competitions to see who can beat the game with the least number of kills. Some gods could even get more interesting by reducing piety for killing monsters (Ely
-maybe). The longer you go between killing monsters for some, the higher your piety gain. 
-
 ## Geometric scaling for most attributes and skills
 
 I'm thinking of something like this: 6 strength should have twice the impact on how much damage you do with a weapon as 3 strength. 9 strength = twice what 6
@@ -650,4 +635,11 @@ other artifacts will still be picked up. Now if you drop an unidentified rare ma
 future. Then if you go to manually pick up a mace again, that will change your auto-pickup options too.
 
 This would probably just be an option: adaptive-autopickup = true  or something like that.
+
+## For vim like keyboard interaction
+
+The macroing system can be tightened up a bit, and introduction of more relative commands could greatly improve macro power. With an extended, well designed
+vim-like keyboard interface, you would be able to build macros for most of the things that you need lua scripts for now, which I think will make advanced gaming 
+more accessible to players that would be too intimidated by trying to create a lua script. I'm talking about something so powerful you could program your own
+auto-explore or auto-fight macros in the same way you make simple macros today, without needing to touch a lua script. 
 
