@@ -97,7 +97,7 @@ with my goals here, or with concerns you have about my future plans.
     * Curses now have a curse level. 
     * The curse on equipped items decay as a player gains experience (unless the player worships Ash of course).
     * Typical early game curses are at curse level 100. 
-    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations. 
+    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations and piety (whichever is greater). 
     * Once the curse level drops to 0, the item is no longer cursed. 
     * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
     * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.

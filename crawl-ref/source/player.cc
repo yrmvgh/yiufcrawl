@@ -3827,7 +3827,6 @@ unsigned int exp_needed(int lev, int exp_apt)
                 break;
         }
 
-
         needed_exp = (level - 1) * apt_to_factor(exp_apt - 1);
     }
     else
