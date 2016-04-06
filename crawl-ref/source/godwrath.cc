@@ -1869,7 +1869,8 @@ bool divine_retribution(god_type god, bool no_bonus, bool force)
     {
     // One in ten chance that Xom might do something good...
     case GOD_XOM:
-        xom_acts(one_chance_in(10), abs(you.piety - HALF_MAX_PIETY));
+        xom_acts(abs(you.piety - HALF_MAX_PIETY),
+                 frombool(one_chance_in(10)));
         break;
     case GOD_SHINING_ONE:   do_more = _tso_retribution(); break;
     case GOD_ZIN:           do_more = _zin_retribution(); break;
@@ -2044,37 +2045,21 @@ void gozag_incite(monster *mon)
     behaviour_event(mon, ME_ALERT, &you);
 
     bool success = false;
-    const mon_attack_def attk = mons_attack_spec(mon, 0);
 
-    int tries = 3;
-    do
+    if (mon->needs_berserk(true, true))
     {
-        switch (random2(3))
-        {
-            case 0:
-                if (attk.type == AT_NONE || attk.damage == 0)
-                    break;
-                if (mon->has_ench(ENCH_MIGHT))
-                    break;
-                enchant_actor_with_flavour(mon, mon, BEAM_MIGHT);
-                success = true;
-                break;
-            case 1:
-                if (mon->has_ench(ENCH_HASTE))
-                    break;
-                enchant_actor_with_flavour(mon, mon, BEAM_HASTE);
-                success = true;
-                break;
-            case 2:
-                if (!mon->can_go_berserk())
-                    break;
-                mon->go_berserk(true);
-                success = true;
-                break;
-        }
+        mon->go_berserk(true);
+        success = true;
     }
-    while (!success && --tries > 0);
+    else if (!mon->has_ench(ENCH_HASTE))
+    {
+        enchant_actor_with_flavour(mon, mon, BEAM_HASTE);
+        success = true;
+    }
 
     if (success)
+    {
+        mon->add_ench(ENCH_GOZAG_INCITE);
         view_update_at(mon->pos());
+    }
 }

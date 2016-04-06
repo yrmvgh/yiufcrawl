@@ -558,7 +558,7 @@ static const struct spell_desc spelldata[] =
     100,
     6, 6,
     4, 10,
-    TILEG_ERROR,
+    TILEG_ISKENDERUNS_MYSTIC_BLAST,
 },
 
 #if TAG_MAJOR_VERSION == 34
@@ -3719,6 +3719,17 @@ static const struct spell_desc spelldata[] =
     25,
     LOS_RADIUS, LOS_RADIUS,
     1, 0,
+    TILEG_ERROR,
+},
+
+{
+    SPELL_SPRINT, "Sprint",
+    SPTYP_CHARMS,
+    SPFLAG_HASTY | SPFLAG_SELFENCH | SPFLAG_UTILITY,
+    2,
+    100,
+    -1, -1,
+    2, 0,
     TILEG_ERROR,
 },
 

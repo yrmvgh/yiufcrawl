@@ -1126,8 +1126,9 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_BROTHERS_IN_ARMS:
     case SPELL_BERSERKER_RAGE:
     case SPELL_TROGS_HAND:
-    case SPELL_SWIFTNESS:
+    case SPELL_SPRINT:
 #if TAG_MAJOR_VERSION == 34
+    case SPELL_SWIFTNESS:
     case SPELL_STONESKIN:
 #endif
     case SPELL_WATER_ELEMENTALS:
@@ -3450,9 +3451,9 @@ bool handle_mon_spell(monster* mons, bolt &beem)
                 continue;
             }
 
-            // Alligators shouldn't spam swiftness.
+            // Alligators shouldn't spam sprint.
             // (not in _ms_waste_of_time since it is not deterministic)
-            if (spell_cast == SPELL_SWIFTNESS
+            if (spell_cast == SPELL_SPRINT
                 && mons->type == MONS_ALLIGATOR
                 && (mons->swift_cooldown + random2avg(170, 5) >=
                     you.num_turns))
@@ -3767,6 +3768,17 @@ static monster_type _pick_vermin()
                                   2, MONS_TARANTELLA,
                                   2, MONS_JUMPING_SPIDER,
                                   3, MONS_DEMONIC_CRAWLER,
+                                  0);
+}
+
+static monster_type _pick_drake()
+{
+    return random_choose_weighted(5, MONS_SWAMP_DRAKE,
+                                  5, MONS_KOMODO_DRAGON,
+                                  5, MONS_WIND_DRAKE,
+                                  6, MONS_RIME_DRAKE,
+                                  6, MONS_DEATH_DRAKE,
+                                  3, MONS_LINDWURM,
                                   0);
 }
 
@@ -5142,7 +5154,11 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
     }
 
+#if TAG_MAJOR_VERSION == 34
+    // Replaced with monster-specific version.
     case SPELL_SWIFTNESS:
+#endif
+    case SPELL_SPRINT:
         mons->add_ench(ENCH_SWIFT);
         if (mons->type == MONS_ALLIGATOR)
         {
@@ -5548,7 +5564,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                       mons->pos(), mons->foe, MG_NONE, god));
         return;
 
-    // Journey -- Added in Summon Lizards and Draconians
+    // Journey -- Added in Summon Lizards
     case SPELL_SUMMON_DRAKES:
         sumcount2 = 1 + random2(mons->spell_hd(spell_cast) / 5 + 1);
 
@@ -5559,19 +5575,8 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
             for (sumcount = 0; sumcount < sumcount2; ++sumcount)
             {
-                bool drag = false;
-                monster_type mon = summon_any_dragon(DRAGON_LIZARD);
-
-                if (mon == MONS_DRAGON)
-                {
-                    drag = true;
-                    mon = summon_any_dragon(DRAGON_DRAGON);
-                }
-
+                monster_type mon = _pick_drake();
                 monsters.push_back(mon);
-
-                if (drag)
-                    break;
             }
 
             for (monster_type type : monsters)
@@ -7513,7 +7518,10 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_MIGHT:
         return mon->has_ench(ENCH_MIGHT);
 
+#if TAG_MAJOR_VERSION == 34
     case SPELL_SWIFTNESS:
+#endif
+    case SPELL_SPRINT:
         return mon->has_ench(ENCH_SWIFT);
 
     case SPELL_REGENERATION:

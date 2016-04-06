@@ -657,7 +657,8 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_DRAC_CALLER,
       {
-       { SPELL_SUMMON_DRAKES, 66, MON_SPELL_WIZARD },
+       { SPELL_SUMMON_DRAKES, 55, MON_SPELL_WIZARD },
+       { SPELL_SUMMON_DRAGON, 10, MON_SPELL_WIZARD },
       }
     },
 
@@ -705,7 +706,7 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_ALLIGATOR,
       {
-       { SPELL_SWIFTNESS, 62, MON_SPELL_NATURAL },
+       { SPELL_SPRINT, 62, MON_SPELL_NATURAL },
       }
     },
 
@@ -824,7 +825,7 @@ static const mon_spellbook mspell_list[] =
       {
        { SPELL_AIRSTRIKE, 23, MON_SPELL_WIZARD },
        { SPELL_SLOW, 12, MON_SPELL_WIZARD },
-       { SPELL_SWIFTNESS, 12, MON_SPELL_WIZARD },
+       { SPELL_SPRINT, 12, MON_SPELL_WIZARD },
        { SPELL_SUMMON_SMALL_MAMMAL, 12, MON_SPELL_WIZARD },
        { SPELL_CANTRIP, 12, MON_SPELL_WIZARD },
       }
@@ -833,7 +834,7 @@ static const mon_spellbook mspell_list[] =
     {  MST_MAURICE,
       {
        { SPELL_INVISIBILITY, 14, MON_SPELL_WIZARD  },
-       { SPELL_SWIFTNESS, 14, MON_SPELL_WIZARD },
+       { SPELL_SPRINT, 14, MON_SPELL_WIZARD },
        { SPELL_BLINK, 14, MON_SPELL_WIZARD },
        { SPELL_TELEPORT_SELF, 14, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
       }

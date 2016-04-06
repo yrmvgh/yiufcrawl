@@ -128,7 +128,7 @@ static bool _agent_spell_filter(int agent, spell_type spell)
     // Don't include spells a god dislikes, if this is an acquirement
     // or a god gift.
     const god_type god = agent >= AQ_SCROLL ? you.religion : (god_type)agent;
-    if (god_dislikes_spell_type(spell, god))
+    if (god_hates_spell(spell, god))
         return false;
 
     return true;
@@ -402,7 +402,7 @@ static void _get_spell_list(vector<spell_type> &spells, int level,
             continue;
         }
 
-        if (god_dislikes_spell_type(spell, god))
+        if (god_hates_spell(spell, god))
         {
             god_discard++;
             continue;
@@ -1134,7 +1134,7 @@ static void _choose_themed_randbook_spells(weighted_spells &possible_spells,
                                            spschool_flag_type discipline_2,
                                            int size, vector<spell_type> &spells)
 {
-    for (auto weighted_spell : possible_spells)
+    for (auto &weighted_spell : possible_spells)
     {
         const spell_type spell = weighted_spell.first;
         const spschools_type disciplines = get_spell_disciplines(spell);
