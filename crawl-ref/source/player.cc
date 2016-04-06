@@ -2678,9 +2678,7 @@ static void _reduce_abyss_xp_timer(int exp)
 const int experience_for_this_floor() {
     const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
     int exp = stepup2(how_deep + 1, 3, 3, 5) + 1;
-    if (you.where_are_you == BRANCH_BAZAAR
-        || you.where_are_you == BRANCH_TEMPLE
-        || you.where_are_you == BRANCH_TROVE
+    if (is_safe_branch(you.where_are_you)
         || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
             )
         exp = 0;
@@ -3838,7 +3836,7 @@ unsigned int exp_needed(int lev, int exp_apt)
             exp_apt-=2;
 
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        needed_exp = stepup2(lev, 2, 4) * 5 * apt_factor + 10;
+        needed_exp = stepup2(lev, 2, 4) * 5 * apt_factor * apt_factor * apt_factor + 10;
     }
     return (unsigned int) needed_exp;
 }
