@@ -1,9 +1,9 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-Checkout branch v1.1 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off into v1.2.
+Checkout branch v1.2 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off into v1.2.
 For those who don't know how to clone from a git repo: install git on your system, then type:
 
-    git clone https://github.com/jeremygurr/dcssca.git -b v1.1
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.2
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
 Many of my changes center around increasing the richness of the different species in DCSS. 
@@ -97,7 +97,7 @@ with my goals here, or with concerns you have about my future plans.
     * Curses now have a curse level. 
     * The curse on equipped items decay as a player gains experience (unless the player worships Ash of course).
     * Typical early game curses are at curse level 100. 
-    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations. 
+    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations and piety (whichever is greater). 
     * Once the curse level drops to 0, the item is no longer cursed. 
     * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
     * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.
