@@ -884,11 +884,23 @@ string get_level_annotation(level_id li, bool skip_excl, bool skip_uniq,
 void add_experience_potion_annotation(level_id li, int count)
 {
     int potions = 0;
-    if (level_experience.find(li) != level_experience.end())
+//    if (level_experience.find(li) != level_experience.end())
+//    {
+//        potions = *map_find(level_experience, li);
+//    }
+//    potions += count;
+    for (const item_def &item : mitm)
     {
-        potions = *map_find(level_experience, li);
+        if(item.base_type == OBJ_POTIONS
+           && item.sub_type == POT_EXPERIENCE
+           && item.orig_place.branch == li.branch
+           && item.orig_place.depth == li.depth)
+            potions++;
     }
-    potions += count;
+
+    if (count > 0)
+        potions += count;
+
     level_experience[li] = potions;
 }
 
