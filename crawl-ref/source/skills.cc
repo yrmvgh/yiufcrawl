@@ -178,7 +178,7 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
 //                          27000, 29750 };
 
     ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
-    const int exp_needed = stepup2(lev + 1, 3, 3, 50) + 10;
+    const int exp_needed = stepup2(lev + 1, 4, 3, 50) + 10;
     const float apt = species_apt_factor(sk, sp);
     const int result = exp_needed * apt;
     return result;
