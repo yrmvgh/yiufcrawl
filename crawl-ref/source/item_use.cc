@@ -1776,10 +1776,10 @@ void drink(int slot)
         {
             crawl_state.warn_about_experience = false;
             const int exp = experience_for_this_floor();
-            mprf("The deeper you go before drinking it, the more experience you will get. Drinking it now will give you %d exp.",
-                 exp);
-            if (!yesno("Are you sure you want to drink this now? ", true, 'n'))
-                return;
+//            mprf("The deeper you go before drinking it, the more experience you will get. Drinking it now will give you %d exp.",
+//                 exp);
+//            if (!yesno("Are you sure you want to drink this now? ", true, 'n'))
+//                return;
         }
     }
 
