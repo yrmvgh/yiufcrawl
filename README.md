@@ -66,6 +66,12 @@ with my goals here, or with concerns you have about my future plans.
     * Monster super spawning is no longer needed for players who spend too much time in a level. Since experience scumming is no longer possible, we don't
       need it.
     * This can be disabled by putting this in your rc file: old_experience = true
+    * This allows for a new "runner" and "pacifist" challenge playstyles, that are more difficult than speed runs, but doable with enough skill. 
+    * All kinds of new strategies are opened up
+        * You can delay gaining experience as much as possible to maximize how much you can get
+        * If you are very drained, and in a bad situation, you can drink a few experience potions to wash it away
+        * If you find a new weapon that you don't have skills for, set up training for it and drink a few experience potions, and you can immediately use it
+          well!
 
 ### v1.1 (currently deployed)
 
