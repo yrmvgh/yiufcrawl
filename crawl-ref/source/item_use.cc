@@ -2784,7 +2784,7 @@ void read_scroll(int item_slot)
 
     case SCR_REMOVE_CURSE:
     {
-        int power = (100 + you.skill(SK_INVOCATIONS) * 50) * you.amplification;
+        int power = (100 + max(you.skill(SK_INVOCATIONS) * 50, you.piety * 5)) * you.amplification;
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);
