@@ -1770,19 +1770,6 @@ void drink(int slot)
                             && you.experience_level > 1);
     potion_type pot_type = (potion_type)potion.sub_type;
 
-    if (!Options.old_experience && pot_type == POT_EXPERIENCE)
-    {
-        if (crawl_state.warn_about_experience)
-        {
-            crawl_state.warn_about_experience = false;
-            const int exp = experience_for_this_floor();
-            mprf("The deeper you go before drinking it, the more experience you will get. Drinking it now will give you %d exp.",
-                 exp);
-            if (!yesno("Are you sure you want to drink this now? ", true, 'n'))
-                return;
-        }
-    }
-
     if (player_under_penance(GOD_GOZAG) && one_chance_in(3))
     {
         simple_god_message(" petitions for your drink to fail.", GOD_GOZAG);
@@ -2784,7 +2771,7 @@ void read_scroll(int item_slot)
 
     case SCR_REMOVE_CURSE:
     {
-        int power = (100 + you.skill(SK_INVOCATIONS) * 50) * you.amplification;
+        int power = (100 + max(you.skill(SK_INVOCATIONS) * 50, you.piety * 5)) * you.amplification;
         if (!alreadyknown)
         {
             mpr(pre_succ_msg);

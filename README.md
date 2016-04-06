@@ -1,9 +1,9 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-Checkout branch v1.1 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off into v1.2.
+Checkout branch v1.2 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off into v1.2.
 For those who don't know how to clone from a git repo: install git on your system, then type:
 
-    git clone https://github.com/jeremygurr/dcssca.git -b v1.1
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.2
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
 Many of my changes center around increasing the richness of the different species in DCSS. 
@@ -65,7 +65,14 @@ with my goals here, or with concerns you have about my future plans.
         * Players are incentivized to go as deep as possible before drinking the experience potion, greatly increasing the danger. 
     * Monster super spawning is no longer needed for players who spend too much time in a level. Since experience scumming is no longer possible, we don't
       need it.
-    * This can be disabled by putting this in your rc file: old_experience = true
+    * This allows for a new "runner" and "pacifist" challenge playstyles, that are more difficult than speed runs, but doable with enough skill. 
+    * All kinds of new strategies are opened up
+        * You can delay gaining experience as much as possible to maximize how much you can get
+        * If you are very drained, and in a bad situation, you can drink a few experience potions to wash it away
+        * If you find a new weapon that you don't have skills for, set up training for it and drink a few experience potions, and you can immediately use it
+          well!
+    * Level annotations are added if there is still an experience potion on the floor of the level, making it easy to tell which ones you've missed.
+    * The new experience mechanic can be disabled by putting this in your rc file: old_experience = true
 
 ### v1.1 (currently deployed)
 
@@ -97,7 +104,7 @@ with my goals here, or with concerns you have about my future plans.
     * Curses now have a curse level. 
     * The curse on equipped items decay as a player gains experience (unless the player worships Ash of course).
     * Typical early game curses are at curse level 100. 
-    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations. 
+    * Reading a remove curse scroll reduces the curse level by a minimum of 100, scaling up with invocations and piety (whichever is greater). 
     * Once the curse level drops to 0, the item is no longer cursed. 
     * Later game curses may be much higher than 100, and require multiple scrolls or a lot of waiting before they go away. 
     * Mummy death curses curse an equipment slot, not an item. Equipment slot curses pass on to an item as soon as it is equipped.
