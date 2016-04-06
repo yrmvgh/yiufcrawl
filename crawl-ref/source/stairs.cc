@@ -803,6 +803,9 @@ void floor_transition(dungeon_feature_type how,
     else
         maybe_update_stashes();
 
+    if (!Options.old_experience)
+        mprf("Quaffing an experience potion here would give %d experience.", experience_for_this_floor());
+
     request_autopickup();
 }
 
