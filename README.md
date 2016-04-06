@@ -71,6 +71,7 @@ with my goals here, or with concerns you have about my future plans.
         * If you are very drained, and in a bad situation, you can drink a few experience potions to wash it away
         * If you find a new weapon that you don't have skills for, set up training for it and drink a few experience potions, and you can immediately use it
           well!
+    * Level annotations are added if there is still an experience potion on the floor of the level, making it easy to tell which ones you've missed.
     * The new experience mechanic can be disabled by putting this in your rc file: old_experience = true
 
 ### v1.1 (currently deployed)

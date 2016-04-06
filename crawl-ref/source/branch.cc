@@ -92,6 +92,13 @@ branch_iterator branch_iterator::operator++(int)
     return copy;
 }
 
+bool is_safe_branch(branch_type branch)
+{
+    return branch == BRANCH_TROVE
+           || branch == BRANCH_BAZAAR
+           || branch == BRANCH_TEMPLE;
+}
+
 const Branch& your_branch()
 {
     return branches[you.where_are_you];

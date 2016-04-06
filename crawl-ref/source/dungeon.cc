@@ -313,7 +313,9 @@ bool builder(bool enable_random_maps, dungeon_feature_type dest_stairs_type)
                 for (monster_iterator mi; mi; ++mi)
                     gozag_set_bribe(*mi);
 
-                if (!Options.old_experience)
+                if (!Options.old_experience
+                    && !is_safe_branch(you.where_are_you)
+                        )
                 {
                     reset_experience_potion_annotation();
                     _place_experience_potions();
