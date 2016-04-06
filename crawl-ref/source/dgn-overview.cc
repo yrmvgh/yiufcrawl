@@ -874,7 +874,7 @@ string get_level_annotation(level_id li, bool skip_excl, bool skip_uniq,
         {
             if (note.length() > 0)
                 note += ", ";
-            note += "experience";
+            note += "exp potion";
         }
     }
 
