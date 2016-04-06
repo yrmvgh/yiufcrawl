@@ -65,6 +65,7 @@ with my goals here, or with concerns you have about my future plans.
         * Players are incentivized to go as deep as possible before drinking the experience potion, greatly increasing the danger. 
     * Monster super spawning is no longer needed for players who spend too much time in a level. Since experience scumming is no longer possible, we don't
       need it.
+    * This can be disabled by putting this in your rc file: old_experience = true
 
 ### v1.1 (currently deployed)
 
