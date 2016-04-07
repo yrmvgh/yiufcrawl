@@ -59,7 +59,6 @@ with my goals here, or with concerns you have about my future plans.
         * drinking a potion of experience
         * entering a floor for the first time
         * destroying altars (coming soon)
-    * A potion of experience is dropped by all uniques and player ghosts
     * Since mummies can't drink potions, they get much more experience for entering a new floor
     * The amount of experience gained by drinking a potion of experience is based on what level the potion was drunk on. 
         * Players are incentivized to go as deep as possible before drinking the experience potion, greatly increasing the danger. 
@@ -72,6 +71,17 @@ with my goals here, or with concerns you have about my future plans.
         * If you find a new weapon that you don't have skills for, set up training for it and drink a few experience potions, and you can immediately use it
           well!
     * Level annotations are added if there is still an experience potion on the floor of the level, making it easy to tell which ones you've missed.
+    * Recommended strategy for first timers playing this way:
+        * clear the first 3 floors without drinking any exp potions
+        * then dive as deep into the dungeon as you dare
+            * meaning take the first stairs or shaft you see for as many floors down as you can
+            * if you run into trouble, go back up one floor to safety and drink the exp potions
+        * drink all of your exp potions
+        * then return to the 4th floor and begin clearing it
+        * save your exp potions until you are really struggling to keep up
+        * then do another deep dive
+        * if you have to skip a floor because of danger, and didn't get the exp potion, it will be annotated on your level overview page, so you can easily 
+          go back later when you are strong enough.
     * The new experience mechanic can be disabled by putting this in your rc file: old_experience = true
 
 ### v1.1 (currently deployed)

@@ -2677,7 +2677,7 @@ static void _reduce_abyss_xp_timer(int exp)
 
 const int experience_for_this_floor() {
     const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-    int exp = stepup2(how_deep + 1, 3, 3, 5) + 1;
+    int exp = stepup2(how_deep + 1, 3, 3, 10) + 5;
     if (is_safe_branch(you.where_are_you)
         || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
             )
@@ -2698,6 +2698,12 @@ void gain_floor_exp()
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        exp_gained *= 3;
+
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        exp_gained /= 3;
+
     if (crawl_state.game_is_arena())
         return;
 
@@ -2979,7 +2985,7 @@ void level_change(bool skip_attribute_increase)
             // Don't want to see the dead creature at the prompt.
             redraw_screen();
 
-            if (new_exp == MAX_EXP_LEVEL)
+            if (new_exp == MAX_EXP_LEVEL || Options.old_experience && new_exp == 27)
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level 27, the final one!");
             else if (new_exp == you.get_max_xl())
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level %d, the highest you will ever reach!",
@@ -3829,12 +3835,6 @@ unsigned int exp_needed(int lev, int exp_apt)
     }
     else
     {
-        if (crawl_state.difficulty == DIFFICULTY_EASY)
-            exp_apt+=2;
-
-        if (crawl_state.difficulty == DIFFICULTY_HARD)
-            exp_apt-=2;
-
         const float apt_factor = apt_to_factor(exp_apt - 1);
         needed_exp = stepup2(lev, 2, 4) * 5 * apt_factor * apt_factor * apt_factor + 10;
     }
