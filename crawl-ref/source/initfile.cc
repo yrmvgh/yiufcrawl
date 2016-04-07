@@ -949,11 +949,11 @@ void game_options::reset_options()
     old_movement = false;
     danger_mode_threshold = 30;
     level_27_cap = false;
-    exp_from_new_floor = true;
-    exp_potion_on_each_floor = true;
-    uniques_drop_exp_potions = true;
-    exp_percent_from_monsters = 0;
-    exp_percent_from_potions = 100;
+    exp_from_new_floor = false;
+    exp_potion_on_each_floor = false;
+    uniques_drop_exp_potions = false;
+    exp_percent_from_monsters = 100;
+    exp_percent_from_potions = 0;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
