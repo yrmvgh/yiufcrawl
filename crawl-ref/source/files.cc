@@ -1135,8 +1135,9 @@ static void _make_level(dungeon_feature_type stair_taken,
 
     if (Options.exp_from_new_floor)
     {
-        mprf(MSGCH_INTRINSIC_GAIN, "You gained %d exp for entering this floor.",
-             experience_for_this_floor());
+        if (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions)
+            mprf(MSGCH_INTRINSIC_GAIN, "You gained %d exp for entering this floor.",
+                 experience_for_this_floor());
         gain_floor_exp();
     }
 }

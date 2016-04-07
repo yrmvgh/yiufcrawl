@@ -421,10 +421,12 @@ public:
     bool        regex_search; // whether to default to regex search for ^F
 
     bool        old_movement;               // original crawl movement, where direction changes aren't penalized
+
     bool        level_27_cap;               // prevent player level and skills from exceeding level 27, and use old style progression steps
     bool        exp_from_new_floor;         // give experience from arriving on a new floor
     bool        exp_potion_on_each_floor;   // give experience from exp potions dropped on each floor
     bool        uniques_drop_exp_potions;   // uniques and ghosts will always drop exp potions
+    int         floor_exp_rate;             // if 0, use depth to determine floor xp, otherwise if 100 give 100% of experience needed for player to get to the next level, 0-1000
 
     int         exp_percent_from_monsters;  // what percent of normal monster experience to give on monster kill
     int         exp_percent_from_potions;    // what percent of normal experience potion experience to give when drinking

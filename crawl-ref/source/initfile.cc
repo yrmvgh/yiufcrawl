@@ -946,6 +946,7 @@ void game_options::reset_options()
     pizzas.clear();
 
     regex_search = false;
+
     old_movement = false;
     danger_mode_threshold = 30;
     level_27_cap = false;
@@ -954,6 +955,7 @@ void game_options::reset_options()
     uniques_drop_exp_potions = false;
     exp_percent_from_monsters = 100;
     exp_percent_from_potions = 0;
+    floor_exp_rate = 0;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
@@ -2898,6 +2900,7 @@ void game_options::read_option_line(const string &str, bool runscript)
     else BOOL_OPTION(exp_from_new_floor);
     else INT_OPTION(exp_percent_from_monsters, -1000, 1000);
     else INT_OPTION(exp_percent_from_potions, -1000, 1000);
+    else INT_OPTION(floor_exp_rate, -1000, 1000);
     else INT_OPTION(danger_mode_threshold, 0, 100);
 #if !defined(DGAMELAUNCH) || defined(DGL_REMEMBER_NAME)
     else BOOL_OPTION(remember_name);
