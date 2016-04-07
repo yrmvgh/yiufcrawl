@@ -2705,7 +2705,7 @@ void gain_floor_exp()
     if (you.species == SP_MUMMY)
         exp <<= 3;
 
-    gain_exp(exp);
+    gain_exp(exp * Options.exp_percent_from_potions / 100);
 }
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)

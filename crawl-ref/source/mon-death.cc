@@ -334,8 +334,8 @@ static void _give_player_experience(int experience, killer_type killer,
         return;
 
     unsigned int exp_gain = 0;
-    if (Options.exp_from_monsters)
-        gain_exp(experience, &exp_gain);
+    if (Options.exp_percent_from_monsters > 0)
+        gain_exp(experience * Options.exp_percent_from_monsters / 100, &exp_gain);
 
     kill_category kc =
             (killer == KILL_YOU || killer == KILL_YOU_MISSILE) ? KC_YOU :
@@ -355,7 +355,7 @@ static void _give_player_experience(int experience, killer_type killer,
 
     // Give a message for monsters dying out of sight.
     if (exp_gain > 0 && !was_visible)
-        if (Options.exp_from_monsters)
+        if (Options.exp_percent_from_monsters > 0)
             mpr("You feel a bit more experienced.");
         else
             mpr("You feel like you have one less thing to worry about.");

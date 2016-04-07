@@ -87,9 +87,6 @@ with my goals here, or with concerns you have about my future plans.
         * level_27_cap = false
             * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
             * when true, the old experience cap and scale is in place
-        * exp_from_monsters = false
-            * when false, killing a monster gives no experience
-            * when true, monster deaths give experience like before
         * exp_potion_on_each_floor = true
             * when true, an experience potion is placed on every floor
         * exp_from_new_floor = true
@@ -97,6 +94,12 @@ with my goals here, or with concerns you have about my future plans.
         * uniques_drop_exp_potions = true
             * when true, uniques and player ghosts will always drop an exp potion
             * when false, they don't, like before
+        * exp_percent_from_monsters = 0
+            * when 0, killing a monster gives 0 experience
+            * when 100, killing a monster gives the full experience it gave in standard crawl
+        * exp_percent_from_potions = 100
+            * when 0, drinking a potion of experience gives 0 experience
+            * when 100, drinking a potion of experience gives it's full amount 
 
 ### v1.1
 
