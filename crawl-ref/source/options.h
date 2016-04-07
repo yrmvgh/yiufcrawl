@@ -429,7 +429,7 @@ public:
     bool        exp_based_on_player_level;  // exp is relative to player level instead of floor the player is on
 
     int         exp_percent_from_monsters;  // what percent of normal monster experience to give on monster kill
-    int         exp_percent_from_potions_or_floor;    // what percent of normal experience potion experience to give when drinking
+    int         exp_percent_from_potions_on_floor;    // what percent of normal experience potion experience to give when drinking
 
     int         danger_mode_threshold;      // enter danger mode if player's health is less than this percentage of the last damage done.
 

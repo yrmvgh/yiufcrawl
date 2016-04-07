@@ -2691,7 +2691,7 @@ const int experience_for_this_floor() {
                 const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
                 exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
             }
-        exp = exp * Options.exp_percent_from_potions_or_floor / 100;
+        exp = exp * Options.exp_percent_from_potions_on_floor / 100;
     }
 
     return exp;

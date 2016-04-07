@@ -1979,7 +1979,7 @@ string get_item_description(const item_def &item, bool verbose,
 
     case OBJ_POTIONS:
     {
-        if (item.sub_type == POT_EXPERIENCE && Options.exp_percent_from_potions_or_floor > 0
+        if (item.sub_type == POT_EXPERIENCE && Options.exp_percent_from_potions_on_floor > 0
             && (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions))
         {
             description << "\n\nDrinking this on this level will give "
