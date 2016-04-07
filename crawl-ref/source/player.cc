@@ -710,7 +710,7 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
     case EQ_RING_EIGHT:
         if (player_mutation_level(MUT_MISSING_HAND))
             return MB_FALSE;
-        // intentional fallthrough
+        return you.species == SP_OCTOPODE ? MB_TRUE : MB_FALSE;
     case EQ_RING_ONE:
     case EQ_RING_TWO:
     case EQ_RING_THREE:
@@ -4288,11 +4288,11 @@ int get_real_hp(bool trans, bool rotted)
 #endif
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        hitp += 10;
+        hitp = hitp * 3 / 2;
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-    	hitp = hitp * 3 / 4;
+    	hitp = hitp * 2 / 3;
 
-    return max(1, hitp);
+    return max(1, hitp + 5);
 }
 
 int get_real_mp(bool include_items)
