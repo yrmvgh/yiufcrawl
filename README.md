@@ -87,19 +87,30 @@ with my goals here, or with concerns you have about my future plans.
         * level_27_cap = false
             * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
             * when true, the old experience cap and scale is in place
-        * exp_potion_on_each_floor = true
+        * exp_potion_on_each_floor = false
             * when true, an experience potion is placed on every floor
-        * exp_from_new_floor = true
+        * exp_from_new_floor = false
             * when true, arriving at a new floor will give experience
-        * uniques_drop_exp_potions = true
+        * uniques_drop_exp_potions = false
             * when true, uniques and player ghosts will always drop an exp potion
             * when false, they don't, like before
-        * exp_percent_from_monsters = 0
+        * exp_percent_from_monsters = 100 (0-1000)
             * when 0, killing a monster gives 0 experience
             * when 100, killing a monster gives the full experience it gave in standard crawl
-        * exp_percent_from_potions = 100
-            * when 0, drinking a potion of experience gives 0 experience
-            * when 100, drinking a potion of experience gives it's full amount 
+        * exp_percent_from_potions_or_floor = 0 (0-1000)
+            * if exp_based_on_player_level = true
+                * when 0, drinking a potion of experience gives 0 experience
+                * when 100, drinking a potion of experience gives it's full amount 
+            * if exp_based_on_player_level = false
+                * when 20, drinking a potion of experience gives 20% of the experience needed for the player
+                  to advance to the next xp level
+                * when 100, drinking a potion of experience gives 100% of the experience needed for the player
+                  to advance to the next xp level
+        * exp_based_on_player_level = true
+            * when false, potions of experience give experience relative to the floor the player is on
+            * when true, experience is given relative to the players xl
+                * if exp_percent_from_potions_or_floor = 100, for example, then the player gets 100% of the 
+                  experience needed to advance to the next xl when drinking a potion.
 
 ### v1.1
 

@@ -410,8 +410,13 @@ void debuff_player()
     contaminate_player(-1 * (1000 + random2(4000)));
     if (old_contam_level && old_contam_level == get_contamination_level())
         mpr("You feel slightly less contaminated with magical energies.");
-}
 
+    if (you.attribute[ATTR_XP_DRAIN] > 0)
+    {
+        you.attribute[ATTR_XP_DRAIN] = 0;
+        mprf(MSGCH_RECOVERY, "Your life force feels restored.");
+    }
+}
 
 /**
   * What dispellable effects currently exist on a given monster?

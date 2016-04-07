@@ -2678,21 +2678,21 @@ static void _reduce_abyss_xp_timer(int exp)
 const int experience_for_this_floor() {
     int factor = 48;
 
-    // cut experience down a lot if potions are also dropped by uniques
-    if (Options.uniques_drop_exp_potions)
-        factor >>= 2;
+    int exp = 0;
 
-    // cut experience down a lot if potions are generated on each floor
-    if (Options.exp_potion_on_each_floor)
-        factor >>= 2;
-
-    const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-    int exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
-
-    if (is_safe_branch(you.where_are_you)
-        || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
+    if (!is_safe_branch(you.where_are_you)
+        && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
             )
-        exp = 0;
+    {
+        if (Options.exp_based_on_player_level)
+            exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
+        else
+            {
+                const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+                exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
+            }
+        exp = exp * Options.exp_percent_from_potions_or_floor / 100;
+    }
 
     return exp;
 }
@@ -2702,19 +2702,19 @@ void gain_floor_exp()
     int exp = experience_for_this_floor();
 
     // mummies can't drink experience potions, so they just get more experience per level than normal
-    if (you.species == SP_MUMMY)
+    if (you.species == SP_MUMMY && (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions))
         exp <<= 3;
 
-    gain_exp(exp * Options.exp_percent_from_potions / 100);
+    gain_exp(exp);
 }
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        exp_gained *= 3;
+        exp_gained = exp_gained * 3/2;
 
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-        exp_gained /= 3;
+        exp_gained = exp_gained * 2/3;
 
     if (crawl_state.game_is_arena())
         return;
@@ -3848,7 +3848,8 @@ unsigned int exp_needed(int lev, int exp_apt)
     else
     {
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        needed_exp = stepup2(lev, 2, 4) * 5 * apt_factor * apt_factor * apt_factor + 10;
+        const int base = stepup2(lev, 2, 4) * 5;
+        needed_exp = base * apt_factor * apt_factor * apt_factor + 10;
     }
     return (unsigned int) needed_exp;
 }
