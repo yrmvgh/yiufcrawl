@@ -97,12 +97,20 @@ with my goals here, or with concerns you have about my future plans.
         * exp_percent_from_monsters = 100 (0-1000)
             * when 0, killing a monster gives 0 experience
             * when 100, killing a monster gives the full experience it gave in standard crawl
-        * exp_percent_from_potions = 0 (0-1000)
-            * when 0, drinking a potion of experience gives 0 experience
-            * when 100, drinking a potion of experience gives it's full amount 
-        * floor_exp_rate = 0 (0-1000)
-            * when 0, reaching a floor or drinking an exp potion on a floor gives exp based on floor depth
-            * when 100, reaching a new floor gives 100% of the exp needed for the player to advance to the next level
+        * exp_percent_from_potions_or_floor = 0 (0-1000)
+            * if exp_based_on_player_level = true
+                * when 0, drinking a potion of experience gives 0 experience
+                * when 100, drinking a potion of experience gives it's full amount 
+            * if exp_based_on_player_level = false
+                * when 20, drinking a potion of experience gives 20% of the experience needed for the player
+                  to advance to the next xp level
+                * when 100, drinking a potion of experience gives 100% of the experience needed for the player
+                  to advance to the next xp level
+        * exp_based_on_player_level = true
+            * when false, potions of experience give experience relative to the floor the player is on
+            * when true, experience is given relative to the players xl
+                * if exp_percent_from_potions_or_floor = 100, for example, then the player gets 100% of the 
+                  experience needed to advance to the next xl when drinking a potion.
 
 ### v1.1
 

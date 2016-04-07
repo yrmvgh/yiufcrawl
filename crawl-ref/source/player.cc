@@ -2684,18 +2684,14 @@ const int experience_for_this_floor() {
         && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
             )
     {
-        const int floor_exp_rate = Options.floor_exp_rate;
-        if (floor_exp_rate > 0)
-            {
-                exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
-                exp = exp * floor_exp_rate / 100;
-            }
-            else
+        if (Options.exp_based_on_player_level)
+            exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
+        else
             {
                 const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
                 exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
-                exp = exp * Options.exp_percent_from_potions / 100;
             }
+        exp = exp * Options.exp_percent_from_potions_or_floor / 100;
     }
 
     return exp;
