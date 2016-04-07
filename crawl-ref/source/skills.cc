@@ -154,7 +154,7 @@ static const int MAX_SKILL_COST_LEVEL = MAX_SKILL_LEVEL;
 int calc_skill_cost(int skill_cost_level)
 {
     int cost;
-    if (Options.old_experience)
+    if (Options.level_27_cap)
     {
         const int cost_array[] = { 1, 2, 3, 4, 5,            // 1-5
                              7, 8, 9, 13, 22,         // 6-10
@@ -186,7 +186,7 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
     ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
 
     int result;
-    if (Options.old_experience)
+    if (Options.level_27_cap)
     {
         const int exp[28] = {0, 50, 150, 300, 500, 750,         // 0-5
                              1050, 1400, 1800, 2250, 2800,      // 6-10

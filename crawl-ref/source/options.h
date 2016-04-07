@@ -419,9 +419,17 @@ public:
                                    // fraction of HP or MP
 
     bool        regex_search; // whether to default to regex search for ^F
-    bool        old_movement;           // original crawl movement, where direction changes aren't penalized
-    bool        old_experience;         // give experience from monster kills like before
-    int         danger_mode_threshold; // enter danger mode if player's health is less than this percentage of the last damage done.
+
+    bool        old_movement;               // original crawl movement, where direction changes aren't penalized
+    bool        level_27_cap;               // prevent player level and skills from exceeding level 27, and use old style progression steps
+    bool        exp_from_new_floor;         // give experience from arriving on a new floor
+    bool        exp_potion_on_each_floor;   // give experience from exp potions dropped on each floor
+    bool        uniques_drop_exp_potions;   // uniques and ghosts will always drop exp potions
+
+    int         exp_percent_from_monsters;  // what percent of normal monster experience to give on monster kill
+    int         exp_percent_from_potions;    // what percent of normal experience potion experience to give when drinking
+
+    int         danger_mode_threshold;      // enter danger mode if player's health is less than this percentage of the last damage done.
 
     lang_t              language;         // Translation to use.
     const char*         lang_name;        // Database name of the language.

@@ -1133,7 +1133,7 @@ static void _make_level(dungeon_feature_type stair_taken,
     env.sanctuary_pos  = coord_def(-1, -1);
     env.sanctuary_time = 0;
 
-    if (!Options.old_experience)
+    if (Options.exp_from_new_floor)
     {
         mprf(MSGCH_INTRINSIC_GAIN, "You gained %d exp for entering this floor.",
              experience_for_this_floor());

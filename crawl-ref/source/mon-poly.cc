@@ -94,7 +94,15 @@ void monster_drop_things(monster* mons,
             }
 
             mons->inv[i] = NON_ITEM;
+
+
         }
+    }
+
+    if (Options.uniques_drop_exp_potions && (mons_is_unique(mons->type) || mons_is_pghost(mons->type)))
+    {
+        int item = items(true, OBJ_POTIONS, POT_EXPERIENCE, 99);
+        move_item_to_grid(&item, mons->pos(), mons->swimming());
     }
 }
 

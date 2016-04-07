@@ -596,15 +596,10 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         // Wild magic boosts spell power but decreases success rate.
         if (!fail_rate_check)
         {
-<<<<<<< HEAD
             const int wild = player_mutation_level(MUT_WILD_MAGIC);
             const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
             power *= (10 + 3 * wild * wild);
             power /= (10 + 3 * subdued * subdued);
-=======
-            power *= (10 + 3 * player_mutation_level(MUT_WILD_MAGIC));
-            power /= (10 + 3 * player_mutation_level(MUT_SUBDUED_MAGIC));
->>>>>>> 762f1eb6ea7c5cc68faf67621fc3a9b61c57971d
         }
 
         // Augmentation boosts spell power at high HP.

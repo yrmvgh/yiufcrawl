@@ -710,7 +710,7 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
     case EQ_RING_EIGHT:
         if (player_mutation_level(MUT_MISSING_HAND))
             return MB_FALSE;
-        // intentional fallthrough
+        return you.species == SP_OCTOPODE ? MB_TRUE : MB_FALSE;
     case EQ_RING_ONE:
     case EQ_RING_TWO:
     case EQ_RING_THREE:
@@ -2676,12 +2676,24 @@ static void _reduce_abyss_xp_timer(int exp)
 }
 
 const int experience_for_this_floor() {
+    int factor = 48;
+
+    // cut experience down a lot if potions are also dropped by uniques
+    if (Options.uniques_drop_exp_potions)
+        factor >>= 2;
+
+    // cut experience down a lot if potions are generated on each floor
+    if (Options.exp_potion_on_each_floor)
+        factor >>= 2;
+
     const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-    int exp = stepup2(how_deep + 1, 3, 3, 10) + 5;
+    int exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
+
     if (is_safe_branch(you.where_are_you)
         || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
             )
         exp = 0;
+
     return exp;
 }
 
@@ -2693,7 +2705,7 @@ void gain_floor_exp()
     if (you.species == SP_MUMMY)
         exp <<= 3;
 
-    gain_exp(exp);
+    gain_exp(exp * Options.exp_percent_from_potions / 100);
 }
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
@@ -2985,7 +2997,7 @@ void level_change(bool skip_attribute_increase)
             // Don't want to see the dead creature at the prompt.
             redraw_screen();
 
-            if (new_exp == MAX_EXP_LEVEL || Options.old_experience && new_exp == 27)
+            if (new_exp == MAX_EXP_LEVEL || Options.level_27_cap && new_exp == 27)
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level 27, the final one!");
             else if (new_exp == you.get_max_xl())
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level %d, the highest you will ever reach!",
@@ -3758,7 +3770,7 @@ unsigned int exp_needed(int lev, int exp_apt)
         exp_apt = species_exp_modifier(you.species);
 
     int needed_exp;
-    if (Options.old_experience)
+    if (Options.level_27_cap)
     {
         unsigned int level = 0;
 
@@ -4276,11 +4288,11 @@ int get_real_hp(bool trans, bool rotted)
 #endif
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        hitp += 10;
+        hitp = hitp * 3 / 2;
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-    	hitp = hitp * 3 / 4;
+    	hitp = hitp * 2 / 3;
 
-    return max(1, hitp);
+    return max(1, hitp + 5);
 }
 
 int get_real_mp(bool include_items)

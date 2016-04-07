@@ -55,6 +55,7 @@ with my goals here, or with concerns you have about my future plans.
     * Monsters don't give experience
     * One potion of experience is generated on the floor of each level
         * except for safe floors: temple, trove, bazaar
+    * Unique monsters and player ghosts drop one exp potion
     * The player gains experience by:
         * drinking a potion of experience
         * entering a floor for the first time
@@ -82,9 +83,25 @@ with my goals here, or with concerns you have about my future plans.
         * then do another deep dive
         * if you have to skip a floor because of danger, and didn't get the exp potion, it will be annotated on your level overview page, so you can easily 
           go back later when you are strong enough.
-    * The new experience mechanic can be disabled by putting this in your rc file: old_experience = true
+    * rc file options can be used to disable all or part of this:
+        * level_27_cap = false
+            * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
+            * when true, the old experience cap and scale is in place
+        * exp_potion_on_each_floor = true
+            * when true, an experience potion is placed on every floor
+        * exp_from_new_floor = true
+            * when true, arriving at a new floor will give experience
+        * uniques_drop_exp_potions = true
+            * when true, uniques and player ghosts will always drop an exp potion
+            * when false, they don't, like before
+        * exp_percent_from_monsters = 0
+            * when 0, killing a monster gives 0 experience
+            * when 100, killing a monster gives the full experience it gave in standard crawl
+        * exp_percent_from_potions = 100
+            * when 0, drinking a potion of experience gives 0 experience
+            * when 100, drinking a potion of experience gives it's full amount 
 
-### v1.1 (currently deployed)
+### v1.1
 
 * Better low health warnings, especially for new players
     * A new option, called danger_mode_threshold was made which defaults to 30. 

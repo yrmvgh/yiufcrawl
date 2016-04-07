@@ -661,16 +661,16 @@ public:
             // Defer calling level_change() until later in drink() to prevent
             // SIGHUP abuse.
 
-            if (Options.old_experience)
-                adjust_level(1, true);
-            else
+            if (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions)
                 gain_floor_exp();
+            else
+                adjust_level(1, true);
         }
         else
             mpr("A flood of memories washes over you.");
         
         // these are included in default force_more_message
-        if (Options.old_experience)
+        if (!Options.exp_potion_on_each_floor && !Options.uniques_drop_exp_potions)
             skill_menu(SKMF_EXPERIENCE, 750 * you.experience_level);
             
         return true;
