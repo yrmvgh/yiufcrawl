@@ -149,8 +149,8 @@ Of course it is so rare that you may only see a few of them in a game. Probably 
 
 Some ideas for it:
 
-    amp + recharge scroll: recharge all items in your inventory, or set one item to self-charge, or increase charging rate of a self-charging wand (replacements
-for rods in this version).
+    amp + recharge scroll: recharge all items in your inventory, or set one item to self-charge, 
+        or increase charging rate of a self-charging wand (replacements for rods in this version).
     amp + cure mutation potion: cures all mutations, or cures only bad ones
     amp + beneficial mutation: 3 good mutations
     amp + cure potion: provides temporary poison immunity and clarity?

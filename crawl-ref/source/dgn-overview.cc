@@ -894,8 +894,8 @@ void add_experience_potion_annotation(level_id li, int count)
         potions = *map_find(level_experience, li);
     }
     potions += count;
-    if (count < 0)
-        count = 0;
+    if (potions < 0)
+        potions = 0;
 
     level_experience[li] = potions;
 }
