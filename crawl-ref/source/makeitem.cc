@@ -1446,7 +1446,8 @@ static void _generate_potion_item(item_def& item, int force_type,
                                             34, POT_AMBROSIA,
                                             34, POT_CURE_MUTATION,
                                             11, POT_BENEFICIAL_MUTATION,
-                Options.old_experience ? 2 : 0, POT_EXPERIENCE,
+                Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions
+                                       ? 0 : 2, POT_EXPERIENCE,
                                              0);
         }
         while (agent == GOD_XOM

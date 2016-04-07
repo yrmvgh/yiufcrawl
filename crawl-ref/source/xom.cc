@@ -1006,7 +1006,7 @@ static void _xom_do_potion(int /*sever*/)
                             POT_MIGHT, POT_AGILITY, POT_BRILLIANCE,
                             POT_INVISIBILITY, POT_BERSERK_RAGE, POT_EXPERIENCE);
 
-        if (pot == POT_EXPERIENCE && (!one_chance_in(6) || !Options.old_experience))
+        if (pot == POT_EXPERIENCE && (!one_chance_in(6) || Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions))
             pot = POT_BERSERK_RAGE;
         // TODO: replace with random_choose_weighted
     }

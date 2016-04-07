@@ -803,8 +803,25 @@ void floor_transition(dungeon_feature_type how,
     else
         maybe_update_stashes();
 
-    if (!Options.old_experience && you.species != SP_MUMMY)
+    if ((Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions) && you.species != SP_MUMMY)
         mprf("Quaffing an experience potion here would give %d exp.", experience_for_this_floor());
+
+    // refresh experience annotations
+    // shouldn't be needed, but something wonky is slipping by and so this hack keeps it clean for now
+    if (Options.exp_potion_on_each_floor)
+    {
+        reset_experience_potion_annotation();
+        const level_id &li = level_id::current();
+        for (const item_def &item : mitm)
+        {
+            if(item.base_type == OBJ_POTIONS
+               && item.sub_type == POT_EXPERIENCE
+                    )
+            {
+                add_experience_potion_annotation(li, 1);
+            }
+        }
+    }
 
     request_autopickup();
 }

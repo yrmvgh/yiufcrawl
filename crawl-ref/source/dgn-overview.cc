@@ -866,7 +866,7 @@ string get_level_annotation(level_id li, bool skip_excl, bool skip_uniq,
             note += *uniq;
         }
 
-    if (!Options.old_experience) 
+    if (Options.exp_potion_on_each_floor)
     {
         auto it = level_experience.find(li);
 

@@ -2676,12 +2676,24 @@ static void _reduce_abyss_xp_timer(int exp)
 }
 
 const int experience_for_this_floor() {
+    int factor = 48;
+
+    // cut experience down a lot if potions are also dropped by uniques
+    if (Options.uniques_drop_exp_potions)
+        factor >>= 2;
+
+    // cut experience down a lot if potions are generated on each floor
+    if (Options.exp_potion_on_each_floor)
+        factor >>= 2;
+
     const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-    int exp = stepup2(how_deep + 1, 3, 3, 10) + 5;
+    int exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
+
     if (is_safe_branch(you.where_are_you)
         || you.where_are_you == BRANCH_DUNGEON && you.depth == 1
             )
         exp = 0;
+
     return exp;
 }
 
@@ -2985,7 +2997,7 @@ void level_change(bool skip_attribute_increase)
             // Don't want to see the dead creature at the prompt.
             redraw_screen();
 
-            if (new_exp == MAX_EXP_LEVEL || Options.old_experience && new_exp == 27)
+            if (new_exp == MAX_EXP_LEVEL || Options.level_27_cap && new_exp == 27)
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level 27, the final one!");
             else if (new_exp == you.get_max_xl())
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level %d, the highest you will ever reach!",
@@ -3758,7 +3770,7 @@ unsigned int exp_needed(int lev, int exp_apt)
         exp_apt = species_exp_modifier(you.species);
 
     int needed_exp;
-    if (Options.old_experience)
+    if (Options.level_27_cap)
     {
         unsigned int level = 0;
 

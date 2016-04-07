@@ -522,7 +522,7 @@ static void _setup_generic(const newgame_def& ng)
     }
 
     // potions of experience are always identified
-    if (!Options.old_experience)
+    if (Options.exp_potion_on_each_floor)
         set_ident_type(OBJ_POTIONS, POT_EXPERIENCE, true);
 
     // A first pass to link the items properly.

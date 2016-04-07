@@ -2272,13 +2272,6 @@ old_movement = false
         when direction change happens, and slightly speeds up straight
         motion, greatly reducing pillar dancing and kiting.
 
-old_experience = false
-        Get experience from monster kills like before. New experience
-        mechanic only gives experience by reaching new floors, drinking
-        potions of experience (which spawn once on the floor of each
-        level, and are dropped by uniques and ghosts), and destroying
-        altars (which brings down wrath of course).
-
 mouse_input = false
         When enabled, the mouse_input option allows the game to use
         mouse input events on certain platforms (Windows and Unix).

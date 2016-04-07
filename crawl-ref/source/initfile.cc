@@ -948,7 +948,11 @@ void game_options::reset_options()
     regex_search = false;
     old_movement = false;
     danger_mode_threshold = 30;
-    old_experience = false;
+    level_27_cap = false;
+    exp_from_monsters = false;
+    exp_from_new_floor = true;
+    exp_potion_on_each_floor = true;
+    uniques_drop_exp_potions = true;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
@@ -2887,7 +2891,11 @@ void game_options::read_option_line(const string &str, bool runscript)
     }
     else BOOL_OPTION(regex_search);
     else BOOL_OPTION(old_movement);
-    else BOOL_OPTION(old_experience);
+    else BOOL_OPTION(level_27_cap);
+    else BOOL_OPTION(exp_from_monsters);
+    else BOOL_OPTION(exp_potion_on_each_floor);
+    else BOOL_OPTION(uniques_drop_exp_potions);
+    else BOOL_OPTION(exp_from_new_floor);
     else INT_OPTION(danger_mode_threshold, 0, 100);
 #if !defined(DGAMELAUNCH) || defined(DGL_REMEMBER_NAME)
     else BOOL_OPTION(remember_name);
