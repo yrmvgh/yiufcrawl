@@ -937,6 +937,9 @@ bool mons_is_native_in_branch(const monster* mons,
     case BRANCH_ORC:
         return mons_genus(mons->type) == MONS_ORC;
 
+    case BRANCH_DWARF:
+        return (mons_genus(mons->type) == MONS_DWARF);
+
     case BRANCH_SHOALS:
         return mons_species(mons->type) == MONS_CYCLOPS
                || mons_species(mons->type) == MONS_MERFOLK

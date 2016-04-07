@@ -1614,10 +1614,8 @@ static void tag_construct_you(writer &th)
     marshallFloat(th, abyssal_state.phase);
     marshall_level_id(th, abyssal_state.level);
 
-#if TAG_MAJOR_VERSION == 34
     if (abyssal_state.level.branch == BRANCH_DWARF || !abyssal_state.level.is_valid())
         abyssal_state.level = level_id(static_cast<branch_type>(BRANCH_DUNGEON), 19);
-#endif
 
     _marshall_constriction(th, &you);
 
@@ -3841,14 +3839,6 @@ static void tag_read_you_dungeon(reader &th)
 
     // Root of the dungeon; usually BRANCH_DUNGEON.
     root_branch = static_cast<branch_type>(unmarshallInt(th));
-#if TAG_MAJOR_VERSION == 34
-    if (th.getMinorVersion() < TAG_MINOR_BRANCH_ENTRY)
-    {
-        brentry[root_branch].clear();
-        if (brentry[BRANCH_FOREST].is_valid())
-            brentry[BRANCH_TOMB].branch = BRANCH_FOREST;
-    }
-#endif
 
     unmarshallMap(th, stair_level,
                   unmarshall_int_as<branch_type>,

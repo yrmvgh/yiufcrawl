@@ -42,15 +42,13 @@ const Branch branches[NUM_BRANCHES] =
       WHITE, ETC_ELVEN_BRICK,
       'E', {}, 0 },
 
-#if TAG_MAJOR_VERSION == 34
     { BRANCH_DWARF, BRANCH_ELF, -1, -1, 0, 17,
       BFLAG_NONE,
       DNGN_ENTER_DWARF, DNGN_EXIT_DWARF,
-      "Dwarven Hall", "the Dwarven Hall", "Dwarf",
+      "Dwarven Fortress", "the Dwarven Fortress", "Dwarf",
       nullptr,
       BROWN, BROWN,
       'K', {}, 0 },
-#endif
 
     { BRANCH_LAIR, BRANCH_DUNGEON, 8, 11, 8, 10,
       BFLAG_NONE,
@@ -180,7 +178,7 @@ const Branch branches[NUM_BRANCHES] =
       nullptr,
       BLACK, BLACK, // set per-map
       'Z', {}, 0 },
-#if TAG_MAJOR_VERSION == 34
+
     { BRANCH_FOREST, BRANCH_VAULTS, 2, 3, 5, 19,
       BFLAG_SPOTTY,
       DNGN_ENTER_FOREST, DNGN_EXIT_FOREST,
@@ -188,7 +186,6 @@ const Branch branches[NUM_BRANCHES] =
       nullptr,
       BROWN, BROWN,
       'F', {}, 0 },
-#endif
 
     { BRANCH_ABYSS, NUM_BRANCHES, -1, -1, 5, 24,
       BFLAG_NO_XLEV_TRAVEL | BFLAG_NO_MAP,

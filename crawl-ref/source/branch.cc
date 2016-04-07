@@ -36,14 +36,12 @@ const Branch* branch_iterator::operator*() const
         BRANCH_SLIME,
         BRANCH_ORC,
         BRANCH_ELF,
-#if TAG_MAJOR_VERSION == 34
         BRANCH_DWARF,
-#endif
         BRANCH_VAULTS,
 #if TAG_MAJOR_VERSION == 34
         BRANCH_BLADE,
-        BRANCH_FOREST,
 #endif
+        BRANCH_FOREST,
         BRANCH_CRYPT,
         BRANCH_TOMB,
         BRANCH_DEPTHS,
@@ -178,9 +176,8 @@ branch_type get_branch_at(const coord_def& pos)
 bool branch_is_unfinished(branch_type branch)
 {
 #if TAG_MAJOR_VERSION == 34
-    if (branch == BRANCH_DWARF
-        || branch == BRANCH_FOREST
-        || branch == BRANCH_BLADE)
+    if (
+        branch == BRANCH_BLADE)
     {
         return true;
     }

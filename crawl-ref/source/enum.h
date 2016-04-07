@@ -757,9 +757,7 @@ enum branch_type                // you.where_are_you
     BRANCH_FIRST_NON_DUNGEON = BRANCH_TEMPLE,
     BRANCH_ORC,
     BRANCH_ELF,
-#if TAG_MAJOR_VERSION == 34
     BRANCH_DWARF,
-#endif
     BRANCH_LAIR,
     BRANCH_SWAMP,
     BRANCH_SHOALS,
@@ -783,9 +781,7 @@ enum branch_type                // you.where_are_you
       BRANCH_FIRST_HELL = BRANCH_DIS,
       BRANCH_LAST_HELL = BRANCH_TARTARUS,
     BRANCH_ZOT,
-#if TAG_MAJOR_VERSION == 34
     BRANCH_FOREST,
-#endif
     BRANCH_ABYSS,
     BRANCH_PANDEMONIUM,
     BRANCH_ZIGGURAT,
@@ -1616,9 +1612,7 @@ enum dungeon_feature_type
     DNGN_EXPIRED_PORTAL,
 
     // Entrances to various branches
-#if TAG_MAJOR_VERSION == 34
     DNGN_ENTER_DWARF,
-#endif
     DNGN_ENTER_ORC,
     DNGN_ENTER_LAIR,
     DNGN_ENTER_SLIME,
@@ -1635,16 +1629,12 @@ enum dungeon_feature_type
     DNGN_ENTER_SWAMP,
     DNGN_ENTER_SHOALS,
     DNGN_ENTER_SPIDER,
-#if TAG_MAJOR_VERSION == 34
     DNGN_ENTER_FOREST,
-#endif
     DNGN_ENTER_DEPTHS,
 
     // Exits from various branches
     // Order must be the same as above
-#if TAG_MAJOR_VERSION == 34
     DNGN_EXIT_DWARF,
-#endif
     DNGN_EXIT_ORC,
     DNGN_EXIT_LAIR,
     DNGN_EXIT_SLIME,
@@ -1661,9 +1651,7 @@ enum dungeon_feature_type
     DNGN_EXIT_SWAMP,
     DNGN_EXIT_SHOALS,
     DNGN_EXIT_SPIDER,
-#if TAG_MAJOR_VERSION == 34
     DNGN_EXIT_FOREST,
-#endif
     DNGN_EXIT_DEPTHS,
 
     DNGN_ALTAR_ZIN,
