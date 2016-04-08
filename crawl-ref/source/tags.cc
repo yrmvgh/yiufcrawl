@@ -1551,6 +1551,7 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
     marshallInt(th, you.amplification);
+    marshallInt(th, you.max_exp);
 
     marshallInt(th, you.magic_contamination);
 
@@ -3193,6 +3194,7 @@ static void tag_read_you(reader &th)
     you.amplification = unmarshallInt(th);
     if(you.amplification > 100 || you.amplification == 0)
         you.amplification = 1;
+    you.max_exp = unmarshallInt(th);
 
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_CONTAM_SCALE)

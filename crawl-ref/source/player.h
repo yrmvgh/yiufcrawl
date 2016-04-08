@@ -418,6 +418,8 @@ public:
 
     // normally 1, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
     int amplification;
+    // the deepest the player has been
+    int max_exp;
 
     // used by scrolls of returning
     coord_def returnPosition;
