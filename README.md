@@ -59,15 +59,13 @@ with my goals here, or with concerns you have about my future plans.
         * when true, an experience potion is placed on every floor
             * this is used in combination with other options, for example, getting rid of monster experience and making the potion give you experience based
               on the floor you drink it on. 
-    * exp_from_new_floor = false
-        * when true, arriving at a new floor will give experience
     * uniques_drop_exp_potions = false
         * when true, uniques and player ghosts will always drop an exp potion
         * when false, they don't, like before
     * exp_percent_from_monsters = 100 (-1000 - 1000)
         * when 0, killing a monster gives 0 experience
         * when 100, killing a monster gives the full experience it gave in standard crawl
-    * exp_percent_from_potions = 0 (-1000 - 1000)
+    * exp_percent_from_potions = 100 (-1000 - 1000)
         * if exp_based_on_player_level = true
             * when 0, drinking a potion of experience gives 0 experience
             * when 100, drinking a potion of experience gives it's full amount 
@@ -91,6 +89,16 @@ with my goals here, or with concerns you have about my future plans.
         * when true, experience is given relative to the players xl
             * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
               experience needed to advance to the next xl when drinking a potion.
+              
+So, to recap the above, you can copy these options (which include their defaults) into your rc file and tweak them:
+              
+    level_27_cap = false
+    exp_potion_on_each_floor = false
+    uniques_drop_exp_potions = false
+    exp_percent_from_monsters = 100
+    exp_percent_from_potions = 100
+    exp_percent_from_new_branch_floor = 0
+    exp_based_on_player_level = true
 
 ### v1.1
 
