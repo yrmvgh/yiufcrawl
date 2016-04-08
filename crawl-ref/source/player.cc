@@ -5578,6 +5578,7 @@ player::player()
     frame_no            = 0;
 
     amplification       = 1;
+    max_exp             = 0;
 
     save                = nullptr;
     prev_save_version.clear();
