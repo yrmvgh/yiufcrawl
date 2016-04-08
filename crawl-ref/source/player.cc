@@ -2675,10 +2675,9 @@ static void _reduce_abyss_xp_timer(int exp)
     you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
 }
 
-const int experience_for_this_floor(int multiplier) {
+const int _experience_for_this_floor(int multiplier) {
     int factor = 48;
-
-    int exp = 0;
+    int exp = 1;
 
     if (!is_safe_branch(you.where_are_you)
         && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
@@ -2688,7 +2687,7 @@ const int experience_for_this_floor(int multiplier) {
             exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
         else
             {
-                const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+                int how_deep = absdungeon_depth(you.where_are_you, you.depth);
                 exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
             }
         exp = exp * multiplier / 100;
@@ -2697,16 +2696,19 @@ const int experience_for_this_floor(int multiplier) {
     return exp;
 }
 
-void gain_potion_exp()
+const int potion_experience_for_this_floor()
 {
-    int exp = experience_for_this_floor(Options.exp_percent_from_potions);
+    int exp = _experience_for_this_floor(Options.exp_percent_from_potions);
 
-    gain_exp(exp);
+    exp = max(exp, you.max_exp);
+    you.max_exp = max(you.max_exp, exp);
+
+    return exp;
 }
 
-void gain_floor_exp()
+const int floor_experience_for_this_floor()
 {
-    int exp = experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
+    int exp = _experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
 
     // mummies can't drink experience potions, so they just get more experience per level than normal
     if (you.species == SP_MUMMY)
@@ -2717,10 +2719,22 @@ void gain_floor_exp()
             exp <<= 2;
     }
 
-    gain_exp(exp);
+    return exp;
 }
 
-void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
+void gain_potion_exp()
+{
+    const int exp = potion_experience_for_this_floor();
+    gain_exp(exp, nullptr, true);
+}
+
+void gain_floor_exp()
+{
+    const int exp = floor_experience_for_this_floor();
+    gain_exp(exp, nullptr, true);
+}
+
+void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool not_from_monster)
 {
     if (actual_gain != nullptr)
         *actual_gain = 0;
@@ -2773,10 +2787,11 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
         }
     }
 
-    if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
-        you.experience = MAX_EXP_TOTAL;
-    else
-        you.experience += exp_gained;
+    if (Options.exp_percent_from_monsters || not_from_monster)
+        if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
+            you.experience = MAX_EXP_TOTAL;
+        else
+            you.experience += exp_gained * Options.exp_percent_from_monsters / 100;
 
     you.attribute[ATTR_EVOL_XP] += exp_gained;
     for (god_iterator it; it; ++it)
@@ -2796,17 +2811,20 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     if (crawl_state.game_is_sprint())
         exp_gained = sprint_modify_exp(exp_gained);
 
-    you.exp_available += exp_gained;
-
-    train_skills();
-    while (check_selected_skills()
-           && you.exp_available >= calc_skill_cost(you.skill_cost_level))
+    if (Options.exp_percent_from_monsters || not_from_monster)
     {
-        train_skills();
-    }
+        you.exp_available += exp_gained;
 
-    if (you.exp_available >= calc_skill_cost(you.skill_cost_level))
-        you.exp_available = calc_skill_cost(you.skill_cost_level);
+        train_skills();
+        while (check_selected_skills()
+               && you.exp_available >= calc_skill_cost(you.skill_cost_level))
+        {
+            train_skills();
+        }
+
+        if (you.exp_available >= calc_skill_cost(you.skill_cost_level))
+            you.exp_available = calc_skill_cost(you.skill_cost_level);
+    }
 
     level_change();
 
@@ -5560,6 +5578,7 @@ player::player()
     frame_no            = 0;
 
     amplification       = 1;
+    max_exp             = 0;
 
     save                = nullptr;
     prev_save_version.clear();

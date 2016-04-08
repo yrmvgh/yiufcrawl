@@ -418,6 +418,8 @@ public:
 
     // normally 1, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
     int amplification;
+    // the deepest the player has been
+    int max_exp;
 
     // used by scrolls of returning
     coord_def returnPosition;
@@ -999,8 +1001,9 @@ void display_char_status();
 void forget_map(bool rot = false);
 
 int get_exp_progress();
-void gain_exp(unsigned int exp_gained, unsigned int* actual_gain = nullptr);
-const int experience_for_this_floor(int multiplier);
+void gain_exp(unsigned int exp_gained, unsigned int* actual_gain = nullptr, bool not_from_monster = false);
+const int potion_experience_for_this_floor();
+const int floor_experience_for_this_floor();
 void gain_potion_exp();
 void gain_floor_exp();
 

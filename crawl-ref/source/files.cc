@@ -1136,7 +1136,7 @@ static void _make_level(dungeon_feature_type stair_taken,
     if (Options.exp_percent_from_new_branch_floor)
     {
         mprf(MSGCH_INTRINSIC_GAIN, "You gained %d exp for entering this floor.",
-             experience_for_this_floor(Options.exp_percent_from_new_branch_floor));
+             floor_experience_for_this_floor());
         gain_floor_exp();
     }
 }
