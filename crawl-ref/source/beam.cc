@@ -1465,16 +1465,16 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         else if (original < hurted && doFlavouredEffects)
         {
             if (mons->is_icy())
-                simple_monster_message(mons, " melts!");
+                monster_message(mons, " melts! (%d)", hurted);
             else if (mons_species(mons->type) == MONS_BUSH
                      && mons->res_fire() < 0)
             {
-                simple_monster_message(mons, " is on fire!");
+                monster_message(mons, " is on fire! (%d)", hurted);
             }
             else if (pbolt.flavour == BEAM_FIRE)
-                simple_monster_message(mons, " is burned terribly!");
+                monster_message(mons, " is burned terribly! (%d)", hurted);
             else
-                simple_monster_message(mons, " is scalded terribly!");
+                monster_message(mons, " is scalded terribly! (%d)", hurted);
         }
         break;
 
@@ -1485,7 +1485,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
             if (!hurted)
                 simple_monster_message(mons, " shrugs off the wave.");
             else if (hurted > original)
-                simple_monster_message(mons, " is doused terribly!");
+                monster_message(mons, " is doused terribly! (%d)", hurted);
         }
         break;
 
@@ -1508,7 +1508,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         else if (original < hurted)
         {
             if (doFlavouredEffects)
-                simple_monster_message(mons, " is frozen!");
+                monster_message(mons, " is frozen! (%d)", hurted);
         }
         break;
 
@@ -1531,7 +1531,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         else if (original < hurted)
         {
             if (doFlavouredEffects)
-                simple_monster_message(mons, " is electrocuted!");
+                monster_message(mons, " is electrocuted! (%d)", hurted);
         }
         break;
 
@@ -1603,7 +1603,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
             if (original > hurted)
                 simple_monster_message(mons, " resists.");
             else if (original < hurted)
-                simple_monster_message(mons, " is drained terribly!");
+                monster_message(mons, " is drained terribly! (%d)", hurted);
 
             if (mons->observable())
                 pbolt.obvious_effect = true;
@@ -1649,9 +1649,9 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
 
         if (doFlavouredEffects && !mons_is_firewood(mons))
         {
-            simple_monster_message(mons,
+            monster_message(mons,
                                    hurted == 0 ? " appears unharmed."
-                                               : " writhes in agony!");
+                                               : " writhes in agony! (%d)", hurted);
         }
         break;
     }
@@ -1668,7 +1668,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         else if (hurted > original)
         {
             if (doFlavouredEffects)
-                simple_monster_message(mons, " is frozen!");
+                monster_message(mons, " is frozen! (%d)", hurted);
         }
         break;
 
@@ -1685,12 +1685,12 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
             if (mons->is_icy())
             {
                 if (doFlavouredEffects)
-                    simple_monster_message(mons, " melts!");
+                    monster_message(mons, " melts! (%d)", hurted);
             }
             else
             {
                 if (doFlavouredEffects)
-                    simple_monster_message(mons, " is burned terribly!");
+                    monster_message(mons, " is burned terribly! (%d)", hurted);
             }
         }
         break;
@@ -1727,7 +1727,7 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
         else if (original < hurted)
         {
             if (doFlavouredEffects)
-                simple_monster_message(mons, " gets badly buffeted.");
+                monster_message(mons, " gets badly buffeted. (%d)", hurted);
         }
         break;
 
@@ -1753,9 +1753,9 @@ int mons_adjust_flavoured(monster* mons, bolt &pbolt, int hurted,
                                                       : " appears unharmed.");
             }
             else if (hurted < original)
-                simple_monster_message(mons, " partially resists.");
+                monster_message(mons, " partially resists. (%d)", hurted);
             else if (hurted > original)
-                simple_monster_message(mons, " is drained terribly!");
+                monster_message(mons, " is drained terribly! (%d)", hurted);
         }
         break;
 
@@ -2133,7 +2133,6 @@ static bool _curare_hits_player(actor* agent, int levels, string name,
     return hurted > 0;
 }
 
-
 bool curare_actor(actor* source, actor* target, int levels, string name,
                   string source_name)
 {
@@ -2169,7 +2168,10 @@ int silver_damages_victim(actor* victim, int damage, string &dmg_msg)
     else
         return 0;
 
-    dmg_msg = "The silver sears " + victim->name(DESC_THE) + "!";
+    char buf[80];
+    sprintf(buf, ("The silver sears " + victim->name(DESC_THE) + "! (%d)").c_str(), ret);
+    dmg_msg = string(buf);
+
     return ret;
 }
 
