@@ -49,7 +49,7 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
-### v1.2 (currently deployed)
+### v1.2.2 (currently deployed)
 
 * Options for experimenting with experience model changes (each option is shown with it's current default)
     * level_27_cap = false
