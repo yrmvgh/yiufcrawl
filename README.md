@@ -65,7 +65,7 @@ with my goals here, or with concerns you have about my future plans.
     * exp_percent_from_monsters = 100 (-1000 - 1000)
         * when 0, killing a monster gives 0 experience
         * when 100, killing a monster gives the full experience it gave in standard crawl
-    * exp_percent_from_potions = 0 (-1000 - 1000)
+    * exp_percent_from_potions = 100 (-1000 - 1000)
         * if exp_based_on_player_level = true
             * when 0, drinking a potion of experience gives 0 experience
             * when 100, drinking a potion of experience gives it's full amount 
@@ -96,9 +96,9 @@ So, to recap the above, you can copy these options (which include their defaults
     exp_potion_on_each_floor = false
     uniques_drop_exp_potions = false
     exp_percent_from_monsters = 100
-    exp_percent_from_potions = 0
+    exp_percent_from_potions = 100
     exp_percent_from_new_branch_floor = 0
-    exp_based_on_player_level = false
+    exp_based_on_player_level = true
 
 ### v1.1
 

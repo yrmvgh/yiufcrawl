@@ -953,9 +953,9 @@ void game_options::reset_options()
     exp_potion_on_each_floor = false;
     uniques_drop_exp_potions = false;
     exp_percent_from_monsters = 100;
-    exp_percent_from_potions = 0;
+    exp_percent_from_potions = 100;
     exp_percent_from_new_branch_floor = 0;
-    exp_based_on_player_level = false;
+    exp_based_on_player_level = true;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
