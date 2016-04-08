@@ -1983,7 +1983,7 @@ string get_item_description(const item_def &item, bool verbose,
             && (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions))
         {
             description << "\n\nDrinking this on this level will give "
-                        << experience_for_this_floor(Options.exp_percent_from_potions)
+                        << potion_experience_for_this_floor()
                         << " experience.";
         }
 #ifdef DEBUG_BLOOD_POTIONS

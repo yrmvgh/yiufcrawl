@@ -2675,7 +2675,7 @@ static void _reduce_abyss_xp_timer(int exp)
     you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
 }
 
-const int experience_for_this_floor(int multiplier) {
+const int _experience_for_this_floor(int multiplier) {
     int factor = 48;
     int exp = 1;
 
@@ -2696,18 +2696,19 @@ const int experience_for_this_floor(int multiplier) {
     return exp;
 }
 
-void gain_potion_exp()
+const int potion_experience_for_this_floor()
 {
-    int exp = experience_for_this_floor(Options.exp_percent_from_potions);
+    int exp = _experience_for_this_floor(Options.exp_percent_from_potions);
 
     exp = max(exp, you.max_exp);
     you.max_exp = max(you.max_exp, exp);
-    gain_exp(exp);
+
+    return exp;
 }
 
-void gain_floor_exp()
+const int floor_experience_for_this_floor()
 {
-    int exp = experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
+    int exp = _experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
 
     // mummies can't drink experience potions, so they just get more experience per level than normal
     if (you.species == SP_MUMMY)
@@ -2718,6 +2719,18 @@ void gain_floor_exp()
             exp <<= 2;
     }
 
+    return exp;
+}
+
+void gain_potion_exp()
+{
+    const int exp = potion_experience_for_this_floor();
+    gain_exp(exp);
+}
+
+void gain_floor_exp()
+{
+    const int exp = floor_experience_for_this_floor();
     gain_exp(exp);
 }
 
