@@ -2774,10 +2774,11 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
         }
     }
 
-    if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
-        you.experience = MAX_EXP_TOTAL;
-    else
-        you.experience += exp_gained;
+    if (Options.exp_percent_from_monsters)
+        if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
+            you.experience = MAX_EXP_TOTAL;
+        else
+            you.experience += exp_gained * Options.exp_percent_from_monsters / 100;
 
     you.attribute[ATTR_EVOL_XP] += exp_gained;
     for (god_iterator it; it; ++it)

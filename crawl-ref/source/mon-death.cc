@@ -334,8 +334,7 @@ static void _give_player_experience(int experience, killer_type killer,
         return;
 
     unsigned int exp_gain = 0;
-    if (Options.exp_percent_from_monsters > 0)
-        gain_exp(experience * Options.exp_percent_from_monsters / 100, &exp_gain);
+    gain_exp(experience, &exp_gain);
 
     kill_category kc =
             (killer == KILL_YOU || killer == KILL_YOU_MISSILE) ? KC_YOU :
