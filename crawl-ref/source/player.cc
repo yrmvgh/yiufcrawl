@@ -2675,7 +2675,7 @@ static void _reduce_abyss_xp_timer(int exp)
     you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;
 }
 
-const int experience_for_this_floor() {
+const int experience_for_this_floor(int multiplier) {
     int factor = 48;
 
     int exp = 0;
@@ -2691,32 +2691,45 @@ const int experience_for_this_floor() {
                 const int how_deep = absdungeon_depth(you.where_are_you, you.depth);
                 exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
             }
-        exp = exp * Options.exp_percent_from_potions_on_floor / 100;
+        exp = exp * multiplier / 100;
     }
 
     return exp;
 }
 
+void gain_potion_exp()
+{
+    int exp = experience_for_this_floor(Options.exp_percent_from_potions);
+
+    gain_exp(exp);
+}
+
 void gain_floor_exp()
 {
-    int exp = experience_for_this_floor();
+    int exp = experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
 
     // mummies can't drink experience potions, so they just get more experience per level than normal
-    if (you.species == SP_MUMMY && (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions))
-        exp <<= 3;
+    if (you.species == SP_MUMMY)
+    {
+        if (Options.exp_potion_on_each_floor)
+            exp <<= 2;
+        if (Options.uniques_drop_exp_potions)
+            exp <<= 2;
+    }
 
     gain_exp(exp);
 }
 
 void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
+    *actual_gain = 0;
     if (crawl_state.difficulty == DIFFICULTY_EASY)
         exp_gained = exp_gained * 3/2;
 
     if (crawl_state.difficulty == DIFFICULTY_HARD)
         exp_gained = exp_gained * 2/3;
 
-    if (crawl_state.game_is_arena())
+    if (crawl_state.game_is_arena() || exp_gained == 0)
         return;
 
     vector<god_type> xp_gods;

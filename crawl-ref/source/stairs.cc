@@ -804,7 +804,7 @@ void floor_transition(dungeon_feature_type how,
         maybe_update_stashes();
 
     if ((Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions) && you.species != SP_MUMMY)
-        mprf("Quaffing an experience potion here would give %d exp.", experience_for_this_floor());
+        mprf("Quaffing an experience potion here would give %d exp.", experience_for_this_floor(Options.exp_percent_from_potions));
 
     // refresh experience annotations
     // shouldn't be needed, but something wonky is slipping by and so this hack keeps it clean for now

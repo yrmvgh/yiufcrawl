@@ -51,66 +51,46 @@ with my goals here, or with concerns you have about my future plans.
 
 ### v1.2 (currently deployed)
 
-* Experience overhaul
-    * Monsters don't give experience
-    * One potion of experience is generated on the floor of each level
-        * except for safe floors: temple, trove, bazaar
-    * Unique monsters and player ghosts drop one exp potion
-    * The player gains experience by:
-        * drinking a potion of experience
-        * entering a floor for the first time
-        * destroying altars (coming soon)
-    * Since mummies can't drink potions, they get much more experience for entering a new floor
-    * The amount of experience gained by drinking a potion of experience is based on what level the potion was drunk on. 
-        * Players are incentivized to go as deep as possible before drinking the experience potion, greatly increasing the danger. 
-    * Monster super spawning is no longer needed for players who spend too much time in a level. Since experience scumming is no longer possible, we don't
-      need it.
-    * This allows for a new "runner" and "pacifist" challenge playstyles, that are more difficult than speed runs, but doable with enough skill. 
-    * All kinds of new strategies are opened up
-        * You can delay gaining experience as much as possible to maximize how much you can get
-        * If you are very drained, and in a bad situation, you can drink a few experience potions to wash it away
-        * If you find a new weapon that you don't have skills for, set up training for it and drink a few experience potions, and you can immediately use it
-          well!
-    * Level annotations are added if there is still an experience potion on the floor of the level, making it easy to tell which ones you've missed.
-    * Recommended strategy for first timers playing this way:
-        * clear the first 3 floors without drinking any exp potions
-        * then dive as deep into the dungeon as you dare
-            * meaning take the first stairs or shaft you see for as many floors down as you can
-            * if you run into trouble, go back up one floor to safety and drink the exp potions
-        * drink all of your exp potions
-        * then return to the 4th floor and begin clearing it
-        * save your exp potions until you are really struggling to keep up
-        * then do another deep dive
-        * if you have to skip a floor because of danger, and didn't get the exp potion, it will be annotated on your level overview page, so you can easily 
-          go back later when you are strong enough.
-    * rc file options can be used to disable all or part of this:
-        * level_27_cap = false
-            * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
-            * when true, the old experience cap and scale is in place
-        * exp_potion_on_each_floor = false
-            * when true, an experience potion is placed on every floor
-        * exp_from_new_floor = false
-            * when true, arriving at a new floor will give experience
-        * uniques_drop_exp_potions = false
-            * when true, uniques and player ghosts will always drop an exp potion
-            * when false, they don't, like before
-        * exp_percent_from_monsters = 100 (0-1000)
-            * when 0, killing a monster gives 0 experience
-            * when 100, killing a monster gives the full experience it gave in standard crawl
-        * exp_percent_from_potions_on_floor = 0 (0-1000)
-            * if exp_based_on_player_level = true
-                * when 0, drinking a potion of experience gives 0 experience
-                * when 100, drinking a potion of experience gives it's full amount 
-            * if exp_based_on_player_level = false
-                * when 20, drinking a potion of experience gives 20% of the experience needed for the player
-                  to advance to the next xp level
-                * when 100, drinking a potion of experience gives 100% of the experience needed for the player
-                  to advance to the next xp level
-        * exp_based_on_player_level = true
-            * when false, potions of experience give experience relative to the floor the player is on
-            * when true, experience is given relative to the players xl
-                * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
-                  experience needed to advance to the next xl when drinking a potion.
+* Options for experimenting with experience model changes (each option is shown with it's current default)
+    * level_27_cap = false
+        * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
+        * when true, the old experience cap and scale is in place
+    * exp_potion_on_each_floor = false
+        * when true, an experience potion is placed on every floor
+            * this is used in combination with other options, for example, getting rid of monster experience and making the potion give you experience based
+              on the floor you drink it on. 
+    * exp_from_new_floor = false
+        * when true, arriving at a new floor will give experience
+    * uniques_drop_exp_potions = false
+        * when true, uniques and player ghosts will always drop an exp potion
+        * when false, they don't, like before
+    * exp_percent_from_monsters = 100 (-1000 - 1000)
+        * when 0, killing a monster gives 0 experience
+        * when 100, killing a monster gives the full experience it gave in standard crawl
+    * exp_percent_from_potions = 0 (-1000 - 1000)
+        * if exp_based_on_player_level = true
+            * when 0, drinking a potion of experience gives 0 experience
+            * when 100, drinking a potion of experience gives it's full amount 
+        * if exp_based_on_player_level = false
+            * when 20, drinking a potion of experience gives 20% of the experience needed for the player
+              to advance to the next xp level
+            * when 100, drinking a potion of experience gives 100% of the experience needed for the player
+              to advance to the next xp level
+    * exp_percent_from_new_branch_floor = 0 (-1000 - 1000)
+        * if 0, no experience is gained by reaching a new floor
+        * if 50 
+            * and exp_based_on_player_level = false
+                * each new floor the player reaches gives the player experience based on the depth of the floor
+                * 50 here means 50% of the "normal" amount. 100% would give a balanced game if there were no other sources of experience.
+            * and exp_based_on_player_level = true
+                * each new floor the player reaches gives the player 50% of the experience needed to advanced to the next level.
+        * only applies to floors that can have monsters on them. No experience is gained for safe floors (temple, trove, bazaar, or D:1)
+    * exp_based_on_player_level = true
+        * when false, potions of experience give experience relative to the floor the player is on
+            * this encourages the player to take additional risks by plunging deeper into the dungeon before drinking the potion
+        * when true, experience is given relative to the players xl
+            * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
+              experience needed to advance to the next xl when drinking a potion.
 
 ### v1.1
 
