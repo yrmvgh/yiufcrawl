@@ -657,12 +657,12 @@ public:
     {
         if (you.experience_level < you.get_max_xl())
         {
-            mprf(MSGCH_INTRINSIC_GAIN, "You feel more experienced! (%d)", experience_for_this_floor());
+            mprf(MSGCH_INTRINSIC_GAIN, "You feel more experienced! (%d)", experience_for_this_floor(Options.exp_percent_from_potions));
             // Defer calling level_change() until later in drink() to prevent
             // SIGHUP abuse.
 
             if (Options.exp_potion_on_each_floor || Options.uniques_drop_exp_potions)
-                gain_floor_exp();
+                gain_potion_exp();
             else
                 adjust_level(1, true);
         }
