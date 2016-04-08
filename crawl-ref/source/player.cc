@@ -2811,17 +2811,20 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     if (crawl_state.game_is_sprint())
         exp_gained = sprint_modify_exp(exp_gained);
 
-    you.exp_available += exp_gained;
-
-    train_skills();
-    while (check_selected_skills()
-           && you.exp_available >= calc_skill_cost(you.skill_cost_level))
+    if (Options.exp_percent_from_monsters)
     {
-        train_skills();
-    }
+        you.exp_available += exp_gained;
 
-    if (you.exp_available >= calc_skill_cost(you.skill_cost_level))
-        you.exp_available = calc_skill_cost(you.skill_cost_level);
+        train_skills();
+        while (check_selected_skills()
+               && you.exp_available >= calc_skill_cost(you.skill_cost_level))
+        {
+            train_skills();
+        }
+
+        if (you.exp_available >= calc_skill_cost(you.skill_cost_level))
+            you.exp_available = calc_skill_cost(you.skill_cost_level);
+    }
 
     level_change();
 
