@@ -950,7 +950,6 @@ void game_options::reset_options()
     old_movement = false;
     danger_mode_threshold = 30;
     level_27_cap = false;
-    exp_from_new_floor = false;
     exp_potion_on_each_floor = false;
     uniques_drop_exp_potions = false;
     exp_percent_from_monsters = 100;
@@ -2898,7 +2897,6 @@ void game_options::read_option_line(const string &str, bool runscript)
     else BOOL_OPTION(level_27_cap);
     else BOOL_OPTION(exp_potion_on_each_floor);
     else BOOL_OPTION(uniques_drop_exp_potions);
-    else BOOL_OPTION(exp_from_new_floor);
     else BOOL_OPTION(exp_based_on_player_level);
     else INT_OPTION(exp_percent_from_monsters, -1000, 1000);
     else INT_OPTION(exp_percent_from_potions, -1000, 1000);
