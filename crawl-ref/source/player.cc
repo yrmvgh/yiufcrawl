@@ -2725,16 +2725,16 @@ const int floor_experience_for_this_floor()
 void gain_potion_exp()
 {
     const int exp = potion_experience_for_this_floor();
-    gain_exp(exp);
+    gain_exp(exp, nullptr, true);
 }
 
 void gain_floor_exp()
 {
     const int exp = floor_experience_for_this_floor();
-    gain_exp(exp);
+    gain_exp(exp, nullptr, true);
 }
 
-void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
+void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool not_from_monster)
 {
     if (actual_gain != nullptr)
         *actual_gain = 0;
@@ -2787,7 +2787,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
         }
     }
 
-    if (Options.exp_percent_from_monsters)
+    if (Options.exp_percent_from_monsters || not_from_monster)
         if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
             you.experience = MAX_EXP_TOTAL;
         else
@@ -2811,7 +2811,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     if (crawl_state.game_is_sprint())
         exp_gained = sprint_modify_exp(exp_gained);
 
-    if (Options.exp_percent_from_monsters)
+    if (Options.exp_percent_from_monsters || not_from_monster)
     {
         you.exp_available += exp_gained;
 
