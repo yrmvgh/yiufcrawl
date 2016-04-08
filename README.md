@@ -192,7 +192,7 @@ with my goals here, or with concerns you have about my future plans.
     * Normal is the standard, unmodified parameters.
     * Easy:
         * reduces the chances of out of depth monsters spawning
-        * starts the player with 10 more hp
+        * player has 50% more hp
         * player has 50% more mp
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
@@ -207,7 +207,7 @@ with my goals here, or with concerns you have about my future plans.
         * increases the chances of out of depth monsters spawning
         * slower level advancement (exp apt - 2)
         * 33% less gold spawned
-        * 25% less health
+        * 33% less health
         * 4x normal score
         * healing potions heal 25% of health, minimum of 20 points
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.

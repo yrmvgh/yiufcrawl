@@ -475,6 +475,7 @@ void fire_thing(int item)
         bolt beam;
         throw_it(beam, item, &target);
     }
+    you.prev_direction.reset();
 }
 
 // Basically does what throwing used to do: throw an item without changing
@@ -510,6 +511,7 @@ void throw_item_no_quiver()
 
     bolt beam;
     throw_it(beam, slot);
+    you.prev_direction.reset();
 }
 
 static bool _setup_missile_beam(const actor *agent, bolt &beam, item_def &item,

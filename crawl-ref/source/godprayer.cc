@@ -199,6 +199,7 @@ void pray(bool allow_conversion)
         mprf(MSGCH_PRAY, you.religion, "%s", god_prayer_reaction().c_str());
 
     dprf("piety: %d (-%d)", you.piety, you.piety_hysteresis);
+    you.prev_direction.reset();
 }
 
 int zin_tithe(const item_def& item, int quant, bool quiet, bool converting)
