@@ -559,6 +559,7 @@ void yell(const actor* mon)
              shout_verb.c_str(),
              you.berserk() ? " wildly" : " for attention");
         noisy(noise_level, you.pos());
+        you.prev_direction.reset();
         you.turn_is_over = true;
         return;
 
@@ -579,6 +580,7 @@ void yell(const actor* mon)
         }
         else
             mpr("Stop fighting!");
+        you.prev_direction.reset();
         break;
 
     case 'w':
@@ -591,6 +593,7 @@ void yell(const actor* mon)
         mpr("Wait here!");
         mons_targd = MHITNOT;
         _set_allies_patrol_point();
+        you.prev_direction.reset();
         break;
 
     case 'p':
@@ -600,6 +603,7 @@ void yell(const actor* mon)
             return;
         }
 
+        you.prev_direction.reset();
         if (targ_prev)
         {
             mons_targd = you.prev_targ;
@@ -655,6 +659,7 @@ void yell(const actor* mon)
                 return;
             }
         }
+        you.prev_direction.reset();
         break;
 
     case 'r':
@@ -686,6 +691,7 @@ void yell(const actor* mon)
         }
 
         _set_allies_withdraw(targ.target);
+        you.prev_direction.reset();
         break;
 
     default:

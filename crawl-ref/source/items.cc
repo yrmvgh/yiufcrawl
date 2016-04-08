@@ -2520,6 +2520,7 @@ void drop_last()
     {
         you.last_pickup.clear();
         _multidrop(items_to_drop);
+        you.prev_direction.reset();
     }
 }
 
@@ -2627,14 +2628,7 @@ void drop_consumable()
 void drop(FixedVector< item_def, ENDOFPACK > &input_inv)
 {
 	FixedVector< item_def, ENDOFPACK > *inv;
-//	if(&input_inv == nullptr)
-//	{
-//		inv_from_prompt(inv, "Do you want to drop");
-//	}
-//	else
-//	{
-		inv = &input_inv;
-//	}
+	inv = &input_inv;
 
 	if (inv_count(*inv) < 1 && you.gold == 0)
     {
@@ -2663,6 +2657,7 @@ void drop(FixedVector< item_def, ENDOFPACK > &input_inv)
     }
 
     _multidrop(tmp_items);
+    you.prev_direction.reset();
 }
 
 static void _multidrop(vector<SelItem> tmp_items)

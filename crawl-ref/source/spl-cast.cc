@@ -796,7 +796,10 @@ static bool _can_cast()
 void do_cast_spell_cmd(bool force)
 {
     if (!cast_a_spell(!force))
+    {
         flush_input_buffer(FLUSH_ON_FAILURE);
+        you.prev_direction.reset();
+    }
 }
 
 /**
@@ -935,7 +938,7 @@ bool cast_a_spell(bool check_range, spell_type spell)
         // Abort if there are no hostiles within range, but flash the range
         // markers for a short while.
         mpr("You can't see any susceptible monsters within range! "
-            "(Use <w>Z</w> to cast anyway.)");
+                    "(Use <w>Z</w> to cast anyway.)");
 
         if (Options.use_animations & UA_RANGE)
         {
@@ -965,10 +968,10 @@ bool cast_a_spell(bool check_range, spell_type spell)
     {
         // None currently dock just piety, right?
         if (!yesno(god_loathes_spell(spell, you.religion) ?
-            "<lightred>Casting this spell will cause instant excommunication!"
-                "</lightred> Really cast?" :
-            "Casting this spell will place you under penance. Really cast?",
-            true, 'n'))
+                   "<lightred>Casting this spell will cause instant excommunication!"
+                           "</lightred> Really cast?" :
+                   "Casting this spell will place you under penance. Really cast?",
+                   true, 'n'))
         {
             canned_msg(MSG_OK);
             crawl_state.zero_turns_taken();
@@ -982,7 +985,7 @@ bool cast_a_spell(bool check_range, spell_type spell)
         && !crawl_state.disables[DIS_CONFIRMATIONS])
     {
         string prompt = make_stringf("The spell is %s to cast%s "
-                                     "Continue anyway?",
+                                             "Continue anyway?",
                                      fail_severity_adjs[severity],
                                      severity > 1 ? "!" : ".");
 
@@ -1019,7 +1022,7 @@ bool cast_a_spell(bool check_range, spell_type spell)
     // Nasty special cases.
     if (you.species == SP_DJINNI && cast_result == SPRET_SUCCESS
         && (spell == SPELL_BORGNJORS_REVIVIFICATION
-         || spell == SPELL_SUBLIMATION_OF_BLOOD && you.hp == you.hp_max))
+            || spell == SPELL_SUBLIMATION_OF_BLOOD && you.hp == you.hp_max))
     {
         // These spells have replenished essence to full.
         inc_mp(cost, true);
@@ -1197,12 +1200,12 @@ static void _maybe_cancel_repeat(spell_type spell)
 {
     switch (spell)
     {
-    case SPELL_DELAYED_FIREBALL:        crawl_state.cant_cmd_repeat(make_stringf("You can't repeat %s.",
-                                                 spell_title(spell)));
-        break;
+        case SPELL_DELAYED_FIREBALL:        crawl_state.cant_cmd_repeat(make_stringf("You can't repeat %s.",
+                                                                                     spell_title(spell)));
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -1264,49 +1267,49 @@ static unique_ptr<targetter> _spell_targetter(spell_type spell, int pow,
 {
     switch (spell)
     {
-    case SPELL_FIREBALL:
-        return make_unique<targetter_beam>(&you, range, ZAP_FIREBALL, pow, 1, 1);
-    case SPELL_HURL_DAMNATION:
-        return make_unique<targetter_beam>(&you, range, ZAP_DAMNATION, pow, 1, 1);
-    case SPELL_MEPHITIC_CLOUD:
-        return make_unique<targetter_beam>(&you, range, ZAP_BREATHE_MEPHITIC, pow,
-                                           pow >= 100 ? 1 : 0, 1);
-    case SPELL_ISKENDERUNS_MYSTIC_BLAST:
-        return make_unique<targetter_imb>(&you, pow, range);
-    case SPELL_FIRE_STORM:
-        return make_unique<targetter_smite>(&you, range, 2, pow > 76 ? 3 : 2);
-    case SPELL_FREEZING_CLOUD:
-    case SPELL_POISONOUS_CLOUD:
-    case SPELL_HOLY_BREATH:
-        return make_unique<targetter_cloud>(&you, range);
-    case SPELL_THUNDERBOLT:
-        return make_unique<targetter_thunderbolt>(&you, range,
-            (you.props.exists("thunderbolt_last")
-             && you.props["thunderbolt_last"].get_int() + 1 == you.num_turns) ?
-                you.props["thunderbolt_aim"].get_coord() : coord_def());
-    case SPELL_LRD:
-        return make_unique<targetter_fragment>(&you, pow, range);
-    case SPELL_FULMINANT_PRISM:
-        return make_unique<targetter_smite>(&you, range, 0, 2);
-    case SPELL_DAZZLING_SPRAY:
-        return make_unique<targetter_spray>(&you, range, ZAP_DAZZLING_SPRAY);
-    case SPELL_EXPLOSIVE_BOLT:
-        return make_unique<targetter_explosive_bolt>(&you, pow, range);
-    case SPELL_GLACIATE:
-        return make_unique<targetter_cone>(&you, range);
-    case SPELL_CLOUD_CONE:
-        return make_unique<targetter_shotgun>(&you, CLOUD_CONE_BEAM_COUNT, range);
-    case SPELL_SCATTERSHOT:
-        return make_unique<targetter_shotgun>(&you, shotgun_beam_count(pow), range);
-    case SPELL_GRAVITAS:
-        return make_unique<targetter_smite>(&you, range, gravitas_range(pow, 2),
-                                            gravitas_range(pow));
-    case SPELL_VIOLENT_UNRAVELLING:
-        return make_unique<targetter_unravelling>(&you, range, pow);
-    case SPELL_RANDOM_BOLT:
-        return make_unique<targetter_beam>(&you, range, ZAP_CRYSTAL_BOLT, pow, 0, 0);
-    default:
-        break;
+        case SPELL_FIREBALL:
+            return make_unique<targetter_beam>(&you, range, ZAP_FIREBALL, pow, 1, 1);
+        case SPELL_HURL_DAMNATION:
+            return make_unique<targetter_beam>(&you, range, ZAP_DAMNATION, pow, 1, 1);
+        case SPELL_MEPHITIC_CLOUD:
+            return make_unique<targetter_beam>(&you, range, ZAP_BREATHE_MEPHITIC, pow,
+                                               pow >= 100 ? 1 : 0, 1);
+        case SPELL_ISKENDERUNS_MYSTIC_BLAST:
+            return make_unique<targetter_imb>(&you, pow, range);
+        case SPELL_FIRE_STORM:
+            return make_unique<targetter_smite>(&you, range, 2, pow > 76 ? 3 : 2);
+        case SPELL_FREEZING_CLOUD:
+        case SPELL_POISONOUS_CLOUD:
+        case SPELL_HOLY_BREATH:
+            return make_unique<targetter_cloud>(&you, range);
+        case SPELL_THUNDERBOLT:
+            return make_unique<targetter_thunderbolt>(&you, range,
+                                                      (you.props.exists("thunderbolt_last")
+                                                       && you.props["thunderbolt_last"].get_int() + 1 == you.num_turns) ?
+                                                      you.props["thunderbolt_aim"].get_coord() : coord_def());
+        case SPELL_LRD:
+            return make_unique<targetter_fragment>(&you, pow, range);
+        case SPELL_FULMINANT_PRISM:
+            return make_unique<targetter_smite>(&you, range, 0, 2);
+        case SPELL_DAZZLING_SPRAY:
+            return make_unique<targetter_spray>(&you, range, ZAP_DAZZLING_SPRAY);
+        case SPELL_EXPLOSIVE_BOLT:
+            return make_unique<targetter_explosive_bolt>(&you, pow, range);
+        case SPELL_GLACIATE:
+            return make_unique<targetter_cone>(&you, range);
+        case SPELL_CLOUD_CONE:
+            return make_unique<targetter_shotgun>(&you, CLOUD_CONE_BEAM_COUNT, range);
+        case SPELL_SCATTERSHOT:
+            return make_unique<targetter_shotgun>(&you, shotgun_beam_count(pow), range);
+        case SPELL_GRAVITAS:
+            return make_unique<targetter_smite>(&you, range, gravitas_range(pow, 2),
+                                                gravitas_range(pow));
+        case SPELL_VIOLENT_UNRAVELLING:
+            return make_unique<targetter_unravelling>(&you, range, pow);
+        case SPELL_RANDOM_BOLT:
+            return make_unique<targetter_beam>(&you, range, ZAP_CRYSTAL_BOLT, pow, 0, 0);
+        default:
+            break;
     }
 
     if (spell_to_zap(spell) != NUM_ZAPS)
@@ -1451,15 +1454,15 @@ spret_type your_spells(spell_type spell, int powc,
     if (flags & SPFLAG_TARGETING_MASK)
     {
         const targ_mode_type targ =
-              testbits(flags, SPFLAG_NEUTRAL)    ? TARG_ANY :
-              testbits(flags, SPFLAG_HELPFUL)    ? TARG_FRIEND :
-              testbits(flags, SPFLAG_OBJ)        ? TARG_MOVABLE_OBJECT :
-                                                   TARG_HOSTILE;
+                testbits(flags, SPFLAG_NEUTRAL)    ? TARG_ANY :
+                testbits(flags, SPFLAG_HELPFUL)    ? TARG_FRIEND :
+                testbits(flags, SPFLAG_OBJ)        ? TARG_MOVABLE_OBJECT :
+                TARG_HOSTILE;
 
         const targeting_type dir =
-             testbits(flags, SPFLAG_TARGET) ? DIR_TARGET :
-             testbits(flags, SPFLAG_DIR)    ? DIR_DIR    :
-                                              DIR_NONE;
+                testbits(flags, SPFLAG_TARGET) ? DIR_TARGET :
+                testbits(flags, SPFLAG_DIR)    ? DIR_DIR    :
+                DIR_NONE;
 
         const char *prompt = get_spell_target_prompt(spell);
         if (dir == DIR_DIR)

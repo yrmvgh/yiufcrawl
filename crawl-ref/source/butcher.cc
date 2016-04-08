@@ -322,7 +322,10 @@ void butchery(item_def* specific_corpse)
     // delay.cc:_push_delay should handle them OK.
 done:
     if (butchered_any)
+    {
+        you.prev_direction.reset();
         handle_delay();
+    }
 
     return;
 }

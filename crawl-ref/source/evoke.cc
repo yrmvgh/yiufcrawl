@@ -771,6 +771,7 @@ void zap_wand(int slot)
     if (!alreadyknown)
         auto_assign_item_slot(wand);
 
+    you.prev_direction.reset();
     you.turn_is_over = true;
 }
 
@@ -2551,5 +2552,6 @@ bool evoke_item(int slot, bool check_range)
     else
         crawl_state.zero_turns_taken();
 
+    you.prev_direction.reset();
     return did_work;
 }

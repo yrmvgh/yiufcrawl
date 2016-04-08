@@ -787,6 +787,7 @@ bool learn_spell()
         return false;
     }
 
+    you.prev_direction.reset();
     return learn_spell(specspell);
 }
 

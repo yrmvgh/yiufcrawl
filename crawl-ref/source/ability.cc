@@ -1161,6 +1161,7 @@ bool activate_ability()
         }
     }
 #endif
+    you.prev_direction.reset();
     return activate_talent(talents[selected]);
 }
 

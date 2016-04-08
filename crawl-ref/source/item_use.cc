@@ -387,6 +387,7 @@ bool wield_weapon(bool auto_wield, int slot, bool show_weff_messages,
     you.wield_change  = true;
     you.m_quiver.on_weapon_changed();
     you.turn_is_over  = true;
+    you.prev_direction.reset();
 
     return true;
 }
@@ -460,6 +461,7 @@ void wear_armour(int slot) // slot is for tiles
         return;
 
     do_wear_armour(armour_wear_2, false);
+    you.prev_direction.reset();
 }
 
 /**
@@ -1521,6 +1523,7 @@ bool puton_ring(int slot, bool allow_prompt)
 
     bool prompt = allow_prompt ? Options.jewellery_prompt : false;
 
+    you.prev_direction.reset();
     return _puton_item(item_slot, prompt);
 }
 
@@ -1798,6 +1801,7 @@ void drink(int slot)
     // This got deferred from PotionExperience::effect to prevent SIGHUP abuse.
     if (pot_type == POT_EXPERIENCE)
         level_change();
+    you.prev_direction.reset();
 }
 
 // XXX: there's probably a nicer way of doing this.
@@ -2621,6 +2625,7 @@ void read(int slot)
 
     // Ok - now we FINALLY get to read a scroll !!! {dlb}
     you.turn_is_over = true;
+    you.prev_direction.reset();
 
     if (you.duration[DUR_BRAINLESS] && !one_chance_in(5))
     {

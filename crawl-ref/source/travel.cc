@@ -2944,6 +2944,7 @@ void start_travel(const coord_def& p)
     }
     else
         start_translevel_travel(level_target);
+    you.prev_direction.reset();
 }
 
 void start_explore(bool grab_items)
@@ -2980,6 +2981,7 @@ void start_explore(bool grab_items)
             env.map_seen.set(*ri);
 
     you.running.pos.reset();
+    you.prev_direction.reset();
     _start_running();
 }
 
@@ -4469,6 +4471,7 @@ void do_interlevel_travel()
 
     if (you.running)
         clear_messages();
+    you.prev_direction.reset();
 }
 
 #ifdef USE_TILE

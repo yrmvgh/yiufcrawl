@@ -1885,7 +1885,8 @@ static void _do_remove_armour()
 
     int index = 0;
     if (armour_prompt("Take off which item?", &index, OPER_TAKEOFF))
-        takeoff_armour(index);
+        if (takeoff_armour(index))
+            you.prev_direction.reset();
 }
 
 static void _toggle_travel_speed()
@@ -1908,6 +1909,7 @@ static void _do_rest()
         return;
     }
 
+    you.prev_direction.reset();
     if (i_feel_safe())
     {
         unsummon_all();
@@ -2222,7 +2224,6 @@ void process_command(command_type cmd)
     // if movement is broken by any other action, then there is no abrupt direction change penalties
     if (!player_moved)
     {
-        you.prev_direction.reset();
 
         switch (cmd) {
 
@@ -2280,17 +2281,22 @@ void process_command(command_type cmd)
                 you.turn_is_over = true;
                 extract_manticore_spikes("You carefully extract the manticore spikes "
                                                  "from your body.");
+                you.prev_direction.reset();
                 break;
 
             case CMD_PICKUP:
             case CMD_PICKUP_QUANTITY:
+                you.prev_direction.reset();
                 pickup(cmd != CMD_PICKUP);
                 break;
 
                 // Action commands.
             case CMD_BUTCHER:              butchery();               break;
             case CMD_CAST_SPELL:           do_cast_spell_cmd(false); break;
-            case CMD_EAT:                  eat_food();               break;
+            case CMD_EAT:
+                if (eat_food())
+                    you.prev_direction.reset();
+                break;
             case CMD_FIRE:                 fire_thing();             break;
             case CMD_FORCE_CAST_SPELL:     do_cast_spell_cmd(true);  break;
             case CMD_LOOK_AROUND:          do_look_around();         break;
@@ -2298,10 +2304,16 @@ void process_command(command_type cmd)
             case CMD_QUAFF:                drink();                  break;
             case CMD_READ:                 read();                   break;
             case CMD_REMOVE_ARMOUR:        _do_remove_armour();      break;
-            case CMD_REMOVE_JEWELLERY:     remove_ring();            break;
+            case CMD_REMOVE_JEWELLERY:
+                if(remove_ring())
+                    you.prev_direction.reset();
+                break;
             case CMD_SHOUT:                yell();                   break;
             case CMD_THROW_ITEM_NO_QUIVER: throw_item_no_quiver();   break;
-            case CMD_WEAPON_SWAP:          wield_weapon(true);       break;
+            case CMD_WEAPON_SWAP:
+                if(wield_weapon(true))
+                    you.prev_direction.reset();
+                break;
             case CMD_WEAR_ARMOUR:          wear_armour();            break;
             case CMD_WEAR_JEWELLERY:       puton_ring(-1);           break;
             case CMD_WIELD_WEAPON:         wield_weapon(false);      break;
@@ -2822,6 +2834,7 @@ static bool _cancel_confused_move(bool stationary)
 
 static void _swing_at_target(coord_def move)
 {
+    you.prev_direction.reset();
     if (you.attribute[ATTR_HELD])
     {
         free_self_from_net();
@@ -3007,6 +3020,7 @@ static void _open_door(coord_def move)
 
 static void _close_door(coord_def move)
 {
+    you.prev_direction.reset();
     if (!player_can_open_doors())
     {
         mpr("You can't close doors in your present form.");

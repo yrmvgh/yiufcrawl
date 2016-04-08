@@ -953,6 +953,15 @@ void do_uncurse_item(item_def &item, int power, bool no_ash,
         return;
     }
 
+    item.curse_weight = max(0, item.curse_weight - power);
+
+    if (item.curse_weight > 0)
+        mprf("The curse weakens.");
+    else
+    {
+        mprf("The curse is lifted.");
+    }
+
     if (in_inv)
     {
         if (you.equip[EQ_WEAPON] == item.link)
@@ -962,13 +971,6 @@ void do_uncurse_item(item_def &item, int power, bool no_ash,
         }
         item.flags |= ISFLAG_KNOW_CURSE;
     }
-
-    item.curse_weight = max(0, item.curse_weight - power);
-
-    if (item.curse_weight > 0)
-        mprf("The curse weakens.");
-    else
-        mprf("The curse is lifted.");
 
     if (check_bondage && in_inv)
         ash_check_bondage();
