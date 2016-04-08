@@ -44,8 +44,8 @@
 // Note that they don't have to be equal, but it is important to make
 // sure that they're set so that the spending limit will always allow
 // for 1 skill point to be earned.
-#define MAX_COST_LIMIT           265
-#define MAX_SPENDING_LIMIT       265
+#define MAX_COST_LIMIT           26500
+#define MAX_SPENDING_LIMIT       26500
 
 static int _train(skill_type exsk, int &max_exp, bool simu = false);
 static void _train_skills(int exp, const int cost, const bool simu);

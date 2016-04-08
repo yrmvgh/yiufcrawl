@@ -2724,7 +2724,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
 {
     if (actual_gain != nullptr)
         *actual_gain = 0;
-    
+
     if (crawl_state.difficulty == DIFFICULTY_EASY)
         exp_gained = exp_gained * 3/2;
 
