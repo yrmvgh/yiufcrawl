@@ -2260,7 +2260,7 @@ static const mutation_def mut_data[] =
   {"You are vulnerable to poison.",
    "",
    ""},
-  {"You become more afraid of poisons.",
+  {"You become afraid of poisons.",
    "",
    ""},
   {"You are no longer afraid of poisons.", "", ""},
