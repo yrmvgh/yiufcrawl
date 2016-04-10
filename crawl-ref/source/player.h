@@ -1047,7 +1047,7 @@ void dec_max_hp(int hp_loss);
 void deflate_hp(int new_level, bool floor);
 void set_hp(int new_amount);
 
-int get_real_hp(bool trans, bool rotted = false);
+int get_real_hp(bool trans, bool rotted = false, bool adjust_for_difficulty = true);
 int get_real_mp(bool include_items);
 
 int get_contamination_level();

@@ -4279,7 +4279,7 @@ void set_mp(int new_amount)
 // If trans is true, being berserk and/or transformed is taken into account
 // here. Else, the base hp is calculated. If rotted is true, calculate the
 // real max hp you'd have if the rotting was cured.
-int get_real_hp(bool trans, bool rotted)
+int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 {
     int hitp;
 
@@ -4324,10 +4324,13 @@ int get_real_hp(bool trans, bool rotted)
         hitp = hitp * 4 / 5;
 #endif
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-        hitp = hitp * 3 / 2;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-    	hitp = hitp * 2 / 3;
+    if (adjust_for_difficulty)
+    {
+        if (crawl_state.difficulty == DIFFICULTY_EASY)
+            hitp = hitp * 3 / 2;
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+            hitp = hitp * 2 / 3;
+    }
 
     return max(1, hitp + 5);
 }
