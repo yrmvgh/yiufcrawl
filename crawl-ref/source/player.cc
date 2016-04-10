@@ -2725,19 +2725,22 @@ const int floor_experience_for_this_floor()
 void gain_potion_exp()
 {
     const int exp = potion_experience_for_this_floor();
-    gain_exp(exp, nullptr, true);
+    gain_exp(exp, nullptr, false);
 }
 
 void gain_floor_exp()
 {
     const int exp = floor_experience_for_this_floor();
-    gain_exp(exp, nullptr, true);
+    gain_exp(exp, nullptr, false);
 }
 
-void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool not_from_monster)
+void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool from_monster)
 {
     if (actual_gain != nullptr)
         *actual_gain = 0;
+
+    if (from_monster)
+        exp_gained = exp_gained * (from_monster ? Options.exp_percent_from_monsters : 1) / 100;
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
         exp_gained = exp_gained * 3/2;
@@ -2787,11 +2790,11 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool not_from_
         }
     }
 
-    if (Options.exp_percent_from_monsters || not_from_monster)
+    if (Options.exp_percent_from_monsters || !from_monster)
         if (you.experience + exp_gained > (unsigned int)MAX_EXP_TOTAL)
             you.experience = MAX_EXP_TOTAL;
         else
-            you.experience += exp_gained * Options.exp_percent_from_monsters / 100;
+            you.experience += exp_gained;
 
     you.attribute[ATTR_EVOL_XP] += exp_gained;
     for (god_iterator it; it; ++it)
@@ -2811,7 +2814,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool not_from_
     if (crawl_state.game_is_sprint())
         exp_gained = sprint_modify_exp(exp_gained);
 
-    if (Options.exp_percent_from_monsters || not_from_monster)
+    if (Options.exp_percent_from_monsters || !from_monster)
     {
         you.exp_available += exp_gained;
 
@@ -4276,7 +4279,7 @@ void set_mp(int new_amount)
 // If trans is true, being berserk and/or transformed is taken into account
 // here. Else, the base hp is calculated. If rotted is true, calculate the
 // real max hp you'd have if the rotting was cured.
-int get_real_hp(bool trans, bool rotted)
+int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 {
     int hitp;
 
@@ -4321,10 +4324,13 @@ int get_real_hp(bool trans, bool rotted)
         hitp = hitp * 4 / 5;
 #endif
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-        hitp = hitp * 3 / 2;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-    	hitp = hitp * 2 / 3;
+    if (adjust_for_difficulty)
+    {
+        if (crawl_state.difficulty == DIFFICULTY_EASY)
+            hitp = hitp * 3 / 2;
+        if (crawl_state.difficulty == DIFFICULTY_HARD)
+            hitp = hitp * 2 / 3;
+    }
 
     return max(1, hitp + 5);
 }
@@ -4369,13 +4375,11 @@ int get_real_mp(bool include_items)
     {
         const int num_magic_rings = you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
         for (int i = 0; i < num_magic_rings; i++)
-        {
-            enp = max(9, enp * 3 / 2);
-        }
+            enp = enp + max(9, enp * 1 / 4);
         enp += you.scan_artefacts(ARTP_MAGICAL_POWER);
 
         if (you.wearing(EQ_STAFF, STAFF_POWER))
-            enp += 15;
+            enp = enp + max(15, enp * 1 / 2);
     }
 
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))

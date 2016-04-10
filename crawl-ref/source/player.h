@@ -1001,7 +1001,7 @@ void display_char_status();
 void forget_map(bool rot = false);
 
 int get_exp_progress();
-void gain_exp(unsigned int exp_gained, unsigned int* actual_gain = nullptr, bool not_from_monster = false);
+void gain_exp(unsigned int exp_gained, unsigned int* actual_gain = nullptr, bool from_monster = true);
 const int potion_experience_for_this_floor();
 const int floor_experience_for_this_floor();
 void gain_potion_exp();
@@ -1047,7 +1047,7 @@ void dec_max_hp(int hp_loss);
 void deflate_hp(int new_level, bool floor);
 void set_hp(int new_amount);
 
-int get_real_hp(bool trans, bool rotted = false);
+int get_real_hp(bool trans, bool rotted = false, bool adjust_for_difficulty = true);
 int get_real_mp(bool include_items);
 
 int get_contamination_level();

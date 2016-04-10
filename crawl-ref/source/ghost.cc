@@ -310,7 +310,7 @@ static int _player_ghost_movement_energy()
 void ghost_demon::init_player_ghost(bool actual_ghost)
 {
     name   = you.your_name;
-    max_hp = min(get_real_hp(false), MAX_GHOST_HP);
+    max_hp = min(get_real_hp(false, false, false), MAX_GHOST_HP);
     ev     = min(you.evasion(EV_IGNORE_HELPLESS), MAX_GHOST_EVASION);
     ac     = you.armour_class();
 
