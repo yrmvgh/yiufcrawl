@@ -130,6 +130,9 @@ So, to recap the above, you can copy these options (which include their defaults
     * The 2.0 aut penalty mentioned is actually the greater of 2.0 or the normal speed of the player, so if you are playing Naga of Chei, your normal speed
       might exceed 2.0, in which case your change-movement penalty is your normal speed. In effect, that means there is no penalty for creatures that are 
       already slower than 2.0, since they can't kite anyway. 
+    * This is tweakable with the rc file option: movement_penalty = 20 
+        * 20 is the default, meaning 2.0 turns
+        * set to 0 to have the old behavior
     
 * Curse enhancement
     * Curses now have a curse level. 

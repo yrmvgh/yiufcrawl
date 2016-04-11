@@ -947,7 +947,7 @@ void game_options::reset_options()
 
     regex_search = false;
 
-    old_movement = false;
+    movement_penalty = 20;
     danger_mode_threshold = 30;
     level_27_cap = false;
     exp_potion_on_each_floor = false;
@@ -2893,7 +2893,7 @@ void game_options::read_option_line(const string &str, bool runscript)
                 [](string p) { return !trimmed_string(p).empty(); });
     }
     else BOOL_OPTION(regex_search);
-    else BOOL_OPTION(old_movement);
+    else INT_OPTION(movement_penalty, 0, 100);
     else BOOL_OPTION(level_27_cap);
     else BOOL_OPTION(exp_potion_on_each_floor);
     else BOOL_OPTION(uniques_drop_exp_potions);
