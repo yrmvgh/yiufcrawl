@@ -7823,8 +7823,10 @@ void count_action(caction_type type, int subtype)
 **/
 void count_action(caction_type type, int subtype, int auxtype)
 {
+    ASSERT_RANGE(subtype, INT16_MIN, INT16_MAX + 1);
+    ASSERT_RANGE(auxtype, INT16_MIN, INT16_MAX + 1);
     int compound_subtype;
-    compound_subtype = (auxtype << 16) | (subtype & 0xFFFF);
+    compound_subtype = (auxtype << 16) | int16_t(subtype);
     count_action(type, compound_subtype);
 }
 
@@ -7833,8 +7835,8 @@ void count_action(caction_type type, int subtype, int auxtype)
 **/
 pair<int, int> caction_extract_types(int compound_subtype)
 {
-    return make_pair(compound_subtype & 0xFFFF,
-                     (compound_subtype >> 16) & 0xFFFF);
+    return make_pair(int16_t(compound_subtype),
+                     int16_t(compound_subtype >> 16));
 }
 
 /**
