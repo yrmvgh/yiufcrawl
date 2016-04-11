@@ -86,9 +86,14 @@ with my goals here, or with concerns you have about my future plans.
     * exp_based_on_player_level = true
         * when false, potions of experience give experience relative to the floor the player is on
             * this encourages the player to take additional risks by plunging deeper into the dungeon before drinking the potion
+            * for example, drinking the potion on D:1, would give 1 xp, but drinking it on D:4 would give 35 xp. 
         * when true, experience is given relative to the players xl
             * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
               experience needed to advance to the next xl when drinking a potion.
+            * this means that it doesn't matter where the potion is quaffed, they will get the same amount of experience. 
+            * example: player is level 1, they drink a potion of exp, they are now level 2. If they are level 2, and drink it,
+              they will be level 3. If exp_percent_from_potions_on_floor < 100, then it will take more than one potion to go
+              up a full level. 
               
 So, to recap the above, you can copy these options (which include their defaults) into your rc file and tweak them:
               

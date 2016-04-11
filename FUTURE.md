@@ -636,10 +636,25 @@ future. Then if you go to manually pick up a mace again, that will change your a
 
 This would probably just be an option: adaptive-autopickup = true  or something like that.
 
-## For vim like keyboard interaction
+## More vim like keyboard interaction
 
 The macroing system can be tightened up a bit, and introduction of more relative commands could greatly improve macro power. With an extended, well designed
 vim-like keyboard interface, you would be able to build macros for most of the things that you need lua scripts for now, which I think will make advanced gaming 
 more accessible to players that would be too intimidated by trying to create a lua script. I'm talking about something so powerful you could program your own
 auto-explore or auto-fight macros in the same way you make simple macros today, without needing to touch a lua script. 
+
+There would be a command to display a string, and another to display the contents of a variable (such as, last damage done to the player, or how much health 
+the player has left). There would be a command to target the nearest unexplored part of the map. There would also be commands that would allow conditional
+tests to be executed, and then specific "submacros" would handle the result of that test. 
+
+## Remove jobs
+
+Jobs don't really have that big of an impact on a character over the whole game. I think the game would be more fun to push some of the things that choosing
+a job accomplished into the first few floors of the dungeon. For example, maybe there is an increased chance to find an altar vault in the first few dungeon
+floors. Maybe there is a gauranteed manual in the first 3 floors. The player then just evolves the character along whatever path presents itself. So if you
+want to play a berserker, you will need to find a Trog altar, and a good weapon, and a shield. In the meantime, you have to make due with what you find.
+
+## Remove praying
+
+Sacrifice can happen automatically when a player rests or auto-explores. That gives no more reason for prayer. Frees up another key on the keyboard.
 
