@@ -798,18 +798,22 @@ bool curse_a_slot(int power)
 
 void curse_slot(int slot_to_curse, int power)
 {
+    bool already_cursed = you.equip_slot_cursed_level[slot_to_curse] > 0;
     you.equip_slot_cursed_level[slot_to_curse] += power;
     int8_t i = you.equip[slot_to_curse];
     if (i != -1)
     {
+        already_cursed = you.inv1[i].curse_weight > 0;
         you.inv1[i].curse_weight += you.equip_slot_cursed_level[slot_to_curse];
         you.equip_slot_cursed_level[slot_to_curse] = 0;
-        mprf("%s has been cursed.", you.inv1[i].name(DESC_YOUR).c_str());
+        mprf("%s has been%s cursed.", you.inv1[i].name(DESC_YOUR).c_str(), already_cursed ? " more": "");
     }
     else
     {
-        mprf("Your %s slot has been cursed.", item_slot_name((equipment_type) slot_to_curse));
+        mprf("Your %s slot has been%s cursed.", item_slot_name((equipment_type) slot_to_curse), already_cursed ? " more": "");
     }
+
+    you.wield_change = true;
 }
 
 // Curses a random player inventory item.

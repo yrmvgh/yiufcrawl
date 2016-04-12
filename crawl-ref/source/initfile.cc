@@ -2924,7 +2924,7 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_based_on_player_level = true;
             exp_percent_from_monsters = 0;
             exp_percent_from_potions = 0;
-            exp_percent_from_new_branch_floor = 33;
+            exp_percent_from_new_branch_floor = 100;
         }
         else if (field == "simple_depth")
         {
@@ -2936,15 +2936,25 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_percent_from_potions = 0;
             exp_percent_from_new_branch_floor = 100;
         }
-        else if (field == "blended")
+        else if (field == "balance")
         {
-            experience_mode = EXP_MODE_BLENDED;
+            experience_mode = EXP_MODE_BALANCE;
             exp_potion_on_each_floor = true;
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = false;
-            exp_percent_from_monsters = 30;
-            exp_percent_from_potions = 10;
-            exp_percent_from_new_branch_floor = 30;
+            exp_percent_from_monsters = 25;
+            exp_percent_from_potions = 25;
+            exp_percent_from_new_branch_floor = 25;
+        }
+        else if (field == "serenity")
+        {
+            experience_mode = EXP_MODE_SERENITY;
+            exp_potion_on_each_floor = true;
+            uniques_drop_exp_potions = true;
+            exp_based_on_player_level = true;
+            exp_percent_from_monsters = 25;
+            exp_percent_from_potions = 50;
+            exp_percent_from_new_branch_floor = 25;
         }
         else if (field == "intensity")
         {
@@ -2953,8 +2963,8 @@ void game_options::read_option_line(const string &str, bool runscript)
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = false;
             exp_percent_from_monsters = 0;
-            exp_percent_from_potions = 30;
-            exp_percent_from_new_branch_floor = 10;
+            exp_percent_from_potions = 80;
+            exp_percent_from_new_branch_floor = 20;
         }
         else if (field == "pacifist")
         {

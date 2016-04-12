@@ -2689,10 +2689,10 @@ const int _experience_for_this_floor(int multiplier) {
             int how_deep = absdungeon_depth(you.where_are_you, you.depth);
             exp = stepup2(how_deep + 1, 3, 3, 40) + 5;
         }
-        exp = exp * multiplier / 100;
+        exp = exp * multiplier;
     }
 
-    return div_rand_round(exp, 3);
+    return div_rand_round(exp, 300);
 }
 
 const int potion_experience_for_this_floor()
@@ -2745,10 +2745,10 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool from_mons
     }
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        exp_gained = exp_gained * 3/2;
+        exp_gained = div_rand_round(exp_gained * 3, 2);
 
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-        exp_gained = exp_gained * 2/3;
+        exp_gained = div_rand_round(exp_gained * 2, 3);
 
     if (crawl_state.game_is_arena() || exp_gained == 0)
         return;
