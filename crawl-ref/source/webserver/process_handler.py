@@ -554,15 +554,16 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
 
         if binary == "":
             binary = game["crawl_binary"]
-            f = open(binary_file_path, "w")
-            f.write("%s" % (binary))
-            f.flush()
-            f.close()
 
-            f = open(game_id_file_path, "w")
-            f.write("%s" % (game["id"]))
-            f.flush()
-            f.close()
+        f = open(binary_file_path, "w")
+        f.write("%s" % (binary))
+        f.flush()
+        f.close()
+
+        f = open(game_id_file_path, "w")
+        f.write("%s" % (game["id"]))
+        f.flush()
+        f.close()
 
         call = self._base_call(binary) + ["-webtiles-socket", self.socketpath,
                                           "-await-connection"]
