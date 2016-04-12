@@ -133,23 +133,6 @@ with my goals here, or with concerns you have about my future plans.
       than 30% of 15, the danger message is given, and danger mode is turned on. No more warnings will be given until things quiet down. 
     * This is disabled by setting danger_mode_threshold to 0.
     
-* Eliminate pillar dancing and extended kiting (don't knock it until you've given it a fair chance, it really works)
-    * The first time a player moves, it takes 2.0 aut, independent of other factors.
-    * If the player moves again in the same general direction (within 45 degress or less of the original movement), then they move 10% faster than their normal
-      speed. As long as they don't stop (by doing something other than moving in a similar direction), they keep moving at the 10% faster than normal rate. 
-    * If they stop to attack, then next time they move it will take exactly 2.0 aut. It might take longer if their normal movement speed would take longer. 
-    * If they change directions by 90 degrees or more, they will pay again the 2.0 aut movement penalty. 
-    * Monsters move just like before, no change there. 
-    * Pillar dancing no longer will work because most monsters will easily be able to catch up.
-    * Players can still escape from monsters like before, with speed boosts (haste, species speed, swiftness, etc) making it easier.
-    * Extended kiting is impractical even for the fastest species with haste. Try it and you'll see what I mean. 
-    * The 2.0 aut penalty mentioned is actually the greater of 2.0 or the normal speed of the player, so if you are playing Naga of Chei, your normal speed
-      might exceed 2.0, in which case your change-movement penalty is your normal speed. In effect, that means there is no penalty for creatures that are 
-      already slower than 2.0, since they can't kite anyway. 
-    * This is tweakable with the rc file option: movement_penalty = 20 
-        * 20 is the default, meaning 2.0 turns
-        * set to 0 to have the old behavior
-    
 * Curse enhancement
     * Curses now have a curse level. 
     * The curse on equipped items decay as a player gains experience (unless the player worships Ash of course).
