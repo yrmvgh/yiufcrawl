@@ -217,6 +217,14 @@ So, to recap the above, you can copy these options (which include their defaults
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
 
+* Human 
+    * exp apt +2
+    * fighting and spellcasting apt +2
+    * can crosstrain many more skills
+        * fire, ice, earth, air
+        * invo, evo, spellcasting
+    * god wrath lasts half as long, since the gods understand how fickle humans can be.
+    
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
       normal consequence.
@@ -330,7 +338,15 @@ So, to recap the above, you can copy these options (which include their defaults
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
-    * can't wear body armour at all
+
+* Draconians
+    * Pale Draconian
+        * inv apt 1 -> 0
+        * evo apt 1 -> 2
+    * Mottled Draconian
+        * now has rF+ and rC+
+        * sticky flame can go 2 spaces instead of 1
+        * +1 apt for elemental magics and poison
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.
