@@ -260,6 +260,10 @@ bool is_body_facet(mutation_type mut)
 
 mutation_activity_type mutation_activity_level(mutation_type mut)
 {
+    // vine stalkers in tree form keep their mutations
+    if (you.form == TRAN_TREE && you.species == SP_VINE_STALKER)
+        return MUTACT_FULL;
+
     // First make sure the player's form permits the mutation.
     if (!form_keeps_mutations())
     {

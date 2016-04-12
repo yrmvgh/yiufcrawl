@@ -49,7 +49,58 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
-### v1.2.2 (currently deployed)
+### v1.2.3
+
+* Experience modes
+    * You can now configure the experience settings through predefined modes. The old settings have been removed.
+    * You select a mode by using "experience_mode = ..." in your rc file.
+    * Current modes:
+        * experience_mode = classic
+            * this is the basic vanilla crawl way
+            * experience is gained by killing monsters
+        * experience_mode = simple_xl
+            * experience is only gained by reaching new floors. 
+            * every 3 floors gives a new experience level, assuming a species exp apt of 0, and difficulty mode is normal
+        * experience_mode = simple_depth
+            * experience is only gained by reaching new floors. 
+            * depending on how difficult your current level is determines how much experience you get for reaching it. 
+        * experience_mode = blended
+            * 1 experience potion spawns on each floor
+            * experience potions are dropped by each unique and player ghost
+            * experience is evenly divided between reaching new floors, killing monsters, and drinking potions at the lowest possible level
+        * experience_mode = intensity
+            * 1 experience potion spawns on each floor
+            * experience potions are dropped by each unique and player ghost
+            * a little experience is gained for reaching a new floor
+            * but most of the experience is gained from drinking potions at the lowest dungeon level possible
+        * experience_mode = pacifist
+            * 1 experience potion spawns on each floor
+            * experience is gained by drinking potions and reaching new branch floors
+            * experience is lost for each monster killed
+        * experience_mode = destroyer
+            * experience is gained for killing monsters
+            * experience potions are dropped by each unique and player ghost
+            * experience is lost for each new floor reached
+            * experience potions give experience based on how deep they are quaffed
+
+### v1.2.2
+
+* Human 
+    * exp apt +2
+    * fighting and spellcasting apt +2
+    * can crosstrain many more skills
+        * fire, ice, earth, air
+        * invo, evo, spellcasting
+    * god wrath lasts half as long, since the gods understand how fickle humans can be.
+    
+* Draconian
+    * Pale Draconian
+        * inv apt 1 -> 0
+        * evo apt 1 -> 2
+    * Mottled Draconian
+        * now has rF+ and rC+
+        * sticky flame can go 2 spaces instead of 1
+        * +1 apt for elemental magics and poison
 
 * Options for experimenting with experience model changes (each option is shown with it's current default)
     * level_27_cap = false
@@ -217,14 +268,6 @@ So, to recap the above, you can copy these options (which include their defaults
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
 
-* Human 
-    * exp apt +2
-    * fighting and spellcasting apt +2
-    * can crosstrain many more skills
-        * fire, ice, earth, air
-        * invo, evo, spellcasting
-    * god wrath lasts half as long, since the gods understand how fickle humans can be.
-    
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
       normal consequence.
@@ -338,15 +381,6 @@ So, to recap the above, you can copy these options (which include their defaults
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
-
-* Draconians
-    * Pale Draconian
-        * inv apt 1 -> 0
-        * evo apt 1 -> 2
-    * Mottled Draconian
-        * now has rF+ and rC+
-        * sticky flame can go 2 spaces instead of 1
-        * +1 apt for elemental magics and poison
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.

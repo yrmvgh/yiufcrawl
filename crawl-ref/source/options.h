@@ -423,6 +423,8 @@ public:
     int         movement_penalty;           // original crawl movement, where direction changes aren't penalized
 
     bool        level_27_cap;               // prevent player level and skills from exceeding level 27, and use old style progression steps
+
+    exp_mode    experience_mode;
     bool        exp_potion_on_each_floor;   // give experience from exp potions dropped on each floor
     bool        uniques_drop_exp_potions;   // uniques and ghosts will always drop exp potions
     bool        exp_based_on_player_level;  // exp is relative to player level instead of floor the player is on

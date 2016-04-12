@@ -674,23 +674,29 @@ aff_type targetter_cloud::is_affected(coord_def loc)
     return AFF_NO;
 }
 
-targetter_splash::targetter_splash(const actor* act)
+bool targetter_splash::can_affect_outside_range()
+{
+    return true;
+}
+
+targetter_splash::targetter_splash(const actor *act, int r)
 {
     ASSERT(act);
     agent = act;
     origin = aim = act->pos();
+    range = r;
 }
 
 bool targetter_splash::valid_aim(coord_def a)
 {
-    if (agent && grid_distance(origin, a) > 1)
+    if (agent && grid_distance(origin, a) > range)
         return notify_fail("Out of range.");
     return true;
 }
 
 aff_type targetter_splash::is_affected(coord_def loc)
 {
-    if (!valid_aim(aim) || !valid_aim(loc))
+    if (!valid_aim(aim))
         return AFF_NO;
 
     if (loc == aim)

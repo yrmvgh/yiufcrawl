@@ -2893,14 +2893,92 @@ void game_options::read_option_line(const string &str, bool runscript)
                 [](string p) { return !trimmed_string(p).empty(); });
     }
     else BOOL_OPTION(regex_search);
+
     else INT_OPTION(movement_penalty, 0, 100);
+
     else BOOL_OPTION(level_27_cap);
-    else BOOL_OPTION(exp_potion_on_each_floor);
-    else BOOL_OPTION(uniques_drop_exp_potions);
-    else BOOL_OPTION(exp_based_on_player_level);
-    else INT_OPTION(exp_percent_from_monsters, -1000, 1000);
-    else INT_OPTION(exp_percent_from_potions, -1000, 1000);
-    else INT_OPTION(exp_percent_from_new_branch_floor, -1000, 1000);
+//    else BOOL_OPTION(exp_potion_on_each_floor);
+//    else BOOL_OPTION(uniques_drop_exp_potions);
+//    else BOOL_OPTION(exp_based_on_player_level);
+//    else INT_OPTION(exp_percent_from_monsters, -1000, 1000);
+//    else INT_OPTION(exp_percent_from_potions, -1000, 1000);
+//    else INT_OPTION(exp_percent_from_new_branch_floor, -1000, 1000);
+    else if (key == "experience_mode")
+    {
+        if (field == "classic")
+        {
+            experience_mode = EXP_MODE_CLASSIC;
+            exp_potion_on_each_floor = false;
+            uniques_drop_exp_potions = false;
+            exp_based_on_player_level = true;
+            exp_percent_from_monsters = 100;
+            exp_percent_from_potions = 100;
+            exp_percent_from_new_branch_floor = 0;
+        }
+        else if (field == "simple_xl")
+        {
+            experience_mode = EXP_MODE_SIMPLE_XL;
+            exp_potion_on_each_floor = false;
+            uniques_drop_exp_potions = false;
+            exp_based_on_player_level = true;
+            exp_percent_from_monsters = 0;
+            exp_percent_from_potions = 0;
+            exp_percent_from_new_branch_floor = 33;
+        }
+        else if (field == "simple_depth")
+        {
+            experience_mode = EXP_MODE_SIMPLE_DEPTH;
+            exp_potion_on_each_floor = false;
+            uniques_drop_exp_potions = false;
+            exp_based_on_player_level = false;
+            exp_percent_from_monsters = 0;
+            exp_percent_from_potions = 0;
+            exp_percent_from_new_branch_floor = 100;
+        }
+        else if (field == "blended")
+        {
+            experience_mode = EXP_MODE_BLENDED;
+            exp_potion_on_each_floor = true;
+            uniques_drop_exp_potions = true;
+            exp_based_on_player_level = false;
+            exp_percent_from_monsters = 30;
+            exp_percent_from_potions = 10;
+            exp_percent_from_new_branch_floor = 30;
+        }
+        else if (field == "intensity")
+        {
+            experience_mode = EXP_MODE_INTENSITY;
+            exp_potion_on_each_floor = true;
+            uniques_drop_exp_potions = true;
+            exp_based_on_player_level = false;
+            exp_percent_from_monsters = 0;
+            exp_percent_from_potions = 30;
+            exp_percent_from_new_branch_floor = 10;
+        }
+        else if (field == "pacifist")
+        {
+            experience_mode = EXP_MODE_PACIFIST;
+            exp_potion_on_each_floor = true;
+            uniques_drop_exp_potions = false;
+            exp_based_on_player_level = false;
+            exp_percent_from_monsters = -100;
+            exp_percent_from_potions = 30;
+            exp_percent_from_new_branch_floor = 50;
+        }
+        else if (field == "destroyer")
+        {
+            experience_mode = EXP_MODE_DESTROYER;
+            exp_potion_on_each_floor = false;
+            uniques_drop_exp_potions = true;
+            exp_based_on_player_level = false;
+            exp_percent_from_monsters = 100;
+            exp_percent_from_potions = 10;
+            exp_percent_from_new_branch_floor = -50;
+        }
+        else
+            report_error("Unknown experience_mode value: %s\n", field.c_str());
+    }
+
     else INT_OPTION(danger_mode_threshold, 0, 100);
 #if !defined(DGAMELAUNCH) || defined(DGL_REMEMBER_NAME)
     else BOOL_OPTION(remember_name);

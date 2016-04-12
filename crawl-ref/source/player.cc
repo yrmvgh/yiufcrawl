@@ -2676,8 +2676,7 @@ static void _reduce_abyss_xp_timer(int exp)
 }
 
 const int _experience_for_this_floor(int multiplier) {
-    int factor = 48;
-    int exp = 1;
+    int exp = 0;
 
     if (!is_safe_branch(you.where_are_you)
         && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
@@ -2686,14 +2685,14 @@ const int _experience_for_this_floor(int multiplier) {
         if (Options.exp_based_on_player_level)
             exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
         else
-            {
-                int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-                exp = stepup2(how_deep + 1, 3, 3, factor) + 5;
-            }
+        {
+            int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+            exp = stepup2(how_deep + 1, 3, 3, 40) + 5;
+        }
         exp = exp * multiplier / 100;
     }
 
-    return exp;
+    return div_rand_round(exp, 3);
 }
 
 const int potion_experience_for_this_floor()
