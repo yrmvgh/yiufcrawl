@@ -812,6 +812,8 @@ void curse_slot(int slot_to_curse, int power)
     {
         mprf("Your %s slot has been%s cursed.", item_slot_name((equipment_type) slot_to_curse), already_cursed ? " more": "");
     }
+
+    you.wield_change = true;
 }
 
 // Curses a random player inventory item.
