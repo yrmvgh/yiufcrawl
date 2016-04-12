@@ -313,7 +313,6 @@ class CrawlProcessHandlerBase(object):
             "spectator_count": self.watcher_count(),
             "idle_time": (self.idle_time() if self.is_idle() else 0),
             "game_id": self.game_params["id"],
-#            "diff": diff_string(self.where["diff"]),
             }
 
         if "difficulty" in self.where.keys():
@@ -341,11 +340,11 @@ class CrawlProcessHandlerBase(object):
         self.last_milestone = milestone
         update_all_lobbys(self)
 
-    def _base_call(self):
+    def _base_call(self, binary):
         game = self.game_params
 
 
-        call  = [game["crawl_binary"]]
+        call  = [binary]
 
         if "pre_options" in game:
             call += game["pre_options"]
@@ -517,8 +516,24 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
 
         game = self.game_params
 
-        call = self._base_call() + ["-webtiles-socket", self.socketpath,
-                                    "-await-connection"]
+        binary = ""
+        binary_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".lastbin")
+        save_file_path = os.path.join(os.getcwd(), "." + self.username + ".cs")
+        if os.path.exists(save_file_path) and os.path.exists(binary_file_path):
+            with open(binary_file_path, "r") as f:
+                last_binary_name = f.read()
+            if os.path.exists(last_binary_name):
+                binary = last_binary_name
+
+        if binary == "":
+            binary = game["crawl_binary"]
+            f = open(binary_file_path, "w")
+            f.write("%s" % (binary))
+            f.flush()
+            f.close()
+
+        call = self._base_call(binary) + ["-webtiles-socket", self.socketpath,
+                                          "-await-connection"]
 
         ttyrec_path = self.config_path("ttyrec_path")
         if ttyrec_path:
@@ -770,7 +785,7 @@ class DGLLessCrawlProcessHandler(CrawlProcessHandler):
                                                          "game",
                                                          logger, io_loop)
 
-    def _base_call(self):
+    def _base_call(self, binary):
         return ["./crawl"]
 
     def check_where(self):
