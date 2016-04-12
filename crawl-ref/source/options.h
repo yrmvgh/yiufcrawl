@@ -420,7 +420,7 @@ public:
 
     bool        regex_search; // whether to default to regex search for ^F
 
-    bool        old_movement;               // original crawl movement, where direction changes aren't penalized
+    int         movement_penalty;           // original crawl movement, where direction changes aren't penalized
 
     bool        level_27_cap;               // prevent player level and skills from exceeding level 27, and use old style progression steps
     bool        exp_potion_on_each_floor;   // give experience from exp potions dropped on each floor

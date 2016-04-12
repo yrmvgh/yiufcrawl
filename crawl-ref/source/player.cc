@@ -3884,8 +3884,8 @@ unsigned int exp_needed(int lev, int exp_apt)
     else
     {
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        const int base = stepup2(lev, 2, 4) * 5;
-        needed_exp = base * apt_factor * apt_factor * apt_factor + 10;
+        const int base = stepup2(lev, 2, 4) * 10;
+        needed_exp = base * apt_factor * apt_factor * apt_factor + 5;
     }
     return (unsigned int) needed_exp;
 }
@@ -4362,7 +4362,6 @@ int get_real_mp(bool include_items)
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
-
     if (crawl_state.difficulty == DIFFICULTY_EASY)
     	enp += 12;
     if (crawl_state.difficulty == DIFFICULTY_NORMAL)
@@ -4375,11 +4374,11 @@ int get_real_mp(bool include_items)
     {
         const int num_magic_rings = you.wearing(EQ_RINGS, RING_MAGICAL_POWER);
         for (int i = 0; i < num_magic_rings; i++)
-            enp = enp + max(9, enp * 1 / 4);
+            enp += max(9, enp / 4);
         enp += you.scan_artefacts(ARTP_MAGICAL_POWER);
 
         if (you.wearing(EQ_STAFF, STAFF_POWER))
-            enp = enp + max(15, enp * 1 / 2);
+            enp += max(15, enp / 2);
     }
 
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))

@@ -3562,7 +3562,7 @@ static void _move_player(coord_def move)
             env.travel_trail.push_back(you.pos());
 
         you.time_taken *= player_movement_speed();
-        if (!Options.old_movement)
+        if (Options.movement_penalty)
         {
 //            if (move.is_reversal(you.prev_direction))
 //            {
@@ -3572,7 +3572,7 @@ static void _move_player(coord_def move)
 //            else
             if (you.prev_direction.x == 0 && you.prev_direction.y == 0 || move.is_sharp_turn(you.prev_direction))
             {
-                you.time_taken = max(you.time_taken, 200);
+                you.time_taken = max(you.time_taken, Options.movement_penalty * 10);
                 you.prev_direction = move;
             }
             else

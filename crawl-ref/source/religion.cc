@@ -1057,6 +1057,9 @@ static void _inc_penance(god_type god, int val)
     if (val <= 0)
         return;
 
+    if (you.species == SP_HUMAN)
+        val >>= 1;
+
     if (!player_under_penance(god))
     {
         god_acting gdact(god, true);

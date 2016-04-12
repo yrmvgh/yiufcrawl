@@ -1550,22 +1550,57 @@ vector<skill_type> get_crosstrain_skills(skill_type sk)
 {
     switch (sk)
     {
-    case SK_SHORT_BLADES:
-        return { SK_LONG_BLADES };
-    case SK_LONG_BLADES:
-        return { SK_SHORT_BLADES };
-    case SK_AXES:
-    case SK_STAVES:
-        return { SK_POLEARMS, SK_MACES_FLAILS };
-    case SK_MACES_FLAILS:
-    case SK_POLEARMS:
-        return { SK_AXES, SK_STAVES };
-    case SK_SLINGS:
-        return { SK_THROWING };
-    case SK_THROWING:
-        return { SK_SLINGS };
-    default:
-        return {};
+        case SK_SHORT_BLADES:
+            return {SK_LONG_BLADES};
+        case SK_LONG_BLADES:
+            return {SK_SHORT_BLADES};
+        case SK_AXES:
+        case SK_STAVES:
+            return {SK_POLEARMS, SK_MACES_FLAILS};
+        case SK_MACES_FLAILS:
+        case SK_POLEARMS:
+            return {SK_AXES, SK_STAVES};
+        case SK_SLINGS:
+            return {SK_THROWING};
+        case SK_THROWING:
+            return {SK_SLINGS};
+        case SK_SPELLCASTING:
+            if (you.species == SP_HUMAN)
+                return {SK_EVOCATIONS, SK_INVOCATIONS};
+            else
+                return {};
+        case SK_INVOCATIONS:
+            if (you.species == SP_HUMAN)
+                return {SK_EVOCATIONS, SK_SPELLCASTING};
+            else
+                return {};
+        case SK_EVOCATIONS:
+            if (you.species == SP_HUMAN)
+                return {SK_INVOCATIONS, SK_SPELLCASTING};
+            else
+                return {};
+        case SK_ICE_MAGIC:
+            if (you.species == SP_HUMAN)
+                return {SK_FIRE_MAGIC, SK_EARTH_MAGIC, SK_AIR_MAGIC};
+            else
+                return {};
+        case SK_EARTH_MAGIC:
+            if (you.species == SP_HUMAN)
+                return {SK_ICE_MAGIC, SK_FIRE_MAGIC, SK_AIR_MAGIC};
+            else
+                return {};
+        case SK_AIR_MAGIC:
+            if (you.species == SP_HUMAN)
+                return {SK_ICE_MAGIC, SK_EARTH_MAGIC, SK_FIRE_MAGIC};
+            else
+                return {};
+        case SK_FIRE_MAGIC:
+            if (you.species == SP_HUMAN)
+                return {SK_ICE_MAGIC, SK_EARTH_MAGIC, SK_AIR_MAGIC};
+            else
+                return {};
+        default:
+            return {};
     }
 }
 

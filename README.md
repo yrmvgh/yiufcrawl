@@ -86,9 +86,14 @@ with my goals here, or with concerns you have about my future plans.
     * exp_based_on_player_level = true
         * when false, potions of experience give experience relative to the floor the player is on
             * this encourages the player to take additional risks by plunging deeper into the dungeon before drinking the potion
+            * for example, drinking the potion on D:1, would give 1 xp, but drinking it on D:4 would give 35 xp. 
         * when true, experience is given relative to the players xl
             * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
               experience needed to advance to the next xl when drinking a potion.
+            * this means that it doesn't matter where the potion is quaffed, they will get the same amount of experience. 
+            * example: player is level 1, they drink a potion of exp, they are now level 2. If they are level 2, and drink it,
+              they will be level 3. If exp_percent_from_potions_on_floor < 100, then it will take more than one potion to go
+              up a full level. 
               
 So, to recap the above, you can copy these options (which include their defaults) into your rc file and tweak them:
               
@@ -125,6 +130,9 @@ So, to recap the above, you can copy these options (which include their defaults
     * The 2.0 aut penalty mentioned is actually the greater of 2.0 or the normal speed of the player, so if you are playing Naga of Chei, your normal speed
       might exceed 2.0, in which case your change-movement penalty is your normal speed. In effect, that means there is no penalty for creatures that are 
       already slower than 2.0, since they can't kite anyway. 
+    * This is tweakable with the rc file option: movement_penalty = 20 
+        * 20 is the default, meaning 2.0 turns
+        * set to 0 to have the old behavior
     
 * Curse enhancement
     * Curses now have a curse level. 
@@ -209,6 +217,14 @@ So, to recap the above, you can copy these options (which include their defaults
 * Flying
     * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
 
+* Human 
+    * exp apt +2
+    * fighting and spellcasting apt +2
+    * can crosstrain many more skills
+        * fire, ice, earth, air
+        * invo, evo, spellcasting
+    * god wrath lasts half as long, since the gods understand how fickle humans can be.
+    
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
       normal consequence.
@@ -322,7 +338,15 @@ So, to recap the above, you can copy these options (which include their defaults
 * Vine Stalkers
     * added a lignify ability, allowing them to lignify or unlignify at will, costing some time and food, but
       possibly adding some interesting strategic choices. 
-    * can't wear body armour at all
+
+* Draconians
+    * Pale Draconian
+        * inv apt 1 -> 0
+        * evo apt 1 -> 2
+    * Mottled Draconian
+        * now has rF+ and rC+
+        * sticky flame can go 2 spaces instead of 1
+        * +1 apt for elemental magics and poison
 
 * Spells
     * because the new consumables inventory took the 'I' command, the spell list can now be seen with the 's' command.

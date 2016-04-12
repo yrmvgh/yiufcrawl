@@ -303,7 +303,10 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     10, 8, 6, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_COLD_BLOODED, 1, 1 }, },
+    { { MUT_COLD_BLOODED, 1, 1 },
+      { MUT_HEAT_RESISTANCE, 1, 7 },
+      { MUT_COLD_RESISTANCE, 1, 7 }
+    },
     { "You can spit globs of burning liquid.",
       "You can ignite nearby creatures when you spit burning liquid." },
     { "breathe sticky flame splash" },
