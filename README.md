@@ -49,7 +49,41 @@ with my goals here, or with concerns you have about my future plans.
 
 ## Major modifications from the original DCSS
 
-### v1.2.2 (currently deployed)
+### v1.2.3
+
+* Experience modes
+    * You can now configure the experience settings through predefined modes. The old settings have been removed.
+    * You select a mode by using "experience_mode = ..." in your rc file.
+    * Current modes:
+        * experience_mode = classic
+            * this is the basic vanilla crawl way
+            * experience is gained by killing monsters
+        * experience_mode = simple_xl
+            * experience is only gained by reaching new floors. 
+            * every 3 floors gives a new experience level, assuming a species exp apt of 0, and difficulty mode is normal
+        * experience_mode = simple_depth
+            * experience is only gained by reaching new floors. 
+            * depending on how difficult your current level is determines how much experience you get for reaching it. 
+        * experience_mode = blended
+            * 1 experience potion spawns on each floor
+            * experience potions are dropped by each unique and player ghost
+            * experience is evenly divided between reaching new floors, killing monsters, and drinking potions at the lowest possible level
+        * experience_mode = intensity
+            * 1 experience potion spawns on each floor
+            * experience potions are dropped by each unique and player ghost
+            * a little experience is gained for reaching a new floor
+            * but most of the experience is gained from drinking potions at the lowest dungeon level possible
+        * experience_mode = pacifist
+            * 1 experience potion spawns on each floor
+            * experience is gained by drinking potions and reaching new branch floors
+            * experience is lost for each monster killed
+        * experience_mode = destroyer
+            * experience is gained for killing monsters
+            * experience potions are dropped by each unique and player ghost
+            * experience is lost for each new floor reached
+            * experience potions give experience based on how deep they are quaffed
+
+### v1.2.2
 
 * Human 
     * exp apt +2
