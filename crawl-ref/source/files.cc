@@ -1133,10 +1133,15 @@ static void _make_level(dungeon_feature_type stair_taken,
     env.sanctuary_pos  = coord_def(-1, -1);
     env.sanctuary_time = 0;
 
-    const int exp = floor_experience_for_this_floor();
+    int exp = floor_experience_for_this_floor();
     if (Options.exp_percent_from_new_branch_floor && exp)
     {
-        mprf(MSGCH_INTRINSIC_GAIN, "You gained %d exp for entering this floor.", exp);
+        const string change = exp > 0 ? "gained" : "lost";
+        const msg_channel_type channel = exp > 0 ? MSGCH_INTRINSIC_GAIN : MSGCH_WARN;
+        if (exp < 0)
+            exp = -exp;
+
+        mprf(channel, "You %s %d exp for entering this floor.", change.c_str(), exp);
         gain_floor_exp();
     }
 }

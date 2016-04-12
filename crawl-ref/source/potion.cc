@@ -9,6 +9,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cmath>
 
 #include "cloud.h"
 #include "food.h"
@@ -240,7 +241,7 @@ public:
         int amount = 0;
         if (is_device)
         {
-            amount = you.hp_max * power / 200;
+            amount = you.hp_max * (1 - pow((200 - power) / 200.0, 2));
             mpr("You feel better.");
         }
         else switch(crawl_state.difficulty)

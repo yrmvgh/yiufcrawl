@@ -956,6 +956,7 @@ void game_options::reset_options()
     exp_percent_from_potions = 100;
     exp_percent_from_new_branch_floor = 0;
     exp_based_on_player_level = true;
+    experience_mode = EXP_MODE_CLASSIC;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
@@ -2971,9 +2972,13 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_potion_on_each_floor = false;
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = false;
-            exp_percent_from_monsters = 100;
-            exp_percent_from_potions = 10;
+            exp_percent_from_monsters = 120;
+            exp_percent_from_potions = 50;
             exp_percent_from_new_branch_floor = -50;
+        }
+        else if (field == "ask")
+        {
+            experience_mode = EXP_MODE_ASK;
         }
         else
             report_error("Unknown experience_mode value: %s\n", field.c_str());
