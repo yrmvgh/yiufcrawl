@@ -747,6 +747,7 @@ void scorefile_entry::init_from(const scorefile_entry &se)
     scrolls_used       = se.scrolls_used;
     potions_used       = se.potions_used;
     difficulty		   = se.difficulty;
+    experience_mode    = se.experience_mode;
     fixup_char_name();
 
     // We could just reset raw_line to "" instead.
@@ -1490,6 +1491,7 @@ void scorefile_entry::reset()
     scrolls_used         = 0;
     potions_used         = 0;
     difficulty			 = DIFFICULTY_NORMAL;
+    experience_mode      = EXP_MODE_CLASSIC;
 }
 
 static int _award_modified_experience()
@@ -1735,6 +1737,7 @@ void scorefile_entry::init(time_t dt)
     wiz_mode = (you.wizard ? 1 : 0);
     explore_mode = (you.explore ? 1 : 0);
     difficulty = crawl_state.difficulty;
+    experience_mode = Options.experience_mode;
 }
 
 string scorefile_entry::hiscore_line(death_desc_verbosity verbosity) const
