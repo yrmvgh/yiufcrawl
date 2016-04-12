@@ -956,6 +956,7 @@ void game_options::reset_options()
     exp_percent_from_potions = 100;
     exp_percent_from_new_branch_floor = 0;
     exp_based_on_player_level = true;
+    experience_mode = EXP_MODE_CLASSIC;
 
 #ifdef WIZARD
     fsim_rounds = 4000L;
