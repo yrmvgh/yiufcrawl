@@ -479,6 +479,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
                 mp: 0, mp_max: 0,
                 ac: 0, ev: 0, sh: 0,
                 diff: 0,
+                exp_mode: 0,
                 xl: 0, progress: 0,
                 time: 0, time_delta: 0,
                 gold: 0,
