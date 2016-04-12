@@ -90,21 +90,21 @@ def diff_string(level):
     return result
 
 def exp_mode_string(mode):
-    result = "unknown"
+    result = "Unknown"
     if mode == "0":
-        result = "classic"
+        result = "Classic"
     if mode == "1":
-        result = "simple_xl"
+        result = "Simple XL"
     if mode == "2":
-        result = "simple_depth"
+        result = "Simple Depth"
     if mode == "3":
-        result = "blended"
+        result = "Blended"
     if mode == "4":
-        result = "intensity"
+        result = "Intensity"
     if mode == "5":
-        result = "pacifist"
+        result = "Pacifist"
     if mode == "6":
-        result = "destroyer"
+        result = "Destroyer"
     return result
 
 class CrawlProcessHandlerBase(object):

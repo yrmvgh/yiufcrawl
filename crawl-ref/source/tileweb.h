@@ -61,7 +61,7 @@ struct player_info
     int8_t dex, dex_max;
 
     int diff;
-    int experience_mode;
+    int exp_mode;
     int experience_level;
     int8_t exp_progress;
     int gold;
