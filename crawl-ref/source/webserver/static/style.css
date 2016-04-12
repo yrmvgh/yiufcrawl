@@ -96,6 +96,9 @@ body {
 #player_list th.diff {
     width: 3em;
 }
+#player_list th.exp_mode {
+    width: 4em;
+}
 #player_list th.spectator_count {
     width: 1em;
 }

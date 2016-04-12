@@ -89,6 +89,24 @@ def diff_string(level):
        result = "Hard"
     return result
 
+def exp_mode_string(mode):
+    result = "unknown"
+    if mode == "0":
+        result = "classic"
+    if mode == "1":
+        result = "simple_xl"
+    if mode == "2":
+        result = "simple_depth"
+    if mode == "3":
+        result = "blended"
+    if mode == "4":
+        result = "intensity"
+    if mode == "5":
+        result = "pacifist"
+    if mode == "6":
+        result = "destroyer"
+    return result
+
 class CrawlProcessHandlerBase(object):
     def __init__(self, game_params, username, logger, io_loop=None):
         self.game_params = game_params
@@ -319,6 +337,11 @@ class CrawlProcessHandlerBase(object):
             entry["diff"] = diff_string(self.where["difficulty"])
         else:
             entry["diff"] = "Unknown"
+
+        if "exp_mode" in self.where.keys():
+            entry["exp_mode"] = exp_mode_string(self.where["difficulty"])
+        else:
+            entry["exp_mode"] = "Unknown"
 
         for key in CrawlProcessHandlerBase.interesting_info:
             if key in self.where:
