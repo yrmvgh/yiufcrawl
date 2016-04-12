@@ -2981,7 +2981,7 @@ void game_options::read_option_line(const string &str, bool runscript)
             experience_mode = EXP_MODE_DESTROYER;
             exp_potion_on_each_floor = false;
             uniques_drop_exp_potions = true;
-            exp_based_on_player_level = false;
+            exp_based_on_player_level = true;
             exp_percent_from_monsters = 120;
             exp_percent_from_potions = 50;
             exp_percent_from_new_branch_floor = -50;

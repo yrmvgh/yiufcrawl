@@ -75,6 +75,9 @@ with my goals here, or with concerns you have about my future plans.
             * 1 experience potion spawns on each floor
             * experience potions are dropped by each unique and player ghost
             * experience is evenly divided between reaching new floors, killing monsters, and drinking potions
+            * strategy: you want to delay drinking potions or going down floors for as long as possible, and kill everything possible, since the
+              amount of experience you get from floors and potions is based on your current xl. But don't wait too long or you will be too 
+              underpowered to survive. 
         * experience_mode = intensity
             * like balance, but more intense
             * 1 experience potion spawns on each floor
@@ -90,7 +93,9 @@ with my goals here, or with concerns you have about my future plans.
             * experience is gained for killing monsters
             * experience potions are dropped by each unique and player ghost
             * experience is lost for each new floor reached
-            * experience potions give experience based on how deep they are quaffed
+            * experience potions give experience based on player xl
+            * a good approach here is to clear all monsters from each floor, but delay drinking exp potions for a long as possible,
+              since the amount of xp they give will be higher if the player is at a higher xl. 
 
 ### v1.2.2
 
@@ -115,56 +120,7 @@ with my goals here, or with concerns you have about my future plans.
     * level_27_cap = false
         * when false, the level and skill cap is 99, and a smooth scale is used to determine how much exp is required for each level
         * when true, the old experience cap and scale is in place
-    * exp_potion_on_each_floor = false
-        * when true, an experience potion is placed on every floor
-            * this is used in combination with other options, for example, getting rid of monster experience and making the potion give you experience based
-              on the floor you drink it on. 
-    * uniques_drop_exp_potions = false
-        * when true, uniques and player ghosts will always drop an exp potion
-        * when false, they don't, like before
-    * exp_percent_from_monsters = 100 (-1000 - 1000)
-        * when 0, killing a monster gives 0 experience
-        * when 100, killing a monster gives the full experience it gave in standard crawl
-    * exp_percent_from_potions = 100 (-1000 - 1000)
-        * if exp_based_on_player_level = true
-            * when 0, drinking a potion of experience gives 0 experience
-            * when 100, drinking a potion of experience gives it's full amount 
-        * if exp_based_on_player_level = false
-            * when 20, drinking a potion of experience gives 20% of the experience needed for the player
-              to advance to the next xp level
-            * when 100, drinking a potion of experience gives 100% of the experience needed for the player
-              to advance to the next xp level
-    * exp_percent_from_new_branch_floor = 0 (-1000 - 1000)
-        * if 0, no experience is gained by reaching a new floor
-        * if 50 
-            * and exp_based_on_player_level = false
-                * each new floor the player reaches gives the player experience based on the depth of the floor
-                * 50 here means 50% of the "normal" amount. 100% would give a balanced game if there were no other sources of experience.
-            * and exp_based_on_player_level = true
-                * each new floor the player reaches gives the player 50% of the experience needed to advanced to the next level.
-        * only applies to floors that can have monsters on them. No experience is gained for safe floors (temple, trove, bazaar, or D:1)
-    * exp_based_on_player_level = true
-        * when false, potions of experience give experience relative to the floor the player is on
-            * this encourages the player to take additional risks by plunging deeper into the dungeon before drinking the potion
-            * for example, drinking the potion on D:1, would give 1 xp, but drinking it on D:4 would give 35 xp. 
-        * when true, experience is given relative to the players xl
-            * if exp_percent_from_potions_on_floor = 100, for example, then the player gets 100% of the 
-              experience needed to advance to the next xl when drinking a potion.
-            * this means that it doesn't matter where the potion is quaffed, they will get the same amount of experience. 
-            * example: player is level 1, they drink a potion of exp, they are now level 2. If they are level 2, and drink it,
-              they will be level 3. If exp_percent_from_potions_on_floor < 100, then it will take more than one potion to go
-              up a full level. 
-              
-So, to recap the above, you can copy these options (which include their defaults) into your rc file and tweak them:
-              
-    level_27_cap = false
-    exp_potion_on_each_floor = false
-    uniques_drop_exp_potions = false
-    exp_percent_from_monsters = 100
-    exp_percent_from_potions = 100
-    exp_percent_from_new_branch_floor = 0
-    exp_based_on_player_level = true
-
+        
 ### v1.1
 
 * Better low health warnings, especially for new players
@@ -408,7 +364,7 @@ So, to recap the above, you can copy these options (which include their defaults
     * heal based on evocations skill
     * always take 2 turns, uninterruptable
         * this means that they aren't as good as a potion of health in the middle of a battle
-        * they are more for dwarves between battles
+        * they are more for dwarves to use between battles
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
