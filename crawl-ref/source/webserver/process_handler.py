@@ -549,7 +549,7 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
             if os.path.exists(last_binary_name):
                 binary = last_binary_name
                 if os.path.exists(game_id_file_path):
-                    with open(binary_file_path, "r") as f:
+                    with open(game_id_file_path, "r") as f:
                         game["id"] = f.read()
 
         if binary == "":
