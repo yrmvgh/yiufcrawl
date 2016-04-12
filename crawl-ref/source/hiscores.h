@@ -129,6 +129,7 @@ private:
     int         potions_used;       // Number of potions used.
 
     game_difficulty_level difficulty; // how difficult the game was
+    exp_mode experience_mode;
     mutable unique_ptr<xlog_fields> fields;
 
 public:

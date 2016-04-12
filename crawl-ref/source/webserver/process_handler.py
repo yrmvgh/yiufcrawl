@@ -338,8 +338,8 @@ class CrawlProcessHandlerBase(object):
         else:
             entry["diff"] = "Unknown"
 
-        if "exp_mode" in self.where.keys():
-            entry["exp_mode"] = exp_mode_string(self.where["exp_mode"])
+        if "experience_mode" in self.where.keys():
+            entry["exp_mode"] = exp_mode_string(self.where["experience_mode"])
         else:
             entry["exp_mode"] = "Unknown"
 

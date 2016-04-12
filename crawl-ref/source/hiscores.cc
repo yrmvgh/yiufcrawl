@@ -1051,6 +1051,7 @@ void scorefile_entry::init_with_fields()
     potions_used = fields->int_field("potionsused");
 
     difficulty = (game_difficulty_level) fields->int_field("difficulty");
+    experience_mode = (exp_mode) fields->int_field("exp_mode");
 
     fixup_char_name();
 }
@@ -1150,6 +1151,7 @@ void scorefile_entry::set_base_xlog_fields() const
     fields->add_field("scrollsused", "%d", scrolls_used);
     fields->add_field("potionsused", "%d", potions_used);
     fields->add_field("difficulty", "%d", difficulty);
+    fields->add_field("experience_mode", "%d", experience_mode);
 }
 
 void scorefile_entry::set_score_fields() const
