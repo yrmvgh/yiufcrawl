@@ -181,7 +181,8 @@ public:
 
 enum exp_mode
 {
-    EXP_MODE_CLASSIC,
+    EXP_MODE_ASK = -1,
+    EXP_MODE_CLASSIC = 0,
     EXP_MODE_SIMPLE_XL,
     EXP_MODE_SIMPLE_DEPTH,
     EXP_MODE_BLENDED,

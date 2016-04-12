@@ -2976,6 +2976,10 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_percent_from_potions = 50;
             exp_percent_from_new_branch_floor = -50;
         }
+        else if (field == "ask")
+        {
+            experience_mode = EXP_MODE_ASK;
+        }
         else
             report_error("Unknown experience_mode value: %s\n", field.c_str());
     }
