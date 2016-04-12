@@ -64,13 +64,22 @@ with my goals here, or with concerns you have about my future plans.
         * experience_mode = simple_depth
             * experience is only gained by reaching new floors. 
             * depending on how difficult your current level is determines how much experience you get for reaching it. 
-        * experience_mode = blended
+        * experience_mode = balance
             * 1 experience potion spawns on each floor
             * experience potions are dropped by each unique and player ghost
             * experience is evenly divided between reaching new floors, killing monsters, and drinking potions at the lowest possible level
-        * experience_mode = intensity
+        * experience_mode = serenity
+            * like balance, but calmer
+                * with serenity, as opposed to balance, drinking a potion advances your experience based on your current xl, not based
+                  on the floor, so you can drink them immediately, or save a few for when you need to clear out some draining fast.
             * 1 experience potion spawns on each floor
             * experience potions are dropped by each unique and player ghost
+            * experience is evenly divided between reaching new floors, killing monsters, and drinking potions
+        * experience_mode = intensity
+            * like balance, but more intense
+            * 1 experience potion spawns on each floor
+            * experience potions are dropped by each unique and player ghost
+            * no experience gained for killing monsters
             * a little experience is gained for reaching a new floor
             * but most of the experience is gained from drinking potions at the lowest dungeon level possible
         * experience_mode = pacifist

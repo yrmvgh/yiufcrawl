@@ -98,12 +98,14 @@ def exp_mode_string(mode):
     if mode == "2":
         result = "Simple Depth"
     if mode == "3":
-        result = "Blended"
+        result = "Balance"
     if mode == "4":
-        result = "Intensity"
+        result = "Serenity"
     if mode == "5":
-        result = "Pacifist"
+        result = "Intensity"
     if mode == "6":
+        result = "Pacifist"
+    if mode == "7":
         result = "Destroyer"
     return result
 
