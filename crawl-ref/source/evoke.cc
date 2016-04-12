@@ -692,7 +692,7 @@ void zap_wand(int slot)
 
 	if(wand.sub_type == WAND_HEAL_WOUNDS && aimed_at_self)
 	{
-        start_delay(DELAY_WAND_HEAL, 2, power);
+        start_delay(DELAY_WAND_HEAL, 1, power);
 	}
 	else
 	{

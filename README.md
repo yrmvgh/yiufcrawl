@@ -407,6 +407,8 @@ So, to recap the above, you can copy these options (which include their defaults
 * Wands of heal wounds
     * heal based on evocations skill
     * always take 2 turns, uninterruptable
+        * this means that they aren't as good as a potion of health in the middle of a battle
+        * they are more for dwarves between battles
 
 * Recharge scrolls
     * less common, but fully recharge the wand.
