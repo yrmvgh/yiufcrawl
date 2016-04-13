@@ -598,6 +598,7 @@ static const map<species_type, species_def> species_data =
     {
     		{ MUT_CARNIVOROUS, 3, 1 },
 			{ MUT_EVOLUTION, 1, 1 },
+            { MUT_EVOLUTION, 1, 6 },
     },
     {},
     {},
