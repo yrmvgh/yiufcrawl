@@ -1609,6 +1609,9 @@ static string _name_weapon(const item_def &weap, description_level_type desc,
     const string ego_suffix = know_ego ? _ego_suffix(weap, terse) : "";
     const string curse_suffix
         = know_curse && weap.cursed() && terse ? " (curse)" :  "";
+    if (weap.cursed())
+        dprf("Cursed!");
+
     return curse_prefix + plus_text + cosmetic_text + ego_prefix
            + item_base_name(weap)
            + ego_suffix + curse_suffix;
@@ -2081,7 +2084,7 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
         if (know_curse && terse)
             if (super_cursed())
                 buff << " (heavy curse)";
-            else if (super_cursed())
+            else if (cursed())
                 buff << " (curse)";
         break;
 

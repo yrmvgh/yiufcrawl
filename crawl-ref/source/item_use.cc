@@ -74,7 +74,11 @@ bool _playerUnequipsShield();
 
 bool _playerUnequipsShield()
 {
-	if (yesno("Unequip your shield first?", true, 'n'))
+    // are we already removing our shield?
+    if (you.delay_queue.size() > 0)
+        return true;
+
+	if (yesno("Unequip your shield first?", true, 'n', true, false))
 	{
         takeoff_armour(you.equip[EQ_SHIELD]);
 		return true;
