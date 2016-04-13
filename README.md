@@ -264,6 +264,7 @@ with my goals here, or with concerns you have about my future plans.
       a bad mutation with a good, making drinking mutation potions a safer strategy for kobolds. Unlike demonspawn which get permanent mutations, the mutations
       a kobold gets through evolve are temporary, making cure mutation potions often a very bad thing. And of course they only get ordinary mutations, not the
       cool demonspawn specific ones.
+    * They start with evolve 2, but after reaching xl 10, they lose one level of it. 
     * as a result of their highly mutable nature, they cannot worship Zin.
       
 * Sludge Elf
@@ -374,4 +375,4 @@ with my goals here, or with concerns you have about my future plans.
       gold benefit the same as before. 
 
 * Minor item tweaks
-    * ring of magical power now gives you 50% more mp, or 9 mp (like before), whichever is higher, making this ring still have some late game value.
+    * ring of magical power now gives you 25% more mp, or 9 mp (like before), whichever is higher, making this ring still have some late game value.
