@@ -2683,7 +2683,7 @@ static void _alchemist_card(int power, deck_rarity_type rarity)
         you.del_gold(hp * 2);
         inc_hp(hp);
         gold_used += hp * 2;
-        canned_msg(MSG_GAIN_HEALTH);
+        canned_msg(MSG_GAIN_HEALTH, hp);
         dprf("Gained %d health, %d gold remaining.", hp, gold_max - gold_used);
     }
     // Maybe spend some more gold to regain magic.

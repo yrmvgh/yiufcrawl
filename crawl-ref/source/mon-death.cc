@@ -2137,7 +2137,7 @@ item_def* monster_die(monster* mons, killer_type killer,
                 if (hp_heal && you.hp < you.hp_max
                     && !you.duration[DUR_DEATHS_DOOR])
                 {
-                    canned_msg(MSG_GAIN_HEALTH);
+                    canned_msg(MSG_GAIN_HEALTH, hp_heal);
                     inc_hp(hp_heal);
                 }
 

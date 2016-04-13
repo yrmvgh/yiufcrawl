@@ -4025,8 +4025,9 @@ void bolt::affect_player()
             && coinflip())
         {
             mprf("Your attached jelly eats %s!", item->name(DESC_THE).c_str());
-            inc_hp(random2(hurted / 2));
-            canned_msg(MSG_GAIN_HEALTH);
+            const int gain = random2(hurted / 2);
+            inc_hp(gain);
+            canned_msg(MSG_GAIN_HEALTH, gain);
             drop_item = false;
         }
     }
