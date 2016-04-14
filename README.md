@@ -18,8 +18,8 @@ This fork is in sync with the original DCSS repo as of Apr 2016. I intend to kee
 Check out the FUTURE.md file in the same directory as the README.md for details about what features I'm considering on implementing.
 
 There are two known servers running this fork at this time: 
-- http://crawl.homedns.org/      (always has the latest code)
-- https://crawl.project357.org/  (probably more stable)
+- http://crawl.homedns.org/      
+- https://crawl.project357.org/  
 
 Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
 with my goals here, or with concerns you have about my future plans. 
