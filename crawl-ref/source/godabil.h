@@ -169,6 +169,7 @@ void ru_draw_out_power();
 bool ru_power_leap();
 int cell_has_valid_target(coord_def where);
 bool ru_apocalypse();
+string ru_sacrifice_vector(ability_type sac);
 
 bool pakellas_check_quick_charge(bool quiet);
 int pakellas_effective_hex_power(int pow);

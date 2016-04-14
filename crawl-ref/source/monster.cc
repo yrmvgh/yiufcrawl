@@ -681,8 +681,7 @@ bool monster::can_speak()
     }
 
     // Does it have the proper vocal equipment?
-    const mon_body_shape shape = get_mon_shape(this);
-    return shape >= MON_SHAPE_HUMANOID && shape <= MON_SHAPE_NAGA;
+    return mon_shape_is_humanoid(get_mon_shape(this));
 }
 
 bool monster::is_silenced() const
@@ -2676,7 +2675,7 @@ string monster::arm_name(bool plural, bool *can_plural) const
 {
     mon_body_shape shape = get_mon_shape(this);
 
-    if (shape > MON_SHAPE_NAGA)
+    if (!mon_shape_is_humanoid(shape))
         return hand_name(plural, can_plural);
 
     if (can_plural != nullptr)
@@ -5259,7 +5258,7 @@ bool monster::berserk_or_insane() const
     return berserk() || has_ench(ENCH_INSANE);
 }
 
-bool monster::needs_berserk(bool check_spells) const
+bool monster::needs_berserk(bool check_spells, bool ignore_distance) const
 {
     if (!can_go_berserk())
         return false;
@@ -5267,7 +5266,7 @@ bool monster::needs_berserk(bool check_spells) const
     if (has_ench(ENCH_HASTE) || has_ench(ENCH_TP))
         return false;
 
-    if (foe_distance() > 3)
+    if (!ignore_distance && foe_distance() > 3)
         return false;
 
     if (check_spells)

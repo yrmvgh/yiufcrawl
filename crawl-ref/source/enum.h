@@ -821,19 +821,26 @@ enum branch_type                // you.where_are_you
 };
 
 enum caction_type    // Primary categorization of counted actions.
-{                    // A subtype will also be given in each case:
+{                    // A subtype and auxtype will also be given in each case:
     CACT_MELEE,      // weapon subtype or unrand index
+                     //   subtype = -1 for unarmed or aux attacks
+                     //   auxtype = -1 for unarmed
+                     //   auxtype = unarmed_attack_type for aux attacks
     CACT_FIRE,       // weapon subtype or unrand index
-    CACT_THROW,      // item basetype << 16 | subtype
+    CACT_THROW,      // auxtype = item basetype, subtype = item subtype
     CACT_CAST,       // spell_type
     CACT_INVOKE,     // ability_type
     CACT_ABIL,       // ability_type
-    CACT_EVOKE,      // evoc_type
-                     //   or item.basetype << 16 | subtype
-                     //   or unrand index
+    CACT_EVOKE,      // evoc_type or unrand index
+                     //   auxtype = item basetype, subtype = item subtype
     CACT_USE,        // object_class_type
     CACT_STAB,       // stab_type
-    CACT_EAT,        // food_type, or -1 for corpse
+    CACT_EAT,        // food_type, or subtype = -1 for corpse
+    CACT_ARMOUR,     // armour subtype or subtype = -1 for unarmoured
+    CACT_DODGE,      // dodge_type
+    CACT_BLOCK,      // armour subtype or subtype = -1 and
+                     //   auxtype used for special cases
+                     //   (reflection, god ability, spell, etc)
     NUM_CACTIONS,
 };
 
@@ -1402,17 +1409,6 @@ enum description_level_type
                                        // description in the db.
 
     DESC_NONE
-};
-
-enum evoc_type
-{
-    EVOC_WAND,
-    EVOC_ROD,
-    EVOC_DECK,
-#if TAG_MAJOR_VERSION == 34
-    EVOC_MISC,
-    EVOC_BUGGY_TOME,
-#endif
 };
 
 enum game_chapter
@@ -2121,6 +2117,7 @@ enum enchant_type
     ENCH_EMPOWERED_SPELLS, // affected by above
     ENCH_PAIN_BOND, // affected by above
     ENCH_IDEALISED,
+    ENCH_GOZAG_INCITE,
     // Update enchantment names in mon-ench.cc when adding or removing
     // enchantments.
     NUM_ENCHANTMENTS
@@ -4662,6 +4659,7 @@ enum spell_type
     SPELL_AURA_OF_BRILLIANCE,
     SPELL_ICEBLAST,
     SPELL_SLUG_DART,
+    SPELL_SPRINT,
     NUM_SPELLS
 };
 

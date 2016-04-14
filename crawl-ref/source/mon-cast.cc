@@ -1126,8 +1126,9 @@ bool setup_mons_cast(monster* mons, bolt &pbolt, spell_type spell_cast,
     case SPELL_BROTHERS_IN_ARMS:
     case SPELL_BERSERKER_RAGE:
     case SPELL_TROGS_HAND:
-    case SPELL_SWIFTNESS:
+    case SPELL_SPRINT:
 #if TAG_MAJOR_VERSION == 34
+    case SPELL_SWIFTNESS:
     case SPELL_STONESKIN:
 #endif
     case SPELL_WATER_ELEMENTALS:
@@ -2132,10 +2133,10 @@ static bool _ms_low_hitpoint_cast(monster* mon, mon_spell_slot slot)
     if (_ms_waste_of_time(mon, slot))
         return false;
 
-    bool targ_adj      = false;
-    bool targ_sanct    = false;
-    bool targ_friendly = false;
-    bool targ_undead   = false;
+    bool targ_adj       = false;
+    bool targ_sanct     = false;
+    bool targ_friendly  = false;
+    bool targ_living    = false;
 
     if (mon->foe == MHITYOU || mon->foe == MHITNOT)
     {
@@ -2143,8 +2144,8 @@ static bool _ms_low_hitpoint_cast(monster* mon, mon_spell_slot slot)
             targ_adj = true;
         if (is_sanctuary(you.pos()))
             targ_sanct = true;
-        if (you.undead_or_demonic())
-            targ_undead = true;
+        if (you.holiness() & MH_NATURAL)
+            targ_living = true;
     }
     else
     {
@@ -2152,8 +2153,8 @@ static bool _ms_low_hitpoint_cast(monster* mon, mon_spell_slot slot)
             targ_adj = true;
         if (is_sanctuary(menv[mon->foe].pos()))
             targ_sanct = true;
-        if (menv[mon->foe].undead_or_demonic())
-            targ_undead = true;
+        if (menv[mon->foe].holiness() & MH_NATURAL)
+            targ_living = true;
     }
 
     targ_friendly = (mon->foe == MHITYOU
@@ -2177,7 +2178,7 @@ static bool _ms_low_hitpoint_cast(monster* mon, mon_spell_slot slot)
     case SPELL_WIND_BLAST:
         return true;
     case SPELL_VAMPIRIC_DRAINING:
-        return !targ_sanct && targ_adj && !targ_friendly && !targ_undead;
+        return !targ_sanct && targ_adj && !targ_friendly && targ_living;
     case SPELL_BLINK_AWAY:
     case SPELL_BLINK_RANGE:
     case SPELL_INJURY_MIRROR:
@@ -3450,17 +3451,6 @@ bool handle_mon_spell(monster* mons, bolt &beem)
                 continue;
             }
 
-            // Alligators shouldn't spam swiftness.
-            // (not in _ms_waste_of_time since it is not deterministic)
-            if (spell_cast == SPELL_SWIFTNESS
-                && mons->type == MONS_ALLIGATOR
-                && (mons->swift_cooldown + random2avg(170, 5) >=
-                    you.num_turns))
-            {
-                spell_cast = SPELL_NO_SPELL;
-                continue;
-            }
-
             // Don't knockback something we're trying to constrict.
             const actor *victim = actor_at(beem.target);
             if (victim &&
@@ -3920,7 +3910,13 @@ static bool _mons_vampiric_drain(monster *mons)
         monster* mtarget = target->as_monster();
         const string targname = mtarget->name(DESC_THE);
         mtarget->hurt(mons, hp_cost);
-        if (mons->heal(hp_cost * 2 / 3))
+        if (mtarget->is_summoned())
+        {
+            simple_monster_message(mons,
+                                   make_stringf(" draws life force from %s!",
+                                                targname.c_str()).c_str());
+        }
+        else if (mons->heal(hp_cost * 2 / 3))
         {
             simple_monster_message(mons,
                 make_stringf(" draws life force from %s and is healed!",
@@ -4849,7 +4845,7 @@ static bool _spell_charged(monster *mons)
                            .c_str());
         if (!msg.empty())
         {
-            msg = replace_all(msg, "@The_monster@", mons->name(DESC_THE));
+            msg = do_mon_str_replacements(msg, mons);
             mprf(mons->wont_attack() ? MSGCH_FRIEND_ENCHANT
                  : MSGCH_MONSTER_ENCHANT, "%s", msg.c_str());
         }
@@ -4947,7 +4943,8 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         || spell_cast == SPELL_PORTAL_PROJECTILE
         || spell_cast == SPELL_FORCEFUL_INVITATION
         || spell_cast == SPELL_PLANEREND
-        || spell_cast == SPELL_FIRE_STORM)
+        || spell_cast == SPELL_FIRE_STORM
+        || spell_cast == SPELL_PARALYSIS_GAZE)
     {
         do_noise = false;       // Spell itself does the messaging.
     }
@@ -5092,6 +5089,10 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
 
     case SPELL_PARALYSIS_GAZE:
+        if (mons->type == MONS_GIANT_EYEBALL && !_spell_charged(mons))
+            return;
+        if (orig_noise)
+            mons_cast_noise(mons, pbolt, spell_cast, slot_flags);
         foe->paralyse(mons, 2 + random2(3));
         return;
 
@@ -5134,15 +5135,13 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         return;
     }
 
+#if TAG_MAJOR_VERSION == 34
+    // Replaced with monster-specific version.
     case SPELL_SWIFTNESS:
+#endif
+    case SPELL_SPRINT:
         mons->add_ench(ENCH_SWIFT);
-        if (mons->type == MONS_ALLIGATOR)
-        {
-            mons->swift_cooldown = you.num_turns;
-            simple_monster_message(mons, " puts on a burst of speed!");
-        }
-        else
-            simple_monster_message(mons, " seems to move somewhat quicker.");
+        simple_monster_message(mons, " puts on a burst of speed!");
         return;
 
     case SPELL_SILENCE:
@@ -6431,18 +6430,18 @@ static void _speech_keys(vector<string>& key_list,
 
     // Can't use copy-initialization 'wizard = slot_flags & ...' here,
     // because the bitfield-to-bool conversion is not implicit.
-    const bool wizard {slot_flags & MON_SPELL_WIZARD};
-    const bool priest {slot_flags & MON_SPELL_PRIEST};
-    const bool innate {slot_flags & MON_SPELL_INNATE_MASK};
-    const bool demon  {slot_flags & MON_SPELL_DEMONIC};
+    const bool wizard  {slot_flags & MON_SPELL_WIZARD};
+    const bool priest  {slot_flags & MON_SPELL_PRIEST};
+    const bool natural {slot_flags & MON_SPELL_NATURAL};
+    const bool magical {slot_flags & MON_SPELL_MAGICAL};
 
     const mon_body_shape shape = get_mon_shape(mons);
     const string    spell_name = spell_title(spell);
-    const bool      real_spell = !innate && (priest || wizard);
+    const bool      real_spell = priest || wizard;
 
     // Before just using generic per-spell and per-monster casts, try
     // per-monster, per-spell, with the monster type name, then the
-    // species name, then the genus name, then wizard/priest/demon.
+    // species name, then the genus name, then wizard/priest/magical/natural.
     // We don't include "real" or "gestures" here since that can be
     // be determined from the monster type; or "targeted" since that
     // can be determined from the spell.
@@ -6458,19 +6457,20 @@ static void _speech_keys(vector<string>& key_list,
     {
         key_list.push_back(make_stringf("%s %swizard%s",
                                spell_name.c_str(),
-                               shape <= MON_SHAPE_NAGA ? "" : "non-humanoid ",
+                               mon_shape_is_humanoid(shape) ? ""
+                                                            : "non-humanoid ",
                                cast_str.c_str()));
     }
     else if (priest)
         key_list.push_back(spell_name + " priest" + cast_str);
-    else if (demon)
-        key_list.push_back(spell_name + " demon" + cast_str);
-    else if (innate)
-        key_list.push_back(spell_name + " innate" + cast_str);
+    else if (magical)
+        key_list.push_back(spell_name + " magical" + cast_str);
+    else if (natural)
+        key_list.push_back(spell_name + " natural" + cast_str);
 
 
     // Now try just the spell's name.
-    if (shape <= MON_SHAPE_NAGA)
+    if (mon_shape_is_humanoid(shape))
     {
         if (real_spell)
             key_list.push_back(spell_name + cast_str + " real");
@@ -6490,17 +6490,18 @@ static void _speech_keys(vector<string>& key_list,
     key_list.push_back(mons_type_name(mons_genus(mons->type), DESC_PLAIN)
                        + cast_str);
 
-    // Last, generic wizard, priest or demon.
+    // Last, generic wizard, priest or magical.
     if (wizard)
     {
         key_list.push_back(make_stringf("%swizard%s",
-                               shape <= MON_SHAPE_NAGA ? "" : "non-humanoid ",
+                               mon_shape_is_humanoid(shape) ? ""
+                                                            : "non-humanoid ",
                                cast_str.c_str()));
     }
     else if (priest)
         key_list.push_back("priest" + cast_str);
-    else if (demon)
-        key_list.push_back("demon" + cast_str);
+    else if (magical)
+        key_list.push_back("magical" + cast_str);
 
     if (targeted)
     {
@@ -7469,6 +7470,8 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_VAMPIRIC_DRAINING:
         if (!foe
             || !adjacent(mon->pos(), foe->pos())
+            || !(foe->holiness() & MH_NATURAL) // dumb enough to cast on rN,
+                                              // but not undead/demons/etc
             || x_chance_in_y(mon->hit_points - (mon->max_hit_points / 3),
                              mon->max_hit_points * 2 / 3))
         {
@@ -7508,7 +7511,10 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
     case SPELL_MIGHT:
         return mon->has_ench(ENCH_MIGHT);
 
+#if TAG_MAJOR_VERSION == 34
     case SPELL_SWIFTNESS:
+#endif
+    case SPELL_SPRINT:
         return mon->has_ench(ENCH_SWIFT);
 
     case SPELL_REGENERATION:
@@ -7940,6 +7946,8 @@ static bool _ms_waste_of_time(monster* mon, mon_spell_slot slot)
         return mon->has_ench(ENCH_DEFLECT_MISSILES);
 
     case SPELL_PARALYSIS_GAZE:
+        return !foe || foe->paralysed() || !mon->can_see(*foe);
+
     case SPELL_CONFUSION_GAZE:
     case SPELL_DRAINING_GAZE:
         return !foe || !mon->can_see(*foe);

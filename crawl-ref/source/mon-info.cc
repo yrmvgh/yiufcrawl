@@ -111,6 +111,7 @@ static map<enchant_type, monster_info_flags> trivial_ench_mb_mappings = {
     { ENCH_BRILLIANCE_AURA, MB_BRILLIANCE_AURA },
     { ENCH_EMPOWERED_SPELLS, MB_EMPOWERED_SPELLS },
     { ENCH_IDEALISED,       MB_IDEALISED },
+    { ENCH_GOZAG_INCITE,    MB_GOZAG_INCITED },
 };
 
 static monster_info_flags ench_to_mb(const monster& mons, enchant_type ench)
@@ -1520,6 +1521,8 @@ vector<string> monster_info::attributes() const
         v.emplace_back("fully charged");
     if (is(MB_IDEALISED))
         v.emplace_back("idealised");
+    if (is(MB_GOZAG_INCITED))
+        v.emplace_back("incited by Gozag");
     return v;
 }
 

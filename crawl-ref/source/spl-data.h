@@ -3634,7 +3634,7 @@ static const struct spell_desc spelldata[] =
 {
     SPELL_VIOLENT_UNRAVELLING, "Yara's Violent Unravelling",
     SPTYP_HEXES | SPTYP_TRANSMUTATION,
-    SPFLAG_DIR_OR_TARGET | SPFLAG_ALLOW_SELF | SPFLAG_NEEDS_TRACER | SPFLAG_NO_GHOST | SPFLAG_CHAOTIC,
+    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER | SPFLAG_NO_GHOST | SPFLAG_CHAOTIC,
     5,
     200,
     LOS_RADIUS, LOS_RADIUS,
@@ -3716,6 +3716,17 @@ static const struct spell_desc spelldata[] =
     25,
     LOS_RADIUS, LOS_RADIUS,
     1, 0,
+    TILEG_ERROR,
+},
+
+{
+    SPELL_SPRINT, "Sprint",
+    SPTYP_CHARMS,
+    SPFLAG_HASTY | SPFLAG_SELFENCH | SPFLAG_UTILITY,
+    2,
+    100,
+    -1, -1,
+    2, 0,
     TILEG_ERROR,
 },
 

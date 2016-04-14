@@ -73,7 +73,6 @@ public:
         int prism_charge;      ///< Turns this prism has existed
         int battlecharge;      ///< Charges of battlesphere
         int move_spurt;        ///< Sixfirhy/jiangshi/kraken black magic
-        int swift_cooldown;    ///< When alligator last casted Swift
         mid_t tentacle_connect;///< mid of monster this tentacle is
                                //   connected to: for segments, this is the
                                //   tentacle; for tentacles, the head.
@@ -145,7 +144,7 @@ public:
     kill_category kill_alignment() const override;
 
     int  foe_distance() const;
-    bool needs_berserk(bool check_spells = true) const;
+    bool needs_berserk(bool check_spells = true, bool ignore_distance = false) const;
 
     // Has a hydra-like variable number of attacks based on num_heads.
     bool has_hydra_multi_attack() const;

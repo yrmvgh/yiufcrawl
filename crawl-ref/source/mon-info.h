@@ -157,6 +157,7 @@ enum monster_info_flags
     MB_PARTIALLY_CHARGED,
     MB_FULLY_CHARGED,
     MB_IDEALISED,
+    MB_GOZAG_INCITED,
     NUM_MB_FLAGS
 };
 

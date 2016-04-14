@@ -1404,6 +1404,86 @@ static bool _give_nemelex_gift(bool forced = false)
     return false;
 }
 
+/**
+ * From the given list of items, return a random unseen item, if there are any.
+ * Otherwise, just return any of them at random.
+ *
+ * If we cared, we could make this a template function to return more specific
+ * types than 'int'. (That's probably not important, though.)
+ *
+ * @param item_types        A list of item types to choose from.
+ * @param seen_func         How to tell whether the item was seen.
+ * @return                  A random item type; e.g. WAND_ACID.
+ */
+static int _preferably_unseen_item(const vector<int> &item_types,
+                                   function<bool(int)> seen_func)
+{
+    ASSERT(item_types.size());
+    vector<int> unseen;
+    for (auto item : item_types)
+        if (!seen_func(item))
+            unseen.emplace_back(item);
+
+    if (unseen.size())
+        return unseen[random2(unseen.size())];
+    return item_types[random2(item_types.size())];
+}
+
+/// Has the player ID'd the given type of wand?
+static bool _seen_wand(int wand)
+{
+    return get_ident_type(OBJ_WANDS, wand);
+}
+
+static int _pakellas_low_wand()
+{
+    static const vector<int> low_wands = {
+        WAND_FLAME,
+        WAND_SLOWING,
+        WAND_CONFUSION,
+        WAND_POLYMORPH,
+        WAND_RANDOM_EFFECTS,
+    };
+
+    return _preferably_unseen_item(low_wands, _seen_wand);
+}
+
+static int _pakellas_high_wand()
+{
+    vector<int> high_wands = {
+        WAND_PARALYSIS,
+        WAND_ICEBLAST,
+        WAND_ACID,
+    };
+    if (!player_mutation_level(MUT_NO_LOVE))
+        high_wands.emplace_back(WAND_ENSLAVEMENT);
+
+    return _preferably_unseen_item(high_wands, _seen_wand);
+}
+
+static int _pakellas_low_misc()
+{
+    // Limited uses, so any of these are fine even if they've been seen before.
+    return random_choose(MISC_BOX_OF_BEASTS,
+                         MISC_SACK_OF_SPIDERS,
+                         MISC_PHANTOM_MIRROR);
+}
+
+static int _pakellas_high_misc()
+{
+    static const vector<int> high_miscs = {
+        MISC_FAN_OF_GALES,
+        MISC_LAMP_OF_FIRE,
+        MISC_STONE_OF_TREMORS,
+        MISC_PHIAL_OF_FLOODS,
+        MISC_DISC_OF_STORMS,
+    };
+
+    return _preferably_unseen_item(high_miscs, [](int misc) {
+        return you.seen_misc[misc];
+    });
+}
+
 static bool _give_pakellas_gift()
 {
     // Break early if giving a gift now means it would be lost.
@@ -1413,29 +1493,81 @@ static bool _give_pakellas_gift()
         return false;
     }
 
-    object_class_type gift_type = OBJ_UNASSIGNED;
+    bool success = false;
+    object_class_type basetype = OBJ_UNASSIGNED;
+    int subtype;
 
-    if (you.num_total_gifts[GOD_PAKELLAS] == 0)
-        gift_type = OBJ_WANDS;
-    else if (you.species == SP_FELID)
-        gift_type = coinflip() ? OBJ_WANDS : OBJ_MISCELLANY;
-    else if (you.num_total_gifts[GOD_PAKELLAS] == 1)
-        gift_type = OBJ_RODS;
-    else
+    if (you.piety >= piety_breakpoint(0)
+        && you.num_total_gifts[GOD_PAKELLAS] == 0)
     {
-        gift_type = random_choose_weighted(5, OBJ_WANDS,
-                                           5, OBJ_MISCELLANY,
-                                           3, OBJ_RODS,
-                                           0);
+        basetype = OBJ_WANDS;
+        subtype = _pakellas_low_wand();
+    }
+    else if (you.piety >= piety_breakpoint(1)
+             && you.num_total_gifts[GOD_PAKELLAS] == 1)
+    {
+        // All the evoker options here are summon-based, so give another
+        // low-level wand instead under Sacrifice Love.
+        if (player_mutation_level(MUT_NO_LOVE))
+        {
+            basetype = OBJ_WANDS;
+            subtype = _pakellas_low_wand();
+        }
+        else
+        {
+            basetype = OBJ_MISCELLANY;
+            subtype = _pakellas_low_misc();
+        }
+    }
+    else if (you.piety >= piety_breakpoint(2)
+             && you.num_total_gifts[GOD_PAKELLAS] == 2)
+    {
+        basetype = OBJ_WANDS;
+        subtype = _pakellas_high_wand();
+    }
+    else if (you.piety >= piety_breakpoint(3)
+             && you.num_total_gifts[GOD_PAKELLAS] == 3)
+    {
+        basetype = OBJ_MISCELLANY;
+        subtype = _pakellas_high_misc();
+    }
+    else if (you.piety >= piety_breakpoint(4)
+             && you.num_total_gifts[GOD_PAKELLAS] == 4)
+    {
+        // Felids get another high-level wand or evoker instead of a rod.
+        if (you.species == SP_FELID)
+        {
+            basetype = coinflip() ? OBJ_WANDS : OBJ_MISCELLANY;
+            subtype = (basetype == OBJ_WANDS) ? _pakellas_high_wand()
+                                              : _pakellas_high_misc();
+        }
+        else
+            basetype = OBJ_RODS;
     }
 
-    if (acquirement(gift_type, you.religion))
+    if (basetype == OBJ_UNASSIGNED)
+        return false;
+    else if (basetype == OBJ_RODS)
+        success = acquirement(basetype, you.religion);
+    else
+    {
+        int thing_created = items(true, basetype, subtype, 1, 0,
+                                  you.religion);
+
+        if (thing_created == NON_ITEM)
+            return false;
+
+        move_item_to_grid(&thing_created, you.pos(), true);
+
+        if (thing_created != NON_ITEM)
+            success = true;
+    }
+
+    if (success)
     {
         simple_god_message(" grants you a gift!");
         // included in default force_more_message
 
-        if (you.num_total_gifts[GOD_PAKELLAS] > 0)
-            _inc_gift_timeout(150 + random2avg(29, 2));
         you.num_current_gifts[you.religion]++;
         you.num_total_gifts[you.religion]++;
         take_note(Note(NOTE_GOD_GIFT, you.religion));
@@ -2034,16 +2166,7 @@ bool do_god_gift(bool forced)
             break;
 
         case GOD_PAKELLAS:
-            if (forced && coinflip()
-                || you.piety >= piety_breakpoint(1)
-                   && you.num_total_gifts[you.religion] == 0
-                || you.piety >= piety_breakpoint(3)
-                   && you.num_total_gifts[you.religion] == 1
-                || !forced && random2(you.piety) > piety_breakpoint(3)
-                   && one_chance_in(4))
-            {
-                success = _give_pakellas_gift();
-            }
+            success = _give_pakellas_gift();
             break;
 
         case GOD_OKAWARU:
@@ -3357,7 +3480,8 @@ bool player_can_join_god(god_type which_god)
     }
 
     if (player_mutation_level(MUT_NO_ARTIFICE)
-        && which_god == GOD_NEMELEX_XOBEH)
+        && (which_god == GOD_NEMELEX_XOBEH
+            || which_god == GOD_PAKELLAS))
     {
       return false;
     }
@@ -3977,9 +4101,9 @@ void god_pitch(god_type which_god)
         }
         else if (player_mutation_level(MUT_NO_LOVE)
                  && (which_god == GOD_BEOGH
-                 || which_god == GOD_ELYVILON
-                 || which_god == GOD_JIYVA
-                 || which_god == GOD_HEPLIAKLQANA))
+                     || which_god == GOD_ELYVILON
+                     || which_god == GOD_JIYVA
+                     || which_god == GOD_HEPLIAKLQANA))
         {
             simple_god_message(" does not accept worship from the loveless!",
                                which_god);
@@ -3987,12 +4111,18 @@ void god_pitch(god_type which_god)
         else if (player_mutation_level(MUT_NO_ARTIFICE)
                  && which_god == GOD_NEMELEX_XOBEH)
         {
-            simple_god_message(" does not accept worship for those who cannot "
+            simple_god_message(" does not accept worship from those who cannot "
                               "deal a hand of cards!", which_god);
         } else if (you.species == SP_FELID && which_god == GOD_HEPLIAKLQANA)
         {
             simple_god_message(" does not accept worship from the spawn of "
                                "common housecats!", which_god);
+        }
+        else if (player_mutation_level(MUT_NO_ARTIFICE)
+                 && which_god == GOD_PAKELLAS)
+        {
+            simple_god_message(" does not accept worship from those who are "
+                               "unable to use magical devices!", which_god);
         }
         else if (!_transformed_player_can_join_god(which_god))
         {

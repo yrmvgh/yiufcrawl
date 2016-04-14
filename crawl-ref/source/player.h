@@ -1096,7 +1096,6 @@ bool need_expiration_warning(dungeon_feature_type feat);
 bool need_expiration_warning(duration_type dur, coord_def p = you.pos());
 bool need_expiration_warning(coord_def p = you.pos());
 
-void count_action(caction_type type, int subtype = 0);
 bool player_has_orb();
 bool player_on_orb_run();
 

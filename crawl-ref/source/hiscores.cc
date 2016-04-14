@@ -907,7 +907,7 @@ enum old_species_type
     OLD_SP_SLUDGE_ELF = -7,
     OLD_SP_DJINNI = -8,
     OLD_SP_LAVA_ORC = -9,
-    NUM_OLD_SPECIES = OLD_SP_LAVA_ORC
+    NUM_OLD_SPECIES = -OLD_SP_LAVA_ORC
 };
 
 static string _species_name(int race)
@@ -953,7 +953,7 @@ static int _species_by_name(const string& name)
     if (race != SP_UNKNOWN)
         return race;
 
-    for (race = -1; race >= -NUM_OLD_JOBS; race--)
+    for (race = -1; race >= -NUM_OLD_SPECIES; race--)
         if (name == _species_name(race))
             return race;
 
@@ -1859,7 +1859,8 @@ string scorefile_entry::single_cdesc() const
     scname = chop_string(name, 10);
 
     return make_stringf("%8d %s %s-%02d%s", points, scname.c_str(),
-                         race_class_name.c_str(), lvl, (wiz_mode == 1) ? "W" : (explore_mode == 1) ? "E" : "");
+                        race_class_name.c_str(), lvl,
+                        (wiz_mode == 1) ? "W" : (explore_mode == 1) ? "E" : "");
 }
 
 static string _append_sentence_delimiter(const string &sentence,
@@ -2206,8 +2207,11 @@ string scorefile_entry::death_description(death_desc_verbosity verbosity) const
     case KILLED_BY_STUPIDITY:
         if (terse)
             desc += "stupidity";
-        else if (species_is_unbreathing(static_cast<species_type>(race)))
+        else if (race >= 0 && // not a removed race
+                 species_is_unbreathing(static_cast<species_type>(race)))
+        {
             desc += "Forgot to exist";
+        }
         else
             desc += "Forgot to breathe";
         break;

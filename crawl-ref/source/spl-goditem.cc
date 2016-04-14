@@ -249,8 +249,7 @@ spret_type cast_healing(int pow, int max_pow, bool fail)
                 string key;
 
                 // Quadrupeds can't salute, etc.
-                mon_body_shape shape = get_mon_shape(mons);
-                if (shape >= MON_SHAPE_HUMANOID && shape <= MON_SHAPE_NAGA)
+                if (mon_shape_is_humanoid(get_mon_shape(mons)))
                     key = "_humanoid";
 
                 _print_holy_pacification_speech(key, mons,
@@ -428,6 +427,10 @@ static void _dispellable_monster_buffs(const monster &mon,
     {
         // except for permaconfusion.
         if (ench == ENCH_CONFUSION && mons_class_flag(mon.type, M_CONFUSED))
+            continue;
+
+        // Gozag-incited haste is permanent.
+        if (ench == ENCH_HASTE && mon.has_ench(ENCH_GOZAG_INCITE))
             continue;
 
         if (mon.has_ench(ench))

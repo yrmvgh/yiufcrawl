@@ -5757,6 +5757,13 @@ void ru_offer_new_sacrifices()
     // included in default force_more_message
 }
 
+/// What key corresponds to the potential/chosen mut(s) for this sacrifice?
+string ru_sacrifice_vector(ability_type sac)
+{
+    const sacrifice_def &sac_def = _get_sacrifice_def(sac);
+    return sac_def.sacrifice_vector ? sac_def.sacrifice_vector : "";
+}
+
 static const char* _describe_sacrifice_piety_gain(int piety_gain)
 {
     if (piety_gain >= 40)
@@ -5981,7 +5988,7 @@ bool ru_do_sacrifice(ability_type sac)
                 }
             }
             else
-                sac_text = static_cast<string>(mutation_desc_for_text(mut));
+                sac_text = mut_upgrade_summary(mut);
         }
         offer_text = make_stringf("%s: %s", sac_def.sacrifice_text,
             sac_text.c_str());
