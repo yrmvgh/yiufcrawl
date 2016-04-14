@@ -594,7 +594,7 @@ static void _hydra_devour(monster &victim)
                               + random2(victim.get_experience_level() * 3 / 4);
         you.heal(healing);
         calc_hp();
-        canned_msg(MSG_GAIN_HEALTH);
+        canned_msg(MSG_GAIN_HEALTH, healing);
         dprf("healed for %d (%d hd)", healing, victim.get_experience_level());
     }
 
@@ -3685,7 +3685,7 @@ bool melee_attack::_player_vampire_draws_blood(const monster* mon, const int dam
         if (heal > 0 && !you.duration[DUR_DEATHS_DOOR])
         {
             inc_hp(heal);
-            canned_msg(MSG_GAIN_HEALTH);
+            canned_msg(MSG_GAIN_HEALTH, heal);
         }
     }
 

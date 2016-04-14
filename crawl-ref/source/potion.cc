@@ -242,21 +242,21 @@ public:
         if (is_device)
         {
             amount = you.hp_max * (1 - pow((200 - power) / 200.0, 2));
-            mpr("You feel better.");
+            mprf("You feel better. (%d)", amount);
         }
         else switch(crawl_state.difficulty)
             {
                 case DIFFICULTY_EASY:
                     amount = you.hp_max;
-                    mpr("You feel completely better.");
+                    mprf("You feel completely better. (%d)", amount);
                     break;
                 case DIFFICULTY_NORMAL:
                     amount = you.hp_max/2;
-                    mpr("You feel much better.");
+                    mprf("You feel much better. (%d)", amount);
                     break;
                 case DIFFICULTY_HARD:
                     amount = you.hp_max/4;
-                    mpr("You feel a little better.");
+                    mprf("You feel a little better. (%d)", amount);
                     break;
                 default:
                     // should not be possible

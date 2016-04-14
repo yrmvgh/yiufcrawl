@@ -25,7 +25,7 @@ void flush_prev_message();
 
 void more(bool user_forced = false);
 
-void canned_msg(canned_message_type which_message);
+void canned_msg(canned_message_type which_message, const int amount = 0);
 
 bool monster_message(const monster* mons, const char *event, ...);
 

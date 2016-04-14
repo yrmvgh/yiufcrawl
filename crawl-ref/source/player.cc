@@ -2687,9 +2687,9 @@ const int _experience_for_this_floor(int multiplier) {
         else
         {
             int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-            exp = stepup2(how_deep + 1, 3, 3, 40) + 5;
+            exp = stepup2(how_deep + 1, 3, 3, 40);
         }
-        exp = exp * multiplier;
+        exp = max(20, exp) * multiplier;
     }
 
     return div_rand_round(exp, 300);
