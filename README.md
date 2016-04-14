@@ -54,12 +54,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
-* Remove food
-    * no more chopping or eating
-    * fruits become seeds
-    * vampire still drink blood to change their satiation level
-    * ghouls automatically eat some of the corpses they kill to heal and cure rot
-
 * Implement stamina points, alongside magic points and health points
     * three exertion levels
         * normal mode (press 'e' again when in exertion mode, or 'E' again when in careful mode)
@@ -93,10 +87,18 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
     * added endurance potions
         * make all stamina costs drop to 0 for a limited time
+        
+* Remove food
+    * no more chopping or eating
+    * fruits and royal jelly can still be consumed with the quaff command
+        * fruit is used by fedhas still or may be consumed for stamina
+        * consuming royal jelly reduces stamina costs to 0 temporarily
+    * vampire still drink blood to change their satiation level
+    * ghouls automatically eat some of the corpses they kill to heal and cure rot
 
 * Enchanted Forest and Dwarven Halls brought back
     * I haven't done anything to them yet, but I intend to make them interesting and fun enough to want to keep around. 
-    * If you don't want to play in a likely broken area, avoid these branches for now. 
+    * If you don't want to play in a likely broken or boring area, avoid these branches for now. 
     * If you want to help test and refine them, go ahead and explore, and tell me what you think will make them
       better.
       
