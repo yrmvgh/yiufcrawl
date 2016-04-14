@@ -216,9 +216,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 * Traps
     * Shafting doesn't happen in the first 2 floors of dungeon
 
-* Flying
-    * metabolism is multiplied by 4 while flying, unless you are a Djinni. So flying around all day as a tengu will now cost something. 
-
 * Djinni brought back from the dead and greatly enhanced.
     * Unusual contamination mechanism that they originally had has been removed. They also consume food like normal species, so excessive spell casting has the
       normal consequence.
