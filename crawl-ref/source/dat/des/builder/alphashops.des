@@ -122,7 +122,7 @@
 
       elseif s == "M" then i = "manual of maces & flails | meat ration | " ..
        "book of minor magic | morningstar | mottled dragon armour | mace | " ..
-       "potion of magic | ring of magical power | potion of mutation | " ..
+       "mutagenic chunk | ring of magical power | potion of mutation | " ..
        "potion of might | scroll of magic mapping | " ..
        "book of maledictions | amulet of magic regeneration"
 
