@@ -23,6 +23,8 @@ There are two known servers running this fork at this time:
 Feel free to create issues on github for either problems with the crawl.homedns.org server, or bugs in the game itself, or ideas you have that you think are in line
 with my goals here, or with concerns you have about my future plans. 
 
+A player has created an IRC channel for discussion of this fork. Grab an IRC client and come start the conversation - it's a quiet place right now! The channel is ##circusfork on the Freenode IRC server. If you're already hanging out in ##crawl, all you have to do is type /join ##circusfork!
+
 ## Objectives
 
 (Not necessarily all that different form mainstream crawl, just different in exactly how I interpret these...)
