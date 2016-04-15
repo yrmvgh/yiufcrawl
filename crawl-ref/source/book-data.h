@@ -202,6 +202,7 @@ static const vector<spell_type> spellbook_templates[] =
 
 {   // Book of the Warp
     SPELL_RECALL,
+    SPELL_PORTAL_PROJECTILE,
     SPELL_GRAVITAS,
     SPELL_FORCE_LANCE,
     SPELL_WARP_BRAND,
