@@ -425,7 +425,7 @@ BRANCH_EXIT(DNGN_EXIT_SLIME, "staircase back to the Lair", "exit_slime_pits"),
 },
 BRANCH_EXIT(DNGN_EXIT_ORC, "staircase back to the Dungeon", "exit_orcish_mines"),
 
-BRANCH_ENTRANCE(DNGN_ENTER_DWARF, "staircase to the Dwarven Hall", "enter_dwarven_hall"),
+BRANCH_ENTRANCE(DNGN_ENTER_DWARF, "staircase to the Dwarven Fortress", "enter_dwarven_hall"),
 BRANCH_EXIT(DNGN_EXIT_DWARF, "staircase back to the Vaults", "exit_dwarven_hall"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_FOREST, "staircase to the Enchanted Forest", "enter_forest"),

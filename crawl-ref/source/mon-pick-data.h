@@ -193,30 +193,37 @@ static const pop_entry pop_elf[] =
   {  1,  6,   65, SEMI, MONS_GLOWING_SHAPESHIFTER },
   { 0,0,0,FLAT,MONS_0 }
 };
-#if TAG_MAJOR_VERSION == 34
-static const pop_entry pop_dwarf[] =
-{ // Dwarven Hall
-  {  1,  1, 1000, FLAT, MONS_DEEP_DWARF },
-  {  1,  1,  690, FLAT, MONS_DEATH_KNIGHT },
-  {  1,  1,    3, FLAT, MONS_DEEP_TROLL },
-  {  1,  1,    3, FLAT, MONS_DEEP_TROLL_EARTH_MAGE },
-  {  1,  1,    3, FLAT, MONS_DEEP_TROLL_SHAMAN },
-  {  1,  1,    8, FLAT, MONS_STONE_GIANT },
-  {  1,  1,    8, FLAT, MONS_FIRE_GIANT },
-  {  1,  1,    8, FLAT, MONS_FROST_GIANT },
-  {  1,  1,  192, FLAT, MONS_WRAITH },
-  {  1,  1,    3, FLAT, MONS_SHADOW_WRAITH },
-  {  1,  1,    8, FLAT, MONS_EIDOLON },
-  {  1,  1,    8, FLAT, MONS_PHANTASMAL_WARRIOR },
-  { 0,0,0,FLAT,MONS_0 }
-};
 
+#if TAG_MAJOR_VERSION == 34
 static const pop_entry pop_blade[] =
 { // Hall of Blades
   {  1,  1, 1000, FLAT, MONS_DANCING_WEAPON },
   { 0,0,0,FLAT,MONS_0 }
 };
 #endif
+
+static const pop_entry pop_dwarf[] =
+{ // Dwarven Fortress
+    {  1,  1, 1000, FLAT, MONS_DEEP_DWARF },
+    {  1,  1,  826, FLAT, MONS_DEEP_DWARF_SCION },
+    {  1,  1,  826, FLAT, MONS_DEEP_DWARF_ARTIFICER },
+    {  1,  1,  690, FLAT, MONS_DEEP_DWARF_NECROMANCER },
+    {  1,  1,  690, FLAT, MONS_DEEP_DWARF_BERSERKER },
+    {  1,  1,  690, FLAT, MONS_DEEP_DWARF_DEATH_KNIGHT },
+    {  1,  1,  334, FLAT, MONS_UNBORN_DEEP_DWARF },
+    {  1,  1,    3, FLAT, MONS_IRON_TROLL },
+    {  1,  1,    3, FLAT, MONS_DEEP_TROLL },
+    {  1,  1,    3, FLAT, MONS_DEEP_TROLL_EARTH_MAGE },
+    {  1,  1,    3, FLAT, MONS_DEEP_TROLL_SHAMAN },
+    {  1,  1,    8, FLAT, MONS_STONE_GIANT },
+    {  1,  1,    8, FLAT, MONS_FIRE_GIANT },
+    {  1,  1,    8, FLAT, MONS_FROST_GIANT },
+    {  1,  1,  192, FLAT, MONS_WRAITH },
+    {  1,  1,    3, FLAT, MONS_SHADOW_WRAITH },
+    {  1,  1,    8, FLAT, MONS_EIDOLON },
+    {  1,  1,    8, FLAT, MONS_PHANTASMAL_WARRIOR },
+    { 0,0,0,FLAT,MONS_0 }
+};
 
 static const pop_entry pop_lair[] =
 { // Lair

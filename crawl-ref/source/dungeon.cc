@@ -2451,7 +2451,7 @@ static const map_def *_pick_layout(const map_def *vault)
             }
             layout = random_map_for_tag("layout", true, true);
         }
-        while (layout->has_tag("no_primary_vault")
+        while (!layout || layout->has_tag("no_primary_vault")
                || (tries > 10 && !_vault_can_use_layout(vault, layout)));
     }
 

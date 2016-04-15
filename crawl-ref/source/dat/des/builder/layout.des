@@ -768,7 +768,7 @@ ENDMAP
 # Previously named "layout_misc".
 #
 NAME:   layout_misc_corridors
-DEPTH:  Lair, Snake, Crypt, Zot
+DEPTH:  Lair, Snake, Crypt, Zot, Dwarf
 WEIGHT: 20, 5 (Lair)
 ORIENT: encompass
 TAGS:   overwritable layout allow_dup unrand layout_type_corridors

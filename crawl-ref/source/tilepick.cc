@@ -1701,7 +1701,8 @@ tileidx_t tileidx_monster(const monster_info& mons)
 {
     tileidx_t ch = _tileidx_monster_no_props(mons);
 
-    if ((!mons.ground_level() && !_tentacle_tile_not_flying(ch)))
+    if ((!mons.ground_level() && !_tentacle_tile_not_flying(ch))
+        || ch == TILEP_MONS_THORN_LOTUS)
         ch |= TILE_FLAG_FLYING;
     if (mons.is(MB_CAUGHT))
         ch |= TILE_FLAG_NET;

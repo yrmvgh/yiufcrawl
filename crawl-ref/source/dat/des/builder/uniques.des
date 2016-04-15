@@ -284,10 +284,10 @@ NAME:   uniq_boris
 DEPTH:  Depths:3-, Vaults:2-, Crypt, Tomb, Forest
 : place_unique(_G, "Boris")
 
-NAME:   uniq_enchantress
-DEPTH:  Depths
-MONS:   the Enchantress band
-: place_unique(_G, "the Enchantress band")
+#NAME:   uniq_enchantress
+#DEPTH:  Depths
+#MONS:   the Enchantress band
+#: place_unique(_G, "the Enchantress band")
 
 NAME:   uniq_frederick
 DEPTH:  Depths:3-, Vaults:2-, Crypt, Tomb, Forest

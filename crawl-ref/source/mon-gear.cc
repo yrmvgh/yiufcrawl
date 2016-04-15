@@ -350,6 +350,48 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         }
         break;
 
+    case MONS_DWARF:
+    case MONS_DEEP_DWARF:
+        if (one_chance_in(9))
+        {
+            item.base_type = OBJ_WEAPONS;
+            item.sub_type  = WPN_HAND_CROSSBOW;
+            break;
+        }
+        // deliberate fall through
+    case MONS_DEEP_DWARF_SCION:
+    case MONS_DEEP_DWARF_BERSERKER:
+        item.base_type = OBJ_WEAPONS;
+
+        if (one_chance_in(6))
+        {
+            item.sub_type = random_choose_weighted(5, WPN_MORNINGSTAR, 5, WPN_GREAT_MACE,
+                                                   5, WPN_GREAT_SWORD, 10, WPN_BROAD_AXE,
+                                                   15, WPN_BATTLEAXE, 0);
+        }
+        else
+        {
+            item.sub_type = random_choose_weighted(5, WPN_FLAIL, 5, WPN_MACE,
+                                                   5, WPN_SPEAR, 5, WPN_HALBERD,
+                                                   5, WPN_GREAT_SWORD, 10, WPN_WAR_AXE,
+                                                   15, WPN_HAND_AXE, 0);
+        }
+
+        if (coinflip() || mon->type == MONS_DEEP_DWARF_BERSERKER
+            || mon->type == MONS_DEEP_DWARF_SCION)
+        {
+            force_item  = true;
+            item.plus  += 1 + random2(4);
+            item.plus2 += 1 + random2(4);
+
+            if (one_chance_in(30) && (mon->type == MONS_DEEP_DWARF_BERSERKER
+                                      || mon->type == MONS_DEEP_DWARF_SCION))
+            {
+                level = ISPEC_GOOD_ITEM;
+            }
+        }
+        break;
+
     case MONS_GNOLL:
     case MONS_OGRE_MAGE:
     case MONS_NAGA_MAGE:
@@ -716,7 +758,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
             item.sub_type  = WPN_ARBALEST;
             break;
         }
-
         item.base_type = OBJ_WEAPONS;
 
         item.sub_type = random_choose_weighted(
@@ -1064,7 +1105,37 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         item.sub_type  = WPN_DAGGER;
         break;
 
-    case MONS_DOWAN:
+    case MONS_UNBORN_DEEP_DWARF:
+        if (one_chance_in(6))
+            level = ISPEC_GOOD_ITEM;
+        // deliberate fallthrough
+
+    case MONS_DEEP_DWARF_NECROMANCER:
+        item.base_type = OBJ_WEAPONS;
+        item.sub_type  = WPN_HAND_AXE;
+        break;
+
+    case MONS_DEEP_DWARF_ARTIFICER:
+        if (one_chance_in(25))
+        {
+            dprf(DIAG_MONPLACE, "generating a rare rod");
+            item.base_type = OBJ_RODS;
+            item.sub_type  = random2(NUM_RODS);
+        }
+        else
+        {
+            item.base_type = OBJ_WANDS;
+            item.sub_type  = random_choose_weighted(10, WAND_ACID,
+                                                    10, WAND_FLAME,
+                                                    8, WAND_CONFUSION,
+                                                    4, WAND_LIGHTNING,
+                                                    4, WAND_HEAL_WOUNDS,
+                                                    4, WAND_ICEBLAST,
+                                                    0);
+        }
+        break;
+
+        case MONS_DOWAN:
         item.base_type = OBJ_WEAPONS;
         item.sub_type  = WPN_DAGGER;
         break;
@@ -2111,6 +2182,10 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs, bool merc)
         item.sub_type  = ARM_ROBE;
         break;
 
+    case MONS_DEEP_DWARF:
+    case MONS_DEEP_DWARF_SCION:
+    case MONS_DEEP_DWARF_DEATH_KNIGHT:
+    case MONS_DEEP_DWARF_BERSERKER:
     case MONS_DEATH_KNIGHT:
         item.base_type = OBJ_ARMOUR;
         item.sub_type  = random_choose_weighted(7, ARM_CHAIN_MAIL,
