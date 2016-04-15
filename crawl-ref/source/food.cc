@@ -124,12 +124,12 @@ void set_hunger(int new_hunger_level, bool suppress_msg)
 
 bool you_foodless(bool can_eat)
 {
-    return you.undead_state() == US_UNDEAD;
+    return you.undead_state() == US_UNDEAD || you.species != SP_VAMPIRE;
 }
 
 bool you_foodless_normally()
 {
-    return you.undead_state(false) == US_UNDEAD;
+    return you.undead_state(false) == US_UNDEAD || you.species != SP_VAMPIRE;
 }
 
 bool prompt_eat_inventory_item(int slot)
@@ -987,6 +987,9 @@ static void _eat_chunk(item_def& food)
 
 static void _eating(item_def& food)
 {
+    if (food.sub_type == FOOD_FRUIT)
+
+    /*
     int food_value = ::food_value(food);
     ASSERT(food_value > 0);
 
@@ -996,6 +999,7 @@ static void _eating(item_def& food)
     start_delay(DELAY_EAT, duration, 0, food.sub_type, duration);
 
     lessen_hunger(food_value, true);
+     */
 }
 
 // Handle messaging at the end of eating.

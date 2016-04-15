@@ -584,6 +584,50 @@ static void _print_stats_temperature(int x, int y)
     Temp_Bar.draw(19, y, temperature(), TEMP_MAX, true);
 }
 
+static void _print_stats_sp(int x, int y)
+{
+    // Calculate colour
+    short sp_colour = HUD_VALUE_COLOUR;
+
+    const bool boosted = _boosted_sp();
+
+    if (boosted)
+        sp_colour = LIGHTBLUE;
+    else
+    {
+        int sp_percent = (you.sp_max == 0
+                          ? 100
+                          : (you.sp * 100) / you.sp_max);
+
+        for (const auto &entry : Options.sp_colour)
+            if (sp_percent <= entry.first)
+                sp_colour = entry.second;
+    }
+
+    CGOTOXY(x, y, GOTO_STAT);
+    textcolour(HUD_CAPTION_COLOUR);
+    CPRINTF(player_rotted() ? "SP: " : "Stamina:  ");
+    textcolour(sp_colour);
+    CPRINTF("%d", you.sp);
+    if (!boosted)
+        textcolour(HUD_VALUE_COLOUR);
+    CPRINTF("/%d", you.sp_max);
+    if (boosted)
+        textcolour(HUD_VALUE_COLOUR);
+
+    int col = _count_digits(you.sp)
+              + _count_digits(you.sp_max) + 1;
+    for (int i = 11-col; i > 0; i--)
+        CPRINTF(" ");
+
+#ifdef TOUCH_UI
+    if (tiles.is_using_small_layout())
+        SP_Bar.vdraw(6, 10, you.sp, you.sp_max);
+    else
+#endif
+    SP_Bar.draw(19, y, you.sp, you.sp_max);
+}
+
 static void _print_stats_mp(int x, int y)
 {
     if (you.species == SP_DJINNI)
@@ -1099,6 +1143,7 @@ static bool _need_stats_printed()
 {
     return you.redraw_title
            || you.redraw_hit_points
+           || you.redraw_stamina_points
            || you.redraw_magic_points
            || you.redraw_armour_class
            || you.redraw_evasion
@@ -1234,6 +1279,8 @@ void print_stats()
 
     if (HP_Bar.wants_redraw())
         you.redraw_hit_points = true;
+    if (SP_Bar.wants_redraw())
+        you.redraw_stamina_points = true;
     if (MP_Bar.wants_redraw())
         you.redraw_magic_points = true;
     if (Temp_Bar.wants_redraw() && you.species == SP_LAVA_ORC)
@@ -1260,12 +1307,17 @@ void print_stats()
         you.redraw_hit_points = false;
         _print_stats_hp(1, 3);
     }
+    if (you.redraw_stamina_points)
+    {
+        you.redraw_stamina_points = false;
+        _print_stats_sp(1, 4);
+    }
     if (you.redraw_magic_points)
     {
         you.redraw_magic_points = false;
-        _print_stats_mp(1, 4);
+        _print_stats_mp(1, 5);
     }
-    _print_stats_food(1, 4);
+    _print_stats_food(1, 6);
     if (you.redraw_temperature)
     {
         you.redraw_temperature = false;

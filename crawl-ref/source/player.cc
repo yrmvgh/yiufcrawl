@@ -4282,6 +4282,18 @@ void set_hp(int new_amount)
     you.redraw_hit_points = true;
 }
 
+void set_sp(int new_amount)
+{
+    you.sp = new_amount;
+
+    if (you.sp > you.sp_max)
+        you.sp = you.sp_max;
+
+//    take_note(Note(NOTE_SP_CHANGE, you.sp, you.sp_max));
+
+    you.redraw_stamina_points = true;
+}
+
 void set_mp(int new_amount)
 {
     ASSERT(!crawl_state.game_is_arena());

@@ -96,11 +96,14 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * vampire still drink blood to change their satiation level
     * ghouls automatically eat some of the corpses they kill to heal and cure rot
 
-* Enchanted Forest and Dwarven Halls brought back
+* Enchanted Forest and Dwarven Halls (now called Dwarven Fortress) brought back
     * I haven't done anything to them yet, but I intend to make them interesting and fun enough to want to keep around. 
     * If you don't want to play in a likely broken or boring area, avoid these branches for now. 
     * If you want to help test and refine them, go ahead and explore, and tell me what you think will make them
       better.
+    * Dwarf will eventually be 5 floors
+    * Dwarf and Forest are intended to be late game challenges that are substantially harder than vaults and Pan. It will take
+      some work to get them to this point, but that's the direction I want to take them. 
       
 ### v1.2.3
 

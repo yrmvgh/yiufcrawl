@@ -379,6 +379,7 @@ public:
 
     bool redraw_title;
     bool redraw_hit_points;
+    bool redraw_stamina_points;
     bool redraw_magic_points;
     bool redraw_temperature;
     FixedVector<bool, NUM_STATS> redraw_stats;
