@@ -910,6 +910,15 @@ deep dwarf
 Pale and unnaturally tough-skinned, deep dwarves dwell far below ground and
 almost never emerge into the sunlit upper world.
 %%%%
+deep dwarf necromancer
+
+An evil deep dwarf that has sold its mortal soul in exchange for mastery of the
+occult arts of death and pain.
+%%%%
+deep dwarf scion
+
+An armoured deep dwarf, formidable in melee combat.
+%%%%
 deep troll
 
 A stooped troll with dark skin, the cave-dwelling deep troll often travels in
@@ -1206,6 +1215,12 @@ many diseases it is host to.
 gelid demonspawn
 
 <demonspawn>
+%%%%
+giant centipede
+
+A chilopod of quite an unusual size, the giant centipede mostly comes out to
+hunt when it is dark. Physically weak, it relies on its nasty poison to
+dispatch its victims.
 %%%%
 giant cockroach
 
@@ -2426,6 +2441,13 @@ A predatory marsh plant, possessed of motility and a rudimentary intelligence.
 It stalks its prey swiftly, creating sudden profusions of spiny brambles with
 which to ensnare them and then skewering the trapped creatures with accurate
 volleys of its own razor-sharp thorns.
+%%%%
+thorn lotus
+
+A large and vivid bloom drifting placidly upon the surface of the water.
+Beware, for its beauty is deceptive; cradled within its petals lies a stigma
+bristling with needle-like thorns, fully capable of impaling predators and
+unwitting adventurers alike before they can draw close enough to threaten it.
 %%%%
 toadstool
 

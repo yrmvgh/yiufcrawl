@@ -2560,7 +2560,7 @@ ORIENT:  float
 DEPTH:   Elf, !Elf:$, Crypt, !Crypt:$
 : if you.in_branch("Crypt") then
 TAGS:    patrolling
-MONS:    skeletal warrior / eidolon, necromancer
+MONS:    skeletal warrior / eidolon, necromancer / deep dwarf necromancer w:6
 MONS:    necromancer band / vampire mage band w:6
 MONS:    vampire knight w:25 / bone dragon / ghoul / lich
 SUBST:   x = e

@@ -2093,4 +2093,17 @@ static const mon_spellbook mspell_list[] =
         { SPELL_FLASH_FREEZE, 62, MON_SPELL_NATURAL | MON_SPELL_BREATH },
       }
     },
+
+    {  MST_UNBORN_DEEP_DWARF,
+        {
+            { SPELL_AGONY, 17, MON_SPELL_DEMONIC },
+            { SPELL_DISPEL_UNDEAD, 44, MON_SPELL_PRIEST },
+        }
+    },
+
+    {  MST_THORN_LOTUS,
+        {
+            { SPELL_THORN_VOLLEY, 43, MON_SPELL_NATURAL },
+        }
+    },
 };

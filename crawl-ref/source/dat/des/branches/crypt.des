@@ -326,7 +326,7 @@ MONS:    shadow wraith / wraith / wight w:5
 : crypt_entry(_G)
 MAP
 cccc@cccc
-c.......c
+c1.....1c
 c.ccccc.c
 c.c.2.c.c
 @.c.O.c.@

@@ -1254,12 +1254,12 @@ SUBST:  b = c
 KFEAT:  _ = altar_kikubaaqudgha
 : if you.absdepth() < 19 then
 MONS:   zombie / skeleton / w:5 simulacrum
-MONS:   necromancer, deep elf death mage, \
+MONS:   w:2 necromancer / w:1 deep dwarf necromancer, deep elf death mage, \
         w:5 deep elf death mage / nothing
 MONS:   w:4 soul eater / w:1 reaper, reaper, reaper / nothing
 : elseif you.absdepth() < 24 then
 MONS:   zombie / skeleton / w:5 simulacrum
-MONS:   necromancer w:15 / w:5 deep elf death mage, lich, \
+MONS:   necromancer / w:5 deep dwarf necromancer / w:5 deep elf death mage, lich, \
         lich / deep elf death mage / nothing
 MONS:   soul eater / w:5 reaper, reaper, tzitzimitl / w:5 reaper
 : else

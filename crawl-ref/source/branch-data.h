@@ -42,13 +42,13 @@ const Branch branches[NUM_BRANCHES] =
       WHITE, ETC_ELVEN_BRICK,
       'E', {}, 0 },
 
-    { BRANCH_DWARF, BRANCH_ELF, -1, -1, 0, 17,
+    { BRANCH_DWARF, BRANCH_ELF, 2, 2, 1, 17,
       BFLAG_NONE,
       DNGN_ENTER_DWARF, DNGN_EXIT_DWARF,
       "Dwarven Fortress", "the Dwarven Fortress", "Dwarf",
       nullptr,
       BROWN, BROWN,
-      'K', {}, 0 },
+      'K', {}, 6 },
 
     { BRANCH_LAIR, BRANCH_DUNGEON, 8, 11, 8, 10,
       BFLAG_NONE,

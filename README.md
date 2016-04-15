@@ -52,6 +52,56 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ## Major modifications from the original DCSS
 
+### v1.3
+
+* Implement stamina points, alongside magic points and health points
+    * three exertion levels
+        * normal mode (press 'e' again when in exertion mode, or 'E' again when in careful mode)
+            * no stamina cost for most actions
+            * movement speed is 1.1 for all species, except naga, which is 1.4
+        * power mode (change to this by pressing 'e')
+            * actions cost stamina
+            * stamina is slowly depleted while in power mode
+            * movement speed is 0.9 for most species
+                * 0.5 for spriggan
+                * 0.7 for centaur
+                * 1.4 for naga, since they can't run, so they don't have a stamina cost for moving in power mode
+            * melee and ranged damage is higher
+            * spellpower is greater
+            * accuracy is reduced
+            * chance of spell failure is increased
+        * careful mode (change to this by pressing 'E')
+            * actions cost stamina
+            * stealth is amplified
+            * accuracy is increased
+            * spell failure chance is reduced
+            * damage is reduced
+            * spell power is reduced
+            * movement speed is slower (1.5 for all species)
+    * when stamina is depleted, game switches back to normal exertion mode automatically
+    * berserking automatically switches to power mode
+    * species differences:
+        * centaurs and nagas have a larger than normal stamina pool
+        * spriggans consume half as much stamina when running
+        * trolls and players wearing regen items consume stamina more quickly when their health isn't at maximum
+    * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
+    * added endurance potions
+        * make all stamina costs drop to 0 for a limited time
+        
+* Remove food
+    * no more chopping or eating
+    * fruits and royal jelly can still be consumed with the quaff command
+        * fruit is used by fedhas still or may be consumed for stamina
+        * consuming royal jelly reduces stamina costs to 0 temporarily
+    * vampire still drink blood to change their satiation level
+    * ghouls automatically eat some of the corpses they kill to heal and cure rot
+
+* Enchanted Forest and Dwarven Halls brought back
+    * I haven't done anything to them yet, but I intend to make them interesting and fun enough to want to keep around. 
+    * If you don't want to play in a likely broken or boring area, avoid these branches for now. 
+    * If you want to help test and refine them, go ahead and explore, and tell me what you think will make them
+      better.
+      
 ### v1.2.3
 
 * Experience modes

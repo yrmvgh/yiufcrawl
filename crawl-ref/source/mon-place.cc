@@ -1346,7 +1346,8 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     else if (mon->is_priest())
     {
         // Berserkers belong to Trog.
-        if (mg.cls == MONS_SPRIGGAN_BERSERKER)
+        if (mg.cls == MONS_DEEP_DWARF_BERSERKER
+            || mg.cls == MONS_SPRIGGAN_BERSERKER)
             mon->god = GOD_TROG;
         // Death knights belong to Yredelemnul.
         else if (mg.cls == MONS_DEATH_KNIGHT)
@@ -2128,6 +2129,9 @@ static const map<monster_type, band_set> bands_by_leader = {
     { MONS_GNOLL_SERGEANT,  { {}, {{ BAND_GNOLLS, {3, 6} }}}},
     { MONS_DEATH_KNIGHT,    { {0, 0, []() { return x_chance_in_y(2, 3); }},
                                   {{ BAND_DEATH_KNIGHT, {3, 5}, true }}}},
+    { MONS_DEEP_DWARF_SCION,{ {}, {{ BAND_DEEP_DWARF, {2, 5} }}}},
+    { MONS_DEEP_DWARF_ARTIFICER,{ {}, {{ BAND_DEEP_DWARF, {2, 5} }}}},
+    { MONS_DEEP_DWARF_DEATH_KNIGHT,{ {}, {{ BAND_DEEP_DWARF, {2, 5} }}}},
     { MONS_GRUM,            { {}, {{ BAND_WOLVES, {2, 5}, true }}}},
     { MONS_WOLF,            { {}, {{ BAND_WOLVES, {2, 6} }}}},
     { MONS_CENTAUR_WARRIOR, { centaur_band_condition,
@@ -2447,6 +2451,12 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
                                    {MONS_DEEP_ELF_ANNIHILATOR, 1},
                                    {MONS_DEEP_ELF_SORCERER, 1},
                                    {MONS_DEEP_ELF_DEATH_MAGE, 1}}}},
+    { BAND_DEEP_DWARF,          {{
+                                     {MONS_DEEP_DWARF, 31},
+                                     {MONS_DEEP_DWARF_NECROMANCER, 6},
+                                     {MONS_DEEP_DWARF_BERSERKER, 2},
+                                     {MONS_DEEP_DWARF_DEATH_KNIGHT, 1},
+                                 }}},
     { BAND_BALRUG,              {{{MONS_SUN_DEMON, 1},
                                   {MONS_RED_DEVIL, 1}}}},
     { BAND_HELLWING,            {{{MONS_HELLWING, 1},

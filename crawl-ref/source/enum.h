@@ -2725,8 +2725,8 @@ enum monster_type                      // menv[].type
     MONS_DEATH_SCARAB,
 #endif
     MONS_GIANT_COCKROACH,
-#if TAG_MAJOR_VERSION == 34
     MONS_GIANT_CENTIPEDE,
+#if TAG_MAJOR_VERSION == 34
     MONS_GIANT_MITE,
 #endif
     MONS_SPIDER,
@@ -2843,6 +2843,7 @@ enum monster_type                      // menv[].type
     MONS_BUSH,
     MONS_BURNING_BUSH,
 #if TAG_MAJOR_VERSION > 34
+    MONS_THORN_LOTUS,
     MONS_THORN_HUNTER,
     MONS_BRIAR_PATCH,
     MONS_SHAMBLING_MANGROVE,
@@ -2874,13 +2875,14 @@ enum monster_type                      // menv[].type
     MONS_ORC_WARLORD,
     MONS_DWARF,
     MONS_DEEP_DWARF,
-#if TAG_MAJOR_VERSION == 34
     MONS_DEEP_DWARF_SCION,
     MONS_DEEP_DWARF_ARTIFICER,
     MONS_DEEP_DWARF_NECROMANCER,
     MONS_DEEP_DWARF_BERSERKER,
+    MONS_DEEP_DWARF_DEATH_KNIGHT,
+    MONS_UNBORN_DEEP_DWARF,
+#if TAG_MAJOR_VERSION == 34
     MONS_DEATH_KNIGHT,
-    MONS_UNBORN,
 #endif
     MONS_ELF,
 #if TAG_MAJOR_VERSION == 34
@@ -3359,6 +3361,7 @@ enum monster_type                      // menv[].type
 #endif
     MONS_TEST_SPAWNER,
 
+    MONS_THORN_LOTUS,
     // Add new monsters here:
 #if TAG_MAJOR_VERSION == 34
     MONS_SERPENT_OF_HELL_COCYTUS,
@@ -3436,7 +3439,6 @@ enum monster_type                      // menv[].type
     MONS_ANCIENT_BEAR,
     MONS_WATER_NYMPH,
     MONS_SHAMBLING_MANGROVE,
-    MONS_THORN_LOTUS,
     MONS_SPECTRAL_WEAPON,
     MONS_ELEMENTAL_WELLSPRING,
     MONS_POLYMOTH,
