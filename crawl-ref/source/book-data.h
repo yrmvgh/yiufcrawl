@@ -300,10 +300,10 @@ static const vector<spell_type> spellbook_templates[] =
 {   // Book of Debilitation
     SPELL_CORONA,
     SPELL_SLOW,
-    SPELL_GRAVITAS,
+    SPELL_TUKIMAS_DANCE,
     SPELL_INNER_FLAME,
     SPELL_CAUSE_FEAR,
-    SPELL_LEDAS_LIQUEFACTION,
+    SPELL_SUMMON_MANA_VIPER,
 },
 
 {   // Book of the Dragon
