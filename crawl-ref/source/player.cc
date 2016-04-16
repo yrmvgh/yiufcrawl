@@ -2694,7 +2694,7 @@ const int _experience_for_this_floor(int multiplier) {
         else
         {
             int how_deep = absdungeon_depth(you.where_are_you, you.depth);
-            exp = stepup2(how_deep + 1, 3, 3, 40);
+            exp = stepup2(how_deep + 1, 3, 3, 30);
         }
         exp = max(20, exp) * multiplier;
     }
@@ -3918,7 +3918,7 @@ unsigned int exp_needed(int lev, int exp_apt)
     else
     {
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        const int base = stepup2(lev, 2, 4) * 10;
+        const int base = stepup2(lev, 2, 4) * 15;
         needed_exp = base * apt_factor * apt_factor * apt_factor + 5;
     }
     return (unsigned int) needed_exp;
