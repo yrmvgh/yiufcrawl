@@ -734,8 +734,7 @@ snake
 %rim 0
 #### These must be in the same order as the enum in itemprop-enum.h!
 # Remove regeneration when TAG_MAJOR_VERSION > 34 (and mark protection as 1st)
-i-protection RING_REGENERATION RING_ID_FIRST
-i-protection RING_PROTECTION
+i-protection RING_PROTECTION RING_ID_FIRST
 i-r-fire RING_PROTECTION_FROM_FIRE
 i-r-poison RING_POISON_RESISTANCE
 i-r-cold RING_PROTECTION_FROM_COLD
@@ -756,9 +755,7 @@ i-flight RING_FLIGHT
 i-life-protection RING_LIFE_PROTECTION
 i-r-magic RING_PROTECTION_FROM_MAGIC
 i-fire RING_FIRE
-i-ice RING_ICE
-# remove teleport control when TAG_MAJOR_VERSION > 34 and mark ice as last
-i-c-teleport RING_TELEPORT_CONTROL RING_ID_LAST
+i-ice RING_ICE RING_ID_LAST
 %rim 1
 
 ###amulets
@@ -802,9 +799,7 @@ i-rage AMU_RAGE AMU_ID_FIRST
 i-harm AMU_HARM
 i-dismissal AMU_DISMISSAL
 i-m-regeneration AMU_MANA_REGENERATION
-i-gourmand AMU_THE_GOURMAND
-i-rage AMU_REMOVEME1
-i-rage AMU_REMOVEME2
+i-m-regeneration AMU_STAMINA_REGENERATION
 i-inaccuracy AMU_INACCURACY
 i-rage AMU_NOTHING
 i-spirit AMU_GUARDIAN_SPIRIT

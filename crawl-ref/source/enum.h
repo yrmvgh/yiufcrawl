@@ -457,6 +457,7 @@ enum activity_interrupt_type
                                     // interrupted.
     AI_KEYPRESS,
     AI_FULL_HP,                     // Player is fully healed
+    AI_FULL_SP,                     // Player has recovered all sp
     AI_FULL_MP,                     // Player has recovered all mp
     AI_HUNGRY,                      // Hunger increased
     AI_MESSAGE,                     // Message was displayed
@@ -1013,6 +1014,8 @@ enum command_type
     CMD_USE_ABILITY,
     CMD_PRAY,
     CMD_EAT,
+    CMD_EXERT_POWER,
+    CMD_EXERT_CAREFUL,
     CMD_QUAFF,
     CMD_READ,
     CMD_LOOK_AROUND,
@@ -1802,6 +1805,7 @@ enum duration_type
     DUR_DIVINE_SHIELD,          // duration of TSO's Divine Shield
     DUR_REGENERATION,
     DUR_SWIFTNESS,
+    DUR_TIRELESS,
 #if TAG_MAJOR_VERSION == 34
     DUR_CONTROLLED_FLIGHT,
 #endif
@@ -2180,6 +2184,13 @@ enum eq_type_flags
     ETF_ARMOUR = 0x4,
     ETF_JEWELS = 0x8,
     ETF_ALL    = 0xF
+};
+
+enum exertion_mode
+{
+    EXERT_CAREFUL = -1,
+    EXERT_NORMAL = 0,
+    EXERT_POWER = 1,
 };
 
 enum flush_reason_type
@@ -3694,6 +3705,10 @@ enum mutation_type
     MUT_FOUL_STENCH,
     MUT_GOURMAND,
     MUT_HIGH_MAGIC,
+    MUT_HIGH_STAMINA,
+    MUT_LOW_STAMINA,
+    MUT_STAMINA_EFFICIENT_NORMAL,
+    MUT_STAMINA_EFFICIENT_SPECIAL,
 #if TAG_MAJOR_VERSION > 34
     MUT_FREEZING_CLOUD_IMMUNITY,
 #endif
@@ -3752,6 +3767,7 @@ enum mutation_type
     MUT_JELLY_MISSILE,
     MUT_MANA_SHIELD,
     MUT_MANA_REGENERATION,
+    MUT_STAMINA_REGENERATION,
     MUT_MANA_LINK,
     MUT_PETRIFICATION_RESISTANCE,
     MUT_TRAMPLE_RESISTANCE,
@@ -3932,7 +3948,7 @@ enum potion_type
 	POT_MIGHT,
 	POT_MUTATION,
 	POT_PATIENCE,
-	POT_POISON,
+	POT_POISON_VULNERABILITY,
 	POT_RESISTANCE,
 #if TAG_MAJOR_VERSION == 34
     POT_BLOOD_COAGULATED,

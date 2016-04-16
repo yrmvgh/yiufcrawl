@@ -1674,6 +1674,7 @@ bool attack::apply_damage_brand(const char *what)
             || !defender->is_player()
                && defender->as_monster()->is_summoned()
             || attacker->is_player() && you.duration[DUR_DEATHS_DOOR]
+            || attacker->is_player() && player_is_very_tired(true)
             || !attacker->is_player()
                && attacker->as_monster()->has_ench(ENCH_DEATHS_DOOR)
             || x_chance_in_y(2, 5) && !is_unrandom_artefact(*weapon, UNRAND_LEECH))
@@ -1683,11 +1684,21 @@ bool attack::apply_damage_brand(const char *what)
 
         obvious_effect = true;
 
+        int hp_boost = is_unrandom_artefact(*weapon, UNRAND_VAMPIRES_TOOTH)
+                       ? damage_done : 1 + random2(damage_done);
+
+        dprf(DIAG_COMBAT, "Vampiric Healing: damage %d, healed %d",
+             damage_done, hp_boost);
+        attacker->heal(hp_boost);
+
         // Handle weapon effects.
         // We only get here if we've done base damage, so no
         // worries on that score.
         if (attacker->is_player())
-            canned_msg(MSG_GAIN_HEALTH);
+        {
+            dec_sp(1, true);
+            canned_msg(MSG_GAIN_HEALTH, hp_boost);
+        }
         else if (attacker_visible)
         {
             if (defender->is_player())
@@ -1701,13 +1712,6 @@ bool attack::apply_damage_brand(const char *what)
                      attacker->name(DESC_THE).c_str());
             }
         }
-
-        int hp_boost = is_unrandom_artefact(*weapon, UNRAND_VAMPIRES_TOOTH)
-                       ? damage_done : 1 + random2(damage_done);
-
-        dprf(DIAG_COMBAT, "Vampiric Healing: damage %d, healed %d",
-             damage_done, hp_boost);
-        attacker->heal(hp_boost);
 
         attacker->god_conduct(DID_NECROMANCY, 2);
         break;

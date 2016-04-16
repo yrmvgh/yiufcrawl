@@ -506,7 +506,7 @@ public:
 class PotionPoison : public PotionEffect
 {
 private:
-    PotionPoison() : PotionEffect(POT_POISON) { }
+    PotionPoison() : PotionEffect(POT_POISON_VULNERABILITY) { }
     DISALLOW_COPY_AND_ASSIGN(PotionPoison);
 public:
     static const PotionPoison &instance()

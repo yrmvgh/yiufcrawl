@@ -272,7 +272,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
             $("#stats_" + name).addClass("colour_" + colour);
     }
 
-    var simple_stats = ["hp", "hp_max", "mp", "mp_max", "xl", "progress", "gold"];
+    var simple_stats = ["hp", "hp_max", "sp", "sp_max", "mp", "mp_max", "xl", "progress", "gold"];
     /**
      * Update the stats pane area based on the player's current properties.
      */
@@ -439,7 +439,9 @@ function ($, comm, enums, map_knowledge, messages, options) {
         update_stats_pane();
 
         if ("hp" in data || "hp_max" in data ||
-            "mp" in data || "mp_max" in data)
+            "sp" in data || "sp_max" in data ||
+            "mp" in data || "mp_max" in data 
+        )
         {
             map_knowledge.touch(player.pos);
             $("#dungeon").trigger("update_cells", [[player.pos]]);
@@ -476,6 +478,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
             $.extend(player, {
                 name: "", god: "", title: "", species: "",
                 hp: 0, hp_max: 0, real_hp_max: 0, poison_survival: 0,
+                sp: 0, sp_max: 0,
                 mp: 0, mp_max: 0,
                 ac: 0, ev: 0, sh: 0,
                 diff: 0,

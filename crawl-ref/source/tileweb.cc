@@ -700,6 +700,8 @@ void TilesFramework::_send_player(bool force_full)
 
     _update_int(force_full, c.hp, you.hp, "hp");
     _update_int(force_full, c.hp_max, you.hp_max, "hp_max");
+    _update_int(force_full, c.sp, you.sp, "sp");
+    _update_int(force_full, c.sp_max, you.sp_max, "sp_max");
     int max_max_hp = get_real_hp(true, true);
 #if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)

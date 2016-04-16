@@ -77,15 +77,15 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * spell failure chance is reduced
             * damage is reduced
             * spell power is reduced
-            * movement speed is slower (1.5 for all species)
+            * movement speed is slower 
     * when stamina is depleted, game switches back to normal exertion mode automatically
-    * berserking automatically switches to power mode
+    * berserking automatically switches to power mode (not implemented yet)
     * species differences:
         * centaurs and nagas have a larger than normal stamina pool
         * spriggans consume half as much stamina when running
         * trolls and players wearing regen items consume stamina more quickly when their health isn't at maximum
     * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
-    * added endurance potions
+    * added endurance potions (not implemented yet)
         * make all stamina costs drop to 0 for a limited time
         
 * Remove food

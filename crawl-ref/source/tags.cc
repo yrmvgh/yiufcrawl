@@ -1391,6 +1391,7 @@ static void tag_construct_you(writer &th)
     CANARY;
 
     marshallInt(th, you.hit_points_regeneration);
+    marshallInt(th, you.stamina_points_regeneration);
     marshallInt(th, you.magic_points_regeneration);
 
     marshallInt(th, you.experience);
@@ -1551,6 +1552,7 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.num_turns);
     marshallInt(th, you.exploration);
     marshallInt(th, you.amplification);
+    marshallInt(th, you.exertion);
     marshallInt(th, you.max_exp);
 
     marshallInt(th, you.magic_contamination);
@@ -2368,6 +2370,7 @@ static void tag_read_you(reader &th)
     if (th.getMinorVersion() < TAG_MINOR_INT_REGEN)
     {
         you.hit_points_regeneration   = unmarshallByte(th);
+        you.stamina_points_regeneration = unmarshallByte(th);
         you.magic_points_regeneration = unmarshallByte(th);
         unmarshallShort(th);
     }
@@ -2375,6 +2378,7 @@ static void tag_read_you(reader &th)
     {
 #endif
     you.hit_points_regeneration   = unmarshallInt(th);
+    you.stamina_points_regeneration = unmarshallInt(th);
     you.magic_points_regeneration = unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     }
@@ -3192,6 +3196,7 @@ static void tag_read_you(reader &th)
     you.amplification = unmarshallInt(th);
     if(you.amplification > 100 || you.amplification == 0)
         you.amplification = 1;
+    you.exertion = (exertion_mode)unmarshallInt(th);
     you.max_exp = unmarshallInt(th);
 
 #if TAG_MAJOR_VERSION == 34
@@ -4219,7 +4224,7 @@ void unmarshallItem(reader &th, item_def &item)
     }
 
     if (item.is_type(OBJ_POTIONS, POT_WATER)
-        || item.is_type(OBJ_POTIONS, POT_POISON))
+        || item.is_type(OBJ_POTIONS, POT_POISON_VULNERABILITY))
     {
         item.sub_type = POT_DEGENERATION;
     }

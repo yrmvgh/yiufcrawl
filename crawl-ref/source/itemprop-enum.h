@@ -154,9 +154,6 @@ enum hands_reqd_type
 
 enum jewellery_type
 {
-#if TAG_MAJOR_VERSION == 34
-    RING_REGENERATION,
-#endif
     RING_PROTECTION,
     RING_FIRST_RING = RING_PROTECTION,
     RING_PROTECTION_FROM_FIRE,
@@ -180,7 +177,6 @@ enum jewellery_type
     RING_PROTECTION_FROM_MAGIC,
     RING_FIRE,
     RING_ICE,
-    RING_TELEPORT_CONTROL,
     NUM_RINGS,                         //   keep as last ring; should not overlap
                                        //   with amulets!
     // RINGS after num_rings are for unique types for artefacts
@@ -193,11 +189,7 @@ enum jewellery_type
     AMU_HARM,
     AMU_DISMISSAL,
     AMU_MANA_REGENERATION,
-    AMU_THE_GOURMAND,
-#if TAG_MAJOR_VERSION == 34
-    AMU_CONSERVATION,
-    AMU_CONTROLLED_FLIGHT,
-#endif
+	AMU_STAMINA_REGENERATION,
     AMU_INACCURACY,
     AMU_NOTHING,
     AMU_GUARDIAN_SPIRIT,

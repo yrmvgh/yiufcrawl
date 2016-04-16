@@ -468,6 +468,7 @@ public:
 
 static colour_bar HP_Bar(LIGHTGREEN, GREEN, RED, DARKGREY);
 static colour_bar EP_Bar(LIGHTMAGENTA, MAGENTA, BLUE, DARKGREY);
+static colour_bar SP_Bar(CYAN, CYAN, LIGHTCYAN, DARKGREY);
 
 #ifdef USE_TILE_LOCAL
 static colour_bar MP_Bar(BLUE, BLUE, LIGHTBLUE, DARKGREY);
@@ -486,6 +487,11 @@ static bool _boosted_hp()
 {
     return you.duration[DUR_DIVINE_VIGOUR]
            || you.berserk();
+}
+
+static bool _boosted_sp()
+{
+    return you.duration[DUR_TIRELESS];
 }
 
 static bool _boosted_mp()
@@ -673,56 +679,6 @@ static void _print_stats_mp(int x, int y)
     else
 #endif
     MP_Bar.draw(19, y, you.magic_points, you.max_magic_points);
-}
-
-static void _print_stats_food(int x, int y)
-{
-    if (you.species != SP_DJINNI || true)
-        return;
-
-    const int max_food = HUNGER_MAXIMUM;
-    int food = min(you.hunger, max_food);
-
-    CGOTOXY(x+6, y, GOTO_STAT);
-    CPRINTF("%d", food);
-
-    // Calculate colour
-    if (you.hunger_state <= HS_STARVING)
-    {
-        Food_Bar.m_default = RED;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
-    }
-    else if (you.hunger_state <= HS_VERY_HUNGRY)
-    {
-        Food_Bar.m_default = LIGHTRED;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
-    }
-    else if (you.hunger_state <= HS_SATIATED)
-    {
-        Food_Bar.m_default = YELLOW;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = BROWN;
-    }
-    else if (you.hunger_state <= HS_FULL)
-    {
-        Food_Bar.m_default = GREEN;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
-    }
-    else
-    {
-#ifdef USE_TILE_LOCAL
-        Food_Bar.m_default = LIGHTGREEN;
-#else
-        Food_Bar.m_default = LIGHTGREEN;
-#endif
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
-    }
-
-#ifdef TOUCH_UI
-    if (tiles.is_using_small_layout())
-        Contam_Bar.vdraw(6, 10, food, max_food);
-    else
-#endif
-    Food_Bar.draw(19, y, food, max_food);
 }
 
 static void _print_stats_hp(int x, int y)
@@ -1262,11 +1218,6 @@ static void _redraw_title()
 
 void print_stats()
 {
-    int temp = (you.species == SP_LAVA_ORC) ? 1 : 0;
-    int temp_pos = 5;
-    int ac_pos = temp_pos + temp;
-    int ev_pos = temp_pos + temp + 1;
-
     cursor_control coff(false);
     textcolour(LIGHTGREY);
 
@@ -1302,48 +1253,62 @@ void print_stats()
         you.redraw_title = false;
         _redraw_title();
     }
+    int row = 3;
     if (you.redraw_hit_points)
     {
         you.redraw_hit_points = false;
-        _print_stats_hp(1, 3);
+        _print_stats_hp(1, row);
     }
+    row++;
     if (you.redraw_stamina_points)
     {
         you.redraw_stamina_points = false;
-        _print_stats_sp(1, 4);
+        _print_stats_sp(1, row);
     }
+    row++;
     if (you.redraw_magic_points)
     {
         you.redraw_magic_points = false;
-        _print_stats_mp(1, 5);
+        _print_stats_mp(1, row);
     }
-    _print_stats_food(1, 6);
-    if (you.redraw_temperature)
+    row++;
+    if (you.species == SP_LAVA_ORC)
     {
-        you.redraw_temperature = false;
-        _print_stats_temperature(1, temp_pos);
+        if (you.redraw_temperature)
+        {
+            you.redraw_temperature = false;
+            _print_stats_temperature(1, row);
+        }
+        row++;
     }
+    const int stat_row = row;
+    const int ac_row = row;
     if (you.redraw_armour_class)
     {
         you.redraw_armour_class = false;
-        _print_stats_ac(1, ac_pos);
+        _print_stats_ac(1, ac_row);
     }
+    row++;
+    const int ev_row = row;
     if (you.redraw_evasion)
     {
         you.redraw_evasion = false;
-        _print_stats_ev(1, ev_pos);
+        _print_stats_ev(1, ev_row);
     }
 
+    row++;
     for (int i = 0; i < NUM_STATS; ++i)
         if (you.redraw_stats[i])
         {
-            _print_stat(static_cast<stat_type>(i), 19, 5 + i + temp);
+            _print_stat(static_cast<stat_type>(i), 19, stat_row + i);
         }
     you.redraw_stats.init(false);
 
+    row++;
+    const int exp_row = row;
     if (you.redraw_experience)
     {
-        CGOTOXY(1, 8 + temp, GOTO_STAT);
+        CGOTOXY(1, exp_row, GOTO_STAT);
         textcolour(Options.status_caption_colour);
         CPRINTF("XL: ");
         textcolour(HUD_VALUE_COLOUR);
@@ -1360,22 +1325,23 @@ void print_stats()
         you.redraw_experience = false;
     }
 
-    int yhack = temp;
-
+    row++;
+    const int gold_row = row;
     // Line 9 is Gold and Turns
 #ifdef USE_TILE_LOCAL
     if (!tiles.is_using_small_layout())
 #endif
     {
         // Increase y-value for all following lines.
-        yhack++;
-        CGOTOXY(1+6, 8 + yhack, GOTO_STAT);
+        CGOTOXY(1+6, gold_row, GOTO_STAT);
         if (you.duration[DUR_GOZAG_GOLD_AURA])
             textcolour(LIGHTBLUE);
         else
             textcolour(HUD_VALUE_COLOUR);
         CPRINTF("%-6d", you.gold);
     }
+    row++;
+    const int wield_row = row;
 
     if (you.wield_change)
     {
@@ -1389,7 +1355,7 @@ void print_stats()
         // Also, it's a little bogus to change simulation state in
         // render code. We should find a better place for this.
         you.m_quiver.on_weapon_changed();
-        _print_stats_wp(9 + yhack);
+        _print_stats_wp(wield_row);
     }
     you.wield_change  = false;
 
@@ -1397,17 +1363,21 @@ void print_stats()
     {
         // There are no circumstances under which Felids could quiver something.
         // Reduce line counter for status display.
-        yhack -= 1;
     }
     else if (you.redraw_quiver || you.wield_change)
-        _print_stats_qv(10 + yhack);
+    {
+        row++;
+        const int quiver_row = row;
+        _print_stats_qv(quiver_row);
+    }
 
     you.redraw_quiver = false;
 
+    row++;
     if (you.redraw_status_lights)
     {
         you.redraw_status_lights = false;
-        _print_status_lights(11 + yhack);
+        _print_status_lights(row);
     }
     textcolour(LIGHTGREY);
 

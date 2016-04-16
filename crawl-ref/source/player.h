@@ -125,6 +125,7 @@ public:
     uint8_t max_level;
     int hit_points_regeneration;
     int magic_points_regeneration;
+    int stamina_points_regeneration;
     unsigned int experience;
     unsigned int total_experience; // Unaffected by draining. Used for skill cost.
     int experience_level;
@@ -419,6 +420,8 @@ public:
 
     // normally 1, anything else alters how the next potion or scroll works, amplifying or reversing it's effects.
     int amplification;
+    exertion_mode exertion;
+
     // the deepest the player has been
     int max_exp;
 
@@ -1025,6 +1028,7 @@ bool enough_hp(int minimum, bool suppress_msg, bool abort_macros = true);
 bool enough_mp(int minimum, bool suppress_msg, bool abort_macros = true);
 
 void calc_hp();
+void calc_sp();
 void calc_mp();
 void recalc_and_scale_hp();
 
@@ -1032,6 +1036,9 @@ void dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
 void dec_mp(int mp_loss, bool silent = false);
 void drain_mp(int mp_loss);
 
+void maybe_consume_stamina(int factor = 1);
+void dec_sp(int sp_loss = 1, bool special = false);
+void inc_sp(int sp_gain = 1, bool silent = false);
 void inc_mp(int mp_gain, bool silent = false);
 void inc_hp(int hp_gain);
 void flush_mp();
@@ -1049,11 +1056,13 @@ void deflate_hp(int new_level, bool floor);
 void set_hp(int new_amount);
 
 int get_real_hp(bool trans, bool rotted = false, bool adjust_for_difficulty = true);
-int get_real_mp(bool include_items);
+int get_real_sp(bool include_items = true);
+int get_real_mp(bool include_items = true);
 
 int get_contamination_level();
 string describe_contamination(int level);
 
+void set_sp(int new_amount);
 void set_mp(int new_amount);
 
 bool player_regenerates_hp();
@@ -1109,6 +1118,9 @@ bool need_expiration_warning(dungeon_feature_type feat);
 bool need_expiration_warning(duration_type dur, coord_def p = you.pos());
 bool need_expiration_warning(coord_def p = you.pos());
 
+bool player_is_tired(bool silent = false);
+bool player_is_very_tired(bool silent = false);
+void exert_toggle(exertion_mode new_exertion);
 void count_action(caction_type type, int subtype = 0);
 bool player_has_orb();
 bool player_on_orb_run();

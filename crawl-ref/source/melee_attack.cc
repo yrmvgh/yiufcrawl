@@ -1489,6 +1489,12 @@ int melee_attack::player_apply_final_multipliers(int damage)
     if (you.duration[DUR_CONFUSING_TOUCH] && wpn_skill == SK_UNARMED_COMBAT)
         return 0;
 
+    if (you.exertion == EXERT_POWER)
+        damage = div_rand_round(damage * 3, 2);
+
+    if (you.exertion == EXERT_CAREFUL)
+        damage = div_rand_round(damage * 3, 4);
+
     return damage;
 }
 
@@ -2261,6 +2267,14 @@ int melee_attack::calc_to_hit(bool random)
         mhit += maybe_random2(get_form()->unarmed_hit_bonus, random);
     }
 
+    if (attacker->is_player())
+    {
+        if (you.exertion == EXERT_POWER)
+            mhit = div_rand_round(mhit * 3, 4);
+        if (you.exertion == EXERT_CAREFUL)
+            mhit = div_rand_round(mhit * 3, 2);
+    }
+
     return mhit;
 }
 
@@ -2741,25 +2755,29 @@ void melee_attack::mons_apply_attack_flavour()
         if (!defender->can_bleed())
             break;
 
-        // Disallow draining of summoned monsters since they can't bleed.
-        // XXX: Is this too harsh?
-        if (defender->is_summoned())
-            break;
-
         if (defender->res_negative_energy())
             break;
 
         if (defender->stat_hp() < defender->stat_maxhp())
         {
-        	const int healing = 1 + random2(damage_done);
-            if (attacker->heal(healing) && needs_message)
+            if (!attacker->is_player() || !player_is_very_tired())
             {
-                mprf("%s %s strength from %s injuries! (%d)",
-                     atk_name(DESC_THE).c_str(),
-                     attacker->conj_verb("draw").c_str(),
-                     def_name(DESC_ITS).c_str(),
-					 healing
-					 );
+                const int healing = 1 + random2(damage_done);
+                if (attacker->heal(healing))
+                {
+                    if (needs_message)
+                    {
+                        mprf("%s %s strength from %s injuries! (%d)",
+                             atk_name(DESC_THE).c_str(),
+                             attacker->conj_verb("draw").c_str(),
+                             def_name(DESC_ITS).c_str(),
+                             healing
+                        );
+                    }
+                }
+
+                if (attacker->is_player())
+                    dec_sp(1, true);
             }
         }
         break;

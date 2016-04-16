@@ -49,25 +49,35 @@ static void _heal_from_food(int hp_amt);
 void make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
-    if (crawl_state.disables[DIS_HUNGER])
-        return;
+    if (you.species == SP_VAMPIRE)
+    {
+//        if (crawl_state.disables[DIS_HUNGER])
+//            return;
 
-    if (you_foodless())
-        return;
+//        if (you_foodless())
+//            return;
 
-    if (magic)
-        hunger_amount = calc_hunger(hunger_amount);
+        if (magic)
+            hunger_amount = calc_hunger(hunger_amount);
 
-    if (hunger_amount == 0 && !suppress_msg)
-        return;
+        if (hunger_amount == 0 && !suppress_msg)
+            return;
 
-    you.hunger -= hunger_amount;
+        you.hunger -= hunger_amount;
 
-    // So we don't get two messages, ever.
-    bool state_message = food_change();
+        // So we don't get two messages, ever.
+        bool state_message = food_change();
 
-    if (!suppress_msg && !state_message)
-        _describe_food_change(-hunger_amount);
+        if (!suppress_msg && !state_message)
+            _describe_food_change(-hunger_amount);
+
+    }
+    else
+    {
+        const int sp_loss = div_rand_round(hunger_amount, 10);
+        dec_sp(sp_loss, true);
+    }
+
 }
 
 // Must match the order of hunger_state_t enums
@@ -988,6 +998,11 @@ static void _eat_chunk(item_def& food)
 static void _eating(item_def& food)
 {
     if (food.sub_type == FOOD_FRUIT)
+    {
+        int amount = 50;
+        inc_sp(amount);
+        mprf("That was refreshing! (sp+%d)", amount);
+    }
 
     /*
     int food_value = ::food_value(food);

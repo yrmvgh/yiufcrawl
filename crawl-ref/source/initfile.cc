@@ -1133,6 +1133,9 @@ void game_options::reset_options()
     hp_colour.clear();
     hp_colour.emplace_back(50, YELLOW);
     hp_colour.emplace_back(25, RED);
+    sp_colour.clear();
+    sp_colour.emplace_back(50, YELLOW);
+    sp_colour.emplace_back(25, RED);
     mp_colour.clear();
     mp_colour.emplace_back(50, YELLOW);
     mp_colour.emplace_back(25, RED);
@@ -3289,6 +3292,46 @@ void game_options::read_option_line(const string &str, bool runscript)
         }
         stable_sort(hp_colour.begin(), hp_colour.end(), _first_greater);
     }
+    else if (key == "sp_color" || key == "sp_colour")
+    {
+        if (plain)
+            sp_colour.clear();
+
+        vector<string> thesplit = split_string(",", field);
+        for (unsigned i = 0; i < thesplit.size(); ++i)
+        {
+            vector<string> insplit = split_string(":", thesplit[i]);
+            int sp_percent = 100;
+
+            if (insplit.empty() || insplit.size() > 2
+                || insplit.size() == 1 && i != 0)
+            {
+                report_error("Bad sp_colour string: %s\n", field.c_str());
+                break;
+            }
+
+            if (insplit.size() == 2)
+                sp_percent = atoi(insplit[0].c_str());
+
+            const string colstr = insplit[(insplit.size() == 1) ? 0 : 1];
+            const int scolour = str_to_colour(colstr);
+            if (scolour > 0)
+            {
+                pair<int, int> entry(sp_percent, scolour);
+                // We do not treat prepend differently since we will be sorting.
+                if (minus_equal)
+                    remove_matching(sp_colour, entry);
+                else
+                    sp_colour.push_back(entry);
+            }
+            else
+            {
+                report_error("Bad sp_colour: %s", colstr.c_str());
+                break;
+            }
+        }
+        stable_sort(sp_colour.begin(), sp_colour.end(), _first_greater);
+    }
     else if (key == "mp_color" || key == "mp_colour")
     {
         if (plain)
@@ -4700,6 +4743,7 @@ void game_options::write_webtiles_options(const string& name)
     tiles.json_open_object(name);
 
     _write_colour_list(Options.hp_colour, "hp_colour");
+    _write_colour_list(Options.sp_colour, "sp_colour");
     _write_colour_list(Options.mp_colour, "mp_colour");
     _write_colour_list(Options.stat_colour, "stat_colour");
 

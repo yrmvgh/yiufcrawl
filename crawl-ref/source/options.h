@@ -271,6 +271,7 @@ public:
     int         sc_format;       // Format for score entries
 
     vector<pair<int, int> > hp_colour;
+    vector<pair<int, int> > sp_colour;
     vector<pair<int, int> > mp_colour;
     vector<pair<int, int> > stat_colour;
     vector<int> enemy_hp_colour;

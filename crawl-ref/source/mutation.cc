@@ -134,6 +134,7 @@ static const int conflict[][3] =
     { MUT_SLOW_REGENERATION,   MUT_NO_DEVICE_HEAL,         1},
     { MUT_ROBUST,              MUT_FRAIL,                  1},
     { MUT_HIGH_MAGIC,          MUT_LOW_MAGIC,              1},
+    { MUT_HIGH_STAMINA,        MUT_LOW_STAMINA,            1},
     { MUT_WILD_MAGIC,          MUT_SUBDUED_MAGIC,          1},
     { MUT_CARNIVOROUS,         MUT_HERBIVOROUS,            1},
     { MUT_SLOW_METABOLISM,     MUT_FAST_METABOLISM,        1},
@@ -1453,6 +1454,11 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         case MUT_ROBUST:
         case MUT_RUGGED_BROWN_SCALES:
             calc_hp();
+            break;
+
+        case MUT_HIGH_STAMINA:
+        case MUT_LOW_STAMINA:
+            calc_sp();
             break;
 
         case MUT_LOW_MAGIC:
