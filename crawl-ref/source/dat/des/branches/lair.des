@@ -1951,24 +1951,6 @@ t.......t
  tt@@@tt
 ENDMAP
 
-NAME: grunt_forest_small_clearing_treed
-TAGS: transparent patrolling
-DEPTH: Lair
-MONS: plant / bush
-SUBST: t = t..
-KPROP: * = no_tele_into
-MAP
- tt@@@tt
-t.......t
-t.1...1.t
-@..ttt..@
-@..t*t..@
-@..ttt..@
-t.1...1.t
-t.......t
- tt@@@tt
-ENDMAP
-
 # Prviously large_clearing_fruit, _statues, _slash, _guards
 NAME:    grunt_forest_large_clearings
 TAGS:    transparent
@@ -2001,36 +1983,6 @@ tt.........w"w...tt
  t.......'..www..t
  tt..........wwwtt
   t...........wwt
-  ttt.........ttt
-    ttt.....ttt
-      tt@@@tt
-ENDMAP
-
-NAME:  grunt_forest_large_clearing_hut
-TAGS:  transparent
-DEPTH: Lair
-MONS:  plant / bush, spriggan / centaur w:2
-SUBST: t = t..
-SUBST: . = 1 .:90
-COLOUR: -*29 = lightgrey
-FTILE:  -*29 = floor_normal
-MAP
-      tt@@@tt
-    ttt.....ttt
-  ttt.........ttt
-  t.............t
- tt.............tt
- t...............t
-tt...............tt
-t......ccccc......t
-@......c-9*c......@
-@......+-*2c......@
-@......c-9*c......@
-t......ccccc......t
-tt...............tt
- t...............t
- tt.............tt
-  t.............t
   ttt.........ttt
     ttt.....ttt
       tt@@@tt
