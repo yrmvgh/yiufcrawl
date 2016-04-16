@@ -316,7 +316,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
         switch (player.species)
         {
             case "Djinni":
-                do_contam = true;
+                // do_contam = true;
                 break;
             case "Lava Orc":
                 do_temperature = true;
@@ -359,8 +359,10 @@ function ($, comm, enums, map_knowledge, messages, options) {
             $("#stats_real_hp_max").text("");
 
         percentage_color("hp");
+        percentage_color("sp");
         percentage_color("mp");
         update_bar("hp");
+        update_bar("sp");
         if (do_contam)
             update_bar_contam();
         else
