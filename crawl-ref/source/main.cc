@@ -3591,6 +3591,8 @@ static void _move_player(coord_def move)
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
 
+        maybe_consume_stamina(2);
+
         if (you.running && you.running.travel_speed)
         {
             you.time_taken = max(you.time_taken,

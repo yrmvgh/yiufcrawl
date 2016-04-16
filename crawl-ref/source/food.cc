@@ -49,6 +49,9 @@ static void _heal_from_food(int hp_amt);
 void make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
+    if (hunger_amount <= 0)
+        return;
+
     if (you.species == SP_VAMPIRE)
     {
 //        if (crawl_state.disables[DIS_HUNGER])
@@ -74,7 +77,7 @@ void make_hungry(int hunger_amount, bool suppress_msg,
     }
     else
     {
-        const int sp_loss = div_rand_round(hunger_amount, 10);
+        const int sp_loss = div_rand_round(hunger_amount, 30);
         dec_sp(sp_loss, true);
     }
 

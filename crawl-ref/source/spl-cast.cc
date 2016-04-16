@@ -1454,7 +1454,7 @@ spret_type your_spells(spell_type spell, int powc,
 
     int potion = -1;
 
-    maybe_consume_stamina();
+    maybe_consume_stamina(2);
     if (!powc)
         powc = calc_spell_power(spell, true);
 
