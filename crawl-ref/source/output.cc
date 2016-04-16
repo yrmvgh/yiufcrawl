@@ -479,6 +479,25 @@ static colour_bar MP_Bar(LIGHTBLUE, BLUE, MAGENTA, DARKGREY);
 colour_bar Food_Bar(DARKGREY, DARKGREY, DARKGREY, DARKGREY);
 colour_bar Temp_Bar(RED, LIGHTRED, LIGHTBLUE, DARKGREY);
 
+int hp_row = 0;
+int sp_row = 0;
+int mp_row = 0;
+int temp_row = 0;
+int stat_row = 0;
+int ac_row = 0;
+int ev_row = 0;
+int sh_row = 0;
+int str_row = 0;
+int int_row = 0;
+int dex_row = 0;
+int xl_row = 0;
+int place_row = 0;
+int gold_row = 0;
+int time_row = 0;
+int wield_row = 0;
+int quiver_row = 0;
+int status_row = 0;
+
 // ----------------------------------------------------------------------
 // Status display
 // ----------------------------------------------------------------------
@@ -551,10 +570,7 @@ void update_turn_count()
         return;
     }
 
-    const int yhack = 0
-                    + (you.species == SP_LAVA_ORC)
-                    ;
-    CGOTOXY(19+6, 9 + yhack, GOTO_STAT);
+    CGOTOXY(19+6, time_row, GOTO_STAT);
 
     // Show the turn count starting from 1. You can still quit on turn 0.
     textcolour(HUD_VALUE_COLOUR);
@@ -879,7 +895,7 @@ static void _print_stats_wp(int y)
     textcolour(LIGHTGREY);
 }
 
-static void _print_stats_qv(int y)
+static void _print_stats_qv()
 {
     int col;
     string text;
@@ -913,7 +929,7 @@ static void _print_stats_qv(int y)
             text = "Nothing quivered";
         }
     }
-    CGOTOXY(1, y, GOTO_STAT);
+    CGOTOXY(1, quiver_row, GOTO_STAT);
     textcolour(HUD_CAPTION_COLOUR);
     CPRINTF("%c) ", hud_letter);
     textcolour(col);
@@ -1012,7 +1028,7 @@ static void _get_status_lights(vector<status_light>& out)
             _add_status_light_to_out(status, out);
 }
 
-static void _print_status_lights(int y)
+static void _print_status_lights()
 {
     vector<status_light> lights;
     static int last_number_of_lights = 0;
@@ -1021,10 +1037,10 @@ static void _print_status_lights(int y)
         return;
     last_number_of_lights = lights.size();
 
-    size_t line_cur = y;
+    size_t line_cur = status_row;
     const size_t line_end = crawl_view.hudsz.y+1;
 
-    CGOTOXY(1, line_cur, GOTO_STAT);
+    CGOTOXY(1, status_row, GOTO_STAT);
 #ifdef ASSERTS
     if (wherex() != crawl_view.hudp.x)
     {
@@ -1116,7 +1132,7 @@ static void _draw_wizmode_flag(const char *word)
 {
     textcolour(LIGHTMAGENTA);
     // 3+ for the " **"
-    CGOTOXY(1 + crawl_view.hudsz.x - (3 + strlen(word)), 1, GOTO_STAT);
+    CGOTOXY(1 + crawl_view.hudsz.x - (3 + strlen(word)) - 2, 1, GOTO_STAT);
     CPRINTF(" *%s*", word);
 }
 
@@ -1253,50 +1269,40 @@ void print_stats()
         you.redraw_title = false;
         _redraw_title();
     }
-    int row = 3;
     if (you.redraw_hit_points)
     {
         you.redraw_hit_points = false;
-        _print_stats_hp(1, row);
+        _print_stats_hp(1, hp_row);
     }
-    row++;
     if (you.redraw_stamina_points)
     {
         you.redraw_stamina_points = false;
-        _print_stats_sp(1, row);
+        _print_stats_sp(1, sp_row);
     }
-    row++;
     if (you.redraw_magic_points)
     {
         you.redraw_magic_points = false;
-        _print_stats_mp(1, row);
+        _print_stats_mp(1, mp_row);
     }
-    row++;
     if (you.species == SP_LAVA_ORC)
     {
         if (you.redraw_temperature)
         {
             you.redraw_temperature = false;
-            _print_stats_temperature(1, row);
+            _print_stats_temperature(1, temp_row);
         }
-        row++;
     }
-    const int stat_row = row;
-    const int ac_row = row;
     if (you.redraw_armour_class)
     {
         you.redraw_armour_class = false;
         _print_stats_ac(1, ac_row);
     }
-    row++;
-    const int ev_row = row;
     if (you.redraw_evasion)
     {
         you.redraw_evasion = false;
         _print_stats_ev(1, ev_row);
     }
 
-    row++;
     for (int i = 0; i < NUM_STATS; ++i)
         if (you.redraw_stats[i])
         {
@@ -1304,11 +1310,9 @@ void print_stats()
         }
     you.redraw_stats.init(false);
 
-    row++;
-    const int exp_row = row;
     if (you.redraw_experience)
     {
-        CGOTOXY(1, exp_row, GOTO_STAT);
+        CGOTOXY(1, xl_row, GOTO_STAT);
         textcolour(Options.status_caption_colour);
         CPRINTF("XL: ");
         textcolour(HUD_VALUE_COLOUR);
@@ -1325,9 +1329,6 @@ void print_stats()
         you.redraw_experience = false;
     }
 
-    row++;
-    const int gold_row = row;
-    // Line 9 is Gold and Turns
 #ifdef USE_TILE_LOCAL
     if (!tiles.is_using_small_layout())
 #endif
@@ -1340,8 +1341,6 @@ void print_stats()
             textcolour(HUD_VALUE_COLOUR);
         CPRINTF("%-6d", you.gold);
     }
-    row++;
-    const int wield_row = row;
 
     if (you.wield_change)
     {
@@ -1359,25 +1358,19 @@ void print_stats()
     }
     you.wield_change  = false;
 
-    if (you.species == SP_FELID)
+    if (you.species != SP_FELID)
     {
-        // There are no circumstances under which Felids could quiver something.
-        // Reduce line counter for status display.
-    }
-    else if (you.redraw_quiver || you.wield_change)
-    {
-        row++;
-        const int quiver_row = row;
-        _print_stats_qv(quiver_row);
+        if (you.redraw_quiver || you.wield_change)
+        {
+            _print_stats_qv();
+            you.redraw_quiver = false;
+        }
     }
 
-    you.redraw_quiver = false;
-
-    row++;
     if (you.redraw_status_lights)
     {
         you.redraw_status_lights = false;
-        _print_status_lights(row);
+        _print_status_lights();
     }
     textcolour(LIGHTGREY);
 
@@ -1404,10 +1397,7 @@ static string _level_description_string_hud()
 
 void print_stats_level()
 {
-    int ypos = 8;
-    if (you.species == SP_LAVA_ORC)
-        ypos++;
-    cgotoxy(19, ypos, GOTO_STAT);
+    cgotoxy(19, place_row, GOTO_STAT);
     textcolour(HUD_CAPTION_COLOUR);
     CPRINTF("Place: ");
 
@@ -1421,38 +1411,38 @@ void print_stats_level()
 
 void draw_border()
 {
+    int row = 2;
+    hp_row = ++row;
+    sp_row = ++row;
+    mp_row = ++row;
+    if (you.species == SP_LAVA_ORC)
+        temp_row = ++row;
+    ac_row = str_row = stat_row = ++row;
+    ev_row = int_row = ++row;
+    sh_row = dex_row = ++row;
+    xl_row = place_row = ++row;
+    gold_row = time_row = ++row;
+    wield_row = ++row;
+    quiver_row = ++row;
+    status_row = ++row;
+
     textcolour(HUD_CAPTION_COLOUR);
     clrscr();
 
     textcolour(Options.status_caption_colour);
 
-    int temp = (you.species == SP_LAVA_ORC) ? 1 : 0;
-//    int hp_pos = 3;
-    int mp_pos = 4;
-    int ac_pos = 5 + temp;
-    int ev_pos = 6 + temp;
-    int sh_pos = 7 + temp;
-    int str_pos = ac_pos;
-    int int_pos = ev_pos;
-    int dex_pos = sh_pos;
+    CGOTOXY(1, mp_row, GOTO_STAT);
+    CGOTOXY(1, ac_row, GOTO_STAT); CPRINTF("AC:");
+    CGOTOXY(1, ev_row, GOTO_STAT); CPRINTF("EV:");
+    CGOTOXY(1, sh_row, GOTO_STAT); CPRINTF("SH:");
 
-    //CGOTOXY(1, 3, GOTO_STAT); CPRINTF("Hp:");
-    CGOTOXY(1, mp_pos, GOTO_STAT);
-    if (false && you.species == SP_DJINNI)
-        CPRINTF("Food:");
-    CGOTOXY(1, ac_pos, GOTO_STAT); CPRINTF("AC:");
-    CGOTOXY(1, ev_pos, GOTO_STAT); CPRINTF("EV:");
-    CGOTOXY(1, sh_pos, GOTO_STAT); CPRINTF("SH:");
+    CGOTOXY(19, str_row, GOTO_STAT); CPRINTF("Str:");
+    CGOTOXY(19, int_row, GOTO_STAT); CPRINTF("Int:");
+    CGOTOXY(19, dex_row, GOTO_STAT); CPRINTF("Dex:");
 
-    CGOTOXY(19, str_pos, GOTO_STAT); CPRINTF("Str:");
-    CGOTOXY(19, int_pos, GOTO_STAT); CPRINTF("Int:");
-    CGOTOXY(19, dex_pos, GOTO_STAT); CPRINTF("Dex:");
-
-    int yhack = temp;
-    CGOTOXY(1, 9 + yhack, GOTO_STAT); CPRINTF("Gold:");
-    CGOTOXY(19, 9 + yhack, GOTO_STAT);
+    CGOTOXY(1, gold_row, GOTO_STAT); CPRINTF("Gold:");
+    CGOTOXY(19, time_row, GOTO_STAT);
     CPRINTF(Options.show_game_turns ? "Time:" : "Turn:");
-    // Line 8 is exp pool, Level
 }
 
 void redraw_screen()

@@ -179,6 +179,10 @@ enum jewellery_type
     RING_ICE,
     NUM_RINGS,                         //   keep as last ring; should not overlap
                                        //   with amulets!
+	// remove:
+	RING_TELEPORT_CONTROL,
+	RING_REGENERATION,
+
     // RINGS after num_rings are for unique types for artefacts
     //   (no non-artefact version).
     // Currently none.
@@ -197,7 +201,11 @@ enum jewellery_type
     AMU_REFLECTION,
     AMU_REGENERATION,
 
-    NUM_JEWELLERY
+    NUM_JEWELLERY,
+	// to remove
+	AMU_THE_GOURMAND,
+	AMU_CONSERVATION,
+	AMU_CONTROLLED_FLIGHT,
 };
 
 enum launch_retval

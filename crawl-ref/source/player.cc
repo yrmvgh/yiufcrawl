@@ -1312,6 +1312,9 @@ int player_hunger_rate(bool temp)
     if (you.duration[DUR_FLIGHT] && you.species != SP_DJINNI)
         hunger <<= 2;
 
+    if (you.species != SP_VAMPIRE)
+        hunger = 0;
+
     return hunger;
 }
 
@@ -4181,15 +4184,35 @@ bool player_is_very_tired(bool silent)
     return is_tired;
 }
 
+void set_exertion(const exertion_mode new_exertion)
+{
+    you.exertion = new_exertion;
+    switch(new_exertion)
+    {
+        case EXERT_POWER:
+            you.duration[DUR_POWER] = 1;
+            break;
+        case EXERT_CAREFUL:
+            you.duration[DUR_CARE] = 1;
+            break;
+        default:
+            you.duration[DUR_POWER] = 0;
+            you.duration[DUR_CARE] = 0;
+            break;
+    }
+    you.redraw_status_lights = true;
+}
+
 void exert_toggle(exertion_mode new_exertion)
 {
     if(you.exertion == EXERT_NORMAL)
     {
         if (!player_is_tired())
-            you.exertion = new_exertion;
+            set_exertion(new_exertion)
+            ;
     }
     else
-        you.exertion = EXERT_NORMAL;
+        set_exertion(EXERT_NORMAL);
 }
 
 /*
@@ -4241,7 +4264,7 @@ void dec_sp(int sp_loss, bool special)
     if (you.sp < 0)
     {
         you.sp = 0;
-        you.exertion = EXERT_NORMAL;
+        set_exertion(EXERT_NORMAL);
     }
 
     you.redraw_stamina_points = true;

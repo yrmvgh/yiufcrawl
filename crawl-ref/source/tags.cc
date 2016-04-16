@@ -3196,7 +3196,7 @@ static void tag_read_you(reader &th)
     you.amplification = unmarshallInt(th);
     if(you.amplification > 100 || you.amplification == 0)
         you.amplification = 1;
-    you.exertion = (exertion_mode)unmarshallInt(th);
+    set_exertion((exertion_mode)unmarshallInt(th));
     you.max_exp = unmarshallInt(th);
 
 #if TAG_MAJOR_VERSION == 34

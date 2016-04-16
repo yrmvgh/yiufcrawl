@@ -1945,6 +1945,8 @@ enum duration_type
     DUR_DOOM_HOWL_IMMUNITY,
 #endif
     DUR_VERTIGO,
+    DUR_POWER,
+    DUR_CARE,
     NUM_DURATIONS
 };
 
