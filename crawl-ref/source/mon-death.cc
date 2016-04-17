@@ -2665,8 +2665,9 @@ item_def* monster_die(monster* mons, killer_type killer,
         _give_experience(player_xp, monster_xp, killer, killer_index, pet_kill,
                          was_visible);
     }
-    
-    maybe_drop_monster_hide(*corpse);
+
+    if (corpse && corpse->is_valid())
+        maybe_drop_monster_hide(*corpse);
 
     return corpse;
 }
