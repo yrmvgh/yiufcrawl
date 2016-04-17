@@ -2048,7 +2048,7 @@ int player_movement_speed()
 
     if (you.exertion == EXERT_POWER)
         for (int i = 0; i < player_mutation_level(MUT_FAST); i++)
-            mv = mv * 3 / 4;
+            mv = mv * 4 / 5;
 
     for (int i = 0; i < player_mutation_level(MUT_SLOW); i++)
         mv = mv * 4 / 3;
