@@ -55,7 +55,7 @@ bool curse_a_slot(int power);
 void curse_slot(int slot_to_curse, int power);
 bool curse_an_item(int power, bool ignore_holy_wrath = false);
 void do_curse_item(item_def &item, int power, bool quiet = true);
-void do_uncurse_item(item_def &item, int power, bool no_ash = false,
+void do_uncurse_item(item_def &item, int power,
                      bool check_bondage = true);
 inline constexpr bool item_type_has_curses(object_class_type base_type)
 {
@@ -117,8 +117,7 @@ int wand_charge_value(int type) PURE;
 int wand_max_charges(const item_def &item) PURE;
 bool is_known_empty_wand(const item_def &item) PURE;
 bool is_offensive_wand(const item_def &item) PURE;
-bool is_enchantable_armour(const item_def &arm, bool uncurse,
-                           bool unknown = false) PURE;
+bool is_enchantable_armour(const item_def &arm, bool unknown = false) PURE;
 
 bool is_shield(const item_def &item) PURE;
 bool is_shield_incompatible(const item_def &weapon,

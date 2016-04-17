@@ -37,9 +37,6 @@ string god_name(god_type which_god, bool long_name = false);
 string god_name_jiyva(bool second_name = false);
 god_type str_to_god(const string &name, bool exact = true);
 
-string get_god_likes(god_type which_god, bool verbose = false);
-string get_god_dislikes(god_type which_god, bool verbose = false);
-
 bool active_penance(god_type god);
 bool xp_penance(god_type god);
 void dec_penance(int val);
@@ -91,7 +88,6 @@ int piety_rank(int piety = you.piety);
 int piety_scale(int piety_change);
 bool god_likes_your_god(god_type god, god_type your_god = you.religion);
 bool god_hates_your_god(god_type god, god_type your_god = you.religion);
-bool god_hates_cannibalism(god_type god);
 bool god_hates_killing(god_type god, const monster* mon);
 bool god_hates_eating(god_type god, monster_type mc);
 

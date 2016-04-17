@@ -17,6 +17,7 @@
 #include "attitude-change.h"
 #include "bloodspatter.h"
 #include "butcher.h"
+#include "chardump.h"
 #include "cloud.h"
 #include "coordit.h"
 #include "delay.h"
@@ -159,7 +160,7 @@ bool melee_attack::handle_phase_attempted()
                 count_action(CACT_MELEE, WPN_STAFF);
         }
         else
-            count_action(CACT_MELEE, -1);
+            count_action(CACT_MELEE, -1, -1); // unarmed subtype/auxtype
     }
     else
     {
@@ -263,6 +264,8 @@ bool melee_attack::handle_phase_dodged()
                  attack_strength_punctuation(damage_done).c_str());
         }
     }
+    if (defender->is_player())
+        count_action(CACT_DODGE, DODGE_EVASION);
 
     if (attacker != defender && adjacent(defender->pos(), attack_position))
     {
@@ -1295,6 +1298,8 @@ bool melee_attack::player_aux_apply(unarmed_attack_type atk)
 {
     did_hit = true;
 
+    count_action(CACT_MELEE, -1, atk); // aux_attack subtype/auxtype
+
     aux_damage  = player_aux_stat_modify_damage(aux_damage);
 
     aux_damage  = random2(aux_damage);
@@ -2119,7 +2124,7 @@ void melee_attack::apply_staff_damage()
     if (!weapon)
         return;
 
-    if (player_mutation_level(MUT_NO_ARTIFICE))
+    if (attacker->is_player() && player_mutation_level(MUT_NO_ARTIFICE))
         return;
 
     if (weapon->base_type != OBJ_STAVES)
@@ -2199,6 +2204,9 @@ void melee_attack::apply_staff_damage()
                     defender->name(DESC_THE).c_str(),
 					special_damage);
             special_damage_flavour = BEAM_FIRE;
+
+            if (defender->is_player())
+                maybe_melt_player_enchantments(BEAM_FIRE, special_damage);
         }
         break;
 

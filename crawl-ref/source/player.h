@@ -1122,7 +1122,7 @@ bool player_is_tired(bool silent = false);
 bool player_is_very_tired(bool silent = false);
 void set_exertion(const exertion_mode new_exertion);
 void exert_toggle(exertion_mode new_exertion);
-void count_action(caction_type type, int subtype = 0);
+
 bool player_has_orb();
 bool player_on_orb_run();
 

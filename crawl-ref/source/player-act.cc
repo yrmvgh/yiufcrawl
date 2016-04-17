@@ -826,7 +826,7 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
     else if (player_is_tired(true))
         msg = "You are too tired to berserk now.";
     else if (duration[DUR_DEATHS_DOOR])
-        msg = "Your body is effectively dead and in no shape for a blood rage.";
+        msg = "You can't enter a blood rage from death's door.";
     else if (beheld() && !player_equip_unrand(UNRAND_DEMON_AXE))
         msg = "You are too mesmerised to rage.";
     else if (afraid())

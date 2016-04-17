@@ -1115,8 +1115,6 @@ static void _mons_fire_wand(monster& mons, item_def &wand, bolt &beem,
 
 static void _rod_fired_pre(monster& mons)
 {
-    make_mons_stop_fleeing(&mons);
-
     if (!simple_monster_message(&mons, " zaps a rod.")
         && !silenced(you.pos()))
     {
@@ -1189,6 +1187,8 @@ static bool _handle_rod(monster &mons, bolt &beem)
     if (!you.see_cell(mons.pos())
         || mons.asleep()
         || mons_is_confused(&mons)
+        || mons_is_fleeing(&mons)
+        || mons.pacified()
         || mons_itemuse(&mons) < MONUSE_STARTING_EQUIPMENT
         || mons.has_ench(ENCH_SUBMERGED)
         || coinflip()
@@ -1300,6 +1300,8 @@ static bool _handle_wand(monster& mons, bolt &beem)
     //        out of sight of the player [rob]
     if (!you.see_cell(mons.pos())
         || mons.asleep()
+        || mons_is_fleeing(&mons)
+        || mons.pacified()
         || mons_itemuse(&mons) < MONUSE_STARTING_EQUIPMENT
         || mons.has_ench(ENCH_SUBMERGED)
         || x_chance_in_y(3, 4)
@@ -1402,11 +1404,7 @@ static bool _handle_wand(monster& mons, bolt &beem)
 
     if (niceWand || zap)
     {
-        if (!niceWand)
-            make_mons_stop_fleeing(&mons);
-
         _mons_fire_wand(mons, *wand, beem, was_visible, niceWand);
-
         return true;
     }
 
@@ -3473,26 +3471,18 @@ static void _ballisto_on_move(monster& mons, const coord_def& position)
     if (!one_chance_in(4))
         return;
 
-    // try to make a ballistomycete.
-    const beh_type attitude = attitude_creation_behavior(mons.attitude);
+    // Try to make a ballistomycete.
+    beh_type attitude = attitude_creation_behavior(mons.attitude);
+    // Make Fedhas ballistos neutral, so as not to inflict extra piety loss.
+    if (mons_is_god_gift(&mons, GOD_FEDHAS))
+        attitude = BEH_GOOD_NEUTRAL;
+
     monster *plant = create_monster(mgen_data(MONS_BALLISTOMYCETE, attitude,
                                               nullptr, 0, 0, position, MHITNOT,
                                               MG_FORCE_PLACE));
 
     if (!plant)
         return;
-
-    if (mons_is_god_gift(&mons, GOD_FEDHAS))
-    {
-        plant->flags |= MF_NO_REWARD; // XXX: is this needed?
-
-        if (attitude == BEH_FRIENDLY)
-        {
-            plant->flags |= MF_ATT_CHANGE_ATTEMPT;
-
-            mons_make_god_gift(plant, GOD_FEDHAS);
-        }
-    }
 
     // Don't leave mold on squares we place ballistos on
     remove_mold(position);

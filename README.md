@@ -1,10 +1,10 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-Checkout branch v1.2.3 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
+Checkout branch v1.3 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
 
 For those who don't know how to clone from a git repo: install git on your system, then type:
 
-    git clone https://github.com/jeremygurr/dcssca.git -b v1.2.3
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.3
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
 Many of my changes center around increasing the richness of the different species in DCSS. 

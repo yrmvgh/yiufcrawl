@@ -3059,10 +3059,6 @@ static string _monster_spells_description(const monster_info& mi)
     if (mi.type == MONS_PANDEMONIUM_LORD)
         return "It may possess any of a vast number of diabolical powers.\n";
 
-    // Ditto for (a)liches.
-    if (mi.type == MONS_LICH || mi.type == MONS_ANCIENT_LICH)
-        return "It has mastered any of a vast number of powerful spells.\n";
-
     // Show monster spells and spell-like abilities.
     if (!mi.has_spells())
         return "";
@@ -3761,8 +3757,6 @@ void get_monster_db_desc(const monster_info& mi, describe_info &inf,
             inf.body << "emergency, ";
         if (hspell_pass[i].flags & MON_SPELL_NATURAL)
             inf.body << "natural, ";
-        if (hspell_pass[i].flags & MON_SPELL_DEMONIC)
-            inf.body << "demonic, ";
         if (hspell_pass[i].flags & MON_SPELL_MAGICAL)
             inf.body << "magical, ";
         if (hspell_pass[i].flags & MON_SPELL_WIZARD)
