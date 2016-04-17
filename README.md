@@ -56,7 +56,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 * Implement stamina points, alongside magic points and health points
     * three exertion levels
-        * normal mode (press 'e' again when in exertion mode, or 'E' again when in careful mode)
+        * normal mode (press 'c' if in another mode)
             * no stamina cost for most actions
             * movement speed is 1.1 for all species, except naga, which is 1.4
         * power mode (change to this by pressing 'e')

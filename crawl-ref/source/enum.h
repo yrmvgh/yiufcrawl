@@ -1023,6 +1023,7 @@ enum command_type
     CMD_EAT,
     CMD_EXERT_POWER,
     CMD_EXERT_CAREFUL,
+    CMD_EXERT_NORMAL,
     CMD_QUAFF,
     CMD_READ,
     CMD_LOOK_AROUND,
