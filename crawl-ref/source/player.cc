@@ -2696,10 +2696,12 @@ const int _experience_for_this_floor(int multiplier) {
             int how_deep = absdungeon_depth(you.where_are_you, you.depth);
             exp = stepup2(how_deep + 1, 3, 3, 30);
         }
-        exp = max(20, exp) * multiplier;
+        exp *= multiplier;
+        exp = div_rand_round(exp, 300);
+        exp = max(10, exp);
     }
 
-    return div_rand_round(exp, 300);
+    return exp;
 }
 
 const int potion_experience_for_this_floor()
