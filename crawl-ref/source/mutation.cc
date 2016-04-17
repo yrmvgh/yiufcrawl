@@ -1155,6 +1155,9 @@ bool physiology_mutation_conflict(mutation_type mutat)
         }
     }
 
+    if (you.species == SP_KOBOLD && mutat == MUT_MUTATION_RESISTANCE)
+        return true;
+
     return false;
 }
 
