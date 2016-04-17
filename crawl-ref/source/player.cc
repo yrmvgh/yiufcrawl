@@ -3918,8 +3918,8 @@ unsigned int exp_needed(int lev, int exp_apt)
     else
     {
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        const int base = stepup2(lev, 2, 4) * 15;
-        needed_exp = base * apt_factor * apt_factor * apt_factor + 5;
+        const int base = (stepup2(lev, 2, 5) + 5) * 3;
+        needed_exp = base * apt_factor * apt_factor * apt_factor;
     }
     return (unsigned int) needed_exp;
 }
