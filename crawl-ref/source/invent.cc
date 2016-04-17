@@ -1707,6 +1707,7 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
             return true;
         }
 
+        /*
         if (get_weapon_brand(item) == SPWPN_VAMPIRISM
             && you.undead_state() == US_ALIVE
             && !you_foodless()
@@ -1715,6 +1716,7 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
         {
             return true;
         }
+         */
 
         if (is_artefact(item) && artefact_property(item, ARTP_CONTAM))
         {
@@ -2448,6 +2450,7 @@ bool is_consumable(object_class_type type)
 	case OBJ_POTIONS:
 	case OBJ_SCROLLS:
 	case OBJ_FOOD:
+    case OBJ_BOOKS:
 		result = true;
 		break;
 	default:

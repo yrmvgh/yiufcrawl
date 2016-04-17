@@ -165,6 +165,7 @@
 #include "wiz-mon.h"
 #include "wiz-you.h"
 #include "xom.h" // debug_xom_effects()
+// #include "android-project/jni/freetype/include/internal/fttrace.h"
 
 // ----------------------------------------------------------------------
 // Globals whose construction/destruction order needs to be managed
@@ -1912,6 +1913,7 @@ static void _do_rest()
     you.prev_direction.reset();
     if (i_feel_safe())
     {
+        set_exertion(EXERT_NORMAL);
         unsummon_all();
         if ((you.hp == you.hp_max || !player_regenerates_hp())
             && (you.magic_points == you.max_magic_points
@@ -2296,6 +2298,12 @@ void process_command(command_type cmd)
             case CMD_EAT:
                 if (eat_food())
                     you.prev_direction.reset();
+                break;
+            case CMD_EXERT_CAREFUL:
+                exert_toggle(EXERT_CAREFUL);
+                break;
+            case CMD_EXERT_POWER:
+                exert_toggle(EXERT_POWER);
                 break;
             case CMD_FIRE:                 fire_thing();             break;
             case CMD_FORCE_CAST_SPELL:     do_cast_spell_cmd(true);  break;
@@ -2834,6 +2842,8 @@ static bool _cancel_confused_move(bool stationary)
 
 static void _swing_at_target(coord_def move)
 {
+    dec_sp();
+
     you.prev_direction.reset();
     if (you.attribute[ATTR_HELD])
     {
@@ -3578,8 +3588,11 @@ static void _move_player(coord_def move)
             else
                 you.time_taken = you.time_taken * 9 / 10;
         }
+
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
+
+        maybe_consume_stamina(2);
 
         if (you.running && you.running.travel_speed)
         {

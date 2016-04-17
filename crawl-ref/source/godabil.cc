@@ -4378,7 +4378,7 @@ static void _setup_gozag_shop(int index, vector<shop_type> &valid_shops)
     ASSERT(!you.props.exists(make_stringf(GOZAG_SHOPKEEPER_NAME_KEY, index)));
 
     shop_type type = NUM_SHOPS;
-    if (index == 0 && !you_foodless_normally())
+    if (index == 0 && !you_foodless_normally() && false)
         type = SHOP_FOOD;
     else
     {

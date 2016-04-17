@@ -49,25 +49,38 @@ static void _heal_from_food(int hp_amt);
 void make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
-    if (crawl_state.disables[DIS_HUNGER])
+    if (hunger_amount <= 0)
         return;
 
-    if (you_foodless())
-        return;
+    if (you.species == SP_VAMPIRE)
+    {
+//        if (crawl_state.disables[DIS_HUNGER])
+//            return;
 
-    if (magic)
-        hunger_amount = calc_hunger(hunger_amount);
+//        if (you_foodless())
+//            return;
 
-    if (hunger_amount == 0 && !suppress_msg)
-        return;
+        if (magic)
+            hunger_amount = calc_hunger(hunger_amount);
 
-    you.hunger -= hunger_amount;
+        if (hunger_amount == 0 && !suppress_msg)
+            return;
 
-    // So we don't get two messages, ever.
-    bool state_message = food_change();
+        you.hunger -= hunger_amount;
 
-    if (!suppress_msg && !state_message)
-        _describe_food_change(-hunger_amount);
+        // So we don't get two messages, ever.
+        bool state_message = food_change();
+
+        if (!suppress_msg && !state_message)
+            _describe_food_change(-hunger_amount);
+
+    }
+    else
+    {
+        const int sp_loss = div_rand_round(hunger_amount, 30);
+        dec_sp(sp_loss, true);
+    }
+
 }
 
 // Must match the order of hunger_state_t enums
@@ -89,7 +102,7 @@ static constexpr int hunger_threshold[HS_ENGORGED + 1] =
  */
 void lessen_hunger(int satiated_amount, bool suppress_msg, int max)
 {
-    if (you_foodless())
+    if (you.species != SP_VAMPIRE || you_foodless())
         return;
 
     you.hunger += satiated_amount;
@@ -987,6 +1000,14 @@ static void _eat_chunk(item_def& food)
 
 static void _eating(item_def& food)
 {
+    if (food.sub_type == FOOD_FRUIT)
+    {
+        int amount = 50;
+        inc_sp(amount);
+        mprf("That was refreshing! (sp+%d)", amount);
+    }
+
+    /*
     int food_value = ::food_value(food);
     ASSERT(food_value > 0);
 
@@ -996,6 +1017,7 @@ static void _eating(item_def& food)
     start_delay(DELAY_EAT, duration, 0, food.sub_type, duration);
 
     lessen_hunger(food_value, true);
+     */
 }
 
 // Handle messaging at the end of eating.

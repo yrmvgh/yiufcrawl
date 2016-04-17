@@ -1091,6 +1091,82 @@ static const mutation_def mut_data[] =
    "reduced magical capacity (-10% MP)",
 },
 
+{ MUT_STAMINA_EFFICIENT_NORMAL, 1, 3, mutflag::GOOD, false,
+  "stamina efficient",
+
+  {"Normal actions take a little less stamina. (-25%)",
+   "Normal actions take less stamina. (-50%)",
+   "Normal actions take a lot less stamina. (-75%)"},
+
+  {"You use stamina more efficiently.",
+   "You use stamina more efficiently.",
+   "You use stamina more efficiently."},
+
+  {
+      "You use stamina less efficiently.",
+      "You use stamina less efficiently.",
+      "You use stamina less efficiently.",
+  },
+
+  "increased stamina efficiency",
+},
+
+{ MUT_STAMINA_EFFICIENT_SPECIAL, 1, 3, mutflag::GOOD, false,
+  "stamina efficient special",
+
+  {"Advanced actions take a little less stamina. (-25%)",
+   "Advanced actions take less stamina. (-50%)",
+   "Advanced actions take a lot less stamina. (-75%)"},
+
+  {"You use stamina more efficiently for advanced tasks.",
+   "You use stamina more efficiently for advanced tasks.",
+   "You use stamina more efficiently for advanced tasks."},
+
+  {
+   "You use stamina less efficiently for advanced tasks.",
+   "You use stamina less efficiently for advanced tasks.",
+   "You use stamina less efficiently for advanced tasks.",
+  },
+
+  "increased advanced stamina efficiency",
+},
+
+{ MUT_HIGH_STAMINA, 2, 3, mutflag::GOOD, false,
+  "high sp",
+
+  {"You have an increased reservoir of stamina (+33% SP).",
+   "You have a considerably increased reservoir of stamina (+77% SP).",
+   "You have a greatly increased reservoir of stamina (+136% SP)."},
+
+  {"You tire less rapidly.",
+   "You tire less rapidly.",
+   "You tire less rapidly."},
+
+  {"You tire more rapidly.",
+   "You tire more rapidly.",
+   "You tire more rapidly."},
+
+  "increased stamina capacity",
+},
+
+{ MUT_LOW_STAMINA, 9, 3, mutflag::BAD, false,
+  "low sp",
+
+  {"Your stamina capacity is low (-25% SP).",
+   "Your stamina capacity is very low (-45% SP).",
+   "Your stamina capacity is extremely low (-68% SP)."},
+
+  {"You tire more rapidly.",
+   "You tire more rapidly.",
+   "You tire more rapidly."},
+
+  {"You tire less rapidly.",
+   "You tire less rapidly.",
+   "You tire less rapidly."},
+
+  "reduced stamina capacity",
+},
+
 { MUT_WILD_MAGIC, 6, 3, mutflag::GOOD, false,
   "wild magic",
 
@@ -1327,6 +1403,22 @@ static const mutation_def mut_data[] =
   {"", "", ""},
 
   "a magic link",
+},
+
+{ MUT_STAMINA_REGENERATION, 0, 3, mutflag::GOOD, false,
+  "stamina regeneration",
+
+  {"You regenerate stamina rapidly.",
+   "You regenerate stamina very rapidly.",
+   "You regenerate stamina extremely rapidly."},
+  {"You feel less tired.",
+   "You feel less tired.",
+   "You feel less tired."},
+  {"You feel more tired.",
+   "You feel more tired.",
+   "You feel more tired."},
+
+  "stamina regeneration",
 },
 
 // Jiyva only mutations

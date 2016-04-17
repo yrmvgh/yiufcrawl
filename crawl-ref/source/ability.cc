@@ -1693,8 +1693,11 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         fail_check();
         if (!you.digging)
         {
-            you.digging = true;
-            mpr("You extend your mandibles.");
+            if (!player_is_tired())
+            {
+                you.digging = true;
+                mpr("You extend your mandibles.");
+            }
         }
         else
         {

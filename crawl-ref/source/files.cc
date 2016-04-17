@@ -100,6 +100,7 @@ const int GHOST_LIMIT = 27; // max number of ghost files per level
 static void _redraw_all()
 {
     you.redraw_hit_points    = true;
+    you.redraw_stamina_points= true;
     you.redraw_magic_points  = true;
     you.redraw_stats.init(true);
     you.redraw_armour_class  = true;

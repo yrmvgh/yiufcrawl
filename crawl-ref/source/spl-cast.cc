@@ -548,6 +548,11 @@ int raw_spell_fail(spell_type spell)
     // Apply the effects of Vehumet and items of wizardry.
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
 
+    if (you.exertion == EXERT_POWER)
+        chance2 <<= 1;
+    if (you.exertion == EXERT_CAREFUL)
+        chance2 >>= 1;
+
     if (chance2 > 100)
         chance2 = 100;
 
@@ -618,6 +623,11 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
 
         power = stepdown_spellpower(power);
     }
+
+    if (you.exertion == EXERT_POWER)
+        power = power * 3 / 2;
+    if (you.exertion == EXERT_CAREFUL)
+        power = power * 3 / 4;
 
     const int cap = spell_power_cap(spell);
     if (cap > 0 && cap_power)
@@ -1444,6 +1454,7 @@ spret_type your_spells(spell_type spell, int powc,
 
     int potion = -1;
 
+    maybe_consume_stamina(2);
     if (!powc)
         powc = calc_spell_power(spell, true);
 

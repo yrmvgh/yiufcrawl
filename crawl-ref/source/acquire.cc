@@ -836,10 +836,6 @@ static int _find_acquirement_subtype(object_class_type &class_wanted,
         if (class_wanted == OBJ_STAVES || class_wanted == OBJ_RODS)
             class_wanted = _want_rod(agent) ? OBJ_RODS : OBJ_STAVES;
 
-        // Vampires acquire blood, not food.
-        if (class_wanted == OBJ_FOOD && you.species == SP_VAMPIRE)
-            class_wanted = OBJ_POTIONS;
-
         if (_subtype_finders[class_wanted])
             type_wanted = (*_subtype_finders[class_wanted])(divine, quantity);
 
@@ -1575,7 +1571,7 @@ bool acquirement(object_class_type class_wanted, int agent,
         bad_class.set(OBJ_WANDS);
     }
 
-    bad_class.set(OBJ_FOOD, you_foodless_normally() && !you_worship(GOD_FEDHAS));
+//    bad_class.set(OBJ_FOOD, you_foodless_normally() && !you_worship(GOD_FEDHAS));
 
     static struct { object_class_type type; const char* name; } acq_classes[] =
     {
@@ -1586,14 +1582,14 @@ bool acquirement(object_class_type class_wanted, int agent,
         { OBJ_STAVES,     "Staff" },
         { OBJ_WANDS,      "Wand" },
         { OBJ_MISCELLANY, "Miscellaneous" },
-        { OBJ_FOOD,       0 }, // amended below
+//        { OBJ_FOOD,       0 }, // amended below
         { OBJ_GOLD,       "Gold" },
         { OBJ_MISSILES,   "Ammunition" },
     };
-    ASSERT(acq_classes[7].type == OBJ_FOOD);
-    acq_classes[7].name = you_worship(GOD_FEDHAS) ? "Fruit":
-                          you.species == SP_VAMPIRE  ? "Blood":
-                                                       "Food";
+//    ASSERT(acq_classes[7].type == OBJ_FOOD);
+//    acq_classes[7].name = you_worship(GOD_FEDHAS) ? "Fruit":
+//                          you.species == SP_VAMPIRE  ? "Blood":
+//                                                       "Food";
 
     int thing_created = NON_ITEM;
 

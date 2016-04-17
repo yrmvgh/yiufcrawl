@@ -326,7 +326,7 @@ static void _give_items_skills(const newgame_def& ng)
 static void _give_starting_food()
 {
     // No food for those who don't need it.
-    if (you_foodless())
+    if (you.species != SP_VAMPIRE || you_foodless())
         return;
 
     object_class_type base_type = OBJ_FOOD;
@@ -586,10 +586,12 @@ static void _setup_generic(const newgame_def& ng)
     // We calculate hp and mp here; all relevant factors should be
     // finalised by now. (GDL)
     calc_hp();
+    calc_sp();
     calc_mp();
 
     // Make sure the starting player is fully charged up.
     set_hp(you.hp_max);
+    set_sp(you.sp_max);
     set_mp(you.max_magic_points);
 
     initialise_branch_depths();

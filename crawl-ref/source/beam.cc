@@ -1975,7 +1975,7 @@ static bool _curare_hits_monster(actor *agent, monster* mons, int levels)
 
         if (hurted)
         {
-            simple_monster_message(mons, " convulses.");
+            monster_message(mons, " convulses. (%d)", hurted);
             mons->hurt(agent, hurted, BEAM_POISON);
         }
     }

@@ -346,7 +346,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
 
     case DELAY_ASCENDING_STAIRS:  // short... and probably what people want
     case DELAY_DESCENDING_STAIRS: // short... and probably what people want
-        if (stop_stair_travel && !crawl_state.free_stair_escape)
+        if (stop_stair_travel && !crawl_state.free_stair_escape && (you.where_are_you != BRANCH_ABYSS || crawl_state.difficulty == DIFFICULTY_HARD))
         {
             mprf("You stop %s the stairs.",
                  delay.type == DELAY_ASCENDING_STAIRS ? "ascending"
@@ -1668,7 +1668,7 @@ bool interrupt_activity(activity_interrupt_type ai,
 // Must match the order of activity_interrupt_type in enum.h!
 static const char *activity_interrupt_names[] =
 {
-    "force", "keypress", "full_hp", "full_mp", "hungry", "message",
+    "force", "keypress", "full_hp", "full_sp", "full_mp", "hungry", "message",
     "hp_loss_other", "hp_loss", "stat", "monster", "monster_attack", "teleport", "hit_monster",
     "sense_monster", "mimic"
 };

@@ -96,7 +96,7 @@
        "manual of fighting | amulet of faith | manual of fire magic"
 
       elseif s == "G" then i = "amulet of guardian spirit | giant club | " ..
-       "giant spiked club | amulet of the gourmand | book of geomancy | " ..
+       "giant spiked club | book of geomancy | " ..
        "glaive | gold dragon armour | grand grimoire | great mace | " ..
        "greatsling | great sword | pair of gloves"
 
@@ -122,7 +122,7 @@
 
       elseif s == "M" then i = "manual of maces & flails | meat ration | " ..
        "book of minor magic | morningstar | mottled dragon armour | mace | " ..
-       "mutagenic chunk | ring of magical power | potion of mutation | " ..
+       "ring of magical power | potion of mutation | " ..
        "potion of might | scroll of magic mapping | " ..
        "book of maledictions | amulet of magic regeneration"
 

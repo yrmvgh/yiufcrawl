@@ -163,9 +163,9 @@ static const form_entry formdata[] =
 {
     TRAN_TREE, MONS_ANIMATED_TREE, "Tree", "tree-form", "tree",
     "a tree.",
-    EQF_LEAR | SLOTF(EQ_CLOAK), MR_RES_POISON | mrd(MR_RES_NEG, 3),
-    BAD_DURATION, 0, 0, SIZE_CHARACTER, 20, 27,
-    15, 0, 100, true, 0, 10, 12,
+    EQF_NONE, MR_RES_POISON | mrd(MR_RES_NEG, 3),
+    BAD_DURATION, 0, 0, SIZE_CHARACTER, 15, 27,
+    15, 0, 70, true, 0, 5, 8,
     SPWPN_NORMAL, BROWN, "Branches", { "hit", "smack", "pummel", "thrash" },
     FC_FORBID, FC_FORBID, FC_FORBID, false, false,
     "creak", 0, "branch", "root", "sway towards", "wood"

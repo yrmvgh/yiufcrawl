@@ -664,7 +664,7 @@ const char* potion_type_name(int potiontype)
 #endif
     case POT_FLIGHT:            return "flight";
 #if TAG_MAJOR_VERSION == 34
-    case POT_POISON:            return "poison";
+    case POT_POISON_VULNERABILITY:            return "poison";
 #endif
     case POT_CANCELLATION:      return "cancellation";
     case POT_AMBROSIA:          return "ambrosia";
@@ -773,6 +773,7 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case AMU_HARM:              return "harm";
         case AMU_DISMISSAL:         return "dismissal";
         case AMU_MANA_REGENERATION: return "magic regeneration";
+        case AMU_STAMINA_REGENERATION: return "stamina regeneration";
         case AMU_THE_GOURMAND:      return "gourmand";
 #if TAG_MAJOR_VERSION == 34
         case AMU_CONSERVATION:      return "conservation";
@@ -3372,7 +3373,7 @@ bool is_bad_item(const item_def &item, bool temp)
         case POT_DECAY:
             return you.res_rotting(temp) <= 0;
         case POT_STRONG_POISON:
-        case POT_POISON:
+        case POT_POISON_VULNERABILITY:
             // Poison is not that bad if you're poison resistant.
             return player_res_poison(false) <= 0
                    || !temp && you.species == SP_VAMPIRE;
@@ -3686,7 +3687,7 @@ bool is_useless_item(const item_def &item, bool temp)
         case POT_DECAY:
             return you.res_rotting(temp) > 0;
         case POT_STRONG_POISON:
-        case POT_POISON:
+        case POT_POISON_VULNERABILITY:
             // If you're poison resistant, poison is only useless.
             return !is_bad_item(item, temp);
         case POT_SLOWING:

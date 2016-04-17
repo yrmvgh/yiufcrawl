@@ -2059,6 +2059,7 @@ void untransform(bool skip_move)
         set_hp(hp);
     }
     calc_hp();
+    calc_sp();
 
     if (you.hp <= 0)
     {

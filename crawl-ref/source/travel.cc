@@ -2949,6 +2949,7 @@ void start_travel(const coord_def& p)
 
 void start_explore(bool grab_items)
 {
+    set_exertion(EXERT_NORMAL);
     if (Hints.hints_explored)
         Hints.hints_explored = false;
 

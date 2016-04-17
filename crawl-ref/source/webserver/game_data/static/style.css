@@ -105,6 +105,19 @@ body {
     background-color: #4e9a06; /* green */
 }
 
+#stats_sp_bar {
+    background-color: #555753; /* darkgray */
+}
+#stats_sp_bar_full {
+    background-color: #22afaf; /* lightblue */
+}
+#stats_sp_bar_decrease {
+    background-color: #5c3566; /* magenta */
+}
+#stats_sp_bar_increase {
+    background-color: #204a87; /* blue */
+}
+
 #stats_mp_bar {
     background-color: #555753; /* darkgray */
 }
@@ -165,7 +178,7 @@ body {
 
 #stats[data-species="Djinni"] #stats_contamline {
     display:block;
-    visibility:visible;
+    visibility:hidden;
 }
 /* Hide MP bar */
 #stats[data-species="Djinni"] #stats_mpline {

@@ -468,6 +468,7 @@ public:
 
 static colour_bar HP_Bar(LIGHTGREEN, GREEN, RED, DARKGREY);
 static colour_bar EP_Bar(LIGHTMAGENTA, MAGENTA, BLUE, DARKGREY);
+static colour_bar SP_Bar(CYAN, CYAN, LIGHTCYAN, DARKGREY);
 
 #ifdef USE_TILE_LOCAL
 static colour_bar MP_Bar(BLUE, BLUE, LIGHTBLUE, DARKGREY);
@@ -478,6 +479,25 @@ static colour_bar MP_Bar(LIGHTBLUE, BLUE, MAGENTA, DARKGREY);
 colour_bar Food_Bar(DARKGREY, DARKGREY, DARKGREY, DARKGREY);
 colour_bar Temp_Bar(RED, LIGHTRED, LIGHTBLUE, DARKGREY);
 
+int hp_row = 0;
+int sp_row = 0;
+int mp_row = 0;
+int temp_row = 0;
+int stat_row = 0;
+int ac_row = 0;
+int ev_row = 0;
+int sh_row = 0;
+int str_row = 0;
+int int_row = 0;
+int dex_row = 0;
+int xl_row = 0;
+int place_row = 0;
+int gold_row = 0;
+int time_row = 0;
+int wield_row = 0;
+int quiver_row = 0;
+int status_row = 0;
+
 // ----------------------------------------------------------------------
 // Status display
 // ----------------------------------------------------------------------
@@ -486,6 +506,11 @@ static bool _boosted_hp()
 {
     return you.duration[DUR_DIVINE_VIGOUR]
            || you.berserk();
+}
+
+static bool _boosted_sp()
+{
+    return you.duration[DUR_TIRELESS];
 }
 
 static bool _boosted_mp()
@@ -545,10 +570,7 @@ void update_turn_count()
         return;
     }
 
-    const int yhack = 0
-                    + (you.species == SP_LAVA_ORC)
-                    ;
-    CGOTOXY(19+6, 9 + yhack, GOTO_STAT);
+    CGOTOXY(19+6, time_row, GOTO_STAT);
 
     // Show the turn count starting from 1. You can still quit on turn 0.
     textcolour(HUD_VALUE_COLOUR);
@@ -582,6 +604,50 @@ static void _print_stats_temperature(int x, int y)
     CPRINTF("Temperature: ");
 
     Temp_Bar.draw(19, y, temperature(), TEMP_MAX, true);
+}
+
+static void _print_stats_sp(int x, int y)
+{
+    // Calculate colour
+    short sp_colour = HUD_VALUE_COLOUR;
+
+    const bool boosted = _boosted_sp();
+
+    if (boosted)
+        sp_colour = LIGHTBLUE;
+    else
+    {
+        int sp_percent = (you.sp_max == 0
+                          ? 100
+                          : (you.sp * 100) / you.sp_max);
+
+        for (const auto &entry : Options.sp_colour)
+            if (sp_percent <= entry.first)
+                sp_colour = entry.second;
+    }
+
+    CGOTOXY(x, y, GOTO_STAT);
+    textcolour(HUD_CAPTION_COLOUR);
+    CPRINTF(player_rotted() ? "SP: " : "Stamina:  ");
+    textcolour(sp_colour);
+    CPRINTF("%d", you.sp);
+    if (!boosted)
+        textcolour(HUD_VALUE_COLOUR);
+    CPRINTF("/%d", you.sp_max);
+    if (boosted)
+        textcolour(HUD_VALUE_COLOUR);
+
+    int col = _count_digits(you.sp)
+              + _count_digits(you.sp_max) + 1;
+    for (int i = 11-col; i > 0; i--)
+        CPRINTF(" ");
+
+#ifdef TOUCH_UI
+    if (tiles.is_using_small_layout())
+        SP_Bar.vdraw(6, 10, you.sp, you.sp_max);
+    else
+#endif
+    SP_Bar.draw(19, y, you.sp, you.sp_max);
 }
 
 static void _print_stats_mp(int x, int y)
@@ -629,56 +695,6 @@ static void _print_stats_mp(int x, int y)
     else
 #endif
     MP_Bar.draw(19, y, you.magic_points, you.max_magic_points);
-}
-
-static void _print_stats_food(int x, int y)
-{
-    if (you.species != SP_DJINNI || true)
-        return;
-
-    const int max_food = HUNGER_MAXIMUM;
-    int food = min(you.hunger, max_food);
-
-    CGOTOXY(x+6, y, GOTO_STAT);
-    CPRINTF("%d", food);
-
-    // Calculate colour
-    if (you.hunger_state <= HS_STARVING)
-    {
-        Food_Bar.m_default = RED;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
-    }
-    else if (you.hunger_state <= HS_VERY_HUNGRY)
-    {
-        Food_Bar.m_default = LIGHTRED;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = RED;
-    }
-    else if (you.hunger_state <= HS_SATIATED)
-    {
-        Food_Bar.m_default = YELLOW;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = BROWN;
-    }
-    else if (you.hunger_state <= HS_FULL)
-    {
-        Food_Bar.m_default = GREEN;
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
-    }
-    else
-    {
-#ifdef USE_TILE_LOCAL
-        Food_Bar.m_default = LIGHTGREEN;
-#else
-        Food_Bar.m_default = LIGHTGREEN;
-#endif
-        Food_Bar.m_change_pos = Food_Bar.m_change_neg = DARKGREY;
-    }
-
-#ifdef TOUCH_UI
-    if (tiles.is_using_small_layout())
-        Contam_Bar.vdraw(6, 10, food, max_food);
-    else
-#endif
-    Food_Bar.draw(19, y, food, max_food);
 }
 
 static void _print_stats_hp(int x, int y)
@@ -879,7 +895,7 @@ static void _print_stats_wp(int y)
     textcolour(LIGHTGREY);
 }
 
-static void _print_stats_qv(int y)
+static void _print_stats_qv()
 {
     int col;
     string text;
@@ -913,7 +929,7 @@ static void _print_stats_qv(int y)
             text = "Nothing quivered";
         }
     }
-    CGOTOXY(1, y, GOTO_STAT);
+    CGOTOXY(1, quiver_row, GOTO_STAT);
     textcolour(HUD_CAPTION_COLOUR);
     CPRINTF("%c) ", hud_letter);
     textcolour(col);
@@ -1012,7 +1028,7 @@ static void _get_status_lights(vector<status_light>& out)
             _add_status_light_to_out(status, out);
 }
 
-static void _print_status_lights(int y)
+static void _print_status_lights()
 {
     vector<status_light> lights;
     static int last_number_of_lights = 0;
@@ -1021,10 +1037,10 @@ static void _print_status_lights(int y)
         return;
     last_number_of_lights = lights.size();
 
-    size_t line_cur = y;
+    size_t line_cur = status_row;
     const size_t line_end = crawl_view.hudsz.y+1;
 
-    CGOTOXY(1, line_cur, GOTO_STAT);
+    CGOTOXY(1, status_row, GOTO_STAT);
 #ifdef ASSERTS
     if (wherex() != crawl_view.hudp.x)
     {
@@ -1099,6 +1115,7 @@ static bool _need_stats_printed()
 {
     return you.redraw_title
            || you.redraw_hit_points
+           || you.redraw_stamina_points
            || you.redraw_magic_points
            || you.redraw_armour_class
            || you.redraw_evasion
@@ -1115,7 +1132,7 @@ static void _draw_wizmode_flag(const char *word)
 {
     textcolour(LIGHTMAGENTA);
     // 3+ for the " **"
-    CGOTOXY(1 + crawl_view.hudsz.x - (3 + strlen(word)), 1, GOTO_STAT);
+    CGOTOXY(1 + crawl_view.hudsz.x - (3 + strlen(word)) - 2, 1, GOTO_STAT);
     CPRINTF(" *%s*", word);
 }
 
@@ -1217,11 +1234,6 @@ static void _redraw_title()
 
 void print_stats()
 {
-    int temp = (you.species == SP_LAVA_ORC) ? 1 : 0;
-    int temp_pos = 5;
-    int ac_pos = temp_pos + temp;
-    int ev_pos = temp_pos + temp + 1;
-
     cursor_control coff(false);
     textcolour(LIGHTGREY);
 
@@ -1234,6 +1246,8 @@ void print_stats()
 
     if (HP_Bar.wants_redraw())
         you.redraw_hit_points = true;
+    if (SP_Bar.wants_redraw())
+        you.redraw_stamina_points = true;
     if (MP_Bar.wants_redraw())
         you.redraw_magic_points = true;
     if (Temp_Bar.wants_redraw() && you.species == SP_LAVA_ORC)
@@ -1258,40 +1272,47 @@ void print_stats()
     if (you.redraw_hit_points)
     {
         you.redraw_hit_points = false;
-        _print_stats_hp(1, 3);
+        _print_stats_hp(1, hp_row);
+    }
+    if (you.redraw_stamina_points)
+    {
+        you.redraw_stamina_points = false;
+        _print_stats_sp(1, sp_row);
     }
     if (you.redraw_magic_points)
     {
         you.redraw_magic_points = false;
-        _print_stats_mp(1, 4);
+        _print_stats_mp(1, mp_row);
     }
-    _print_stats_food(1, 4);
-    if (you.redraw_temperature)
+    if (you.species == SP_LAVA_ORC)
     {
-        you.redraw_temperature = false;
-        _print_stats_temperature(1, temp_pos);
+        if (you.redraw_temperature)
+        {
+            you.redraw_temperature = false;
+            _print_stats_temperature(1, temp_row);
+        }
     }
     if (you.redraw_armour_class)
     {
         you.redraw_armour_class = false;
-        _print_stats_ac(1, ac_pos);
+        _print_stats_ac(1, ac_row);
     }
     if (you.redraw_evasion)
     {
         you.redraw_evasion = false;
-        _print_stats_ev(1, ev_pos);
+        _print_stats_ev(1, ev_row);
     }
 
     for (int i = 0; i < NUM_STATS; ++i)
         if (you.redraw_stats[i])
         {
-            _print_stat(static_cast<stat_type>(i), 19, 5 + i + temp);
+            _print_stat(static_cast<stat_type>(i), 19, stat_row + i);
         }
     you.redraw_stats.init(false);
 
     if (you.redraw_experience)
     {
-        CGOTOXY(1, 8 + temp, GOTO_STAT);
+        CGOTOXY(1, xl_row, GOTO_STAT);
         textcolour(Options.status_caption_colour);
         CPRINTF("XL: ");
         textcolour(HUD_VALUE_COLOUR);
@@ -1308,16 +1329,12 @@ void print_stats()
         you.redraw_experience = false;
     }
 
-    int yhack = temp;
-
-    // Line 9 is Gold and Turns
 #ifdef USE_TILE_LOCAL
     if (!tiles.is_using_small_layout())
 #endif
     {
         // Increase y-value for all following lines.
-        yhack++;
-        CGOTOXY(1+6, 8 + yhack, GOTO_STAT);
+        CGOTOXY(1+6, gold_row, GOTO_STAT);
         if (you.duration[DUR_GOZAG_GOLD_AURA])
             textcolour(LIGHTBLUE);
         else
@@ -1337,25 +1354,23 @@ void print_stats()
         // Also, it's a little bogus to change simulation state in
         // render code. We should find a better place for this.
         you.m_quiver.on_weapon_changed();
-        _print_stats_wp(9 + yhack);
+        _print_stats_wp(wield_row);
     }
     you.wield_change  = false;
 
-    if (you.species == SP_FELID)
+    if (you.species != SP_FELID)
     {
-        // There are no circumstances under which Felids could quiver something.
-        // Reduce line counter for status display.
-        yhack -= 1;
+        if (you.redraw_quiver || you.wield_change)
+        {
+            _print_stats_qv();
+            you.redraw_quiver = false;
+        }
     }
-    else if (you.redraw_quiver || you.wield_change)
-        _print_stats_qv(10 + yhack);
-
-    you.redraw_quiver = false;
 
     if (you.redraw_status_lights)
     {
         you.redraw_status_lights = false;
-        _print_status_lights(11 + yhack);
+        _print_status_lights();
     }
     textcolour(LIGHTGREY);
 
@@ -1382,10 +1397,7 @@ static string _level_description_string_hud()
 
 void print_stats_level()
 {
-    int ypos = 8;
-    if (you.species == SP_LAVA_ORC)
-        ypos++;
-    cgotoxy(19, ypos, GOTO_STAT);
+    cgotoxy(19, place_row, GOTO_STAT);
     textcolour(HUD_CAPTION_COLOUR);
     CPRINTF("Place: ");
 
@@ -1399,38 +1411,38 @@ void print_stats_level()
 
 void draw_border()
 {
+    int row = 2;
+    hp_row = ++row;
+    sp_row = ++row;
+    mp_row = ++row;
+    if (you.species == SP_LAVA_ORC)
+        temp_row = ++row;
+    ac_row = str_row = stat_row = ++row;
+    ev_row = int_row = ++row;
+    sh_row = dex_row = ++row;
+    xl_row = place_row = ++row;
+    gold_row = time_row = ++row;
+    wield_row = ++row;
+    quiver_row = ++row;
+    status_row = ++row;
+
     textcolour(HUD_CAPTION_COLOUR);
     clrscr();
 
     textcolour(Options.status_caption_colour);
 
-    int temp = (you.species == SP_LAVA_ORC) ? 1 : 0;
-//    int hp_pos = 3;
-    int mp_pos = 4;
-    int ac_pos = 5 + temp;
-    int ev_pos = 6 + temp;
-    int sh_pos = 7 + temp;
-    int str_pos = ac_pos;
-    int int_pos = ev_pos;
-    int dex_pos = sh_pos;
+    CGOTOXY(1, mp_row, GOTO_STAT);
+    CGOTOXY(1, ac_row, GOTO_STAT); CPRINTF("AC:");
+    CGOTOXY(1, ev_row, GOTO_STAT); CPRINTF("EV:");
+    CGOTOXY(1, sh_row, GOTO_STAT); CPRINTF("SH:");
 
-    //CGOTOXY(1, 3, GOTO_STAT); CPRINTF("Hp:");
-    CGOTOXY(1, mp_pos, GOTO_STAT);
-    if (false && you.species == SP_DJINNI)
-        CPRINTF("Food:");
-    CGOTOXY(1, ac_pos, GOTO_STAT); CPRINTF("AC:");
-    CGOTOXY(1, ev_pos, GOTO_STAT); CPRINTF("EV:");
-    CGOTOXY(1, sh_pos, GOTO_STAT); CPRINTF("SH:");
+    CGOTOXY(19, str_row, GOTO_STAT); CPRINTF("Str:");
+    CGOTOXY(19, int_row, GOTO_STAT); CPRINTF("Int:");
+    CGOTOXY(19, dex_row, GOTO_STAT); CPRINTF("Dex:");
 
-    CGOTOXY(19, str_pos, GOTO_STAT); CPRINTF("Str:");
-    CGOTOXY(19, int_pos, GOTO_STAT); CPRINTF("Int:");
-    CGOTOXY(19, dex_pos, GOTO_STAT); CPRINTF("Dex:");
-
-    int yhack = temp;
-    CGOTOXY(1, 9 + yhack, GOTO_STAT); CPRINTF("Gold:");
-    CGOTOXY(19, 9 + yhack, GOTO_STAT);
+    CGOTOXY(1, gold_row, GOTO_STAT); CPRINTF("Gold:");
+    CGOTOXY(19, time_row, GOTO_STAT);
     CPRINTF(Options.show_game_turns ? "Time:" : "Turn:");
-    // Line 8 is exp pool, Level
 }
 
 void redraw_screen()
