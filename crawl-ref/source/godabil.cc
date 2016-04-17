@@ -5580,10 +5580,12 @@ int get_sacrifice_piety(ability_type sac, bool include_skill)
 
     // Randomize piety gain very slightly to prevent counting.
     // We fuzz the piety gain by up to +-10%, or 5 piety, whichever is smaller.
-    int piety_blur_inc = min(5, piety_gain / 10);
-    int piety_blur = random2((2 * piety_blur_inc) + 1) - piety_blur_inc;
+    // actually, fuck that. what's wrong, we don't trust the player?
+    // we don't want the player to know what's happening with their character?
+    // int piety_blur_inc = min(5, piety_gain / 10);
+    // int piety_blur = random2((2 * piety_blur_inc) + 1) - piety_blur_inc;
 
-    return piety_gain + piety_blur;
+    return piety_gain;
 }
 
 // Remove the offer of sacrifices after they've been offered for sufficient

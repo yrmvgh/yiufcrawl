@@ -87,6 +87,10 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
     * added endurance potions (not implemented yet)
         * make all stamina costs drop to 0 for a limited time
+
+* Minor background tweaks
+    * Fighters no longer have a special exception to prevent them from choosing a quarterstaff.
+    * Skald, Warper, and Arcane Marksman have some minor improvements to their starting package. The Arcane Marksman in particular has a much better spellbook.
         
 * Remove food
     * no more chopping or eating

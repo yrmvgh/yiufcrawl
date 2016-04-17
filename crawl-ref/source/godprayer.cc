@@ -95,7 +95,10 @@ static bool _pray_ecumenical_altar()
         if (you_worship(GOD_RU))
             you.props[RU_SACRIFICE_PROGRESS_KEY] = 9999;
         else
-            gain_piety(20, 1, false);
+            if (you.faith())
+            gain_piety(50, 1, false);
+                else
+                gain_piety(20, 1, false);
 
         mark_milestone("god.ecumenical", "prayed at an ecumenical altar.");
         return true;
