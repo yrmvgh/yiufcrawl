@@ -379,7 +379,8 @@ class CrawlProcessHandlerBase(object):
                                          self.username + ".rc"),
                  "-macro",  os.path.join(self.config_path("macro_path"),
                                          self.username + ".macro"),
-                 "-morgue", self.config_path("morgue_path")]
+                 "-morgue", self.config_path("morgue_path"),
+                 "-wizard"]
 
         if "options" in game:
             call += game["options"]
@@ -542,30 +543,30 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
         game = self.game_params
 
         binary = ""
+
         game_id_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".gameid")
+        dir_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".dir")
         binary_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".lastbin")
-        save_file_path = os.path.join(os.getcwd(), "." + self.username + ".cs")
+        save_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".cs")
+
+        launch_dir = os.getcwd()
+
         if os.path.exists(save_file_path) and os.path.exists(binary_file_path):
-            with open(binary_file_path, "r") as f:
-                last_binary_name = f.read()
+            last_binary_name = read_from_file(binary_file_path)
             if os.path.exists(last_binary_name):
                 binary = last_binary_name
                 if os.path.exists(game_id_file_path):
-                    with open(game_id_file_path, "r") as f:
-                        game["id"] = f.read()
+                    game["id"] = read_from_file(game_id_file_path)
+                if os.path.exists(dir_file_path):
+                    launch_dir = read_from_file(dir_file_path)
+                    os.chdir(launch_dir)
 
         if binary == "":
             binary = game["crawl_binary"]
 
-        f = open(binary_file_path, "w")
-        f.write("%s" % (binary))
-        f.flush()
-        f.close()
-
-        f = open(game_id_file_path, "w")
-        f.write("%s" % (game["id"]))
-        f.flush()
-        f.close()
+        write_to_file(binary_file_path, binary)
+        write_to_file(game_id_file_path, game["id"])
+        write_to_file(dir_file_path, launch_dir)
 
         call = self._base_call(binary) + ["-webtiles-socket", self.socketpath,
                                           "-await-connection"]
