@@ -14,7 +14,7 @@ from tornado.ioloop import PeriodicCallback, IOLoop
 
 from terminal import TerminalRecorder
 from connection import WebtilesSocketConnection
-from util import DynamicTemplateLoader, dgl_format_str, parse_where_data
+from util import DynamicTemplateLoader, dgl_format_str, parse_where_data, write_to_file, read_from_file
 from game_data_handler import GameDataHandler, MorgueHandler
 from ws_handler import update_all_lobbys, remove_in_lobbys
 from inotify import DirectoryWatcher
@@ -564,9 +564,9 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
         if binary == "":
             binary = game["crawl_binary"]
 
-        write_to_file(binary_file_path, binary)
-        write_to_file(game_id_file_path, game["id"])
-        write_to_file(dir_file_path, launch_dir)
+        write_to_file(binary, binary_file_path)
+        write_to_file(game["id"], game_id_file_path)
+        write_to_file(launch_dir, dir_file_path)
 
         call = self._base_call(binary) + ["-webtiles-socket", self.socketpath,
                                           "-await-connection"]
