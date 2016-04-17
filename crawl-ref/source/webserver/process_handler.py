@@ -558,7 +558,9 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
                 os.chdir(launch_dir)
                 launch_dir = new_launch_dir
                 save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
-                self.client_path = os.path.join(launch_dir, "/webserver/game_data/")
+                self.client_path = os.path.join(launch_dir, "webserver/game_data/")
+                self.crawl_version = launch_dir
+                self.send_client_to_all()
 
         if os.path.exists(save_file_path):
             if os.path.exists(game_id_file_path):
