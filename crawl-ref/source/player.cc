@@ -2747,7 +2747,7 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool from_mons
 
     if (from_monster)
     {
-        exp_gained = exp_gained * abs(Options.exp_percent_from_monsters) / 100;
+        exp_gained = div_rand_round(exp_gained * abs(Options.exp_percent_from_monsters), 100);
         exp_loss = Options.exp_percent_from_monsters < 0;
     }
 
