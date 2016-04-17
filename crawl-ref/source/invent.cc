@@ -2450,6 +2450,7 @@ bool is_consumable(object_class_type type)
 	case OBJ_POTIONS:
 	case OBJ_SCROLLS:
 	case OBJ_FOOD:
+    case OBJ_BOOKS:
 		result = true;
 		break;
 	default:
