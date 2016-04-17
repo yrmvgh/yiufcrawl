@@ -547,9 +547,15 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
         game_id_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".gameid")
         dir_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".dir")
         binary_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".lastbin")
-        save_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".cs")
 
         launch_dir = os.getcwd()
+        original_launch_dir = launch_dir
+        save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
+
+        if os.path.exists(dir_file_path):
+            launch_dir = read_from_file(dir_file_path)
+            os.chdir(launch_dir)
+            save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
 
         if os.path.exists(save_file_path) and os.path.exists(binary_file_path):
             last_binary_name = read_from_file(binary_file_path)
@@ -557,9 +563,9 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
                 binary = last_binary_name
                 if os.path.exists(game_id_file_path):
                     game["id"] = read_from_file(game_id_file_path)
-                if os.path.exists(dir_file_path):
-                    launch_dir = read_from_file(dir_file_path)
-                    os.chdir(launch_dir)
+        elif original_launch_dir != launch_dir:
+            os.chdir(original_launch_dir)
+            launch_dir = original_launch_dir
 
         if binary == "":
             binary = game["crawl_binary"]
