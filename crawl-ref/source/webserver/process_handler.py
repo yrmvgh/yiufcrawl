@@ -542,37 +542,36 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
 
         game = self.game_params
 
-        binary = ""
+        binary = game["crawl_binary"]
 
         game_id_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".gameid")
         dir_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".dir")
-        binary_file_path = os.path.join(self.config_path("rcfile_path"), self.username + ".lastbin")
 
         launch_dir = os.getcwd()
         original_launch_dir = launch_dir
         save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
 
         if os.path.exists(dir_file_path):
-            launch_dir = read_from_file(dir_file_path)
-            os.chdir(launch_dir)
-            save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
+            new_launch_dir = read_from_file(dir_file_path)
+            if os.path.exists(launch_dir):
+                print "found previous launch_dir: " + new_launch_dir
+                os.chdir(launch_dir)
+                launch_dir = new_launch_dir
+                save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
+                binary = launch_dir + "/bin/crawl"
 
-        if os.path.exists(save_file_path) and os.path.exists(binary_file_path):
-            last_binary_name = read_from_file(binary_file_path)
-            if os.path.exists(last_binary_name):
-                binary = last_binary_name
-                if os.path.exists(game_id_file_path):
-                    game["id"] = read_from_file(game_id_file_path)
+        if os.path.exists(save_file_path):
+            if os.path.exists(game_id_file_path):
+                game["id"] = read_from_file(game_id_file_path)
         elif original_launch_dir != launch_dir:
+            print "No save file here (looking for " + save_file_path + ")"
             os.chdir(original_launch_dir)
             launch_dir = original_launch_dir
+            binary = launch_dir + "/bin/crawl"
 
-        if binary == "":
-            binary = game["crawl_binary"]
-
-        write_to_file(binary, binary_file_path)
         write_to_file(game["id"], game_id_file_path)
         write_to_file(launch_dir, dir_file_path)
+        print "final launch_dir=" + launch_dir
 
         call = self._base_call(binary) + ["-webtiles-socket", self.socketpath,
                                           "-await-connection"]
@@ -594,7 +593,9 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
             self.process = TerminalRecorder(call, self.ttyrec_filename,
                                             self._ttyrec_id_header(),
                                             self.logger, self.io_loop,
-                                            config.recording_term_size)
+                                            config.recording_term_size,
+                                            launch_dir
+                                            )
             self.process.end_callback = self._on_process_end
             self.process.output_callback = self._on_process_output
             self.process.activity_callback = self.note_activity
