@@ -102,7 +102,7 @@ static constexpr int hunger_threshold[HS_ENGORGED + 1] =
  */
 void lessen_hunger(int satiated_amount, bool suppress_msg, int max)
 {
-    if (you_foodless())
+    if (you.species != SP_VAMPIRE || you_foodless())
         return;
 
     you.hunger += satiated_amount;
@@ -137,12 +137,12 @@ void set_hunger(int new_hunger_level, bool suppress_msg)
 
 bool you_foodless(bool can_eat)
 {
-    return you.undead_state() == US_UNDEAD || you.species != SP_VAMPIRE;
+    return you.undead_state() == US_UNDEAD;
 }
 
 bool you_foodless_normally()
 {
-    return you.undead_state(false) == US_UNDEAD || you.species != SP_VAMPIRE;
+    return you.undead_state(false) == US_UNDEAD;
 }
 
 bool prompt_eat_inventory_item(int slot)
