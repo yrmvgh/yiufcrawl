@@ -85,3 +85,16 @@ def parse_where_data(data):
         field, _, value = entry.partition("=")
         where[field.strip()] = value.strip().replace("::", ":")
     return where
+
+def write_to_file(data, file):
+    f = open(file, "w")
+    f.write("%s" % (data))
+    f.flush()
+    f.close()
+
+def read_from_file(file):
+    result = ""
+    with open(file, "r") as f:
+        result = f.read()
+    return result
+
