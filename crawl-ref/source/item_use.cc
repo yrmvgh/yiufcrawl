@@ -2328,7 +2328,7 @@ static void _handle_read_book(int item_slot)
         return;
     }
 
-    item_def& book(you.inv1[item_slot]);
+    item_def& book(you.inv2[item_slot]);
     ASSERT(book.sub_type != BOOK_MANUAL);
 
 #if TAG_MAJOR_VERSION == 34

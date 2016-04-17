@@ -253,6 +253,7 @@ static void _post_init(bool newc)
     destroy_abyss();
 
     calc_hp();
+    calc_sp();
     calc_mp();
     if (you.form != TRAN_LICH)
         food_change(true);
