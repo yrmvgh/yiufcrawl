@@ -363,9 +363,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
         percentage_color("mp");
         update_bar("hp");
         update_bar("sp");
-        if (do_contam)
-            update_bar_contam();
-        else
+        if (player.species != "Djinni")
             update_bar("mp");
         if (do_temperature)
             update_bar_heat();
