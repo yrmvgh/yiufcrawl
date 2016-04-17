@@ -3536,7 +3536,7 @@ int check_stealth()
         stealth >>= 1;
 
     if (you.exertion == EXERT_CAREFUL)
-        stealth <<= 2;
+        stealth <<= 1;
 
     stealth = max(0, stealth);
 

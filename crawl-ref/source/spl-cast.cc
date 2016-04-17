@@ -549,9 +549,9 @@ int raw_spell_fail(spell_type spell)
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
 
     if (you.exertion == EXERT_POWER)
-        chance2 = div_rand_round(chance2 * 4, 3);
+        chance2 <<= 1;
     if (you.exertion == EXERT_CAREFUL)
-        chance2 = div_rand_round(chance2 * 2, 3);
+        chance2 >>= 1;
 
     if (chance2 > 100)
         chance2 = 100;
