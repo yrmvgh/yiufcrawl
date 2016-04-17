@@ -86,15 +86,15 @@ def parse_where_data(data):
         where[field.strip()] = value.strip().replace("::", ":")
     return where
 
-def write_to_file(data, file):
-    f = open(file, "w")
+def write_to_file(data, filename):
+    f = open(filename, "w")
     f.write("%s" % (data))
     f.flush()
     f.close()
 
-def read_from_file(file):
+def read_from_file(filename):
     result = ""
-    with open(file, "r") as f:
+    with open(filename, "r") as f:
         result = f.read()
     return result
 
