@@ -4597,8 +4597,6 @@ bool player_regenerates_hp()
         return false;
     if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
         return false;
-    if (you.form == TRAN_TREE)
-        return false;
     return true;
 }
 
