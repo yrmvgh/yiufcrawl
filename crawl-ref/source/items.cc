@@ -1518,7 +1518,8 @@ bool items_stack(const item_def &item1, const item_def &item2)
     return items_similar(item1, item2)
         // Don't leak information when checking if an "(unknown)" shop item
         // matches an unidentified item in inventory.
-        && fully_identified(item1) == fully_identified(item2);
+//        && fully_identified(item1) == fully_identified(item2)
+         ;
 }
 
 /**
@@ -1841,30 +1842,35 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
 
     for (inv_slot = 0; inv_slot < ENDOFPACK; inv_slot++)
     {
-        if (!items_stack((*inv)[inv_slot], it))
+        item_def &item = (*inv)[inv_slot];
+
+        if (!items_stack(item, it))
             continue;
 
         // If the object on the ground is inscribed, but not
         // the one in inventory, then the inventory object
         // picks up the other's inscription.
         if (!(it.inscription).empty()
-            && (*inv)[inv_slot].inscription.empty())
+            && item.inscription.empty())
         {
-        	(*inv)[inv_slot].inscription = it.inscription;
+        	item.inscription = it.inscription;
         }
 
-        merge_item_stacks(it, (*inv)[inv_slot], quant_got);
+        merge_item_stacks(it, item, quant_got);
         if (it.base_type == OBJ_WANDS)
-            (*inv)[inv_slot].charges += it.charges;
+        {
+            item.charges += it.charges;
+            item.set_cap(item.get_cap() + it.get_cap());
+        }
         else
             inc_inv_item_quantity((*inv), inv_slot, quant_got);
 
-        you.last_pickup[&(*inv)[inv_slot]] = quant_got;
+        you.last_pickup[&item] = quant_got;
 
         if (!quiet)
         {
             mprf_nocap("%s (gained %d)",
-                        get_menu_colour_prefix_tags((*inv)[inv_slot],
+                        get_menu_colour_prefix_tags(item,
                                                     DESC_INVENTORY).c_str(),
                         quant_got);
         }

@@ -4187,6 +4187,8 @@ bool player_is_very_tired(bool silent)
 void set_exertion(const exertion_mode new_exertion)
 {
     you.exertion = new_exertion;
+    you.duration[DUR_CARE] = 0;
+    you.duration[DUR_POWER] = 0;
     switch(new_exertion)
     {
         case EXERT_POWER:
@@ -4196,8 +4198,6 @@ void set_exertion(const exertion_mode new_exertion)
             you.duration[DUR_CARE] = 1;
             break;
         default:
-            you.duration[DUR_POWER] = 0;
-            you.duration[DUR_CARE] = 0;
             break;
     }
     you.redraw_status_lights = true;
@@ -5754,6 +5754,7 @@ player::player()
     redraw_quiver        = false;
     redraw_status_lights = false;
     redraw_hit_points    = false;
+    redraw_stamina_points= false;
     redraw_magic_points  = false;
     redraw_temperature   = false;
     redraw_stats.init(false);

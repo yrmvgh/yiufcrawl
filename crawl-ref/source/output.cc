@@ -1462,6 +1462,7 @@ void redraw_screen()
 
     you.redraw_title        = true;
     you.redraw_hit_points   = true;
+    you.redraw_stamina_points = true;
     you.redraw_magic_points = true;
     if (you.species == SP_LAVA_ORC)
         you.redraw_temperature = true;

@@ -296,6 +296,7 @@ static void _post_init(bool newc)
 
     you.redraw_stats.init(true);
     you.redraw_hit_points   = true;
+    you.redraw_stamina_points = true;
     you.redraw_magic_points = true;
     you.redraw_armour_class = true;
     you.redraw_evasion      = true;
