@@ -558,16 +558,16 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
                 os.chdir(launch_dir)
                 launch_dir = new_launch_dir
                 save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
-                binary = launch_dir + "/bin/crawl"
+                self.client_path = os.path.join(launch_dir, "/webserver/game_data/")
 
         if os.path.exists(save_file_path):
             if os.path.exists(game_id_file_path):
                 game["id"] = read_from_file(game_id_file_path)
+                binary = launch_dir + "/bin/crawl"
         elif original_launch_dir != launch_dir:
             print "No save file here (looking for " + save_file_path + ")"
             os.chdir(original_launch_dir)
             launch_dir = original_launch_dir
-            binary = launch_dir + "/bin/crawl"
 
         write_to_file(game["id"], game_id_file_path)
         write_to_file(launch_dir, dir_file_path)
