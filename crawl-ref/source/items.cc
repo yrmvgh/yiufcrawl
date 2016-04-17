@@ -2250,7 +2250,7 @@ bool copy_item_to_grid(item_def &item, const coord_def& p,
 {
     ASSERT_IN_BOUNDS(p);
 
-    if (quant_drop == 0)
+    if (item.base_type == OBJ_FOOD && item.sub_type == FOOD_CHUNK || quant_drop == 0)
         return false;
 
     if (!silenced(p) && !silent)
