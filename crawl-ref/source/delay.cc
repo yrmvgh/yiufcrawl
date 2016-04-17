@@ -346,7 +346,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
 
     case DELAY_ASCENDING_STAIRS:  // short... and probably what people want
     case DELAY_DESCENDING_STAIRS: // short... and probably what people want
-        if (stop_stair_travel && !crawl_state.free_stair_escape)
+        if (stop_stair_travel && !crawl_state.free_stair_escape && you.where_are_you != BRANCH_ABYSS)
         {
             mprf("You stop %s the stairs.",
                  delay.type == DELAY_ASCENDING_STAIRS ? "ascending"
