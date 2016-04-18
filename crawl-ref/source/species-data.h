@@ -84,7 +84,8 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_LARGE,
     10, 7, 4, // 21
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_TOUGH_SKIN, 3, 1 },
+    {
+      { MUT_TOUGH_SKIN, 3, 1 },
       { MUT_HIGH_STAMINA, 1, 1 },
       { MUT_FAST, 1, 1 },
       { MUT_DEFORMED, 1, 1 },
@@ -108,12 +109,14 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     11, 8, 8, // 27
     { STAT_STR, STAT_INT }, 4,
-    { { MUT_SLOW_REGENERATION, 3, 1 },
+    {
+      { MUT_SLOW_REGENERATION, 3, 1 },
       { MUT_HIGH_STAMINA, 1, 1 },
       { MUT_PASSIVE_MAPPING, 1, 1 },
       { MUT_PASSIVE_MAPPING, 1, 9 },
       { MUT_PASSIVE_MAPPING, 1, 18 },
-      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 },
+    },
     { "You are resistant to damage.",
       "You can recharge devices by infusing magical energy." },
     { "damage resistance", "recharge devices" },

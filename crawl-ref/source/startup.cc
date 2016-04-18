@@ -253,6 +253,7 @@ static void _post_init(bool newc)
     destroy_abyss();
 
     calc_hp();
+    calc_sp();
     calc_mp();
     if (you.form != TRAN_LICH)
         food_change(true);
@@ -295,6 +296,7 @@ static void _post_init(bool newc)
 
     you.redraw_stats.init(true);
     you.redraw_hit_points   = true;
+    you.redraw_stamina_points = true;
     you.redraw_magic_points = true;
     you.redraw_armour_class = true;
     you.redraw_evasion      = true;

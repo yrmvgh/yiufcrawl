@@ -151,7 +151,8 @@ static bool _fill_out_corpse(const monster& mons, item_def& corpse)
         corpse.props[CORPSE_NAME_TYPE_KEY].get_int64() = 0;
     }
 
-    if (mons_genus(mons.type) == MONS_ORC)
+    // 0 mid indicates this is a dummy monster, such as for kiku corpse drop
+    if (mons_genus(mons.type) == MONS_ORC && mons.mid != 0)
     {
         auto &saved_mon = corpse.props[ORC_CORPSE_KEY].get_monster();
         saved_mon = mons;
@@ -2664,6 +2665,10 @@ item_def* monster_die(monster* mons, killer_type killer,
         _give_experience(player_xp, monster_xp, killer, killer_index, pet_kill,
                          was_visible);
     }
+
+    if (corpse && corpse->is_valid())
+        maybe_drop_monster_hide(*corpse);
+
     return corpse;
 }
 

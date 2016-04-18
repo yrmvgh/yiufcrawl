@@ -262,7 +262,7 @@ static monsterentry mondata[] =
 
 // Used for genus monsters (which are used for grouping monsters by how they
 // work and in comes-into-view messages).
-#define DUMMY(id, glyph, colour, name) \
+#define DUMMY(id, glyph, colour, name, tile) \
 { \
     (id), (glyph), (colour), (name), \
     M_CANT_SPAWN, \
@@ -273,7 +273,7 @@ static monsterentry mondata[] =
     0, 0, MST_NO_SPELLS, CE_CLEAN, S_SILENT, \
     I_BRAINLESS, HT_LAND, 0, DEFAULT_ENERGY, \
     MONUSE_NOTHING, SIZE_MEDIUM, MON_SHAPE_MISC, \
-    {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR \
+    {(tile)}, TILE_ERROR \
 },
 
 
@@ -1256,7 +1256,7 @@ static monsterentry mondata[] =
     {TILEP_MONS_FELID}, TILE_CORPSE_FELID
 },
 
-DUMMY(MONS_BEAR, 'h', LIGHTGREY, "bear")
+DUMMY(MONS_BEAR, 'h', LIGHTGREY, "bear", TILEP_MONS_BLACK_BEAR)
 
 {
     MONS_POLAR_BEAR, 'h', LIGHTBLUE, "polar bear",
@@ -1366,7 +1366,7 @@ DUMMY(MONS_BEAR, 'h', LIGHTGREY, "bear")
 },
 
 // drakes ('k')
-DUMMY(MONS_DRAKE, 'k', LIGHTGREY, "drake")
+DUMMY(MONS_DRAKE, 'k', LIGHTGREY, "drake", TILEP_MONS_SWAMP_DRAKE)
 
 {
     MONS_SWAMP_DRAKE, 'k', BROWN, "swamp drake",
@@ -1435,7 +1435,7 @@ DUMMY(MONS_DRAKE, 'k', LIGHTGREY, "drake")
 },
 
 // lizards ('l')
-DUMMY(MONS_GIANT_LIZARD, 'l', LIGHTGREY, "giant lizard")
+DUMMY(MONS_GIANT_LIZARD, 'l', LIGHTGREY, "giant lizard", TILEP_MONS_GIANT_NEWT)
 
 {
     MONS_GIANT_NEWT, 'l', GREEN, "giant newt",
@@ -2187,7 +2187,7 @@ DUMMY(MONS_GIANT_LIZARD, 'l', LIGHTGREY, "giant lizard")
     {TILEP_MONS_EMPEROR_SCORPION}, TILE_CORPSE_EMPEROR_SCORPION
 },
 
-DUMMY(MONS_SPIDER, 's', CYAN, "spider")
+DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
 
 {
     MONS_TARANTELLA, 's', LIGHTMAGENTA, "tarantella",
@@ -2325,7 +2325,7 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider")
     {TILEP_MONS_ALLIGATOR_SNAPPING_TURTLE}, TILE_CORPSE_ALLIGATOR_SNAPPING_TURTLE
 },
 
-DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab")
+DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab", TILEP_MONS_FIRE_CRAB)
 
 {
     MONS_FIRE_CRAB, 't', LIGHTRED, "fire crab",
@@ -2543,7 +2543,7 @@ DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab")
     2, 1, MST_NO_SPELLS, CE_NOXIOUS, S_SILENT,
     I_ANIMAL, HT_LAND, 4, DEFAULT_ENERGY,
     MONUSE_NOTHING, SIZE_BIG, MON_SHAPE_SNAIL,
-    {TILEP_MONS_PROGRAM_BUG}, TILE_CORPSE_ELEPHANT_SLUG
+    {TILEP_MONS_DART_SLUG}, TILE_CORPSE_ELEPHANT_SLUG
 },
 
 // small abominations ('x')
@@ -2705,7 +2705,7 @@ DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab")
     {TILEP_MONS_SPARK_WASP}, TILE_CORPSE_SPARK_WASP
 },
 
-DUMMY(MONS_MOTH, 'y', WHITE, "moth")
+DUMMY(MONS_MOTH, 'y', WHITE, "moth", TILEP_MONS_MOTH_OF_WRATH)
 
 {
     MONS_GHOST_MOTH, 'y', MAGENTA, "ghost moth",
@@ -2890,7 +2890,7 @@ DUMMY(MONS_MOTH, 'y', WHITE, "moth")
 },
 
 // beetles ('B')
-DUMMY(MONS_BEETLE, 'B', LIGHTBLUE, "beetle")
+DUMMY(MONS_BEETLE, 'B', LIGHTBLUE, "beetle", TILEP_MONS_BOULDER_BEETLE)
 
 {
     MONS_BOULDER_BEETLE, 'B', LIGHTGREY, "boulder beetle",
@@ -2919,7 +2919,7 @@ DUMMY(MONS_BEETLE, 'B', LIGHTBLUE, "beetle")
 },
 
 // cyclopes and giants ('C')
-DUMMY(MONS_GIANT, 'C', LIGHTGREY, "giant")
+DUMMY(MONS_GIANT, 'C', LIGHTGREY, "giant", TILEP_MONS_HILL_GIANT)
 
 {
     MONS_HILL_GIANT, 'C', LIGHTRED, "hill giant",
@@ -3033,13 +3033,13 @@ DUMMY(MONS_GIANT, 'C', LIGHTGREY, "giant")
     { {AT_HIT, AF_PLAIN, 75}, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
     22, 2200,
     18, 2, MST_IRON_GIANT, CE_CLEAN, S_SHOUT,
-    I_HUMAN, HT_LAND, 10, DEFAULT_ENERGY,
+    I_HUMAN, HT_LAND, 8, DEFAULT_ENERGY,
     MONUSE_STARTING_EQUIPMENT, SIZE_GIANT, MON_SHAPE_HUMANOID,
     {TILEP_MONS_IRON_GIANT}, TILE_CORPSE_IRON_GIANT
 },
 
 // dragons ('D')
-DUMMY(MONS_DRAGON, 'D', GREEN, "dragon")
+DUMMY(MONS_DRAGON, 'D', GREEN, "dragon", TILEP_MONS_FIRE_DRAGON)
 
 {
     MONS_FIRE_DRAGON, 'D', LIGHTRED, "fire dragon",
@@ -3219,7 +3219,7 @@ DUMMY(MONS_DRAGON, 'D', GREEN, "dragon")
 },
 
 // elementals (E)
-DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental")
+DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental", TILEP_MONS_WATER_ELEMENTAL)
 
 {
     MONS_EARTH_ELEMENTAL, 'E', ETC_EARTH, "earth elemental",
@@ -3346,11 +3346,11 @@ DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental")
     MONS_GIANT_EYEBALL, 'G', WHITE, "giant eyeball",
     M_SEE_INVIS | M_FLIES,
     MR_NO_FLAGS,
-    10, MONS_GIANT_EYEBALL, MONS_GIANT_EYEBALL, MH_NATURAL, 10,
+    6, MONS_GIANT_EYEBALL, MONS_GIANT_EYEBALL, MH_NATURAL, 10,
     { AT_NO_ATK, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
-    3, 165,
+    9, 165,
     0, 1, MST_GIANT_EYEBALL, CE_NOCORPSE, S_SILENT,
-    I_BRAINLESS, HT_LAND, 3, DEFAULT_ENERGY,
+    I_BRAINLESS, HT_LAND, 10, DEFAULT_ENERGY,
     MONUSE_NOTHING, SIZE_MEDIUM, MON_SHAPE_ORB,
     {TILEP_MONS_GIANT_EYEBALL}, TILE_ERROR
 },
@@ -3599,7 +3599,8 @@ DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental")
     {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR
 },
 
-DUMMY(MONS_MERGED_SLIME_CREATURE, 'J', LIGHTGREEN, "merged slime creature")
+DUMMY(MONS_MERGED_SLIME_CREATURE, 'J', LIGHTGREEN, "merged slime creature",
+      TILEP_MONS_PROGRAM_BUG)
 
 {
     MONS_AZURE_JELLY, 'J', LIGHTBLUE, "azure jelly",
@@ -4184,7 +4185,7 @@ DUMMY(MONS_MERGED_SLIME_CREATURE, 'J', LIGHTGREEN, "merged slime creature")
 },
 
 // snakes ('S')
-DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake")
+DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake", TILEP_MONS_ADDER)
 
 {
     MONS_BALL_PYTHON, 'S', GREEN, "ball python",
@@ -5140,7 +5141,7 @@ DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake")
 },
 
 // 'dummy' a fairly accurate description
-DUMMY(MONS_PLAYER, '@', LIGHTGREY, "player")
+DUMMY(MONS_PLAYER, '@', LIGHTGREY, "player", TILEP_MONS_PLAYER_GHOST)
 
 // player illusion (Mara) - stats are stored in ghost struct. Undead/demonic
 // flags are set based on the current player's species!
@@ -5827,11 +5828,11 @@ DUMMY(MONS_PLAYER, '@', LIGHTGREY, "player")
 },
 
 // trees and related creatures ('7')
-DUMMY(MONS_ANIMATED_TREE, '7', ETC_TREE, "animated tree")
+DUMMY(MONS_ANIMATED_TREE, '7', ETC_TREE, "animated tree", TILEP_MONS_TREANT)
 
 // non-living creatures
 // golems ('8')
-DUMMY(MONS_GOLEM, '8', LIGHTGREY, "golem")
+DUMMY(MONS_GOLEM, '8', LIGHTGREY, "golem", TILEP_MONS_IRON_GOLEM)
 
 {
     MONS_IRON_GOLEM, '8', CYAN, "iron golem",

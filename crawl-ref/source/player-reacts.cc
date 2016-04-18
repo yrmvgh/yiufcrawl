@@ -850,7 +850,7 @@ static void _regenerate_hp_and_mp(int delay)
 
     if (you.sp < you.sp_max)
     {
-        const int base_val = 7 + you.sp_max / 2;
+        const int base_val = 7 + you.sp_max / 4;
         int sp_regen_countup = div_rand_round(base_val * delay, BASELINE_DELAY);
 
         if (int level = player_mutation_level(MUT_STAMINA_REGENERATION))
@@ -961,7 +961,7 @@ void player_reacts()
 
     // Icy shield and armour melt over lava.
     if (grd(you.pos()) == DNGN_LAVA)
-        expose_player_to_element(BEAM_LAVA);
+        maybe_melt_player_enchantments(BEAM_FIRE, 10);
 
     // Handle starvation before subtracting hunger for this turn (including
     // hunger from the berserk duration) and before monsters react, so you

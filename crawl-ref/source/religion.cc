@@ -392,457 +392,6 @@ god_type random_god()
     return god;
 }
 
-string get_god_likes(god_type which_god, bool verbose)
-{
-    if (which_god == GOD_NO_GOD || which_god == GOD_XOM)
-        return "";
-
-    string text = uppercase_first(god_name(which_god));
-    vector<string> likes;
-    vector<string> really_likes;
-
-    // Unique/unusual piety gain methods first.
-    switch (which_god)
-    {
-    case GOD_SIF_MUNA:
-        likes.emplace_back("you train your various spell casting skills");
-        break;
-
-    case GOD_FEDHAS:
-    {
-        string like = "you promote the decay of nearby corpses";
-        if (verbose)
-           like += " by <w>p</w>raying";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_TROG:
-    {
-        string like = "you destroy spellbooks";
-        if (verbose)
-           like += " via the <w>a</w> command";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_ELYVILON:
-        likes.emplace_back("you explore the world");
-        break;
-
-    case GOD_JIYVA:
-    {
-        string like = "you sacrifice items";
-        if (verbose)
-            like += " by allowing slimes to consume them";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_CHEIBRIADOS:
-    {
-        string like = "you kill fast things";
-        if (verbose)
-            like += ", relative to your speed";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_ASHENZARI:
-        likes.emplace_back("you explore the world (preferably while bound by "
-                           "curses)");
-        break;
-
-    case GOD_SHINING_ONE:
-        likes.emplace_back("you meet creatures to determine whether they need "
-                           "to be eradicated");
-        break;
-
-    case GOD_LUGONU:
-        likes.emplace_back("you banish creatures to the Abyss");
-        break;
-
-    case GOD_GOZAG:
-        likes.emplace_back("you collect gold");
-        break;
-
-    case GOD_RU:
-      likes.emplace_back("you make personal sacrifices");
-      break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_ZIN:
-    {
-        string like = "you donate money";
-        likes.push_back(like);
-        break;
-    }
-
-    case GOD_NEMELEX_XOBEH:
-        likes.emplace_back("you explore the world");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_MAKHLEB:
-    case GOD_LUGONU:
-    case GOD_QAZLAL:
-    case GOD_PAKELLAS:
-        likes.emplace_back("you or your allies kill living beings");
-        break;
-
-    case GOD_TROG:
-        likes.emplace_back("you or your god-given allies kill living beings");
-        break;
-
-    case GOD_YREDELEMNUL:
-    case GOD_KIKUBAAQUDGHA:
-        likes.emplace_back("you or your undead slaves kill living beings");
-        break;
-
-    case GOD_BEOGH:
-        likes.emplace_back("you or your allied orcs kill living beings");
-        break;
-
-    case GOD_OKAWARU:
-    case GOD_VEHUMET:
-    case GOD_DITHMENOS:
-        likes.emplace_back("you kill living beings");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_ZIN:
-        likes.emplace_back("you or your allies kill unclean or chaotic beings");
-        break;
-
-    case GOD_SHINING_ONE:
-        likes.emplace_back("you or your allies kill living unholy or evil beings");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_SHINING_ONE:
-    case GOD_MAKHLEB:
-    case GOD_LUGONU:
-    case GOD_QAZLAL:
-    case GOD_PAKELLAS:
-        likes.emplace_back("you or your allies kill the undead");
-        break;
-
-    case GOD_BEOGH:
-        likes.emplace_back("you or your allied orcs kill the undead");
-        break;
-
-    case GOD_OKAWARU:
-    case GOD_VEHUMET:
-    case GOD_DITHMENOS:
-        likes.emplace_back("you kill the undead");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_SHINING_ONE:
-    case GOD_MAKHLEB:
-    case GOD_LUGONU:
-    case GOD_QAZLAL:
-    case GOD_PAKELLAS:
-        likes.emplace_back("you or your allies kill demons");
-        break;
-
-    case GOD_TROG:
-        likes.emplace_back("you or your god-given allies kill demons");
-        break;
-
-    case GOD_KIKUBAAQUDGHA:
-        likes.emplace_back("you or your undead slaves kill demons");
-        break;
-
-    case GOD_BEOGH:
-        likes.emplace_back("you or your allied orcs kill demons");
-        break;
-
-    case GOD_OKAWARU:
-    case GOD_VEHUMET:
-    case GOD_DITHMENOS:
-        likes.emplace_back("you kill demons");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_YREDELEMNUL:
-        likes.emplace_back("you or your undead slaves kill artificial beings");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_MAKHLEB:
-    case GOD_LUGONU:
-    case GOD_QAZLAL:
-    case GOD_PAKELLAS:
-        likes.emplace_back("you or your allies kill holy beings");
-        break;
-
-    case GOD_TROG:
-        likes.emplace_back("you or your god-given allies kill holy beings");
-        break;
-
-    case GOD_YREDELEMNUL:
-        likes.emplace_back("your undead slaves kill holy beings");
-        break;
-
-    case GOD_KIKUBAAQUDGHA:
-        likes.emplace_back("you or your undead slaves kill holy beings");
-        break;
-
-    case GOD_BEOGH:
-        likes.emplace_back("you or your allied orcs kill holy beings");
-        break;
-
-    case GOD_OKAWARU:
-    case GOD_VEHUMET:
-    case GOD_DITHMENOS:
-        likes.emplace_back("you kill holy beings");
-        break;
-
-    default:
-        break;
-    }
-
-    // Especially appreciated kills.
-    switch (which_god)
-    {
-    case GOD_YREDELEMNUL:
-        really_likes.emplace_back("you kill holy beings");
-        break;
-
-    case GOD_BEOGH:
-        really_likes.emplace_back("you kill the priests of other religions");
-        break;
-
-    case GOD_TROG:
-        really_likes.emplace_back("you kill wizards and other users of magic");
-        break;
-
-    case GOD_DITHMENOS:
-        really_likes.emplace_back("you kill beings that bring fire to the "
-                                  "dungeon");
-        break;
-    default:
-        break;
-    }
-
-    if (likes.empty() && really_likes.empty())
-        text += " doesn't like anything? This is a bug; please report it.";
-    else
-    {
-        text += " likes it when ";
-        text += comma_separated_line(likes.begin(), likes.end());
-        text += ".";
-
-        if (!really_likes.empty())
-        {
-            text += " ";
-            text += uppercase_first(god_name(which_god));
-
-            text += " especially likes it when ";
-            text += comma_separated_line(really_likes.begin(),
-                                         really_likes.end());
-            text += ".";
-        }
-    }
-
-    return text;
-}
-
-string get_god_dislikes(god_type which_god, bool /*verbose*/)
-{
-    // Return early for the special cases.
-    if (which_god == GOD_NO_GOD || which_god == GOD_XOM)
-        return "";
-
-    string text;
-    vector<string> dislikes;        // Piety loss
-    vector<string> really_dislikes; // Penance
-
-    if (god_hates_cannibalism(which_god))
-        really_dislikes.emplace_back("you perform cannibalism");
-
-    if (is_good_god(which_god))
-    {
-        really_dislikes.emplace_back("you desecrate holy remains");
-
-        if (which_god == GOD_SHINING_ONE)
-            really_dislikes.emplace_back("you drink blood");
-        else
-            dislikes.emplace_back("you drink blood");
-
-        really_dislikes.emplace_back("you use necromancy");
-        really_dislikes.emplace_back("you use unholy magic or items");
-        really_dislikes.emplace_back("you attack non-hostile holy beings");
-        really_dislikes.emplace_back("you or your allies kill non-hostile holy beings");
-
-        if (which_god == GOD_ZIN)
-            dislikes.emplace_back("you attack neutral beings");
-        else
-            really_dislikes.emplace_back("you attack neutral beings");
-    }
-
-    switch (which_god)
-    {
-    case GOD_ZIN:     case GOD_SHINING_ONE:  case GOD_ELYVILON:
-    case GOD_OKAWARU:
-        really_dislikes.emplace_back("you attack allies");
-        break;
-
-    case GOD_BEOGH:
-        really_dislikes.emplace_back("you attack allied orcs");
-        break;
-
-    case GOD_JIYVA:
-        really_dislikes.emplace_back("you attack fellow slimes");
-        break;
-
-    case GOD_FEDHAS:
-        dislikes.emplace_back("you or your allies destroy plants");
-        dislikes.emplace_back("allied flora die");
-        really_dislikes.emplace_back("you use necromancy on corpses, chunks or skeletons");
-        break;
-
-    case GOD_SIF_MUNA:
-        really_dislikes.emplace_back("you destroy spellbooks");
-        break;
-
-    case GOD_DITHMENOS:
-        dislikes.emplace_back("you use fiery magic or items");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_ELYVILON:
-        dislikes.emplace_back("you allow allies to die");
-        break;
-
-    default:
-        break;
-    }
-
-    switch (which_god)
-    {
-    case GOD_ZIN:
-        dislikes.emplace_back("you deliberately mutate yourself");
-        really_dislikes.emplace_back("you transform yourself");
-        really_dislikes.emplace_back("you polymorph monsters");
-        really_dislikes.emplace_back("you use unclean or chaotic magic or items");
-        really_dislikes.emplace_back("you butcher sentient beings");
-        dislikes.emplace_back("you or your allies attack monsters in a "
-                              "sanctuary");
-        break;
-
-    case GOD_SHINING_ONE:
-        really_dislikes.emplace_back("you poison monsters");
-        really_dislikes.emplace_back("you attack intelligent monsters in an "
-                                     "unchivalric manner");
-        break;
-
-    case GOD_ELYVILON:
-        really_dislikes.emplace_back("you kill living things while asking for "
-                                     "your life to be spared");
-        break;
-
-    case GOD_YREDELEMNUL:
-        really_dislikes.emplace_back("you use holy magic or items");
-        break;
-
-    case GOD_PAKELLAS:
-        really_dislikes.emplace_back("you channel magical energy");
-        break;
-
-    case GOD_TROG:
-        really_dislikes.emplace_back("you memorise spells");
-        really_dislikes.emplace_back("you attempt to cast spells");
-        really_dislikes.emplace_back("you train magic skills");
-        break;
-
-    case GOD_BEOGH:
-        really_dislikes.emplace_back("you desecrate orcish remains");
-        really_dislikes.emplace_back("you destroy orcish idols");
-        break;
-
-    case GOD_JIYVA:
-        really_dislikes.emplace_back("you kill slimes");
-        break;
-
-    case GOD_CHEIBRIADOS:
-        really_dislikes.emplace_back("you hasten yourself or others");
-        really_dislikes.emplace_back("use unnaturally quick items");
-        break;
-
-    default:
-        break;
-    }
-
-    if (dislikes.empty() && really_dislikes.empty())
-        return "";
-
-    if (!dislikes.empty())
-    {
-        text += uppercase_first(god_name(which_god));
-        text += " dislikes it when ";
-        text += comma_separated_line(dislikes.begin(), dislikes.end(),
-                                     " or ", ", ");
-        text += ".";
-
-        if (!really_dislikes.empty())
-            text += " ";
-    }
-
-    if (!really_dislikes.empty())
-    {
-        text += uppercase_first(god_name(which_god));
-        text += " strongly dislikes it when ";
-        text += comma_separated_line(really_dislikes.begin(),
-                                     really_dislikes.end(),
-                                     " or ", ", ");
-        text += ".";
-    }
-
-    return text;
-}
-
 
 god_iterator::god_iterator() :
     i(0) { } // might be ok to start with GOD_ZIN instead?
@@ -1382,6 +931,86 @@ static bool _give_nemelex_gift(bool forced = false)
     return false;
 }
 
+/**
+ * From the given list of items, return a random unseen item, if there are any.
+ * Otherwise, just return any of them at random.
+ *
+ * If we cared, we could make this a template function to return more specific
+ * types than 'int'. (That's probably not important, though.)
+ *
+ * @param item_types        A list of item types to choose from.
+ * @param seen_func         How to tell whether the item was seen.
+ * @return                  A random item type; e.g. WAND_ACID.
+ */
+static int _preferably_unseen_item(const vector<int> &item_types,
+                                   function<bool(int)> seen_func)
+{
+    ASSERT(item_types.size());
+    vector<int> unseen;
+    for (auto item : item_types)
+        if (!seen_func(item))
+            unseen.emplace_back(item);
+
+    if (unseen.size())
+        return unseen[random2(unseen.size())];
+    return item_types[random2(item_types.size())];
+}
+
+/// Has the player ID'd the given type of wand?
+static bool _seen_wand(int wand)
+{
+    return get_ident_type(OBJ_WANDS, wand);
+}
+
+static int _pakellas_low_wand()
+{
+    static const vector<int> low_wands = {
+        WAND_FLAME,
+        WAND_SLOWING,
+        WAND_CONFUSION,
+        WAND_POLYMORPH,
+        WAND_RANDOM_EFFECTS,
+    };
+
+    return _preferably_unseen_item(low_wands, _seen_wand);
+}
+
+static int _pakellas_high_wand()
+{
+    vector<int> high_wands = {
+        WAND_PARALYSIS,
+        WAND_ICEBLAST,
+        WAND_ACID,
+    };
+    if (!player_mutation_level(MUT_NO_LOVE))
+        high_wands.emplace_back(WAND_ENSLAVEMENT);
+
+    return _preferably_unseen_item(high_wands, _seen_wand);
+}
+
+static int _pakellas_low_misc()
+{
+    // Limited uses, so any of these are fine even if they've been seen before.
+    return random_choose(MISC_BOX_OF_BEASTS,
+                         MISC_SACK_OF_SPIDERS,
+                         MISC_PHANTOM_MIRROR);
+}
+
+static int _pakellas_high_misc()
+{
+    static const vector<int> high_miscs = {
+        MISC_FAN_OF_GALES,
+        MISC_LAMP_OF_FIRE,
+        MISC_STONE_OF_TREMORS,
+        MISC_PHIAL_OF_FLOODS,
+        MISC_DISC_OF_STORMS,
+    };
+
+    return _preferably_unseen_item(high_miscs, [](int misc) {
+        return you.seen_misc[misc];
+    });
+}
+
 static bool _give_pakellas_gift()
 {
     // Break early if giving a gift now means it would be lost.
@@ -1391,29 +1020,81 @@ static bool _give_pakellas_gift()
         return false;
     }
 
-    object_class_type gift_type = OBJ_UNASSIGNED;
+    bool success = false;
+    object_class_type basetype = OBJ_UNASSIGNED;
+    int subtype;
 
-    if (you.num_total_gifts[GOD_PAKELLAS] == 0)
-        gift_type = OBJ_WANDS;
-    else if (you.species == SP_FELID)
-        gift_type = coinflip() ? OBJ_WANDS : OBJ_MISCELLANY;
-    else if (you.num_total_gifts[GOD_PAKELLAS] == 1)
-        gift_type = OBJ_RODS;
-    else
+    if (you.piety >= piety_breakpoint(0)
+        && you.num_total_gifts[GOD_PAKELLAS] == 0)
     {
-        gift_type = random_choose_weighted(5, OBJ_WANDS,
-                                           5, OBJ_MISCELLANY,
-                                           3, OBJ_RODS,
-                                           0);
+        basetype = OBJ_WANDS;
+        subtype = _pakellas_low_wand();
+    }
+    else if (you.piety >= piety_breakpoint(1)
+             && you.num_total_gifts[GOD_PAKELLAS] == 1)
+    {
+        // All the evoker options here are summon-based, so give another
+        // low-level wand instead under Sacrifice Love.
+        if (player_mutation_level(MUT_NO_LOVE))
+        {
+            basetype = OBJ_WANDS;
+            subtype = _pakellas_low_wand();
+        }
+        else
+        {
+            basetype = OBJ_MISCELLANY;
+            subtype = _pakellas_low_misc();
+        }
+    }
+    else if (you.piety >= piety_breakpoint(2)
+             && you.num_total_gifts[GOD_PAKELLAS] == 2)
+    {
+        basetype = OBJ_WANDS;
+        subtype = _pakellas_high_wand();
+    }
+    else if (you.piety >= piety_breakpoint(3)
+             && you.num_total_gifts[GOD_PAKELLAS] == 3)
+    {
+        basetype = OBJ_MISCELLANY;
+        subtype = _pakellas_high_misc();
+    }
+    else if (you.piety >= piety_breakpoint(4)
+             && you.num_total_gifts[GOD_PAKELLAS] == 4)
+    {
+        // Felids get another high-level wand or evoker instead of a rod.
+        if (you.species == SP_FELID)
+        {
+            basetype = coinflip() ? OBJ_WANDS : OBJ_MISCELLANY;
+            subtype = (basetype == OBJ_WANDS) ? _pakellas_high_wand()
+                                              : _pakellas_high_misc();
+        }
+        else
+            basetype = OBJ_RODS;
     }
 
-    if (acquirement(gift_type, you.religion))
+    if (basetype == OBJ_UNASSIGNED)
+        return false;
+    else if (basetype == OBJ_RODS)
+        success = acquirement(basetype, you.religion);
+    else
+    {
+        int thing_created = items(true, basetype, subtype, 1, 0,
+                                  you.religion);
+
+        if (thing_created == NON_ITEM)
+            return false;
+
+        move_item_to_grid(&thing_created, you.pos(), true);
+
+        if (thing_created != NON_ITEM)
+            success = true;
+    }
+
+    if (success)
     {
         simple_god_message(" grants you a gift!");
         // included in default force_more_message
 
-        if (you.num_total_gifts[GOD_PAKELLAS] > 0)
-            _inc_gift_timeout(150 + random2avg(29, 2));
         you.num_current_gifts[you.religion]++;
         you.num_total_gifts[you.religion]++;
         take_note(Note(NOTE_GOD_GIFT, you.religion));
@@ -1685,16 +1366,7 @@ bool do_god_gift(bool forced)
             break;
 
         case GOD_PAKELLAS:
-            if (forced && coinflip()
-                || you.piety >= piety_breakpoint(1)
-                   && you.num_total_gifts[you.religion] == 0
-                || you.piety >= piety_breakpoint(3)
-                   && you.num_total_gifts[you.religion] == 1
-                || !forced && random2(you.piety) > piety_breakpoint(3)
-                   && one_chance_in(4))
-            {
-                success = _give_pakellas_gift();
-            }
+            success = _give_pakellas_gift();
             break;
 
         case GOD_OKAWARU:
@@ -2973,7 +2645,8 @@ bool player_can_join_god(god_type which_god)
     }
 
     if (player_mutation_level(MUT_NO_ARTIFICE)
-        && which_god == GOD_NEMELEX_XOBEH)
+        && (which_god == GOD_NEMELEX_XOBEH
+            || which_god == GOD_PAKELLAS))
     {
       return false;
     }
@@ -3545,8 +3218,8 @@ void god_pitch(god_type which_god)
         }
         else if (player_mutation_level(MUT_NO_LOVE)
                  && (which_god == GOD_BEOGH
-                 || which_god == GOD_ELYVILON
-                 || which_god == GOD_JIYVA))
+                     || which_god == GOD_ELYVILON
+                     || which_god == GOD_JIYVA))
         {
             simple_god_message(" does not accept worship from the loveless!",
                                which_god);
@@ -3554,8 +3227,14 @@ void god_pitch(god_type which_god)
         else if (player_mutation_level(MUT_NO_ARTIFICE)
                  && which_god == GOD_NEMELEX_XOBEH)
         {
-            simple_god_message(" does not accept worship for those who cannot "
+            simple_god_message(" does not accept worship from those who cannot "
                               "deal a hand of cards!", which_god);
+        }
+        else if (player_mutation_level(MUT_NO_ARTIFICE)
+                 && which_god == GOD_PAKELLAS)
+        {
+            simple_god_message(" does not accept worship from those who are "
+                               "unable to use magical devices!", which_god);
         }
         else if (!_transformed_player_can_join_god(which_god))
         {
@@ -3691,11 +3370,6 @@ bool god_hates_your_god(god_type god, god_type your_god)
         return true;
 
     return is_evil_god(your_god);
-}
-
-bool god_hates_cannibalism(god_type god)
-{
-    return is_good_god(god) || god == GOD_BEOGH;
 }
 
 bool god_hates_killing(god_type god, const monster* mon)

@@ -2299,11 +2299,14 @@ void process_command(command_type cmd)
                 if (eat_food())
                     you.prev_direction.reset();
                 break;
+            case CMD_EXERT_NORMAL:
+                set_exertion(EXERT_NORMAL);
+                break;
             case CMD_EXERT_CAREFUL:
-                exert_toggle(EXERT_CAREFUL);
+                set_exertion(EXERT_CAREFUL);
                 break;
             case CMD_EXERT_POWER:
-                exert_toggle(EXERT_POWER);
+                set_exertion(EXERT_POWER);
                 break;
             case CMD_FIRE:                 fire_thing();             break;
             case CMD_FORCE_CAST_SPELL:     do_cast_spell_cmd(true);  break;

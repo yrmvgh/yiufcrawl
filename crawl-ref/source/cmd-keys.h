@@ -40,6 +40,7 @@
 // other commands
 {'a', CMD_USE_ABILITY},
 //{'c', CMD_BUTCHER},
+{'c', CMD_EXERT_NORMAL},
 {'d', CMD_DROP_INVENTORY},
 //{'e', CMD_EAT},
 {'e', CMD_EXERT_POWER},

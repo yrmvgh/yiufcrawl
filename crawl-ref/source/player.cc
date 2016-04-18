@@ -22,9 +22,7 @@
 #include "art-enum.h"
 #include "bloodspatter.h"
 #include "branch.h"
-#ifdef DGL_WHEREIS
- #include "chardump.h"
-#endif
+#include "chardump.h"
 #include "cloud.h"
 #include "coordit.h"
 #include "delay.h"
@@ -4189,6 +4187,8 @@ bool player_is_very_tired(bool silent)
 void set_exertion(const exertion_mode new_exertion)
 {
     you.exertion = new_exertion;
+    you.duration[DUR_CARE] = 0;
+    you.duration[DUR_POWER] = 0;
     switch(new_exertion)
     {
         case EXERT_POWER:
@@ -4198,8 +4198,6 @@ void set_exertion(const exertion_mode new_exertion)
             you.duration[DUR_CARE] = 1;
             break;
         default:
-            you.duration[DUR_POWER] = 0;
-            you.duration[DUR_CARE] = 0;
             break;
     }
     you.redraw_status_lights = true;
@@ -4521,10 +4519,10 @@ int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 
 int get_real_sp(bool include_items)
 {
-    int max_sp = 100;
+    int max_sp = 50;
 
     int boost = 0;
-    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);
+//    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);
     boost += player_mutation_level(MUT_HIGH_STAMINA);
     boost -= player_mutation_level(MUT_LOW_STAMINA);
 
@@ -5110,11 +5108,11 @@ void dec_napalm_player(int delay)
 
     mprf(MSGCH_WARN, "You are covered in liquid flames!");
 
-    expose_player_to_element(BEAM_STICKY_FLAME,
-                             div_rand_round(delay * 4, BASELINE_DELAY));
-
     const int hurted = resist_adjust_damage(&you, BEAM_FIRE,
                                             random2avg(9, 2) + 1);
+
+    you.expose_to_element(BEAM_STICKY_FLAME, 2);
+    maybe_melt_player_enchantments(BEAM_STICKY_FLAME, hurted * delay / BASELINE_DELAY);
 
     ouch(hurted * delay / BASELINE_DELAY, KILLED_BY_BURNING);
 
@@ -5756,6 +5754,7 @@ player::player()
     redraw_quiver        = false;
     redraw_status_lights = false;
     redraw_hit_points    = false;
+    redraw_stamina_points= false;
     redraw_magic_points  = false;
     redraw_temperature   = false;
     redraw_stats.init(false);
@@ -6123,6 +6122,10 @@ void player::shield_block_succeeded(actor *foe)
 
     shield_blocks++;
     practise(EX_SHIELD_BLOCK);
+    if (shield())
+        count_action(CACT_BLOCK, shield()->sub_type);
+    else
+        count_action(CACT_BLOCK, -1, BLOCK_OTHER); // non-shield block
 }
 
 int player::missile_deflection() const
@@ -8182,14 +8185,6 @@ static string _constriction_description()
     return cinfo;
 }
 
-void count_action(caction_type type, int subtype)
-{
-    pair<caction_type, int> pair(type, subtype);
-    if (!you.action_count.count(pair))
-        you.action_count[pair].init(0);
-    you.action_count[pair][you.experience_level - 1]++;
-}
-
 /**
  *   The player's radius of monster detection.
  *   @return   the radius in which a player can detect monsters.
@@ -8373,7 +8368,8 @@ void temperature_changed(float change)
     if (you.temperature >= TEMP_WARM)
     {
         // Handles condensation shield, ozo's armour, icemail.
-        expose_player_to_element(BEAM_FIRE, 0);
+        // 10 => 100aut reduction in duration.
+        maybe_melt_player_enchantments(BEAM_FIRE, 10);
 
         // Handled separately because normally heat doesn't affect this.
         if (you.form == TRAN_ICE_BEAST || you.form == TRAN_STATUE)

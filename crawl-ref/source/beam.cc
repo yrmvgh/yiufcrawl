@@ -21,6 +21,7 @@
 #include "attitude-change.h"
 #include "bloodspatter.h"
 #include "branch.h"
+#include "chardump.h"
 #include "cloud.h"
 #include "colour.h"
 #include "coordit.h"
@@ -3211,7 +3212,10 @@ void bolt::reflect()
     bounce_pos.reset();
 
     if (pos() == you.pos())
+    {
         reflector = MID_PLAYER;
+        count_action(CACT_BLOCK, -1, BLOCK_REFLECT);
+    }
     else if (monster* m = monster_at(pos()))
         reflector = m->mid;
     else
@@ -3405,13 +3409,17 @@ bool bolt::misses_player(int hurted)
     int defl = you.missile_deflection();
 
     if (!_test_beam_hit(real_tohit, dodge, pierce, 0, r))
+    {
         mprf("The %s misses you.", name.c_str());
+        count_action(CACT_DODGE, DODGE_EVASION);
+    }
     else if (defl && !_test_beam_hit(real_tohit, dodge, pierce, defl, r))
     {
         // active voice to imply stronger effect
         mprf(defl == 1 ? "The %s is repelled." : "You deflect the %s!",
              name.c_str());
         you.ablate_deflection();
+        count_action(CACT_DODGE, DODGE_DEFLECT);
     }
     else
     {
@@ -4044,6 +4052,14 @@ void bolt::affect_player()
         }
     }
 
+    // need to trigger qaz resists after reducing damage from ac/resists.
+    //    for some reason, strength 2 is the standard. This leads to qaz's resists triggering 2 in 5 times at max piety.
+    //    perhaps this should scale with damage?
+    // what to do for hybrid damage?  E.g. bolt of magma, icicle, poison arrow?  Right now just ignore the physical component.
+    // what about acid?
+    you.expose_to_element(flavour, 2, false);
+
+
     // Manticore spikes
     if (origin_spell == SPELL_THROW_BARBS && hurted > 0)
     {
@@ -4139,7 +4155,7 @@ int bolt::apply_AC(const actor *victim, int hurted)
         ac_rule = AC_NONE;
 
     // beams don't obey GDR -> max_damage is 0
-    return victim->apply_ac(hurted, 0, ac_rule);
+    return victim->apply_ac(hurted, 0, ac_rule, 0, !is_tracer);
 }
 
 void bolt::update_hurt_or_helped(monster* mon)
