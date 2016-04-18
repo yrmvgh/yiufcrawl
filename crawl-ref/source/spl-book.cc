@@ -379,8 +379,9 @@ static bool _get_mem_list(spell_list &mem_spells,
     unsigned int  num_books      = 0;
     unsigned int  num_unknown    = 0;
 
+    FixedVector<item_def, 52> *const inv = book_inv();
     // Collect the list of all spells in all available spellbooks.
-    for (auto &book : you.inv2)
+    for (auto &book : (*inv))
     {
         if (!book.defined() || !item_is_spellbook(book))
             continue;
@@ -932,7 +933,8 @@ bool forget_spell_from_book(spell_type spell, const item_def* book)
     {
         item_was_destroyed(*book);
         destroy_spellbook(*book);
-        dec_inv_item_quantity(you.inv1, book->link, 1);
+        FixedVector<item_def, 52> *const inv = book_inv();
+        dec_inv_item_quantity((*inv), book->link, 1);
         you.turn_is_over = true;
         return true;
     }

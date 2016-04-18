@@ -733,7 +733,7 @@ static void _sdump_inventory(dump_params &par)
                     continue;
 
                 text += " ";
-                text += item.name(DESC_INVENTORY_EQUIP);
+                text += item.name(DESC_INVENTORY);
 
                 inv_count--;
 

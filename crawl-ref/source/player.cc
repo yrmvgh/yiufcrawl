@@ -4194,7 +4194,7 @@ void set_exertion(const exertion_mode new_exertion)
         mpr("You can't change exertion mode while berserk.");
         return;
     }
-    
+
     you.exertion = new_exertion;
     you.duration[DUR_CARE] = 0;
     you.duration[DUR_POWER] = 0;
