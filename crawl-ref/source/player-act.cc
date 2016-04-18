@@ -752,8 +752,8 @@ bool player::go_berserk(bool intentional, bool potion)
     if (!you.can_go_berserk(intentional, potion))
         return false;
 
-//    if (player_is_tired())
-//        return false;
+    if (player_is_tired())
+        return false;
 
     if (check_stasis())
         return false;
@@ -821,8 +821,6 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
 
     if (berserk())
         msg = "You're already berserk!";
-//    else if (duration[DUR_EXHAUSTED])
-//         msg = "You're too exhausted to go berserk.";
     else if (player_is_tired(true))
         msg = "You are too tired to berserk now.";
     else if (duration[DUR_DEATHS_DOOR])
@@ -831,8 +829,6 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
         msg = "You are too mesmerised to rage.";
     else if (afraid())
         msg = "You are too terrified to rage.";
-//    else if (you.species == SP_DJINNI)
-//        msg = "Only creatures of flesh and blood can berserk.";
     else if (is_lifeless_undead())
         msg = "You cannot raise a blood rage in your lifeless body.";
     // Stasis for identified amulets; unided amulets will trigger when the
