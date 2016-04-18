@@ -172,7 +172,7 @@ int calc_skill_cost(int skill_cost_level)
     else
     {
         ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
-        cost = stepup2(skill_cost_level, 6, 3, 5) + 1;
+        cost = stepup2(skill_cost_level, 6, 2, 14) + 1;
     }
 
     return cost;
@@ -201,7 +201,7 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
     }
     else
     {
-        const int exp_needed = stepup2(lev + 1, 4, 3, 150) + 10;
+        const int exp_needed = stepup2(lev, 1, 2, 40) + 10;
         const float apt = species_apt_factor(sk, sp);
         result = exp_needed * apt;
     }
