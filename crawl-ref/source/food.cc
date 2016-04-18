@@ -1001,11 +1001,13 @@ static void _eat_chunk(item_def& food)
 
 static void _eating(item_def& food)
 {
-    if (food.sub_type == FOOD_FRUIT)
+    switch (food.sub_type)
     {
-        int amount = 50;
-        inc_sp(amount);
-        mprf("That was refreshing! (sp+%d)", amount);
+        case FOOD_FRUIT:
+            inc_sp(50);
+            mpr("That was refreshing! (sp+50)");
+        case FOOD_ROYAL_JELLY:
+            you.duration[DUR_TIRELESS] += 500;
     }
 
     /*
