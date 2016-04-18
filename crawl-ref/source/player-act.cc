@@ -758,6 +758,8 @@ bool player::go_berserk(bool intentional, bool potion)
     if (check_stasis())
         return false;
 
+    set_exertion(EXERT_POWER);
+
     if (crawl_state.game_is_hints())
         Hints.hints_berserk_counter++;
 

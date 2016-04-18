@@ -4186,6 +4186,15 @@ bool player_is_very_tired(bool silent)
 
 void set_exertion(const exertion_mode new_exertion)
 {
+    if (new_exertion == you.exertion)
+        return;
+
+    if (you.duration[DUR_BERSERK])
+    {
+        mpr("You can't change exertion mode while berserk.");
+        return;
+    }
+    
     you.exertion = new_exertion;
     you.duration[DUR_CARE] = 0;
     you.duration[DUR_POWER] = 0;
@@ -4201,18 +4210,6 @@ void set_exertion(const exertion_mode new_exertion)
             break;
     }
     you.redraw_status_lights = true;
-}
-
-void exert_toggle(exertion_mode new_exertion)
-{
-    if(you.exertion == EXERT_NORMAL)
-    {
-        if (!player_is_tired())
-            set_exertion(new_exertion)
-            ;
-    }
-    else
-        set_exertion(EXERT_NORMAL);
 }
 
 /*
