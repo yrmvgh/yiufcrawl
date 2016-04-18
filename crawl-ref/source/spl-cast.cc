@@ -743,6 +743,12 @@ void inspect_spells()
 
 static bool _can_cast()
 {
+    if (player_is_very_tired(true))
+    {
+        mpr("You are too tired to use your magic now.");
+        return false;
+    }
+
     if (!get_form()->can_cast)
     {
         canned_msg(MSG_PRESENT_FORM);

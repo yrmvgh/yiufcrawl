@@ -155,7 +155,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_SLUDGE_ELF,      SK_SUMMONINGS,      0),
     APT(SP_SLUDGE_ELF,      SK_NECROMANCY,      0),
     APT(SP_SLUDGE_ELF,      SK_TRANSLOCATIONS,  0),
-    APT(SP_SLUDGE_ELF,      SK_TRANSMUTATIONS,  0),
+    APT(SP_SLUDGE_ELF,      SK_TRANSMUTATIONS,  2),
     APT(SP_SLUDGE_ELF,      SK_FIRE_MAGIC,      0),
     APT(SP_SLUDGE_ELF,      SK_ICE_MAGIC,       0),
     APT(SP_SLUDGE_ELF,      SK_AIR_MAGIC,       0),

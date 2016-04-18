@@ -4186,6 +4186,15 @@ bool player_is_very_tired(bool silent)
 
 void set_exertion(const exertion_mode new_exertion)
 {
+    if (new_exertion == you.exertion)
+        return;
+
+    if (you.duration[DUR_BERSERK])
+    {
+        mpr("You can't change exertion mode while berserk.");
+        return;
+    }
+
     you.exertion = new_exertion;
     you.duration[DUR_CARE] = 0;
     you.duration[DUR_POWER] = 0;
@@ -4203,18 +4212,6 @@ void set_exertion(const exertion_mode new_exertion)
     you.redraw_status_lights = true;
 }
 
-void exert_toggle(exertion_mode new_exertion)
-{
-    if(you.exertion == EXERT_NORMAL)
-    {
-        if (!player_is_tired())
-            set_exertion(new_exertion)
-            ;
-    }
-    else
-        set_exertion(EXERT_NORMAL);
-}
-
 /*
  * Won't consume stamina if player is at normal exertion
  */
@@ -4226,6 +4223,9 @@ void maybe_consume_stamina(int factor)
 
 void dec_sp(int sp_loss, bool special)
 {
+    if (you.duration[DUR_TIRELESS])
+        sp_loss = div_rand_round(sp_loss, 4);
+
     if (sp_loss < 1)
         return;
 
@@ -4233,13 +4233,13 @@ void dec_sp(int sp_loss, bool special)
         switch(player_mutation_level(MUT_STAMINA_EFFICIENT_SPECIAL))
         {
             case 1:
-                sp_loss = div_rand_round(sp_loss * 3, 4);
+                sp_loss = div_rand_round(sp_loss * 2, 3);
                 break;
             case 2:
-                sp_loss = div_rand_round(sp_loss, 2);
+                sp_loss = div_rand_round(sp_loss, 3);
                 break;
             case 3:
-                sp_loss = div_rand_round(sp_loss, 4);
+                sp_loss = div_rand_round(sp_loss, 9);
                 break;
             default:
                 break;
@@ -4248,13 +4248,13 @@ void dec_sp(int sp_loss, bool special)
         switch(player_mutation_level(MUT_STAMINA_EFFICIENT_NORMAL))
         {
             case 1:
-                sp_loss = div_rand_round(sp_loss * 3, 4);
+                sp_loss = div_rand_round(sp_loss * 2, 3);
                 break;
             case 2:
-                sp_loss = div_rand_round(sp_loss, 2);
+                sp_loss = div_rand_round(sp_loss, 3);
                 break;
             case 3:
-                sp_loss = div_rand_round(sp_loss, 4);
+                sp_loss = div_rand_round(sp_loss, 9);
                 break;
             default:
                 break;
@@ -4265,6 +4265,11 @@ void dec_sp(int sp_loss, bool special)
     {
         you.sp = 0;
         set_exertion(EXERT_NORMAL);
+        if (you.duration[DUR_BERSERK] > 1)
+        {
+            mpr("You are too tired to continue your rampage.");
+            you.duration[DUR_BERSERK] = 1;
+        }
     }
 
     you.redraw_stamina_points = true;

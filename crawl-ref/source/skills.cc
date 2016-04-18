@@ -130,6 +130,7 @@ struct species_skill_aptitude
 
 #include "aptitudes.h"
 #include "stepdown.h"
+#include "invent.h"
 
 // Traditionally, Spellcasting and In/Evocations formed the exceptions here:
 // Spellcasting skill was more expensive with about 130%, the other two got
@@ -172,7 +173,7 @@ int calc_skill_cost(int skill_cost_level)
     else
     {
         ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
-        cost = stepup2(skill_cost_level, 6, 3, 5) + 1;
+        cost = stepup2(skill_cost_level, 6, 2, 14) + 1;
     }
 
     return cost;
@@ -201,7 +202,7 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
     }
     else
     {
-        const int exp_needed = stepup2(lev + 1, 4, 3, 150) + 10;
+        const int exp_needed = stepup2(lev, 1, 2, 40) + 10;
         const float apt = species_apt_factor(sk, sp);
         result = exp_needed * apt;
     }
@@ -1067,11 +1068,12 @@ static int _train(skill_type exsk, int &max_exp, bool simu)
         return 0;
 
     // Bonus from manual
+    FixedVector<item_def, 52> *const inv = book_inv();
     int slot;
     int bonus_left = skill_inc;
     while (bonus_left > 0 && (slot = manual_slot_for_skill(exsk)) != -1)
     {
-        item_def& manual(you.inv1[slot]);
+        item_def& manual((*inv)[slot]);
         const int bonus = min<int>(bonus_left, manual.skill_points);
         skill_inc += bonus;
         bonus_left -= bonus;

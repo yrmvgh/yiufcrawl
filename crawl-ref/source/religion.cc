@@ -153,7 +153,7 @@ const vector<god_power> god_powers[NUM_GODS] =
 
     // Sif Muna
     { { 1, ABIL_SIF_MUNA_CHANNEL_ENERGY, "tap ambient magical fields" },
-      { 2, "Sif Muna is protecting you from the effects of miscast magic.",
+      { 3, "Sif Muna is protecting you from the effects of miscast magic.",
            "Sif Muna no longer protects you from the effects of miscast magic." },
       { 4, ABIL_SIF_MUNA_FORGET_SPELL, "freely open your mind to new spells",
           "forget spells at will" },
@@ -1488,7 +1488,7 @@ bool do_god_gift(bool forced)
                     gift = BOOK_DEATH;
                 }
             }
-            else if (forced || you.piety >= piety_breakpoint(5)
+            else if (forced || you.piety >= piety_breakpoint(2)
                                && random2(you.piety) > 100)
             {
                 // Sif Muna special: Keep quiet if acquirement fails

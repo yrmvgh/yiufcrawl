@@ -274,4 +274,11 @@ bool is_consumable(object_class_type type);
 bool is_consumable(FixedVector< item_def, ENDOFPACK > &inv);
 void inv_from_item(FixedVector< item_def, ENDOFPACK > *&inv, object_class_type type);
 bool inv_from_prompt(FixedVector< item_def, ENDOFPACK > *&inv, const char* prompt);
+
+FixedVector< item_def, ENDOFPACK > *evoke_inv();
+FixedVector< item_def, ENDOFPACK > *equip_inv();
+FixedVector< item_def, ENDOFPACK > *potion_inv();
+FixedVector< item_def, ENDOFPACK > *scroll_inv();
+FixedVector< item_def, ENDOFPACK > *book_inv();
+
 #endif

@@ -935,8 +935,11 @@ int manual_slot_for_skill(skill_type skill)
     int slot = -1;
     int charges = -1;
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
-    for (;iter!=you.inv1.end(); ++iter)
+    FixedVector<item_def, 52> *inv;
+    inv_from_item(inv, OBJ_BOOKS);
+
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = inv->begin();
+    for (; iter != inv->end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS || iter->sub_type != BOOK_MANUAL)
             continue;
@@ -947,7 +950,7 @@ int manual_slot_for_skill(skill_type skill)
         if (slot != -1 && iter->skill_points > charges)
             continue;
 
-        slot = iter - you.inv1.begin();
+        slot = iter - inv->begin();
         charges = iter->skill_points;
     }
 
@@ -961,20 +964,23 @@ bool skill_has_manual(skill_type skill)
 
 void finish_manual(int slot)
 {
-    item_def& manual(you.inv1[slot]);
+    FixedVector<item_def, 52> *const inv = book_inv();
+    item_def& manual((*inv)[slot]);
     const skill_type skill = static_cast<skill_type>(manual.plus);
 
     mprf("You have finished your manual of %s and toss it away.",
          skill_name(skill));
-    dec_inv_item_quantity(you.inv1, slot, 1);
+    dec_inv_item_quantity((*inv), slot, 1);
 }
 
 void get_all_manual_charges(vector<int> &charges)
 {
     charges.clear();
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
-    for (;iter!=you.inv1.end(); ++iter)
+    FixedVector<item_def, 52> *const inv = book_inv();
+
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = (*inv).begin();
+    for (;iter!=(*inv).end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS || iter->sub_type != BOOK_MANUAL)
             continue;
@@ -985,8 +991,10 @@ void get_all_manual_charges(vector<int> &charges)
 
 void set_all_manual_charges(const vector<int> &charges)
 {
+    FixedVector<item_def, 52> *const inv = book_inv();
+
     auto charge_iter = charges.begin();
-    for (item_def &item : you.inv1)
+    for (item_def &item : (*inv))
     {
         if (item.base_type != OBJ_BOOKS || item.sub_type != BOOK_MANUAL)
             continue;
@@ -1001,9 +1009,10 @@ void set_all_manual_charges(const vector<int> &charges)
 string manual_skill_names(bool short_text)
 {
     skill_set skills;
+    FixedVector<item_def, 52> *const inv = book_inv();
 
-    FixedVector<item_def,ENDOFPACK>::const_pointer iter = you.inv1.begin();
-    for (;iter!=you.inv1.end(); ++iter)
+    FixedVector<item_def,ENDOFPACK>::const_pointer iter = (*inv).begin();
+    for (;iter!=(*inv).end(); ++iter)
     {
         if (iter->base_type != OBJ_BOOKS
             || iter->sub_type != BOOK_MANUAL

@@ -489,14 +489,16 @@ bool attack::distortion_affects_defender()
     switch (choice)
     {
     case SMALL_DMG:
-        special_damage_message = make_stringf("Space bends around %s.",
-                                              defender_name(false).c_str());
         special_damage += 1 + random2avg(7, 2);
+        special_damage_message = make_stringf("Space bends around %s. (%d)",
+                                              defender_name(false).c_str(),
+                                              special_damage);
         break;
     case BIG_DMG:
-        special_damage_message = make_stringf("Space warps horribly around %s!",
-                                              defender_name(false).c_str());
         special_damage += 3 + random2avg(24, 2);
+        special_damage_message = make_stringf("Space warps horribly around %s! (%d)",
+                                              defender_name(false).c_str(),
+                                              special_damage);
         break;
     case BLINK:
         if (defender_visible)

@@ -2447,6 +2447,41 @@ bool is_consumable(object_class_type type)
 	return result;
 }
 
+FixedVector< item_def, ENDOFPACK > *evoke_inv()
+{
+    FixedVector< item_def, ENDOFPACK > *inv;
+    inv_from_item(inv, OBJ_WANDS);
+    return inv;
+}
+
+FixedVector< item_def, ENDOFPACK > *equip_inv()
+{
+    FixedVector< item_def, ENDOFPACK > *inv;
+    inv_from_item(inv, OBJ_WEAPONS);
+    return inv;
+}
+
+FixedVector< item_def, ENDOFPACK > *potion_inv()
+{
+    FixedVector< item_def, ENDOFPACK > *inv;
+    inv_from_item(inv, OBJ_POTIONS);
+    return inv;
+}
+
+FixedVector< item_def, ENDOFPACK > *scroll_inv()
+{
+    FixedVector< item_def, ENDOFPACK > *inv;
+    inv_from_item(inv, OBJ_SCROLLS);
+    return inv;
+}
+
+FixedVector< item_def, ENDOFPACK > *book_inv()
+{
+    FixedVector< item_def, ENDOFPACK > *inv;
+    inv_from_item(inv, OBJ_BOOKS);
+    return inv;
+}
+
 bool is_consumable(FixedVector< item_def, ENDOFPACK > &inv)
 {
 	return (&inv == &you.inv2);

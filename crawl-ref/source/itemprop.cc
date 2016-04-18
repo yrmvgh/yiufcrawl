@@ -920,6 +920,7 @@ void do_curse_item(item_def &item, int power, bool quiet)
             {
                 // Redraw the weapon.
                 you.wield_change = true;
+                you.m_quiver.on_weapon_changed();
             }
 
             ash_check_bondage();
@@ -963,6 +964,7 @@ void do_uncurse_item(item_def &item, int power,
         {
             // Redraw the weapon.
             you.wield_change = true;
+            you.m_quiver.on_weapon_changed();
         }
         item.flags |= ISFLAG_KNOW_CURSE;
     }
