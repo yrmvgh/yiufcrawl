@@ -823,7 +823,7 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
 
     if (berserk())
         msg = "You're already berserk!";
-    else if (player_is_tired(true))
+    else if (player_is_tired(true) && !potion)
         msg = "You are too tired to berserk now.";
     else if (duration[DUR_DEATHS_DOOR])
         msg = "You can't enter a blood rage from death's door.";
