@@ -4268,6 +4268,11 @@ void dec_sp(int sp_loss, bool special)
     {
         you.sp = 0;
         set_exertion(EXERT_NORMAL);
+        if (you.duration[DUR_BERSERK] > 1)
+        {
+            mpr("You are too tired to continue your rampage.");
+            you.duration[DUR_BERSERK] = 1;
+        }
     }
 
     you.redraw_stamina_points = true;
