@@ -4519,7 +4519,7 @@ int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 
 int get_real_sp(bool include_items)
 {
-    int max_sp = 40;
+    int max_sp = 50;
 
     int boost = 0;
 //    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);
