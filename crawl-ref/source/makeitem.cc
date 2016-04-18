@@ -1465,7 +1465,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
         {
             item.sub_type = random_choose_weighted(
                 200, SCR_IDENTIFY,
-                112, SCR_REMOVE_CURSE,
+            112 / 2, SCR_REMOVE_CURSE,
                  // [Cha] don't generate teleportation scrolls if in sprint
                  80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
                  40, SCR_ENCHANT_ARMOUR,
