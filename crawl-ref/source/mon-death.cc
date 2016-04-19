@@ -448,10 +448,6 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     if (!no_coinflip && coinflip())
         return nullptr;
 
-    // 25% chance of dropping corpse if on hard mode, instead of 50%.
-//    if (crawl_state.difficulty == DIFFICULTY_HARD && !no_coinflip && coinflip())
-//        return nullptr;
-
     // The game can attempt to place a corpse for an out-of-bounds monster
     // if a shifter turns into a giant spore and explodes. In this
     // case we place no corpse since the explosion means anything left
@@ -489,16 +485,44 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
 
     origin_set_monster(corpse, &mons);
 
-    if ((mons.flags & MF_EXPLODE_KILL) && _explode_corpse(corpse, mons.pos()))
+    if (coinflip())
     {
-        // We already have a spray of chunks.
-        item_was_destroyed(corpse);
-        destroy_item(o);
-        return nullptr;
-    }
+        const int amount = max_corpse_chunks(corpse.mon_type);
+        
+        const int gain_stamina = player_mutation_level(MUT_STAMINA_FROM_CORPSES);
+        const int gain_health = player_mutation_level(MUT_HEALTH_FROM_CORPSES);
+        
+        const int sp_gain = amount * qpow(10, 3, 2, gain_stamina - 1);
+        const int hp_gain = div_rand_round(amount * qpow(10, 3, 2, gain_health - 1), 10);
 
-    if (in_bounds(mons.pos()))
-        move_item_to_grid(&o, mons.pos(), !mons.swimming());
+        if (gain_stamina)
+            inc_sp(sp_gain, true);
+
+        if (gain_health)
+            inc_hp(hp_gain);
+
+        if (gain_health && gain_stamina)
+            mprf("That corpse tasted great! (hp+%d, sp+%d)", hp_gain, sp_gain);
+        else if(gain_health)
+            mprf("That corpse tasted great! (hp+%d)", hp_gain);
+        else if(gain_stamina)
+            mprf("That corpse tasted great! (sp+%d)", sp_gain);
+
+        o = NON_ITEM;
+    }
+    else
+    {
+        if ((mons.flags & MF_EXPLODE_KILL) && _explode_corpse(corpse, mons.pos()))
+        {
+            // We already have a spray of chunks.
+            item_was_destroyed(corpse);
+            destroy_item(o);
+            return nullptr;
+        }
+
+        if (in_bounds(mons.pos()))
+            move_item_to_grid(&o, mons.pos(), !mons.swimming());
+    }
 
     if (o == NON_ITEM)
         return nullptr;

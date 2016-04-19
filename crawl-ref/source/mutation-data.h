@@ -2022,7 +2022,7 @@ static const mutation_def mut_data[] =
   {"Your enchantment absorbing field disappears.", "Your enchantment absorbing field becomes weaker.", "Your enchantment absorbing field becomes weaker."},
 },
 
-{ MUT_POISON_VULNERABILITY, 2, 1, mutflag::BAD, false,
+{ MUT_POISON_VULNERABILITY, 2, 3, mutflag::BAD, false,
   "poison vulnerable",
 
   {"You are vulnerable to poison.",
@@ -2032,5 +2032,33 @@ static const mutation_def mut_data[] =
    "",
    ""},
   {"You are no longer afraid of poisons.", "", ""},
+},
+
+{ MUT_STAMINA_FROM_CORPSES, 3, 1, mutflag::GOOD, false,
+  "stamina from kills",
+
+  {"You gain a little stamina from kills.",
+   "You gain a stamina from kills.",
+   "You gain a lot of stamina from kills."},
+  {"You start gaining stamina from kills.",
+   "You gain more stamina from kills.",
+   "You gain more stamina from kills."},
+  {"You no longer gain stamina from kills.",
+   "You gain less stamina from kills.",
+   "You gain less stamina from kills."},
+},
+
+{ MUT_HEALTH_FROM_CORPSES, 3, 1, mutflag::GOOD, false,
+  "health from kills",
+
+  {"You gain a little health from kills.",
+   "You gain a health from kills.",
+   "You gain a lot of health from kills."},
+  {"You start gaining health from kills.",
+   "You gain more health from kills.",
+   "You gain more health from kills."},
+  {"You no longer gain health from kills.",
+   "You gain less health from kills.",
+   "You gain less health from kills."},
 },
 };
