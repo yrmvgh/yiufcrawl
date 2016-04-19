@@ -3927,7 +3927,7 @@ bool can_travel_interlevel()
 // Shift-running and resting.
 
 runrest::runrest()
-    : runmode(0), mp(0), hp(0), pos(0,0)
+    : runmode(0), mp(0), hp(0), sp(0), pos(0,0)
 {
 }
 
@@ -3937,9 +3937,11 @@ void runrest::initialise(int dir, int mode)
 {
     // Note HP and MP for reference.
     hp = you.hp;
+    sp = you.sp;
     mp = you.magic_points;
     notified_hp_full = false;
     notified_mp_full = false;
+    notified_sp_full = false;
     init_travel_speed();
 
     if (dir == RDIR_REST)
@@ -4134,8 +4136,9 @@ void runrest::clear()
 {
     runmode = RMODE_NOT_RUNNING;
     pos.reset();
-    mp = hp = travel_speed = 0;
+    mp = sp = hp = travel_speed = 0;
     notified_hp_full = false;
+    notified_sp_full = false;
     notified_mp_full = false;
 
     _reset_zigzag_info();

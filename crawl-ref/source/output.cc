@@ -1234,6 +1234,7 @@ static void _redraw_title()
 
 void print_stats()
 {
+    update_row_info();
     cursor_control coff(false);
     textcolour(LIGHTGREY);
 
@@ -1411,20 +1412,7 @@ void print_stats_level()
 
 void draw_border()
 {
-    int row = 2;
-    hp_row = ++row;
-    sp_row = ++row;
-    mp_row = ++row;
-    if (you.species == SP_LAVA_ORC)
-        temp_row = ++row;
-    ac_row = str_row = stat_row = ++row;
-    ev_row = int_row = ++row;
-    sh_row = dex_row = ++row;
-    xl_row = place_row = ++row;
-    gold_row = time_row = ++row;
-    wield_row = ++row;
-    quiver_row = ++row;
-    status_row = ++row;
+    update_row_info();
 
     textcolour(HUD_CAPTION_COLOUR);
     clrscr();
@@ -1443,6 +1431,24 @@ void draw_border()
     CGOTOXY(1, gold_row, GOTO_STAT); CPRINTF("Gold:");
     CGOTOXY(19, time_row, GOTO_STAT);
     CPRINTF(Options.show_game_turns ? "Time:" : "Turn:");
+}
+
+void update_row_info()
+{
+    int row = 2;
+    hp_row = ++row;
+    sp_row = ++row;
+    mp_row = ++row;
+    if (you.species == SP_LAVA_ORC)
+        temp_row = ++row;
+    ac_row = str_row = stat_row = ++row;
+    ev_row = int_row = ++row;
+    sh_row = dex_row = ++row;
+    xl_row = place_row = ++row;
+    gold_row = time_row = ++row;
+    wield_row = ++row;
+    quiver_row = ++row;
+    status_row = ++row;
 }
 
 void redraw_screen()

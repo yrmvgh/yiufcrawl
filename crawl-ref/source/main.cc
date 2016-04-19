@@ -3575,7 +3575,7 @@ static void _move_player(coord_def move)
             env.travel_trail.push_back(you.pos());
 
         you.time_taken *= player_movement_speed();
-        if (Options.movement_penalty)
+        if (Options.movement_penalty && you.exertion == EXERT_POWER)
         {
 //            if (move.is_reversal(you.prev_direction))
 //            {
@@ -3588,14 +3588,14 @@ static void _move_player(coord_def move)
                 you.time_taken = max(you.time_taken, Options.movement_penalty * 10);
                 you.prev_direction = move;
             }
-            else
-                you.time_taken = you.time_taken * 9 / 10;
+//            else
+//                you.time_taken = you.time_taken * 9 / 10;
         }
 
         you.time_taken = div_rand_round(you.time_taken, 10);
         you.time_taken += additional_time_taken;
 
-        maybe_consume_stamina(2);
+        maybe_consume_stamina();
 
         if (you.running && you.running.travel_speed)
         {

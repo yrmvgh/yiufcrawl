@@ -1488,8 +1488,7 @@ bool do_god_gift(bool forced)
                     gift = BOOK_DEATH;
                 }
             }
-            else if (forced || you.piety >= piety_breakpoint(2)
-                               && random2(you.piety) > 100)
+            else if (forced || random2(you.piety) >= piety_breakpoint(2))
             {
                 // Sif Muna special: Keep quiet if acquirement fails
                 // because the player already has seen all spells.

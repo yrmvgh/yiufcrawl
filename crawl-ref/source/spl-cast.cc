@@ -625,10 +625,13 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
         power = stepdown_spellpower(power);
     }
 
-    if (you.exertion == EXERT_POWER)
-        power = power * 3 / 2;
-    if (you.exertion == EXERT_CAREFUL)
-        power = power * 3 / 4;
+    if (!fail_rate_check)
+    {
+        if (you.exertion == EXERT_POWER)
+            power = power * 3 / 2;
+        if (you.exertion == EXERT_CAREFUL)
+            power = power * 3 / 4;
+    }
 
     const int cap = spell_power_cap(spell);
     if (cap > 0 && cap_power)
@@ -1461,7 +1464,7 @@ spret_type your_spells(spell_type spell, int powc,
 
     int potion = -1;
 
-    maybe_consume_stamina(2);
+    maybe_consume_stamina();
     if (!powc)
         powc = calc_spell_power(spell, true);
 
@@ -2221,6 +2224,7 @@ double get_miscast_chance(spell_type spell, int severity)
             * severity / (k * (k - 1));
         k++;
     }
+
     return chance;
 }
 
@@ -2271,7 +2275,10 @@ int failure_rate_to_int(int fail)
     else if (fail >= 100)
         return (fail + 100)/2;
     else
+        return fail;
+    /* this doesn't make any sense at all, since it isn't used for real failure calculation:
         return max(1, (int) (100 * _get_true_fail_rate(fail)));
+     */
 }
 
 /**
