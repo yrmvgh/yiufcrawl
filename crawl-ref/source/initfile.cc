@@ -947,7 +947,9 @@ void game_options::reset_options()
 
     regex_search = false;
 
-    movement_penalty = 0;
+    // means 1.5x normal speed
+    movement_penalty = 15;
+
     danger_mode_threshold = 30;
     level_27_cap = true;
     exp_potion_on_each_floor = false;
@@ -2898,7 +2900,8 @@ void game_options::read_option_line(const string &str, bool runscript)
     }
     else BOOL_OPTION(regex_search);
 
-    else INT_OPTION(movement_penalty, 0, 100);
+        // disable the option for now.
+//    else INT_OPTION(movement_penalty, 0, 100);
 
     else BOOL_OPTION(level_27_cap);
 //    else BOOL_OPTION(exp_potion_on_each_floor);

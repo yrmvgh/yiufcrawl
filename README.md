@@ -54,6 +54,10 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Sif Muna
+    * get miscast protection at 3* piety instead of 2*
+    * get book gifts at 2* piety instead of 5*
+
 * Implement stamina points, alongside magic points and health points
     * three exertion levels
         * normal mode (press 'c' if in another mode)
@@ -70,6 +74,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * spellpower is greater
             * accuracy is reduced
             * chance of spell failure is increased
+            * movement speed is penalized if the player stops or changes direction more than 45 degrees from original heading
         * careful mode (change to this by pressing 'E')
             * actions cost stamina
             * stealth is amplified
@@ -78,8 +83,9 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * damage is reduced
             * spell power is reduced
             * movement speed is slower 
+            * attack speed is slower
     * when stamina is depleted, game switches back to normal exertion mode automatically
-    * berserking automatically switches to power mode (not implemented yet)
+    * berserking automatically switches to power mode
     * species differences:
         * centaurs and nagas have a larger than normal stamina pool
         * spriggans consume half as much stamina when running
@@ -87,6 +93,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
     * added endurance potions (not implemented yet)
         * make all stamina costs drop to 0 for a limited time
+    * haste consumes stamina
 
 * Minor background tweaks
     * Fighters no longer have a special exception to prevent them from choosing a quarterstaff.
