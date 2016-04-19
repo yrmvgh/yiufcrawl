@@ -164,11 +164,15 @@ int calc_skill_cost(int skill_cost_level)
                              240, 255, 260, 265, 265,  // 21-25
                              265, 265 };
         if (skill_cost_level > 27)
-            skill_cost_level = 27;
-
-        COMPILE_CHECK(ARRAYSZ(cost_array) == 27);
-        ASSERT_RANGE(skill_cost_level, 1, 27 + 1);
-        cost = cost_array[skill_cost_level - 1];
+        {
+            cost = INT_MAX;
+        }
+        else
+        {
+            COMPILE_CHECK(ARRAYSZ(cost_array) == 27);
+            ASSERT_RANGE(skill_cost_level, 1, 27 + 1);
+            cost = cost_array[skill_cost_level - 1];
+        }
     }
     else
     {
@@ -196,9 +200,9 @@ unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
                              15750, 17700, 19800, 22050, 24450, // 21-25
                              27000, 29750};
         if (lev > 27)
-            lev = 27;
-
-        result = exp[lev] * species_apt_factor(sk, sp);
+            result = INT_MAX;
+        else
+            result = exp[lev] * species_apt_factor(sk, sp);
     }
     else
     {
