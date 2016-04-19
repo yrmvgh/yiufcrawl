@@ -3880,7 +3880,7 @@ bool is_useless_item(const item_def &item, bool temp)
     case OBJ_BOOKS:
         if (!item_type_known(item) || item.sub_type != BOOK_MANUAL)
             return false;
-        if (you.skills[item.plus] >= MAX_SKILL_LEVEL)
+        if (you.skills[item.plus] >= get_max_skill_level())
             return true;
         if (is_useless_skill((skill_type)item.plus))
             return true;

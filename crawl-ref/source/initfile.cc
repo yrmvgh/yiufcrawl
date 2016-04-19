@@ -3464,7 +3464,7 @@ void game_options::read_option_line(const string &str, bool runscript)
         for (unsigned i = 0; i < thesplit.size(); ++i)
         {
             int num = atoi(thesplit[i].c_str());
-            if (num > 0 && num <= MAX_SKILL_LEVEL)
+            if (num > 0 && num <= get_max_skill_level())
                 note_skill_levels.set(num, !minus_equal);
             else
             {

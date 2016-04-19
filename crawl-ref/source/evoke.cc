@@ -1066,7 +1066,7 @@ static bool _box_of_beasts(item_def &box)
     }
 
     // two rolls to reduce std deviation - +-6 so can get < max even at 27 sk
-    const int hd_min = min(MAX_SKILL_LEVEL,
+    const int hd_min = min(get_max_skill_level(),
                            player_adjust_evoc_power(
                                you.skill(SK_EVOCATIONS)
                                + random2(7) - random2(7)));
@@ -1143,7 +1143,7 @@ static bool _sack_of_spiders(item_def &sack)
     {
         // Invoke mon-pick with our custom list
         monster_type mon = pick_monster_from(pop_spiders,
-                                             max(1, min(MAX_SKILL_LEVEL,
+                                             max(1, min(get_max_skill_level(),
                                              player_adjust_evoc_power(
                                                  you.skill(SK_EVOCATIONS)))),
                                              _sack_of_spiders_veto_mon);

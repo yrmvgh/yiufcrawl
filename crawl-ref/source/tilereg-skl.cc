@@ -71,7 +71,7 @@ int SkillRegion::handle_mouse(MouseEvent &event)
         m_last_clicked_item = item_idx;
         if (!you.can_train[skill])
             mpr("You cannot train this skill.");
-        else if (you.skills[skill] >= MAX_SKILL_LEVEL)
+        else if (you.skills[skill] >= get_max_skill_level())
             mpr("There's no point to toggling this skill anymore.");
         else
         {
@@ -234,7 +234,7 @@ void SkillRegion::update()
         if (is_useless_skill(skill))
             continue;
         InventoryTile desc;
-        if (you.skills[skill] >= MAX_SKILL_LEVEL)
+        if (you.skills[skill] >= get_max_skill_level())
             desc.tile = tileidx_skill(skill, -1);
         else if (!you.training[skill])
             desc.tile = tileidx_skill(skill, 0);
@@ -243,7 +243,7 @@ void SkillRegion::update()
         desc.idx      = idx;
         desc.quantity = you.skills[skill];
 
-        if (!you.can_train[skill] || you.skills[skill] >= MAX_SKILL_LEVEL)
+        if (!you.can_train[skill] || you.skills[skill] >= get_max_skill_level())
             desc.flag |= TILEI_FLAG_INVALID;
 
         m_items.push_back(desc);
