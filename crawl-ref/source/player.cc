@@ -1240,11 +1240,11 @@ int player_hunger_rate(bool temp)
 {
     int hunger = 3;
 
+    if (you.species != SP_VAMPIRE)
+        hunger = 0;
+
     if (temp && you.form == TRAN_BAT && you.species == SP_VAMPIRE)
         return 1;
-
-    if (you.species == SP_CAVE_TROLL)
-        hunger += 3;            // in addition to the +3 for fast metabolism
 
     if (temp
         && (you.duration[DUR_REGENERATION]
@@ -1296,22 +1296,19 @@ int player_hunger_rate(bool temp)
     }
     else
     {
-        hunger += player_mutation_level(MUT_FAST_METABOLISM)
-                - player_mutation_level(MUT_SLOW_METABOLISM);
+        hunger += pow(player_mutation_level(MUT_FAST_METABOLISM), 2)
+                - pow(player_mutation_level(MUT_SLOW_METABOLISM), 2);
     }
 
     // If Cheibriados has slowed your life processes, you will hunger less.
     if (have_passive(passive_t::slow_metabolism))
         hunger /= 2;
 
-    if (hunger < 1)
-        hunger = 1;
+    if (hunger < 0)
+        hunger = 0;
 
     if (you.duration[DUR_FLIGHT] && you.species != SP_DJINNI)
-        hunger <<= 2;
-
-    if (you.species != SP_VAMPIRE)
-        hunger = 0;
+        hunger += 5;
 
     return hunger;
 }
