@@ -141,6 +141,7 @@ static const int conflict[][3] =
     { MUT_REGENERATION,        MUT_SLOW_REGENERATION,      1},
     { MUT_ACUTE_VISION,        MUT_BLURRY_VISION,          1},
     { MUT_FAST,                MUT_SLOW,                   1},
+    { MUT_GOOD_DNA,            MUT_BAD_DNA,                1},
     { MUT_SUSTAIN_ATTRIBUTES,  MUT_DETERIORATION,         -1},
     { MUT_FANGS,               MUT_BEAK,                  -1},
     { MUT_ANTENNAE,            MUT_HORNS,                 -1},
@@ -882,7 +883,11 @@ static mutation_type _get_random_mutation(mutation_type mutclass)
             // maintain an arbitrary ratio of good to bad muts to allow easier
             // weight changes within categories - 60% good seems to be about
             // where things are right now
-            mt = x_chance_in_y(3, 5) ? mutflag::GOOD : mutflag::BAD;
+        {
+            const int good_dna = player_mutation_level(MUT_GOOD_DNA);
+            const int bad_dna = player_mutation_level(MUT_BAD_DNA);
+            mt = x_chance_in_y(3 + random2(good_dna * 2) - random2(bad_dna * 2), 5) ? mutflag::GOOD : mutflag::BAD;
+        }
             break;
         case RANDOM_BAD_MUTATION:
         case RANDOM_CORRUPT_MUTATION:
@@ -1300,16 +1305,18 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         }
     }
 
+    const int clean_dna = player_mutation_level(MUT_CLEAN_DNA);
+
     if (mutclass == MUTCLASS_NORMAL
         && (which_mutation == RANDOM_MUTATION || which_mutation == RANDOM_XOM_MUTATION)
-        && x_chance_in_y(how_mutated(false, true), 15))
+        && x_chance_in_y(how_mutated(false, true) + random2(clean_dna * 5), 15))
     {
         // God gifts override mutation loss due to being heavily
         // mutated.
         if (!one_chance_in(3) && !god_gift && !force_mutation)
             return false;
         else
-            return delete_mutation(RANDOM_MUTATION, reason, failMsg,
+            return delete_mutation(clean_dna ? RANDOM_BAD_MUTATION : RANDOM_MUTATION, reason, failMsg,
                                    force_mutation, false);
     }
 

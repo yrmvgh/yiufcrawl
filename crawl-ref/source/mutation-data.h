@@ -330,7 +330,7 @@ static const mutation_def mut_data[] =
    "You feel vulnerable to hostile enchantments."},
 },
 
-{ MUT_FAST, 2, 3, mutflag::GOOD, true,
+{ MUT_FAST, 5, 3, mutflag::GOOD, true,
   "speed",
 
   {"You cover ground quickly.",
@@ -346,7 +346,7 @@ static const mutation_def mut_data[] =
    "You feel sluggish."},
 },
 
-{ MUT_SLOW, 2, 3, mutflag::BAD, true,
+{ MUT_SLOW, 5, 3, mutflag::BAD, true,
   "slowness",
 
   {"You cover ground slowly.",
@@ -698,7 +698,7 @@ static const mutation_def mut_data[] =
   {"", "", ""},
 },
 
-{ MUT_HURL_DAMNATION, 1, 1, mutflag::GOOD, false,
+{ MUT_HURL_DAMNATION, 2, 1, mutflag::GOOD, false,
   "hurl damnation",
 
   {"You can hurl damnation.", "", ""},
@@ -989,7 +989,7 @@ static const mutation_def mut_data[] =
   },
 },
 
-{ MUT_HIGH_STAMINA, 20, 3, mutflag::GOOD, false,
+{ MUT_HIGH_STAMINA, 30, 3, mutflag::GOOD, false,
   "high sp",
 
   {"You have an increased reservoir of stamina (+33% SP).",
@@ -1240,7 +1240,7 @@ static const mutation_def mut_data[] =
 },
 
 // Jiyva only mutations
-{ MUT_GELATINOUS_BODY, 1, 3, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_GELATINOUS_BODY, 10, 3, mutflag::GOOD | mutflag::JIYVA, true,
   "gelatinous body",
 
   {"Your rubbery body absorbs attacks (AC +1).",
@@ -1256,7 +1256,7 @@ static const mutation_def mut_data[] =
    "Your body becomes less viscous."},
 },
 
-{ MUT_EYEBALLS, 1, 3, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_EYEBALLS, 10, 3, mutflag::GOOD | mutflag::JIYVA, true,
   "eyeballs",
 
   {"Your body is partially covered in golden eyeballs (Acc +3).",
@@ -1272,7 +1272,7 @@ static const mutation_def mut_data[] =
    "The eyeballs on your body recede somewhat."},
 },
 
-{ MUT_TRANSLUCENT_SKIN, 1, 3, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_TRANSLUCENT_SKIN, 10, 3, mutflag::GOOD | mutflag::JIYVA, true,
   "translucent skin",
 
   {"Your skin is partially translucent (Stealth, -foe acc).",
@@ -1314,7 +1314,7 @@ static const mutation_def mut_data[] =
 },
 #endif
 
-{ MUT_ACIDIC_BITE, 5, 1, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_ACIDIC_BITE, 10, 1, mutflag::GOOD | mutflag::JIYVA, true,
   "acidic bite",
 
   {"You have acidic saliva.", "", ""},
@@ -1322,7 +1322,7 @@ static const mutation_def mut_data[] =
   {"Your mouth feels dry.", "", ""},
 },
 
-{ MUT_ANTIMAGIC_BITE, 5, 1, mutflag::GOOD, true,
+{ MUT_ANTIMAGIC_BITE, 10, 1, mutflag::GOOD, true,
   "antimagic bite",
 
   {"Your bite disrupts and absorbs the magic of your enemies.", "", ""},
@@ -1576,7 +1576,7 @@ static const mutation_def mut_data[] =
   {"", "", ""},
 },
 
-{ MUT_TENDRILS, 1, 1, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_TENDRILS, 10, 1, mutflag::GOOD | mutflag::JIYVA, true,
   "tendrils",
 
   {"You are covered in slimy tendrils that may disarm your opponents.", "", ""},
@@ -1584,7 +1584,7 @@ static const mutation_def mut_data[] =
   {"Your tendrils retract into your body.", "", ""},
 },
 
-{ MUT_JELLY_GROWTH, 1, 1, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_JELLY_GROWTH, 10, 1, mutflag::GOOD | mutflag::JIYVA, true,
   "jelly sensing items",
 
   {"You have a small jelly attached to you that senses nearby items.", "", ""},
@@ -1592,7 +1592,7 @@ static const mutation_def mut_data[] =
   {"The jelly growth is reabsorbed into your body.", "", ""},
 },
 
-{ MUT_JELLY_MISSILE, 1, 1, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_JELLY_MISSILE, 10, 1, mutflag::GOOD | mutflag::JIYVA, true,
   "jelly absorbing missiles",
 
   {"You have a small jelly attached to you that may absorb incoming projectiles.", "", ""},
@@ -1706,7 +1706,7 @@ static const mutation_def mut_data[] =
   {"You can once more read scrolls while threatened.", "", ""},
 },
 
-{ MUT_MISSING_HAND, 3, 1, mutflag::BAD, false,
+{ MUT_MISSING_HAND, 1, 1, mutflag::BAD, false,
   "missing a hand",
 
   {"You are missing a hand.", "", ""},
@@ -1714,7 +1714,7 @@ static const mutation_def mut_data[] =
   {"Your stump has regrown into a hand!", "", ""},
 },
 
-{ MUT_NO_STEALTH, 5, 1, mutflag::BAD, false,
+{ MUT_NO_STEALTH, 2, 1, mutflag::BAD, false,
   "no stealth",
 
   {"You cannot be stealthy.", "", ""},
@@ -1722,7 +1722,7 @@ static const mutation_def mut_data[] =
   {"You can once more be stealthy.", "", ""},
 },
 
-{ MUT_NO_ARTIFICE, 1, 1, mutflag::BAD, false,
+{ MUT_NO_ARTIFICE, 2, 1, mutflag::BAD, false,
   "inability to use devices",
 
   {"You cannot study or use magical devices.", "", ""},
@@ -2060,5 +2060,47 @@ static const mutation_def mut_data[] =
   {"You no longer gain health from kills.",
    "You gain less health from kills.",
    "You gain less health from kills."},
+},
+
+{ MUT_GOOD_DNA, 20, 3, mutflag::GOOD, false,
+  "good dna",
+
+  {"You have a slightly better chance of getting good mutations.",
+   "You have a better chance of getting good mutations.",
+   "You have a significantly better chance of getting good mutations."},
+  {"Your dna improves.",
+   "Your dna improves further.",
+   "Your dna improves further."},
+  {"Your dna goes back to normal.",
+   "Your dna weakens.",
+   "Your dna weakens."},
+},
+
+{ MUT_CLEAN_DNA, 20, 3, mutflag::GOOD, false,
+  "clean dna",
+
+  {"You have slightly clean dna.",
+   "You have clean dna.",
+   "You have very clean dna."},
+  {"Your dna becomes more clean.",
+   "Your dna becomes more clean.",
+   "Your dna becomes more clean."},
+  {"Your dna is no longer clean.",
+   "Your dna becomes less clean.",
+   "Your dna becomes less clean."},
+},
+
+{ MUT_BAD_DNA, 5, 3, mutflag::BAD, false,
+  "bad dna",
+
+  {"You have a slightly better chance of getting bad mutations.",
+   "You have a better chance of getting bad mutations.",
+   "You have a significantly better chance of getting bad mutations."},
+  {"Your dna degrades.",
+   "Your dna degrades further.",
+   "Your dna degrades further."},
+  {"Your dna fully recovers.",
+   "Your dna recovers somewhat.",
+   "Your dna recovers somewhat."},
 },
 };
