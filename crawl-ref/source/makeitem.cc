@@ -1480,7 +1480,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  // [Cha] don't generate noise scrolls if in sprint
                  32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
                  32, SCR_IMMOLATION,
-                 20, SCR_RECHARGING,
+         20 * 3 / 4, SCR_RECHARGING,
                  // Higher-level scrolls.
                  27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
 //                 20, (depth_mod < 4 ? NUM_SCROLLS : SCR_AMPLIFICATION),
