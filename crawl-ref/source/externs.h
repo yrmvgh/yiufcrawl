@@ -728,7 +728,9 @@ public:
     int runmode;
     int mp;
     int hp;
+    int sp;
     bool notified_mp_full;
+    bool notified_sp_full;
     bool notified_hp_full;
     coord_def pos;
     int travel_speed;

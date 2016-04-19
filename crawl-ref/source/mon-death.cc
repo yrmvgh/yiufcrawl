@@ -444,55 +444,20 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
            && mons_class_flag(draco_or_demonspawn_subspecies(&mons),
                               M_ALWAYS_CORPSE);
 
-    // 50/50 chance of getting a corpse, usually.
-    if (!no_coinflip && coinflip())
-        return nullptr;
-
-    // The game can attempt to place a corpse for an out-of-bounds monster
-    // if a shifter turns into a giant spore and explodes. In this
-    // case we place no corpse since the explosion means anything left
-    // over would be scattered, tiny chunks of shifter.
-    if (!in_bounds(mons.pos()) && !force)
-        return nullptr;
-
-    // Don't attempt to place corpses within walls, either.
-    if (feat_is_solid(grd(mons.pos())) && !force)
-        return nullptr;
-
-    // If we were told not to leave a corpse, don't.
-    if (mons.props.exists(NEVER_CORPSE_KEY))
-        return nullptr;
-
     int o = get_mitm_slot();
 
     if (o == NON_ITEM)
         return nullptr;
 
     item_def& corpse(mitm[o]);
-    if (goldify)
-    {
-        _gold_pile(corpse, mons_species(mons.type));
-        // If gold would be destroyed, give it directly to the player instead.
-        if (feat_eliminates_items(grd(mons.pos())))
-        {
-            get_gold(corpse, corpse.quantity, false);
-            destroy_item(corpse, true);
-            return nullptr;
-        }
-    }
-    else if (!_fill_out_corpse(mons, corpse))
-        return nullptr;
 
-    origin_set_monster(corpse, &mons);
-
-    if (coinflip())
+    const int gain_stamina = player_mutation_level(MUT_STAMINA_FROM_CORPSES);
+    const int gain_health = player_mutation_level(MUT_HEALTH_FROM_CORPSES);
+    if ((gain_stamina || gain_health) && coinflip())
     {
         const int amount = max_corpse_chunks(corpse.mon_type);
-        
-        const int gain_stamina = player_mutation_level(MUT_STAMINA_FROM_CORPSES);
-        const int gain_health = player_mutation_level(MUT_HEALTH_FROM_CORPSES);
-        
-        const int sp_gain = amount * qpow(10, 3, 2, gain_stamina - 1);
+
+        const int sp_gain = div_rand_round(amount * qpow(10, 3, 2, gain_stamina - 1), 10);
         const int hp_gain = div_rand_round(amount * qpow(10, 3, 2, gain_health - 1), 10);
 
         if (gain_stamina)
@@ -512,6 +477,41 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     }
     else
     {
+        // 50/50 chance of getting a corpse, usually.
+        if (!no_coinflip && coinflip())
+            return nullptr;
+
+        // The game can attempt to place a corpse for an out-of-bounds monster
+        // if a shifter turns into a giant spore and explodes. In this
+        // case we place no corpse since the explosion means anything left
+        // over would be scattered, tiny chunks of shifter.
+        if (!in_bounds(mons.pos()) && !force)
+            return nullptr;
+
+        // Don't attempt to place corpses within walls, either.
+        if (feat_is_solid(grd(mons.pos())) && !force)
+            return nullptr;
+
+        // If we were told not to leave a corpse, don't.
+        if (mons.props.exists(NEVER_CORPSE_KEY))
+            return nullptr;
+
+        if (goldify)
+        {
+            _gold_pile(corpse, mons_species(mons.type));
+            // If gold would be destroyed, give it directly to the player instead.
+            if (feat_eliminates_items(grd(mons.pos())))
+            {
+                get_gold(corpse, corpse.quantity, false);
+                destroy_item(corpse, true);
+                return nullptr;
+            }
+        }
+        else if (!_fill_out_corpse(mons, corpse))
+            return nullptr;
+
+        origin_set_monster(corpse, &mons);
+
         if ((mons.flags & MF_EXPLODE_KILL) && _explode_corpse(corpse, mons.pos()))
         {
             // We already have a spray of chunks.

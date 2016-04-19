@@ -1257,14 +1257,14 @@ int player_hunger_rate(bool temp)
     if (temp)
     {
         if (you.duration[DUR_INVIS])
-            hunger += 5;
+            hunger += 50;
 
         // Berserk has its own food penalty - excluding berserk haste.
         // Doubling the hunger cost for haste so that the per turn hunger
         // is consistent now that a hasted turn causes 50% the normal hunger
         // -cao
         if (you.duration[DUR_HASTE])
-            hunger += haste_mul(5);
+            hunger += haste_mul(50);
     }
 
     if (you.species == SP_VAMPIRE)
@@ -4254,11 +4254,11 @@ void dec_sp(int sp_loss, bool special)
 
     const int fast_metabolism = player_mutation_level(MUT_FAST_METABOLISM);
     if (fast_metabolism)
-        sp_loss = qpow(sp_loss, 3, 2, fast_metabolism);
+        sp_loss = qpow(sp_loss, 4, 3, fast_metabolism);
 
     const int slow_metabolism = player_mutation_level(MUT_SLOW_METABOLISM);
     if (slow_metabolism)
-        sp_loss = qpow(sp_loss, 2, 3, slow_metabolism);
+        sp_loss = qpow(sp_loss, 3, 4, slow_metabolism);
 
     you.sp -= sp_loss;
     if (you.sp < 0)
@@ -4524,7 +4524,7 @@ int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 
 int get_real_sp(bool include_items)
 {
-    int max_sp = 50;
+    int max_sp = 100;
 
     int boost = 0;
 //    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);

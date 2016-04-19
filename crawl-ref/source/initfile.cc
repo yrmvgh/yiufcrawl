@@ -947,7 +947,6 @@ void game_options::reset_options()
 
     regex_search = false;
 
-    // means 1.5x normal speed
     movement_penalty = 15;
 
     danger_mode_threshold = 30;

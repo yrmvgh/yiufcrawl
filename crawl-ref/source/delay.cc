@@ -1073,6 +1073,7 @@ static command_type _get_running_command()
 #endif
 
         if (!is_resting() && you.running.hp == you.hp
+            && you.running.sp == you.sp
             && you.running.mp == you.magic_points)
         {
             mpr("Done waiting.");
@@ -1623,6 +1624,11 @@ bool interrupt_activity(activity_interrupt_type ai,
     {
         you.running.notified_mp_full = true;
         mpr("Magic restored.");
+    }
+    else if (ai == AI_FULL_SP && !you.running.notified_sp_full)
+    {
+        you.running.notified_sp_full = true;
+        mpr("Stamina restored.");
     }
 
     if (_should_stop_activity(item, ai, at))

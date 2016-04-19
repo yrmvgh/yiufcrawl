@@ -175,6 +175,7 @@ static void _dump_player(FILE *file)
         fprintf(file, "Runrest:\n");
         fprintf(file, "    mode: %d\n", you.running.runmode);
         fprintf(file, "      mp: %d\n", you.running.mp);
+        fprintf(file, "      sp: %d\n", you.running.sp);
         fprintf(file, "      hp: %d\n", you.running.hp);
         fprintf(file, "     pos: %s\n\n",
                 debug_coord_str(you.running.pos).c_str());

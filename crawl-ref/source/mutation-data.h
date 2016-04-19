@@ -2034,7 +2034,7 @@ static const mutation_def mut_data[] =
   {"You are no longer afraid of poisons.", "", ""},
 },
 
-{ MUT_STAMINA_FROM_CORPSES, 3, 1, mutflag::GOOD, false,
+{ MUT_STAMINA_FROM_CORPSES, 1, 3, mutflag::GOOD, false,
   "stamina from kills",
 
   {"You gain a little stamina from kills.",
@@ -2048,7 +2048,7 @@ static const mutation_def mut_data[] =
    "You gain less stamina from kills."},
 },
 
-{ MUT_HEALTH_FROM_CORPSES, 3, 1, mutflag::GOOD, false,
+{ MUT_HEALTH_FROM_CORPSES, 1, 3, mutflag::GOOD, false,
   "health from kills",
 
   {"You gain a little health from kills.",

@@ -1036,7 +1036,7 @@ void dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
 void dec_mp(int mp_loss, bool silent = false);
 void drain_mp(int mp_loss);
 
-void maybe_consume_stamina(int factor = 1);
+void maybe_consume_stamina(int factor = 2);
 void dec_sp(int sp_loss = 1, bool special = false);
 void inc_sp(int sp_gain = 1, bool silent = false);
 void inc_mp(int mp_gain, bool silent = false);
