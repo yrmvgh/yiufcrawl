@@ -1294,11 +1294,6 @@ int player_hunger_rate(bool temp)
             hunger += 3;
         }
     }
-    else
-    {
-        hunger += pow(player_mutation_level(MUT_FAST_METABOLISM), 2)
-                - pow(player_mutation_level(MUT_SLOW_METABOLISM), 2);
-    }
 
     // If Cheibriados has slowed your life processes, you will hunger less.
     if (have_passive(passive_t::slow_metabolism))
@@ -4256,6 +4251,14 @@ void dec_sp(int sp_loss, bool special)
             default:
                 break;
         }
+
+    const int fast_metabolism = player_mutation_level(MUT_FAST_METABOLISM);
+    if (fast_metabolism)
+        sp_loss = qpow(sp_loss, 3, 2, fast_metabolism);
+
+    const int slow_metabolism = player_mutation_level(MUT_SLOW_METABOLISM);
+    if (slow_metabolism)
+        sp_loss = qpow(sp_loss, 2, 3, slow_metabolism);
 
     you.sp -= sp_loss;
     if (you.sp < 0)
