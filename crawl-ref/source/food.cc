@@ -47,7 +47,7 @@ static void _describe_food_change(int hunger_increment);
 static bool _vampire_consume_corpse(int slot, bool invent);
 static void _heal_from_food(int hp_amt);
 
-void make_hungry(int hunger_amount, bool suppress_msg,
+bool make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
     if (hunger_amount <= 0)

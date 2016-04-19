@@ -620,9 +620,9 @@ public:
 
         // Now multiple invisiblity casts aren't as good. -- bwr
         if (!you.duration[DUR_INVIS])
-            you.set_duration(DUR_INVIS, 15 + random2(pow), 100);
+            you.set_duration(DUR_INVIS, 1000, 1000);
         else
-            you.increase_duration(DUR_INVIS, random2(pow), 100);
+            you.increase_duration(DUR_INVIS, 1000, 1000);
         return true;
     }
 

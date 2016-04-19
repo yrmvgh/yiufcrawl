@@ -1257,14 +1257,19 @@ int player_hunger_rate(bool temp)
     if (temp)
     {
         if (you.duration[DUR_INVIS])
+        {
+            if ()
             hunger += 50;
+        }
 
         // Berserk has its own food penalty - excluding berserk haste.
         // Doubling the hunger cost for haste so that the per turn hunger
         // is consistent now that a hasted turn causes 50% the normal hunger
         // -cao
         if (you.duration[DUR_HASTE])
+        {
             hunger += haste_mul(50);
+        }
     }
 
     if (you.species == SP_VAMPIRE)
@@ -4213,13 +4218,16 @@ void maybe_consume_stamina(int factor)
         dec_sp(factor);
 }
 
-void dec_sp(int sp_loss, bool special)
+// returns true if after subtracting the given sp, sp is still > 0
+bool dec_sp(int sp_loss, bool special)
 {
+    bool result = true;
+
     if (you.duration[DUR_TIRELESS])
         sp_loss = div_rand_round(sp_loss, 4);
 
     if (sp_loss < 1)
-        return;
+        return true;
 
     if (special)
         switch(player_mutation_level(MUT_STAMINA_EFFICIENT_SPECIAL))
@@ -4265,14 +4273,31 @@ void dec_sp(int sp_loss, bool special)
     {
         you.sp = 0;
         set_exertion(EXERT_NORMAL);
+
         if (you.duration[DUR_BERSERK] > 1)
         {
             mpr("You are too tired to continue your rampage.");
             you.duration[DUR_BERSERK] = 1;
         }
+
+        if (you.duration[DUR_HASTE] > 0)
+        {
+            mpr("You are too tired to maintain this pace.");
+            you.duration[DUR_HASTE] = 0;
+        }
+
+        if (you.duration[DUR_INVIS] > 0)
+        {
+            mpr("You are too tired to stay invisible.");
+            you.duration[DUR_INVIS] = 0;
+        }
+
+        result = false;
     }
 
     you.redraw_stamina_points = true;
+
+    return result;
 }
 
 void inc_sp(int sp_gain, bool silent)
@@ -5217,7 +5242,7 @@ bool haste_player(int turns, bool rageext)
     // Cutting the nominal turns in half since hasted actions take half the
     // usual delay.
     turns = haste_div(turns);
-    const int threshold = 40;
+    const int threshold = 400;
 
     if (!you.duration[DUR_HASTE])
         mpr("You feel yourself speed up.");
@@ -5226,7 +5251,7 @@ bool haste_player(int turns, bool rageext)
     else if (!rageext)
     {
         mpr("You feel as though your hastened speed will last longer.");
-        contaminate_player(1000, true); // always deliberate
+//        contaminate_player(1000, true); // always deliberate
     }
 
     you.increase_duration(DUR_HASTE, turns, threshold);
