@@ -524,8 +524,8 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
             move_item_to_grid(&o, mons.pos(), !mons.swimming());
     }
 
-    if (corpse && corpse->is_valid())
-        maybe_drop_monster_hide(*corpse);
+    if (corpse.is_valid())
+        maybe_drop_monster_hide(corpse);
 
     if (o == NON_ITEM)
         return nullptr;
