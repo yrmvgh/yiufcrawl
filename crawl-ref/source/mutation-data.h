@@ -2079,9 +2079,9 @@ static const mutation_def mut_data[] =
 { MUT_CLEAN_DNA, 20, 3, mutflag::GOOD, false,
   "clean dna",
 
-  {"You have slightly clean dna.",
-   "You have clean dna.",
-   "You have very clean dna."},
+  {"You have a slightly better chance of losing bad mutations.",
+   "You have a better chance of losing bad mutations.",
+   "You have a much better chance of losing bad mutations."},
   {"Your dna becomes more clean.",
    "Your dna becomes more clean.",
    "Your dna becomes more clean."},
