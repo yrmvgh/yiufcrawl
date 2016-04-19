@@ -89,7 +89,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * species differences:
         * centaurs and nagas have a larger than normal stamina pool
         * spriggans consume half as much stamina when running
-        * trolls and players wearing regen items consume stamina more quickly when their health isn't at maximum
+        * trolls consume stamina more quickly than normal, but immediately eat 50% of corpses dropped to recover some stamina. 
+        * ghouls immediately consume 50% of corpses dropped to recover some health / remove rot. 
     * vampiric weapons consume stamina as they heal the player, and stop healing the player when stamina runs out
     * added endurance potions (not implemented yet)
         * make all stamina costs drop to 0 for a limited time
