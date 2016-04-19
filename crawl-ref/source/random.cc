@@ -200,6 +200,15 @@ dice_def calc_dice(int num_dice, int max_damage)
     return ret;
 }
 
+int rand_round(double value)
+{
+    double intpart;
+    double fracpart = modf(value, &intpart);
+    if (decimal_chance(fracpart))
+        ++intpart;
+    return intpart;
+}
+
 // Calculates num/den and randomly adds one based on the remainder.
 // [floor(num/den), ceil(num/den)]
 int div_rand_round(int num, int den)

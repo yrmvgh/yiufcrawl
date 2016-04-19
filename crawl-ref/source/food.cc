@@ -1004,13 +1004,23 @@ static void _eating(item_def& food)
     switch (food.sub_type)
     {
         case FOOD_FRUIT:
-            inc_sp(50);
-            mpr("That was refreshing! (sp+50)");
+        {
+            int amount = qpow(you.sp_max, 3, 2, player_mutation_level(MUT_HERBIVOROUS) - player_mutation_level(MUT_CARNIVOROUS));
+            amount = div_rand_round(amount, 3);
+            inc_sp(amount);
+            mprf("That was refreshing! (sp+%d)", amount);
+        }
         case FOOD_ROYAL_JELLY:
+        {
             you.duration[DUR_TIRELESS] += 500;
+            if (you.duration[DUR_TIRELESS] > 500)
+                mpr("You feel more tireless");
+            else
+                mpr("You feel tireless");
+        }
     }
 
-    /*
+    /* old way
     int food_value = ::food_value(food);
     ASSERT(food_value > 0);
 

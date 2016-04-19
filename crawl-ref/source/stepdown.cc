@@ -50,7 +50,7 @@ double stepdown(double value, double step, double base)
 
 int qpow(int value, int num, int denom, int power)
 {
-    return (double)value * pow((double)num/(double)denom, power);
+    return rand_round((double)value * pow((double)num/(double)denom, power));
 }
 
 int stepdown(int value, int step, rounding_type rounding, int max, double base)
@@ -62,13 +62,7 @@ int stepdown(int value, int step, rounding_type rounding, int max, double base)
 
     // Randomised rounding
     if (rounding == ROUND_RANDOM)
-    {
-        double intpart;
-        double fracpart = modf(ret, &intpart);
-        if (decimal_chance(fracpart))
-            ++intpart;
-        return intpart;
-    }
+        return rand_round(ret);
 
     return ret + (rounding == ROUND_CLOSE ? 0.5 : 0);
 }

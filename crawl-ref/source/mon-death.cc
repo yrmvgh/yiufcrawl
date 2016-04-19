@@ -524,6 +524,9 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
             move_item_to_grid(&o, mons.pos(), !mons.swimming());
     }
 
+    if (corpse.is_valid())
+        maybe_drop_monster_hide(corpse);
+
     if (o == NON_ITEM)
         return nullptr;
 
@@ -2689,9 +2692,6 @@ item_def* monster_die(monster* mons, killer_type killer,
         _give_experience(player_xp, monster_xp, killer, killer_index, pet_kill,
                          was_visible);
     }
-
-    if (corpse && corpse->is_valid())
-        maybe_drop_monster_hide(*corpse);
 
     return corpse;
 }

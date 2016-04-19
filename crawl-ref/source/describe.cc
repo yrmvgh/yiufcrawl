@@ -219,6 +219,7 @@ static vector<string> _randart_propnames(const item_def& item,
         { ARTP_DEXTERITY,             PROPN_NUMERAL },
         { ARTP_SLAYING,               PROPN_NUMERAL },
         { ARTP_SHIELDING,             PROPN_NUMERAL },
+        { ARTP_STAMINA,               PROPN_NUMERAL },
 
         // Qualitative attributes (and Stealth)
         { ARTP_SEE_INVISIBLE,         PROPN_PLAIN },
@@ -443,6 +444,7 @@ static string _randart_descrip(const item_def &item)
                                  "enchantments.", false},
         { ARTP_HP, "It affects your health (%d).", false},
         { ARTP_MAGICAL_POWER, "It affects your magic capacity (%d).", false},
+        { ARTP_STAMINA, "It affects your stamina capacity (%d).", false},
         { ARTP_SEE_INVISIBLE, "It lets you see invisible.", false},
         { ARTP_INVISIBLE, "It lets you turn invisible.", false},
         { ARTP_FLY, "It lets you fly.", false},
