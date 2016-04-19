@@ -4530,13 +4530,12 @@ int get_real_sp(bool include_items)
 //    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);
     boost += player_mutation_level(MUT_HIGH_STAMINA);
     boost -= player_mutation_level(MUT_LOW_STAMINA);
+    const int num_stamina_rings = you.wearing(EQ_RINGS, RING_STAMINA);
+    for (int i = 0; i < num_stamina_rings; i++)
+        boost += 2;
+    boost += you.scan_artefacts(ARTP_STAMINA);
 
-    if (boost > 0)
-        for (int i = 0; i < boost; i++)
-            max_sp = max_sp * 4 / 3;
-    else if (boost < 0)
-        for (int i = 0; i < -boost; i++)
-            max_sp = max_sp * 3 / 4;
+    max_sp = qpow(max_sp, 4, 3, boost);
 
     return max_sp;
 }

@@ -177,6 +177,7 @@ enum jewellery_type
     RING_PROTECTION_FROM_MAGIC,
     RING_FIRE,
     RING_ICE,
+    RING_STAMINA,
     NUM_RINGS,                         //   keep as last ring; should not overlap
                                        //   with amulets!
 	// remove:

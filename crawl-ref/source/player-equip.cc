@@ -241,6 +241,12 @@ static void _equip_artefact_effect(item_def &item, bool *show_msgs, bool unmeld,
                                                   : MSG_MANA_DECREASE);
     }
 
+    if (proprt[ARTP_STAMINA] && !known[ARTP_STAMINA] && msg)
+    {
+        mprf(proprt[ARTP_STAMINA] > 0 ? "You feel your stamina capacity increase."
+                                      : "You feel your stamina capacity decrease.");
+    }
+
     // Modify ability scores.
     notify_stat_change(STAT_STR, proprt[ARTP_STRENGTH],
                        !(msg && unknown_proprt(ARTP_STRENGTH)));
@@ -271,6 +277,9 @@ static void _equip_artefact_effect(item_def &item, bool *show_msgs, bool unmeld,
     // Let's try this here instead of up there.
     if (proprt[ARTP_MAGICAL_POWER])
         calc_mp();
+
+    if (proprt[ARTP_STAMINA])
+        calc_sp();
 
     if (!fully_identified(item))
     {
@@ -306,6 +315,12 @@ static void _unequip_artefact_effect(item_def &item,
                                                   : MSG_MANA_INCREASE);
     }
 
+    if (proprt[ARTP_STAMINA] && !known[ARTP_STAMINA] && msg)
+    {
+        mprf(proprt[ARTP_STAMINA] < 0 ? "You feel your stamina capacity increase."
+                                      : "You feel your stamina capacity decrease.");
+    }
+
     notify_stat_change(STAT_STR, -proprt[ARTP_STRENGTH],     true);
     notify_stat_change(STAT_INT, -proprt[ARTP_INTELLIGENCE], true);
     notify_stat_change(STAT_DEX, -proprt[ARTP_DEXTERITY],    true);
@@ -327,6 +342,9 @@ static void _unequip_artefact_effect(item_def &item,
 
     if (proprt[ARTP_MAGICAL_POWER])
         calc_mp();
+
+    if (proprt[ARTP_STAMINA])
+        calc_sp();
 
     if (proprt[ARTP_CONTAM] && !meld)
     {

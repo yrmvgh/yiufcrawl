@@ -755,7 +755,8 @@ i-flight RING_FLIGHT
 i-life-protection RING_LIFE_PROTECTION
 i-r-magic RING_PROTECTION_FROM_MAGIC
 i-fire RING_FIRE
-i-ice RING_ICE RING_ID_LAST
+i-ice RING_ICE
+i-magical-power RING_STAMINA RING_ID_LAST
 %rim 1
 
 ###amulets

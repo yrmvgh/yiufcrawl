@@ -383,6 +383,7 @@ static map<jewellery_type, vector<jewellery_fake_artp>> jewellery_artps = {
     { RING_PROTECTION, { { ARTP_AC, 0 } } },
     { RING_EVASION, { { ARTP_EVASION, 0 } } },
     { RING_SLAYING, { { ARTP_SLAYING, 0 } } },
+    { RING_STAMINA, { { ARTP_STAMINA, 2 } } },
 };
 
 /**
@@ -580,6 +581,8 @@ static bool _artp_can_go_on_item(artefact_prop_type prop, const item_def &item,
             // not quite as interesting on armour, since you swap it less
         case ARTP_FRAGILE:
             return item_class != OBJ_ARMOUR;
+        case ARTP_STAMINA:
+            return item_class != OBJ_WEAPONS;
         default:
             return true;
     }
@@ -621,6 +624,12 @@ static int _gen_good_hpmp_artp() { return 9; }
 
 /// Generate 'bad' values for ARTP_HP/ARTP_MAGICAL_POWER
 static int _gen_bad_hpmp_artp() { return -_gen_good_hpmp_artp(); }
+
+/// Generate 'good' values for ARTP_HP/ARTP_MAGICAL_POWER
+static int _gen_good_sp_artp() { return 1 + random2(3); }
+
+/// Generate 'bad' values for ARTP_HP/ARTP_MAGICAL_POWER
+static int _gen_bad_sp_artp() { return -_gen_good_hpmp_artp(); }
 
 /// Generation info for artefact properties.
 static const artefact_prop_data artp_data[] =
@@ -715,6 +724,8 @@ static const artefact_prop_data artp_data[] =
     { "Fragile", ARTP_VAL_BOOL, 25, // ARTP_FRAGILE,
         nullptr, []() { return 1; }, 0, 0 },
     { "SH", ARTP_VAL_ANY, 0, nullptr, nullptr, 0, 0 }, // ARTP_SHIELDING,
+    { "SP", ARTP_VAL_ANY, 30,       // ARTP_MAGICAL_POWER,
+      _gen_good_sp_artp, _gen_bad_sp_artp, 0, 0 },
 };
 COMPILE_CHECK(ARRAYSZ(artp_data) == ARTP_NUM_PROPERTIES);
 // weights sum to 1000
@@ -1434,6 +1445,10 @@ static bool _randart_is_redundant(const item_def &item,
         provides = ARTP_MAGICAL_POWER;
         break;
 
+    case RING_STAMINA:
+        provides = ARTP_STAMINA;
+        break;
+
     case RING_FLIGHT:
         provides = ARTP_FLY;
         break;
@@ -1668,6 +1683,8 @@ static void _make_faerie_armour(item_def &item)
             artefact_set_property(doodad, ARTP_MAGICAL_POWER, 1 + random2(10));
         if (one_chance_in(20))
             artefact_set_property(doodad, ARTP_HP, random2(21) - 10);
+        if (one_chance_in(20))
+            artefact_set_property(doodad, ARTP_STAMINA, roll_dice(3, 3) - 3);
 
         break;
     }

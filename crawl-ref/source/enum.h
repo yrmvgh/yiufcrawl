@@ -4046,6 +4046,7 @@ enum artefact_prop_type
     ARTP_CONFUSE,
     ARTP_FRAGILE,
     ARTP_SHIELDING,
+    ARTP_STAMINA,
     ARTP_NUM_PROPERTIES
 };
 
