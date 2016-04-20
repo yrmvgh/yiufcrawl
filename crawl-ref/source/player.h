@@ -161,6 +161,8 @@ public:
     unsigned short pet_target;
 
     durations_t duration;
+    FixedVector<source_type, NUM_DURATIONS> duration_source;
+
     int rotting;
     bool apply_berserk_penalty;         // Whether to apply the berserk penalty at
     // end of the turn.
@@ -828,10 +830,8 @@ public:
     void del_gold(int delta);
     void set_gold(int amount);
 
-    void increase_duration(duration_type dur, int turns, int cap = 0,
-                           const char* msg = nullptr);
-    void set_duration(duration_type dur, int turns, int cap = 0,
-                      const char *msg = nullptr);
+    void increase_duration(duration_type dur, int turns, int cap = 0, const char *msg = nullptr, source_type source = SRC_UNDEFINED);
+    void set_duration(duration_type dur, int turns, int cap = 0, const char *msg = nullptr, source_type source = SRC_UNDEFINED);
 
     bool attempt_escape(int attempts = 1);
     int usable_tentacles() const;
@@ -1032,12 +1032,12 @@ void calc_sp();
 void calc_mp();
 void recalc_and_scale_hp();
 
-void dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
-void dec_mp(int mp_loss, bool silent = false);
-void drain_mp(int mp_loss);
+bool dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
+bool dec_mp(int mp_loss, bool silent = false);
+bool drain_mp(int mp_loss);
 
 void maybe_consume_stamina(int factor = 2);
-void dec_sp(int sp_loss = 1, bool special = false);
+bool dec_sp(int sp_loss = 1, bool special = false);
 void inc_sp(int sp_gain = 1, bool silent = false);
 void inc_mp(int mp_gain, bool silent = false);
 void inc_hp(int hp_gain);
@@ -1091,7 +1091,7 @@ bool slow_player(int turns);
 void dec_slow_player(int delay);
 void dec_exhaust_player(int delay);
 
-bool haste_player(int turns, bool rageext = false);
+bool haste_player(int turns, bool rageext = false, source_type source = SRC_UNDEFINED);
 void dec_haste_player(int delay);
 void dec_elixir_player(int delay);
 void dec_ambrosia_player(int delay);
@@ -1167,6 +1167,9 @@ string temperature_text(int temp);
 bool player_ephemeral_passthrough(const string &whatIsAttacking = "", bool showMessage = false);
 bool can_use(const item_def &item);
 bool player_is_immune_to_curses();
-
+const int get_max_exp_level();
+const int get_max_skill_level();
+const int rune_curse_hp_adjust(int hp);
+const int rune_curse_dam_adjust(int dam);
 
 #endif

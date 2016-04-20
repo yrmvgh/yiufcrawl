@@ -80,6 +80,7 @@
 #include "view.h"
 #include "xom.h"
 #include "place.h"
+#include "items.h"
 
 const int DJ_MP_RATE = 1;
 
@@ -1256,15 +1257,19 @@ int player_hunger_rate(bool temp)
 
     if (temp)
     {
-        if (you.duration[DUR_INVIS])
+        if (you.duration[DUR_INVIS] && you.duration_source[DUR_INVIS] != SRC_POTION)
+        {
             hunger += 50;
+        }
 
         // Berserk has its own food penalty - excluding berserk haste.
         // Doubling the hunger cost for haste so that the per turn hunger
         // is consistent now that a hasted turn causes 50% the normal hunger
         // -cao
-        if (you.duration[DUR_HASTE])
+        if (you.duration[DUR_HASTE] && you.duration_source[DUR_HASTE] != SRC_POTION)
+        {
             hunger += haste_mul(50);
+        }
     }
 
     if (you.species == SP_VAMPIRE)
@@ -3053,7 +3058,7 @@ void level_change(bool skip_attribute_increase)
             // Don't want to see the dead creature at the prompt.
             redraw_screen();
 
-            if (new_exp == MAX_EXP_LEVEL || Options.level_27_cap && new_exp == 27)
+            if (new_exp == get_max_exp_level() || Options.level_27_cap && new_exp == 27)
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level 27, the final one!");
             else if (new_exp == you.get_max_xl())
                 mprf(MSGCH_INTRINSIC_GAIN, "You have reached level %d, the highest you will ever reach!",
@@ -4000,19 +4005,18 @@ void calc_sp()
     you.redraw_stamina_points = true;
 }
 
-void dec_hp(int hp_loss, bool fatal, const char *aux)
+bool dec_hp(int hp_loss, bool fatal, const char *aux)
 {
     ASSERT(!crawl_state.game_is_arena());
 
+    bool result = true;
     if (!fatal && you.hp < 1)
         you.hp = 1;
 
     if (!fatal && hp_loss >= you.hp)
         hp_loss = you.hp - 1;
 
-    // allow gain
-//    if (hp_loss < 1)
-//        return;
+    hp_loss = rune_curse_dam_adjust(hp_loss);
 
     // If it's not fatal, use ouch() so that notes can be taken. If it IS
     // fatal, somebody else is doing the bookkeeping, and we don't want to mess
@@ -4022,9 +4026,13 @@ void dec_hp(int hp_loss, bool fatal, const char *aux)
     else
         you.hp -= hp_loss;
 
+    result = you.hp >= 0;
+
     if(you.hp > you.hp_max) you.hp = you.hp_max;
 
     you.redraw_hit_points = true;
+
+    return result;
 }
 
 void calc_mp()
@@ -4053,36 +4061,44 @@ void flush_mp()
     you.redraw_magic_points = true;
 }
 
-void dec_mp(int mp_loss, bool silent)
+// returns false if there isn't enough mp
+bool dec_mp(int mp_loss, bool silent)
 {
     ASSERT(!crawl_state.game_is_arena());
+    bool result = true;
 
     if (mp_loss < 1)
-        return;
+        return true;
 
     if (you.species == SP_DJINNI)
         return dec_hp(mp_loss * DJ_MP_RATE, false);
 
     you.magic_points -= mp_loss;
 
+    result = you.magic_points >= 0;
     you.magic_points = max(0, you.magic_points);
     if (!silent)
         flush_mp();
+
+    return result;
 }
 
-void drain_mp(int loss)
+bool drain_mp(int loss)
 {
+    bool result = true;
     if (you.species == SP_DJINNI)
     {
 
         if (loss <= 0)
-            return;
+            return true;
 
         you.duration[DUR_ANTIMAGIC] = min(you.duration[DUR_ANTIMAGIC] + loss * 3,
                                            1000); // so it goes away after one '5'
     }
     else
-    return dec_mp(loss);
+        result = dec_mp(loss);
+
+    return result;
 }
 
 bool enough_hp(int minimum, bool suppress_msg, bool abort_macros)
@@ -4213,13 +4229,16 @@ void maybe_consume_stamina(int factor)
         dec_sp(factor);
 }
 
-void dec_sp(int sp_loss, bool special)
+// returns true if after subtracting the given sp, sp is still > 0
+bool dec_sp(int sp_loss, bool special)
 {
+    bool result = true;
+
     if (you.duration[DUR_TIRELESS])
         sp_loss = div_rand_round(sp_loss, 4);
 
     if (sp_loss < 1)
-        return;
+        return true;
 
     if (special)
         switch(player_mutation_level(MUT_STAMINA_EFFICIENT_SPECIAL))
@@ -4265,14 +4284,31 @@ void dec_sp(int sp_loss, bool special)
     {
         you.sp = 0;
         set_exertion(EXERT_NORMAL);
-        if (you.duration[DUR_BERSERK] > 1)
+
+        if (you.duration[DUR_BERSERK] > 1 && you.duration_source[DUR_INVIS] != SRC_POTION)
         {
             mpr("You are too tired to continue your rampage.");
             you.duration[DUR_BERSERK] = 1;
         }
+
+        if (you.duration[DUR_HASTE] > 0 && you.duration_source[DUR_INVIS] != SRC_POTION)
+        {
+            mpr("You are too tired to maintain this pace.");
+            you.duration[DUR_HASTE] = 0;
+        }
+
+        if (you.duration[DUR_INVIS] > 0 && you.duration_source[DUR_INVIS] != SRC_POTION)
+        {
+            mpr("You are too tired to stay invisible.");
+            you.duration[DUR_INVIS] = 0;
+        }
+
+        result = false;
     }
 
     you.redraw_stamina_points = true;
+
+    return result;
 }
 
 void inc_sp(int sp_gain, bool silent)
@@ -4535,7 +4571,7 @@ int get_real_sp(bool include_items)
         boost += 2;
     boost += you.scan_artefacts(ARTP_STAMINA);
 
-    max_sp = qpow(max_sp, 4, 3, boost);
+    max_sp = qpow(max_sp, 5, 4, boost);
 
     return max_sp;
 }
@@ -5204,7 +5240,7 @@ void dec_exhaust_player(int delay)
     }
 }
 
-bool haste_player(int turns, bool rageext)
+bool haste_player(int turns, bool rageext, source_type source)
 {
     ASSERT(!crawl_state.game_is_arena());
 
@@ -5217,7 +5253,7 @@ bool haste_player(int turns, bool rageext)
     // Cutting the nominal turns in half since hasted actions take half the
     // usual delay.
     turns = haste_div(turns);
-    const int threshold = 40;
+    const int threshold = 400;
 
     if (!you.duration[DUR_HASTE])
         mpr("You feel yourself speed up.");
@@ -5226,10 +5262,11 @@ bool haste_player(int turns, bool rageext)
     else if (!rageext)
     {
         mpr("You feel as though your hastened speed will last longer.");
-        contaminate_player(1000, true); // always deliberate
+//        contaminate_player(1000, true); // always deliberate
     }
 
-    you.increase_duration(DUR_HASTE, turns, threshold);
+    you.increase_duration(DUR_HASTE, turns, threshold, nullptr);
+    you.duration_source[DUR_HASTE] = source;
 
     return true;
 }
@@ -5613,6 +5650,7 @@ player::player()
     pet_target      = MHITNOT;
 
     duration.init(0);
+    duration_source.init(SRC_UNDEFINED);
     apply_berserk_penalty = false;
     berserk_penalty = 0;
     attribute.init(0);
@@ -6270,10 +6308,10 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
         for (skill_type cross : get_crosstrain_skills(sk))
             effective_points += skill_points[cross] * 2 / 5;
     }
-    effective_points = min(effective_points, skill_exp_needed(MAX_SKILL_LEVEL, sk));
+    effective_points = min(effective_points, skill_exp_needed(get_max_skill_level(), sk));
     while (1)
     {
-        if (actual_skill < MAX_SKILL_LEVEL
+        if (actual_skill < get_max_skill_level()
             && effective_points >= skill_exp_needed(actual_skill + 1, sk))
         {
             ++actual_skill;
@@ -6311,10 +6349,10 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
     if ((sk == SK_LONG_BLADES || sk == SK_SHORT_BLADES)
         && player_equip_unrand(UNRAND_FENCERS))
     {
-        level = min(level + 4 * scale, MAX_SKILL_LEVEL * scale);
+        level = min(level + 4 * scale, get_max_skill_level() * scale);
     }
     if (duration[DUR_HEROISM] && sk <= SK_LAST_MUNDANE)
-        level = min(level + 5 * scale, MAX_SKILL_LEVEL * scale);
+        level = min(level + 5 * scale, get_max_skill_level() * scale);
     return level;
 }
 
@@ -7994,8 +8032,7 @@ void player::set_gold(int amount)
     }
 }
 
-void player::increase_duration(duration_type dur, int turns, int cap,
-                               const char* msg)
+void player::increase_duration(duration_type dur, int turns, int cap, const char *msg, source_type source)
 {
     if (msg)
         mpr(msg);
@@ -8004,13 +8041,14 @@ void player::increase_duration(duration_type dur, int turns, int cap,
     duration[dur] += turns * BASELINE_DELAY;
     if (cap && duration[dur] > cap)
         duration[dur] = cap;
+
+    duration_source[dur] = source;
 }
 
-void player::set_duration(duration_type dur, int turns,
-                          int cap, const char * msg)
+void player::set_duration(duration_type dur, int turns, int cap, const char *msg, source_type source)
 {
     duration[dur] = 0;
-    increase_duration(dur, turns, cap, msg);
+    increase_duration(dur, turns, cap, msg, source);
 }
 
 void player::goto_place(const level_id &lid)
@@ -9002,3 +9040,32 @@ void player_end_berserk()
     Hints.hints_events[HINT_YOU_ENCHANTED] = hints_slow;
     you.redraw_quiver = true; // Can throw again.
 }
+
+const int get_max_exp_level()
+{
+    if (Options.level_27_cap)
+        return 27;
+    return MAX_EXP_LEVEL;
+}
+
+const int get_max_skill_level()
+{
+    if (Options.level_27_cap)
+        return 27;
+    return MAX_SKILL_LEVEL;
+}
+
+const int rune_curse_hp_adjust(int hp)
+{
+    const int runes = runes_in_pack();
+    const int new_hp = qpow(hp, 20 + crawl_state.difficulty, 20, runes);
+    return new_hp;
+}
+
+const int rune_curse_dam_adjust(int dam)
+{
+    const int runes = runes_in_pack();
+    const int new_dam = qpow(dam, 20 + crawl_state.difficulty, 20, runes);
+    return new_dam;
+}
+

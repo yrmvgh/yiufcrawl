@@ -47,11 +47,12 @@ static void _describe_food_change(int hunger_increment);
 static bool _vampire_consume_corpse(int slot, bool invent);
 static void _heal_from_food(int hp_amt);
 
-void make_hungry(int hunger_amount, bool suppress_msg,
+bool make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
+    bool result = true;
     if (hunger_amount <= 0)
-        return;
+        return true;
 
     if (you.species == SP_VAMPIRE)
     {
@@ -65,7 +66,7 @@ void make_hungry(int hunger_amount, bool suppress_msg,
             hunger_amount = calc_hunger(hunger_amount);
 
         if (hunger_amount == 0 && !suppress_msg)
-            return;
+            return true;
 
         you.hunger -= hunger_amount;
 
@@ -79,9 +80,10 @@ void make_hungry(int hunger_amount, bool suppress_msg,
     else
     {
         const int sp_loss = div_rand_round(hunger_amount, 30);
-        dec_sp(sp_loss, true);
+        result = dec_sp(sp_loss, true);
     }
 
+    return result;
 }
 
 // Must match the order of hunger_state_t enums

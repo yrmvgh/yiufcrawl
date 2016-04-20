@@ -1470,7 +1470,10 @@ static void tag_construct_you(writer &th)
     // how many durations?
     marshallUByte(th, NUM_DURATIONS);
     for (int j = 0; j < NUM_DURATIONS; ++j)
+    {
         marshallInt(th, you.duration[j]);
+        marshallInt(th, you.duration_source[j]);
+    }
 
     // how many attributes?
     marshallByte(th, NUM_ATTRIBUTES);
@@ -2589,7 +2592,10 @@ static void tag_read_you(reader &th)
     count = unmarshallUByte(th);
     COMPILE_CHECK(NUM_DURATIONS < 256);
     for (int j = 0; j < count && j < NUM_DURATIONS; ++j)
+    {
         you.duration[j] = unmarshallInt(th);
+        you.duration_source[j] = (source_type) unmarshallInt(th);
+    }
     for (int j = NUM_DURATIONS; j < count; ++j)
         unmarshallInt(th);
     if (you.species == SP_LAVA_ORC)
@@ -3325,7 +3331,7 @@ static void tag_read_you(reader &th)
             subtype = subtype | (OBJ_MISSILES << 16);
         }
 #endif
-        for (int j = 0; j < MAX_EXP_LEVEL; j++)
+        for (int j = 0; j < get_max_exp_level(); j++)
             you.action_count[make_pair(caction, subtype)][j] = unmarshallInt(th);
     }
 

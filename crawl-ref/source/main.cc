@@ -435,13 +435,13 @@ NORETURN static void _launch_game()
         switch(crawl_state.difficulty)
         {
         case DIFFICULTY_EASY:
-        	msg::stream << "<green>EASY MODE:</green> <yellow>You decided to play it safe, huh? That's okay, I can respect that.</yellow>" << endl;
+        	msg::stream << "<white>You are playing the Standard difficulty mode, " << get_exp_mode_string() << " experience mode</white> <yellow></yellow>" << endl;
         	break;
         case DIFFICULTY_NORMAL:
-        	msg::stream << "<yellow>NORMAL MODE: Things will be normal. For crawl anyway. Which isn't anywhere close to normal.</yellow>" << endl;
+        	msg::stream << "<yellow>You are playing the Challenge difficulty mode, " << get_exp_mode_string() << " experience mode</yellow> <yellow></yellow>" << endl;
         	break;
         case DIFFICULTY_HARD:
-        	msg::stream << "<red>HARD MODE:</red> <yellow>You can give up any hope of winning right now. Seriously. You don't have a chance.</yellow>" << endl;
+        	msg::stream << "<lightred>You are playing the Nightmare difficulty mode, " << get_exp_mode_string() << " experience mode</lightred><yellow></yellow>" << endl;
         	break;
         default:
         	break;

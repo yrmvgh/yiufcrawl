@@ -366,7 +366,7 @@ public:
 
     bool effect(bool=true, int pow = 40, bool=true) const override
     {
-        return haste_player(40 + random2(pow));
+        return haste_player(40 + random2(pow), false, SRC_POTION);
     }
 
     bool quaff(bool was_known) const override
@@ -620,9 +620,9 @@ public:
 
         // Now multiple invisiblity casts aren't as good. -- bwr
         if (!you.duration[DUR_INVIS])
-            you.set_duration(DUR_INVIS, 15 + random2(pow), 100);
+            you.set_duration(DUR_INVIS, 15 + random2(pow), 100, nullptr, SRC_POTION);
         else
-            you.increase_duration(DUR_INVIS, random2(pow), 100);
+            you.increase_duration(DUR_INVIS, random2(pow), 100, nullptr, SRC_POTION);
         return true;
     }
 
@@ -853,8 +853,10 @@ public:
         {
             if (random2(9) >= i)
             {
-                mutated |= delete_mutation(RANDOM_MUTATION,
-                                           "potion of cure mutation", false);
+                if (x_chance_in_y(1 + random2(player_mutation_level(MUT_CLEAN_DNA) + 1), 3))
+                    mutated |= delete_mutation(RANDOM_BAD_MUTATION, "potion of cure mutation", false);
+                else
+                    mutated |= delete_mutation(RANDOM_MUTATION, "potion of cure mutation", false);
             }
         }
         return mutated;

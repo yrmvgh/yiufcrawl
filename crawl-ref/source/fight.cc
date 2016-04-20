@@ -47,6 +47,7 @@
 #include "transform.h"
 #include "traps.h"
 #include "travel.h"
+#include "skills.h"
 
 /**
  * Switch from a bad weapon to melee.
@@ -724,7 +725,7 @@ int weapon_min_delay(const item_def &weapon, bool check_speed)
 
     // ... and unless it would take more than skill 27 to get there.
     // Round up the reduction from skill, so that min delay is rounded down.
-    min_delay = max(min_delay, base - (MAX_SKILL_LEVEL + 1)/2);
+    min_delay = max(min_delay, base - (get_max_skill_level() + 1)/2);
 
     if (check_speed && get_weapon_brand(weapon) == SPWPN_SPEED)
     {

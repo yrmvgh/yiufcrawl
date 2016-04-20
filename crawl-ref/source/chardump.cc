@@ -1001,7 +1001,7 @@ static void _sdump_vault_list(dump_params &par)
 static bool _sort_by_first(pair<int, FixedVector<int, MAX_EXP_LEVEL+1> > a,
                            pair<int, FixedVector<int, MAX_EXP_LEVEL+1> > b)
 {
-    for (int i = 0; i < MAX_EXP_LEVEL; i++)
+    for (int i = 0; i < get_max_exp_level(); i++)
     {
         if (a.second[i] > b.second[i])
             return true;
@@ -1222,7 +1222,7 @@ static void _sdump_action_counts(dump_params &par)
 {
     if (you.action_count.empty())
         return;
-    int max_lt = (min<int>(you.max_level, MAX_EXP_LEVEL) - 1) / 3;
+    int max_lt = (min<int>(you.max_level, get_max_exp_level()) - 1) / 3;
 
     // Don't show both a total and 1..3 when there's only one tier.
     if (max_lt)
@@ -1245,11 +1245,11 @@ static void _sdump_action_counts(dump_params &par)
             if (entry.first.first != cact)
                 continue;
             FixedVector<int, MAX_EXP_LEVEL+1> v;
-            v[MAX_EXP_LEVEL] = 0;
-            for (int i = 0; i < MAX_EXP_LEVEL; i++)
+            v[get_max_exp_level()] = 0;
+            for (int i = 0; i < get_max_exp_level(); i++)
             {
                 v[i] = entry.second[i];
-                v[MAX_EXP_LEVEL] += v[i];
+                v[get_max_exp_level()] += v[i];
             }
             action_vec.emplace_back(entry.first.second, v);
         }
@@ -1275,7 +1275,7 @@ static void _sdump_action_counts(dump_params &par)
                 else
                     par.text += " |      ";
             }
-            par.text += make_stringf(" ||%6d", ac->second[MAX_EXP_LEVEL]);
+            par.text += make_stringf(" ||%6d", ac->second[get_max_exp_level()]);
             par.text += "\n";
         }
     }

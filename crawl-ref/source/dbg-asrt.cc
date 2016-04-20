@@ -208,9 +208,9 @@ static void _dump_player(FILE *file)
             continue;
 
         int needed_min = 0, needed_max = 0;
-        if (sk >= 0 && you.skills[sk] <= MAX_SKILL_LEVEL)
+        if (sk >= 0 && you.skills[sk] <= get_max_skill_level())
             needed_min = skill_exp_needed(you.skills[sk], sk);
-        if (sk >= 0 && you.skills[sk] < MAX_SKILL_LEVEL)
+        if (sk >= 0 && you.skills[sk] < get_max_skill_level())
             needed_max = skill_exp_needed(you.skills[sk] + 1, sk);
 
         fprintf(file, "%-16s|     %c     |   %u   |   %3u    |   %2d  | %6d | %d/%d\n",

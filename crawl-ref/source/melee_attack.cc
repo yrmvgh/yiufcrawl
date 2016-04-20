@@ -1497,9 +1497,6 @@ int melee_attack::player_apply_final_multipliers(int damage)
     if (you.exertion == EXERT_POWER)
         damage = div_rand_round(damage * 3, 2);
 
-    if (you.exertion == EXERT_CAREFUL)
-        damage = div_rand_round(damage * 3, 4);
-
     return damage;
 }
 
@@ -2277,8 +2274,6 @@ int melee_attack::calc_to_hit(bool random)
 
     if (attacker->is_player())
     {
-        if (you.exertion == EXERT_POWER)
-            mhit = div_rand_round(mhit * 3, 4);
         if (you.exertion == EXERT_CAREFUL)
             mhit = div_rand_round(mhit * 3, 2);
     }

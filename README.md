@@ -54,6 +54,13 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Mutations
+    * added a bunch more super rare mutations that could really throw a curveball at the player.
+    * created the good dna, bad dna, and clean dna mutations
+        * good dna: increases chances that mutators will add a good mutation
+        * bad dna: increases chances that mutators will add a bad mutation
+        * clean dna: increases chances that mutators will remove a bad mutation 
+
 * Sif Muna
     * get miscast protection at 3* piety instead of 2*
     * get book gifts at 2* piety instead of 5*
@@ -72,7 +79,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
                 * 1.4 for naga, since they can't run, so they don't have a stamina cost for moving in power mode
             * melee and ranged damage is higher
             * spellpower is greater
-            * accuracy is reduced
             * chance of spell failure is increased
             * movement speed is penalized if the player stops or changes direction more than 45 degrees from original heading
         * careful mode (change to this by pressing 'E')
@@ -80,7 +86,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * stealth is amplified
             * accuracy is increased
             * spell failure chance is reduced
-            * damage is reduced
             * spell power is reduced
             * movement speed is slower 
             * attack speed is slower
