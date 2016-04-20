@@ -2977,9 +2977,9 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_potion_on_each_floor = true;
             uniques_drop_exp_potions = false;
             exp_based_on_player_level = false;
-            exp_percent_from_monsters = -100;
-            exp_percent_from_potions = 50;
-            exp_percent_from_new_branch_floor = 50;
+            exp_percent_from_monsters = -200;
+            exp_percent_from_potions = 70;
+            exp_percent_from_new_branch_floor = 70;
         }
         else if (field == "destroyer")
         {
