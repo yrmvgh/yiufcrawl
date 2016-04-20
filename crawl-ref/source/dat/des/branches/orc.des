@@ -1927,7 +1927,7 @@ MONS: gelid demonspawn / infernal demonspawn / putrid demonspawn /\
       torturous demonspawn / nothing w:20
 MONS: orc high priest / orc sorcerer
 SHUFFLE: BC
-KFEAT: A = general shop / food shop / distillery shop / scroll shop
+KFEAT: A = general shop / distillery shop / scroll shop
 KFEAT: B = book shop / gadget shop
 KFEAT: C = antique weapon shop / antique armour shop
 KFEAT: P = enter_pandemonium
