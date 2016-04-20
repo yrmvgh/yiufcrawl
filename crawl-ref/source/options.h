@@ -625,7 +625,7 @@ object_class_type item_class_by_sym(ucs_t c);
 #endif
 extern game_options  Options;
 
-static string get_exp_mode_string()
+static inline string get_exp_mode_string()
 {
     string result;
     switch(Options.experience_mode)
