@@ -1766,6 +1766,9 @@ item_def* monster_die(monster* mons, killer_type killer,
         return nullptr;
     }
 
+    if (mons->is_player_summon())
+        freeze_summons_mp(-mons->mp_freeze);
+
     // If the monster was calling the tide, let go now.
     mons->del_ench(ENCH_TIDE);
 

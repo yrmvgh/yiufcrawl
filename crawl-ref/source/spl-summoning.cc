@@ -3500,8 +3500,10 @@ int _unsummon_all(const actor *summoner)
 
 int unsummon_all()
 {
+    int count = _unsummon_all(&you);
+    // shouldn't be needed, but here for insurance
     unfreeze_summons_mp();
-	return _unsummon_all(&you);
+    return count;
 }
 
 bool player_has_summons(bool from_summoning_spell)

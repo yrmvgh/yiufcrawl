@@ -99,6 +99,7 @@ public:
 
     bool went_unseen_this_turn;
     coord_def unseen_pos;
+    int mp_freeze;
 
 public:
     void set_new_monster_id();
