@@ -4285,13 +4285,13 @@ bool dec_sp(int sp_loss, bool special)
         you.sp = 0;
         set_exertion(EXERT_NORMAL);
 
-        if (you.duration[DUR_BERSERK] > 1 && you.duration_source[DUR_INVIS] != SRC_POTION)
+        if (you.duration[DUR_BERSERK] > 1 && you.duration_source[DUR_BERSERK] != SRC_POTION)
         {
             mpr("You are too tired to continue your rampage.");
             you.duration[DUR_BERSERK] = 1;
         }
 
-        if (you.duration[DUR_HASTE] > 0 && you.duration_source[DUR_INVIS] != SRC_POTION)
+        if (you.duration[DUR_HASTE] > 0 && you.duration_source[DUR_HASTE] != SRC_POTION)
         {
             mpr("You are too tired to maintain this pace.");
             you.duration[DUR_HASTE] = 0;
@@ -9009,6 +9009,8 @@ void player_end_berserk()
 
     if (!you.duration[DUR_PARALYSIS] && !you.petrified())
         mprf(MSGCH_WARN, "You are exhausted.");
+
+    set_exertion(EXERT_NORMAL);
 
     if (you.species == SP_LAVA_ORC)
         mpr("You feel less hot-headed.");

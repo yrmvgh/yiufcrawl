@@ -783,7 +783,7 @@ bool player::go_berserk(bool intentional, bool potion)
 
     int berserk_duration = (20 + random2avg(19,2)) / 2;
 
-    you.increase_duration(DUR_BERSERK, berserk_duration);
+    you.increase_duration(DUR_BERSERK, berserk_duration, 0, nullptr, potion ? SRC_POTION : SRC_UNDEFINED);
 
     calc_hp();
     set_hp(you.hp * 3 / 2);
