@@ -3333,7 +3333,7 @@ static void tag_read_you(reader &th)
             subtype = subtype | (OBJ_MISSILES << 16);
         }
 #endif
-        for (int j = 0; j < get_max_exp_level(); j++)
+        for (int j = 0; j < MAX_EXP_LEVEL; j++)
             you.action_count[make_pair(caction, subtype)][j] = unmarshallInt(th);
     }
 
