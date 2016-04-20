@@ -80,6 +80,7 @@
 #include "view.h"
 #include "xom.h"
 #include "place.h"
+#include "items.h"
 
 const int DJ_MP_RATE = 1;
 
@@ -4014,6 +4015,8 @@ bool dec_hp(int hp_loss, bool fatal, const char *aux)
 
     if (!fatal && hp_loss >= you.hp)
         hp_loss = you.hp - 1;
+
+    hp_loss = rune_curse_dam_adjust(hp_loss);
 
     // If it's not fatal, use ouch() so that notes can be taken. If it IS
     // fatal, somebody else is doing the bookkeeping, and we don't want to mess
@@ -9052,4 +9055,17 @@ const int get_max_skill_level()
     return MAX_SKILL_LEVEL;
 }
 
+const int rune_curse_hp_adjust(int hp)
+{
+    const int runes = runes_in_pack();
+    const int new_hp = qpow(hp, 20 + crawl_state.difficulty, 20, runes);
+    return new_hp;
+}
+
+const int rune_curse_dam_adjust(int dam)
+{
+    const int runes = runes_in_pack();
+    const int new_dam = qpow(dam, 20 + crawl_state.difficulty, 20, runes);
+    return new_dam;
+}
 
