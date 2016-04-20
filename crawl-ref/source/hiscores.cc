@@ -1884,13 +1884,13 @@ string scorefile_entry::difficulty_name() const
 	switch(difficulty)
 	{
 	case DIFFICULTY_EASY:
-		result = "EASY";
+		result = "STANDARD";
 		break;
 	case DIFFICULTY_HARD:
-		result = "HARD";
+		result = "NIGHTMARE";
 		break;
 	default:
-		result = "NORM";
+		result = "CHALLENGE";
 		break;
 	}
 
@@ -1947,8 +1947,9 @@ scorefile_entry::character_description(death_desc_verbosity verbosity) const
 
     desc += wiz_mode ? ") *WIZ*" :
     		explore_mode ? ") *EXPLORE*" :
-    		difficulty == DIFFICULTY_EASY ? ") *EASY*" :
-    		difficulty == DIFFICULTY_HARD ? ") *HARD*" : ")";
+    		difficulty == DIFFICULTY_EASY ? ") *STANDARD*" :
+            difficulty == DIFFICULTY_NORMAL ? ") *CHALLENGE*" :
+    		difficulty == DIFFICULTY_HARD ? ") *NIGHTMARE*" : ")";
     desc += _hiscore_newline_string();
 
     if (verbose)
