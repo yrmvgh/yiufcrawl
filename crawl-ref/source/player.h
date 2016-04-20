@@ -161,6 +161,8 @@ public:
     unsigned short pet_target;
 
     durations_t duration;
+    FixedVector<source_type, NUM_DURATIONS> duration_source;
+
     int rotting;
     bool apply_berserk_penalty;         // Whether to apply the berserk penalty at
     // end of the turn.
@@ -828,10 +830,8 @@ public:
     void del_gold(int delta);
     void set_gold(int amount);
 
-    void increase_duration(duration_type dur, int turns, int cap = 0,
-                           const char* msg = nullptr);
-    void set_duration(duration_type dur, int turns, int cap = 0,
-                      const char *msg = nullptr);
+    void increase_duration(duration_type dur, int turns, int cap = 0, const char *msg = nullptr, source_type source = SRC_UNDEFINED);
+    void set_duration(duration_type dur, int turns, int cap = 0, const char *msg = nullptr, source_type source = SRC_UNDEFINED);
 
     bool attempt_escape(int attempts = 1);
     int usable_tentacles() const;
@@ -1032,9 +1032,9 @@ void calc_sp();
 void calc_mp();
 void recalc_and_scale_hp();
 
-void dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
-void dec_mp(int mp_loss, bool silent = false);
-void drain_mp(int mp_loss);
+bool dec_hp(int hp_loss, bool fatal, const char *aux = nullptr);
+bool dec_mp(int mp_loss, bool silent = false);
+bool drain_mp(int mp_loss);
 
 void maybe_consume_stamina(int factor = 2);
 bool dec_sp(int sp_loss = 1, bool special = false);
@@ -1091,7 +1091,7 @@ bool slow_player(int turns);
 void dec_slow_player(int delay);
 void dec_exhaust_player(int delay);
 
-bool haste_player(int turns, bool rageext = false);
+bool haste_player(int turns, bool rageext = false, source_type source = SRC_UNDEFINED);
 void dec_haste_player(int delay);
 void dec_elixir_player(int delay);
 void dec_ambrosia_player(int delay);

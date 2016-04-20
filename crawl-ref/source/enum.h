@@ -876,6 +876,8 @@ enum canned_message_type
     MSG_GAIN_MAGIC,
     MSG_MAGIC_DRAIN,
 	MSG_DJINNI_CANT_READ,
+    MSG_STAMINA_INCREASE,
+    MSG_STAMINA_DECREASE,
 };
 
 enum char_set_type
@@ -2522,6 +2524,17 @@ enum mon_holy_type_flags
     MH_UNHOLY            = 1<<7, // ditto, unholy spells
 };
 DEF_BITFIELD(mon_holy_type, mon_holy_type_flags, 7);
+
+enum source_type
+{
+    SRC_UNDEFINED,
+    SRC_POTION,
+    SRC_SCROLL,
+    SRC_WAND,
+    SRC_SPELL,
+    SRC_ABILITY,
+    SRC_ITEM,
+};
 
 enum targ_mode_type
 {

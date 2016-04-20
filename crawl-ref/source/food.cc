@@ -50,8 +50,9 @@ static void _heal_from_food(int hp_amt);
 bool make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
+    bool result = true;
     if (hunger_amount <= 0)
-        return;
+        return true;
 
     if (you.species == SP_VAMPIRE)
     {
@@ -65,7 +66,7 @@ bool make_hungry(int hunger_amount, bool suppress_msg,
             hunger_amount = calc_hunger(hunger_amount);
 
         if (hunger_amount == 0 && !suppress_msg)
-            return;
+            return true;
 
         you.hunger -= hunger_amount;
 
@@ -79,9 +80,10 @@ bool make_hungry(int hunger_amount, bool suppress_msg,
     else
     {
         const int sp_loss = div_rand_round(hunger_amount, 30);
-        dec_sp(sp_loss, true);
+        result = dec_sp(sp_loss, true);
     }
 
+    return result;
 }
 
 // Must match the order of hunger_state_t enums
