@@ -558,7 +558,7 @@ public:
     bool search_slots(function<bool (const mon_spell_slot &)> func) const;
 
     bool has_facet(int facet) const;
-    int cost_of_maintaining_summon();
+    bool is_player_summon() const;
 
 private:
     int hit_dice;

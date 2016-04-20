@@ -3476,7 +3476,6 @@ int count_summons(const actor *summoner, spell_type spell)
     return count;
 }
 
-int _unsummon_all(const actor *summoner);
 int _unsummon_all(const actor *summoner)
 {
     int count = 0;
@@ -3487,7 +3486,7 @@ int _unsummon_all(const actor *summoner)
 
         if (summoner->mid == mi->summoner)
         {
-            if (summoner != &you || mi->cost_of_maintaining_summon() > 0)
+            if (summoner != &you || mi->is_player_summon())
             {
                 mi->del_ench(ENCH_ABJ);
                 mi->del_ench(ENCH_FAKE_ABJURATION);
@@ -3501,6 +3500,7 @@ int _unsummon_all(const actor *summoner)
 
 int unsummon_all()
 {
+    unfreeze_summons_mp();
 	return _unsummon_all(&you);
 }
 
@@ -3509,7 +3509,7 @@ bool player_has_summons(bool from_summoning_spell)
     bool found = false;
     for (monster_iterator mi; mi; ++mi)
     {
-        if (!from_summoning_spell || mi->cost_of_maintaining_summon() > 0)
+        if (!from_summoning_spell || mi->is_player_summon())
         {
             found = true;
             break;

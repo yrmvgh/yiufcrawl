@@ -468,11 +468,11 @@ bool spell_harms_area(spell_type spell)
 
 // applied to spell misfires (more power = worse) and triggers
 // for Xom acting (more power = more likely to grab his attention) {dlb}
-int spell_mana(spell_type which_spell)
+int spell_mana(spell_type which_spell, bool raw)
 {
     int cost = 0;
-	if (is_summon_spell(which_spell))
-		cost = 1;
+	if (is_summon_spell(which_spell) && !raw)
+		cost = 0;
     else
         cost =  _seekspell(which_spell)->level;
 
@@ -480,6 +480,13 @@ int spell_mana(spell_type which_spell)
         cost *= 3;
 
     return cost;
+}
+
+int spell_freeze_mana(const spell_type spell)
+{
+    if (is_summon_spell(spell))
+        return spell_mana(spell, true) * 2;
+    return 0;
 }
 
 // applied in naughties (more difficult = higher level knowledge = worse)

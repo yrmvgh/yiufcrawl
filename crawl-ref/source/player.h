@@ -113,6 +113,7 @@ public:
     int magic_points;
     int max_magic_points;
     int mp_max_adj;             // max MP loss (ability costs, tutorial bonus)
+    int mp_frozen_summons;
 
     FixedVector<int8_t, NUM_STATS> stat_loss;
     FixedVector<int8_t, NUM_STATS> base_stats;
@@ -1048,6 +1049,8 @@ void rot_hp(int hp_loss);
 int unrot_hp(int hp_recovered);
 int player_rotted();
 void rot_mp(int mp_loss);
+void freeze_summons_mp(int mp_loss);
+void unfreeze_summons_mp();
 
 void inc_max_hp(int hp_gain);
 void dec_max_hp(int hp_loss);

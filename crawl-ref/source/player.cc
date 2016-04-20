@@ -2684,16 +2684,18 @@ const int _experience_for_this_floor(int multiplier) {
         && !(you.where_are_you == BRANCH_DUNGEON && you.depth == 1)
             )
     {
+        int how_deep = absdungeon_depth(you.where_are_you, you.depth);
+
         if (Options.exp_based_on_player_level)
             exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
         else
         {
-            int how_deep = absdungeon_depth(you.where_are_you, you.depth);
             exp = stepup2(how_deep + 1, 3, 3, 30);
         }
+
         exp *= multiplier;
         exp = div_rand_round(exp, 300);
-        exp = max(10, exp);
+        exp = max(5 * how_deep, exp);
     }
 
     return exp;
@@ -2712,15 +2714,6 @@ const int potion_experience_for_this_floor()
 const int floor_experience_for_this_floor()
 {
     int exp = _experience_for_this_floor(Options.exp_percent_from_new_branch_floor);
-
-    // mummies can't drink experience potions, so they just get more experience per level than normal
-    if (you.species == SP_MUMMY)
-    {
-        if (Options.exp_potion_on_each_floor)
-            exp <<= 2;
-        if (Options.uniques_drop_exp_potions)
-            exp <<= 2;
-    }
 
     return exp;
 }
@@ -3915,7 +3908,7 @@ unsigned int exp_needed(int lev, int exp_apt)
     else
     {
         const float apt_factor = apt_to_factor(exp_apt - 1);
-        const int base = (stepup2(lev - 1, 2, 5) + 5) * 3;
+        const int base = stepup2(lev, 3, 5, 15) + 1;
         needed_exp = base * apt_factor * apt_factor * apt_factor;
     }
     return (unsigned int) needed_exp;
@@ -4421,7 +4414,20 @@ void rot_mp(int mp_loss)
 {
     you.mp_max_adj -= mp_loss;
     calc_mp();
+    you.redraw_magic_points = true;
+}
 
+void freeze_summons_mp(int mp_loss)
+{
+    you.mp_frozen_summons += mp_loss;
+    calc_mp();
+    you.redraw_magic_points = true;
+}
+
+void unfreeze_summons_mp()
+{
+    you.mp_frozen_summons = 0;
+    calc_mp();
     you.redraw_magic_points = true;
 }
 
@@ -4610,6 +4616,9 @@ int get_real_mp(bool include_items)
     if (crawl_state.difficulty == DIFFICULTY_HARD)
         enp += 4;
 
+    if (you.char_class == JOB_SUMMONER)
+        enp += 5;
+
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
     {
@@ -4626,6 +4635,9 @@ int get_real_mp(bool include_items)
         enp /= 3;
 
     enp = max(enp, 4);
+    enp -= you.mp_frozen_summons;
+    enp = max(enp, 0);
+
     return enp;
 }
 
@@ -5606,6 +5618,7 @@ player::player()
     magic_points     = 0;
     max_magic_points = 0;
     mp_max_adj       = 0;
+    mp_frozen_summons        = 0;
 
     stat_loss.init(0);
     base_stats.init(0);

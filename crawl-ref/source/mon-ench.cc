@@ -1009,25 +1009,15 @@ string monster::describe_enchantments() const
  * calculates chances of player's mana being drained for having this monster summoned, out of 1000
  * should only be used if we know this creature was summoned by the player
  */
-int monster::cost_of_maintaining_summon()
+bool monster::is_player_summon() const
 {
     const mon_enchant& ench_summon(get_ench(ENCH_SUMMON));
 
     // this could also be summon type if we didn't know for sure this was a creature summoned by the player
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
-	int cost = 0;
-    if (spell_used != SPELL_NO_SPELL && spell_used < NUM_SPELLS && spell_used >= 0 && get_spell_disciplines(spell_used) & SPTYP_SUMMONING)
-    {
-    	const int power = calc_spell_power(spell_used, true);
-		cost = spell_difficulty(spell_used);
-
-    	cost = stepup(cost, 1, 2, 1);
-    	cost *= 2000;
-    	cost /= max(1, stepup(power, 25, 2, 25));
-    }
-
-	return cost;
+	const bool result = is_summon_spell(spell_used);
+	return result;
 }
 
 bool monster::decay_enchantment(enchant_type en, bool decay_degree)
@@ -1064,11 +1054,10 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
     bool player_summoned_this_creature = false;
 	player* player_who_summoned_this = 0;
 
-	int summonCost = cost_of_maintaining_summon();
     if (summoner)
     {
 		actor *sourceAgent = actor_by_mid(summoner);
-		if(sourceAgent && sourceAgent->is_player() && summonCost > 0)
+		if(sourceAgent && sourceAgent->is_player() && is_player_summon())
 		{
 			player_summoned_this_creature = true;
 			player_who_summoned_this = sourceAgent->as_player();
@@ -1082,38 +1071,7 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 
     if (me.ench == ENCH_ABJ && player_summoned_this_creature)
     {
-            // enchantment is not based on duration, but instead steadily drains mana of summoner
-		if(you.species == SP_DJINNI
-			? 100 * player_who_summoned_this->hp / player_who_summoned_this->hp_max < 20
-			: 100 * player_who_summoned_this->magic_points / player_who_summoned_this->max_magic_points < 10
-			)
-		{
-			del_ench(me.ench);
-		} else {
-            int cost = one_chance_in(6)
-                    ? (one_chance_in(6)	? 10 : 3)
-                      : 1
-                    ;
-            cost *= summonCost;
-
-            if (cost < 1000)
-            {
-                cost = x_chance_in_y(cost, 1000) ? 1 : 0;
-            }
-            else
-            {
-                cost /= 1000;
-                cost = max(1, cost);
-            }
-
-            if (cost > 0)
-            {
-                dec_mp(cost, true);
-                wprf("summon cost: %d   magic cost: %d", summonCost, cost);
-                you.redraw_magic_points = true;
-            }
-			return false;
-		}
+        return false;
     }
 
     if (!decay_degree)
