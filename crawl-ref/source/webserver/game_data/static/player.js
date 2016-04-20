@@ -282,11 +282,11 @@ function ($, comm, enums, map_knowledge, messages, options) {
         if (player.wizard)
             $("#stats_wizmode").text("-WIZARD-");
         else if (player.diff == "1")
-            $("#stats_wizmode").text("-EASY-");
+            $("#stats_wizmode").text("-STANDARD-");
         else if (player.diff == "2")
-            $("#stats_wizmode").text("-NORMAL-");
+            $("#stats_wizmode").text("-CHALLENGE-");
         else if (player.diff == "3")
-            $("#stats_wizmode").text("-HARD-");
+            $("#stats_wizmode").text("-NIGHTMARE-");
         else
             $("#stats_wizmode").text("");
 
