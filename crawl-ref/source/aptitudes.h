@@ -230,7 +230,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_HILL_ORC,        SK_CONJURATIONS,    0),
     APT(SP_HILL_ORC,        SK_HEXES,           0),
     APT(SP_HILL_ORC,        SK_CHARMS,         -1),
-    APT(SP_HILL_ORC,        SK_SUMMONINGS,      0),
+    APT(SP_HILL_ORC,        SK_SUMMONINGS,      3),
     APT(SP_HILL_ORC,        SK_NECROMANCY,      0),
     APT(SP_HILL_ORC,        SK_TRANSLOCATIONS, -2),
     APT(SP_HILL_ORC,        SK_TRANSMUTATIONS, -3),

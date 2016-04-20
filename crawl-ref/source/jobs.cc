@@ -89,11 +89,6 @@ void job_stat_init(job_type job)
             you.base_stats[stat]++;
         }
     }
-
-    if (job == JOB_SUMMONER)
-    {
-    	you.mp_max_adj = 2;
-    }
 }
 
 bool job_has_weapon_choice(job_type job)

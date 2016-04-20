@@ -54,6 +54,13 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Summoning simplification
+    * Summoning now simply reduces the players magic capacity until the summons are released.
+    * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.
+    * Spell power may affect various attributes of the summoned creature, but it does not affect duration or cost.
+    * Added a "release summons" ability, so you can free up your magic pool if you no longer need those summons. 
+    * The number of summons a player can have is only limited by their magic pool
+
 * Mutations
     * added a bunch more super rare mutations that could really throw a curveball at the player.
     * created the good dna, bad dna, and clean dna mutations
@@ -239,16 +246,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
       descriptions whether or not a change is actually improving my attacking effectiveness. 
-
-* Summoning
-    * no summon caps. Instead, summoned creatures continuously drain mana from the summoner, until there is no longer mana to support them, and then they
-      disappear. More powerful summoned creatures drain a greater amount of mana. This opens up new strategies, enabling a player to summon one powerful
-      creature for a longer period of time, or many of them for a very short time. For now, this only applies to the player summons. Monster summons work as
-      before. 
-    * how much magic a summon drains is reduced by higher spell power
-    * added a "release summons" ability, so you can free up your mana pool if you no longer need those summons. 
-    * summoners start with a +1 dagger to make getting off the ground a little more possible. It's still tough though. Don't summon more than
-      one at once, and focus on boosting your spell power until you can sustain more powerful creatures. 
 
 * Transmutation
     * It costs 3x more to cast a self-transforming spell

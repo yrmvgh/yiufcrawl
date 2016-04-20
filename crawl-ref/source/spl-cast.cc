@@ -946,7 +946,8 @@ bool cast_a_spell(bool check_range, spell_type spell)
     }
 
     const int cost = spell_mana(spell);
-    if (!enough_mp(cost, true))
+    const int freeze_cost = spell_freeze_mana(spell);
+    if (!enough_mp(cost + freeze_cost, true))
     {
         mpr("You don't have enough magic to cast that spell.");
         crawl_state.zero_turns_taken();
@@ -1747,6 +1748,80 @@ static void _spell_zap_effect(spell_type spell)
     }
 }
 
+int summon_cost(const spell_type spell)
+{
+    return spell_difficulty(spell) * 2;
+}
+
+spret_type handle_summoning_spells(spell_type spell, int powc,
+                                   bolt& beam, god_type god, bool fail)
+{
+    freeze_summons_mp(summon_cost(spell));
+
+    switch(spell)
+    {
+        // Summoning spells, and other spells that create new monsters.
+        // If a god is making you cast one of these spells, any monsters
+        // produced will count as god gifts.
+        case SPELL_SUMMON_BUTTERFLIES:
+            return cast_summon_butterflies(powc, god, fail);
+
+        case SPELL_SUMMON_SMALL_MAMMAL:
+            return cast_summon_small_mammal(powc, god, fail);
+
+        case SPELL_CALL_CANINE_FAMILIAR:
+            return cast_call_canine_familiar(powc, god, fail);
+
+        case SPELL_SUMMON_ICE_BEAST:
+            return cast_summon_ice_beast(powc, god, fail);
+
+        case SPELL_MONSTROUS_MENAGERIE:
+            return cast_monstrous_menagerie(&you, powc, god, fail);
+
+        case SPELL_SUMMON_DRAGON:
+            return cast_summon_dragon(&you, powc, god, fail);
+
+        case SPELL_DRAGON_CALL:
+            return cast_dragon_call(powc, fail);
+
+        case SPELL_SUMMON_HYDRA:
+            return cast_summon_hydra(&you, powc, god, fail);
+
+        case SPELL_SUMMON_MANA_VIPER:
+            return cast_summon_mana_viper(powc, god, fail);
+
+        case SPELL_SUMMON_LIGHTNING_SPIRE:
+            return cast_summon_lightning_spire(powc, beam.target, god, fail);
+
+        case SPELL_SUMMON_GUARDIAN_GOLEM:
+            return cast_summon_guardian_golem(powc, god, fail);
+
+        case SPELL_CALL_IMP:
+            return cast_call_imp(powc, god, fail);
+
+        case SPELL_SUMMON_DEMON:
+            return cast_summon_demon(powc, god, fail);
+
+        case SPELL_SUMMON_GREATER_DEMON:
+            return cast_summon_greater_demon(powc, god, fail);
+
+        case SPELL_SHADOW_CREATURES:
+            return cast_shadow_creatures(spell, god, level_id::current(), fail);
+
+        case SPELL_SUMMON_HORRIBLE_THINGS:
+            return cast_summon_horrible_things(powc, god, fail);
+
+        case SPELL_MALIGN_GATEWAY:
+            return cast_malign_gateway(&you, powc, god, fail);
+
+        case SPELL_SUMMON_FOREST:
+            return cast_summon_forest(&you, powc, god, fail);
+
+        default:
+            return SPRET_NONE;
+    }
+}
+
 // Returns SPRET_SUCCESS, SPRET_ABORT, SPRET_FAIL
 // or SPRET_NONE (not a player spell).
 static spret_type _do_cast(spell_type spell, int powc,
@@ -1773,6 +1848,9 @@ static spret_type _do_cast(spell_type spell, int powc,
         if (!adjacent(you.pos(), target))
             return SPRET_ABORT;
     }
+
+    if (is_summon_spell(spell))
+        return handle_summoning_spells(spell, powc, beam, god, fail);
 
     switch (spell)
     {
@@ -1863,68 +1941,11 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_CLOUD_CONE:
         return cast_cloud_cone(&you, powc, target, fail);
 
-    // Summoning spells, and other spells that create new monsters.
-    // If a god is making you cast one of these spells, any monsters
-    // produced will count as god gifts.
-    case SPELL_SUMMON_BUTTERFLIES:
-        return cast_summon_butterflies(powc, god, fail);
-
-    case SPELL_SUMMON_SMALL_MAMMAL:
-        return cast_summon_small_mammal(powc, god, fail);
-
     case SPELL_STICKS_TO_SNAKES:
         return cast_sticks_to_snakes(powc, god, fail);
 
-    case SPELL_CALL_CANINE_FAMILIAR:
-        return cast_call_canine_familiar(powc, god, fail);
-
-    case SPELL_SUMMON_ICE_BEAST:
-        return cast_summon_ice_beast(powc, god, fail);
-
-    case SPELL_MONSTROUS_MENAGERIE:
-        return cast_monstrous_menagerie(&you, powc, god, fail);
-
-    case SPELL_SUMMON_DRAGON:
-        return cast_summon_dragon(&you, powc, god, fail);
-
-    case SPELL_DRAGON_CALL:
-        return cast_dragon_call(powc, fail);
-
-    case SPELL_SUMMON_HYDRA:
-        return cast_summon_hydra(&you, powc, god, fail);
-
-    case SPELL_SUMMON_MANA_VIPER:
-        return cast_summon_mana_viper(powc, god, fail);
-
     case SPELL_CONJURE_BALL_LIGHTNING:
         return cast_conjure_ball_lightning(powc, god, fail);
-
-    case SPELL_SUMMON_LIGHTNING_SPIRE:
-        return cast_summon_lightning_spire(powc, beam.target, god, fail);
-
-    case SPELL_SUMMON_GUARDIAN_GOLEM:
-        return cast_summon_guardian_golem(powc, god, fail);
-
-    case SPELL_CALL_IMP:
-        return cast_call_imp(powc, god, fail);
-
-    case SPELL_SUMMON_DEMON:
-        return cast_summon_demon(powc, god, fail);
-
-    case SPELL_SUMMON_GREATER_DEMON:
-        return cast_summon_greater_demon(powc, god, fail);
-
-    case SPELL_SHADOW_CREATURES:
-        return cast_shadow_creatures(spell, god, level_id::current(), fail);
-
-    case SPELL_SUMMON_HORRIBLE_THINGS:
-        return cast_summon_horrible_things(powc, god, fail);
-
-    case SPELL_MALIGN_GATEWAY:
-        return cast_malign_gateway(&you, powc, god, fail);
-
-    case SPELL_SUMMON_FOREST:
-        return cast_summon_forest(&you, powc, god, fail);
 
     case SPELL_ANIMATE_SKELETON:
         return cast_animate_skeleton(god, fail);
