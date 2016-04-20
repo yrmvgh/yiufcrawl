@@ -4603,21 +4603,20 @@ int get_real_mp(bool include_items)
                + (you.attribute[ATTR_DIVINE_VIGOUR] * 5)
                - (player_mutation_level(MUT_LOW_MAGIC) * 10);
     enp /= 100 * scale;
-//    enp = stepdown_value(enp, 9, 18, 45, 100)
     enp += species_mp_modifier(you.species);
 
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp += 12;
+    	enp += 6;
     if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        enp += 8;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
         enp += 4;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp += 2;
 
     if (you.char_class == JOB_SUMMONER)
-        enp += 5;
+        enp += 3;
 
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
