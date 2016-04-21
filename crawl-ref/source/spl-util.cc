@@ -485,7 +485,7 @@ int spell_mana(spell_type which_spell, bool raw)
 int spell_freeze_mana(const spell_type spell)
 {
     if (is_summon_spell(spell))
-        return spell_mana(spell, true) * 2;
+        return spell_mana(spell, true) + 1;
     return 0;
 }
 

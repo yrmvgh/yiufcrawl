@@ -1748,15 +1748,10 @@ static void _spell_zap_effect(spell_type spell)
     }
 }
 
-int summon_cost(const spell_type spell)
-{
-    return spell_difficulty(spell) * 2;
-}
-
 spret_type handle_summoning_spells(spell_type spell, int powc,
                                    bolt& beam, god_type god, bool fail)
 {
-    freeze_summons_mp(summon_cost(spell));
+    freeze_summons_mp(spell_freeze_mana(spell));
 
     switch(spell)
     {
