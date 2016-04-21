@@ -171,8 +171,8 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_CALL_IMP,
     SPELL_CALL_CANINE_FAMILIAR,
     SPELL_SUMMON_GUARDIAN_GOLEM,
-    SPELL_SUMMON_LIGHTNING_SPIRE,
     SPELL_SUMMON_ICE_BEAST,
+    SPELL_SUMMON_LIGHTNING_SPIRE,
 },
 
 {   // Book of Maledictions
@@ -192,8 +192,8 @@ static const vector<spell_type> spellbook_templates[] =
 },
 
 {   // Book of the Sky
-    SPELL_SUMMON_LIGHTNING_SPIRE,
     SPELL_AIRSTRIKE,
+    SPELL_SUMMON_LIGHTNING_SPIRE,
     SPELL_SILENCE,
     SPELL_DEFLECT_MISSILES,
     SPELL_CONJURE_BALL_LIGHTNING,

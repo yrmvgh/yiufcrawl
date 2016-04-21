@@ -2059,9 +2059,6 @@ int player_movement_speed()
     if (you.exertion == EXERT_POWER)
         mv = mv * 3 / 4;
 
-    if (you.exertion == EXERT_CAREFUL)
-        mv = mv * 4 / 3;
-
     mv = div_rand_round(mv, 100);
 
     // We'll use the old value of six as a minimum, with haste this could
@@ -7821,7 +7818,7 @@ bool player::cannot_act() const
 
 bool player::can_throw_large_rocks() const
 {
-    return species_can_throw_large_rocks(species) || you.strength(true) > 20;
+    return species_can_throw_large_rocks(species) || you.strength(true) > 30;
 }
 
 bool player::can_smell() const
