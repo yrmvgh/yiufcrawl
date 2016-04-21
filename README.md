@@ -276,6 +276,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
         * reduces the chances of out of depth monsters spawning
         * player has 50% more hp
         * player has 50% more mp
+        * player has 33% more sp
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 2)
@@ -289,10 +290,11 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
         * increases the chances of out of depth monsters spawning
         * slower level advancement (exp apt - 2)
         * 33% less gold spawned
-        * 33% less health
+        * 33% less hp
+        * 33% less mp
+        * 25% less sp
         * 4x normal score
         * healing potions heal 25% of health, minimum of 20 points
-        * 2/3 of normal mp
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields

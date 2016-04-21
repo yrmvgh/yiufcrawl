@@ -4620,7 +4620,7 @@ int get_real_mp(bool include_items)
     // straight boost to mp, since things are hard in thie fork for magic users
     enp += 5;
     if (you.char_class == JOB_SUMMONER)
-        enp += 3;
+        enp += 5;
 
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
