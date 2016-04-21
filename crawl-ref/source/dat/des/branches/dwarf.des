@@ -645,7 +645,7 @@ KITEM:   M = manual of Fighting / manual of Dodging / manual of Armour / \
              manual of Invocations w:1
 KITEM:   Q = potion of degeneration
 KFEAT:   ? = any shop
-KFEAT:   & = food shop
+KFEAT:   & = general shop
 KFEAT:   + = runed_door
 KFEAT:   8 = granite_statue
 MAP
