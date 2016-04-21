@@ -113,7 +113,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * accuracy is increased (1.5x normal)
             * spell failure chance is reduced (0.5x normal)
             * spell power is reduced (0.75x normal)
-            * movement speed is slower (1.33x normal delay)
             * attack speed is slower (1.33x normal delay)
     * when stamina is depleted, game switches back to normal exertion mode automatically
     * berserking automatically switches to power mode

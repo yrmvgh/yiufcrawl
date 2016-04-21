@@ -7821,7 +7821,7 @@ bool player::cannot_act() const
 
 bool player::can_throw_large_rocks() const
 {
-    return species_can_throw_large_rocks(species) || you.strength(true) > 20;
+    return species_can_throw_large_rocks(species) || you.strength(true) > 30;
 }
 
 bool player::can_smell() const
