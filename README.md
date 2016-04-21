@@ -64,7 +64,9 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 * Doors can be closed even if there are items on the floor
 
-* Mummy curses are a little more threatening
+* All races can wear cloaks. (including Fe and Op)
+
+* Mummy curses a little more threatening
     * 50% chance that they will curse weapon or ring slots
     * otherwise they just pick a random slot to curse
     * 1/10 chance of triple cursing
