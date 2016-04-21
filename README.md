@@ -54,7 +54,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
-* Mummy curses a little more threatening
+* Mummy curses are a little more threatening
     * 50% chance that they will curse weapon or ring slots
     * otherwise they just pick a random slot to curse
     * 1/10 chance of triple cursing
@@ -296,7 +296,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
       costs one permanent MP.
     * Since they can't read identify scrolls, they can either identify items by using them (very dangerous for potentially cursed items), or wait and use the
       new insight mutation that they start with which, over time, randomly identifies attributes of items in their inventory. This mutation can also randomly be
-      gained by other species as they drink mutation potions, etc.
+      gained by other species as they drink mutation potions, etc. An item with an earlier inventory letter will likely be identified before an item with a later
+      one ('b' will be identified sooner than 'z' in most cases).
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?
