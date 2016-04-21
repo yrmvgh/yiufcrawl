@@ -783,10 +783,12 @@ bool curse_a_slot(int power)
 
     int slot_to_curse = -1;
     int tries = 0;
-    while (slot_to_curse == -1 && tries++ < 20)
+    while (slot_to_curse == -1 && tries++ < 50)
     {
         int slot = random2(NUM_EQUIP);
         if (you_can_wear((equipment_type) slot) != MB_FALSE)
+            if (coinflip() && slot != EQ_WEAPON && slot < EQ_LEFT_RING)
+                continue;
             slot_to_curse = slot;
     }
 

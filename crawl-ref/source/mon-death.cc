@@ -955,7 +955,11 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
              target->name(DESC_THE).c_str());
     }
 
-    curse_a_slot(pow * 100);
+    for (int i = 0; i < (x_chance_in_y(1, 10) ? 3 : 1); i ++)
+    {
+        curse_a_slot(pow * 100);
+    }
+
     const string cause = make_stringf("%s death curse",
                                       apostrophise(mons->name(DESC_A)).c_str());
     MiscastEffect(target, mons, MUMMY_MISCAST, SPTYP_NECROMANCY,
