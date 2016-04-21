@@ -82,11 +82,11 @@ def watch_socket_dirs():
 def diff_string(level):
     result = "Unknown"
     if level == "1":
-        result = "Easy"
+        result = "Standard"
     if level == "2":
-        result = "Normal"
+        result = "Challenge"
     if level == "3":
-       result = "Hard"
+       result = "Nightmare"
     return result
 
 def exp_mode_string(mode):
