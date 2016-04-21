@@ -3310,6 +3310,9 @@ monster* create_monster(mgen_data mg, bool fail_msg)
             mpr("You see a puff of smoke.");
     }
 
+    if (mg.summon_type)
+        summd->mp_freeze = spell_freeze_mana((const spell_type) mg.summon_type);
+
     return summd;
 }
 
