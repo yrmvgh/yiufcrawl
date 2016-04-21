@@ -4582,9 +4582,9 @@ int get_real_sp(bool include_items)
     boost += you.scan_artefacts(ARTP_STAMINA);
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        map_sp = map_sp * 4 / 3;
+        max_sp = max_sp * 4 / 3;
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-        map_sp = map_sp * 3 / 4;
+        max_sp = max_sp * 3 / 4;
 
     max_sp = qpow(max_sp, 5, 4, boost);
 
