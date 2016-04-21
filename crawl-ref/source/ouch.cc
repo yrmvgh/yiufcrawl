@@ -673,13 +673,7 @@ static void _powered_by_pain(int dam)
         && (random2(dam) > 4 + div_rand_round(you.experience_level, 4)
             || dam >= you.hp_max / 2))
     {
-        int chance = 3;
-        if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-            chance = 2;
-        if (crawl_state.difficulty == DIFFICULTY_HARD)
-            chance = 1;
-
-        if (x_chance_in_y(chance, 3))
+        if (x_chance_in_y(level, 3))
         {
             switch (random2(4))
             {
