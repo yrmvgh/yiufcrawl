@@ -8778,11 +8778,13 @@ void player_close_door(coord_def doorpos)
             return;
         }
 
+        /*
         if (igrd(dc) != NON_ITEM)
         {
             mprf("There's something blocking the %s.", waynoun);
             return;
         }
+        */
 
         if (you.pos() == dc)
         {
