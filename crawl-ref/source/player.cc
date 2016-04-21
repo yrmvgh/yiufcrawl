@@ -2694,7 +2694,11 @@ const int _experience_for_this_floor(int multiplier) {
         }
 
         exp *= multiplier;
-        exp = div_rand_round(exp, 300);
+
+        if (you.where_are_you != BRANCH_DUNGEON)
+            exp /= 2;
+
+        exp = div_rand_round(exp, 100);
         exp = max(5 * how_deep, exp);
     }
 
