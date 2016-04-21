@@ -2694,7 +2694,11 @@ const int _experience_for_this_floor(int multiplier) {
         }
 
         exp *= multiplier;
-        exp = div_rand_round(exp, 300);
+
+        if (you.where_are_you != BRANCH_DUNGEON)
+            exp /= 2;
+
+        exp = div_rand_round(exp, 100);
         exp = max(5 * how_deep, exp);
     }
 
@@ -3521,7 +3525,7 @@ int check_stealth()
         stealth /= 3;
 
     if (you.exertion == EXERT_POWER)
-        stealth >>= 1;
+        stealth >>= 2;
 
     if (you.exertion == EXERT_CAREFUL)
         stealth <<= 1;
@@ -4577,6 +4581,11 @@ int get_real_sp(bool include_items)
         boost += 2;
     boost += you.scan_artefacts(ARTP_STAMINA);
 
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        max_sp = max_sp * 4 / 3;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        max_sp = max_sp * 3 / 4;
+
     max_sp = qpow(max_sp, 5, 4, boost);
 
     return max_sp;
@@ -4608,15 +4617,10 @@ int get_real_mp(bool include_items)
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp += 6;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        enp += 4;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-        enp += 2;
-
+    // straight boost to mp, since things are hard in thie fork for magic users
+    enp += 5;
     if (you.char_class == JOB_SUMMONER)
-        enp += 3;
+        enp += 5;
 
     // Now applied after scaling so that power items are more useful -- bwr
     if (include_items)
@@ -4632,6 +4636,11 @@ int get_real_mp(bool include_items)
 
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))
         enp /= 3;
+
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        enp = enp * 3 / 2;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp = enp * 2 / 3;
 
     enp = max(enp, 4);
     enp -= you.mp_frozen_summons;
@@ -6597,11 +6606,7 @@ int player::evasion(ev_ignore_type evit, const actor* act) const
     const int invis_penalty = attacker_invis && !(evit & EV_IGNORE_HELPLESS) ?
                               10 : 0;
 
-    int amount_of_stairs_penalty = 7;
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-        amount_of_stairs_penalty = 1;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        amount_of_stairs_penalty = 3;
+    int amount_of_stairs_penalty = 0;
 
     const int stairs_penalty = player_stair_delay()
                                 && !(evit & EV_IGNORE_HELPLESS) ?
@@ -8047,6 +8052,14 @@ void player::set_gold(int amount)
 
 void player::increase_duration(duration_type dur, int turns, int cap, const char *msg, source_type source)
 {
+    if (dur == DUR_EXHAUSTED)
+    {
+        const int sp_loss = dur / 4;
+        dec_sp(sp_loss);
+        duration[DUR_EXHAUSTED] = 0;
+        return;
+    }
+
     if (msg)
         mpr(msg);
     cap *= BASELINE_DELAY;
@@ -8054,6 +8067,8 @@ void player::increase_duration(duration_type dur, int turns, int cap, const char
     duration[dur] += turns * BASELINE_DELAY;
     if (cap && duration[dur] > cap)
         duration[dur] = cap;
+    if (dur == DUR_BERSERK || dur == DUR_INVIS || dur == DUR_HASTE)
+        inc_sp(turns * 4);
 
     duration_source[dur] = source;
 }
@@ -8392,7 +8407,7 @@ void temperature_check()
 void temperature_increment(float degree)
 {
     // No warming up while you're exhausted!
-    if (you.duration[DUR_EXHAUSTED])
+    if (you.duration[DUR_EXHAUSTED] || player_is_tired(true))
         return;
 
     you.temperature += sqrt(degree);
@@ -8774,11 +8789,13 @@ void player_close_door(coord_def doorpos)
             return;
         }
 
+        /*
         if (igrd(dc) != NON_ITEM)
         {
             mprf("There's something blocking the %s.", waynoun);
             return;
         }
+        */
 
         if (you.pos() == dc)
         {

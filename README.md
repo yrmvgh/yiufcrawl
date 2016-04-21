@@ -54,6 +54,16 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Wand recharging
+    * Wands lose 1/3 of their charges on recharging
+    * But they will never end up with less than 2 charges
+
+* Hill Orcs
+    * Gave them Summoning +3, because we needed another good summoner.
+    * Gave them Bad Dna 1, because they were too awesome overall, and need a challenge.
+
+* Doors can be closed even if there are items on the floor
+
 * All races can wear cloaks. (including Fe and Op)
 
 * Mummy curses a little more threatening
@@ -91,18 +101,20 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
                 * 0.5 for spriggan
                 * 0.7 for centaur
                 * 1.4 for naga, since they can't run, so they don't have a stamina cost for moving in power mode
-            * melee and ranged damage is higher
-            * spellpower is greater
-            * chance of spell failure is increased
+            * melee and ranged damage is higher (1.5x normal)
+            * spellpower is greater (1.5x normal)
+            * chance of spell failure is increased (2x normal)
             * movement speed is penalized if the player stops or changes direction more than 45 degrees from original heading
+            * can't stab
+            * stealth is reduced (0.25x normal)
         * careful mode (change to this by pressing 'E')
             * actions cost stamina
-            * stealth is amplified
-            * accuracy is increased
-            * spell failure chance is reduced
-            * spell power is reduced
-            * movement speed is slower 
-            * attack speed is slower
+            * stealth is amplified (2x normal)
+            * accuracy is increased (1.5x normal)
+            * spell failure chance is reduced (0.5x normal)
+            * spell power is reduced (0.75x normal)
+            * movement speed is slower (1.33x normal delay)
+            * attack speed is slower (1.33x normal delay)
     * when stamina is depleted, game switches back to normal exertion mode automatically
     * berserking automatically switches to power mode
     * species differences:
@@ -266,6 +278,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
         * reduces the chances of out of depth monsters spawning
         * player has 50% more hp
         * player has 50% more mp
+        * player has 33% more sp
         * increases the amount of gold spawned by 33%
         * starts player with a healing potion
         * faster level advancement (exp apt + 2)
@@ -279,7 +292,9 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
         * increases the chances of out of depth monsters spawning
         * slower level advancement (exp apt - 2)
         * 33% less gold spawned
-        * 33% less health
+        * 33% less hp
+        * 33% less mp
+        * 25% less sp
         * 4x normal score
         * healing potions heal 25% of health, minimum of 20 points
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
@@ -298,7 +313,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
       costs one permanent MP.
     * Since they can't read identify scrolls, they can either identify items by using them (very dangerous for potentially cursed items), or wait and use the
       new insight mutation that they start with which, over time, randomly identifies attributes of items in their inventory. This mutation can also randomly be
-      gained by other species as they drink mutation potions, etc.
+      gained by other species as they drink mutation potions, etc. An item with an earlier inventory letter will likely be identified before an item with a later
+      one ('b' will be identified sooner than 'z' in most cases).
     * Fire damage heals them. Standing in a flame cloud is a way to heal, but the flame cloud is absorbed by the Djinni and disappears more quickly
       than normal. Be careful though, increasing their fire resistance (through an item, ring, etc), will reduce their healing. Maybe you can find a source of
       lowering their fire resistance?

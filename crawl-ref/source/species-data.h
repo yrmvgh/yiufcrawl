@@ -557,6 +557,7 @@ static const map<species_type, species_def> species_data =
     10, 8, 6, // 24
     { STAT_STR }, 5,
 	{
+        { MUT_BAD_DNA, 1, 1 },
 	},
     {},
     {},
