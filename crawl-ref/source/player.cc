@@ -6601,11 +6601,7 @@ int player::evasion(ev_ignore_type evit, const actor* act) const
     const int invis_penalty = attacker_invis && !(evit & EV_IGNORE_HELPLESS) ?
                               10 : 0;
 
-    int amount_of_stairs_penalty = 7;
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-        amount_of_stairs_penalty = 1;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        amount_of_stairs_penalty = 3;
+    int amount_of_stairs_penalty = 0;
 
     const int stairs_penalty = player_stair_delay()
                                 && !(evit & EV_IGNORE_HELPLESS) ?
@@ -8051,6 +8047,14 @@ void player::set_gold(int amount)
 
 void player::increase_duration(duration_type dur, int turns, int cap, const char *msg, source_type source)
 {
+    if (dur == DUR_EXHAUSTED)
+    {
+        const int sp_loss = dur / 4;
+        dec_sp(sp_loss);
+        duration[DUR_EXHAUSTED] = 0;
+        return;
+    }
+
     if (msg)
         mpr(msg);
     cap *= BASELINE_DELAY;
@@ -8058,6 +8062,8 @@ void player::increase_duration(duration_type dur, int turns, int cap, const char
     duration[dur] += turns * BASELINE_DELAY;
     if (cap && duration[dur] > cap)
         duration[dur] = cap;
+    if (dur == DUR_BERSERK || dur == DUR_INVIS || dur == DUR_HASTE)
+        inc_sp(turns * 4);
 
     duration_source[dur] = source;
 }
@@ -8396,7 +8402,7 @@ void temperature_check()
 void temperature_increment(float degree)
 {
     // No warming up while you're exhausted!
-    if (you.duration[DUR_EXHAUSTED])
+    if (you.duration[DUR_EXHAUSTED] || player_is_tired(true))
         return;
 
     you.temperature += sqrt(degree);
