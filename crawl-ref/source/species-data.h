@@ -375,6 +375,7 @@ static const map<species_type, species_def> species_data =
     8, 8, 8, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
     {
+        { MUT_NO_STEALTH, 1, 1 }
         { MUT_EPHEMERAL, 3, 1 },
         { MUT_COLD_VULNERABILITY, 1, 1 },
         { MUT_INSIGHT, 1, 1 },
