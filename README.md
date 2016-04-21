@@ -54,6 +54,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* All races can wear cloaks. (including Fe and Op)
+
 * Mummy curses a little more threatening
     * 50% chance that they will curse weapon or ring slots
     * otherwise they just pick a random slot to curse
