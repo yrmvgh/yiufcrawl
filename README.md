@@ -54,6 +54,10 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Wand recharging
+    * Wands lose 1/3 of their charges on recharging
+    * But they will never end up with less than 2 charges
+
 * Hill Orcs
     * Gave them Summoning +3, because we needed another good summoner.
     * Gave them Bad Dna 1, because they were too awesome overall, and need a challenge.
