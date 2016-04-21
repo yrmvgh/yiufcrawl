@@ -90,6 +90,7 @@ monster::monster()
     clear_constricted();
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
+    mp_freeze = 0;
     prev_direction = coord_def(0, 0);
 }
 
@@ -141,6 +142,7 @@ void monster::reset()
     god             = GOD_NO_GOD;
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
+    mp_freeze = 0;
 
     mons_remove_from_grid(this);
     target.reset();

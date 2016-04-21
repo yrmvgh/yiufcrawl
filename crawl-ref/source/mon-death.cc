@@ -955,7 +955,11 @@ static void _mummy_curse(monster* mons, killer_type killer, int index)
              target->name(DESC_THE).c_str());
     }
 
-    curse_a_slot(pow * 100);
+    for (int i = 0; i < (x_chance_in_y(1, 10) ? 3 : 1); i ++)
+    {
+        curse_a_slot(pow * 100);
+    }
+
     const string cause = make_stringf("%s death curse",
                                       apostrophise(mons->name(DESC_A)).c_str());
     MiscastEffect(target, mons, MUMMY_MISCAST, SPTYP_NECROMANCY,
@@ -1765,6 +1769,9 @@ item_def* monster_die(monster* mons, killer_type killer,
             return place_monster_corpse(*mons, silent);
         return nullptr;
     }
+
+    if (mons->is_player_summon())
+        freeze_summons_mp(-mons->mp_freeze);
 
     // If the monster was calling the tide, let go now.
     mons->del_ench(ENCH_TIDE);

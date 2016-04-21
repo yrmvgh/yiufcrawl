@@ -54,6 +54,11 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Mummy curses a little more threatening
+    * 50% chance that they will curse weapon or ring slots
+    * otherwise they just pick a random slot to curse
+    * 1/10 chance of triple cursing
+
 * Summoning simplification
     * Summoning now simply reduces the players magic capacity until the summons are released.
     * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.

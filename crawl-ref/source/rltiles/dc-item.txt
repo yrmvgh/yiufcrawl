@@ -672,7 +672,7 @@ i-enchant-weapon SCR_ENCHANT_WEAPON_III
 i-curse-jewellery SCR_CURSE_JEWELLERY
 %back scroll-red
 i-vulnerability SCR_VULNERABILITY SCR_ID_LAST
-%back scroll-grey
+%back none
 
 ##################OBJ_JEWELLERY
 ############ring

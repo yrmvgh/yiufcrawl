@@ -936,8 +936,8 @@ static void _evolve(int time_delta)
 
 static void _handle_insight(int time_delta)
 {
-    if (int lev = player_mutation_level(MUT_INSIGHT)) {
-    	if (x_chance_in_y(1 << (lev*2), 64)) {
+    if (int lev = 1 + player_mutation_level(MUT_INSIGHT)) {
+    	if (x_chance_in_y(1 << ((lev - 1) * 2), 64)) {
     		string before, after;
     		bool success = false;
 
@@ -1032,7 +1032,7 @@ static struct timed_effect timed_effects[] =
 #if TAG_MAJOR_VERSION == 34
     { nullptr,                         0,     0, false },
 #endif
-    { _handle_insight,               400,   800, false },
+    { _handle_insight,               100,   400, false },
 };
 
 // Do various time related actions...

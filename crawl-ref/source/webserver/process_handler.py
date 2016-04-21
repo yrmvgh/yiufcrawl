@@ -552,7 +552,7 @@ class CrawlProcessHandler(CrawlProcessHandlerBase):
         save_file_path = os.path.join(launch_dir, "." + self.username + ".cs")
 
         if os.path.exists(dir_file_path):
-            new_launch_dir = read_from_file(dir_file_path)
+            new_launch_dir = read_from_file(dir_file_path).strip()
             if os.path.exists(launch_dir):
                 print "found previous launch_dir: " + new_launch_dir
                 os.chdir(launch_dir)

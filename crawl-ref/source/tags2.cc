@@ -2382,7 +2382,7 @@ static void tag_read_you(reader &th)
     {
 #endif
     you.hit_points_regeneration   = unmarshallInt(th);
-    you.stamina_points_regeneration = max(0, unmarshallInt(th));
+    you.stamina_points_regeneration = unmarshallInt(th);
     you.magic_points_regeneration = unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     }
@@ -3333,7 +3333,7 @@ static void tag_read_you(reader &th)
             subtype = subtype | (OBJ_MISSILES << 16);
         }
 #endif
-        for (int j = 0; j < MAX_EXP_LEVEL; j++)
+        for (int j = 0; j < get_max_exp_level(); j++)
             you.action_count[make_pair(caction, subtype)][j] = unmarshallInt(th);
     }
 
@@ -4858,7 +4858,6 @@ void marshallMonster(writer &th, const monster& m)
     marshallShort(th, m.damage_total);
     marshallByte(th, m.went_unseen_this_turn);
     marshallCoord(th, m.unseen_pos);
-    marshallInt(th, m.mp_freeze);
 
     if (parts & MP_GHOST_DEMON)
     {
@@ -5731,7 +5730,6 @@ void unmarshallMonster(reader &th, monster& m)
 #endif
     m.went_unseen_this_turn = unmarshallByte(th);
     m.unseen_pos = unmarshallCoord(th);
-    m.mp_freeze = unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     }
 #endif
