@@ -54,6 +54,12 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Hill Orcs
+    * Gave them Summoning +3, because we needed another good summoner.
+    * Gave them Bad Dna 1, because they were too awesome overall, and need a challenge.
+
+* Doors can be closed even if there are items on the floor
+
 * Mummy curses are a little more threatening
     * 50% chance that they will curse weapon or ring slots
     * otherwise they just pick a random slot to curse
