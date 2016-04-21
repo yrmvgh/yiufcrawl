@@ -292,6 +292,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
         * 33% less health
         * 4x normal score
         * healing potions heal 25% of health, minimum of 20 points
+        * 2/3 of normal mp
     * This is just the beginning. I'm sure with more testing and experience, we can find ways to make these difficulty levels a lot more interesting.
 
 * Unequipping shields

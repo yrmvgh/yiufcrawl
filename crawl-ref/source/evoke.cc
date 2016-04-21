@@ -794,6 +794,7 @@ int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg,
         		break;
         	case RECHARGE_TYPE_EITHER:
             case RECHARGE_TYPE_PAKELLAS:
+            default:
         		sel = OSEL_RECHARGE;
         		break;
         	}

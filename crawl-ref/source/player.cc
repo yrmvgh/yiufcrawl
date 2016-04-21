@@ -4612,13 +4612,8 @@ int get_real_mp(bool include_items)
     // This is our "rotted" base, applied after multipliers
     enp += you.mp_max_adj;
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
-    	enp += 6;
-    if (crawl_state.difficulty == DIFFICULTY_NORMAL)
-        enp += 4;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
-        enp += 2;
-
+    // straight boost to mp, since things are hard in thie fork for magic users
+    enp += 5;
     if (you.char_class == JOB_SUMMONER)
         enp += 3;
 
@@ -4636,6 +4631,11 @@ int get_real_mp(bool include_items)
 
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))
         enp /= 3;
+
+    if (crawl_state.difficulty == DIFFICULTY_EASY)
+        enp = enp * 3 / 2;
+    if (crawl_state.difficulty == DIFFICULTY_HARD)
+        enp = enp * 2 / 3;
 
     enp = max(enp, 4);
     enp -= you.mp_frozen_summons;
