@@ -2275,7 +2275,7 @@ int melee_attack::calc_to_hit(bool random)
     if (attacker->is_player())
     {
         if (you.exertion == EXERT_CAREFUL)
-            mhit = div_rand_round(mhit * 3, 2);
+            mhit *= 2;
     }
 
     return mhit;

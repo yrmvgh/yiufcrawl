@@ -3525,7 +3525,7 @@ int check_stealth()
         stealth /= 3;
 
     if (you.exertion == EXERT_POWER)
-        stealth >>= 1;
+        stealth >>= 2;
 
     if (you.exertion == EXERT_CAREFUL)
         stealth <<= 1;

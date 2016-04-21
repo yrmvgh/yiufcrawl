@@ -95,18 +95,20 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
                 * 0.5 for spriggan
                 * 0.7 for centaur
                 * 1.4 for naga, since they can't run, so they don't have a stamina cost for moving in power mode
-            * melee and ranged damage is higher
-            * spellpower is greater
-            * chance of spell failure is increased
+            * melee and ranged damage is higher (1.5x normal)
+            * spellpower is greater (1.5x normal)
+            * chance of spell failure is increased (2x normal)
             * movement speed is penalized if the player stops or changes direction more than 45 degrees from original heading
+            * can't stab
+            * stealth is reduced (0.25x normal)
         * careful mode (change to this by pressing 'E')
             * actions cost stamina
-            * stealth is amplified
-            * accuracy is increased
-            * spell failure chance is reduced
-            * spell power is reduced
-            * movement speed is slower 
-            * attack speed is slower
+            * stealth is amplified (2x normal)
+            * accuracy is increased (1.5x normal)
+            * spell failure chance is reduced (0.5x normal)
+            * spell power is reduced (0.75x normal)
+            * movement speed is slower (1.33x normal delay)
+            * attack speed is slower (1.33x normal delay)
     * when stamina is depleted, game switches back to normal exertion mode automatically
     * berserking automatically switches to power mode
     * species differences:
