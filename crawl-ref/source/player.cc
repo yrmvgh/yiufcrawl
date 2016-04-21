@@ -2059,9 +2059,6 @@ int player_movement_speed()
     if (you.exertion == EXERT_POWER)
         mv = mv * 3 / 4;
 
-    if (you.exertion == EXERT_CAREFUL)
-        mv = mv * 4 / 3;
-
     mv = div_rand_round(mv, 100);
 
     // We'll use the old value of six as a minimum, with haste this could
