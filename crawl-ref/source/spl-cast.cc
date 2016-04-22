@@ -746,7 +746,7 @@ void inspect_spells()
 
 static bool _can_cast()
 {
-    if (player_is_very_tired(true) && you.exertion) != EXERT_NORMAL)
+    if (player_is_very_tired(true) && you.exertion != EXERT_NORMAL)
     {
         mpr("You are too tired to use your magic now. You could if you were in normal mode.");
         return false;
@@ -1425,6 +1425,9 @@ vector<string> desc_success_chance(const monster_info& mi, int pow, bool evoked,
     return descs;
 }
 
+spret_type _handle_summoning_spells(spell_type spell, int powc,
+                                    bolt &beam, god_type god, bool fail);
+
 /**
  * Targets and fires player-cast spells & spell-like effects.
  *
@@ -1748,8 +1751,8 @@ static void _spell_zap_effect(spell_type spell)
     }
 }
 
-spret_type handle_summoning_spells(spell_type spell, int powc,
-                                   bolt& beam, god_type god, bool fail)
+spret_type _handle_summoning_spells(spell_type spell, int powc,
+                                    bolt &beam, god_type god, bool fail)
 {
     freeze_summons_mp(spell_freeze_mana(spell));
 
@@ -1860,7 +1863,7 @@ static spret_type _do_cast(spell_type spell, int powc,
     }
 
     if (is_summon_spell(spell))
-        return handle_summoning_spells(spell, powc, beam, god, fail);
+        return _handle_summoning_spells(spell, powc, beam, god, fail);
 
     switch (spell)
     {
