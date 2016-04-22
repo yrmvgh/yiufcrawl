@@ -1069,6 +1069,7 @@ void set_sp(int new_amount);
 void set_mp(int new_amount);
 
 bool player_regenerates_hp();
+bool player_regenerates_sp();
 bool player_regenerates_mp();
 
 void contaminate_player(int change, bool controlled = false, bool msg = true);

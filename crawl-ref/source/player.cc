@@ -4570,18 +4570,15 @@ int get_real_sp(bool include_items)
     int max_sp = 100;
 
     int boost = 0;
-//    boost += you.scan_artefacts(ARTP_MAGICAL_POWER);
     boost += player_mutation_level(MUT_HIGH_STAMINA);
     boost -= player_mutation_level(MUT_LOW_STAMINA);
-    const int num_stamina_rings = you.wearing(EQ_RINGS, RING_STAMINA);
-    for (int i = 0; i < num_stamina_rings; i++)
-        boost += 2;
+    boost += you.wearing(EQ_RINGS, RING_STAMINA);
     boost += you.scan_artefacts(ARTP_STAMINA);
 
     if (crawl_state.difficulty == DIFFICULTY_EASY)
-        max_sp = max_sp * 4 / 3;
+        boost++;
     if (crawl_state.difficulty == DIFFICULTY_HARD)
-        max_sp = max_sp * 3 / 4;
+        boost--;
 
     max_sp = qpow(max_sp, 5, 4, boost);
 
@@ -4652,6 +4649,11 @@ bool player_regenerates_hp()
         return false;
     if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
         return false;
+    return true;
+}
+
+bool player_regenerates_sp()
+{
     return true;
 }
 
@@ -8065,7 +8067,7 @@ void player::increase_duration(duration_type dur, int turns, int cap, const char
     if (cap && duration[dur] > cap)
         duration[dur] = cap;
     if (dur == DUR_BERSERK || dur == DUR_INVIS || dur == DUR_HASTE)
-        inc_sp(turns * 4);
+        inc_sp(turns * 8);
 
     duration_source[dur] = source;
 }

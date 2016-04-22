@@ -601,6 +601,7 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
                 break;
 
             case SPWPN_VAMPIRISM:
+                /*
                 if (you.species != SP_VAMPIRE
                     && you.undead_state() == US_ALIVE
                     && !you_foodless()
@@ -608,6 +609,7 @@ static void _equip_weapon_effect(item_def& item, bool showMsgs, bool unmeld)
                 {
                     make_hungry(4500, false, false);
                 }
+                 */
                 break;
 
             case SPWPN_DISTORTION:

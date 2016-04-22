@@ -1758,6 +1758,21 @@ spret_type handle_summoning_spells(spell_type spell, int powc,
         // Summoning spells, and other spells that create new monsters.
         // If a god is making you cast one of these spells, any monsters
         // produced will count as god gifts.
+        case SPELL_WEAVE_SHADOWS:
+        {
+            level_id place(BRANCH_DUNGEON, 1);
+            const int level = 5 + div_rand_round(powc, 3);
+            const int depthsabs = branches[BRANCH_DEPTHS].absdepth;
+            if (level >= depthsabs && x_chance_in_y(level + 1 - depthsabs, 5))
+            {
+                place.branch = BRANCH_DEPTHS;
+                place.depth = level  + 1 - depthsabs;
+            }
+            else
+                place.depth = level;
+            return cast_shadow_creatures(spell, god, place, fail);
+        }
+
         case SPELL_SUMMON_BUTTERFLIES:
             return cast_summon_butterflies(powc, god, fail);
 
@@ -1987,21 +2002,6 @@ static spret_type _do_cast(spell_type spell, int powc,
 
     case SPELL_AURA_OF_ABJURATION:
         return cast_aura_of_abjuration(powc, fail);
-
-    case SPELL_WEAVE_SHADOWS:
-    {
-        level_id place(BRANCH_DUNGEON, 1);
-        const int level = 5 + div_rand_round(powc, 3);
-        const int depthsabs = branches[BRANCH_DEPTHS].absdepth;
-        if (level >= depthsabs && x_chance_in_y(level + 1 - depthsabs, 5))
-        {
-            place.branch = BRANCH_DEPTHS;
-            place.depth = level  + 1 - depthsabs;
-        }
-        else
-            place.depth = level;
-        return cast_shadow_creatures(spell, god, place, fail);
-    }
 
     // Healing.
     case SPELL_CURE_POISON:
