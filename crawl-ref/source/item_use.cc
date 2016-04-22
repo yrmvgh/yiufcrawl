@@ -2437,6 +2437,11 @@ string cannot_read_item_reason(const item_def &item)
     {
         if (item.sub_type == BOOK_MANUAL)
             return "You can't read that!";
+            
+	    // Prevent hot lava orcs reading scrolls
+	if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
+            return "You'd burn any book you tried to read!";
+        
         return "";
     }
 
