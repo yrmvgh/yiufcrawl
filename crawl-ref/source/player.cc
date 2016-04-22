@@ -4652,6 +4652,11 @@ bool player_regenerates_hp()
     return true;
 }
 
+bool player_regenerates_sp()
+{
+    return true;
+}
+
 bool player_regenerates_mp()
 {
     // Don't let DD use guardian spirit for free HP, since their
