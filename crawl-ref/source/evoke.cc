@@ -840,7 +840,7 @@ int recharge_wand(recharge_type rechargeType, bool known, const string &pre_msg,
         {
             const int new_charges = wand.get_cap();
             if (rechargeType != RECHARGE_TYPE_PAKELLAS)
-                wand.set_cap(max(2, div_rand_round(wand.get_cap() * 2, 3)));
+                wand.set_cap(max(2, wand.get_cap() * 2 / 3 + 1));
             const bool charged = (new_charges > wand.plus);
 
             string desc;
