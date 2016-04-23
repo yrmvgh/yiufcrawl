@@ -430,6 +430,8 @@ int spell_hunger(spell_type which_spell, bool rod)
     if (hunger < 0)
         hunger = 0;
 
+    // adjust for circus because spell hunger is eating through stamina a little too quickly
+    hunger /= 2;
     return hunger;
 }
 
