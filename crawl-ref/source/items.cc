@@ -2166,7 +2166,10 @@ bool move_item_to_grid(int *const obj, const coord_def& p, bool silent)
                 // Add quantity to item already here, and dispose
                 // of obj, while returning the found item. -- bwr
                 merge_item_stacks(item, *si);
-                inc_mitm_item_quantity(si->index(), item.quantity);
+
+                if (item.base_type != OBJ_WANDS)
+                    inc_mitm_item_quantity(si->index(), item.quantity);
+
                 destroy_item(ob);
                 ob = si->index();
                 _gozag_move_gold_to_top(p);
