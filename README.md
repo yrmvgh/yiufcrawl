@@ -55,7 +55,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 ### v1.3
 
 * Wand recharging
-    * Wands lose 1/3 of their charges on recharging
+    * Wands gain half of the normal capacity for that wand type. So a healing wand gives 5 each recharge. 
+    * Wands lose 1/2 of what they gain from their capacity 
     * But they will never end up with less than 2 charges
 
 * Hill Orcs

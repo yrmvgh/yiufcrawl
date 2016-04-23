@@ -1024,14 +1024,12 @@ static bool _give_pakellas_gift()
     object_class_type basetype = OBJ_UNASSIGNED;
     int subtype;
 
-    if (you.piety >= piety_breakpoint(0)
-        && you.num_total_gifts[GOD_PAKELLAS] == 0)
+    if (you.piety >= piety_breakpoint(0))
     {
         basetype = OBJ_WANDS;
         subtype = _pakellas_low_wand();
     }
-    else if (you.piety >= piety_breakpoint(1)
-             && you.num_total_gifts[GOD_PAKELLAS] == 1)
+    if (you.piety >= piety_breakpoint(1))
     {
         // All the evoker options here are summon-based, so give another
         // low-level wand instead under Sacrifice Love.
@@ -1046,20 +1044,17 @@ static bool _give_pakellas_gift()
             subtype = _pakellas_low_misc();
         }
     }
-    else if (you.piety >= piety_breakpoint(2)
-             && you.num_total_gifts[GOD_PAKELLAS] == 2)
+    if (you.piety >= piety_breakpoint(2))
     {
         basetype = OBJ_WANDS;
         subtype = _pakellas_high_wand();
     }
-    else if (you.piety >= piety_breakpoint(3)
-             && you.num_total_gifts[GOD_PAKELLAS] == 3)
+    if (you.piety >= piety_breakpoint(3))
     {
         basetype = OBJ_MISCELLANY;
         subtype = _pakellas_high_misc();
     }
-    else if (you.piety >= piety_breakpoint(4)
-             && you.num_total_gifts[GOD_PAKELLAS] == 4)
+    if (you.piety >= piety_breakpoint(4))
     {
         // Felids get another high-level wand or evoker instead of a rod.
         if (you.species == SP_FELID)
@@ -1094,6 +1089,9 @@ static bool _give_pakellas_gift()
     {
         simple_god_message(" grants you a gift!");
         // included in default force_more_message
+
+        if (you.num_total_gifts[GOD_PAKELLAS] > 0)
+            _inc_gift_timeout(100 + random2avg(29, 2));
 
         you.num_current_gifts[you.religion]++;
         you.num_total_gifts[you.religion]++;
