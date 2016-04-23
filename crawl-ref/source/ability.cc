@@ -3290,10 +3290,10 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         _add_talent(talents, ABIL_MUMMY_RESTORATION, check_confused);
 
     if (you.species == SP_DEEP_DWARF)
+    {
         _add_talent(talents, ABIL_RECHARGING_BASIC, check_confused);
-
-    if (you.species == SP_DEEP_DWARF)
         _add_talent(talents, ABIL_RECHARGING_ADVANCED, check_confused);
+    }
 
     if (you.species == SP_DJINNI)
         _add_talent(talents, ABIL_UNCURSE, check_confused);

@@ -1541,6 +1541,12 @@ void merge_item_stacks(const item_def &source, item_def &dest, int quant)
 
     ASSERT_RANGE(quant, 0 + 1, source.quantity + 1);
 
+    if (source.base_type == OBJ_WANDS && dest.base_type == OBJ_WANDS)
+    {
+        dest.charges += source.charges;
+        dest.set_cap(dest.get_cap() + source.get_cap());
+    }
+
     if (is_perishable_stack(source) && is_perishable_stack(dest))
         merge_perishable_stacks(source, dest, quant);
 }
@@ -1857,12 +1863,7 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
         }
 
         merge_item_stacks(it, item, quant_got);
-        if (it.base_type == OBJ_WANDS)
-        {
-            item.charges += it.charges;
-            item.set_cap(item.get_cap() + it.get_cap());
-        }
-        else
+        if (it.base_type != OBJ_WANDS)
             inc_inv_item_quantity((*inv), inv_slot, quant_got);
 
         you.last_pickup[&item] = quant_got;
