@@ -2958,7 +2958,7 @@ void game_options::read_option_line(const string &str, bool runscript)
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = true;
             exp_percent_from_monsters = 25;
-            exp_percent_from_potions = 50;
+            exp_percent_from_potions = 25;
             exp_percent_from_new_branch_floor = 25;
         }
         else if (field == "intensity")
