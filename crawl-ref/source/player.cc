@@ -2686,15 +2686,9 @@ const int _experience_for_this_floor(int multiplier) {
         if (Options.exp_based_on_player_level)
             exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
         else
-        {
-            exp = stepup2(how_deep + 1, 3, 3, 30);
-        }
+            exp = exp_needed(how_deep, 0);
 
         exp *= multiplier;
-
-        if (you.where_are_you != BRANCH_DUNGEON)
-            exp /= 2;
-
         exp = div_rand_round(exp, 100);
         exp = max(5 * how_deep, exp);
     }
