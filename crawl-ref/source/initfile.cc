@@ -2947,9 +2947,9 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_potion_on_each_floor = true;
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = false;
-            exp_percent_from_monsters = 25;
-            exp_percent_from_potions = 25;
-            exp_percent_from_new_branch_floor = 25;
+            exp_percent_from_monsters = 20;
+            exp_percent_from_potions = 20;
+            exp_percent_from_new_branch_floor = 20;
         }
         else if (field == "serenity")
         {
@@ -2957,9 +2957,9 @@ void game_options::read_option_line(const string &str, bool runscript)
             exp_potion_on_each_floor = true;
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = true;
-            exp_percent_from_monsters = 25;
-            exp_percent_from_potions = 25;
-            exp_percent_from_new_branch_floor = 25;
+            exp_percent_from_monsters = 20;
+            exp_percent_from_potions = 20;
+            exp_percent_from_new_branch_floor = 20;
         }
         else if (field == "intensity")
         {
@@ -2968,8 +2968,8 @@ void game_options::read_option_line(const string &str, bool runscript)
             uniques_drop_exp_potions = true;
             exp_based_on_player_level = false;
             exp_percent_from_monsters = 0;
-            exp_percent_from_potions = 80;
-            exp_percent_from_new_branch_floor = 20;
+            exp_percent_from_potions = 100;
+            exp_percent_from_new_branch_floor = 0;
         }
         else if (field == "pacifist")
         {
