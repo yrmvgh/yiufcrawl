@@ -552,7 +552,7 @@ int raw_spell_fail(spell_type spell)
     if (you.exertion == EXERT_POWER)
         chance2 <<= 1;
     if (you.exertion == EXERT_CAREFUL)
-        chance2 >>= 1;
+        chance2 -= 20;
 
     if (chance2 > 100)
         chance2 = 100;
