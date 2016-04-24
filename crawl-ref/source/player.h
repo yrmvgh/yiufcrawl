@@ -428,6 +428,10 @@ public:
     // the deepest the player has been
     int max_exp;
 
+    // mp given back to the player. Used to be used by transformations.
+    int mp_kickback;
+    int current_form_spell_failure;
+
     // used by scrolls of returning
     coord_def returnPosition;
 
@@ -1175,5 +1179,8 @@ const int get_max_exp_level();
 const int get_max_skill_level();
 const int rune_curse_hp_adjust(int hp);
 const int rune_curse_dam_adjust(int dam);
+void set_mp_kickback(int amount);
+void release_mp_kickback();
+void player_was_offensive();
 
 #endif

@@ -2279,6 +2279,7 @@ bool evoke_item(int slot, bool check_range)
 
     you.attribute[ATTR_PAKELLAS_DEVICE_SURGE] = 0; // set later if needed
 
+    player_was_offensive();
     if (entry && entry->evoke_func)
     {
         ASSERT(item_is_equipped(item));

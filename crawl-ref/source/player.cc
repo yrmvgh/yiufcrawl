@@ -5848,6 +5848,8 @@ player::player()
     amplification       = 1;
     exertion            = EXERT_NORMAL;
     max_exp             = 0;
+    mp_kickback         = 0;
+    current_form_spell_failure  = 0;
 
     save                = nullptr;
     prev_save_version.clear();
@@ -9100,3 +9102,23 @@ const int rune_curse_dam_adjust(int dam)
     return new_dam;
 }
 
+void set_mp_kickback(int amount)
+{
+    you.mp_kickback = amount;
+}
+
+void release_mp_kickback()
+{
+    inc_mp(you.mp_kickback);
+    you.mp_kickback = 0;
+}
+
+void player_was_offensive()
+{
+    if (you.current_form_spell_failure != 0)
+    {
+        const int fail = you.current_form_spell_failure;
+        if(one_chance_in(4) && x_chance_in_y(fail, 100))
+            untransform();
+    }
+}

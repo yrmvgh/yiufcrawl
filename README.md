@@ -54,6 +54,12 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ### v1.3
 
+* Transmutation
+    * transformations don't time out
+    * power of the transformation is based on spell power
+    * when the player takes any offensive action (attacks, casts, evokes), the spell failure of the form is tested. 
+      If the spell would have failed, 1/3 of the time, the form unravells and the player returns to normal form. 
+
 * Wand recharging
     * Wands gain half of the normal capacity for that wand type. So a healing wand gives 5 each recharge. 
     * Wands lose 1/2 of what they gain from their capacity 
@@ -265,11 +271,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
       descriptions whether or not a change is actually improving my attacking effectiveness. 
-
-* Transmutation
-    * It costs 3x more to cast a self-transforming spell
-    * transformations don't time out
-    * power of the transformation is based on spell power
 
 * Game difficulty levels
     * At game start, or in the init file, you can specify that the game is easy, normal, or hard. 

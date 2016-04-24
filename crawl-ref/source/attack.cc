@@ -132,6 +132,9 @@ bool attack::handle_phase_end()
     // This may invalidate both the attacker and defender.
     fire_final_effects();
 
+    if (attacker->is_player())
+        player_was_offensive();
+
     return true;
 }
 

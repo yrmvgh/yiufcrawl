@@ -1558,6 +1558,8 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.amplification);
     marshallInt(th, you.exertion);
     marshallInt(th, you.max_exp);
+    marshallInt(th, you.mp_kickback);
+    marshallInt(th, you.current_form_spell_failure);
 
     marshallInt(th, you.magic_contamination);
 
@@ -3206,6 +3208,8 @@ static void tag_read_you(reader &th)
         you.amplification = 1;
     set_exertion((exertion_mode)unmarshallInt(th));
     you.max_exp = unmarshallInt(th);
+    you.mp_kickback = unmarshallInt(th);
+    you.current_form_spell_failure = (spell_type) unmarshallInt(th);
 
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_CONTAM_SCALE)
