@@ -2017,12 +2017,17 @@ int player_movement_speed()
 		if (you.temperature < TEMP_COOL) {
 			mv += 100;
 		}
-		if (you.temperature >= TEMP_ROOM) {
-			mv -= 100;
-		}
-		if (you.temperature >= TEMP_HOT) {
-			mv -= 100;
-		}
+
+        if (you.exertion == EXERT_POWER)
+        {
+            if (you.temperature >= TEMP_ROOM) {
+                mv -= 100;
+            }
+
+            if (you.temperature >= TEMP_HOT) {
+                mv -= 100;
+            }
+        }
 	}
 
     mv += you.wearing_ego(EQ_ALL_ARMOUR, SPARM_PONDEROUSNESS) * 100;
