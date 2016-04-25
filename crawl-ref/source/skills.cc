@@ -149,35 +149,35 @@ unsigned int skill_cost_needed(int level)
     return (exp_needed(level, 1) * 13) / 10;
 }
 
-static const int MAX_SKILL_COST_LEVEL = MAX_SKILL_LEVEL;
+static const int MAX_SKILL_COST_LEVEL = 27;
 
 // skill_cost_level makes skills more expensive for more experienced characters
 int calc_skill_cost(int skill_cost_level)
 {
     int cost;
-    if (Options.level_27_cap)
+    if (skill_cost_level >= MAX_SKILL_COST_LEVEL)
     {
-        const int cost_array[] = { 1, 2, 3, 4, 5,            // 1-5
-                             7, 8, 9, 13, 22,         // 6-10
-                             37, 48, 73, 98, 125,      // 11-15
-                             145, 170, 190, 212, 225,  // 16-20
-                             240, 255, 260, 265, 265,  // 21-25
-                             265, 265 };
-        if (skill_cost_level > 27)
+        cost = 265;
+    }
+    else
+    {
+        if (Options.level_27_cap)
         {
-            cost = INT_MAX;
-        }
-        else
-        {
+            const int cost_array[] = {1, 2, 3, 4, 5,            // 1-5
+                                      7, 8, 9, 13, 22,         // 6-10
+                                      37, 48, 73, 98, 125,      // 11-15
+                                      145, 170, 190, 212, 225,  // 16-20
+                                      240, 255, 260, 265, 265,  // 21-25
+                                      265, 265};
             COMPILE_CHECK(ARRAYSZ(cost_array) == 27);
             ASSERT_RANGE(skill_cost_level, 1, 27 + 1);
             cost = cost_array[skill_cost_level - 1];
         }
-    }
-    else
-    {
-        ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
-        cost = stepup2(skill_cost_level, 6, 2, 14) + 1;
+        else
+        {
+            ASSERT_RANGE(skill_cost_level, 1, MAX_SKILL_COST_LEVEL + 1);
+            cost = stepup2(skill_cost_level, 6, 2, 14) + 1;
+        }
     }
 
     return cost;
@@ -873,7 +873,7 @@ void train_skills(bool simu)
     {
         cost = calc_skill_cost(you.skill_cost_level);
         exp = you.exp_available;
-        if (you.skill_cost_level == MAX_SKILL_COST_LEVEL)
+        if (you.skill_cost_level >= MAX_SKILL_COST_LEVEL)
             _train_skills(exp, cost, simu);
         else
         {
