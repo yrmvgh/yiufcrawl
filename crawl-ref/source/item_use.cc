@@ -2315,6 +2315,12 @@ static void _handle_read_book(int item_slot)
         canned_msg(MSG_TOO_BERSERK);
         return;
     }
+	    // Prevent hot lava orcs reading books
+	if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
+    {
+        mpr("You'd burn any book you tried to read!");
+        return;
+    }
 
     if (you.duration[DUR_BRAINLESS])
     {
@@ -2437,6 +2443,7 @@ string cannot_read_item_reason(const item_def &item)
     {
         if (item.sub_type == BOOK_MANUAL)
             return "You can't read that!";
+         
         return "";
     }
 

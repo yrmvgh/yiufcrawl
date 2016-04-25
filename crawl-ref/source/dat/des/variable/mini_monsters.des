@@ -3102,7 +3102,7 @@ MONS:    jelly, slime creature
 dgn.delayed_decay_extra(_G, 'A', 'human corpse', 'damaged shield ident:pluses / nothing, '
                         .. 'damaged helmet ident:pluses / nothing, % / nothing, '
                         .. '% / nothing, % / nothing, any damaged armour ident:pluses, '
-                        .. 'any damaged weapon good_item ident:pluses')
+                        .. 'any weapon good_item ident:pluses')
 }}
 KMONS:   A = toadstool
 KFEAT:   B = altar_jiyva
