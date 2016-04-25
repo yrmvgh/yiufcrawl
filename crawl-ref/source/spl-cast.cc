@@ -1057,6 +1057,12 @@ bool cast_a_spell(bool check_range, spell_type spell)
         }
     }
 
+    if (freeze_cost)
+    {
+        freeze_summons_mp(freeze_cost);
+        you.summon_count_by_spell[spell]++;
+    }
+
     you.turn_is_over = true;
     alert_nearby_monsters();
 
@@ -1754,8 +1760,6 @@ static void _spell_zap_effect(spell_type spell)
 spret_type _handle_summoning_spells(spell_type spell, int powc,
                                     bolt &beam, god_type god, bool fail)
 {
-    freeze_summons_mp(spell_freeze_mana(spell));
-
     switch(spell)
     {
         // Summoning spells, and other spells that create new monsters.

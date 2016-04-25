@@ -1559,7 +1559,13 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.exertion);
     marshallInt(th, you.max_exp);
     marshallInt(th, you.mp_kickback);
+    marshallInt(th, you.current_form_spell);
     marshallInt(th, you.current_form_spell_failure);
+    marshallInt(th, NUM_SPELLS);
+    for (int i = 0; i < NUM_SPELLS; ++i)
+    {
+        marshallUByte(th, you.summon_count_by_spell[i]);
+    }
 
     marshallInt(th, you.magic_contamination);
 
@@ -3209,7 +3215,11 @@ static void tag_read_you(reader &th)
     set_exertion((exertion_mode)unmarshallInt(th));
     you.max_exp = unmarshallInt(th);
     you.mp_kickback = unmarshallInt(th);
-    you.current_form_spell_failure = (spell_type) unmarshallInt(th);
+    you.current_form_spell = (spell_type) unmarshallInt(th);
+    you.current_form_spell_failure = unmarshallInt(th);
+    const int spell_count = unmarshallInt(th);
+    for (int i = 0; i < spell_count; ++i)
+        you.summon_count_by_spell[i] = unmarshallUByte(th);
 
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_CONTAM_SCALE)
@@ -4863,6 +4873,7 @@ void marshallMonster(writer &th, const monster& m)
     marshallByte(th, m.went_unseen_this_turn);
     marshallCoord(th, m.unseen_pos);
     marshallInt(th, m.mp_freeze);
+    marshallInt(th, m.summoned_by_spell);
 
     if (parts & MP_GHOST_DEMON)
     {
@@ -5736,6 +5747,7 @@ void unmarshallMonster(reader &th, monster& m)
     m.went_unseen_this_turn = unmarshallByte(th);
     m.unseen_pos = unmarshallCoord(th);
     m.mp_freeze = unmarshallInt(th);
+    m.summoned_by_spell = (spell_type) unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     }
 #endif

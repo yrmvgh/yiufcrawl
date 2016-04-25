@@ -4419,9 +4419,13 @@ void freeze_summons_mp(int mp_loss)
     you.redraw_magic_points = true;
 }
 
-void unfreeze_summons_mp()
+void unfreeze_summons_mp(int amount)
 {
-    you.mp_frozen_summons = 0;
+    if (amount == -1)
+        you.mp_frozen_summons = 0;
+    else
+        you.mp_frozen_summons = max(0, you.mp_frozen_summons - amount);
+
     calc_mp();
     you.redraw_magic_points = true;
 }
@@ -5844,6 +5848,7 @@ player::player()
     max_exp             = 0;
     mp_kickback         = 0;
     current_form_spell_failure  = 0;
+    summon_count_by_spell.init(0);
 
     save                = nullptr;
     prev_save_version.clear();

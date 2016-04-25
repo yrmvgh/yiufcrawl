@@ -32,6 +32,7 @@
 #include "spl-damage.h"
 #include "spl-summoning.h"
 #include "spl-zap.h"
+#include "stepdown.h"
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
@@ -486,9 +487,14 @@ int spell_mana(spell_type which_spell, bool raw)
 
 int spell_freeze_mana(const spell_type spell)
 {
+    int amount = 0;
     if (is_summon_spell(spell))
-        return spell_mana(spell, true) + 1;
-    return 0;
+    {
+        const int base_mana = spell_mana(spell, true);
+        const unsigned char &summon_count = you.summon_count_by_spell[spell];
+        amount = qpow(base_mana, 3, 2, summon_count);
+    }
+    return amount;
 }
 
 // applied in naughties (more difficult = higher level knowledge = worse)
