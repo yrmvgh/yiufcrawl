@@ -1995,14 +1995,15 @@ int player_movement_speed()
     int mv = 1100;
 
     // transformations
-    if (you.form == TRAN_BAT)
-        mv = 500;
-    else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
-        mv = 700;
-    else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
-        mv = 800;
-    else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
-        mv = 600;
+    if (you.exertion == EXERT_POWER)
+        if (you.form == TRAN_BAT)
+            mv = 500;
+        else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
+            mv = 700;
+        else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
+            mv = 800;
+        else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
+            mv = 600;
 
     // moving on liquefied ground takes longer
     if (you.liquefied_ground())
