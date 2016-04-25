@@ -2102,9 +2102,9 @@ static const mon_spellbook mspell_list[] =
     
     {  MST_EARTH_WIZ_I,
       {
-       { SPELL_STONE_ARROW, 18, MON_SPELL_WIZARD },
+       { SPELL_STONE_ARROW, 21, MON_SPELL_WIZARD },
        { SPELL_IRON_SHOT, 6, MON_SPELL_WIZARD },
-       { SPELL_DIG, 15, MON_SPELL_MAGICAL },
+       { SPELL_DIG, 15, MON_SPELL_WIZARD },
       }
     },
 
@@ -2113,10 +2113,17 @@ static const mon_spellbook mspell_list[] =
        { SPELL_OZOCUBUS_ARMOUR, 12, MON_SPELL_WIZARD },
        { SPELL_STONE_ARROW, 18, MON_SPELL_WIZARD },
        { SPELL_IRON_SHOT, 12, MON_SPELL_WIZARD },
-       { SPELL_DIG, 9, MON_SPELL_MAGICAL },
+       { SPELL_DIG, 9, MON_SPELL_WIZARD },
       }
     },
 
+    {  MST_EARTH_WIZ_III,
+      {
+       { SPELL_IRON_SHOT, 18, MON_SPELL_WIZARD },
+       { SPELL_LEHUDIBS_CRYSTAL_SPEAR, 18, MON_SPELL_WIZARD },
+       { SPELL_DIG, 12, MON_SPELL_WIZARD },
+      }
+    },
 
     {  MST_THORN_LOTUS,
         {
