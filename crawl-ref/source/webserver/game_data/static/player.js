@@ -339,7 +339,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
         else if ((player.piety_rank > 0 || player.god != "")
                  && player.god != "Gozag")
         {
-            $("#stats_piety").text(player.piety);
+            $("#stats_piety").text("(" + player.piety + ")");
         }
         else
             $("#stats_piety").text("");

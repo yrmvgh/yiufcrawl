@@ -1363,7 +1363,7 @@ static const struct spell_desc spelldata[] =
     SPELL_CALL_CANINE_FAMILIAR, "Call Canine Familiar",
     SPTYP_SUMMONING,
     SPFLAG_NONE,
-    3,
+    5,
     100,
     -1, -1,
     3, 0,
