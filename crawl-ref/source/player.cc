@@ -6477,7 +6477,6 @@ int player::racial_ac(bool temp) const
         if (species == SP_NAGA)
             return 100 * experience_level / 3;  	// max 9 or so
         else if (species == SP_LAVA_ORC)
-            && (you.temperature >= TEMP_WARM); 			
             return 300 + 100 * experience_level / 9;	// max 6 or so
         else if (species == SP_GARGOYLE)
         {
@@ -8537,8 +8536,7 @@ bool temperature_effect(int which)
 //      case nothing, right now:
 //            return (you.temperature >= TEMP_COOL && you.temperature < TEMP_WARM); // 5-8
         case LORC_LAVA_BOOST:
-            return temperature() >= TEMP_WARM // 9-10
-            		  // && temperature() < TEMP_HOT;
+            return temperature() >= TEMP_WARM; // 9-10
         case LORC_FIRE_RES_II:
             return temperature() >= TEMP_WARM; // 9-15
         case LORC_FIRE_RES_III:
