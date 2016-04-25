@@ -44,7 +44,7 @@ struct player_info
     string god;
     bool under_penance;
     uint8_t piety_rank;
-    int piety;
+    uint8_t piety;
 
     uint8_t form;
 
