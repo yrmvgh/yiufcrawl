@@ -1914,7 +1914,6 @@ static void _do_rest()
     if (i_feel_safe())
     {
         set_exertion(EXERT_NORMAL);
-//        unsummon_all();
         if ((you.hp == you.hp_max || !player_regenerates_hp())
             && (you.magic_points == you.max_magic_points
                 || !player_regenerates_mp())

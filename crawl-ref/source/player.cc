@@ -9140,10 +9140,10 @@ void player_was_offensive()
         {
             you.current_form_spell_failure++;
             if (you.current_form_spell_failure == 2)
-                mpr("Your form is beginning to unravel.");
+                mprf(MSGCH_WARN, "Your form is beginning to unravel.");
 
             if (you.current_form_spell_failure == 4)
-                mpr("You can't maintain your form for much longer!");
+                mprf(MSGCH_DANGER, "You can't maintain your form for much longer!");
 
             if (you.current_form_spell_failure > 4)
                 untransform();
