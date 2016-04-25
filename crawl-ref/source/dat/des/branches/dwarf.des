@@ -310,9 +310,9 @@ ITEM:    box of beasts
 ITEM:    any weapon
 ITEM:    amulet of faith / \
          any jewellery / any weapon ego:holy_wrath / any weapon / \
-         potion of experience w:1 / potion of porridge / any potion / \
+         potion of experience w:1 / potion of ambrosia / any potion / \
          scroll of holy word / scroll of torment / any scroll
-ITEM:    potion of porridge
+ITEM:    potion of ambrosia
 MAP
         xxxxxxxxxxxxxxxxxxxx
         xxxxxxxxxxxxgxxxxxxx
@@ -558,13 +558,13 @@ SUBST:   1 = d f:5 g:2 j:1
 KMONS:   d = deep dwarf / deep dwarf scion
 KMONS:   f = deep dwarf necromancer
 KMONS:   g = deep dwarf berserker
-KMONS:   h = deep dwarf ; potion of porridge
-KMONS:   j = deep dwarf necromancer ; potion of porridge
+KMONS:   h = deep dwarf ; potion of ambrosia
+KMONS:   j = deep dwarf necromancer ; potion of ambrosia
 SUBST:   2 = l m:5 p:2 r:1
 KMONS:   l = patrolling deep dwarf necromancer
 KMONS:   m = patrolling deep dwarf berserker
-KMONS:   p = patrolling deep dwarf ; potion of porridge
-KMONS:   r = patrolling deep dwarf necromancer ; potion of porridge
+KMONS:   p = patrolling deep dwarf ; potion of ambrosia
+KMONS:   r = patrolling deep dwarf necromancer ; potion of ambrosia
 KMONS:   3 = generate_awake wight w:20 / generate_awake troll / \
              generate_awake hell rat
 KMONS:   5 = siren
@@ -572,7 +572,7 @@ KFEAT:   5 = shallow_water
 SUBST:   F = T:40 V:40 U:20
 SUBST:   W = W .
 SUBST:   P = %:25 $ *:2 P:3 R:1 D:1 M:1
-KITEM:   P = potion of porridge
+KITEM:   P = potion of ambrosia
 KITEM:   D = deck of changes / deck of war / deck of defence / \
              deck of destruction w:1 / deck of dungeons w:1 / deck of wonders w:5
 KITEM:   R = any potion / potion of degeneration w:3 / \
@@ -621,20 +621,20 @@ SUBST:   1 = d f:5 g:2 j:1
 KMONS:   d = deep dwarf / deep dwarf scion
 KMONS:   f = deep dwarf necromancer
 KMONS:   g = deep dwarf berserker
-KMONS:   h = deep dwarf ; potion of porridge
-KMONS:   j = deep dwarf necromancer ; potion of porridge
+KMONS:   h = deep dwarf ; potion of ambrosia
+KMONS:   j = deep dwarf necromancer ; potion of ambrosia
 SUBST:   2 = l m:5 p:2 r:1
 KMONS:   l = patrolling deep dwarf necromancer
 KMONS:   m = patrolling deep dwarf berserker
-KMONS:   p = patrolling deep dwarf ; potion of porridge
-KMONS:   r = patrolling deep dwarf necromancer ; potion of porridge
+KMONS:   p = patrolling deep dwarf ; potion of ambrosia
+KMONS:   r = patrolling deep dwarf necromancer ; potion of ambrosia
 KMONS:   3 = generate_awake wight w:20 / generate_awake troll / \
              generate_awake hell rat
 NSUBST:  s = 1:+ / *:c
 SUBST:   F = T:40 V:40 U:20
 SUBST:   W = W .
 SUBST:   P = %:25 $ *:2 P:3 R:1 D:1 M:1
-KITEM:   P = potion of porridge
+KITEM:   P = potion of ambrosia
 KITEM:   D = deck of changes / deck of war / deck of defence / \
              deck of destruction w:1 / deck of dungeons w:1 / deck of wonders w:5
 KITEM:   R = any potion / potion of degeneration w:3 / \
@@ -643,7 +643,7 @@ KITEM:   R = any potion / potion of degeneration w:3 / \
 KITEM:   M = manual of Fighting / manual of Dodging / manual of Armour / \
              manual of Unarmed Combat / manual of Spellcasting w:1 / \
              manual of Invocations w:1
-KITEM:   Q = potion of degeneration
+KITEM:   Q = potion of degeneration w:2 / potion of mutation
 KFEAT:   ? = any shop
 KFEAT:   & = general shop
 KFEAT:   + = runed_door
