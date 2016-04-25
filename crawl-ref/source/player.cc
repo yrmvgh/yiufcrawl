@@ -9130,15 +9130,16 @@ void player_was_offensive()
         const int fail = raw_spell_fail(you.current_form_spell);
 
         if (x_chance_in_y(fail, 100))
+        {
             you.current_form_spell_failure++;
+            if (you.current_form_spell_failure == 2)
+                mpr("Your form is beginning to unravel.");
 
-        if (you.current_form_spell_failure == 2)
-            mpr("Your form is slowly unravelling.");
+            if (you.current_form_spell_failure == 4)
+                mpr("You can't maintain your form for much longer!");
 
-        if (you.current_form_spell_failure == 4)
-            mpr("You can't maintain your form for much longer!");
-
-        if (you.current_form_spell_failure > 4)
-            untransform();
+            if (you.current_form_spell_failure > 4)
+                untransform();
+        }
     }
 }
