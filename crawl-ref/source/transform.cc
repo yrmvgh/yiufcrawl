@@ -1948,6 +1948,8 @@ void untransform(bool skip_move)
     const bool was_flying = you.airborne();
 
     you.current_form_spell_failure      = 0;
+    you.current_form_spell = SPELL_NO_SPELL;
+
     you.redraw_quiver           = true;
     you.redraw_evasion          = true;
     you.redraw_armour_class     = true;

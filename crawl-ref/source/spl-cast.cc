@@ -1068,7 +1068,7 @@ bool cast_a_spell(bool check_range, spell_type spell)
 
     player_was_offensive();
     if (is_self_transforming_spell(spell))
-        you.current_form_spell_failure = raw_spell_fail(spell);
+        you.current_form_spell = spell;
 
     return true;
 }

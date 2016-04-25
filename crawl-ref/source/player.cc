@@ -5851,6 +5851,7 @@ player::player()
     exertion            = EXERT_NORMAL;
     max_exp             = 0;
     mp_kickback         = 0;
+    current_form_spell  = SPELL_NO_SPELL;
     current_form_spell_failure  = 0;
     summon_count_by_spell.init(0);
 
@@ -9118,10 +9119,20 @@ void release_mp_kickback()
 
 void player_was_offensive()
 {
-    if (you.current_form_spell_failure != 0)
+    if (you.current_form_spell != SPELL_NO_SPELL)
     {
-        const int fail = you.current_form_spell_failure;
-        if(one_chance_in(4) && x_chance_in_y(fail, 100))
+        const int fail = raw_spell_fail(you.current_form_spell);
+
+        if (x_chance_in_y(fail, 100))
+            you.current_form_spell_failure++;
+
+        if (you.current_form_spell_failure == 2)
+            mpr("Your form is slowly unravelling.");
+
+        if (you.current_form_spell_failure == 4)
+            mpr("You can't maintain your form for much longer!");
+
+        if (you.current_form_spell_failure > 4)
             untransform();
     }
 }

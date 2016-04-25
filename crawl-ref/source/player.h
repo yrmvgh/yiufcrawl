@@ -430,7 +430,10 @@ public:
 
     // mp given back to the player. Used to be used by transformations.
     int mp_kickback;
+    spell_type current_form_spell;
     int current_form_spell_failure;
+
+    FixedVector<unsigned char, NUM_SPELLS> summon_count_by_spell;
 
     // used by scrolls of returning
     coord_def returnPosition;
