@@ -1996,6 +1996,7 @@ int player_movement_speed()
 
     // transformations
     if (you.exertion == EXERT_POWER)
+    {
         if (you.form == TRAN_BAT)
             mv = 500;
         else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
@@ -2005,13 +2006,18 @@ int player_movement_speed()
         else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
             mv = 600;
 
+        if (you.run())
+            mv -= 200;
+
+        // Tengu can move slightly faster when flying.
+        if (you.tengu_flight())
+            mv -= 200 + you.experience_level * 14;
+
+    }
+
     // moving on liquefied ground takes longer
     if (you.liquefied_ground())
         mv += 300;
-
-    // armour
-    if (you.run())
-        mv -= 200;
 
 	if (you.species == SP_LAVA_ORC) {
 		if (you.temperature < TEMP_COOL) {
@@ -2038,10 +2044,6 @@ int player_movement_speed()
     else if (player_under_penance(GOD_CHEIBRIADOS))
         mv += 200 + min(you.piety_max[GOD_CHEIBRIADOS] * 5, 800);
 
-    // Tengu can move slightly faster when flying.
-    if (you.tengu_flight())
-        mv -= 200 + you.experience_level * 14;
-
     if (you.duration[DUR_FROZEN])
         mv += 400;
 
@@ -2066,7 +2068,7 @@ int player_movement_speed()
           mv = mv * 4 / 3;
     }
 
-    if (you.exertion == EXERT_POWER)
+    if (you.exertion == EXERT_POWER && you.religion != GOD_CHEIBRIADOS)
         mv = mv * 3 / 4;
 
     mv = div_rand_round(mv, 100);
