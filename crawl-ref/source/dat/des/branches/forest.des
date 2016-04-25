@@ -704,8 +704,8 @@ NSUBST: p = 4:p / *:., ' = o / '
 SUBST:  ' = '''B, . = ....b
 KPROP:  Bbop = bloody
 SUBST:  B = ', b = .
-KITEM:  w = mundane quarterstaff
-KITEM:  s = meat ration / bread ration
+KITEM:  w = quarterstaff / lajatang w:2
+KITEM:  s = potion of lignification / fruit
 FTILE:  'o = floor_dirt
 CLEAR:  _
 MAP
@@ -812,7 +812,7 @@ SUBST:   ghi = .
 KMONS:   D = patrolling spriggan defender
 KMONS:   SGHI = spriggan
 KMONS:   F = spriggan air mage / spriggan druid
-KITEM:   f = potion of porridge / bread ration / fruit
+KITEM:   f = potion of lignification / royal jelly / fruit
 MAP
 t@@tt  ttttttt
 t..tttttttttttt
@@ -1139,10 +1139,10 @@ SUBST:  T = t / t / P / .
 KMONS:  P = plant / plant / bush / nothing
 KMONS:  R = plant
 KMONS:  Q = bush
-KITEM:  f = dagger / short sword / sabre / flail / whip / blowgun / shortbow
-KITEM:  g = robe / cloak / cap / buckler / steam dragon armour w:1
+KITEM:  f = dagger / short sword / quarterstaff / flail / whip / blowgun / shortbow
+KITEM:  g = robe / cloak / hat / buckler / steam dragon armour w:1
 KMONS:  L = spriggan ; robe . dagger
-KITEM:  h = bread ration q:2
+KITEM:  h = royal jelly q:2
 COLOUR: C = white
 KFEAT:  C = stone_wall
 TILE:   C = wall_marble
@@ -1188,8 +1188,8 @@ KFEAT:  T = tree / floor
 SUBST:  X = xt
 CLEAR:  x
 KFEAT:  : = floor
-ITEM:   grape q:1 / grape q:2 / nothing w:180
-ITEM:   any potion / grape q:1 / nothing w:30
+ITEM:   fruit q:1 / fruit q:3 / nothing w:180
+ITEM:   any potion / fruit q:2 / nothing w:30
 TILE:   c = wall_vines
 FTILE:  e123+|%*$- = floor_vines
 MAP
