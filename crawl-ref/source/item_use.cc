@@ -2317,7 +2317,10 @@ static void _handle_read_book(int item_slot)
     }
 	    // Prevent hot lava orcs reading books
 	if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
-            return "You'd burn any book you tried to read!";
+    {
+        mpr("You'd burn any book you tried to read!");
+        return;
+    }
 
     if (you.duration[DUR_BRAINLESS])
     {
