@@ -53,7 +53,7 @@ static const mon_spellbook mspell_list[] =
       {
        { SPELL_BROTHERS_IN_ARMS, 21, MON_SPELL_PRIEST },
        { SPELL_BERSERKER_RAGE, 21, MON_SPELL_PRIEST },
-       { SPELL_TROGS_HAND, 21, MON_SPELL_PRIEST  },
+       { SPELL_TROGS_HAND, 27, MON_SPELL_PRIEST  },
       }
     },
 
