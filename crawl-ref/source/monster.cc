@@ -91,6 +91,7 @@ monster::monster()
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
     mp_freeze = 0;
+    summoned_by_spell = SPELL_NO_SPELL;
     prev_direction = coord_def(0, 0);
 }
 
@@ -143,6 +144,7 @@ void monster::reset()
     went_unseen_this_turn = false;
     unseen_pos = coord_def(0, 0);
     mp_freeze = 0;
+    summoned_by_spell = SPELL_NO_SPELL;
 
     mons_remove_from_grid(this);
     target.reset();

@@ -1203,19 +1203,21 @@ static void _redraw_title()
                                       : god_name(you.religion);
         NOWRAP_EOL_CPRINTF("%s", god.c_str());
 
+        /*
         string piety = _god_asterisks();
+         */
         textcolour(_god_status_colour(YELLOW));
-        if ((unsigned int)(strwidth(species) + strwidth(god) + strwidth(piety) + 1)
+        if ((unsigned int)(strwidth(species) + strwidth(god) + 5 + 1)
             <= WIDTH)
         {
-            NOWRAP_EOL_CPRINTF(" %s", piety.c_str());
+            NOWRAP_EOL_CPRINTF(" (%d)", you.piety);
         }
-        else if ((unsigned int)(strwidth(species) + strwidth(god) + strwidth(piety) + 1)
+        else if ((unsigned int)(strwidth(species) + strwidth(god) + 5 + 1)
                   == (WIDTH + 1))
         {
             //mottled draconian of TSO doesn't fit by one symbol,
             //so we remove leading space.
-            NOWRAP_EOL_CPRINTF("%s", piety.c_str());
+            NOWRAP_EOL_CPRINTF("(%d)", you.piety);
         }
     }
     else if (you.char_class == JOB_MONK && you.species != SP_DEMIGOD

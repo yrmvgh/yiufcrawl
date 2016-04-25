@@ -549,10 +549,8 @@ int raw_spell_fail(spell_type spell)
     // Apply the effects of Vehumet and items of wizardry.
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
 
-    if (you.exertion == EXERT_POWER)
-        chance2 <<= 1;
     if (you.exertion == EXERT_CAREFUL)
-        chance2 >>= 1;
+        chance2 -= 20;
 
     if (chance2 > 100)
         chance2 = 100;
@@ -629,8 +627,6 @@ int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
     {
         if (you.exertion == EXERT_POWER)
             power = power * 3 / 2;
-        if (you.exertion == EXERT_CAREFUL)
-            power = power * 3 / 4;
     }
 
     const int cap = spell_power_cap(spell);
@@ -1061,8 +1057,18 @@ bool cast_a_spell(bool check_range, spell_type spell)
         }
     }
 
+    if (freeze_cost)
+    {
+        freeze_summons_mp(freeze_cost);
+        you.summon_count_by_spell[spell]++;
+    }
+
     you.turn_is_over = true;
     alert_nearby_monsters();
+
+    player_was_offensive();
+    if (is_self_transforming_spell(spell))
+        you.current_form_spell = spell;
 
     return true;
 }
@@ -1754,8 +1760,6 @@ static void _spell_zap_effect(spell_type spell)
 spret_type _handle_summoning_spells(spell_type spell, int powc,
                                     bolt &beam, god_type god, bool fail)
 {
-    freeze_summons_mp(spell_freeze_mana(spell));
-
     switch(spell)
     {
         // Summoning spells, and other spells that create new monsters.

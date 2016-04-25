@@ -428,6 +428,13 @@ public:
     // the deepest the player has been
     int max_exp;
 
+    // mp given back to the player. Used to be used by transformations.
+    int mp_kickback;
+    spell_type current_form_spell;
+    int current_form_spell_failure;
+
+    FixedVector<unsigned char, NUM_SPELLS> summon_count_by_spell;
+
     // used by scrolls of returning
     coord_def returnPosition;
 
@@ -1050,7 +1057,7 @@ int unrot_hp(int hp_recovered);
 int player_rotted();
 void rot_mp(int mp_loss);
 void freeze_summons_mp(int mp_loss);
-void unfreeze_summons_mp();
+void unfreeze_summons_mp(int amount = -1);
 
 void inc_max_hp(int hp_gain);
 void dec_max_hp(int hp_loss);
@@ -1175,5 +1182,8 @@ const int get_max_exp_level();
 const int get_max_skill_level();
 const int rune_curse_hp_adjust(int hp);
 const int rune_curse_dam_adjust(int dam);
+void set_mp_kickback(int amount);
+void release_mp_kickback();
+void player_was_offensive();
 
 #endif

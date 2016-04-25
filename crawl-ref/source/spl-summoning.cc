@@ -3486,7 +3486,7 @@ int _unsummon_all(const actor *summoner)
 
         if (summoner->mid == mi->summoner)
         {
-            if (summoner != &you || mi->is_player_summon())
+            if (summoner != &you || mi->is_player_summon() && mi->attitude != ATT_HOSTILE)
             {
                 mi->del_ench(ENCH_ABJ);
                 mi->del_ench(ENCH_FAKE_ABJURATION);
@@ -3503,22 +3503,21 @@ int unsummon_all()
     int count = _unsummon_all(&you);
     // shouldn't be needed, but here for insurance
     unfreeze_summons_mp();
+    you.summon_count_by_spell.init(0);
     return count;
 }
 
 bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
-//    for (monster_iterator mi; mi; ++mi)
-//    {
-//        if (!from_summoning_spell || mi->is_player_summon())
-//        {
-//            found = true;
-//            break;
-//        }
-//    }
-
-    found = you.mp_frozen_summons > 0;
+    for (int i = 0; i < you.summon_count_by_spell.size(); i++)
+    {
+        if (you.summon_count_by_spell[i] > 0)
+        {
+            found = true;
+            break;
+        }
+    }
 
     return found;
 }

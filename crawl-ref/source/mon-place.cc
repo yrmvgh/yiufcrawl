@@ -1285,6 +1285,8 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
     mon->type         = mg.cls;
     mon->base_monster = mg.base_type;
 
+    mon->summoned_by_spell = (spell_type) mg.summon_type;
+
     // Set pos and link monster into monster grid.
     if (!dont_place && !mon->move_to_pos(fpos))
     {
@@ -3310,8 +3312,11 @@ monster* create_monster(mgen_data mg, bool fail_msg)
             mpr("You see a puff of smoke.");
     }
 
-    if (mg.summon_type)
-        summd->mp_freeze = spell_freeze_mana((const spell_type) mg.summon_type);
+    if (mg.summon_type && summd)
+    {
+        const spell_type spell = (const spell_type) mg.summon_type;
+        summd->mp_freeze = spell_freeze_mana(spell);
+    }
 
     return summd;
 }

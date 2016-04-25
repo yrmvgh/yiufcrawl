@@ -32,6 +32,7 @@
 #include "spl-damage.h"
 #include "spl-summoning.h"
 #include "spl-zap.h"
+#include "stepdown.h"
 #include "stringutil.h"
 #include "target.h"
 #include "terrain.h"
@@ -430,6 +431,8 @@ int spell_hunger(spell_type which_spell, bool rod)
     if (hunger < 0)
         hunger = 0;
 
+    // adjust for circus because spell hunger is eating through stamina a little too quickly
+    hunger /= 2;
     return hunger;
 }
 
@@ -476,17 +479,22 @@ int spell_mana(spell_type which_spell, bool raw)
     else
         cost =  _seekspell(which_spell)->level;
 
-    if (is_self_transforming_spell(which_spell))
-        cost *= 3;
+//    if (is_self_transforming_spell(which_spell))
+//        cost *= 3;
 
     return cost;
 }
 
 int spell_freeze_mana(const spell_type spell)
 {
+    int amount = 0;
     if (is_summon_spell(spell))
-        return spell_mana(spell, true) + 1;
-    return 0;
+    {
+        const int base_mana = spell_mana(spell, true);
+        const unsigned char &summon_count = you.summon_count_by_spell[spell];
+        amount = qpow(base_mana, 3, 2, summon_count);
+    }
+    return amount;
 }
 
 // applied in naughties (more difficult = higher level knowledge = worse)

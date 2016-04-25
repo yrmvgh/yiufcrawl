@@ -1,10 +1,10 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-Checkout branch v1.3 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
+Checkout branch v1.4.1 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
 
 For those who don't know how to clone from a git repo: install git on your system, then type:
 
-    git clone https://github.com/jeremygurr/dcssca.git -b v1.3
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.4.1
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
 Many of my changes center around increasing the richness of the different species in DCSS. 
@@ -52,15 +52,34 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ## Major modifications from the original DCSS
 
+### v1.4.1
+
+* Transmutation
+    * transformations don't time out
+    * power of the transformation is based on spell power
+    * when the player takes any offensive action (attacks, casts, evokes), the spell failure of the form is tested. 
+      Once the spell "fails" 5 times, the form unravells and the player returns to normal. 
+
+* Summoning simplification
+    * Summoning now simply reduces the players magic capacity until the summons are released.
+    * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.
+    * Spell power may affect various attributes of the summoned creature, but it does not affect duration or cost.
+    * Added a "release summons" ability, so you can free up your magic pool if you no longer need those summons. 
+    * The number of summons a player can have is only limited by their magic pool
+    * When a summon dies or is released, they player gets back the mp used on that creature, so they may be resummoned
+      quickly. 
+    * Each summon of the same time costs 50% more mp than the last. 
+
 ### v1.3
 
 * Wand recharging
-    * Wands lose 1/3 of their charges on recharging
+    * Wands gain half of the normal capacity for that wand type. So a healing wand gives 5 each recharge. 
+    * Wands lose 1/2 of what they gain from their capacity 
     * But they will never end up with less than 2 charges
 
 * Hill Orcs
     * Gave them Summoning +3, because we needed another good summoner.
-    * Gave them Bad Dna 1, because they were too awesome overall, and need a challenge.
+    * Gave them Bad Dna 1, because they were too awesome overall, and need a nerf.
 
 * Doors can be closed even if there are items on the floor
 
@@ -70,13 +89,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * 50% chance that they will curse weapon or ring slots
     * otherwise they just pick a random slot to curse
     * 1/10 chance of triple cursing
-
-* Summoning simplification
-    * Summoning now simply reduces the players magic capacity until the summons are released.
-    * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.
-    * Spell power may affect various attributes of the summoned creature, but it does not affect duration or cost.
-    * Added a "release summons" ability, so you can free up your magic pool if you no longer need those summons. 
-    * The number of summons a player can have is only limited by their magic pool
 
 * Mutations
     * added a bunch more super rare mutations that could really throw a curveball at the player.
@@ -103,7 +115,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
                 * 1.4 for naga, since they can't run, so they don't have a stamina cost for moving in power mode
             * melee and ranged damage is higher (1.5x normal)
             * spellpower is greater (1.5x normal)
-            * chance of spell failure is increased (2x normal)
             * movement speed is penalized if the player stops or changes direction more than 45 degrees from original heading
             * can't stab
             * stealth is reduced (0.25x normal)
@@ -112,7 +123,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * stealth is amplified (2x normal)
             * accuracy is increased (1.5x normal)
             * spell failure chance is reduced (0.5x normal)
-            * spell power is reduced (0.75x normal)
             * attack speed is slower (1.33x normal delay)
     * when stamina is depleted, game switches back to normal exertion mode automatically
     * berserking automatically switches to power mode
@@ -264,11 +274,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * yeah I know it adds some details that the original designers want to avoid. But really, how many crawl players aren't seriously hard core RPGers anyway? I
       personally find it a bit less tedious to try out different attack strategies when I can see the numbers, instead of trying to guess from vague
       descriptions whether or not a change is actually improving my attacking effectiveness. 
-
-* Transmutation
-    * It costs 3x more to cast a self-transforming spell
-    * transformations don't time out
-    * power of the transformation is based on spell power
 
 * Game difficulty levels
     * At game start, or in the init file, you can specify that the game is easy, normal, or hard. 

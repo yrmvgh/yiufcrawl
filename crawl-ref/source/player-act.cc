@@ -327,11 +327,6 @@ random_var player::attack_delay(const item_def *projectile, bool rescale) const
         attk_delay = rv::max(random_var(2), div_rand_round(attk_delay, 2));
     }
 
-    if(you.exertion == EXERT_CAREFUL)
-    {
-        attk_delay = div_rand_round(attk_delay * 4, 3);
-    }
-
     // see comment on player.cc:player_speed
     return div_rand_round(attk_delay * you.time_taken, 10);
 }
@@ -757,13 +752,8 @@ bool player::go_berserk(bool intentional, bool potion)
     if (!you.can_go_berserk(intentional, potion))
         return false;
 
-    if (player_is_tired())
-        return false;
-
     if (check_stasis())
         return false;
-
-    set_exertion(EXERT_POWER);
 
     if (crawl_state.game_is_hints())
         Hints.hints_berserk_counter++;

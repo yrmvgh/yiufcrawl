@@ -1338,6 +1338,10 @@ int player_spell_levels()
     if (fireball && delayed_fireball)
         sl += spell_difficulty(SPELL_FIREBALL);
 
+    // moon troll has very poor spellcasting, so needs a spell slot boost to help at the beginning
+    if (you.species == SP_MOON_TROLL)
+        sl += 3;
+
     // Note: This can happen because of level drain. Maybe we should
     // force random spells out when that happens. -- bwr
     if (sl < 0)
@@ -1991,14 +1995,15 @@ int player_movement_speed()
     int mv = 1100;
 
     // transformations
-    if (you.form == TRAN_BAT)
-        mv = 500;
-    else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
-        mv = 700;
-    else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
-        mv = 800;
-    else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
-        mv = 600;
+    if (you.exertion == EXERT_POWER)
+        if (you.form == TRAN_BAT)
+            mv = 500;
+        else if (you.form == TRAN_PIG || you.form == TRAN_SPIDER)
+            mv = 700;
+        else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
+            mv = 800;
+        else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
+            mv = 600;
 
     // moving on liquefied ground takes longer
     if (you.liquefied_ground())
@@ -2012,12 +2017,17 @@ int player_movement_speed()
 		if (you.temperature < TEMP_COOL) {
 			mv += 100;
 		}
-		if (you.temperature >= TEMP_ROOM) {
-			mv -= 100;
-		}
-		if (you.temperature >= TEMP_HOT) {
-			mv -= 100;
-		}
+
+        if (you.exertion == EXERT_POWER)
+        {
+            if (you.temperature >= TEMP_ROOM) {
+                mv -= 100;
+            }
+
+            if (you.temperature >= TEMP_HOT) {
+                mv -= 100;
+            }
+        }
 	}
 
     mv += you.wearing_ego(EQ_ALL_ARMOUR, SPARM_PONDEROUSNESS) * 100;
@@ -2686,15 +2696,9 @@ const int _experience_for_this_floor(int multiplier) {
         if (Options.exp_based_on_player_level)
             exp = exp_needed(you.experience_level + 1, 0) - exp_needed(you.experience_level, 0);
         else
-        {
-            exp = stepup2(how_deep + 1, 3, 3, 30);
-        }
+            exp = exp_needed(how_deep, 0);
 
         exp *= multiplier;
-
-        if (you.where_are_you != BRANCH_DUNGEON)
-            exp /= 2;
-
         exp = div_rand_round(exp, 100);
         exp = max(5 * how_deep, exp);
     }
@@ -4425,9 +4429,13 @@ void freeze_summons_mp(int mp_loss)
     you.redraw_magic_points = true;
 }
 
-void unfreeze_summons_mp()
+void unfreeze_summons_mp(int amount)
 {
-    you.mp_frozen_summons = 0;
+    if (amount == -1)
+        you.mp_frozen_summons = 0;
+    else
+        you.mp_frozen_summons = max(0, you.mp_frozen_summons - amount);
+
     calc_mp();
     you.redraw_magic_points = true;
 }
@@ -5848,6 +5856,10 @@ player::player()
     amplification       = 1;
     exertion            = EXERT_NORMAL;
     max_exp             = 0;
+    mp_kickback         = 0;
+    current_form_spell  = SPELL_NO_SPELL;
+    current_form_spell_failure  = 0;
+    summon_count_by_spell.init(0);
 
     save                = nullptr;
     prev_save_version.clear();
@@ -9089,14 +9101,45 @@ const int get_max_skill_level()
 const int rune_curse_hp_adjust(int hp)
 {
     const int runes = runes_in_pack();
-    const int new_hp = qpow(hp, 20 + crawl_state.difficulty, 20, runes);
+    const int new_hp = qpow(hp, 50 + crawl_state.difficulty, 50, runes);
     return new_hp;
 }
 
 const int rune_curse_dam_adjust(int dam)
 {
     const int runes = runes_in_pack();
-    const int new_dam = qpow(dam, 20 + crawl_state.difficulty, 20, runes);
+    const int new_dam = qpow(dam, 50 + crawl_state.difficulty, 50, runes);
     return new_dam;
 }
 
+void set_mp_kickback(int amount)
+{
+    you.mp_kickback = amount;
+}
+
+void release_mp_kickback()
+{
+    inc_mp(you.mp_kickback);
+    you.mp_kickback = 0;
+}
+
+void player_was_offensive()
+{
+    if (you.current_form_spell != SPELL_NO_SPELL)
+    {
+        const int fail = raw_spell_fail(you.current_form_spell);
+
+        if (x_chance_in_y(fail, 100))
+        {
+            you.current_form_spell_failure++;
+            if (you.current_form_spell_failure == 2)
+                mpr("Your form is beginning to unravel.");
+
+            if (you.current_form_spell_failure == 4)
+                mpr("You can't maintain your form for much longer!");
+
+            if (you.current_form_spell_failure > 4)
+                untransform();
+        }
+    }
+}
