@@ -87,14 +87,14 @@ body {
     width: 3em;
 }
 #player_list th.place {
-    width: 3em;
+    width: 5em;
 }
 
 #player_list th.idle_time {
     width: 3em;
 }
 #player_list th.diff {
-    width: 4em;
+    width: 6em;
 }
 #player_list th.exp_mode {
     width: 5em;
