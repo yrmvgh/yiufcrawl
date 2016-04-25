@@ -2068,7 +2068,7 @@ int player_movement_speed()
           mv = mv * 4 / 3;
     }
 
-    if (you.exertion == EXERT_POWER)
+    if (you.exertion == EXERT_POWER && you.religion != GOD_CHEIBRIADOS)
         mv = mv * 3 / 4;
 
     mv = div_rand_round(mv, 100);
