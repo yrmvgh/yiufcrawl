@@ -1322,7 +1322,7 @@ static bool _should_stop_activity(const delay_queue_item &item,
     if ((ai == AI_SEE_MONSTER || ai == AI_MIMIC) && player_stair_delay())
         return false;
 
-    if (ai == AI_FULL_HP || ai == AI_FULL_MP)
+    if (ai == AI_FULL_HP || ai == AI_FULL_MP || ai == AI_FULL_SP)
     {
         if (Options.rest_wait_both && curr == DELAY_REST
             && !you.is_sufficiently_rested())
