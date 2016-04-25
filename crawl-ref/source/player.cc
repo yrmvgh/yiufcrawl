@@ -1338,6 +1338,10 @@ int player_spell_levels()
     if (fireball && delayed_fireball)
         sl += spell_difficulty(SPELL_FIREBALL);
 
+    // moon troll has very poor spellcasting, so needs a spell slot boost to help at the beginning
+    if (you.species == SP_MOON_TROLL)
+        sl += 3;
+
     // Note: This can happen because of level drain. Maybe we should
     // force random spells out when that happens. -- bwr
     if (sl < 0)
