@@ -194,7 +194,10 @@ static void level_place_followers(m_transit_list &m)
     for (auto i = m.begin(); i != m.end();)
     {
         auto mon = i++;
-        if ((mon->mons.flags & MF_TAKING_STAIRS) && mon->place(true))
+        if (
+            (mon->mons.flags & MF_TAKING_STAIRS)
+            && mon->place(true)
+            )
         {
             if (mon->mons.is_divine_companion())
                 move_companion_to(monster_by_mid(mon->mons.mid), level_id::current());
@@ -442,6 +445,28 @@ static int follower_tag_radius()
 
 void tag_followers()
 {
+    for (const mid_t &mid : you.summoned)
+    {
+        if (mid != MID_NOBODY)
+        {
+            monster *const fol = monster_by_mid(mid, true);
+
+            if (fol)
+            {
+                // Monster is chasing player through stairs.
+                fol->flags |= MF_TAKING_STAIRS;
+
+                // Clear patrolling/travel markers.
+                fol->patrol_point.reset();
+                fol->travel_path.clear();
+                fol->travel_target = MTRAV_NONE;
+
+                fol->clear_clinging();
+            }
+        }
+    }
+
+    /** old way
     const int radius = follower_tag_radius();
     int n_followers = 18;
 
@@ -476,6 +501,7 @@ void tag_followers()
         places[place_set].clear();
         place_set = !place_set;
     }
+     */
 }
 
 void untag_followers()

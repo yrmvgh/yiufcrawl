@@ -888,14 +888,14 @@ static bool _grab_follower_at(const coord_def &pos)
 
 static void _grab_followers()
 {
-    const bool can_follow = branch_allows_followers(you.where_are_you);
+    const bool can_follow = true || branch_allows_followers(you.where_are_you);
 
     int non_stair_using_allies = 0;
     int non_stair_using_summons = 0;
 
     monster* dowan = nullptr;
     monster* duvessa = nullptr;
-
+/*
     // Handle nearby ghosts.
     for (adjacent_iterator ai(you.pos()); ai; ++ai)
     {
@@ -947,7 +947,6 @@ static void _grab_followers()
         if (!duvessa->props.exists("can_climb"))
             duvessa->flags &= ~MF_TAKING_STAIRS;
     }
-
     if (can_follow)
     {
         if (non_stair_using_allies > 0)
@@ -984,6 +983,18 @@ static void _grab_followers()
             }
             places[place_set].clear();
             place_set = !place_set;
+        }
+    }
+*/
+
+    for (const mid_t &mid : you.summoned)
+    {
+        if (mid != MID_NOBODY)
+        {
+            monster *const fol = monster_by_mid(mid, true);
+
+            if (fol)
+                _grab_follower_at(fol->pos());
         }
     }
 

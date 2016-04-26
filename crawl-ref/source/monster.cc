@@ -102,8 +102,8 @@ monster::~monster()
 
 monster::monster(const monster& mon)
 {
-    constricting = 0;
     init_with(mon);
+    constricting = 0;
 }
 
 monster &monster::operator = (const monster& mon)
@@ -204,6 +204,7 @@ void monster::init_with(const monster& mon)
     damage_friendly   = mon.damage_friendly;
     damage_total      = mon.damage_total;
     prev_direction    = mon.prev_direction;
+    mp_freeze         = mon.mp_freeze;
 
     if (mon.ghost.get())
         ghost.reset(new ghost_demon(*mon.ghost));
