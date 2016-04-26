@@ -87,13 +87,18 @@ static bool _action_is_bad(xom_event_type action)
 
 // Spells to be cast at tension 0 (no or only low-level monsters around),
 // mostly flavour.
+// CIRCUSFORK: now that summons last (semi)-indefinitely, this now
+//       gives non-summoners a temporary pet they can try to keep alive!
 static const vector<spell_type> _xom_nontension_spells =
 {
     SPELL_SUMMON_BUTTERFLIES,
+    SPELL_SUMMON_SMALL_MAMMAL,
     SPELL_SPIDER_FORM,
     SPELL_ICE_FORM,
+    SPELL_DARKNESS,
     SPELL_STATUE_FORM,
     SPELL_HYDRA_FORM,
+    SPELL_SHADOW_CREATURES,
     SPELL_DRAGON_FORM,
     SPELL_NECROMUTATION
 };
@@ -104,7 +109,6 @@ static const vector<spell_type> _xom_nontension_spells =
 static const vector<spell_type> _xom_tension_spells =
 {
     SPELL_SUMMON_BUTTERFLIES,
-    SPELL_SUMMON_SMALL_MAMMAL,
     SPELL_CONFUSING_TOUCH,
     SPELL_CALL_CANINE_FAMILIAR,
     SPELL_SPIDER_FORM,
