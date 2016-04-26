@@ -1260,13 +1260,13 @@ string spell_uselessness_reason(spell_type spell, bool temp, bool prevent,
     case SPELL_HYDRA_FORM:
     case SPELL_ICE_FORM:
     case SPELL_SPIDER_FORM:
-        if (you.undead_state(temp) == US_UNDEAD
-            || you.undead_state(temp) == US_HUNGRY_DEAD)
-        {
-            return "your undead flesh cannot be transformed.";
-        }
-        if (temp && you.is_lifeless_undead())
-            return "your current blood level is not sufficient.";
+//        if (you.undead_state(temp) == US_UNDEAD
+//            || you.undead_state(temp) == US_HUNGRY_DEAD)
+//        {
+//            return "your undead flesh cannot be transformed.";
+//        }
+//        if (temp && you.is_lifeless_undead())
+//            return "your current blood level is not sufficient.";
         break;
 
     case SPELL_REGENERATION:

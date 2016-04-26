@@ -3534,7 +3534,7 @@ int check_stealth()
         stealth >>= 2;
 
     if (you.exertion == EXERT_CAREFUL)
-        stealth <<= 1;
+        stealth = div_rand_round(stealth * 3, 2);
 
     stealth = max(0, stealth);
 
@@ -4200,6 +4200,8 @@ void set_exertion(const exertion_mode new_exertion)
     if (new_exertion == you.exertion)
         return;
 
+    const bool old_exertion_is_normal = you.exertion == EXERT_NORMAL;
+
     if (you.duration[DUR_BERSERK])
     {
         mpr("You can't change exertion mode while berserk.");
@@ -4221,6 +4223,9 @@ void set_exertion(const exertion_mode new_exertion)
             break;
     }
     you.redraw_status_lights = true;
+
+    if (!old_exertion_is_normal)
+        you.turn_is_over = true;
 }
 
 /*
@@ -7097,9 +7102,23 @@ bool player::spellcasting_unholy() const
  */
 undead_state_type player::undead_state(bool temp) const
 {
-    if (temp && you.form == TRAN_LICH)
-        return US_UNDEAD;
-    return species_undead_type(you.species);
+    undead_state_type result = species_undead_type(you.species);
+    if (temp)
+    {
+        switch(you.form)
+        {
+            case TRAN_NONE:
+            case TRAN_APPENDAGE:
+                break;
+            case TRAN_LICH:
+                result = US_UNDEAD;
+                break;
+            default:
+                result = US_ALIVE;
+        }
+    }
+
+    return result;
 }
 
 bool player::nightvision() const

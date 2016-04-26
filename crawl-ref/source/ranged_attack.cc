@@ -384,6 +384,10 @@ int ranged_attack::apply_damage_modifiers(int damage, int damage_max)
         const int bonus = attacker->get_hit_dice() * 4 / 3;
         damage += random2avg(bonus, 2);
     }
+
+    if (you.exertion == EXERT_POWER)
+        damage = div_rand_round(damage * 4, 3);
+
     return damage;
 }
 

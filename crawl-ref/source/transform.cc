@@ -1616,8 +1616,8 @@ undead_form_reason lifeless_prevents_form(transformation_type which_trans)
     if (which_trans == TRAN_SHADOW)
         return UFR_GOOD; // even the undead can use dith's shadow form
 
-    if (you.species != SP_VAMPIRE)
-        return UFR_TOO_DEAD; // ghouls & mummies can't become anything else
+//    if (you.species != SP_VAMPIRE)
+//        return UFR_TOO_DEAD; // ghouls & mummies can't become anything else
 
     if (which_trans == TRAN_LICH)
         return UFR_TOO_DEAD; // vampires can never lichform
@@ -1626,7 +1626,10 @@ undead_form_reason lifeless_prevents_form(transformation_type which_trans)
         return you.hunger_state <= HS_SATIATED ? UFR_GOOD : UFR_TOO_ALIVE;
 
     // other forms can only be entered when full or above.
-    return you.hunger_state > HS_SATIATED ? UFR_GOOD : UFR_TOO_DEAD;
+    if (you.species == SP_VAMPIRE)
+        return you.hunger_state > HS_SATIATED ? UFR_GOOD : UFR_TOO_DEAD;
+
+    return UFR_GOOD;
 }
 
 /**
