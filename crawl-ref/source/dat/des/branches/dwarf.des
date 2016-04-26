@@ -1,35 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @yrmvgh
-
-3
-3
-
-    3
-
-jeremygurr/dcssca
-Code
-Issues 42
-Pull requests 1
-Wiki
-Pulse
-Graphs
-dcssca/crawl-ref/source/dat/des/branches/dwarf.des
-141b0a5 18 hours ago
-@yrmvgh yrmvgh Update dwarf.des
-@kilobyte
-@yrmvgh
-@jeremygurr
-@elliptic
-@neilmoore
-@sgrunt
-670 lines (638 sloc) 16.5 KB
 ################################################
 #
 # Dwarven Fortress
@@ -699,8 +667,3 @@ ccccccccccsc...cscccccccccc
            c.3.c
            c.@.c
 ENDMAP
-
-    Status API Training Shop Blog About 
-
-    © 2016 GitHub, Inc. Terms Privacy Security Contact Help 
-
