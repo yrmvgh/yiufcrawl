@@ -616,7 +616,6 @@ static void _start_running()
 
     _userdef_run_startrunning_hook();
     you.running.init_travel_speed();
-    you.current_form_spell_failure = 0;
     if (you.running < 0)
         start_delay(DELAY_TRAVEL, 1);
 }
@@ -624,6 +623,14 @@ static void _start_running()
 // Stops shift+running and all forms of travel.
 void stop_running()
 {
+    if (you.time_taken > 10)
+    {
+        if (you.current_form_spell_failure)
+        {
+            mpr("You form becomes more stable.");
+            you.current_form_spell_failure = 0;
+        }
+    }
     you.running.stop();
 }
 
