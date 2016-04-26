@@ -628,7 +628,7 @@ static void _print_stats_sp(int x, int y)
 
     CGOTOXY(x, y, GOTO_STAT);
     textcolour(HUD_CAPTION_COLOUR);
-    CPRINTF(player_rotted() ? "SP: " : "Stam:   ");
+    CPRINTF(player_rotted() ? "SP: " : "Stamina: ");
     textcolour(sp_colour);
     CPRINTF("%d", you.sp);
     if (!boosted)
