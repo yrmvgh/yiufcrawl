@@ -436,10 +436,9 @@ DEPTH:  D:2-4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar 
 COLOUR:     G = random
 KFEAT:  1 = altar_ecumenical
-KFEAT:  _ = w:2 altar_ecumenical / w:4 altar_xom / w:2 altar_nemelex / w:2 altar_jiyva
+KFEAT:  _ = w:2 altar_ecumenical / w:4 altar_xom / w:2 altar_jiyva
 CHANCE: 40 : 100%
 MAP
-
 .1.
 _G_
 ._.
