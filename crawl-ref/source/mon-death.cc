@@ -1751,13 +1751,7 @@ item_def* monster_die(monster* mons, killer_type killer,
         return nullptr;
 
     if (mons->mp_freeze)
-    {
-        unfreeze_summons_mp(mons->mp_freeze);
-        mons->mp_freeze = 0;
-        const spell_type summon_spell = mons->summoned_by_spell;
-        you.summon_count_by_spell[summon_spell] = max(0, you.summon_count_by_spell[summon_spell] - 1);
-        inc_mp(mons->mp_freeze);
-    }
+        summoned_monster_died(mons, killer != KILL_RESET);
 
     const bool was_visible = you.can_see(*mons);
 

@@ -613,9 +613,10 @@ static int _slowest_ally_speed()
 
 static void _start_running()
 {
+
     _userdef_run_startrunning_hook();
     you.running.init_travel_speed();
-
+    you.current_form_spell_failure = 0;
     if (you.running < 0)
         start_delay(DELAY_TRAVEL, 1);
 }
@@ -3964,6 +3965,7 @@ void runrest::initialise(int dir, int mode)
         set_run_check(2, right);
     }
 
+    you.current_form_spell_failure = 0;
     if (runmode == RMODE_REST_DURATION || runmode == RMODE_WAIT_DURATION)
         start_delay(DELAY_REST, 1);
     else

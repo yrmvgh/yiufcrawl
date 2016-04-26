@@ -1699,6 +1699,9 @@ bool mons_class_can_use_stairs(monster_type mc)
 
 bool mons_can_use_stairs(const monster* mon, dungeon_feature_type stair)
 {
+    // in this version, almost nothing uses stairs, but if we get to this point, then it definitely does.
+    return true;
+
     if (!mons_class_can_use_stairs(mon->type))
         return false;
 

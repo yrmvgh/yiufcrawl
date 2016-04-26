@@ -52,6 +52,19 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
 
 ## Major modifications from the original DCSS
 
+### v1.4.2
+
+* Summoning simplification
+    * Summoning now simply reduces the players magic capacity until the summons are released.
+    * Summons cost 2x the normal price of the spell.
+    * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.
+    * Spell power may affect various attributes of the summoned creature, but it does not affect duration or cost.
+    * Added a "release summons" ability, so you can free up your magic pool if you no longer need those summons. 
+    * If a summon is released, all of the magic used to summon it is returned to the player
+    * The number of summons a player can have is only limited by their magic pool, with a maximum cap of 20 total summons.
+    * When a summon dies, they player gets 1/2 of the mp used on that creature
+    * When going up or down stairs, if there are no monsters in sight, summons automatically follow the player.
+
 ### v1.4.1
 
 * Transmutation
@@ -59,16 +72,6 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * power of the transformation is based on spell power
     * when the player takes any offensive action (attacks, casts, evokes), the spell failure of the form is tested. 
       Once the spell "fails" 5 times, the form unravells and the player returns to normal. 
-
-* Summoning simplification
-    * Summoning now simply reduces the players magic capacity until the summons are released.
-    * Summons may be maintained as long as the player wants to continue with the reduced magic capacity.
-    * Spell power may affect various attributes of the summoned creature, but it does not affect duration or cost.
-    * Added a "release summons" ability, so you can free up your magic pool if you no longer need those summons. 
-    * The number of summons a player can have is only limited by their magic pool
-    * When a summon dies or is released, they player gets back the mp used on that creature, so they may be resummoned
-      quickly. 
-    * Each summon of the same time costs 50% more mp than the last. 
 
 ### v1.3
 

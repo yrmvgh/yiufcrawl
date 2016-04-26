@@ -652,6 +652,7 @@ static void _print_stats_sp(int x, int y)
 
 static void _print_stats_mp(int x, int y)
 {
+    int max_max_mp = get_real_mp(true, true);
     if (you.species == SP_DJINNI)
         return;
 
@@ -683,6 +684,8 @@ static void _print_stats_mp(int x, int y)
     CPRINTF("/%d", you.max_magic_points);
     if (boosted)
         textcolour(HUD_VALUE_COLOUR);
+    if (max_max_mp != you.max_magic_points)
+        CPRINTF(" (%d)", max_max_mp);
 
     int col = _count_digits(you.magic_points)
               + _count_digits(you.max_magic_points) + 1;

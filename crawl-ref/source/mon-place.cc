@@ -3262,7 +3262,7 @@ bool player_angers_monster(monster* mon)
     return false;
 }
 
-monster* create_monster(mgen_data mg, bool fail_msg)
+monster* create_monster(mgen_data mg, bool fail_msg, bool first)
 {
     ASSERT(in_bounds(mg.pos)); // otherwise it's a guaranteed fail
 
@@ -3315,7 +3315,8 @@ monster* create_monster(mgen_data mg, bool fail_msg)
     if (mg.summon_type && summd)
     {
         const spell_type spell = (const spell_type) mg.summon_type;
-        summd->mp_freeze = spell_freeze_mana(spell);
+        if (!player_summoned_monster(spell, summd, first))
+            summd = 0;
     }
 
     return summd;

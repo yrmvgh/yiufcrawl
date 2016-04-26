@@ -1696,8 +1696,17 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
     // This must occur before the untransform() and the undead_state() check.
     if (previous_trans == which_trans)
     {
-        mpr("You are already in that form.");
-        return false;
+        if (you.current_form_spell_failure > 0)
+        {
+            you.current_form_spell_failure = 0;
+            mpr("Your form becomes more stable.");
+            return true;
+        }
+        else
+        {
+            mpr("You are already in that form, and it's as stable as it can get.");
+            return false;
+        }
     }
 
     // the undead cannot enter most forms.

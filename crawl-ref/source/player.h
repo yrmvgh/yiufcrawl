@@ -429,11 +429,10 @@ public:
     int max_exp;
 
     // mp given back to the player. Used to be used by transformations.
-    int mp_kickback;
     spell_type current_form_spell;
     int current_form_spell_failure;
 
-    FixedVector<unsigned char, NUM_SPELLS> summon_count_by_spell;
+    FixedVector<mid_t, MAX_SUMMONS> summoned;
 
     // used by scrolls of returning
     coord_def returnPosition;
@@ -1057,7 +1056,7 @@ int unrot_hp(int hp_recovered);
 int player_rotted();
 void rot_mp(int mp_loss);
 void freeze_summons_mp(int mp_loss);
-void unfreeze_summons_mp(int amount = -1);
+void unfreeze_summons_mp(int amount);
 
 void inc_max_hp(int hp_gain);
 void dec_max_hp(int hp_loss);
@@ -1067,7 +1066,7 @@ void set_hp(int new_amount);
 
 int get_real_hp(bool trans, bool rotted = false, bool adjust_for_difficulty = true);
 int get_real_sp(bool include_items = true);
-int get_real_mp(bool include_items = true);
+int get_real_mp(bool include_items = true, bool rotted = false);
 
 int get_contamination_level();
 string describe_contamination(int level);
@@ -1182,8 +1181,8 @@ const int get_max_exp_level();
 const int get_max_skill_level();
 const int rune_curse_hp_adjust(int hp);
 const int rune_curse_dam_adjust(int dam);
-void set_mp_kickback(int amount);
-void release_mp_kickback();
 void player_was_offensive();
+void summoned_monster_died(monster* mons, bool natural_death);
+bool player_summoned_monster(spell_type spell, monster* mons, bool first);
 
 #endif

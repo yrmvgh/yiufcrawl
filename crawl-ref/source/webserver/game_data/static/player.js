@@ -323,6 +323,18 @@ function ($, comm, enums, map_knowledge, messages, options) {
                 break;
         }
 
+        var mp_cap;
+        if (player.real_mp_max != player.mp_max)
+        {
+            mp_cap = "MP";
+        }
+        else
+        {
+            mp_cap = "Magic";
+        }
+
+        $("#stats_mpline > .stats_caption").text(mp_cap+":");
+
         var species_god = player.species;
         if (player.god != "")
             species_god += " of " + player.god;
@@ -357,6 +369,11 @@ function ($, comm, enums, map_knowledge, messages, options) {
         else
             $("#stats_real_hp_max").text("");
 
+        if (player.real_mp_max != player.mp_max)
+            $("#stats_real_mp_max").text("(" + player.real_mp_max + ")");
+        else
+            $("#stats_real_mp_max").text("");
+        
         percentage_color("hp");
         percentage_color("sp");
         percentage_color("mp");
@@ -478,7 +495,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
                 name: "", god: "", title: "", species: "",
                 hp: 0, hp_max: 0, real_hp_max: 0, poison_survival: 0,
                 sp: 0, sp_max: 0,
-                mp: 0, mp_max: 0,
+                mp: 0, mp_max: 0, real_mp_max: 0,
                 ac: 0, ev: 0, sh: 0,
                 diff: 0,
                 exp_mode: 0,

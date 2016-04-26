@@ -480,7 +480,7 @@ int spell_mana(spell_type which_spell, bool raw)
         cost =  _seekspell(which_spell)->level;
 
 //    if (is_self_transforming_spell(which_spell))
-//        cost *= 3;
+//        cost *= 2;
 
     return cost;
 }
@@ -491,8 +491,7 @@ int spell_freeze_mana(const spell_type spell)
     if (is_summon_spell(spell))
     {
         const int base_mana = spell_mana(spell, true);
-        const unsigned char &summon_count = you.summon_count_by_spell[spell];
-        amount = qpow(base_mana, 3, 2, summon_count);
+        amount = base_mana * 2;
     }
     return amount;
 }

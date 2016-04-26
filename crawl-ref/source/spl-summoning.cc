@@ -88,7 +88,7 @@ spret_type cast_summon_butterflies(int pow, god_type god, bool fail)
                 mgen_data(MONS_BUTTERFLY, BEH_FRIENDLY, &you,
                           3, SPELL_SUMMON_BUTTERFLIES,
                           you.pos(), MHITYOU,
-                          MG_NONE, god)))
+                          MG_NONE, god), true, i == 0))
         {
             success = true;
         }
@@ -224,14 +224,16 @@ spret_type cast_call_canine_familiar(int pow, god_type god, bool fail)
     fail_check();
     monster_type mon = MONS_PROGRAM_BUG;
 
-    const int chance = pow + random_range(-10, 10);
+    const int chance = pow;
 
-    if (chance > 59)
+    if (chance >= 60)
         mon = MONS_WARG;
-    else if (chance > 39)
+    else if (chance >= 50)
         mon = MONS_WOLF;
-    else
+    else if (chance >= 40)
         mon = MONS_HOUND;
+    else
+        mon = MONS_JACKAL;
 
     const int dur = min(2 + (random2(pow) / 4), 6);
 
@@ -301,7 +303,7 @@ spret_type cast_monstrous_menagerie(actor* caster, int pow, god_type god, bool f
     int mid = -1;
     while (num-- > 0)
     {
-        if (monster* beast = create_monster(mdata))
+        if (monster* beast = create_monster(mdata, true, num == 0))
         {
             if (you.can_see(*beast))
                 seen = true;
@@ -343,8 +345,7 @@ spret_type cast_summon_hydra(actor *caster, int pow, god_type god, bool fail)
     fail_check();
     // Power determines number of heads. Minimum 4 heads, maximum 12.
     // Rare to get more than 8.
-    const int maxheads = one_chance_in(6) ? 12 : 8;
-    const int heads = max(4, min(random2(pow) / 6, maxheads));
+    const int heads = max(2, pow / 10);
 
     // Duration is always very short - just 1.
     mgen_data mg(MONS_HYDRA, BEH_COPY, caster,
@@ -422,6 +423,7 @@ static bool _place_dragon()
 
     // Attempt to place adjacent to the first chosen hostile. If there is no
     // valid spot, move on to the next one.
+    bool first = true;
     for (monster *target : targets)
     {
         // Chose a random viable adjacent spot to the select target
@@ -443,10 +445,11 @@ static bool _place_dragon()
         monster *dragon = create_monster(mgen_data(mon, BEH_COPY, &you,
                                                    2, SPELL_DRAGON_CALL,
                                                    pos, MHITYOU,
-                                                   MG_FORCE_PLACE | MG_AUTOFOE));
+                                                   MG_FORCE_PLACE | MG_AUTOFOE), true, first);
         if (!dragon)
             continue;
 
+        first = false;
         dec_mp(random_range(2, 3));
 
         if (you.see_cell(dragon->pos()))
@@ -1226,7 +1229,7 @@ spret_type cast_shadow_creatures(int st, god_type god, level_id place,
                       st, you.pos(), MHITYOU,
                       MG_FORCE_BEH | MG_AUTOFOE | MG_NO_OOD, god,
                       MONS_NO_MONSTER, COLOUR_INHERIT, PROX_ANYWHERE, place),
-            false))
+            false, i == 0))
         {
             // In the rare cases that a specific spell set of a monster will
             // cause anger, even if others do not, try rerolling
@@ -1394,7 +1397,7 @@ spret_type cast_summon_horrible_things(int pow, god_type god, bool fail)
                mgen_data(MONS_ABOMINATION_LARGE, BEH_FRIENDLY, &you,
                          3, SPELL_SUMMON_HORRIBLE_THINGS,
                          you.pos(), MHITYOU,
-                         MG_FORCE_BEH | MG_AUTOFOE, god)))
+                         MG_FORCE_BEH | MG_AUTOFOE, god), true, num_abominations == 0))
         {
             count++;
             player_angers_monster(mons);
@@ -1407,7 +1410,7 @@ spret_type cast_summon_horrible_things(int pow, god_type god, bool fail)
                mgen_data(MONS_TENTACLED_MONSTROSITY, BEH_FRIENDLY, &you,
                          3, SPELL_SUMMON_HORRIBLE_THINGS,
                          you.pos(), MHITYOU,
-                         MG_FORCE_BEH | MG_AUTOFOE, god)))
+                         MG_FORCE_BEH | MG_AUTOFOE, god), true, num_tmons == 0))
         {
             count++;
             player_angers_monster(mons);
@@ -2346,7 +2349,7 @@ spret_type cast_haunt(int pow, const coord_def& where, god_type god, bool fail)
                 mgen_data(mon,
                           BEH_FRIENDLY, &you,
                           3, SPELL_HAUNT,
-                          where, mi, MG_FORCE_BEH, god)))
+                          where, mi, MG_FORCE_BEH, god), true, to_summon == 0))
         {
             success++;
 
@@ -3344,7 +3347,34 @@ bool summons_are_capped(spell_type spell)
 
 bool is_summon_spell(spell_type spell)
 {
-	return map_find(summonsdata, spell) > 0;
+    bool result;
+    switch(spell)
+    {
+        case SPELL_WEAVE_SHADOWS:
+        case SPELL_SUMMON_BUTTERFLIES:
+        case SPELL_SUMMON_SMALL_MAMMAL:
+        case SPELL_CALL_CANINE_FAMILIAR:
+        case SPELL_SUMMON_ICE_BEAST:
+        case SPELL_MONSTROUS_MENAGERIE:
+        case SPELL_SUMMON_DRAGON:
+        case SPELL_DRAGON_CALL:
+        case SPELL_SUMMON_HYDRA:
+        case SPELL_SUMMON_MANA_VIPER:
+        case SPELL_SUMMON_LIGHTNING_SPIRE:
+        case SPELL_SUMMON_GUARDIAN_GOLEM:
+        case SPELL_CALL_IMP:
+        case SPELL_SUMMON_DEMON:
+        case SPELL_SUMMON_GREATER_DEMON:
+        case SPELL_SHADOW_CREATURES:
+        case SPELL_SUMMON_HORRIBLE_THINGS:
+        case SPELL_MALIGN_GATEWAY:
+        case SPELL_SUMMON_FOREST:
+            result = true;
+            break;
+        default:
+            result = false;
+    }
+	return result;
 }
 
 int summons_limit(spell_type spell)
@@ -3500,19 +3530,36 @@ int _unsummon_all(const actor *summoner)
 
 int unsummon_all()
 {
-    int count = _unsummon_all(&you);
-    // shouldn't be needed, but here for insurance
-    unfreeze_summons_mp();
-    you.summon_count_by_spell.init(0);
+    int count = 0;
+    for (int i = 0; i < you.summoned.size(); i++)
+    {
+        const mid_t summoned_id = you.summoned[i];
+        if (summoned_id != MID_NOBODY)
+        {
+            monster *mons = monster_by_mid(summoned_id, true);
+            if (mons)
+            {
+                unsummon(mons);
+                count++;
+            }
+        }
+    }
     return count;
+}
+
+void unsummon(monster *mons)
+{
+    unfreeze_summons_mp(mons->mp_freeze);
+    mons->del_ench(ENCH_ABJ);
+    mons->del_ench(ENCH_FAKE_ABJURATION);
 }
 
 bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
-    for (int i = 0; i < you.summon_count_by_spell.size(); i++)
+    for (int i = 0; i < you.summoned.size(); i++)
     {
-        if (you.summon_count_by_spell[i] > 0)
+        if (you.summoned[i] != MID_NOBODY)
         {
             found = true;
             break;
