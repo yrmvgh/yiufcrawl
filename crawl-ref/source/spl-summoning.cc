@@ -3542,6 +3542,20 @@ int unsummon_all()
                 unsummon(mons);
                 count++;
             }
+            else
+            {
+                // a pathetic hack. We need to figure out why this is happening.
+                _unsummon_all(&you);
+
+                for (unsigned int i = 0; i < you.summoned.size(); i++)
+                {
+                    if (you.summoned[i] == summoned_id)
+                    {
+                        you.summoned[i] = MID_NOBODY;
+                        break;
+                    }
+                }
+            }
         }
     }
     return count;

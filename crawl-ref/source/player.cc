@@ -9174,7 +9174,7 @@ void summoned_monster_died(monster* mons, bool natural_death)
     }
     inc_mp(mp_recovered);
 
-    for (int i = 0; i < you.summoned.size(); i++)
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
         if (you.summoned[i] == mons->mid)
         {
@@ -9192,7 +9192,7 @@ bool player_summoned_monster(spell_type spell, monster* mons, bool first)
     freeze_summons_mp(cost);
 
     int open_slot = -1;
-    for (int i = 0; i < you.summoned.size(); i++)
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
         if (you.summoned[i] == MID_NOBODY)
         {
