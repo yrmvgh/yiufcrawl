@@ -50,7 +50,7 @@ struct player_info
 
     int hp, hp_max, real_hp_max, poison_survival;
     int sp, sp_max;
-    int mp, mp_max;
+    int mp, mp_max, real_mp_max;
     int contam;
     int heat;
 
