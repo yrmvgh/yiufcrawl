@@ -348,7 +348,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * no loss of experience when death happens
 
 * Ghouls
-    * start with a permanent empowered by death mutation, making them regenerate much faster after going on a killing spree. 
+    * ghouls automatically eat some of the corpses they kill to heal and cure rot
 
 * Halfling
     * added wild magic mutation at the level 6, 12, and 18, making it much more difficult for them to cast spells, but they are quite powerful when they do. 
