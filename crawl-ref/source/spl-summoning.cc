@@ -3549,9 +3549,13 @@ int unsummon_all()
 
 void unsummon(monster *mons)
 {
-    unfreeze_summons_mp(mons->mp_freeze);
-    mons->del_ench(ENCH_ABJ);
-    mons->del_ench(ENCH_FAKE_ABJURATION);
+//    unfreeze_summons_mp(mons->mp_freeze);
+
+    if (mons->attitude != ATT_HOSTILE)
+    {
+        mons->del_ench(ENCH_ABJ);
+        mons->del_ench(ENCH_FAKE_ABJURATION);
+    }
 }
 
 bool player_has_summons(bool from_summoning_spell)
