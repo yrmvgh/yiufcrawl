@@ -1,10 +1,10 @@
 # Dungeon Crawl Stone Soup: Circus Animals variation
 
-Checkout branch v1.4.1 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
+Checkout branch v1.4.2 if you want to try it yourself. The master branch will be where future, save game breaking features will be implemented, and then broken off.
 
 For those who don't know how to clone from a git repo: install git on your system, then type:
 
-    git clone https://github.com/jeremygurr/dcssca.git -b v1.4.1
+    git clone https://github.com/jeremygurr/dcssca.git -b v1.4.2
 
 This fork of DCSS is a playground for some ideas I wanted to try. 
 Many of my changes center around increasing the richness of the different species in DCSS. 
@@ -72,6 +72,8 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
     * power of the transformation is based on spell power
     * when the player takes any offensive action (attacks, casts, evokes), the spell failure of the form is tested. 
       Once the spell "fails" 5 times, the form unravells and the player returns to normal. 
+    * each failure chance is squared towards failure, so 50% failure becomes 75% failure, 20% failure becomes 36% failure.
+      so if you can't get the failure below about 20%, you won't be able to maintain the form for long.
     * undead can transmute
         * in living forms, undead can also mutate
 

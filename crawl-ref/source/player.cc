@@ -9145,7 +9145,10 @@ void player_was_offensive()
 {
     if (you.current_form_spell != SPELL_NO_SPELL)
     {
-        const int fail = raw_spell_fail(you.current_form_spell);
+        int fail = raw_spell_fail(you.current_form_spell);
+        fail = 100 - fail;
+        fail *= fail;
+        fail = 100 - div_rand_round(fail, 100);
 
         if (x_chance_in_y(fail, 100))
         {
