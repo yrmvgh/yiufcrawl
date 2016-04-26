@@ -1288,7 +1288,7 @@ static const mutation_def mut_data[] =
    "Your skin's transparency fades."},
 },
 
-{ MUT_PSEUDOPODS, 0, 3, mutflag::GOOD | mutflag::JIYVA, true,
+{ MUT_PSEUDOPODS, 0, 3, mutflag::GOOD | mutflag::JIYVA | mutflag::XOM, true,
   "pseudopods",
 
   {"Armour fits poorly on your pseudopods.",
@@ -1658,7 +1658,7 @@ static const mutation_def mut_data[] =
   {"", "", ""},
 },
 
-{ MUT_COLD_BLOODED, 10, 1, mutflag::BAD, true,
+{ MUT_COLD_BLOODED, 10, 1, mutflag::BAD | mutflag::XOM, true,
   "cold-blooded",
 
   {"You are cold-blooded and may be slowed by cold attacks.", "", ""},
@@ -1986,7 +1986,7 @@ static const mutation_def mut_data[] =
   {"You feel less insightful.", "You feel less insightful.", "You feel less insightful."},
 },
 
-{ MUT_GLOW, 40, 3, mutflag::BAD, false,
+{ MUT_GLOW, 40, 3, mutflag::BAD | mutflag::XOM, false,
   "glowing",
 
   {"You emit light, making it easier for others to see you.",
@@ -2092,7 +2092,7 @@ static const mutation_def mut_data[] =
    "Your dna becomes less clean."},
 },
 
-{ MUT_BAD_DNA, 5, 3, mutflag::BAD, false,
+{ MUT_BAD_DNA, 5, 3, mutflag::BAD | mutflag::XOM, false,
   "bad dna",
 
   {"You have a slightly better chance of getting bad mutations.",

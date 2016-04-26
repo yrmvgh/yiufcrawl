@@ -2693,7 +2693,7 @@ ORIENT: float
 TAGS: no_monster_gen no_item_gen
 DEPTH: Dis, !Dis:$, Depths, !Depths:$
 MONS: patrolling iron giant, flying skull
-ITEM: bolt ego:exploding q:5
+ITEM: bolt
 ITEM: potion of heal wounds
 ITEM: plate armour good_item
 ITEM: arbalest ego:flaming w:9 ident:type / arbalest unrand:damnation w:1
@@ -6680,21 +6680,21 @@ MAP
         x.....0.....+
         x...........x
 xx+xxxxxx...xxxxx...x
-x...........x   x...x
-x...........x   x...x
-x..........%x   x...x
-x...xxxxxxxxx   x...xxxxx
-x...x           x.......x
-x.0.x           x.......x
-x...x           x%......x
-x...xxxxx       xxxxx...x
-x......%x           x...x
-x.......x           x.0.x
-x.......x           x...x
-xxxxx...x   xxxxxxxxx...x
-    x...x   x%..........x
-    x...x   x...........x
-    x...x   x...........x
+x...........xxxxx...x
+x...........xxxxx...x
+x..........%xxxxx...x
+x...xxxxxxxxxxxxx...xxxxx
+x...xxxxxxxxxxxxx.......x
+x.0.xxxxxxxxxxxxx.......x
+x...xxxxxxxxxxxxx%......x
+x...xxxxxxxxxxxxxxxxx...x
+x......%xxxxxxxxxxxxx...x
+x.......xxxxxxxxxxxxx.0.x
+x.......xxxxxxxxxxxxx...x
+xxxxx...xxxxxxxxxxxxx...x
+    x...xxxxx%..........x
+    x...xxxxx...........x
+    x...xxxxx...........x
     x...xxxxx...xxxxxx+xx
     x...........x
     +.....0.....x

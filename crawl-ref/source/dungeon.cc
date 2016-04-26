@@ -4192,7 +4192,7 @@ static bool _apply_item_props(item_def &item, const item_spec &spec,
 {
     const CrawlHashTable props = spec.props;
 
-    if (props.exists("make_book_theme_randart"))
+    if (props.exists("build_themed_book"))
     {
         string owner = props[RANDBK_OWNER_KEY].get_string();
         if (owner == "player")
@@ -4230,6 +4230,7 @@ static bool _apply_item_props(item_def &item, const item_spec &spec,
                           forced_spell_filter(spells,
                                                capped_spell_filter(max_levels)),
                           origin_as_god_gift(item), num_spells, chosen_spells);
+        fixup_randbook_disciplines(disc1, disc2, chosen_spells);
         init_book_theme_randart(item, chosen_spells);
         name_book_theme_randart(item, disc1, disc2, owner, title);
         // XXX: changing the signature of build_themed_book()'s get_discipline

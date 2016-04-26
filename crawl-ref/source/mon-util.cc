@@ -1752,6 +1752,10 @@ void name_zombie(monster* mon, monster_type mc, const string &mon_name)
         mon->mname = "Enchantress";
         mon->flags |= MF_NAME_ADJECTIVE;
     }
+    else if (mons_species(mc) == MONS_SERPENT_OF_HELL)
+    {
+        mon->mname = "";
+    }
 
     if (starts_with(mon->mname, "shaped "))
         mon->flags |= MF_NAME_SUFFIX;
