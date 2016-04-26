@@ -88,7 +88,7 @@ spret_type cast_summon_butterflies(int pow, god_type god, bool fail)
                 mgen_data(MONS_BUTTERFLY, BEH_FRIENDLY, &you,
                           3, SPELL_SUMMON_BUTTERFLIES,
                           you.pos(), MHITYOU,
-                          MG_NONE, god)))
+                          MG_NONE, god), true, i == 0))
         {
             success = true;
         }
@@ -301,7 +301,7 @@ spret_type cast_monstrous_menagerie(actor* caster, int pow, god_type god, bool f
     int mid = -1;
     while (num-- > 0)
     {
-        if (monster* beast = create_monster(mdata))
+        if (monster* beast = create_monster(mdata, true, num == 0))
         {
             if (you.can_see(*beast))
                 seen = true;
@@ -422,6 +422,7 @@ static bool _place_dragon()
 
     // Attempt to place adjacent to the first chosen hostile. If there is no
     // valid spot, move on to the next one.
+    bool first = true;
     for (monster *target : targets)
     {
         // Chose a random viable adjacent spot to the select target
@@ -443,10 +444,11 @@ static bool _place_dragon()
         monster *dragon = create_monster(mgen_data(mon, BEH_COPY, &you,
                                                    2, SPELL_DRAGON_CALL,
                                                    pos, MHITYOU,
-                                                   MG_FORCE_PLACE | MG_AUTOFOE));
+                                                   MG_FORCE_PLACE | MG_AUTOFOE), true, first);
         if (!dragon)
             continue;
 
+        first = false;
         dec_mp(random_range(2, 3));
 
         if (you.see_cell(dragon->pos()))
@@ -1226,7 +1228,7 @@ spret_type cast_shadow_creatures(int st, god_type god, level_id place,
                       st, you.pos(), MHITYOU,
                       MG_FORCE_BEH | MG_AUTOFOE | MG_NO_OOD, god,
                       MONS_NO_MONSTER, COLOUR_INHERIT, PROX_ANYWHERE, place),
-            false))
+            false, i == 0))
         {
             // In the rare cases that a specific spell set of a monster will
             // cause anger, even if others do not, try rerolling
@@ -1394,7 +1396,7 @@ spret_type cast_summon_horrible_things(int pow, god_type god, bool fail)
                mgen_data(MONS_ABOMINATION_LARGE, BEH_FRIENDLY, &you,
                          3, SPELL_SUMMON_HORRIBLE_THINGS,
                          you.pos(), MHITYOU,
-                         MG_FORCE_BEH | MG_AUTOFOE, god)))
+                         MG_FORCE_BEH | MG_AUTOFOE, god), true, num_abominations == 0))
         {
             count++;
             player_angers_monster(mons);
@@ -1407,7 +1409,7 @@ spret_type cast_summon_horrible_things(int pow, god_type god, bool fail)
                mgen_data(MONS_TENTACLED_MONSTROSITY, BEH_FRIENDLY, &you,
                          3, SPELL_SUMMON_HORRIBLE_THINGS,
                          you.pos(), MHITYOU,
-                         MG_FORCE_BEH | MG_AUTOFOE, god)))
+                         MG_FORCE_BEH | MG_AUTOFOE, god), true, num_tmons == 0))
         {
             count++;
             player_angers_monster(mons);
@@ -2346,7 +2348,7 @@ spret_type cast_haunt(int pow, const coord_def& where, god_type god, bool fail)
                 mgen_data(mon,
                           BEH_FRIENDLY, &you,
                           3, SPELL_HAUNT,
-                          where, mi, MG_FORCE_BEH, god)))
+                          where, mi, MG_FORCE_BEH, god), true, to_summon == 0))
         {
             success++;
 

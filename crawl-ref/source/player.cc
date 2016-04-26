@@ -9162,10 +9162,10 @@ void summoned_monster_died(monster* mons, bool natural_death)
     }
 }
 
-bool player_summoned_monster(spell_type spell, monster* mons)
+bool player_summoned_monster(spell_type spell, monster* mons, bool first)
 {
     bool success = true;
-    const int cost = spell_freeze_mana(spell);
+    const int cost = first ? spell_freeze_mana(spell) : 0;
     mons->mp_freeze = cost;
     freeze_summons_mp(cost);
 

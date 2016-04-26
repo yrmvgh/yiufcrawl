@@ -1183,6 +1183,6 @@ const int rune_curse_hp_adjust(int hp);
 const int rune_curse_dam_adjust(int dam);
 void player_was_offensive();
 void summoned_monster_died(monster* mons, bool natural_death);
-bool player_summoned_monster(spell_type spell, monster* mons);
+bool player_summoned_monster(spell_type spell, monster* mons, bool first);
 
 #endif

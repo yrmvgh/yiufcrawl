@@ -18,7 +18,7 @@ struct mgen_data;
  * position like a summon.
  * Returns -1 on failure, index into env.mons otherwise.
  * *********************************************************************** */
-monster* create_monster(mgen_data mg, bool fail_msg = true);
+monster* create_monster(mgen_data mg, bool fail_msg = true, bool first = true);
 
 /* ***********************************************************************
  * Primary function to create monsters. See mgen_data for details on monster
