@@ -713,6 +713,7 @@ unsigned int item_value(item_def item, bool ident)
                 break;
 
             case POT_MUTATION:
+            case POT_WEAK_MUTATION:
                 valued += 25;
                 break;
 

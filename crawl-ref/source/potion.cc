@@ -866,6 +866,53 @@ public:
     }
 };
 
+class PotionWeakMutation : public PotionEffect
+{
+private:
+    PotionWeakMutation() : PotionEffect(POT_WEAK_MUTATION) { }
+    DISALLOW_COPY_AND_ASSIGN(PotionWeakMutation);
+public:
+    static const PotionWeakMutation &instance()
+    {
+        static PotionWeakMutation inst; return inst;
+    }
+
+    bool can_quaff(string *reason = nullptr) const override
+    {
+        if (_disallow_mutate(reason))
+            return false;
+        return true;
+    }
+
+    bool effect(bool=true, int=40, bool=true) const override
+    {
+        mpr("You feel strange.");
+        bool mutated = mutate(RANDOM_MUTATION, "potion of weak mutation", false);
+        learned_something_new(HINT_YOU_MUTATED);
+        return mutated;
+    }
+
+    bool quaff(bool was_known) const override
+    {
+        if (was_known && !check_known_quaff())
+            return false;
+
+        string msg = "Really drink that potion of weak mutation";
+        msg += you.rmut_from_item() ? " while resistant to mutation?" : "?";
+        if (was_known && (you_worship(GOD_ZIN) || you.rmut_from_item())
+            && !yesno(msg.c_str(), false, 'n'))
+        {
+            canned_msg(MSG_OK);
+            return false;
+        }
+
+        effect();
+        // Zin conduct is violated even if you get lucky and don't mutate
+        did_god_conduct(DID_DELIBERATE_MUTATING, 10, was_known);
+        return true;
+    }
+};
+
 class PotionMutation : public PotionEffect
 {
 private:
@@ -1439,6 +1486,7 @@ static const PotionEffect* potion_effects[] =
 	&PotionPatience::instance(),
 	&PotionPoison::instance(),
 	&PotionResistance::instance(),
+    &PotionWeakMutation::instance(),
 #if TAG_MAJOR_VERSION == 34
 	&PotionBloodCoagulated::instance(),
 	&PotionDecay::instance(),
