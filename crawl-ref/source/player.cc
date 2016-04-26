@@ -6769,7 +6769,7 @@ int player::res_cold() const
 
 int player::res_elec() const
 {
-    return player_res_electricity() * 2;
+    return player_res_electricity();
 }
 
 int player::res_water_drowning() const

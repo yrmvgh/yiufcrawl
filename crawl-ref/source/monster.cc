@@ -2276,9 +2276,18 @@ item_def *monster::shield() const
     return mslot_item(MSLOT_SHIELD);
 }
 
+/**
+ * Does this monster have a proper name?
+ *
+ * @return  Whether the monster has a proper name, e.g. "Rupert" or
+ *          "Bogric the orc warlord". Should not include 'renamed' vault
+ *          monsters, e.g. "decayed bog mummy" or "bag of meat".
+ */
 bool monster::is_named() const
 {
-    return !mname.empty() || mons_is_unique(type);
+    return mons_is_unique(type)
+           || (!mname.empty() && !testbits(flags, MF_NAME_ADJECTIVE |
+                                                  MF_NAME_REPLACE));
 }
 
 bool monster::has_base_name() const
@@ -5044,7 +5053,7 @@ void monster::load_ghost_spells()
 bool monster::has_hydra_multi_attack() const
 {
     return mons_genus(mons_base_type(this)) == MONS_HYDRA
-        || mons_species(false) == MONS_SERPENT_OF_HELL;
+        || mons_species(true) == MONS_SERPENT_OF_HELL;
 }
 
 int monster::heads() const
