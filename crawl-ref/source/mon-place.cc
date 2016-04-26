@@ -3315,7 +3315,8 @@ monster* create_monster(mgen_data mg, bool fail_msg)
     if (mg.summon_type && summd)
     {
         const spell_type spell = (const spell_type) mg.summon_type;
-        summd->mp_freeze = spell_freeze_mana(spell);
+        if (!player_summoned_monster(spell, summd))
+            summd = 0;
     }
 
     return summd;

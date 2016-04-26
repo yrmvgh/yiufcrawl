@@ -4598,7 +4598,7 @@ int get_real_sp(bool include_items)
     return max_sp;
 }
 
-int get_real_mp(bool include_items)
+int get_real_mp(bool include_items, bool rotted)
 {
     const int scale = 100;
     int spellcasting = you.skill(SK_SPELLCASTING, 1 * scale, true);
@@ -4650,7 +4650,8 @@ int get_real_mp(bool include_items)
         enp = enp * 2 / 3;
 
     enp = max(enp, 4);
-    enp -= you.mp_frozen_summons;
+    if (!rotted)
+        enp -= you.mp_frozen_summons;
     enp = max(enp, 0);
 
     return enp;
@@ -5861,10 +5862,9 @@ player::player()
     amplification       = 1;
     exertion            = EXERT_NORMAL;
     max_exp             = 0;
-    mp_kickback         = 0;
     current_form_spell  = SPELL_NO_SPELL;
     current_form_spell_failure  = 0;
-    summon_count_by_spell.init(0);
+    summoned.init(MID_NOBODY);
 
     save                = nullptr;
     prev_save_version.clear();
@@ -9119,17 +9119,6 @@ const int rune_curse_dam_adjust(int dam)
     return new_dam;
 }
 
-void set_mp_kickback(int amount)
-{
-    you.mp_kickback = amount;
-}
-
-void release_mp_kickback()
-{
-    inc_mp(you.mp_kickback);
-    you.mp_kickback = 0;
-}
-
 void player_was_offensive()
 {
     if (you.current_form_spell != SPELL_NO_SPELL)
@@ -9149,4 +9138,56 @@ void player_was_offensive()
                 untransform();
         }
     }
+}
+
+void summoned_monster_died(monster* mons, bool natural_death)
+{
+    const int mp_cost = mons->mp_freeze;
+    unfreeze_summons_mp(mp_cost);
+    mons->mp_freeze = 0;
+    int mp_recovered = mp_cost;
+    if (natural_death)
+    {
+        mp_recovered = div_rand_round(mp_recovered, 2);
+    }
+    inc_mp(mp_recovered);
+
+    for (int i = 0; i < you.summoned.size(); i++)
+    {
+        if (you.summoned[i] == mons->mid)
+        {
+            you.summoned[i] = MID_NOBODY;
+            break;
+        }
+    }
+}
+
+bool player_summoned_monster(spell_type spell, monster* mons)
+{
+    bool success = true;
+    const int cost = spell_freeze_mana(spell);
+    mons->mp_freeze = cost;
+    freeze_summons_mp(cost);
+
+    int open_slot = -1;
+    for (int i = 0; i < you.summoned.size(); i++)
+    {
+        if (you.summoned[i] == MID_NOBODY)
+        {
+            open_slot = i;
+            break;
+        }
+    }
+
+    if (open_slot == -1)
+    {
+        mpr("You mind can't handle so many summons at once.");
+        success = false;
+    }
+    else
+    {
+        you.summoned[open_slot] = mons->mid;
+    }
+
+    return success;
 }

@@ -1558,13 +1558,12 @@ static void tag_construct_you(writer &th)
     marshallInt(th, you.amplification);
     marshallInt(th, you.exertion);
     marshallInt(th, you.max_exp);
-    marshallInt(th, you.mp_kickback);
     marshallInt(th, you.current_form_spell);
     marshallInt(th, you.current_form_spell_failure);
-    marshallInt(th, NUM_SPELLS);
-    for (int i = 0; i < NUM_SPELLS; ++i)
+    marshallInt(th, MAX_SUMMONS);
+    for (int i = 0; i < MAX_SUMMONS; ++i)
     {
-        marshallUByte(th, you.summon_count_by_spell[i]);
+        marshallInt(th, you.summoned[i]);
     }
 
     marshallInt(th, you.magic_contamination);
@@ -3214,12 +3213,15 @@ static void tag_read_you(reader &th)
         you.amplification = 1;
     set_exertion((exertion_mode)unmarshallInt(th));
     you.max_exp = unmarshallInt(th);
-    you.mp_kickback = unmarshallInt(th);
     you.current_form_spell = (spell_type) unmarshallInt(th);
     you.current_form_spell_failure = unmarshallInt(th);
-    const int spell_count = unmarshallInt(th);
-    for (int i = 0; i < spell_count; ++i)
-        you.summon_count_by_spell[i] = unmarshallUByte(th);
+    const int summon_count = unmarshallInt(th);
+    for (int i = 0; i < summon_count; ++i)
+    {
+        int monster_id = unmarshallInt(th);
+        if (i < you.summoned.size())
+            you.summoned[i] = monster_id;
+    }
 
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_CONTAM_SCALE)

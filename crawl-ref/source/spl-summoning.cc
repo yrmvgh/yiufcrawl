@@ -3344,7 +3344,34 @@ bool summons_are_capped(spell_type spell)
 
 bool is_summon_spell(spell_type spell)
 {
-	return map_find(summonsdata, spell) > 0;
+    bool result;
+    switch(spell)
+    {
+        case SPELL_WEAVE_SHADOWS:
+        case SPELL_SUMMON_BUTTERFLIES:
+        case SPELL_SUMMON_SMALL_MAMMAL:
+        case SPELL_CALL_CANINE_FAMILIAR:
+        case SPELL_SUMMON_ICE_BEAST:
+        case SPELL_MONSTROUS_MENAGERIE:
+        case SPELL_SUMMON_DRAGON:
+        case SPELL_DRAGON_CALL:
+        case SPELL_SUMMON_HYDRA:
+        case SPELL_SUMMON_MANA_VIPER:
+        case SPELL_SUMMON_LIGHTNING_SPIRE:
+        case SPELL_SUMMON_GUARDIAN_GOLEM:
+        case SPELL_CALL_IMP:
+        case SPELL_SUMMON_DEMON:
+        case SPELL_SUMMON_GREATER_DEMON:
+        case SPELL_SHADOW_CREATURES:
+        case SPELL_SUMMON_HORRIBLE_THINGS:
+        case SPELL_MALIGN_GATEWAY:
+        case SPELL_SUMMON_FOREST:
+            result = true;
+            break;
+        default:
+            result = false;
+    }
+	return result;
 }
 
 int summons_limit(spell_type spell)
@@ -3500,19 +3527,30 @@ int _unsummon_all(const actor *summoner)
 
 int unsummon_all()
 {
-    int count = _unsummon_all(&you);
-    // shouldn't be needed, but here for insurance
-    unfreeze_summons_mp();
-    you.summon_count_by_spell.init(0);
+    int count = 0;
+    for (int i = 0; i < you.summoned.size(); i++)
+    {
+        const mid_t &summoned_id = you.summoned[i];
+        if (summoned_id != MID_NOBODY)
+        {
+            if (monster *mons = monster_by_mid(summoned_id, true))
+            {
+                unfreeze_summons_mp(mons->mp_freeze);
+                mons->del_ench(ENCH_ABJ);
+                mons->del_ench(ENCH_FAKE_ABJURATION);
+                count++;
+            }
+        }
+    }
     return count;
 }
 
 bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
-    for (int i = 0; i < you.summon_count_by_spell.size(); i++)
+    for (int i = 0; i < you.summoned.size(); i++)
     {
-        if (you.summon_count_by_spell[i] > 0)
+        if (you.summoned[i] != MID_NOBODY)
         {
             found = true;
             break;

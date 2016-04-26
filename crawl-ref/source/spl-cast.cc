@@ -1057,12 +1057,6 @@ bool cast_a_spell(bool check_range, spell_type spell)
         }
     }
 
-    if (freeze_cost)
-    {
-        freeze_summons_mp(freeze_cost);
-        you.summon_count_by_spell[spell]++;
-    }
-
     you.turn_is_over = true;
     alert_nearby_monsters();
 
