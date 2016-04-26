@@ -3547,11 +3547,11 @@ int unsummon_all()
                 // a pathetic hack. We need to figure out why this is happening.
                 _unsummon_all(&you);
 
-                for (unsigned int i = 0; i < you.summoned.size(); i++)
+                for (unsigned int j = 0; j < you.summoned.size(); j++)
                 {
-                    if (you.summoned[i] == summoned_id)
+                    if (you.summoned[j] == summoned_id)
                     {
-                        you.summoned[i] = MID_NOBODY;
+                        you.summoned[j] = MID_NOBODY;
                         break;
                     }
                 }
@@ -3578,7 +3578,7 @@ void unsummon(monster *mons)
 bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
-    for (int i = 0; i < you.summoned.size(); i++)
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
         if (you.summoned[i] != MID_NOBODY)
         {
