@@ -19,6 +19,8 @@
 #include "libutil.h" // map_find
 #include "mon-place.h"
 #include "religion.h"
+#include "spl-summoning.h"
+#include "misc.h"
 
 #define MAX_LOST 100
 
@@ -169,19 +171,22 @@ static bool place_lost_monster(follower &f)
 
 static void level_place_lost_monsters(m_transit_list &m)
 {
-    for (auto i = m.begin(); i != m.end(); )
+    for (auto i = m.begin(); i != m.end();)
     {
         auto mon = i++;
 
         // Monsters transiting to the Abyss have a 50% chance of being
         // placed, otherwise a 100% chance.
         if (player_in_branch(BRANCH_ABYSS) && coinflip())
+        {
+            unsummon(&mon->mons);
             continue;
+        }
 
         if (place_lost_monster(*mon))
         {
             // Now that the monster is onlevel, we can safely apply traps to it.
-            if (monster* new_mon = monster_by_mid(mon->mons.mid))
+            if (monster *new_mon = monster_by_mid(mon->mons.mid))
                 // old loc isn't really meaningful
                 new_mon->apply_location_effects(new_mon->pos());
             m.erase(mon);
@@ -329,6 +334,7 @@ bool follower::place(bool near_player)
     }
 
     m->reset();
+
     return false;
 }
 

@@ -3530,19 +3530,25 @@ int unsummon_all()
     int count = 0;
     for (int i = 0; i < you.summoned.size(); i++)
     {
-        const mid_t &summoned_id = you.summoned[i];
+        const mid_t summoned_id = you.summoned[i];
         if (summoned_id != MID_NOBODY)
         {
-            if (monster *mons = monster_by_mid(summoned_id, true))
+            monster *mons = monster_by_mid(summoned_id, true);
+            if (mons)
             {
-                unfreeze_summons_mp(mons->mp_freeze);
-                mons->del_ench(ENCH_ABJ);
-                mons->del_ench(ENCH_FAKE_ABJURATION);
+                unsummon(mons);
                 count++;
             }
         }
     }
     return count;
+}
+
+void unsummon(monster *mons)
+{
+    unfreeze_summons_mp(mons->mp_freeze);
+    mons->del_ench(ENCH_ABJ);
+    mons->del_ench(ENCH_FAKE_ABJURATION);
 }
 
 bool player_has_summons(bool from_summoning_spell)

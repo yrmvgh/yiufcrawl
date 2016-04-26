@@ -102,8 +102,8 @@ monster::~monster()
 
 monster::monster(const monster& mon)
 {
-    init_with(mon);
     constricting = 0;
+    init_with(mon);
 }
 
 monster &monster::operator = (const monster& mon)

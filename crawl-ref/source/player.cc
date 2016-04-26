@@ -4417,7 +4417,7 @@ int unrot_hp(int hp_recovered)
 
 int player_rotted()
 {
-    return -you.hp_max_adj_temp;
+    return -you.hp_max_adj_temp || you.mp_frozen_summons;
 }
 
 void rot_mp(int mp_loss)

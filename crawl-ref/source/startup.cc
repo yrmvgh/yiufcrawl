@@ -305,7 +305,6 @@ static void _post_init(bool newc)
         you.redraw_temperature = true;
     you.redraw_quiver       = true;
     you.wield_change        = true;
-    you.summoned.init(0);
 
     // Start timer on session.
     you.last_keypress_time = chrono::system_clock::now();

@@ -46,6 +46,7 @@
 #include "travel.h"
 #include "view.h"
 #include "xom.h"
+#include "spl-summoning.h"
 
 bool check_annotation_exclusion_warning()
 {
@@ -821,6 +822,13 @@ void floor_transition(dungeon_feature_type how,
                 add_experience_potion_annotation(li, 1);
             }
         }
+    }
+
+    const int dangerous = get_nearby_monsters(false, true, true).size();
+    if (dangerous)
+    {
+        mpr("Your summoned creatures have suddenly lost their courage!");
+        unsummon_all();
     }
 
     request_autopickup();
