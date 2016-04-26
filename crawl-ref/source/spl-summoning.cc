@@ -3546,7 +3546,7 @@ int unsummon_all()
             {
                 // a pathetic hack. We need to figure out why this is happening.
                 _unsummon_all(&you);
-                remove_from_summoned(summon_id);
+                remove_from_summoned(summoned_id);
             }
         }
     }
