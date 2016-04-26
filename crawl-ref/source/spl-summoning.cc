@@ -3558,6 +3558,9 @@ int unsummon_all()
             }
         }
     }
+
+    // another pitiful hack, because we don't know where the leak is yet.
+    unfreeze_summons_mp();
     return count;
 }
 
