@@ -1496,7 +1496,7 @@ int melee_attack::player_apply_final_multipliers(int damage)
         return 0;
 
     if (you.exertion == EXERT_POWER)
-        damage = div_rand_round(damage * 3, 2);
+        damage = div_rand_round(damage * 4, 3);
 
     return damage;
 }
