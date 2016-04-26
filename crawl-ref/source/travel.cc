@@ -123,6 +123,7 @@ static bool ignore_player_traversability = false;
 // Map of terrain types that are forbidden.
 static FixedVector<int8_t,NUM_FEATURES> forbidden_terrain;
 
+
 /*
  * Warn if interlevel travel is going to take you outside levels in
  * the range [src,dest].
@@ -620,8 +621,7 @@ static void _start_running()
         start_delay(DELAY_TRAVEL, 1);
 }
 
-// Stops shift+running and all forms of travel.
-void stop_running()
+void maybe_reset_form_decay()
 {
     if (you.time_taken > 10)
     {
@@ -631,6 +631,12 @@ void stop_running()
             you.current_form_spell_failure = 0;
         }
     }
+}
+
+// Stops shift+running and all forms of travel.
+void stop_running()
+{
+    maybe_reset_form_decay();
     you.running.stop();
 }
 
@@ -3972,7 +3978,6 @@ void runrest::initialise(int dir, int mode)
         set_run_check(2, right);
     }
 
-    you.current_form_spell_failure = 0;
     if (runmode == RMODE_REST_DURATION || runmode == RMODE_WAIT_DURATION)
         start_delay(DELAY_REST, 1);
     else

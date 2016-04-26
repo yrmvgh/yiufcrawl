@@ -9154,7 +9154,7 @@ void player_was_offensive()
                 mprf(MSGCH_WARN, "Your form is beginning to unravel.");
 
             if (you.current_form_spell_failure == 4)
-                mprf(MSGCH_DANGER, "You can't maintain your form for much longer!");
+                mprf(MSGCH_WARN, "You can't maintain your form for much longer!");
 
             if (you.current_form_spell_failure > 4)
                 untransform();
