@@ -2018,9 +2018,12 @@ int player_movement_speed()
 
     }
 
-    // moving on liquefied ground takes longer
-    if (you.liquefied_ground())
-        mv += 300;
+    // moving on liquefied ground used to take longer
+    // but let's try not doing that, because why punish a player for splashing
+    // around in the Fun Terrain that their race is named after?
+    // that's like making a merfolk move slower in water due to "friction"
+//    if (you.liquefied_ground())
+//        mv += 300;
 
 	if (you.species == SP_LAVA_ORC) {
 		if (you.temperature < TEMP_COOL) {
@@ -8601,7 +8604,7 @@ string temperature_text(int temp)
     switch (temp)
     {
         case TEMP_MIN:
-            return "rF+";
+            return "rF+; racial bonus to AC";
         case TEMP_COOL:
             return "";
         case TEMP_WARM:
@@ -8611,7 +8614,7 @@ string temperature_text(int temp)
         case TEMP_FIRE:
             return "Burn attackers";
         case TEMP_MAX:
-            return "All above effects, fire aura; can't read";
+            return "All above effects; fire aura; can't read";
         default:
             return "";
     }
