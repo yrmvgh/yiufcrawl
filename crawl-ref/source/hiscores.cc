@@ -1490,7 +1490,7 @@ void scorefile_entry::reset()
     zigmax               = 0;
     scrolls_used         = 0;
     potions_used         = 0;
-    difficulty			 = DIFFICULTY_NORMAL;
+    difficulty			 = DIFFICULTY_CHALLENGE;
     experience_mode      = EXP_MODE_CLASSIC;
 }
 
@@ -1612,9 +1612,9 @@ void scorefile_entry::init(time_t dt)
         pt += num_runes * 10000;
         pt += num_runes * (num_runes + 2) * 1000;
 
-        if(crawl_state.difficulty == DIFFICULTY_EASY)
+        if(crawl_state.difficulty == DIFFICULTY_STANDARD)
             pt >>= 2;
-        if(crawl_state.difficulty == DIFFICULTY_HARD)
+        if(crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
             pt <<= 2;
 
         points = pt;
@@ -1883,10 +1883,10 @@ string scorefile_entry::difficulty_name() const
 	string result;
 	switch(difficulty)
 	{
-	case DIFFICULTY_EASY:
+	case DIFFICULTY_STANDARD:
 		result = "STANDARD";
 		break;
-	case DIFFICULTY_HARD:
+	case DIFFICULTY_NIGHTMARE:
 		result = "NIGHTMARE";
 		break;
 	default:
@@ -1947,9 +1947,9 @@ scorefile_entry::character_description(death_desc_verbosity verbosity) const
 
     desc += wiz_mode ? ") *WIZ*" :
     		explore_mode ? ") *EXPLORE*" :
-    		difficulty == DIFFICULTY_EASY ? ") *STANDARD*" :
-            difficulty == DIFFICULTY_NORMAL ? ") *CHALLENGE*" :
-    		difficulty == DIFFICULTY_HARD ? ") *NIGHTMARE*" : ")";
+    		difficulty == DIFFICULTY_STANDARD ? ") *STANDARD*" :
+            difficulty == DIFFICULTY_CHALLENGE ? ") *CHALLENGE*" :
+    		difficulty == DIFFICULTY_NIGHTMARE ? ") *NIGHTMARE*" : ")";
     desc += _hiscore_newline_string();
 
     if (verbose)

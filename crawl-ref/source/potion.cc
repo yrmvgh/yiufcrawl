@@ -249,15 +249,15 @@ public:
         }
         else switch(crawl_state.difficulty)
             {
-                case DIFFICULTY_EASY:
+                case DIFFICULTY_STANDARD:
                     amount = you.hp_max;
                     mprf("You feel completely better. (%d)", amount);
                     break;
-                case DIFFICULTY_NORMAL:
+                case DIFFICULTY_CHALLENGE:
                     amount = you.hp_max/2;
                     mprf("You feel much better. (%d)", amount);
                     break;
-                case DIFFICULTY_HARD:
+                case DIFFICULTY_NIGHTMARE:
                     amount = you.hp_max/4;
                     mprf("You feel a little better. (%d)", amount);
                     break;
@@ -717,13 +717,13 @@ public:
         int amount = 0;
         switch(crawl_state.difficulty)
         {
-            case DIFFICULTY_EASY:
+            case DIFFICULTY_STANDARD:
                 amount = you.max_magic_points;
                 break;
-            case DIFFICULTY_NORMAL:
+            case DIFFICULTY_CHALLENGE:
                 amount = you.max_magic_points/2;
                 break;
-            case DIFFICULTY_HARD:
+            case DIFFICULTY_NIGHTMARE:
                 amount = you.max_magic_points/4;
                 break;
             default:

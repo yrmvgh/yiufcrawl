@@ -276,10 +276,10 @@ static void _apply_ood(level_id &place)
     // moderate OODs go up to 100% after a ramp-up period.
 
     if (place.branch == BRANCH_DUNGEON
-    	&& crawl_state.difficulty != DIFFICULTY_HARD
+    	&& crawl_state.difficulty != DIFFICULTY_NIGHTMARE
         && (place.depth == 1 && env.turns_on_level < 701
          || place.depth == 2 && (env.turns_on_level < 584 || one_chance_in(4)))
-		 || place.depth < 6 && crawl_state.difficulty == DIFFICULTY_EASY)
+		 || place.depth < 6 && crawl_state.difficulty == DIFFICULTY_STANDARD)
     {
         return;
     }
@@ -688,8 +688,8 @@ monster_type resolve_monster_type(monster_type mon_type,
                       && _is_banded_monster((monster_type)type)
                    || mon_type == MONS_PLAYER_GHOST
                       && place->branch == BRANCH_DUNGEON
-                      &&   (crawl_state.difficulty == DIFFICULTY_EASY && place->depth < 10
-                         || crawl_state.difficulty == DIFFICULTY_NORMAL && place->depth < 5)
+                      &&   (crawl_state.difficulty == DIFFICULTY_STANDARD && place->depth < 10
+                         || crawl_state.difficulty == DIFFICULTY_CHALLENGE && place->depth < 5)
                 );
 
             int base = vault_mon_bases[i];

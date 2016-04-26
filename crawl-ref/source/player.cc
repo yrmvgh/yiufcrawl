@@ -2754,10 +2754,10 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool from_mons
         exp_loss = Options.exp_percent_from_monsters < 0;
     }
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         exp_gained = div_rand_round(exp_gained * 3, 2);
 
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         exp_gained = div_rand_round(exp_gained * 2, 3);
 
     if (crawl_state.game_is_arena() || exp_gained == 0)
@@ -4577,9 +4577,9 @@ int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 
     if (adjust_for_difficulty)
     {
-        if (crawl_state.difficulty == DIFFICULTY_EASY)
+        if (crawl_state.difficulty == DIFFICULTY_STANDARD)
             hitp = hitp * 3 / 2;
-        if (crawl_state.difficulty == DIFFICULTY_HARD)
+        if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
             hitp = hitp * 2 / 3;
     }
 
@@ -4596,9 +4596,9 @@ int get_real_sp(bool include_items)
     boost += you.wearing(EQ_RINGS, RING_STAMINA);
     boost += you.scan_artefacts(ARTP_STAMINA);
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         boost++;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         boost--;
 
     max_sp = qpow(max_sp, 5, 4, boost);
@@ -4652,9 +4652,9 @@ int get_real_mp(bool include_items, bool rotted)
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))
         enp /= 3;
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         enp = enp * 3 / 2;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         enp = enp * 2 / 3;
 
     enp = max(enp, 4);

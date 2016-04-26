@@ -279,11 +279,11 @@ static string _difficulty_to_str(game_difficulty_level diff)
 {
     switch (diff)
     {
-    case DIFFICULTY_EASY:
+    case DIFFICULTY_STANDARD:
         return "Standard";
-    case DIFFICULTY_NORMAL:
+    case DIFFICULTY_CHALLENGE:
         return "Challenge";
-    case DIFFICULTY_HARD:
+    case DIFFICULTY_NIGHTMARE:
         return "Nightmare";
     default:
         return "Unknown";
@@ -3999,11 +3999,11 @@ void game_options::read_option_line(const string &str, bool runscript)
     else if (key == "difficulty")
     {
     	if (field == "standard")
-    		game.difficulty = DIFFICULTY_EASY;
+    		game.difficulty = DIFFICULTY_STANDARD;
     	else if (field == "challenge")
-    		game.difficulty = DIFFICULTY_NORMAL;
+    		game.difficulty = DIFFICULTY_CHALLENGE;
     	else if (field == "nightmare")
-    		game.difficulty = DIFFICULTY_HARD;
+    		game.difficulty = DIFFICULTY_NIGHTMARE;
     	else
     		game.difficulty = DIFFICULTY_ASK;
     }

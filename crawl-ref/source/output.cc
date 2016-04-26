@@ -1182,11 +1182,11 @@ static void _redraw_title()
             _draw_wizmode_flag("WIZARD");
         else if (you.explore)
             _draw_wizmode_flag("EXPLORE");
-        else if (crawl_state.difficulty == DIFFICULTY_EASY)
+        else if (crawl_state.difficulty == DIFFICULTY_STANDARD)
             _draw_wizmode_flag("STANDARD");
-        else if (crawl_state.difficulty == DIFFICULTY_NORMAL)
+        else if (crawl_state.difficulty == DIFFICULTY_CHALLENGE)
             _draw_wizmode_flag("CHALLENGE");
-        else if (crawl_state.difficulty == DIFFICULTY_HARD)
+        else if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
             _draw_wizmode_flag("NIGHTMARE");
 //    }
 #ifdef DGL_SIMPLE_MESSAGING
