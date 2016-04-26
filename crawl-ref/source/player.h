@@ -1056,7 +1056,7 @@ int unrot_hp(int hp_recovered);
 int player_rotted();
 void rot_mp(int mp_loss);
 void freeze_summons_mp(int mp_loss);
-void unfreeze_summons_mp(int amount);
+void unfreeze_summons_mp(int amount = -1);
 
 void inc_max_hp(int hp_gain);
 void dec_max_hp(int hp_loss);
