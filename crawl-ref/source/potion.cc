@@ -241,7 +241,7 @@ public:
         int amount = 0;
         if (is_device)
         {
-            amount = you.hp_max * (1 - pow((200 - power) / 100.0, 2));
+            amount = min(you.hp_max, div_rand_round(you.hp_max * power, 100));
             if (amount > you.hp_max - you.hp)
                 amount = you.hp_max - you.hp;
 
