@@ -681,6 +681,7 @@ const char* potion_type_name(int potiontype)
     case POT_BERSERK_RAGE:      return "berserk rage";
     case POT_CURE_MUTATION:     return "cure mutation";
     case POT_MUTATION:          return "mutation";
+    case POT_WEAK_MUTATION:     return "weak mutation";
     case POT_BLOOD:             return "blood";
 #if TAG_MAJOR_VERSION == 34
     case POT_BLOOD_COAGULATED:  return "coagulated blood";
@@ -3452,6 +3453,7 @@ bool is_dangerous_item(const item_def &item, bool temp)
         switch (item.sub_type)
         {
         case POT_MUTATION:
+        case POT_WEAK_MUTATION:
         case POT_LIGNIFY:
             return true;
         default:
@@ -3661,6 +3663,7 @@ bool is_useless_item(const item_def &item, bool temp)
 
         case POT_CURE_MUTATION:
         case POT_MUTATION:
+        case POT_WEAK_MUTATION:
         case POT_BENEFICIAL_MUTATION:
 #if TAG_MAJOR_VERSION == 34
         case POT_GAIN_STRENGTH:

@@ -127,7 +127,7 @@ A player has created an IRC channel for discussion of this fork. Grab an IRC cli
             * actions cost stamina
             * stealth is amplified (1.5x normal)
             * accuracy is increased (1.5x normal)
-            * spell failure chance is reduced (-20%)
+            * spell failure chance is reduced (-30 or 1/2, whichever is worse)
     * when stamina is depleted, game switches back to normal exertion mode automatically
     * berserking automatically switches to power mode
     * species differences:

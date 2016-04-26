@@ -1064,14 +1064,14 @@ bool monster::decay_enchantment(enchant_type en, bool decay_degree)
 		}
     }
 
-    if (!player_summoned_this_creature && lose_ench_duration(me, actdur))
-    {
-        return true;
-    }
-
-    if (me.ench == ENCH_ABJ && player_summoned_this_creature)
+    if (me.ench == ENCH_ABJ && player_summoned_this_creature && attitude != ATT_HOSTILE)
     {
         return false;
+    }
+
+    if (lose_ench_duration(me, actdur))
+    {
+        return true;
     }
 
     if (!decay_degree)

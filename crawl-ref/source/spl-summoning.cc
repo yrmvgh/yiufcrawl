@@ -3542,22 +3542,41 @@ int unsummon_all()
                 unsummon(mons);
                 count++;
             }
+            else
+            {
+                // a pathetic hack. We need to figure out why this is happening.
+                _unsummon_all(&you);
+                remove_from_summoned(summoned_id);
+            }
         }
     }
+
+    // another pitiful hack, because we don't know where the leak is yet.
+    unfreeze_summons_mp();
     return count;
 }
 
 void unsummon(monster *mons)
 {
-    unfreeze_summons_mp(mons->mp_freeze);
-    mons->del_ench(ENCH_ABJ);
-    mons->del_ench(ENCH_FAKE_ABJURATION);
+//    unfreeze_summons_mp(mons->mp_freeze);
+
+    if (mons->attitude != ATT_HOSTILE)
+    {
+        mons->del_ench(ENCH_ABJ);
+        mons->del_ench(ENCH_FAKE_ABJURATION);
+    }
+    else
+    {
+        remove_from_summoned(mons->mid);
+        const int mp_cost = mons->mp_freeze;
+        unfreeze_summons_mp(mp_cost);
+    }
 }
 
 bool player_has_summons(bool from_summoning_spell)
 {
     bool found = false;
-    for (int i = 0; i < you.summoned.size(); i++)
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
         if (you.summoned[i] != MID_NOBODY)
         {

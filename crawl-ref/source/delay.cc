@@ -246,6 +246,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
         if (delay_is_run(delay.type) && you.running)
             stop_running();
 
+        maybe_reset_form_decay();
         // There's no special action needed for macros - if we don't call out
         // to the Lua function, it can't do damage.
         break;
@@ -346,7 +347,7 @@ void stop_delay(bool stop_stair_travel, bool force_unsafe)
 
     case DELAY_ASCENDING_STAIRS:  // short... and probably what people want
     case DELAY_DESCENDING_STAIRS: // short... and probably what people want
-        if (stop_stair_travel && !crawl_state.free_stair_escape && (you.where_are_you != BRANCH_ABYSS || crawl_state.difficulty == DIFFICULTY_HARD))
+        if (stop_stair_travel && !crawl_state.free_stair_escape && (you.where_are_you != BRANCH_ABYSS || crawl_state.difficulty == DIFFICULTY_NIGHTMARE))
         {
             mprf("You stop %s the stairs.",
                  delay.type == DELAY_ASCENDING_STAIRS ? "ascending"

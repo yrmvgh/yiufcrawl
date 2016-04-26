@@ -1939,20 +1939,20 @@ static bool _choose_difficulty(newgame_def& ng, newgame_def& ng_choice,
 		case 0:
 			tmp->set_fg_colour(WHITE);
 			tmp->add_hotkey('s');
-			tmp->set_id(DIFFICULTY_EASY);
+			tmp->set_id(DIFFICULTY_STANDARD);
 			text += "s - Standard";
 			break;
 		case 1:
 			tmp->set_fg_colour(YELLOW);
 			tmp->add_hotkey('c');
-			tmp->set_id(DIFFICULTY_NORMAL);
+			tmp->set_id(DIFFICULTY_CHALLENGE);
 			text += "c - Challenge";
 			freeform->set_active_item(tmp);
 			break;
 		case 2:
 			tmp->set_fg_colour(LIGHTRED);
 			tmp->add_hotkey('n');
-			tmp->set_id(DIFFICULTY_HARD);
+			tmp->set_id(DIFFICULTY_NIGHTMARE);
 			text += "n - Nightmare";
 			break;
 		}

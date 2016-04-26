@@ -550,7 +550,7 @@ int raw_spell_fail(spell_type spell)
     chance2 = _apply_spellcasting_success_boosts(spell, chance2);
 
     if (you.exertion == EXERT_CAREFUL)
-        chance2 -= 20;
+        chance2 = max(chance2 - 30, chance2 / 2);
 
     if (chance2 > 100)
         chance2 = 100;

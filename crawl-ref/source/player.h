@@ -1008,6 +1008,7 @@ bool will_gain_life(int lev);
 
 bool dur_expiring(duration_type dur);
 void display_char_status();
+void remove_from_summoned(mid_t mid);
 
 void forget_map(bool rot = false);
 
@@ -1056,7 +1057,7 @@ int unrot_hp(int hp_recovered);
 int player_rotted();
 void rot_mp(int mp_loss);
 void freeze_summons_mp(int mp_loss);
-void unfreeze_summons_mp(int amount);
+void unfreeze_summons_mp(int amount = -1);
 
 void inc_max_hp(int hp_gain);
 void dec_max_hp(int hp_loss);

@@ -525,7 +525,28 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     }
 
     if (corpse.is_valid())
+    {
         maybe_drop_monster_hide(corpse);
+        if (mons_corpse_effect(corpse.mon_type) == CE_MUTAGEN)
+        {
+            const int chunk_count = random2(max_corpse_chunks(corpse.mon_type));
+            for (int i = 0; i < chunk_count; i++)
+            {
+                int id = items(false, OBJ_POTIONS, POT_WEAK_MUTATION, 0);
+                if (id != NON_ITEM)
+                {
+                    item_def& new_potion = mitm[id];
+
+                    // Automatically identify the potion.
+                    set_ident_flags(new_potion, ISFLAG_IDENT_MASK);
+
+                    const coord_def pos = item_pos(corpse);
+                    if (!pos.origin())
+                        move_item_to_grid(&id, pos);
+                }
+            }
+        }
+    }
 
     if (o == NON_ITEM)
         return nullptr;

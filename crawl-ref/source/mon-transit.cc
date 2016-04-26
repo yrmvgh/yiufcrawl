@@ -457,7 +457,7 @@ void tag_followers()
         {
             monster *const fol = monster_by_mid(mid, true);
 
-            if (fol)
+            if (fol && fol->attitude != ATT_HOSTILE)
             {
                 // Monster is chasing player through stairs.
                 fol->flags |= MF_TAKING_STAIRS;

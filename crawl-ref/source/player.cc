@@ -2754,10 +2754,10 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain, bool from_mons
         exp_loss = Options.exp_percent_from_monsters < 0;
     }
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         exp_gained = div_rand_round(exp_gained * 3, 2);
 
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         exp_gained = div_rand_round(exp_gained * 2, 3);
 
     if (crawl_state.game_is_arena() || exp_gained == 0)
@@ -4577,9 +4577,9 @@ int get_real_hp(bool trans, bool rotted, bool adjust_for_difficulty)
 
     if (adjust_for_difficulty)
     {
-        if (crawl_state.difficulty == DIFFICULTY_EASY)
+        if (crawl_state.difficulty == DIFFICULTY_STANDARD)
             hitp = hitp * 3 / 2;
-        if (crawl_state.difficulty == DIFFICULTY_HARD)
+        if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
             hitp = hitp * 2 / 3;
     }
 
@@ -4596,9 +4596,9 @@ int get_real_sp(bool include_items)
     boost += you.wearing(EQ_RINGS, RING_STAMINA);
     boost += you.scan_artefacts(ARTP_STAMINA);
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         boost++;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         boost--;
 
     max_sp = qpow(max_sp, 5, 4, boost);
@@ -4652,9 +4652,9 @@ int get_real_mp(bool include_items, bool rotted)
     if (include_items && you.wearing_ego(EQ_WEAPON, SPWPN_ANTIMAGIC))
         enp /= 3;
 
-    if (crawl_state.difficulty == DIFFICULTY_EASY)
+    if (crawl_state.difficulty == DIFFICULTY_STANDARD)
         enp = enp * 3 / 2;
-    if (crawl_state.difficulty == DIFFICULTY_HARD)
+    if (crawl_state.difficulty == DIFFICULTY_NIGHTMARE)
         enp = enp * 2 / 3;
 
     enp = max(enp, 4);
@@ -5989,8 +5989,8 @@ bool player::is_sufficiently_rested() const
 {
     // Only return false if resting will actually help.
     return (hp >= _rest_trigger_level(hp_max) || !player_regenerates_hp())
-            && (magic_points >= _rest_trigger_level(max_magic_points)
-                || !player_regenerates_mp());
+           && (magic_points >= _rest_trigger_level(max_magic_points) || !player_regenerates_mp())
+           && (sp >= _rest_trigger_level(sp_max) || !player_regenerates_sp());
 }
 
 bool player::in_water() const
@@ -9154,7 +9154,7 @@ void player_was_offensive()
                 mprf(MSGCH_WARN, "Your form is beginning to unravel.");
 
             if (you.current_form_spell_failure == 4)
-                mprf(MSGCH_DANGER, "You can't maintain your form for much longer!");
+                mprf(MSGCH_WARN, "You can't maintain your form for much longer!");
 
             if (you.current_form_spell_failure > 4)
                 untransform();
@@ -9174,9 +9174,14 @@ void summoned_monster_died(monster* mons, bool natural_death)
     }
     inc_mp(mp_recovered);
 
-    for (int i = 0; i < you.summoned.size(); i++)
+    remove_from_summoned(mons->mid);
+}
+
+void remove_from_summoned(mid_t mid)
+{
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
-        if (you.summoned[i] == mons->mid)
+        if (you.summoned[i] == mid)
         {
             you.summoned[i] = MID_NOBODY;
             break;
@@ -9192,7 +9197,7 @@ bool player_summoned_monster(spell_type spell, monster* mons, bool first)
     freeze_summons_mp(cost);
 
     int open_slot = -1;
-    for (int i = 0; i < you.summoned.size(); i++)
+    for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
         if (you.summoned[i] == MID_NOBODY)
         {
