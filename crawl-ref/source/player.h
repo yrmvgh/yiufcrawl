@@ -1008,6 +1008,7 @@ bool will_gain_life(int lev);
 
 bool dur_expiring(duration_type dur);
 void display_char_status();
+void remove_from_summoned(mid_t mid);
 
 void forget_map(bool rot = false);
 

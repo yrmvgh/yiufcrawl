@@ -9174,9 +9174,14 @@ void summoned_monster_died(monster* mons, bool natural_death)
     }
     inc_mp(mp_recovered);
 
+    remove_from_summoned(mons->mid);
+}
+
+void remove_from_summoned(mid_t mid)
+{
     for (unsigned int i = 0; i < you.summoned.size(); i++)
     {
-        if (you.summoned[i] == mons->mid)
+        if (you.summoned[i] == mid)
         {
             you.summoned[i] = MID_NOBODY;
             break;

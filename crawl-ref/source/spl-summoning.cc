@@ -3546,15 +3546,7 @@ int unsummon_all()
             {
                 // a pathetic hack. We need to figure out why this is happening.
                 _unsummon_all(&you);
-
-                for (unsigned int j = 0; j < you.summoned.size(); j++)
-                {
-                    if (you.summoned[j] == summoned_id)
-                    {
-                        you.summoned[j] = MID_NOBODY;
-                        break;
-                    }
-                }
+                remove_from_summoned(summon_id);
             }
         }
     }
@@ -3572,6 +3564,12 @@ void unsummon(monster *mons)
     {
         mons->del_ench(ENCH_ABJ);
         mons->del_ench(ENCH_FAKE_ABJURATION);
+    }
+    else
+    {
+        remove_from_summoned(mons->mid);
+        const int mp_cost = mons->mp_freeze;
+        unfreeze_summons_mp(mp_cost);
     }
 }
 
