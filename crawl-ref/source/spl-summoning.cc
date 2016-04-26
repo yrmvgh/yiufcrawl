@@ -224,14 +224,16 @@ spret_type cast_call_canine_familiar(int pow, god_type god, bool fail)
     fail_check();
     monster_type mon = MONS_PROGRAM_BUG;
 
-    const int chance = pow + random_range(-10, 10);
+    const int chance = pow;
 
-    if (chance > 59)
+    if (chance >= 60)
         mon = MONS_WARG;
-    else if (chance > 39)
+    else if (chance >= 50)
         mon = MONS_WOLF;
-    else
+    else if (chance >= 40)
         mon = MONS_HOUND;
+    else
+        mon = MONS_JACKAL;
 
     const int dur = min(2 + (random2(pow) / 4), 6);
 
@@ -343,8 +345,7 @@ spret_type cast_summon_hydra(actor *caster, int pow, god_type god, bool fail)
     fail_check();
     // Power determines number of heads. Minimum 4 heads, maximum 12.
     // Rare to get more than 8.
-    const int maxheads = one_chance_in(6) ? 12 : 8;
-    const int heads = max(4, min(random2(pow) / 6, maxheads));
+    const int heads = max(2, pow / 10);
 
     // Duration is always very short - just 1.
     mgen_data mg(MONS_HYDRA, BEH_COPY, caster,
