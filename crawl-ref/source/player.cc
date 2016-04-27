@@ -2015,15 +2015,10 @@ int player_movement_speed()
         // Tengu can move slightly faster when flying.
         if (you.tengu_flight())
             mv -= 200 + you.experience_level * 14;
-
     }
 
-    // moving on liquefied ground used to take longer
-    // but let's try not doing that, because why punish a player for splashing
-    // around in the Fun Terrain that their race is named after?
-    // that's like making a merfolk move slower in water due to "friction"
-//    if (you.liquefied_ground())
-//        mv += 300;
+    if (you.liquefied_ground() && you.species != SP_LAVA_ORC)
+        mv += 300;
 
 	if (you.species == SP_LAVA_ORC) {
 		if (you.temperature < TEMP_COOL) {
@@ -2118,7 +2113,7 @@ int player_speed()
 
     if (you.duration[DUR_BERSERK] && !have_passive(passive_t::no_haste))
         ps = berserk_div(ps);
-    else if (you.duration[DUR_HASTE])
+    else if (you.duration[DUR_HASTE] && you.exertion == EXERT_POWER)
         ps = haste_div(ps);
 
     if (you.form == TRAN_STATUE || you.duration[DUR_PETRIFYING])
@@ -5308,6 +5303,7 @@ bool haste_player(int turns, bool rageext, source_type source)
 
     you.increase_duration(DUR_HASTE, turns, threshold, nullptr);
     you.duration_source[DUR_HASTE] = source;
+    set_exertion(EXERT_POWER);
 
     return true;
 }
