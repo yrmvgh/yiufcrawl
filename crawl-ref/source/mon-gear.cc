@@ -1126,9 +1126,9 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         {
             item.base_type = OBJ_WANDS;
             item.sub_type  = random_choose_weighted(10, WAND_ACID,
-                                                    10, WAND_FIRE,
+                                                    10, WAND_FLAME,
                                                     8, WAND_CONFUSION,
-                                                    4, WAND_FIREBALL,
+                                                    4, WAND_LIGHTNING,
                                                     4, WAND_HEAL_WOUNDS,
                                                     4, WAND_ICEBLAST,
                                                     0);
