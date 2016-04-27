@@ -9207,7 +9207,7 @@ bool player_summoned_monster(spell_type spell, monster* mons, bool first)
 
     if (open_slot == -1)
     {
-        mpr("You mind can't handle so many summons at once.");
+        mpr("Your mind can't handle so many summons at once.");
         success = false;
     }
     else

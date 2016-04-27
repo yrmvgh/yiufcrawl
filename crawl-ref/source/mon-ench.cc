@@ -1005,10 +1005,6 @@ string monster::describe_enchantments() const
     return oss.str();
 }
 
-/**
- * calculates chances of player's mana being drained for having this monster summoned, out of 1000
- * should only be used if we know this creature was summoned by the player
- */
 bool monster::is_player_summon() const
 {
     const mon_enchant& ench_summon(get_ench(ENCH_SUMMON));
