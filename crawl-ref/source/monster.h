@@ -126,7 +126,7 @@ public:
     void init_experience();
 
     void mark_summoned(int longevity, bool mark_items_summoned,
-                       int summon_type = 0, bool abj = true);
+                       int summon_type = 0, bool abj = true, const actor* source = nullptr);
     bool is_summoned(int* duration = nullptr, int* summon_type = nullptr) const
         override;
     bool is_perm_summoned() const override;

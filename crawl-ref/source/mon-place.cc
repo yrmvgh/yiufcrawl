@@ -1647,7 +1647,10 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
         // Dancing weapons can be created with shadow creatures. {due}
         mon->mark_summoned(mg.abjuration_duration,
                            mg.summon_type != SPELL_TUKIMAS_DANCE,
-                           mg.summon_type);
+                           mg.summon_type,
+                           true,
+                           mg.summoner
+        );
 
         if (mg.summon_type > 0 && mg.summoner && !(mg.flags & MG_DONT_CAP))
         {
