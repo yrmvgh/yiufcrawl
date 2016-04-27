@@ -856,10 +856,12 @@ public:
         {
             if (random2(9) >= i)
             {
-                if (x_chance_in_y(1 + player_mutation_level(MUT_RESILIENT_DNA), 4))
-                    mutated |= delete_mutation(RANDOM_BAD_MUTATION, "potion of cure mutation", false);
-                else
-                    mutated |= delete_mutation(RANDOM_MUTATION, "potion of cure mutation", false);
+                const int resilient_dna = player_mutation_level(MUT_RESILIENT_DNA) - player_mutation_level(MUT_WEAK_DNA);
+                mutation_type mutation = x_chance_in_y(resilient_dna + 1, 4) ? RANDOM_BAD_MUTATION : RANDOM_MUTATION;
+                if (resilient_dna < 0)
+                    mutation = x_chance_in_y(-resilient_dna, 4) ? RANDOM_GOOD_MUTATION : RANDOM_MUTATION;
+
+                mutated |= delete_mutation(mutation, "potion of cure mutation", false);
             }
         }
         return mutated;

@@ -2119,4 +2119,18 @@ static const mutation_def mut_data[] =
    "Your dna becomes less resilient.",
    "Your dna becomes less resilient."},
 },
+
+{ MUT_WEAK_DNA, 20, 3, mutflag::BAD, false,
+  "weak dna",
+
+  {"You are slightly more likely to lose good mutations.",
+   "You are more likely to lose good mutations.",
+   "You are much more likely to lose good mutations."},
+  {"Your dna becomes weaker.",
+   "Your dna becomes weaker.",
+   "Your dna becomes weaker."},
+  {"Your dna is no longer weak.",
+   "Your dna becomes less weak.",
+   "Your dna becomes less weak."},
+},
 };
