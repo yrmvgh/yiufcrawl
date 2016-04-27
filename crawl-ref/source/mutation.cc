@@ -76,6 +76,7 @@ enum class mutflag
     JIYVA   = 1 << 2, // jiyva-only muts
     QAZLAL  = 1 << 3, // qazlal wrath
     XOM     = 1 << 4, // xom being xom
+    DEPENDS = 1 << 5, // maybe good, maybe bad depending on the circumstances
 
     LAST    = XOM
 };
