@@ -53,7 +53,7 @@ static const mon_spellbook mspell_list[] =
       {
        { SPELL_BROTHERS_IN_ARMS, 21, MON_SPELL_PRIEST },
        { SPELL_BERSERKER_RAGE, 21, MON_SPELL_PRIEST },
-       { SPELL_TROGS_HAND, 21, MON_SPELL_PRIEST  },
+       { SPELL_TROGS_HAND, 27, MON_SPELL_PRIEST  },
       }
     },
 
@@ -2098,6 +2098,31 @@ static const mon_spellbook mspell_list[] =
             { SPELL_AGONY, 17, MON_SPELL_DEMONIC },
             { SPELL_DISPEL_UNDEAD, 44, MON_SPELL_PRIEST },
         }
+    },
+    
+    {  MST_EARTH_WIZ_I,
+      {
+       { SPELL_STONE_ARROW, 21, MON_SPELL_WIZARD },
+       { SPELL_IRON_SHOT, 6, MON_SPELL_WIZARD },
+       { SPELL_DIG, 15, MON_SPELL_WIZARD },
+      }
+    },
+
+    {  MST_EARTH_WIZ_II,
+      {
+       { SPELL_OZOCUBUS_ARMOUR, 12, MON_SPELL_WIZARD },
+       { SPELL_STONE_ARROW, 18, MON_SPELL_WIZARD },
+       { SPELL_IRON_SHOT, 12, MON_SPELL_WIZARD },
+       { SPELL_DIG, 9, MON_SPELL_WIZARD },
+      }
+    },
+
+    {  MST_EARTH_WIZ_III,
+      {
+       { SPELL_IRON_SHOT, 18, MON_SPELL_WIZARD },
+       { SPELL_LEHUDIBS_CRYSTAL_SPEAR, 18, MON_SPELL_WIZARD },
+       { SPELL_DIG, 12, MON_SPELL_WIZARD },
+      }
     },
 
     {  MST_THORN_LOTUS,

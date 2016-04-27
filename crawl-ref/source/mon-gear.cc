@@ -355,7 +355,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         if (one_chance_in(9))
         {
             item.base_type = OBJ_WEAPONS;
-            item.sub_type  = WPN_HAND_CROSSBOW;
+            item.sub_type  = WPN_ARBALEST;
             break;
         }
         // deliberate fall through
@@ -1126,9 +1126,9 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         {
             item.base_type = OBJ_WANDS;
             item.sub_type  = random_choose_weighted(10, WAND_ACID,
-                                                    10, WAND_FLAME,
+                                                    10, WAND_FIRE,
                                                     8, WAND_CONFUSION,
-                                                    4, WAND_LIGHTNING,
+                                                    4, WAND_FIREBALL,
                                                     4, WAND_HEAL_WOUNDS,
                                                     4, WAND_ICEBLAST,
                                                     0);

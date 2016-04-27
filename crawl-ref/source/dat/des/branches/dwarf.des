@@ -574,8 +574,8 @@ SUBST:   W = W .
 SUBST:   P = %:25 $ *:2 P:3 R:1 D:1 M:1
 KITEM:   P = potion of ambrosia
 KITEM:   D = deck of changes / deck of war / deck of defence / \
-             deck of destruction w:1 / deck of dungeons w:1 / deck of wonders w:5
-KITEM:   R = any potion / potion of degeneration w:3 / \
+             deck of destruction w:1 / deck of escape w:1 / deck of wonders w:5
+KITEM:   R = any potion / potion of ambrosia w:3 / \
              potion of degeneration w:1 / any scroll / scroll of acquirement w:1 / \
              scroll of random uselessness
 KITEM:   M = manual of Fighting / manual of Dodging / manual of Armour / \
@@ -636,14 +636,14 @@ SUBST:   W = W .
 SUBST:   P = %:25 $ *:2 P:3 R:1 D:1 M:1
 KITEM:   P = potion of ambrosia
 KITEM:   D = deck of changes / deck of war / deck of defence / \
-             deck of destruction w:1 / deck of dungeons w:1 / deck of wonders w:5
+             deck of destruction w:1 / deck of escape w:1 / deck of wonders w:5
 KITEM:   R = any potion / potion of degeneration w:3 / \
              any scroll / scroll of acquirement w:1 / \
              scroll of random uselessness
 KITEM:   M = manual of Fighting / manual of Dodging / manual of Armour / \
              manual of Unarmed Combat / manual of Spellcasting w:1 / \
              manual of Invocations w:1
-KITEM:   Q = potion of degeneration w:2 / potion of mutation
+KITEM:   Q = potion of ambrosia w:2 / potion of mutation
 KFEAT:   ? = any shop
 KFEAT:   & = general shop
 KFEAT:   + = runed_door
