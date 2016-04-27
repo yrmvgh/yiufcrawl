@@ -131,6 +131,7 @@ struct game_state
     int danger_mode;
     bool free_stair_escape;
     bool warn_about_experience;         // currently unused
+    bool need_floor_exp;                // means we entered a floor for the first time and we need to give exp for it
 
 protected:
     void reset_cmd_repeat();
