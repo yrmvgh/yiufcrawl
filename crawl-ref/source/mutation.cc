@@ -1306,17 +1306,18 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
     }
 
     const int clean_dna = player_mutation_level(MUT_CLEAN_DNA);
+    const int resilient_dna = player_mutation_level(MUT_RESILIENT_DNA);
 
     if (mutclass == MUTCLASS_NORMAL
         && (which_mutation == RANDOM_MUTATION || which_mutation == RANDOM_XOM_MUTATION)
-        && x_chance_in_y(how_mutated(false, true) + random2(clean_dna * 5), 15))
+        && x_chance_in_y(how_mutated(false, true) + random2(clean_dna * 3), 15))
     {
         // God gifts override mutation loss due to being heavily
         // mutated.
         if (!one_chance_in(3) && !god_gift && !force_mutation)
             return false;
         else
-            return delete_mutation(clean_dna ? RANDOM_BAD_MUTATION : RANDOM_MUTATION, reason, failMsg,
+            return delete_mutation(x_chance_in_y(resilient_dna, 3) ? RANDOM_BAD_MUTATION : RANDOM_MUTATION, reason, failMsg,
                                    force_mutation, false);
     }
 

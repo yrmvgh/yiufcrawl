@@ -2092,7 +2092,7 @@ static const mutation_def mut_data[] =
    "Your dna becomes less clean."},
 },
 
-{ MUT_BAD_DNA, 5, 3, mutflag::BAD | mutflag::XOM, false,
+{ MUT_BAD_DNA, 5, 3, mutflag::BAD, false,
   "bad dna",
 
   {"You have a slightly better chance of getting bad mutations.",
@@ -2104,5 +2104,19 @@ static const mutation_def mut_data[] =
   {"Your dna fully recovers.",
    "Your dna recovers somewhat.",
    "Your dna recovers somewhat."},
+},
+
+{ MUT_RESILIENT_DNA, 20, 3, mutflag::GOOD, false,
+  "resilient dna",
+
+  {"You are slightly less likely to lose good mutations.",
+   "You are less likely to lose good mutations.",
+   "You are much less likely to lose good mutations."},
+  {"Your dna becomes more resilient.",
+   "Your dna becomes more resilient.",
+   "Your dna becomes more resilient."},
+  {"Your dna is no longer resilient.",
+   "Your dna becomes less resilient.",
+   "Your dna becomes less resilient."},
 },
 };

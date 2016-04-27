@@ -856,7 +856,7 @@ public:
         {
             if (random2(9) >= i)
             {
-                if (x_chance_in_y(1 + random2(player_mutation_level(MUT_CLEAN_DNA) + 1), 3))
+                if (x_chance_in_y(1 + player_mutation_level(MUT_RESILIENT_DNA), 4))
                     mutated |= delete_mutation(RANDOM_BAD_MUTATION, "potion of cure mutation", false);
                 else
                     mutated |= delete_mutation(RANDOM_MUTATION, "potion of cure mutation", false);

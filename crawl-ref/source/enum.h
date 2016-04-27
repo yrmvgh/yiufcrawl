@@ -3863,6 +3863,7 @@ enum mutation_type
     MUT_GOOD_DNA,
     MUT_BAD_DNA,
     MUT_CLEAN_DNA,
+    MUT_RESILIENT_DNA,
     NUM_MUTATIONS,
 
     RANDOM_MUTATION,
