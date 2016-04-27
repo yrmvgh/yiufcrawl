@@ -147,7 +147,7 @@ int artefact_value(const item_def &item)
         ret -= 3;
 
     if (prop[ ARTP_CAUSE_TELEPORTATION ])
-        ret -= 3;
+        ret -= 8;
 
     if (prop[ ARTP_NOISE ])
         ret -= 5;
@@ -889,7 +889,6 @@ unsigned int item_value(item_def item, bool ident)
 //                case AMU_THE_GOURMAND:
                 case AMU_DISMISSAL:
                 case AMU_HARM:
-                case AMU_MANA_REGENERATION:
                 case AMU_STAMINA_REGENERATION:
                     valued += 300;
                     break;
@@ -899,6 +898,7 @@ unsigned int item_value(item_def item, bool ident)
                 case RING_PROTECTION_FROM_COLD:
                 case RING_PROTECTION_FROM_FIRE:
                 case RING_PROTECTION_FROM_MAGIC:
+                case AMU_MANA_REGENERATION:
                 case AMU_REFLECTION:
                     valued += 250;
                     break;
@@ -958,19 +958,19 @@ unsigned int item_value(item_def item, bool ident)
             break;
 
         case MISC_FAN_OF_GALES:
-        case MISC_STONE_OF_TREMORS:
         case MISC_PHIAL_OF_FLOODS:
         case MISC_LAMP_OF_FIRE:
             valued += 400;
             break;
 
+        case MISC_STONE_OF_TREMORS:
+        case MISC_SACK_OF_SPIDERS:
         case MISC_PHANTOM_MIRROR:
             valued += 300;
             break;
 
         case MISC_BOX_OF_BEASTS:
         case MISC_DISC_OF_STORMS:
-        case MISC_SACK_OF_SPIDERS:
             valued += 200;
             break;
 

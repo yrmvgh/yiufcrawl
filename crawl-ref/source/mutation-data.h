@@ -1288,7 +1288,7 @@ static const mutation_def mut_data[] =
    "Your skin's transparency fades."},
 },
 
-{ MUT_PSEUDOPODS, 0, 3, mutflag::GOOD | mutflag::JIYVA | mutflag::XOM, true,
+{ MUT_PSEUDOPODS, 0, 3, mutflag::DEPENDS | mutflag::JIYVA | mutflag::XOM, true,
   "pseudopods",
 
   {"Armour fits poorly on your pseudopods.",

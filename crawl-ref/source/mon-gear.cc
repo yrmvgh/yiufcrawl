@@ -355,7 +355,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         if (one_chance_in(9))
         {
             item.base_type = OBJ_WEAPONS;
-            item.sub_type  = WPN_HAND_CROSSBOW;
+            item.sub_type  = WPN_ARBALEST;
             break;
         }
         // deliberate fall through
