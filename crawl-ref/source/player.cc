@@ -7108,6 +7108,7 @@ undead_state_type player::undead_state(bool temp) const
         {
             case TRAN_NONE:
             case TRAN_APPENDAGE:
+            case TRAN_BLADE_HANDS:
                 break;
             case TRAN_LICH:
                 result = US_UNDEAD;
