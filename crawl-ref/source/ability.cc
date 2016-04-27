@@ -725,7 +725,10 @@ const string make_cost_description(ability_type ability)
     }
 
     if (abil.piety_cost || abil.flags & abflag::PIETY)
-        ret += ", Piety"; // randomised and exact amount hidden from player
+    {
+        const int piety_cost = _scale_piety_cost(abil.ability, abil.piety_cost.cost());
+        ret += make_stringf(", ~%d Piety", piety_cost);
+    }
 
     if (abil.flags & abflag::BREATH)
         ret += ", Breath";
@@ -3089,8 +3092,7 @@ static void _pay_ability_costs(const ability_def& abil)
         you.turn_is_over = true;
 
     const int food_cost  = abil.food_cost + random2avg(abil.food_cost, 2);
-    const int piety_cost =
-        _scale_piety_cost(abil.ability, abil.piety_cost.cost());
+    const int piety_cost = _scale_piety_cost(abil.ability, abil.piety_cost.cost());
     const int hp_cost    = abil.hp_cost.cost(you.hp_max);
 
     dprf("Cost: mp=%d; hp=%d; food=%d; piety=%d",
