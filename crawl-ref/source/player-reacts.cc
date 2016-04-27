@@ -801,10 +801,12 @@ static void _rot_ghoul_players()
     if (have_passive(passive_t::slow_metabolism))
         resilience = resilience * 3 / 2;
 
-
-    // Faster rotting when hungry.
-    if (you.hunger_state < HS_SATIATED)
-        resilience >>= HS_SATIATED - you.hunger_state;
+    // Faster rotting when tired.
+    if (player_is_tired(true))
+    {
+        resilience *= max(10, 100 * you.sp / you.sp_max);
+        resilience = div_rand_round(resilience, 100);
+    }
 
     if (one_chance_in(resilience))
     {

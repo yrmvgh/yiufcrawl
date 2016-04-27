@@ -76,6 +76,7 @@ enum class mutflag
     JIYVA   = 1 << 2, // jiyva-only muts
     QAZLAL  = 1 << 3, // qazlal wrath
     XOM     = 1 << 4, // xom being xom
+    DEPENDS = 1 << 5, // maybe good, maybe bad depending on the circumstances
 
     LAST    = XOM
 };
@@ -142,6 +143,7 @@ static const int conflict[][3] =
     { MUT_ACUTE_VISION,        MUT_BLURRY_VISION,          1},
     { MUT_FAST,                MUT_SLOW,                   1},
     { MUT_GOOD_DNA,            MUT_BAD_DNA,                1},
+    { MUT_RESILIENT_DNA,       MUT_WEAK_DNA,               1},
     { MUT_SUSTAIN_ATTRIBUTES,  MUT_DETERIORATION,         -1},
     { MUT_FANGS,               MUT_BEAK,                  -1},
     { MUT_ANTENNAE,            MUT_HORNS,                 -1},
@@ -1306,18 +1308,24 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
     }
 
     const int clean_dna = player_mutation_level(MUT_CLEAN_DNA);
+    const int resilient_dna = player_mutation_level(MUT_RESILIENT_DNA) - player_mutation_level(MUT_WEAK_DNA);
 
     if (mutclass == MUTCLASS_NORMAL
         && (which_mutation == RANDOM_MUTATION || which_mutation == RANDOM_XOM_MUTATION)
-        && x_chance_in_y(how_mutated(false, true) + random2(clean_dna * 5), 15))
+        && x_chance_in_y(how_mutated(false, true) + random2(clean_dna * 3), 15))
     {
         // God gifts override mutation loss due to being heavily
         // mutated.
         if (!one_chance_in(3) && !god_gift && !force_mutation)
             return false;
         else
-            return delete_mutation(clean_dna ? RANDOM_BAD_MUTATION : RANDOM_MUTATION, reason, failMsg,
-                                   force_mutation, false);
+        {
+            mutation_type mutation = x_chance_in_y(resilient_dna + 1, 4) ? RANDOM_BAD_MUTATION : RANDOM_MUTATION;
+            if (resilient_dna < 0)
+                mutation = x_chance_in_y(-resilient_dna, 4) ? RANDOM_GOOD_MUTATION : RANDOM_MUTATION;
+
+            return delete_mutation(mutation, reason, failMsg, force_mutation, false);
+        }
     }
 
     switch (which_mutation)

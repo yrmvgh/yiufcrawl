@@ -56,6 +56,7 @@ game_state::game_state()
       minor_version(-1), save_rcs_version(), danger_mode(0),
       free_stair_escape(false),
       warn_about_experience(true),
+      need_floor_exp(false),
       mon_act(nullptr)
 {
     reset_cmd_repeat();

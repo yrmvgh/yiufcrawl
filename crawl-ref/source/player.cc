@@ -2015,15 +2015,10 @@ int player_movement_speed()
         // Tengu can move slightly faster when flying.
         if (you.tengu_flight())
             mv -= 200 + you.experience_level * 14;
-
     }
 
-    // moving on liquefied ground used to take longer
-    // but let's try not doing that, because why punish a player for splashing
-    // around in the Fun Terrain that their race is named after?
-    // that's like making a merfolk move slower in water due to "friction"
-//    if (you.liquefied_ground())
-//        mv += 300;
+    if (you.liquefied_ground() && you.species != SP_LAVA_ORC)
+        mv += 300;
 
 	if (you.species == SP_LAVA_ORC) {
 		if (you.temperature < TEMP_COOL) {
@@ -2118,7 +2113,7 @@ int player_speed()
 
     if (you.duration[DUR_BERSERK] && !have_passive(passive_t::no_haste))
         ps = berserk_div(ps);
-    else if (you.duration[DUR_HASTE])
+    else if (you.duration[DUR_HASTE] && you.exertion == EXERT_POWER)
         ps = haste_div(ps);
 
     if (you.form == TRAN_STATUE || you.duration[DUR_PETRIFYING])
@@ -5308,6 +5303,7 @@ bool haste_player(int turns, bool rageext, source_type source)
 
     you.increase_duration(DUR_HASTE, turns, threshold, nullptr);
     you.duration_source[DUR_HASTE] = source;
+    set_exertion(EXERT_POWER);
 
     return true;
 }
@@ -7112,6 +7108,7 @@ undead_state_type player::undead_state(bool temp) const
         {
             case TRAN_NONE:
             case TRAN_APPENDAGE:
+            case TRAN_BLADE_HANDS:
                 break;
             case TRAN_LICH:
                 result = US_UNDEAD;
@@ -9145,7 +9142,10 @@ void player_was_offensive()
 {
     if (you.current_form_spell != SPELL_NO_SPELL)
     {
-        const int fail = raw_spell_fail(you.current_form_spell);
+        int fail = raw_spell_fail(you.current_form_spell);
+        fail = 100 - fail;
+        fail *= fail;
+        fail = 100 - div_rand_round(fail, 100);
 
         if (x_chance_in_y(fail, 100))
         {
@@ -9208,7 +9208,7 @@ bool player_summoned_monster(spell_type spell, monster* mons, bool first)
 
     if (open_slot == -1)
     {
-        mpr("You mind can't handle so many summons at once.");
+        mpr("Your mind can't handle so many summons at once.");
         success = false;
     }
     else

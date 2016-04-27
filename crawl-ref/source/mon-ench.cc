@@ -1005,10 +1005,6 @@ string monster::describe_enchantments() const
     return oss.str();
 }
 
-/**
- * calculates chances of player's mana being drained for having this monster summoned, out of 1000
- * should only be used if we know this creature was summoned by the player
- */
 bool monster::is_player_summon() const
 {
     const mon_enchant& ench_summon(get_ench(ENCH_SUMMON));
@@ -1016,7 +1012,9 @@ bool monster::is_player_summon() const
     // this could also be summon type if we didn't know for sure this was a creature summoned by the player
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
-	const bool result = is_summon_spell(spell_used);
+    const mid_t &source = ench_summon.source;
+    const bool from_player = source ? source == MID_PLAYER : false;
+	const bool result = is_summon_spell(spell_used) && from_player;
 	return result;
 }
 
@@ -1990,12 +1988,12 @@ void monster::apply_enchantment(const mon_enchant &me)
     }
 }
 
-void monster::mark_summoned(int longevity, bool mark_items, int summon_type, bool abj)
+void monster::mark_summoned(int longevity, bool mark_items, int summon_type, bool abj, const actor* source)
 {
     if (abj)
         add_ench(mon_enchant(ENCH_ABJ, longevity));
     if (summon_type != 0)
-        add_ench(mon_enchant(ENCH_SUMMON, summon_type, 0, INT_MAX));
+        add_ench(mon_enchant(ENCH_SUMMON, summon_type, source, INT_MAX));
 
     if (mark_items)
         for (mon_inv_iterator ii(*this); ii; ++ii)

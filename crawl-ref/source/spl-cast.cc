@@ -555,6 +555,9 @@ int raw_spell_fail(spell_type spell)
     if (chance2 > 100)
         chance2 = 100;
 
+    if (chance2 < 0)
+        chance2 = 0;
+
     return chance2;
 }
 

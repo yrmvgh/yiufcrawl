@@ -707,7 +707,7 @@ static const mutation_def mut_data[] =
 },
 
 // body-slot facets
-{ MUT_HORNS, 70, 3, mutflag::GOOD, true,
+{ MUT_HORNS, 70, 3, mutflag::DEPENDS, true,
   "horns",
 
   {"You have a pair of small horns on your head.",
@@ -731,7 +731,7 @@ static const mutation_def mut_data[] =
   {"Your beak shortens and softens into a mouth.", "", ""},
 },
 
-{ MUT_CLAWS, 20, 3, mutflag::GOOD, true,
+{ MUT_CLAWS, 20, 3, mutflag::DEPENDS, true,
   "claws",
 
   {"You have sharp fingernails.",
@@ -763,7 +763,7 @@ static const mutation_def mut_data[] =
    "Your teeth shrink and become duller."},
 },
 
-{ MUT_HOOVES, 50, 3, mutflag::GOOD, true,
+{ MUT_HOOVES, 50, 3, mutflag::DEPENDS, true,
   "hooves",
 
   {"You have large cloven feet.",
@@ -779,7 +779,7 @@ static const mutation_def mut_data[] =
    "Your hooves look more like feet."},
 },
 
-{ MUT_ANTENNAE, 40, 3, mutflag::GOOD, true,
+{ MUT_ANTENNAE, 40, 3, mutflag::DEPENDS, true,
   "antennae",
 
   {"You have a pair of small antennae on your head.",
@@ -795,7 +795,7 @@ static const mutation_def mut_data[] =
    "The antennae on your head shrink a bit."},
 },
 
-{ MUT_TALONS, 50, 3, mutflag::GOOD, true,
+{ MUT_TALONS, 50, 3, mutflag::DEPENDS, true,
   "talons",
 
   {"You have sharp toenails.",
@@ -2092,7 +2092,7 @@ static const mutation_def mut_data[] =
    "Your dna becomes less clean."},
 },
 
-{ MUT_BAD_DNA, 5, 3, mutflag::BAD | mutflag::XOM, false,
+{ MUT_BAD_DNA, 5, 3, mutflag::BAD, false,
   "bad dna",
 
   {"You have a slightly better chance of getting bad mutations.",
@@ -2104,5 +2104,33 @@ static const mutation_def mut_data[] =
   {"Your dna fully recovers.",
    "Your dna recovers somewhat.",
    "Your dna recovers somewhat."},
+},
+
+{ MUT_RESILIENT_DNA, 20, 3, mutflag::GOOD, false,
+  "resilient dna",
+
+  {"You are slightly less likely to lose good mutations.",
+   "You are less likely to lose good mutations.",
+   "You are much less likely to lose good mutations."},
+  {"Your dna becomes more resilient.",
+   "Your dna becomes more resilient.",
+   "Your dna becomes more resilient."},
+  {"Your dna is no longer resilient.",
+   "Your dna becomes less resilient.",
+   "Your dna becomes less resilient."},
+},
+
+{ MUT_WEAK_DNA, 20, 3, mutflag::BAD, false,
+  "weak dna",
+
+  {"You are slightly more likely to lose good mutations.",
+   "You are more likely to lose good mutations.",
+   "You are much more likely to lose good mutations."},
+  {"Your dna becomes weaker.",
+   "Your dna becomes weaker.",
+   "Your dna becomes weaker."},
+  {"Your dna is no longer weak.",
+   "Your dna becomes less weak.",
+   "Your dna becomes less weak."},
 },
 };
