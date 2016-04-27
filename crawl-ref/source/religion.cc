@@ -1527,7 +1527,7 @@ bool do_god_gift(bool forced)
                 you.num_total_gifts[you.religion]++;
                 // Timeouts are meaningless for Kiku.
                 if (!you_worship(GOD_KIKUBAAQUDGHA))
-                    _inc_gift_timeout(40 + random2avg(19, 2));
+                    _inc_gift_timeout(30 + random2avg(19, 2));
                 take_note(Note(NOTE_GOD_GIFT, you.religion));
             }
             break;
@@ -1864,7 +1864,7 @@ static void _gain_piety_point()
         // Sif Muna has a gentler taper off because training becomes
         // naturally slower as the player gains in spell skills.
         if (you.piety >= MAX_PIETY
-            || you.piety >= piety_breakpoint(5) && one_chance_in(5))
+            || you.piety >= piety_breakpoint(2) && one_chance_in(5))
         {
             do_god_gift();
             return;
