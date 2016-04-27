@@ -1012,7 +1012,8 @@ bool monster::is_player_summon() const
     // this could also be summon type if we didn't know for sure this was a creature summoned by the player
     const spell_type spell_used = (spell_type)ench_summon.degree;
 
-	const bool result = is_summon_spell(spell_used);
+    const bool from_player = monster_by_mid(ench_summon.source)->is_player();
+	const bool result = is_summon_spell(spell_used) && from_player;
 	return result;
 }
 
