@@ -2009,8 +2009,9 @@ int player_movement_speed()
         else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
             mv = 600;
 
-        if (you.run())
-            mv -= 200;
+        int run_bonus = you.run() ? 1 : 0;
+        run_bonus += you.scan_artefacts(ARTP_RUNNING);
+        mv -= run_bonus * 200;
 
         // Tengu can move slightly faster when flying.
         if (you.tengu_flight())
