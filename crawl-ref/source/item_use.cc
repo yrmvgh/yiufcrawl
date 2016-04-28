@@ -2410,12 +2410,6 @@ bool player_can_read()
         return false;
     }
 
-    if (you.species == SP_DJINNI)
-    {
-        canned_msg(MSG_DJINNI_CANT_READ);
-        return false;
-    }
-
     return true;
 }
 
@@ -2468,6 +2462,12 @@ string cannot_read_item_reason(const item_def &item)
     // Prevent hot lava orcs reading scrolls
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
         return "You'd burn any scroll you tried to read!";
+
+    if (you.species == SP_DJINNI)
+    {
+        canned_msg(MSG_DJINNI_CANT_READ);
+        return false;
+    }
 
     // don't waste the player's time reading known scrolls in situations where
     // they'd be useless
