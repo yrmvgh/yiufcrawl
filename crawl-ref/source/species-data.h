@@ -574,7 +574,7 @@ static const map<species_type, species_def> species_data =
     MONS_LAVA_ORC,
     HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
     10, 8, 6, // 24
-    { STAT_INT, STAT_DEX }, 5,
+    { STAT_INT, STAT_STR }, 5,
     {},
     {},
     {},
