@@ -62,5 +62,7 @@ sub try {
 sub error {
     my ($exitcode) = @_;
     system "cat morgue/crash-*.txt";
+    system "cat mon-spell.out";
+    system "cat job-data.out";
     exit $exitcode;
 }
