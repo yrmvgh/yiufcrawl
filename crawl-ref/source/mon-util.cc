@@ -2412,6 +2412,9 @@ static vector<mon_spellbook_type> _mons_spellbook_list(monster_type mon_type)
     case MONS_TENGU_REAVER:
         return { MST_TENGU_REAVER_I, MST_TENGU_REAVER_II,
                  MST_TENGU_REAVER_III };
+                 
+    case DEEP_DWARF_SCION:
+        return { MST_EARTH_WIZ_II, MST_EARTH_WIZ_III };
 
     case MONS_DEEP_ELF_MAGE:
         return { MST_DEEP_ELF_MAGE_I, MST_DEEP_ELF_MAGE_II,
