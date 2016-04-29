@@ -532,7 +532,7 @@ int raw_spell_fail(spell_type spell)
     chance2 = qpow(chance2, 3, 2, wild);
 
     const int subdued = player_mutation_level(MUT_SUBDUED_MAGIC);
-    chance2 = qpow(chance2, 2, 3, subdued);
+    chance2 = qpow(chance2, 1, 2, subdued);
 
     chance2 += get_form()->spellcasting_penalty;
 
