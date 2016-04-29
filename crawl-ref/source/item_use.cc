@@ -2451,9 +2451,6 @@ string cannot_read_item_reason(const item_def &item)
     if (item.base_type != OBJ_SCROLLS)
         return "You can't read that!";
 
-    // the below only applies to scrolls. (it's easier to read books, since
-    // that's just a UI/strategic thing.)
-
     if (silenced(you.pos()))
         return "Magic scrolls do not work when you're silenced!";
 
