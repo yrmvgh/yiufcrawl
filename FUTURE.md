@@ -7,95 +7,67 @@
 
 * Some of these changes will make the game much easier for the player, and some will make the game much harder. Hopefully they balance out overall. We'll see...
 
-# Version 1.2
-
-## Remove eating and chopping
-
-There will still be a food clock, but it will be automatically managed. The player will set a target satiation level (defaults to just above hungry). Each time
-a player rests, if the satiation level would drop below the target, the player automatically eats any edible corpses that haven't rotted yet (no more carrying
-around chunks), or permafood from their inventory if there aren't enough corpses. Vampires can still target various satiation levels depending on how alive they
-want to be. Both the 'e' command and the 'c' command will be gone. 
-
-Note: you will not be able to eat in the middle of a battle any more, so prepare accordingly. If you end up starving mid battle, you need to escape and try
-again, or you will likely not survive, as your regeneration will stop and you will start fainting. This situation should be easy to avoid though by setting your
-target satiation level high enough and having sufficient rest time between battles. 
-
-## Remove some stairs on orb run
-
-For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
-still providing more than one way up.
+# Version 1.5
 
 ## Each rune picked up makes the game harder
 
 Each rune has a specific curse associated with it which makes the game more challenging. Ascending with the orb with 8 runes is dramatically more difficult than
 ascending with 3, because of the additional 5 game altering curses. A 15 rune ascension would be nearly impossible on hard mode. Should be like a once a year
 event that someone actually pulls off a 15 rune ascension under this change in hard mode. Even in easy mode, a 15 rune ascension should be impossible except for
-the most elite of players. 
+the most elite of players.
 
-This increase of difficulty is necessary to compensate for some of these other changes which make the game easier, especially the removal of level caps.
+Each rune also increases monster hp and damage by 2/4/6% based on difficulty mode.
+
+Each rune also has a 1 time effect that they player can choose to use. But when they pick up a new rune, all previous runes they had gain 1 more charge, and can be
+used 1 more time than before.
+
+When a player enters a rune branch, they receive the rune curse. When they pick up the rune, they receive the rune perk.
 
 ### Rune curse ideas:
 
 * serpentine: stairs randomly teleport nearer monsters ~every 50 turns
-* decaying: player rots at a steady rate. 
+* decaying: player rots at a steady rate.
 * barnacled: player movement is slowed down by 0.2
 * gossamer: traps more common and more deadly
 * abyssal: monster spawning increased to be like abyss
 * silver: ascending stairs sometimes moves player to a cluster of monsters on same floor instead
 * slimy: player randomly mutates, good or bad 50/50
-* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer. 
-* glowing: contamination doesn't auto decay. Can be cured by drinking any potion. 
+* dark: player vision is reduced to 3, but can still sense the position of monsters in normal LOS, just can't id them until they are closer.
+* glowing: contamination doesn't auto decay. Can be cured by drinking any potion.
 * fiery: monster damage increased by 25%
 * magical: power of monster spells increased
-* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn. 
-* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters. 
-* iron: walls are all indestructable, but paths to stairs are always guaranteed. 
-* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player. 
+* demonic: when a hit does a lot of damage to a monster, there is a chance that a demon will spawn.
+* golden: gold in los has a chance to distract player, causing their attack to miss, or their spell to fail. Higher chance of gold being dropped by monsters.
+* iron: walls are all indestructable, but paths to stairs are always guaranteed.
+* icy: ice walls or tunnels randomly appear. Can be melted with heat. Never close to player.
 * obsidian: walls and trees adjacent to the player occasionally come to life and attack the player, but don't move. When the player moves away from a living
-* wall, it eventually fades back into a normal wall. 
+wall, it eventually fades back into a normal wall.
 * bone: when a monster dies, there is a 1/3 chance it comes back as a zombie or demon
 
-# Version 1.3
 
-## Add stamina
+### Rune perk ideas:
 
-Stamina would be a new quantity like Health and Magic. Stamina of
-course would be the primary resource used by fighters, like magic is for magic users. This opens up a bunch of new interesting buffs
-and maluses, spells, potions, etc. With this would be the option to "run", which burns through stamina quickly, but gives you slightly more movement speed. This
-would replace the existing "Exhausted" status with a more interesting drain of stamina when berserk, etc, are used. Running of course could be used on top of
-the "swiftness" spell for added speed. 
+* controlled blink to anywhere on floor
+* escape hatch to previous floor
+* lightning form: move at 0.1 speed for 100 movements. Everything else is normal speed.
+* super scroll: choose from a list of 10 power scrolls (not random)
+* super potion: choose from a list of 10 power potions (not random)
+* super armour: choose from a list of 10 artifact armours (random)
+* super weapon: choose from a list of 10 artifact weapons (random)
+* super wand: choose from a list of 10 fully charged wands (not random)
+* learn any one spell without needing to spend spell points for it, and without needing a spellbook for it
+* super jewelry: choose from a list of 10 artifact jewelry (random)
+* select one mutation to remove
+* select one mutation from a fixed list of 10 (random)
+* select one permanent resistance to gain from a list
+* teleport all monsters in LOS to D:1 at dungeon exit
+* select one dna booster: good dna, clean dna, resilient dna
+  * can select the same more than once if you get multiple charges to make it stronger
 
-So the "walking" speed of all species would be the same, and it would be set to slightly slower than most monsters, probably at 1.1, where most monsters would
-be 1.0. Walking won't consume any stamina. However, a player can hit a key to switch to running mode, which burns through stamina but maybe a normal species
-would travel at 0.9 when running. A centaur could run at 0.7, while a spriggan maybe 0.6. A tengu flying could move even faster, maybe 0.4, but flying burns
-through stamina twice as quickly, and a tengu running on the ground is no faster than normal (just 0.9). But all would have to stop running after stamina ran
-out. Running with heavy armour would increase stamina burn. Also attacking costs some stamina, and attacking with a heavier weapon when the character doesn't
-have much strength will cost even more. 
+## Remove some stairs on orb run
 
-Sneaking is another speed that can be set. It lowers the players movement speed but increases stealth. 
-
-Stamina would replace food costs in some areas. For example, spellcasting will require stamina based on spellcasting skill and level of spell, and intelligence
-(just like for the hunger cost before). Trying to cast a high level spell when a player is not that high level yet will burn through a lot more stamina, even
-though the magic cost will be the same. Lower level spells for a higher level, higher intelligence character would cost no stamina at all, but still have the
-same magic cost. 
-
-I think this helps with my mission to make things easier for new players. Even though we are adding complexity here, this enables us to remove much more
-complexity than is added: spell hunger mechanics, vampiric weapon function, regeneration costing more hunger, exhaustion from berserking and spitting poison.
-All of this collapses into a single simple system. 
-
-## Regeneration comes from food
-
-Instead of specifically making regen enchancers burn through more food on a case by case basis, all regeneration that happens will do so in exchange for food.
-Different races can have different conversion rates. If health, magic, and stamina are full, no food is consumed. So naturally, anything that accelerates
-regeneration, also accelerates food consumption, without special casing or code having to be inserted into each place it happens. Spells will no longer cost
-hunger, higher level spells will just cost more magic, and the magic regen that follows will burn more food. 
-
-Since mummies can't eat, they can't regenerate with food like other species. Their regeneration comes from death energy that is present in a level (which is
-based on how many corpses there are when the mummy is resting). If there are no corpses on a level, the mummy stops regenerating, despite of spell of
-regeneration, items of regeneration, etc. Regeneration *always* has a price, even for a mummy. This makes a mummy very powerful when in a battle with many
-enemies that drop corpses. However, they are particularly weak when battling enemies that don't drop corpses. 
-
-# Version 1.4
+For normal mode, one "up" stairs will be taken away once orb is picked up. For hard mode, two up stairs will be removed. One way upstairs are left in place,
+still providing more than one way up.
 
 ## Expansion of identification mini game
 
@@ -286,12 +258,6 @@ the player chooses 1. Some of the items could be multiples, e.g. 4 cure mutation
 will provide a list of 12 items instead of 4. Player still only chooses 1. Inverted form of this presents one random item to the player, which they get 4 of.
 Amplified inverted form gives 12 copies of 1 random item. Xom loves this particular usage of inversion scrolls...
 
-# Version 1.5
-
-## Spell casting time
-
-Time it takes to cast a spell should vary by spellcasting skill from 1.5 (at 0) to 0.5 (at 20).
-
 ## Magic costs no longer are fixed for spells
 
 Spell magic costs will be changed to be geometric instead of linear
@@ -322,18 +288,6 @@ Cost of a level 9 spell at
 This also allows us to more clearly vary costs for different kinds of spells. Currently transmutation spells cost 3 times as much to cast, because they last
 indefinitely, so after this change is made, the different spell costs will show up in the spell list menu. 
 
-## No more level 27 caps
-
-Level max is 99 instead of 27, which will be impossible to ever attain. But you might, in some extended game cases get a few levels past 27. I suspect that the
-reasons for the level 27 cap can be fixed in a better way. This change will allow me to test this theory. I think part of it is to discourage long term grinding
-to get higher levels or points. If other changes mentioned in this doc are made (especially removing experience from kills), and points are based on how many
-runes you have on not on kills or XL, and especially if you are rewarded for completing it more quickly (which I think is the way crawl is already), there will
-be no incentive for grinding.  
-
-This level 99 cap would apply to XL and skill levels. It is not expected that people would get past 30 in most cases, but no longer do you lose all value in
-progression. A great deal of the fun in these games comes from improving your character through extending their attributes in meaningful ways, and the level 27
-cap just cuts out that fun in late game. 
-
 ## Double sided branches
 
 * if it is a rune branch, the rune is in the middle floor of that branch.
@@ -342,8 +296,6 @@ cap just cuts out that fun in late game.
 * bottom half of the branch is an optional challenge area for those who are having too easy of a time. 
 * branches may be the same length (which would significantly shorten the game, since you are only required 
   to travel half the distance to get the rune) or extended a little. We'll experiment and find what's most fun.
-
-# Version 1.6
 
 ## Altar destruction
 
@@ -377,8 +329,6 @@ The wand will only affect movement speed. Attack speed will be normal.
 Possibly add more depth to the abyss (is it infinite anyway?), with harder challenges the deeper you go, so that being cast into the abyss late game is actually
 pretty scary still. 
 
-# Version 1.7
-
 ## Merge rods into wands
 
 There may be an important reason for rods that I'm not getting, but at least from my limited experience with them, they seem to be just like wands, basically
@@ -407,8 +357,6 @@ Change him to have piety like other gods. Piety starts half filled. No selectabl
 does will benefit you at higher piety (like normal). Gaining piety is based on doing actions that are interesting (exploring new territory, taking on powerful
 monsters, getting unintentionally banished). Scumming type activities will reduce piety quickly. Playing it safe too much will also end up with lower piety
 levels, which will cause Xom to make things more interesting for you. He's nice like that. 
-
-# Version 1.8
 
 ## Geometric scaling for most attributes and skills
 
@@ -497,8 +445,6 @@ Dragons ought to be harder than they are. A single dragon, even one of the weake
 ## New Species
 
 A slime species and a fairy species would be nice. I would like an even 30 species. Any species needed beyond that should replace the most boring species.
-
-# Version 1.9
 
 ## Score changes
 
@@ -646,13 +592,6 @@ auto-explore or auto-fight macros in the same way you make simple macros today, 
 There would be a command to display a string, and another to display the contents of a variable (such as, last damage done to the player, or how much health 
 the player has left). There would be a command to target the nearest unexplored part of the map. There would also be commands that would allow conditional
 tests to be executed, and then specific "submacros" would handle the result of that test. 
-
-## Remove jobs
-
-Jobs don't really have that big of an impact on a character over the whole game. I think the game would be more fun to push some of the things that choosing
-a job accomplished into the first few floors of the dungeon. For example, maybe there is an increased chance to find an altar vault in the first few dungeon
-floors. Maybe there is a gauranteed manual in the first 3 floors. The player then just evolves the character along whatever path presents itself. So if you
-want to play a berserker, you will need to find a Trog altar, and a good weapon, and a shield. In the meantime, you have to make due with what you find.
 
 ## Remove praying
 
