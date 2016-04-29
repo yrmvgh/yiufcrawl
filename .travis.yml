@@ -34,3 +34,4 @@ notifications:
         use_notice: true
         template:
             - "%{message} (%{branch} - %{commit} #%{build_number} : %{author}): %{build_url}"
+sudo: required
