@@ -8092,7 +8092,7 @@ void player::increase_duration(duration_type dur, int turns, int cap, const char
 {
     if (dur == DUR_EXHAUSTED)
     {
-        const int sp_loss = dur / 4;
+        const int sp_loss = turns;
         dec_sp(sp_loss);
         duration[DUR_EXHAUSTED] = 0;
         return;
@@ -8105,8 +8105,8 @@ void player::increase_duration(duration_type dur, int turns, int cap, const char
     duration[dur] += turns * BASELINE_DELAY;
     if (cap && duration[dur] > cap)
         duration[dur] = cap;
-    if (dur == DUR_BERSERK || dur == DUR_INVIS || dur == DUR_HASTE)
-        inc_sp(turns * 8);
+//    if (dur == DUR_BERSERK || dur == DUR_INVIS || dur == DUR_HASTE)
+//        inc_sp(turns * 8);
 
     duration_source[dur] = source;
 }
