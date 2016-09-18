@@ -192,7 +192,7 @@ function choose_mset_1(e)
     e.kmons("1 = Sigmund, Jessica, Blork the orc, Crazy Yiuf, Dowan, \
                Duvessa, Edmund, Erica, Erolcha, Eustachio, Gastronok, \
                Grum, Grinder, Harold, Ijyb, Joseph, Josephine, \
-               Maurice, Menkaure, Pikel, Prince Ribbit, Psyche, \
+               Menkaure, Pikel, Prince Ribbit, Psyche, \
                Purgy, Sonja, Terence, Urug, human")
   end
 end
@@ -287,7 +287,7 @@ function choose_mset_2(e)
     e.kmons("1 = Sigmund, Jessica, Blork the orc, Crazy Yiuf, Dowan, \
                Duvessa, Edmund, Erica, Erolcha, Eustachio, Gastronok, \
                Grum, Grinder, Harold, Ijyb, Joseph, Josephine, \
-               Maurice, Menkaure, Pikel, Prince Ribbit, Psyche, \
+               Menkaure, Pikel, Prince Ribbit, Psyche, \
                Purgy, Sonja, Terence, Urug, human")
   end
 end
@@ -409,7 +409,7 @@ function choose_mset_3(e)
   elseif rnd < 114 then
     e.kmons("1 = Blork the orc / Crazy Yiuf / Dowan / Duvessa / Edmund / Erica / Erolcha /\
                Eustachio / Gastronok / Grum / Grinder / Harold / Ijyb / Jessica /\
-               Joseph / Josephine / Maurice / Menkaure / Pikel /\
+               Joseph / Josephine / Menkaure / Pikel /\
                Prince Ribbit / Psyche / Purgy / Sigmund / Sonja / Terence / Urug /\
                Agnes / Aizul / Azrael / Donald / Frances / Kirke / Louise /\
                Nergalle / Nessos / Nikola / Polyphemus / Roxanne /\
@@ -543,7 +543,7 @@ local rnd = crawl.random2(142)
   elseif rnd < 140 then
     e.kmons("1 = Blork the orc / Crazy Yiuf / Dowan / Duvessa / Edmund / Erica / Erolcha /\
                Eustachio / Gastronok / Grum / Grinder / Harold / Ijyb / Jessica /\
-               Joseph / Josephine / Maurice / Menkaure / Pikel /\
+               Joseph / Josephine / Menkaure / Pikel /\
                Prince Ribbit / Psyche / Purgy / Sigmund / Sonja / Terence / Urug /\
                Agnes / Aizul / Azrael / Donald / Frances / Kirke / Louise /\
                Nergalle / Nessos / Nikola / Polyphemus / Roxanne /\

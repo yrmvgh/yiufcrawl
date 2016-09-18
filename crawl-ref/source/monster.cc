@@ -1710,8 +1710,7 @@ bool monster::pickup_armour(item_def &item, bool msg, bool force)
             eq = EQ_BODY_ARMOUR;
         break;
     case ARM_CLOAK:
-        if (base_type == MONS_MAURICE
-            || base_type == MONS_NIKOLA
+        if ( base_type == MONS_NIKOLA
             || base_type == MONS_CRAZY_YIUF
             || genus == MONS_DRACONIAN)
         {
@@ -6250,16 +6249,6 @@ bool monster::can_cling_to_walls() const
 
 void monster::steal_item_from_player()
 {
-    if (confused())
-    {
-        string msg = getSpeakString("Maurice confused nonstealing");
-        if (!msg.empty() && msg != "__NONE")
-        {
-            msg = replace_all(msg, "@The_monster@", name(DESC_THE));
-            mprf(MSGCH_TALK, "%s", msg.c_str());
-        }
-        return;
-    }
     // Theft isn't very peaceful. More importantly, you would risk losing the
     // item forever when the monster flees the level.
     if (pacified())

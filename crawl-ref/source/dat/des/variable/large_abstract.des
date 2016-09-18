@@ -90,7 +90,7 @@ NAME:    vault_1
 ORIENT:  north
 DEPTH:   Depths, !Depths:$
 MONS:    shapeshifter, shapeshifter, glowing shapeshifter
-MONS:    orange crystal statue / obsidian statue
+MONS:    obsidian statue
 SUBST:   E=E.
 SHUFFLE: abcd, $*, |ABCDE, nm, 4'
 SUBST:   A=., B=., C=., D=*, E=%, n=9, m=0
@@ -419,7 +419,7 @@ NAME:   thingy_vault_2
 DEPTH:  Depths, !Depths:$
 ORIENT: southeast
 KFEAT:  ' = alarm trap / floor w:190
-MONS:   orange crystal statue
+MONS:   obsidian statue
 MAP
 xxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxx

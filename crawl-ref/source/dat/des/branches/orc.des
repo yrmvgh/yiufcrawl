@@ -383,7 +383,7 @@ ORIENT: float
 MONS:   orc zombie / orc skeleton w:2 / goblin zombie w:2 /\
         hobgoblin zombie w:2 / goblin skeleton w:1 / hobgoblin skeleton w:1
 MONS:   ogre zombie / troll zombie w:3 / hill giant zombie w:1
-MONS:   hungry ghost / phantom / w:1 wraith
+MONS:   angry ghost / phantom / w:1 wraith
 : if you.absdepth() >= 10 then
 MONS:   w:1 orc sorcerer / orc priest / nothing
 : else
@@ -422,7 +422,7 @@ ORIENT: float
 MONS:   orc zombie / orc skeleton w:2 / goblin zombie w:2 /\
         hobgoblin zombie w:2 / goblin skeleton w:1 / hobgoblin skeleton w:1
 MONS:   ogre zombie / troll zombie w:3 / hill giant zombie w:1
-MONS:   hungry ghost / phantom / w:1 wraith
+MONS:   angry ghost / phantom / w:1 wraith
 : if you.absdepth() >= 10 then
 MONS:   w:1 orc sorcerer / orc priest
 : else
@@ -932,7 +932,7 @@ ENDMAP
 NAME:   rock_pile
 TAGS:   no_item_gen no_monster_gen
 DEPTH:  Orc
-MONS:   orc ; hunting sling . stone q:30, boulder beetle
+MONS:   orc ; hunting sling . stone q:30, earth elemental
 KITEM:  d = w:3 stone / w:1 large rock q:1
 SUBST:  a = .:4 b
 NSUBST: b = 1:2 / 5:1 / *:d

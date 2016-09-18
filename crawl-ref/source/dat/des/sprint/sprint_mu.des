@@ -802,7 +802,7 @@ TAGS: sprint_mu_d2 no_rotate no_hmirror no_vmirror
 MONS: yaktaur / yaktaur captain, giant eyeball, orc priest / \
  orc high priest hd:5 hp:70
 MONS: spriggan defender hd:5 hp:55 ; dagger
-MONS: obsidian statue / orange crystal statue
+MONS: obsidian statue
 MONS: crystal guardian hd:10 hp:45, skeletal warrior
 KMONS: 2 = giant eyeball
 KITEM: 2 = q:10 scroll of identify ident:all
@@ -1404,7 +1404,7 @@ KMONS: 2 = patrolling guardian mummy
 KMONS: 3 = patrolling quasit
 KMONS: 4 = patrolling shadow
 KMONS: 5 = patrolling greater mummy
-KMONS: 6 = orange crystal statue
+KMONS: 6 = obsidian statue
 KMONS: 7 = ghost moth
 KMONS: & = gloorx vloq
 NSUBST: & = 1:& / 1:.

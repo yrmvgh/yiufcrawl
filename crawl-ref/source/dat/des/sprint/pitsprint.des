@@ -18,7 +18,7 @@ function base_monster_setup(e)
            centaur / jelly / water moccasin / ice beast / crimson imp /\
            necrophage / quasit / zombie / sky beast / deep elf mage /\
            giant frog / mummy / orc warrior band / wight band /\
-           hungry ghost / big kobold band /\
+           angry ghost / big kobold band /\
            warg / wolf / porcupine / black bear /\
            river rat / flying skull / iron imp /\
            white imp / ufetubus / fire bat")
@@ -30,7 +30,7 @@ function base_monster_setup(e)
            mottled dragon / blink frog band / vampire mosquito band /\
            griffon / gargoyle / molten gargoyle /\
            kobold demonologist band / deep troll /\
-           deep elf mage / boulder beetle / hornet /\
+           deep elf mage / hornet /\
            orc high priest band w:5 / orc sorcerer band w:5 / orc knight band /\
            flayed ghost / freezing wraith / shadow wraith / shadow /\
            redback w:20 / phantasmal warrior / spiny frog / hell rat /\
@@ -106,7 +106,7 @@ function base_monster_setup(e)
            Edmund / Ijyb / Grinder / Pikel band / Purgy / Terence / Menkaure /\
            Prince Ribbit")
   e.kmons("I = Erica / Erolcha / Eustachio / Gastronok / Grum band / Harold /\
-           Joseph / Josephine band / Maurice / Psyche / Sonja / Urug")
+           Joseph / Josephine band / Psyche / Sonja / Urug")
   e.kmons("J = Agnes / Aizul / Azrael band / Donald / Frances / Kirke band /\
            Nergalle / Nessos / Ilsuiw band / Arachne / Polyphemus / Rupert /\
            Saint Roka band / Snorg")

@@ -29,7 +29,7 @@
         e.mons("raiju band / spriggan air mage band / titan w:5 / " ..
                "storm dragon w:5 / shock serpent w:5 / " ..
                "blizzard demon w:15")
-        e.mons("w:20 obsidian statue / w:1 orange crystal statue")
+        e.mons("w:20 obsidian statue")
         e.mons("glowing shapeshifter")
         e.mons("very ugly thing / ugly thing w:5")
         e.mons("ball lightning")
@@ -119,7 +119,7 @@ MONS:    mana viper / eidolon w:5 / soul eater w:5 / \
          death drake w:5 / flayed ghost / shadow dragon w:2
 MONS:    ancient lich w:20 / tzitzimitl
 KMONS:   89 = patrolling giant orange brain
-KMONS:   0 = orange crystal statue
+KMONS:   0 = obsidian statue
 KMONS:   B = giant eyeball
 KMONS:   C = 0 band
 KMONS:   W = patrolling water elemental w:40 / \
@@ -648,7 +648,7 @@ MONS:     deep elf mage w:12 / naga mage / hell knight / efreet w:5 / \
 MONS:     fire dragon w:5 / fire dragon perm_ench:shapeshifter w:5 / \
           ice dragon w:5 / ice dragon perm_ench:shapeshifter w:5 / \
           mana viper w:5 / mana viper perm_ench:shapeshifter w:5 / \
-          very ugly thing w:20 / shock serpent / boulder beetle / \
+          very ugly thing w:20 / shock serpent / \
           hydra simulacrum w:4 / anaconda simulacrum w:4 / harpy simulacrum w:4 / \
           dancing weapon w:8 ; trident ego:flaming | trident ego:freezing | \
                                war axe ego:flaming | war axe ego:freezing | \
@@ -873,10 +873,10 @@ MONS:    large slime creature / ugly thing w:20 / shapeshifter w:20 / \
          great orb of eyes / giant orange brain / deep troll
 MONS:    fire dragon / ice dragon / very ugly thing / glowing shapeshifter / \
          titanic slime creature w:4 / jiangshi w:2 / phantasmal warrior w:2 / \
-         caustic shrike skeleton w:2 / spark wasp zombie w:2
+         acid robin skeleton w:2 / spark wasp zombie w:2
 MONS:    sphinx / entropy weaver / spark wasp / flayed ghost / \
          storm dragon w:4 / shadow dragon w:4 / quicksilver dragon w:4 / \
-         iron dragon w:4 / golden dragon w:4 / caustic shrike / \
+         iron dragon w:4 / golden dragon w:4 / acid robin / \
          tentacled monstrosity / juggernaut zombie w:2
 MONS:    spriggan defender w:30 / titan w:30 / ancient lich w:30 / \
          deep elf blademaster / deep elf master archer / \

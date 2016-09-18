@@ -30,7 +30,7 @@ function grandhive_vaults(e, hivewallglyph)
                      blink frog w:8 / griffon w:6 / hell rat w:4')
         e.kmons('8 = death yak w:14 / hydra / komodo dragon / \
                      black mamba / lindwurm w:8 / torpor snail w:4 / \
-                     boulder beetle w:2 / catoblepas w:2')
+                     giant leech w:2 / catoblepas w:2')
     end
 end
 }}
@@ -87,9 +87,9 @@ NAME:    statuecave_lemuel
 ORIENT:  northeast
 DEPTH:   D:7-, Lair, Crypt:1-4
 : if you.in_branch("Crypt") then
-MONS:    orange crystal statue
+MONS:    obsidian statue
 : else
-MONS:    ice statue / obsidian statue / orange crystal statue
+MONS:    ice statue / obsidian statue
 : end
 SHUFFLE: 1|/!*
 SUBST:   *:*$, ?:x., !:., '=w.
@@ -741,7 +741,7 @@ NAME:   minmay_crystal_thing
 TAGS:   no_monster_gen no_item_gen no_pool_fixup
 ORIENT: west
 DEPTH:  Depths, !Depths:$
-MONS:   crystal guardian, orange crystal statue
+MONS:   crystal guardian
 ITEM:   any magical staff / any rod w:2 / any book / any jewellery w:15 / \
         any scroll w:20 / potion of magic / potion of brilliance / \
         fan of gales w:1 / lamp of fire w:1 / phial of floods w:1 / gold w:30

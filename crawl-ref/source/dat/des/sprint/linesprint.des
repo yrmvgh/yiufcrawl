@@ -89,7 +89,7 @@ SUBVAULT:  o : pan_hell_end
 MARKER:    & = lua:restrict_door()
 KFEAT:     & = closed_door
 KMONS:     a = Erica / Erolcha / Eustachio / Gastronok / Grum band /\
-               Harold / Joseph / Josephine band / Maurice / Psyche /\
+               Harold / Joseph / Josephine band / Psyche /\
                Sonja / Urug
 NSUBST:    a = 1:a. / 1:a.. / 1:a... / 1:a.... / * = .:70 a:1
 KMONS:     b = Agnes / Aizul / Azrael band / Donald / Frances / Kirke band /\
@@ -482,7 +482,7 @@ ENDMAP
 NAME:     swamp_1
 TAGS:     swamp_1
 KMONS:    1 = place:Swamp:1
-KMONS:    2 = place:Swamp:4
+KMONS:    2 = place:Swamp:3
 : line_setup(_G)
 : general_item_setup(_G)
 : lua_marker('~', props_marker {
@@ -498,7 +498,7 @@ ENDMAP
 NAME:     shoals_1
 TAGS:     shoals_1
 KMONS:    1 = place:Shoals:1
-KMONS:    2 = place:Shoals:4
+KMONS:    2 = place:Shoals:3
 COLOUR:   12 = brown
 : line_setup(_G)
 : general_item_setup(_G)
@@ -515,7 +515,7 @@ ENDMAP
 NAME:     spider_1
 TAGS:     spider_1
 KMONS:    1 = place:Spider:1
-KMONS:    2 = place:Spider:4
+KMONS:    2 = place:Spider:3
 COLOUR:   12 = brown
 : line_setup(_G)
 : general_item_setup(_G)
@@ -532,7 +532,7 @@ ENDMAP
 NAME:     snake_1
 TAGS:     snake_1
 KMONS:    1 = place:Snake:1
-KMONS:    2 = place:Snake:4
+KMONS:    2 = place:Snake:3
 COLOUR:   12 = lightgreen
 COLOUR:   # = yellow
 : line_setup(_G)

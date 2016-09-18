@@ -175,10 +175,6 @@ NAME:   uniq_louise
 DEPTH:  D:14-, Elf, Swamp, Snake, Shoals, Spider
 : place_unique(_G, "Louise")
 
-NAME:   uniq_maurice
-DEPTH:  D:8-13, Orc
-: place_unique(_G, "Maurice")
-
 NAME:   uniq_menkaure
 DEPTH:  D:4-7
 : place_unique(_G, "Menkaure")

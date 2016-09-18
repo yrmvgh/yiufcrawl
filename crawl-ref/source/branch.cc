@@ -17,7 +17,9 @@ branch_type root_branch;
 static const branch_type logical_branch_order[] = {
     BRANCH_DUNGEON,
     BRANCH_TEMPLE,
+#if TAG_MAJOR_VERSION == 34
     BRANCH_LAIR,
+#endif
     BRANCH_SWAMP,
     BRANCH_SHOALS,
     BRANCH_SNAKE,
@@ -67,7 +69,9 @@ static const branch_type danger_branch_order[] = {
     BRANCH_SEWER,
     BRANCH_OSSUARY,
     BRANCH_BAILEY,
+#if TAG_MAJOR_VERSION == 34
     BRANCH_LAIR,
+#endif
     BRANCH_ICE_CAVE,
     BRANCH_VOLCANO,
     BRANCH_LABYRINTH,

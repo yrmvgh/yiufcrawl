@@ -1136,7 +1136,7 @@ NAME: cheibrodos_crypt_eye_of_stone
 DEPTH: Crypt, !Crypt:$
 TAGS: no_item_gen no_monster_gen
 ORIENT: float
-MONS: giant eyeball / curse skull, obsidian statue / orange crystal statue
+MONS: giant eyeball / curse skull, obsidian statue
 MONS: ancient champion, skeletal warrior
 SHUFFLE: AB / CD
 SUBST: A = G, B = 1, C = ., D = 2
@@ -1332,7 +1332,7 @@ MONS:   eidolon / flayed ghost
 MONS:   phantasmal warrior / shadow wraith w:6
 MONS:   flying skull
 MONS:   wraith / freezing wraith / shadow wraith / spectral thing / \
-        hungry ghost / w:15 shadow / w:5 nothing
+        angry ghost / w:15 shadow / w:5 nothing
 # mummy layout - rare
 : else
 MONS:   greater mummy
@@ -1521,7 +1521,7 @@ MONS:   patrolling lich / patrolling ancient lich
 MONS:   bone dragon / curse skull / curse toe
 MONS:   flying skull / skeletal warrior / skeleton
 MONS:   ancient champion
-KMONS:  F = orange crystal statue / obsidian statue
+KMONS:  F = obsidian statue
 KITEM:  | = | no_pickup
 KFEAT:  ^ = alarm trap
 SUBST:  3 = 3., F = G:99 F:1
@@ -1579,7 +1579,7 @@ KMONS:  8 = gargoyle
 KMONS:  A = ancient lich / w:2 mummy priest
 KMONS:  DL = lich / w:5 ancient lich
 KMONS:  E = war gargoyle
-KMONS:  G = shadow / hungry ghost / wraith
+KMONS:  G = shadow / angry ghost / wraith
 ####### NE monsters (hoard). On a coinflip, either vampires or mummies.
 : if crawl.coinflip() then
 KMONS:  H = vampire knight
@@ -1869,7 +1869,7 @@ COLOUR: YsDdE = darkgrey
 MONS:   patrolling skeletal warrior w:8 / patrolling wight
 MONS:   ancient lich
 MONS:   bone dragon w:1 / ancient champion / lich w:1
-MONS:   caustic shrike skeleton / titan skeleton
+MONS:   acid robin skeleton / titan skeleton
 MONS:   w:50 skeleton / wight
 MONS:   generate_awake bone dragon / generate_awake curse toe
 : elseif brnd > 6 then

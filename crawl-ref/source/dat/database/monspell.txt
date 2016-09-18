@@ -125,9 +125,9 @@ unseen Symbol of Torment cast
 
 @The_something@ calls on the powers of darkness!
 %%%%
-Orb of Destruction orb spider cast
+Orb of Electricity orb spider cast
 
-@The_monster@ weaves a glowing orb of energy.
+@The_monster@ weaves an orb of electrical energy!
 %%%%
 Orb of Destruction cast
 
@@ -449,14 +449,6 @@ manticore cast
 
 @The_monster@ flicks its tail.
 %%%%
-orange crystal statue cast
-
-@The_monster@ glitters.
-%%%%
-orange crystal statue cast targeted
-
-@The_monster@ fixes its piercing gaze on @target@.
-%%%%
 orb of fire cast
 
 @The_monster@ glows yellow.
@@ -624,7 +616,7 @@ Battlecry seraph cast
 
 @The_monster@ sings a powerful hymn!
 %%%%
-Throw Icicle shard shrike cast
+Throw Icicle cool robin cast
 
 @The_monster@ spits a shard of ice @at@ @target@.
 %%%%

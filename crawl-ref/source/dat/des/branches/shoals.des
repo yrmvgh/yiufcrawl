@@ -262,7 +262,7 @@ NAME:   overgrown_statue
 DEPTH:  Shoals
 WEIGHT: 1
 MONS:   plant
-MONS:   ice statue / orange crystal statue / obsidian statue
+MONS:   ice statue / obsidian statue
 SUBST:  . = 1:1 .:30
 SUBST:  p = 1:2 .
 SUBST:  P = 1:20 .
@@ -602,7 +602,7 @@ DEPTH: Shoals, !Shoals:$
 TAGS: no_pool_fixup water_ok no_item_gen no_trap_gen no_monster_gen
 KPROP: YycfZ. = no_tide
 KPROP: ZYcf. = no_tele_into
-KMONS: c = patrolling hungry ghost
+KMONS: c = patrolling angry ghost
 NSUBST: f = 1:g / 2:f / *:.
 KITEM: g = meat ration / bread ration / beef jerky
 KITEM: f = meat ration / bread ration / nothing w:20

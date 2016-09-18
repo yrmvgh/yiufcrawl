@@ -1108,7 +1108,7 @@ ENDMAP
 NAME:    hangedman_abyss_rune_flesh_and_stone
 TAGS:    abyss_rune unrand no_monster_gen no_item_gen no_pool_fixup
 WEIGHT:  5
-MONS:    catoblepas, earth elemental, basilisk, boulder beetle
+MONS:    catoblepas, earth elemental, basilisk
 MONS:    catoblepas skeleton, air elemental, death drake
 ITEM:    potion of flight q:1 ident:type
 KMONS:   O = patrolling war gargoyle
@@ -1799,7 +1799,7 @@ ENDMAP
 # I want most characters to be able to actually use this exit
 NAME:  evilmike_abyss_exit_13
 TAGS:  abyss_exit unrand allow_dup
-KMONS: O = w:1 orange crystal statue / w:2 obsidian statue / w: 20 ice statue / w: 15 oklob plant
+KMONS: O = w:2 obsidian statue / w: 20 ice statue / w: 15 oklob plant
 : init_abyss_exit(_G, "O")
 MAP
 O

@@ -255,7 +255,7 @@ TAGS:    generate_awake no_monster_gen no_trap_gen no_item_gen no_pool_fixup
 DEPTH:   D:2-
 WEIGHT:  0
 KFEAT:   _ = altar_pakellas
-MONS:    hungry ghost / ugly thing / hydra / rakshasa spells:none ; nothing \
+MONS:    angry ghost / ugly thing / hydra / rakshasa spells:none ; nothing \
          / fire dragon / wolf spider / ice dragon
 KFEAT:   p = clear_stone_wall
 TILE:    p = dngn_transparent_stone_green
@@ -293,7 +293,7 @@ MONS:    iguana / jelly / hippogriff / crocodile / wasp / wyvern / yak / troll
 : else
 MONS:    wyvern / yak / troll / komodo dragon / ugly thing / hydra
 : end
-MONS:    orange crystal statue att:neutral
+MONS:    obsidian statue att:neutral
 KPROP:   -lwg12 = no_tele_into
 TILE:    n = dngn_transparent_stone_green
 COLOUR:  n = lightgreen
@@ -325,7 +325,7 @@ KFEAT:  g = iron_grate
 KFEAT:  _ = altar_pakellas
 MONS:   gargoyle ; nothing / deep elf knight ; nothing / manticore / cyclops \
         / hydra / deep elf annihilator ; nothing / very ugly thing \
-        / fire dragon / ice dragon / boulder beetle / sphinx \
+        / fire dragon / ice dragon / sphinx \
         / tengu reaver ; nothing
 MONS:   lightning spire att:neutral
 KMONS:  P = bush

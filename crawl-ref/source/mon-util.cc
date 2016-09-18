@@ -5365,7 +5365,6 @@ int max_mons_charge(monster_type m)
 {
     switch (m)
     {
-        case MONS_ORB_SPIDER:
         case MONS_GIANT_EYEBALL:
             return 1;
         default:

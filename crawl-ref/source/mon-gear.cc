@@ -132,7 +132,7 @@ static void _give_wand(monster* mon, int level)
         return;
     }
 
-    if (!one_chance_in(5) && (mon->type != MONS_MAURICE || !one_chance_in(3)))
+    if (!one_chance_in(5) && (!one_chance_in(3)))
         return;
 
     // Don't give top-tier wands before 5 HD, except to Ijyb and not in sprint.
@@ -774,10 +774,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
               { SPWPN_VENOM,            2 },
               { SPWPN_DRAINING,         1 } },
         } },
-        { MONS_MAURICE,
-            { { { WPN_DAGGER,           1 },
-                { WPN_SHORT_SWORD,      1 },
-        } } },
         { MONS_EUSTACHIO,
             { { { WPN_FALCHION,         1 },
                 { WPN_RAPIER,           2 },
@@ -1958,7 +1954,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
         }
         break;
 
-    case MONS_MAURICE:
     case MONS_CRAZY_YIUF:
         item.base_type = OBJ_ARMOUR;
         item.sub_type  = ARM_CLOAK;
@@ -2161,12 +2156,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
     _give_monster_item(mon, thing_created, force_item);
 }
 
-static void _give_gold(monster* mon, int level)
-{
-    const int it = items(false, OBJ_GOLD, 0, level);
-    _give_monster_item(mon, it);
-}
-
 void give_weapon(monster *mons, int level_number, bool spectral_orcs)
 {
     _give_weapon(mons, level_number, false, true, spectral_orcs);
@@ -2186,8 +2175,6 @@ void give_item(monster *mons, int level_number, bool mons_summoned, bool spectra
 {
     ASSERT(level_number > -1); // debugging absdepth0 changes
 
-    if (mons->type == MONS_MAURICE)
-        _give_gold(mons, level_number);
 
     _give_book(mons, level_number);
     _give_wand(mons, level_number);

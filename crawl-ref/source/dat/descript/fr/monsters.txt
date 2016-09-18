@@ -240,12 +240,6 @@ Une agile lanceuse de sorts. Elle est légèrement vêtue, mais cependant, le pe
 qu'elle porte semble être une armure de dragon d'une qualité rare, garantissant
 une assez bonne protection. Et distraire les hommes au combat est une qualité.
 %%%%
-Maurice
-
-Un voleur sournois et connivent. En sa profession, Maurice est considéré comme
-une légende — du moins, d'après lui-même. Il est expérimenté toutefois, et de
-tout les voleurs attirés par l'Orbe, Maurice est sans doute le plus astucieux.
-%%%%
 Menkaure
 
 Un souverain juste et noble d'un ancien royaume puissant, momifié après sa mort
@@ -499,11 +493,6 @@ bog body
 Une créature mort-vivante conservée par les eaux saumâtres d'une tourbière.
 Même si elle a été réanimée par quelque magie méconnue, cette magie ne peut
 l'empêcher de se décomposer.
-%%%%
-boulder beetle
-
-Un gros scarabée gris avec une carapace dure comme la pierre, capable de rouler
-sur ses adversaires à une grande vitesse.
 %%%%
 brain worm
 
@@ -1118,7 +1107,7 @@ Une sorte de singe glabre arrogant et vivant à la surface. Les nains pensent
 qu'ils sont chétifs, les elfes pensent qu'ils sont empotés, et les monstres
 pensent qu'ils sont goûteux.
 %%%%
-hungry ghost
+angry ghost
 
 La forme spectrale de quelqu'un qui est mort de faim, cette créature draine la
 subsistance du corps de ses victimes, espérant infliger son misérable destin

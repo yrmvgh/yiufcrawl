@@ -1191,7 +1191,7 @@ ENDMAP
 NAME:       wizlab_wucad
 TAGS:       no_rotate
 SUBST:      T = t.
-KMONS:      8 = orange crystal statue name:Statue_of_Wucad_Mu n_rpl n_the \
+KMONS:      8 = obsidian statue name:Statue_of_Wucad_Mu n_rpl n_the \
                 hd:15 tile:mons_wucad_mu_statue
 KITEM:      8 = staff_of_wucad_mu
 COLOUR:     c = darkgrey
@@ -1266,7 +1266,7 @@ MARKER:     t = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="
                                   veto_shatter="veto", veto_fire="veto" }
 :           wizlab_setup(_G)
 :           set_border_fill_type("tree")
-:           set_random_mon_list([[shadow w:6 / flayed ghost w:2 / hungry ghost w:2 / ]]
+:           set_random_mon_list([[shadow w:6 / flayed ghost w:2 / angry ghost w:2 / ]]
 :                            .. [[monstrous demonspawn / deep troll / ]]
 :                            .. [[grey draconian monk w:6 / ]])
 :           set_feature_name("tree", "autumnal tree")
@@ -1803,7 +1803,7 @@ MONS:       starcursed mass / brown very ugly thing band
 MONS:       cacodemon
 MONS:       quicksilver dragon / war gargoyle / crystal guardian \
             / wretched star
-MONS:       orange crystal statue name:lunar_statue n_rpl n_des \
+MONS:       obsidian statue name:lunar_statue n_rpl n_des \
               spells:brain_feed.24.magical;draining_gaze.24.magical;\
                      lehudib's_crystal_spear.24.magical;\
                      shadow_creatures.48.magical \

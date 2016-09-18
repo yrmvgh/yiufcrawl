@@ -181,9 +181,9 @@ SUBST: F = G
 : end
 SUBST: F = G:99 F:1
 : if you.in_branch("D") or you.in_branch("Orc") then
-KMONS: F = orange crystal statue / obsidian statue / ice statue
+KMONS: F = obsidian statue / ice statue
 : else
-KMONS: F = orange crystal statue
+KMONS: F = obsidian statue
 : end
 : interest_check(_G)
 KMASK: _>C = opaque
@@ -336,7 +336,7 @@ KFEAT:      P = enter_abyss
 : else
 KFEAT:      _ = altar_xom
 :   if crawl.one_chance_in(4) then
-KMONS:      P = orange crystal statue
+KMONS:      P = obsidian statue
 :   else
 KFEAT:      P = enter_abyss / fountain_sparkling / stone_arch
 :   end

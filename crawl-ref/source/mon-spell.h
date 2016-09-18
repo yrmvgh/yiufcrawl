@@ -537,16 +537,14 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_HELL_KNIGHT_I,
       {
-       { SPELL_PAIN, 13, MON_SPELL_WIZARD },
-       { SPELL_THROW_FLAME, 13, MON_SPELL_WIZARD },
+       { SPELL_BOLT_OF_DRAINING, 26, MON_SPELL_WIZARD },
        { SPELL_HASTE, 26, MON_SPELL_WIZARD },
       }
     },
 
     {  MST_HELL_KNIGHT_II,
       {
-       { SPELL_PAIN, 17, MON_SPELL_WIZARD },
-       { SPELL_BOLT_OF_FIRE, 17, MON_SPELL_WIZARD },
+       { SPELL_BOLT_OF_FIRE, 34, MON_SPELL_WIZARD },
        { SPELL_BLINK, 17, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
       }
     },
@@ -668,7 +666,7 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_ORB_SPIDER,
       {
-       { SPELL_IOOD, 57, MON_SPELL_MAGICAL },
+       { SPELL_ORB_OF_ELECTRICITY, 40, MON_SPELL_MAGICAL },
       }
     },
 

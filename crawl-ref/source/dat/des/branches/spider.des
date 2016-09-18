@@ -160,7 +160,7 @@ TAGS: spider_entry ruin_lair
 NSUBST: 1 = 21 / 1
 KFEAT: O = enter_spider_nest
 KMONS: 1 = scorpion / worker ant / worm / giant cockroach
-KMONS: 2 = demonic crawler / boulder beetle / wasp
+KMONS: 2 = demonic crawler / hornet / wasp
 MAP
 ...........
 ..xx...xx..
@@ -491,7 +491,7 @@ WEIGHT:  5
 KMONS:   1 = scorpion w:20 / wasp w:13 / worker ant w:35 / \
              giant cockroach w:1 / worm w:1
 KMONS:   2 = soldier ant / redback / vampire mosquito w:5
-KMONS:   3aAdD = boulder beetle
+KMONS:   3aAdD = nothing
 KMONS:   4bB = demonic crawler
 KMONS:   5eE = place:Spider:$ zombie
 KMONS:   6cCfF = wolf spider / emperor scorpion w:8
@@ -1333,7 +1333,7 @@ TAGS:    no_monster_gen
 ORIENT:  north
 MONS:    entropy weaver, wolf spider, oklob plant
 MONS:    jumping spider / redback w:15 / wolf spider
-MONS:    emperor scorpion, obsidian statue / orange crystal statue
+MONS:    emperor scorpion, obsidian statue
 # Randomise wall type: in 50% of maps, you cannot dig to the stairs.
 SUBST:   x : xxxxxxvvvccb
 COLOUR:  ' = red

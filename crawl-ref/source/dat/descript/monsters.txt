@@ -292,12 +292,6 @@ A lithe spellcaster in service to the powers of Hell; it is her duty to ensure
 that the inhabitants of the Dungeon never forget their place. She personally
 slew the ancient dragon from whose hide her strange armour is crafted.
 %%%%
-Maurice
-
-A sly, conniving thief. In his profession, Maurice is considered a legend — at
-least according to himself. He is skilled, nonetheless, and among all the
-thieves and rogues lured by the Orb, Maurice is undoubtedly the most crafty.
-%%%%
 Menkaure
 
 A fair and noble ruler of an ancient and mighty kingdom, mummified after an
@@ -649,11 +643,6 @@ A huge undead abomination, pieced together from the broken bones of many
 dragons by powerful necromantic magic. Fortunately, whatever organ produces a
 dragon's fearsome breath was lost in the process.
 %%%%
-boulder beetle
-
-A huge grey beetle with an almost impenetrable rocky carapace, capable of
-rolling at its foes at high speed.
-%%%%
 briar patch
 
 A tangled cluster of thorny briars, sharp enough to pierce thick hide and
@@ -692,7 +681,7 @@ A sluggish black buffalo, its hide encrusted with dull scales. It carries its
 hog-like head just above the ground, protected by a stiff mane of bristles.
 Its fearsome breath turns flesh into stone.
 %%%%
-caustic shrike
+acid robin
 
 A swift, nightmarish bird whose razor-sharp metallic feathers drip with
 corrosive acid.
@@ -1391,10 +1380,10 @@ human
 An uppity sort of surface-dwelling, hairless ape. Dwarves think of them as
 fragile, elves think of them as clumsy, and monsters think of them as tasty.
 %%%%
-hungry ghost
+angry ghost
 
-The undead form of someone who died of starvation. It drains sustenance from
-the bodies of its victims, hoping to inflict its own miserable fate on others.
+The undead form of someone who died while berserk. It afflicts others with
+an unbearable rage through its attack, often sending them to the same fate.
 %%%%
 hydra
 
@@ -1775,13 +1764,6 @@ A creature from the heavenly realms. It consists of a wheel within a wheel, and
 both of these are covered in eyes; strange flames of holy fire flicker all over
 it.
 %%%%
-orange crystal statue
-
-An intricately carved idol of some nameless godling, hewn of translucent orange
-crystal. Its lifeless eyes seem to glitter uncannily with a wicked
-intelligence. It is capable of unleashing a powerful psychic assault upon the
-minds of any who approach it.
-%%%%
 orange demon
 
 An amber-coloured demon with a huge tail not unlike that of a scorpion.
@@ -2101,7 +2083,7 @@ shapeshifter
 A disturbing creature with the power to change its form. It is very rarely
 observed alive in its natural state.
 %%%%
-shard shrike
+cool robin
 
 An incredibly fast-moving bird, known for impaling its prey on shards of ice
 before tearing them to pieces. It has acclimated to the desolate wastes of

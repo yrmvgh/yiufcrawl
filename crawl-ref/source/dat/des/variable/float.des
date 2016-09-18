@@ -1231,7 +1231,7 @@ MONS:    zombie
 MONS:    mummy / nothing
 SHUFFLE: 2F, cbv
 SUBST:   F = G:99 F:1
-KMONS:   F = orange crystal statue / obsidian statue
+KMONS:   F = obsidian statue
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxx3$$xxxxxxxxxxxxx
@@ -2402,7 +2402,7 @@ MONS:    fire dragon / ice dragon / lindwurm / hell hound
 MONS:    death yak / griffon / catoblepas / dire elephant
 MONS:    hydra / anaconda / hornet w:2 / redback w:3 / wolf spider w:5 / harpy
 MONS:    spriggan druid, spriggan rider
-MONS:    sphinx / hell beast w:5 / caustic shrike w:5
+MONS:    sphinx / hell beast w:5 / acid robin w:5
 ITEM:    fruit q:1
 NSUBST:  ' : 1:2 / 1:3 / 1:4 / 2 = 233444. / *:.
 NSUBST:  " : 2:2 / 2:3 / 2:4 / 4 = 233444. / *:.
@@ -2799,9 +2799,9 @@ KMONS:    2 = wizard / deep troll earth mage / spriggan air mage \
 KMONS:    3 = fire dragon / ice dragon / iron dragon / storm dragon
 KMONS:    4 = tengu reaver / spriggan air mage / sphinx
 KMONS:    5 = golden dragon / quicksilver dragon / storm dragon
-KMONS:    6 = juggernaut / spark wasp band / caustic shrike
+KMONS:    6 = juggernaut / spark wasp band / acid robin
 KMONS:    D = water elemental
-KMONS:    F = orange crystal statue
+KMONS:    F = obsidian statue
 KMONS:    K = water elemental / merfolk impaler / merfolk javelineer
 KMONS:    M = ettin / stone giant / frost giant / fire giant
 KMONS:    N = juggernaut
@@ -3148,7 +3148,7 @@ ORIENT:  float
 # and perhaps the stinger plunging into the poor toro de lidia?
 MONS:    dancing weapon ; scythe ego:antimagic
 MONS:    cherub, rakshasa, angel / daeva, balrug / blizzard demon
-MONS:    caustic shrike, shadow dragon
+MONS:    acid robin, shadow dragon
 KMONS:   8 = tengu reaver
 KMONS:   9 = bone dragon
 KMONS:   0 = hornet
@@ -3562,7 +3562,7 @@ ENDMAP
 NAME:    minmay_separated_statues
 DEPTH:   D:8-
 ORIENT:  float
-MONS:    obsidian statue, orange crystal statue, ice statue
+MONS:    obsidian statue, ice statue
 SHUFFLE: 123
 MAP
      ......
@@ -3583,7 +3583,7 @@ ENDMAP
 NAME:    minmay_statue_hallways
 DEPTH:   D:8-
 ORIENT:  float
-MONS:    orange crystal statue / obsidian statue / ice statue
+MONS:    obsidian statue / ice statue
 MAP
            xxx
            x1x

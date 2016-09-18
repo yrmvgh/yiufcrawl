@@ -152,13 +152,13 @@ KPROP:   l = no_cloud_gen
 KMONS:   1 = ice fiend
 KMONS:   2 = blizzard demon
 KMONS:   34 = ice devil
-KMONS:   56 = reaper ; scythe ego:freezing ident:type / shard shrike w:5
+KMONS:   56 = reaper ; scythe ego:freezing ident:type / cool robin w:5
 KMONS:   7 = alligator snapping turtle skeleton / anaconda simulacrum / \
          golden dragon simulacrum w:5 / iron troll simulacrum w:5 / hydra simulacrum
 KMONS:   0 = skeletal warrior ; hunting sling ego:freezing ident:type . sling bullet
 SUBST:   l = w, W = .
 :  else
-KMONS:   1 = shard shrike
+KMONS:   1 = cool robin
 KMONS:   2 = seven-headed hydra simulacrum / eight-headed hydra simulacrum
 KMONS:   3 = orb of fire / hellephant w:5
 KMONS:   4 = draconian scorcher
@@ -197,7 +197,7 @@ MONS:    brimstone fiend / balrug / hellion
 MONS:    sun demon / smoke demon / hell knight
 SUBST:   w = l, f = F, %* = ., 2 = 1, 3456 = 2
 :  elseif you.in_branch("Coc") then
-MONS:    ice fiend / blizzard demon / shard shrike / \
+MONS:    ice fiend / blizzard demon / cool robin / \
          reaper ; scythe ego:freezing ident:type
 MONS:    eight-headed hydra simulacrum w:2 / \
          seven-headed hydra simulacrum w:2 / \

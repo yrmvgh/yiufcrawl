@@ -36,7 +36,7 @@ function lab_intruders(e)
   e.mons("redback")
   e.mons("shadow")
   e.mons("unseen horror")
-  e.mons("hungry ghost")
+  e.mons("angry ghost")
   e.mons("gargoyle")
   e.kmons("7 = basilisk")
   e.kmons("8 = troll skeleton / centaur skeleton / \

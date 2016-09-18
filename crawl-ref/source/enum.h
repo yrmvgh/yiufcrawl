@@ -3306,7 +3306,9 @@ enum monster_type                      // menv[].type
     MONS_DUVESSA,
     MONS_DOWAN,
     MONS_GASTRONOK,
+#if TAG_MAJOR_VERSION == 34
     MONS_MAURICE,
+#endif
     MONS_KHUFU,
     MONS_NIKOLA,
     MONS_AIZUL,

@@ -208,10 +208,6 @@ Una grácil y flexible hechicera. Apenas está vestida, aunque lo poco que lleva
 parece armadura de dragón de la más alta calidad, garantizando alta protección.
 Y distraer a humanoides masculinos también tiene su valor en combate, además.
 %%%%
-Maurice
-
-Un astuto y conspirador ladrón.
-%%%%
 Menkaure
 
 Un justo y noble soberano de un antiguo y poderoso reino, momificado tras su

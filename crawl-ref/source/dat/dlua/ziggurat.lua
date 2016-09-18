@@ -206,7 +206,7 @@ mset(with_props(spec_fn(function ()
   return "place:Lair:$ w:" .. d .. " / dire elephant w:" .. e .. " / " ..
          "hydra w:" .. e .. " / torpor snail w:" .. e - 10 .. " / " ..
          "catoblepas w:" .. f .. " / spriggan druid w:" .. f .. " / " ..
-         "hellephant w:" .. g .. " / caustic shrike w:" .. g
+         "hellephant w:" .. g .. " / acid robin w:" .. g
 end), { weight = 5 }))
 
 mset(spec_fn(function ()
@@ -306,7 +306,7 @@ mset(with_props(spec_fn(function ()
   local e = 5 + you.zigs_completed() * 2
   local f = 10 + you.zigs_completed() * 4
   return "place:Coc:$ w:" .. d .. " / tormentor w:" .. e .. " / " ..
-         "shard shrike w:" .. e .. " / blizzard demon w:" .. f + 15 .. " / " ..
+         "cool robin w:" .. e .. " / blizzard demon w:" .. f + 15 .. " / " ..
          "ice fiend w:" .. f
 end), { weight = 5 }))
 
@@ -352,7 +352,7 @@ mset(with_props(spec_fn(function ()
   return "ice beast / ice devil / simulacrum / rime drake / " ..
          "ice dragon w:" .. d .. " / frost giant w:" .. d .. " / " ..
          "blizzard demon w:" .. d .. " / white draconian knight w:" .. e .. " / " ..
-         "shard shrike w:" .. e .. " / ice fiend w:" .. e
+         "cool robin w:" .. e .. " / ice fiend w:" .. e
 end), { weight = 2 }))
 
 mset(with_props(spec_fn(function ()
@@ -368,10 +368,10 @@ mset(with_props(spec_fn(function ()
   local d = 20 + you.zigs_completed() * 2
   local e = 20 + you.zigs_completed() * 3
   local f = 20 + you.zigs_completed() * 4
-  return "gargoyle w:20 / earth elemental w:20 / boulder beetle w:20 / " ..
+  return "gargoyle w:20 / earth elemental w:20 / " ..
          "torpor snail w:" .. d .. " / iron golem w:" .. d .. " / " ..
          "war gargoyle w:" .. d .. " / stone giant w:" .. d .. " / " ..
-         "caustic shrike w:" .. d .. " / entropy weaver w:" .. d .. " / " ..
+         "acid robin w:" .. d .. " / entropy weaver w:" .. d .. " / " ..
          "crystal guardian w:" .. e .. " / iron dragon w:" .. e .. " / " ..
          "iron giant w:" .. f .. " / hell sentinel w:" .. f
 end), { weight = 2 }))
