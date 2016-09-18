@@ -795,8 +795,8 @@ bool mons_has_flesh(const monster& mon)
     // 3. pulp, flesh -- (a soft moist part of a fruit)
     // yet I exclude sense 3 anyway but include arthropods and molluscs.
     return !(mon.holiness() & (MH_PLANT | MH_NONLIVING))
-           && mons_genus(mon.type) != MONS_GIANT_EYEBALL
-           && mons_genus(mon.type) != MONS_GIANT_ORANGE_BRAIN
+           && mons_genus(mon.type) != MONS_FLOATING_EYE
+           && mons_genus(mon.type) != MONS_GLOWING_ORANGE_BRAIN
            && mons_genus(mon.type) != MONS_JELLY
            && mon.type != MONS_DEATH_COB; // plant!
 }
@@ -855,7 +855,7 @@ bool mons_is_boulder(const monster& mon)
 
 static bool _mons_class_is_clingy(monster_type type)
 {
-    return mons_genus(type) == MONS_SPIDER || type == MONS_GIANT_GECKO
+    return mons_genus(type) == MONS_SPIDER || type == MONS_LEOPARD_GECKO
         || type == MONS_GIANT_COCKROACH || type == MONS_DEMONIC_CRAWLER
         || type == MONS_DART_SLUG;
 }
@@ -872,7 +872,7 @@ bool mons_is_object(monster_type mc)
     return mons_is_conjured(mc)
            || mc == MONS_TWISTER
            // unloading seeds helps the species
-           || mc == MONS_GIANT_SPORE
+           || mc == MONS_BALLISTOMYCETE_SPORE
            || mc == MONS_LURKING_HORROR
            || mc == MONS_DANCING_WEAPON
            || mc == MONS_LIGHTNING_SPIRE;
@@ -996,8 +996,8 @@ bool mons_is_abyssal_only(monster_type mc)
 bool mons_class_is_slime(monster_type mc)
 {
     return mons_genus(mc) == MONS_JELLY
-           || mons_genus(mc) == MONS_GIANT_EYEBALL
-           || mons_genus(mc) == MONS_GIANT_ORANGE_BRAIN;
+           || mons_genus(mc) == MONS_FLOATING_EYE
+           || mons_genus(mc) == MONS_GLOWING_ORANGE_BRAIN;
 }
 
 bool mons_is_slime(const monster& mon)
@@ -3227,7 +3227,7 @@ bool mons_wields_two_weapons(const monster& mon)
 
 bool mons_self_destructs(const monster& m)
 {
-    return m.type == MONS_GIANT_SPORE
+    return m.type == MONS_BALLISTOMYCETE_SPORE
         || m.type == MONS_BALL_LIGHTNING
         || m.type == MONS_LURKING_HORROR
         || m.type == MONS_ORB_OF_DESTRUCTION
@@ -5365,7 +5365,7 @@ int max_mons_charge(monster_type m)
 {
     switch (m)
     {
-        case MONS_GIANT_EYEBALL:
+        case MONS_FLOATING_EYE:
             return 1;
         default:
             return 0;

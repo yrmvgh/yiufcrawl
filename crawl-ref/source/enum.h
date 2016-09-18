@@ -246,8 +246,9 @@ enum ability_type
     ABIL_WISP_BLINK,
 #endif
     ABIL_STOP_FLYING,
-    // Mummies
+#if TAG_MAJOR_VERSION == 34
     ABIL_MUMMY_RESTORATION,
+#endif
     // Vampires
     ABIL_TRAN_BAT,
 #if TAG_MAJOR_VERSION == 34
@@ -1204,9 +1205,6 @@ enum command_type
     CMD_TARGET_CYCLE_FORWARD,
     CMD_TARGET_CYCLE_BACK,
     CMD_TARGET_CYCLE_BEAM,
-    CMD_TARGET_CYCLE_MLIST = CMD_NO_CMD + 1000, // for indices a-z in the monster list
-    CMD_TARGET_CYCLE_MLIST_END = CMD_NO_CMD + 1025,
-    CMD_TARGET_TOGGLE_MLIST,
     CMD_TARGET_TOGGLE_BEAM,
     CMD_TARGET_CANCEL,
     CMD_TARGET_SHOW_PROMPT,
@@ -2527,8 +2525,8 @@ enum monster_type                      // menv[].type
 #if TAG_MAJOR_VERSION > 34
     MONS_GIANT_LIZARD,          // genus
 #endif
-    MONS_GIANT_NEWT,
-    MONS_GIANT_GECKO,
+    MONS_FRILLED_LIZARD,
+    MONS_LEOPARD_GECKO,
     MONS_IGUANA,
     MONS_KOMODO_DRAGON,
     MONS_BASILISK,
@@ -2583,7 +2581,7 @@ enum monster_type                      // menv[].type
     MONS_TORPOR_SNAIL,
 #endif
     MONS_ELEPHANT_SLUG,
-    MONS_GIANT_LEECH,
+    MONS_TYRANT_LEECH,
 #if TAG_MAJOR_VERSION == 34
     MONS_BABY_ALLIGATOR,
 #endif
@@ -2604,11 +2602,14 @@ enum monster_type                      // menv[].type
     MONS_HELLEPHANT,
     MONS_MANTICORE,
     MONS_HIPPOGRIFF,
+#if TAG_MAJOR_VERSION == 34
     MONS_GRIFFON,
+#endif
 #if TAG_MAJOR_VERSION > 34
     MONS_MUTANT_BEAST,
+    MONS_FROG,                  // genus
 #endif
-    MONS_GIANT_FROG,
+    MONS_BULLFROG,
     MONS_SPINY_FROG,
     MONS_BLINK_FROG,
 #if TAG_MAJOR_VERSION > 34
@@ -2661,12 +2662,12 @@ enum monster_type                      // menv[].type
 #if TAG_MAJOR_VERSION == 34
     MONS_PULSATING_LUMP,
 #endif
-    MONS_GIANT_EYEBALL,
+    MONS_FLOATING_EYE,
     MONS_EYE_OF_DRAINING,
     MONS_SHINING_EYE,
     MONS_EYE_OF_DEVASTATION,
     MONS_GREAT_ORB_OF_EYES,
-    MONS_GIANT_ORANGE_BRAIN,
+    MONS_GLOWING_ORANGE_BRAIN,
 
     MONS_DANCING_WEAPON,
 #if TAG_MAJOR_VERSION > 34
@@ -2853,7 +2854,7 @@ enum monster_type                      // menv[].type
     MONS_DEMONIC_PLANT,
     MONS_WITHERED_PLANT,
 #endif
-    MONS_GIANT_SPORE,
+    MONS_BALLISTOMYCETE_SPORE,
     MONS_BALLISTOMYCETE,
     MONS_HYPERACTIVE_BALLISTOMYCETE,
 
@@ -3553,6 +3554,7 @@ enum monster_type                      // menv[].type
     MONS_RAGGED_HIEROPHANT,
     MONS_HALAZID_WARLOCK,
     MONS_DREAM_SHEEP,
+    MONS_FROG,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -3871,7 +3873,7 @@ enum mutation_type
     MUT_NON_MUTATION,
 };
 
-enum object_class_type                 // mitm[].base_type
+enum object_class_type : uint8_t           // mitm[].base_type
 {
     OBJ_WEAPONS,
     OBJ_MISSILES,
@@ -4074,7 +4076,7 @@ enum artefact_prop_type
 #endif
     ARTP_CORRODE,
     ARTP_DRAIN,
-    ARTP_CONFUSE,
+    ARTP_SLOW,
     ARTP_FRAGILE,
     ARTP_SHIELDING,
     ARTP_NUM_PROPERTIES

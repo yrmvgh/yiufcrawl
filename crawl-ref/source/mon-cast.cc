@@ -696,8 +696,11 @@ static void _cast_cantrip(monster &mons, mon_spell_slot slot, bolt& pbolt)
         const char* msgs[] =
         {
             " casts a cantrip, but nothing happens.",
+            " begins to cast a cantrip, but forgets the words!",
             " miscasts a cantrip.",
             " looks braver for a moment.",
+            " looks encouraged for a moment.",
+            " looks satisfied for a moment.",
         };
 
         simple_monster_message(mons, RANDOM_ELEMENT(msgs), channel);
@@ -5591,7 +5594,8 @@ static void _dream_sheep_sleep(monster& mons, actor& foe)
     // Shepherd the dream sheep.
     int num_sheep = 0;
     for (monster_near_iterator mi(foe.pos(), LOS_NO_TRANS); mi; ++mi)
-        if (mi->type == MONS_DREAM_SHEEP) num_sheep++;
+        if (mi->type == MONS_DREAM_SHEEP)
+            num_sheep++;
 
     // The correlation between amount of sheep and duration of
     // sleep is randomised, but bounds are 5 to 20 turns of sleep.
@@ -5599,13 +5603,15 @@ static void _dream_sheep_sleep(monster& mons, actor& foe)
     // stronger effect. Too-weak attempts get blanked.
     // Special note: a single sheep has a 1 in 25 chance to succeed.
     int sleep_pow = min(150, random2(num_sheep * 25) + 1);
-    if (sleep_pow < MIN_DREAM_SUCCESS_POWER) sleep_pow = 0;
+    if (sleep_pow < MIN_DREAM_SUCCESS_POWER)
+        sleep_pow = 0;
 
     // Communicate with the player.
     _sheep_message(num_sheep, sleep_pow, foe);
 
     // Put the player to sleep.
-    if (sleep_pow) foe.put_to_sleep(&mons, sleep_pow, false);
+    if (sleep_pow)
+        foe.put_to_sleep(&mons, sleep_pow, false);
 }
 
 /**
@@ -6392,7 +6398,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         for (sumcount = 0; sumcount < sumcount2; sumcount++)
         {
             const monster_type mon = random_choose_weighted(
-                                       100, MONS_GIANT_EYEBALL,
+                                       100, MONS_FLOATING_EYE,
                                         80, MONS_EYE_OF_DRAINING,
                                         60, MONS_GOLDEN_EYE,
                                         40, MONS_SHINING_EYE,

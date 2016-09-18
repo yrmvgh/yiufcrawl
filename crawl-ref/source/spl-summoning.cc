@@ -1701,13 +1701,12 @@ static bool _raise_remains(const coord_def &pos, int corps, beh_type beha,
              || mons_genus(zombie_type) == MONS_SALAMANDER
              || mons_genus(zombie_type) == MONS_GUARDIAN_SERPENT
              || mons_genus(zombie_type) == MONS_ELEPHANT_SLUG
-             || mons_genus(zombie_type) == MONS_GIANT_LEECH
+             || mons_genus(zombie_type) == MONS_TYRANT_LEECH
              || mons_genus(zombie_type) == MONS_WORM)
     {
         *motions_r |= DEAD_ARE_SLITHERING;
     }
-    else if (mons_genus(zombie_type)    == MONS_GIANT_FROG
-             || mons_genus(zombie_type) == MONS_BLINK_FROG
+    else if (mons_genus(zombie_type)    == MONS_FROG
              || mons_genus(zombie_type) == MONS_QUOKKA)
     {
         *motions_r |= DEAD_ARE_HOPPING;

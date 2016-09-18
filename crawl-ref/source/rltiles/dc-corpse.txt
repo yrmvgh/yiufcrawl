@@ -43,8 +43,8 @@ cat1 CORPSE_FELID
 %sdir mon/animals
 
 ## Lizards ('l')
-giant_newt CORPSE_GIANT_NEWT
-giant_gecko CORPSE_GIANT_GECKO
+frilled_lizard CORPSE_FRILLED_LIZARD
+leopard_gecko CORPSE_LEOPARD_GECKO
 iguana CORPSE_IGUANA
 basilisk CORPSE_BASILISK
 komodo_dragon CORPSE_KOMODO_DRAGON
@@ -86,7 +86,7 @@ apocalypse_crab CORPSE_APOCALYPSE_CRAB
 %back blood_green blood_green1 blood_green2 blood_green3 blood_green4
 worm CORPSE_WORM
 ../aquatic/swamp_worm CORPSE_SWAMP_WORM
-giant_leech CORPSE_GIANT_LEECH
+tyrant_leech CORPSE_TYRANT_LEECH
 torpor_snail CORPSE_TORPOR_SNAIL
 elephant_slug CORPSE_ELEPHANT_SLUG
 dart_slug CORPSE_DART_SLUG
@@ -119,7 +119,7 @@ death_scarab CORPSE_DEATH_SCARAB
 ## Frogs ('F')
 %sdir mon/animals
 %back blood_puddle_red blood_puddle_red1 blood_puddle_red2 blood_puddle_red3 blood_puddle_red4
-giant_frog CORPSE_GIANT_FROG
+bullfrog CORPSE_BULLFROG
 blink_frog CORPSE_BLINK_FROG
 spiny_frog CORPSE_SPINY_FROG
 
@@ -258,7 +258,6 @@ mon/holy/pearl_dragon CORPSE_PEARL_DRAGON
 %sdir mon
 %back blood_puddle_red blood_puddle_red1 blood_puddle_red2 blood_puddle_red3 blood_puddle_red4
 hippogriff CORPSE_HIPPOGRIFF
-griffon CORPSE_GRIFFON
 manticore CORPSE_MANTICORE
 harpy CORPSE_HARPY
 minotaur CORPSE_MINOTAUR

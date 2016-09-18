@@ -88,6 +88,25 @@ function callback.hep_ancestral_shrine_los(data, triggerable, triggerer, marker,
   end
 end
 
+function callback.xom_greatest_gift(data, triggerable, triggerer, marker, ev)
+  if not dgn.persist.xom_gg_heard and you.god() == "Xom" then
+    dgn.persist.xom_gg_heard = true
+    dgn.persist.xom_gg_granted = true
+  elseif not dgn.persist.xom_gg_heard and you.god() ~= "Xom" then
+    crawl.god_speaks("Xom", '"WORSHIP ME, MORTAL," Xom booms, "AND I SHALL'
+                            .. ' GRANT YOU THE GREATEST GIFT OF ALL."')
+    dgn.persist.xom_gg_heard = true
+  elseif not dgn.persist.xom_gg_granted and you.god() == "Xom" then
+    local pos = dgn.find_marker_positions_by_prop("gift", "altar")
+    dgn.create_monster(pos[1].x, pos[1].y, "generate_awake att:good_neutral goblin")
+    crawl.god_speaks("Xom", 'A goblin pops into existence! It looks at you'
+                     .. ' with admiration.')
+    crawl.god_speaks("Xom", '"Friendship. The greatest gift is friendship!"')
+
+    dgn.persist.xom_gg_granted = true
+  end
+end
+
 function species_mock(e)
   if you.race() == "Centaur" then
     e.kmons("1 = dart slug")
@@ -104,7 +123,7 @@ function species_mock(e)
   elseif you.race() == "Halfling" then
     e.kmons("1 = hobgoblin ; mundane hunting sling")
   elseif you.race() == "High Elf" then
-    e.kmons("1 = giant orange brain")
+    e.kmons("1 = glowing orange brain")
   elseif you.race() == "Hill Orc" then
     e.kmons("1 = goblin ; mundane hand axe . mundane ring mail")
   elseif you.race() == "Human" then
@@ -120,7 +139,7 @@ function species_mock(e)
   elseif you.race() == "Kobold" then
     e.kmons("1 = boggart")
   elseif you.race() == "Merfolk" then
-    e.kmons("1 = giant frog")
+    e.kmons("1 = bullfrog")
   elseif you.race() == "Minotaur" then
     e.kmons("1 = yak")
   elseif you.race() == "Mummy" then
@@ -138,7 +157,7 @@ function species_mock(e)
   elseif you.race() == "Troll" then
     e.kmons("1 = angry ghost")
   elseif you.race() == "Vampire" then
-    e.kmons("1 = giant leech")
+    e.kmons("1 = tyrant leech")
   elseif you.race() == "Vine Stalker" then
     e.kmons("1 = thorn hunter")
   else
@@ -1758,14 +1777,14 @@ DEPTH: D:2-9
 SHUFFLE: MCSBP
 KFEAT: _ = altar_ru
 KMONS: P = ball python perm_ench:paralysis / rat perm_ench:paralysis / \
-  giant newt perm_ench:paralysis / giant cockroach perm_ench:paralysis / \
+  frilled lizard perm_ench:paralysis / giant cockroach perm_ench:paralysis / \
   quokka perm_ench:paralysis / kobold w:5 perm_ench:paralysis / \
   goblin w:5 perm_ench:paralysis / hobgoblin w:5 perm_ench:paralysis
 KMONS: C = bat perm_ench:corona / adder perm_ench:corona / \
   kobold perm_ench:corona / goblin perm_ench:corona / hobgoblin perm_ench:corona
 KMONS: S = jackal perm_ench:slow / bat perm_ench:slow / adder perm_ench:slow / \
   kobold perm_ench:slow / goblin perm_ench:slow / hobgoblin perm_ench:slow
-KMONS: B = ball python perm_ench:blind / giant newt perm_ench:blind / \
+KMONS: B = ball python perm_ench:blind / frilled lizard perm_ench:blind / \
   giant cockroach perm_ench:blind / bat perm_ench:blind
 KMONS: M = orc wizard perm_ench:mute
 MAP
@@ -2085,11 +2104,11 @@ TAGS:   overflow_altar_trog
 DEPTH:  D:2-9, Orc, !Orc:$
 : if you.absdepth() < 6 then
 MONS:   orc ; hand axe . animal skin
-MONS:   giant gecko / rat / giant newt / quokka
+MONS:   leopard gecko / rat / frilled lizard / quokka
 {{
   dgn.delayed_decay(_G, 'd',
-                    'giant gecko chunk q:1 / rat chunk q:1 / ' ..
-                    'giant newt chunk q:1 / quokka chunk q:1')
+                    'leopard gecko chunk q:1 / rat chunk q:1 / ' ..
+                    'frilled lizard chunk q:1 / quokka chunk q:1')
 }}
 : else
 MONS:   orc warrior ; war axe . animal skin
@@ -2454,6 +2473,30 @@ MAP
  .........
   ._..._.
   .......
+ENDMAP
+
+NAME:    brannock_xom_greatest_gift
+TAGS:    temple_overflow_1 temple_overflow_xom uniq_altar_xom
+DEPTH:   D:2-
+WEIGHT:  2
+KFEAT:   _ = altar_xom
+MARKER:  _ = lua:portal_desc {gift="altar"}
+{{
+    dgn.persist.xom_gg_granted = false
+
+    local los_marker = TriggerableFunction:new {
+      func="callback.xom_greatest_gift",
+      repeated=true
+    }
+    los_marker:add_triggerer(DgnTriggerer:new {
+      type="player_los"})
+
+    lua_marker('_', los_marker)
+}}
+MAP
+...
+._.
+...
 ENDMAP
 
 ### Yredelemnul overflow altars ###############################################

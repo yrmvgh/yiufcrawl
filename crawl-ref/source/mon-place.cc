@@ -2262,7 +2262,7 @@ static const map<monster_type, band_set> bands_by_leader = {
         return you.where_are_you == BRANCH_DEPTHS;
     }},                           {{ BAND_SPARK_WASPS, {1, 4} }}}},
     { MONS_HOWLER_MONKEY,   { {2, 6}, {{ BAND_HOWLER_MONKEY, {1, 3} }}}},
-    { MONS_GIANT_EYEBALL,   { {0, 0, []() {
+    { MONS_FLOATING_EYE,   { {0, 0, []() {
         return branch_has_monsters(you.where_are_you)
             || !vault_mon_types.empty();
     }},                           {{ BAND_RANDOM_SINGLE, {1, 2} }}}},
@@ -2639,7 +2639,7 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
                                   {MONS_LICH, 1},
                                   {MONS_DRACONIAN_ANNIHILATOR, 2},
                                   {MONS_DEEP_ELF_ANNIHILATOR, 2},
-                                  {MONS_GIANT_ORANGE_BRAIN, 2},
+                                  {MONS_GLOWING_ORANGE_BRAIN, 2},
                                   {MONS_BLIZZARD_DEMON, 2},
                                   {MONS_GREEN_DEATH, 2},
                                   {MONS_RAKSHASA, 4},

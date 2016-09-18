@@ -170,7 +170,6 @@ public:
     int         msg_max_height;
     bool        mlist_allow_alternate_layout;
     bool        messages_at_top;
-    bool        mlist_targeting;
     bool        msg_condense_repeats;
     bool        msg_condense_short;
 
@@ -200,11 +199,10 @@ public:
     bool        default_show_all_skills;
 
     bool        show_newturn_mark;// Show underscore prefix in messages for new turn
-    bool        show_game_turns; // Show game turns instead of player turns.
+    bool        show_game_time; // Show game time instead of player turns.
 
     FixedBitVector<NUM_OBJECT_CLASSES> autopickups; // items to autopickup
     bool        auto_switch;     // switch melee&ranged weapons according to enemy range
-    bool        show_uncursed;   // label known uncursed items as "uncursed"
     bool        travel_open_doors;     // open doors while exploring
     bool        easy_unequip;    // allow auto-removing of armour / jewellery
     bool        equip_unequip;   // Make 'W' = 'T', and 'P' = 'R'.
@@ -228,6 +226,7 @@ public:
     confirm_level_type easy_confirm;    // make yesno() confirming easier
     bool        easy_quit_item_prompts; // make item prompts quitable on space
     confirm_prompt_type allow_self_target;      // yes, no, prompt
+    bool        simple_targeting; // disable smart spell targeting
 
     int         colour[16];      // macro fg colours to other colours
     unsigned    background_colour; // select default background colour
@@ -247,7 +246,6 @@ public:
                                   // creating macros
     int         autofight_warning;      // Amount of real time required between
                                         // two autofight commands
-    bool        cloud_status;     // Whether to show a cloud status light
 
     int         fire_items_start; // index of first item for fire command
     vector<unsigned> fire_order;  // missile search order for 'f' command
@@ -348,9 +346,6 @@ public:
 
     // Wait for rest wait percent HP and MP before exploring.
     bool        explore_auto_rest;
-
-    // Some experimental improvements to explore
-    bool        explore_improved;
 
     bool        travel_key_stop;   // Travel stops on keypress.
 

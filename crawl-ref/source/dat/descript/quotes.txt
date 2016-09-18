@@ -1365,14 +1365,14 @@ giant club
     -Edmund Spenser, _The Faerie Queene_, Book I, “The Legend of the Knight of
      the Red Crosse”, Canto VIII, stanza vii, l. 55-9. 1590.
 %%%%
-giant eyeball
+floating eye
 
 “El ojo que ves
  no es ojo porque tú lo veas,
  es ojo porque te ve.”
     -Antonio Machado, Campos de Castilla. 1912-1917.
 %%%%
-giant frog
+bullfrog
 
 “Hello, my baby
  Hello, my honey
@@ -1498,15 +1498,6 @@ greater naga
  to the forest meeting.”
     -Mahasamaya Sutta, _Dīgha Nikāya_, 20. ca. 500 B.C.
      trans. Thanissaro Bhikkhu
-%%%%
-griffon
-
-“As when a Gryphon through the wilderness,
- With winged course, o’er hill and moory dale,
- Pursues the Arimaspian who by stealth
- Hath from his wakeful custody purloined
- His guarded gold.”
-    -Milton, _Paradise Lost_, Book II. 1667.
 %%%%
 guardian golem
 

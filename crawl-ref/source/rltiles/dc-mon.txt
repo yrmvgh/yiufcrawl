@@ -106,8 +106,8 @@ queen_bee MONS_QUEEN_BEE
 ../meliai MONS_MELIAI
 
 ## Lizards ('l')
-giant_newt MONS_GIANT_NEWT
-giant_gecko MONS_GIANT_GECKO
+frilled_lizard MONS_FRILLED_LIZARD
+leopard_gecko MONS_LEOPARD_GECKO
 iguana MONS_IGUANA
 basilisk MONS_BASILISK
 komodo_dragon MONS_KOMODO_DRAGON
@@ -163,7 +163,7 @@ swamp_worm_water
 %rim 1
 %sdir mon/animals
 worm MONS_WORM
-giant_leech MONS_GIANT_LEECH
+tyrant_leech MONS_TYRANT_LEECH
 dart_slug MONS_DART_SLUG
 %rim 0
 torpor_snail MONS_TORPOR_SNAIL
@@ -199,7 +199,7 @@ boulder_beetle_rolling3
 prince_ribbit MONS_PRINCE_RIBBIT
 %rim 1
 %sdir mon/animals
-giant_frog MONS_GIANT_FROG
+bullfrog MONS_BULLFROG
 %rim 0
 blink_frog MONS_BLINK_FROG
 %rim 1
@@ -532,6 +532,8 @@ terence MONS_TERENCE
 %sdir mon
 %rim 0
 human MONS_HUMAN
+human2
+human3
 entropy_weaver MONS_ENTROPY_WEAVER
 hell_knight MONS_HELL_KNIGHT
 death_knight MONS_DEATH_KNIGHT
@@ -643,13 +645,13 @@ mon/holy/pearl_dragon MONS_PEARL_DRAGON
 
 ## Eyes ('G')
 %sdir mon/fungi_plants
-giant_spore MONS_GIANT_SPORE
+ballistomycete_spore MONS_BALLISTOMYCETE_SPORE
 %sdir mon/eyes
 %rim 1
-giant_eyeball MONS_GIANT_EYEBALL
+floating_eye MONS_FLOATING_EYE
 eye_of_draining MONS_EYE_OF_DRAINING
 %rim 0
-mon/giant_orange_brain MONS_GIANT_ORANGE_BRAIN
+mon/glowing_orange_brain MONS_GLOWING_ORANGE_BRAIN
 %rim 1
 great_orb_of_eyes MONS_GREAT_ORB_OF_EYES
 %rim 0
@@ -665,7 +667,6 @@ ophan MONS_OPHAN
 hippogriff MONS_HIPPOGRIFF
 minotaur MONS_MINOTAUR
 manticore MONS_MANTICORE
-griffon MONS_GRIFFON
 harpy MONS_HARPY
 sphinx MONS_SPHINX
 tengu MONS_TENGU
@@ -974,6 +975,7 @@ spriggan_air_mage MONS_SPRIGGAN_AIR_MAGE
 %rim 1
 mon/unique/enchantress MONS_THE_ENCHANTRESS
 mon/unique/agnes MONS_AGNES
+mon/unique/agnes_staveless MONS_AGNES_STAVELESS
 
 ## Merfolk ('m')
 # note: water tiles must be immediately after base tiles

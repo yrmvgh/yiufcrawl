@@ -139,7 +139,7 @@ const vector<GameOption*> game_options::build_options_list()
         new BoolGameOption(SIMPLE_NAME(read_persist_options), false),
         new BoolGameOption(SIMPLE_NAME(auto_switch), false),
         new BoolGameOption(SIMPLE_NAME(suppress_startup_errors), false),
-        new BoolGameOption(SIMPLE_NAME(show_uncursed), true),
+        new BoolGameOption(SIMPLE_NAME(simple_targeting), false),
         new BoolGameOption(easy_quit_item_prompts,
                            { "easy_quit_item_prompts", "easy_quit_item_lists" },
                            true),
@@ -162,7 +162,7 @@ const vector<GameOption*> game_options::build_options_list()
         new BoolGameOption(SIMPLE_NAME(regex_search), false),
         new BoolGameOption(SIMPLE_NAME(autopickup_search), false),
         new BoolGameOption(SIMPLE_NAME(show_newturn_mark), true),
-        new BoolGameOption(SIMPLE_NAME(show_game_turns), true),
+        new BoolGameOption(SIMPLE_NAME(show_game_time), true),
         new BoolGameOption(SIMPLE_NAME(mouse_input), false),
         new BoolGameOption(SIMPLE_NAME(mlist_allow_alternate_layout), false),
         new BoolGameOption(SIMPLE_NAME(messages_at_top), false),
@@ -191,13 +191,11 @@ const vector<GameOption*> game_options::build_options_list()
         new BoolGameOption(SIMPLE_NAME(easy_floor_use), true),
         new BoolGameOption(SIMPLE_NAME(dos_use_background_intensity), true),
         new BoolGameOption(SIMPLE_NAME(explore_greedy), true),
-        new BoolGameOption(SIMPLE_NAME(explore_improved), false),
         new BoolGameOption(SIMPLE_NAME(explore_auto_rest), false),
         new BoolGameOption(SIMPLE_NAME(travel_key_stop), true),
         new BoolGameOption(SIMPLE_NAME(auto_sacrifice), false),
         new BoolGameOption(SIMPLE_NAME(dump_on_save), true),
         new BoolGameOption(SIMPLE_NAME(rest_wait_both), false),
-        new BoolGameOption(SIMPLE_NAME(cloud_status), is_tiles()),
         new BoolGameOption(SIMPLE_NAME(darken_beyond_range), true),
         new BoolGameOption(SIMPLE_NAME(dump_book_spells), true),
         new BoolGameOption(SIMPLE_NAME(arena_dump_msgs), false),
@@ -337,10 +335,6 @@ const vector<GameOption*> game_options::build_options_list()
             split_string(",", "minimap, inventory, gold_turn, command, "
                               "spell, ability, monster")),
 #endif
-#else
-        new BoolGameOption(mlist_targeting,
-                           { "mlist_targeting", "mlist_targetting" },
-                           false),
 #endif
 #ifdef USE_TILE_LOCAL
         new IntGameOption(SIMPLE_NAME(tile_key_repeat_delay), 200, 0, INT_MAX),
@@ -4074,7 +4068,7 @@ void game_options::write_webtiles_options(const string& name)
     tiles.json_write_int("tile_font_msg_size", Options.tile_font_msg_size);
     tiles.json_write_int("tile_font_lbl_size", Options.tile_font_lbl_size);
 
-    tiles.json_write_bool("show_game_turns", Options.show_game_turns);
+    tiles.json_write_bool("show_game_time", Options.show_game_time);
 
     _write_minimap_colours();
 

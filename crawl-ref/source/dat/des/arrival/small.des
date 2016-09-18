@@ -68,7 +68,7 @@ WEIGHT:  2
 TAGS:    arrival
 ORIENT:  float
 NSUBST:  % = 1:1 / 1:0 / 1:> / *=%...
-MONS:    gnoll / ogre / giant frog / centaur
+MONS:    gnoll / ogre / bullfrog / centaur
 MAP
 xxxxxxxxxx
 x.......{x
@@ -2443,12 +2443,12 @@ SHUFFLE: 16
 MONS:    centaur / centaur warrior / yaktaur / yaktaur captain
 MONS:    rat / river rat / hell rat / quokka
 MONS:    worker ant / soldier ant / queen ant
-MONS:    worm / giant leech
+MONS:    worm / tyrant leech
 MONS:    komodo dragon / iguana / basilisk
 MONS:    ettin / frost giant / hill giant / stone giant / fire giant
 : else
 SHUFFLE: 1234567
-MONS:    giant gecko / iguana / giant newt / crocodile / komodo dragon
+MONS:    frilled lizard / leopard gecko / iguana / crocodile / komodo dragon
 MONS:    hog / jackal / wolf / hound
 MONS:    giant cockroach / worker ant / butterfly / killer bee /\
          redback
@@ -2759,7 +2759,7 @@ SUBST:  " : +, ' : . , - : ccc.
 : else
 SUBST:  "'- : c
 : end
-MONS:   giant frog / spiny frog / yak / death yak w:1 / elephant
+MONS:   bullfrog / spiny frog / yak / death yak w:1 / elephant
 MAP
           ccccccccc
        cccctccccctcccc

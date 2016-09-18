@@ -552,7 +552,7 @@ void update_turn_count()
 
     // Show the turn count starting from 1. You can still quit on turn 0.
     textcolour(HUD_VALUE_COLOUR);
-    if (Options.show_game_turns)
+    if (Options.show_game_time)
     {
         CPRINTF("%.1f (%.1f)%s", you.elapsed_time / 10.0,
                 (you.elapsed_time - you.elapsed_time_at_last_input) / 10.0,
@@ -1473,7 +1473,7 @@ void draw_border()
 #endif
     CGOTOXY(1, 9 + yhack, GOTO_STAT); CPRINTF("Gold:");
     CGOTOXY(19, 9 + yhack, GOTO_STAT);
-    CPRINTF(Options.show_game_turns ? "Time:" : "Turn:");
+    CPRINTF(Options.show_game_time ? "Time:" : "Turn:");
     // Line 8 is exp pool, Level
 }
 
@@ -1602,8 +1602,7 @@ string mpr_monster_list(bool past)
 
 #ifndef USE_TILE_LOCAL
 static void _print_next_monster_desc(const vector<monster_info>& mons,
-                                     int& start, bool zombified = false,
-                                     int idx = -1)
+                                     int& start, bool zombified = false)
 {
     // Skip forward to past the end of the range of identical monsters.
     unsigned int end;
@@ -1618,15 +1617,6 @@ static void _print_next_monster_desc(const vector<monster_info>& mons,
     // Print info on the monsters we've found.
     {
         int printed = 0;
-
-        // for targeting
-        if (idx >= 0)
-        {
-            textcolour(WHITE);
-            CPRINTF(stringize_glyph(mlist_index_to_letter(idx)).c_str());
-            CPRINTF(" - ");
-            printed += 4;
-        }
 
         // One glyph for each monster.
         for (unsigned int i_mon = start; i_mon < end; i_mon++)
@@ -1738,10 +1728,7 @@ int update_monster_pane()
         CGOTOXY(1, 1 + i_print, GOTO_MLIST);
         // i_mons is incremented by _print_next_monster_desc
         if (i_print >= skip_lines && i_mons < (int) mons.size())
-        {
-            int idx = crawl_state.mlist_targeting ? i_print - skip_lines : -1;
-            _print_next_monster_desc(mons, i_mons, full_info, idx);
-        }
+            _print_next_monster_desc(mons, i_mons, full_info);
         else
             CPRINTF("%s", blank.c_str());
     }

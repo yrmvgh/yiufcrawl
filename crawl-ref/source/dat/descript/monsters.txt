@@ -543,7 +543,7 @@ air around it.
 %%%%
 ball lightning
 
-A huge, swift sphere of coruscating electrical energy. It will explode at the
+A swift sphere of coruscating electrical energy. It will explode at the
 slightest disturbance.
 %%%%
 ball python
@@ -555,6 +555,11 @@ ballistomycete
 A lumpy reddish fungus covered in knobbly rhizome growths, growing well in the
 dank underground dungeon. When active it will occasionally produce giant
 spores, which in turn will give rise to more ballistomycetes.
+%%%%
+ballistomycete spore
+
+A deceptively fast, floating ball filled with gas and spores, prone to burst at
+the slightest disturbance.
 %%%%
 balrug
 
@@ -603,7 +608,7 @@ A muscular black-scaled humanoid with a reptilian tail and powerful wings.
 %%%%
 black mamba
 
-A large and astonishingly fast tropical snake whose bite bears a deadly venom.
+An astonishingly fast tropical snake whose bite bears a deadly venom.
 %%%%
 black sun
 
@@ -611,9 +616,9 @@ black sun
 %%%%
 blink frog
 
-A species of giant frog that possesses the ability to blink at will. It can
-blink itself close to its intended prey, or blink away to escape harm. It is
-commonly found in packs.
+A species of frog that possesses the ability to blink at will. It can blink
+itself close to its intended prey, or blink away to escape harm. It is commonly
+found in packs.
 %%%%
 blizzard demon
 
@@ -621,7 +626,7 @@ A greater demon, wreathed in snow and lightning.
 %%%%
 block of ice
 
-A large block of ice, shaped like a statue, but worked by no living hands.
+A block of ice shaped like a statue, but worked by no living hands.
 %%%%
 blood saint
 
@@ -639,7 +644,7 @@ not be real, but are deadly all the same.
 %%%%
 bone dragon
 
-A huge undead abomination, pieced together from the broken bones of many
+A mighty undead abomination, pieced together from the broken bones of many
 dragons by powerful necromantic magic. Fortunately, whatever organ produces a
 dragon's fearsome breath was lost in the process.
 %%%%
@@ -665,6 +670,12 @@ A woody plant. It looks dry enough to be easily set on fire, and its foliage is
 not very dense, permitting missiles to pass through it. However, it is firmly
 rooted, and requires significant effort to destroy.
 %%%%
+bullfrog
+
+An unusually aggressive amphibian that pursues its prey with rapid hops.
+Its croak is loud and distinctive, but unlike its smaller counterparts above
+ground, the dungeon bullfrog is as large as it sounds.
+%%%%
 butterfly
 
 A large, brightly coloured butterfly with beautifully patterned wings,
@@ -688,7 +699,7 @@ corrosive acid.
 %%%%
 centaur
 
-A hybrid with the torso of a human atop the body of a large horse. It is highly
+A hybrid with the torso of a human atop the body of a horse. It is highly
 skilled in archery.
 %%%%
 centaur warrior
@@ -973,7 +984,7 @@ inhabiting a lump of earth and rocks.
 %%%%
 efreet
 
-A huge and muscular figure engulfed in a cloud of searing flame.
+An imposing, muscular figure engulfed in a cloud of searing flame.
 %%%%
 eidolon
 
@@ -1089,6 +1100,11 @@ A hideous floating undead creature, the anguished spirit of a tortured victim,
 with torn skin hanging from an emaciated body. It restlessly stalks the
 dungeon, inflicting the anguish it felt in life upon those still living.
 %%%%
+floating eye
+
+A floating eyeball, said to be one of the servitors of Jiyva. It possesses a
+gaze that can eventually paralyse even the most strong-willed of adventurers.
+%%%%
 flying skull
 
 An undead skull kept aloft and flitting swiftly about by unholy magic.
@@ -1097,6 +1113,11 @@ freed slave
 
 A human who has just been released from magical enslavement. It tries to stand
 proudly, despite its lingering fear and unkempt appearance.
+%%%%
+frilled lizard
+
+A lizard with a giant and colourful fringe folded around its neck. It flares
+its impressive frill at its victims while hissing angrily.
 %%%%
 formicid
 
@@ -1153,41 +1174,10 @@ giant cockroach
 A big brown insect that makes a nasty hissing noise. Contrary to popular myth,
 it is in fact quite susceptible to mutagenic energies.
 %%%%
-giant eyeball
-
-A giant floating eyeball, said to be one of the servitors of Jiyva. It
-possesses a gaze that can eventually paralyse even the most strong-willed of
-adventurers.
-%%%%
-giant frog
-
-A large and unusually aggressive amphibian that can cover distance rapidly by
-hopping.
-%%%%
-giant gecko
-
-A lizard with pads on its toes allowing it to cling to walls and ceilings, and
-huge, sharp teeth. It is many times larger than a normal gecko, yet its size
-belies its agility.
-%%%%
-giant leech
-
-An aggressive blood-sucking annelid that thrives in swamps and marshlands.
-%%%%
-giant newt
-
-A tenacious little amphibian, several times the size of a normal newt, but
-still not very threatening.
-%%%%
-giant orange brain
+glowing orange brain
 
 A huge wrinkled brain, floating just off the floor and glowing with mutagenic
 energies. Every now and then it seems to pulsate.
-%%%%
-giant spore
-
-A deceptively fast, floating ball filled with gas and spores, prone to burst at
-the slightest disturbance.
 %%%%
 glowing shapeshifter
 
@@ -1251,11 +1241,6 @@ grey draconian
 
 A muscular grey-scaled humanoid with a reptilian tail and small wings.
 %%%%
-griffon
-
-A large creature with the hindquarters of a lion and the wings, head and talons
-of a great eagle.
-%%%%
 guardian golem
 
 A large construct, designed to protect. It can take the blows dealt to others
@@ -1298,7 +1283,7 @@ foes to ash.
 %%%%
 hell hound
 
-A huge black dog, with glowing red eyes and smoke pouring from its fanged
+A huge black dog with glowing red eyes, and smoke pouring from its fanged
 mouth.
 %%%%
 hell knight
@@ -1346,8 +1331,8 @@ adventurers.
 %%%%
 hippogriff
 
-A large creature with the hindquarters of a horse and the wings, head and
-talons of a great eagle.
+A hybrid with the hindquarters of a horse and the wings, head and talons of a
+great eagle.
 %%%%
 hobgoblin
 
@@ -1505,8 +1490,8 @@ rest between blows.
 %%%%
 jumping spider
 
-A large venomous spider, which weaves webs between its front legs and leaps at
-its prey, ensnaring it. The speed with which it leaps is almost supernatural.
+A spider which weaves webs between its front legs and leaps at its prey,
+ensnaring them. The speed with which it leaps is almost supernatural.
 %%%%
 killer bee
 
@@ -1555,6 +1540,12 @@ lava snake
 
 A burning red snake which dwells in pools of lava. It spits gobs of molten rock
 at passers-by.
+%%%%
+leopard gecko
+
+A brightly-coloured lizard with pads on its toes allowing it to cling to walls
+and ceilings, and huge, sharp teeth. It is many times larger than a normal
+gecko, yet its size belies its agility.
 %%%%
 lich
 
@@ -1766,7 +1757,7 @@ it.
 %%%%
 orange demon
 
-An amber-coloured demon with a huge tail not unlike that of a scorpion.
+An amber-coloured demon with a barbed tail not unlike that of a scorpion.
 %%%%
 Orb Guardian
 
@@ -1865,7 +1856,7 @@ place for long.
 %%%%
 pillar of salt
 
-A large pillar of salt, shaped like a statue, but worked by no living hands.
+A pillar of salt shaped like a statue, but worked by no living hands.
 %%%%
 plant
 
@@ -1881,9 +1872,8 @@ its path.
 %%%%
 polar bear
 
-A large and very strong bear covered in glistening white fur, habituated to
-cold conditions. Like all ursines, it will become enraged if badly hurt or
-frightened.
+A bear covered in glistening white fur, habituated to cold conditions. Like all
+ursines, it will become enraged if badly hurt or frightened.
 %%%%
 porcupine
 
@@ -1971,8 +1961,7 @@ A muscular red-scaled humanoid with a reptilian tail and small wings.
 %%%%
 hornet
 
-A huge hornet with a viciously barbed stinger. Potent paralytic poison drips
-from its tip.
+A huge hornet with a vicious stinger dripping with potent paralytic poison.
 %%%%
 redback
 
@@ -2072,11 +2061,10 @@ life force of living beings.
 %%%%
 shambling mangrove
 
-A large and gnarled mangrove, possessed of sapience and a cantankerous
-disposition. Its roots run deep through the water and soil of its marshy home
-and can make footing very difficult for those who provoke its ire. Marsh fauna
-are often found nesting within its branches, and may not take kindly to being
-disturbed.
+A gnarled mangrove, possessed of sapience and a cantankerous disposition. Its
+roots run deep through the water and soil of its marshy home and can make
+footing very difficult for those who provoke its ire. Marsh fauna are often
+found nesting within its branches, and may not take kindly to being disturbed.
 %%%%
 shapeshifter
 
@@ -2091,8 +2079,7 @@ Cocytus, and is enveloped with an accursed chill.
 %%%%
 shining eye
 
-A huge and strangely deformed floating eyeball, pulsating with flesh-twisting
-energy.
+A strangely deformed floating eyeball, pulsating with flesh-twisting energy.
 %%%%
 shock serpent
 
@@ -2217,8 +2204,8 @@ spells.
 %%%%
 sphinx
 
-A large creature with a woman's head, a lion's body and the wings of a huge
-bird, able to cloud the minds of its foes and wield fell magics.
+A fearsome hybrid with a woman's head, a lion's body and the wings of an eagle,
+able to cloud the minds of its foes and wield fell magics.
 %%%%
 spiny frog
 
@@ -2289,8 +2276,8 @@ boulders, and is perfectly capable of flinging them a great distance.
 %%%%
 storm dragon
 
-A huge and very powerful dragon, with a hide of thick matte scales, almost like
-blue rubber, and enormous scaly wings crackling with sparks.
+A powerful dragon with a hide of thick matte scales almost like blue rubber,
+and enormous scaly wings crackling with sparks.
 %%%%
 sun demon
 
@@ -2298,8 +2285,8 @@ A demonic figure shining with the heat and fury of a fallen star.
 %%%%
 swamp dragon
 
-A large slimy dragon, its gnarly hide covered in swamp muck. Noxious gases
-dribble from its snout.
+A slimy dragon, its gnarly hide covered in swamp muck. Noxious gases dribble
+from its snout.
 %%%%
 swamp drake
 
@@ -2385,9 +2372,10 @@ able to inflict torturous agony on those foolish enough to gaze upon it.
 %%%%
 torpor snail
 
-A huge gastropod with a rock-hard shell. It is said to be in some way connected
-with the god Cheibriados; its very presence slows the movements of unwary
-adventurers, leaving them easy prey for its terrifying, ever-gnashing radulae.
+A ponderous gastropod with a rock-hard shell. It is said to be in some way
+connected with the god Cheibriados; its very presence slows the movements of
+unwary adventurers, leaving them easy prey for its terrifying, ever-gnashing
+radulae.
 %%%%
 torturous demonspawn
 
@@ -2410,6 +2398,11 @@ two-headed ogre
 
 A huge ogre with two heads on top of its bloated body. It is capable of holding
 a weapon in each giant hand.
+%%%%
+tyrant leech
+
+An exceptionally aggressive blood-sucking annelid that thrives in swamps and
+marshlands.
 %%%%
 Tzitzimitl
 
@@ -2496,8 +2489,7 @@ when out of sight. Noxious spores drift around its cap.
 %%%%
 warg
 
-A particularly large and evil-looking wolf, usually found in the company of
-orcs.
+A particularly evil-looking wolf, usually found in the company of orcs.
 %%%%
 war gargoyle
 
@@ -2796,7 +2788,7 @@ A bat with a spectral visage.
 %%%%
 giga bat
 
-A huge, bloated bat.
+An enormous, bloated bat.
 %%%%
 greater air elemental
 

@@ -635,7 +635,7 @@ ENDMAP
 
 NAME:   sprint2_smallroom_11
 TAGS:   sprint2_smallroom no_item_gen no_trap_gen no_monster_gen no_pool_fixup
-MONS:   griffon
+MONS:   manticore
 KITEM:  $ = gold q:81
 MAP
 11
@@ -781,7 +781,7 @@ NAME:   sprint2_heavy_combat_area_1
 TAGS:   sprint2_heavy_combat_area no_item_gen no_trap_gen no_pool_fixup
 MARKER: + = lua:restrict_door()
 NSUBST: . = 1:1 / 1:2 / 1:3 / 1:4 / 3:$ / *:.
-MONS:   hellephant, Sonja, draconian shifter, giant orange brain
+MONS:   hellephant, Sonja, draconian shifter, glowing orange brain
 KITEM:  $ = gold q:243
 COLOUR: X = red
 COLOUR: + = red
@@ -802,7 +802,7 @@ ENDMAP
 NAME:   sprint2_mutation_trap_area_1
 TAGS:   sprint2_mutation_trap_area no_item_gen no_trap_gen no_pool_fixup no_rotate no_hmirror no_vmirror
 MARKER: + = lua:restrict_door()
-MONS:   giant eyeball, shining eye
+MONS:   floating eye, shining eye
 NSUBST: | = 1:a / *:|
 KITEM:  a = potion of mutation q:27
 MAP
@@ -844,7 +844,7 @@ NSUBST: a = 3:1 / 3:2 / 27:$ / *:'
 SUBST:  ' = '........
 KFEAT:  ' = net trap / needle trap / bolt trap / spear trap / arrow trap
 KITEM:  $ = gold q:27
-MONS:   quicksilver dragon, Lorocyproca, giant spore
+MONS:   quicksilver dragon, Lorocyproca, ballistomycete spore
 COLOUR: X = magenta
 COLOUR: + = magenta
 COLOUR: o = magenta

@@ -312,9 +312,6 @@ static const char *targeting_help_1 =
     "<w>Tab</w> : cycle through shops and portals\n"
     "<w>r</w> : move cursor to you\n"
     "<w>e</w> : create/remove travel exclusion\n"
-#ifndef USE_TILE_LOCAL
-    "<w>Ctrl-L</w> : targeting via monster list\n"
-#endif
     "<w>Ctrl-P</w> : repeat prompt\n"
 ;
 #ifdef WIZARD
@@ -1366,9 +1363,9 @@ int list_wizard_commands(bool do_redraw_screen)
                        "<w>E</w>      (un)freeze time\n"
                        "\n"
                        "<yellow>Monster related commands</yellow>\n"
-                       "<w>m</w>      create specified monster\n"
+                       "<w>m</w>/<w>M</w>    create specified monster\n"
                        "<w>D</w>      detect all monsters\n"
-                       "<w>G</w>      dismiss all monsters\n"
+                       "<w>g</w>/<w>G</w>    dismiss all monsters\n"
                        "<w>\"</w>      list monsters\n"
                        "\n"
                        "<yellow>Item related commands</yellow>\n"

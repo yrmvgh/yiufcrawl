@@ -1314,7 +1314,7 @@ NAME:   lemuel_bear_cage
 ORIENT: float
 DEPTH:  D:7-
 MONS:   black bear / polar bear
-MONS:   hippogriff / griffon
+MONS:   hippogriff / manticore w:3
 MONS:   yak / dream sheep w:5 / death yak w:3
 MONS:   hound / wolf w:5 / hog
 SUBST:  1 = 1:30 2 3 4 .
@@ -1440,7 +1440,7 @@ NAME:    lemuel_reptile_caves
 DEPTH:   D:10-13, Lair:1-, !Lair:$
 ORIENT:  float
 TAGS:    transparent no_pool_fixup
-MONS:    giant gecko / giant newt, crocodile, iguana
+MONS:    leopard gecko / frilled lizard, crocodile, iguana
 MONS:    rime drake / swamp drake
 MONS:    adder, water moccasin
 SUBST:   4 = 34
@@ -1764,7 +1764,7 @@ ORIENT: float
 KFEAT:  m = iron_grate
 MONS:   eye of devastation / great orb of eyes w:2
 MONS:   golden eye / eye of draining w:2
-MONS:   giant orange brain
+MONS:   glowing orange brain
 MAP
 ...................................
 .cccccccccccc.........cccccccccccc.
@@ -2243,7 +2243,7 @@ TAGS:    no_monster_gen no_item_gen transparent patrolling
 ORIENT:  float
 DEPTH:   Depths, !Depths:$
 WEIGHT:  3
-MONS:    generate_awake giant eyeball, eye of devastation, giant orange brain
+MONS:    generate_awake floating eye, eye of devastation, glowing orange brain
 MONS:    generate_awake golden eye, slime creature, jelly
 KFEAT:   > = known shaft trap
 KFEAT:   n = iron_grate
@@ -2399,7 +2399,7 @@ ORIENT:  float
 DEPTH:   Depths
 MONS:    plant w:14 / fungus w:4 / bush w:2
 MONS:    fire dragon / ice dragon / lindwurm / hell hound
-MONS:    death yak / griffon / catoblepas / dire elephant
+MONS:    death yak / manticore / catoblepas / dire elephant
 MONS:    hydra / anaconda / hornet w:2 / redback w:3 / wolf spider w:5 / harpy
 MONS:    spriggan druid, spriggan rider
 MONS:    sphinx / hell beast w:5 / acid robin w:5
@@ -2482,7 +2482,7 @@ KMONS: T = mummy priest w:5 / guardian mummy / sphinx / mummy / reaper
 KMONS: H = balrug w:5 / blizzard demon w:5 / shadow demon w:5 / \
            hell beast w:5 / sun demon / ice devil / rust devil / soul eater / \
            hell knight w:5
-KMONS: D = giant newt / kobold / hobgoblin w:5 / goblin / adder
+KMONS: D = frilled lizard / kobold / hobgoblin w:5 / goblin / adder
 MAP
 xxvvvvvvvvvvvvvxx
 xvv..vvvvvvv..vvx

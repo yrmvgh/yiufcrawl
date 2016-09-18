@@ -403,7 +403,7 @@ static const char * const book_of_zin[][3] =
 
     {
         "The law of Zin demands thee...",
-        "...be @virtue@, and that the punishment for @sin_noun@...",
+        "...be @virtuous@, and that the punishment for @sin_noun@...",
         "...shall be swift and harsh!",
     },
 
@@ -1683,7 +1683,6 @@ bool beogh_gift_item()
     args.mode = TARG_BEOGH_GIFTABLE;
     args.range = LOS_RADIUS;
     args.needs_path = false;
-    args.may_target_monster = true;
     args.self = CONFIRM_CANCEL;
     args.show_floor_desc = true;
     args.top_prompt = "Select a follower to give a gift to.";
@@ -2683,7 +2682,6 @@ spret_type fedhas_sunlight(bool fail)
     args.mode = TARG_HOSTILE_SUBMERGED;
     args.range = LOS_RADIUS;
     args.needs_path = false;
-    args.may_target_monster = false;
     args.top_prompt = "Select sunlight destination.";
     direction(spelld, args);
 
@@ -3276,7 +3274,7 @@ int fedhas_check_corpse_spores(bool quiet)
         unsigned colour = GREEN | COLFLAG_FRIENDLY_MONSTER;
         colour = real_colour(colour);
 
-        unsigned character = mons_char(MONS_GIANT_SPORE);
+        unsigned character = mons_char(MONS_BALLISTOMYCETE_SPORE);
         put_colour_ch(colour, character);
 #endif
 #ifdef USE_TILE
@@ -3294,7 +3292,7 @@ int fedhas_check_corpse_spores(bool quiet)
 }
 
 // Destroy corpses in the player's LOS (first corpse on a stack only)
-// and make 1 giant spore per corpse. Spores are given the input as
+// and make 1 ballistomycete spore per corpse. Spores are given the input as
 // their starting behavior; the function returns the number of corpses
 // processed.
 int fedhas_corpse_spores(beh_type attitude)
@@ -3310,7 +3308,7 @@ int fedhas_corpse_spores(beh_type attitude)
     {
         count++;
 
-        if (monster *plant = create_monster(mgen_data(MONS_GIANT_SPORE,
+        if (monster *plant = create_monster(mgen_data(MONS_BALLISTOMYCETE_SPORE,
                                                attitude,
                                                si->pos,
                                                MHITNOT,
@@ -3397,7 +3395,6 @@ spret_type fedhas_evolve_flora(bool fail)
     args.mode = TARG_EVOLVABLE_PLANTS;
     args.range = LOS_RADIUS;
     args.needs_path = false;
-    args.may_target_monster = false;
     args.self = CONFIRM_CANCEL;
     args.show_floor_desc = true;
     args.top_prompt = "Select plant or fungus to evolve.";
@@ -3425,7 +3422,7 @@ spret_type fedhas_evolve_flora(bool fail)
 
     if (!mons_is_evolvable(plant))
     {
-        if (plant->type == MONS_GIANT_SPORE)
+        if (plant->type == MONS_BALLISTOMYCETE_SPORE)
             mpr("You can evolve only complete plants, not seeds.");
         else if (!mons_is_plant(*plant))
             mpr("Only plants or fungi may be evolved.");
@@ -3622,7 +3619,7 @@ void cheibriados_time_bend(int pow)
 
 static int _slouch_damage(monster *mon)
 {
-    // Please change handle_monster_move to match.
+    // Please change handle_monster_move in mon-act.cc to match.
     const int jerk_num = mon->type == MONS_SIXFIRHY ? 8
                        : mon->type == MONS_JIANGSHI ? 48
                                                     : 1;
@@ -5752,12 +5749,10 @@ static void _apply_ru_sacrifice(mutation_type sacrifice)
     you.sacrifices[sacrifice] += 1;
 }
 
-static bool _execute_sacrifice(int piety_gain, const char* message)
+static bool _execute_sacrifice(ability_type sac, const char* message)
 {
     mprf("Ru asks you to %s.", message);
-    mprf("This is %s sacrifice. Piety after sacrifice: %s",
-         _describe_sacrifice_piety_gain(piety_gain),
-         _piety_asterisks(you.piety + piety_gain).c_str());
+    mpr(ru_sacrifice_description(sac));
     if (!yesno("Do you really want to make this sacrifice?",
                false, 'n'))
     {
@@ -5908,6 +5903,33 @@ string ru_sac_text(ability_type sac)
     return make_stringf(" (%s)", school_names.c_str());
 }
 
+static int _ru_get_sac_piety_gain(ability_type sac)
+{
+    const sacrifice_def &sac_def = _get_sacrifice_def(sac);
+
+    // If we're haven't yet calculated piety gain, get it now. Otherwise,
+    // use the calculated value and then add in the skill piety, which isn't
+    // saved because it can change over time.
+    const int base_piety_gain = you.sacrifice_piety[sac];
+
+    if (base_piety_gain == 0)
+        return get_sacrifice_piety(sac);
+
+    if (sac_def.sacrifice_skill != SK_NONE)
+        return base_piety_gain + _piety_for_skill_by_sacrifice(sac);
+
+    return base_piety_gain;
+}
+
+string ru_sacrifice_description(ability_type sac)
+{
+    const int piety_gain = _ru_get_sac_piety_gain(sac);
+    return make_stringf("This is %s sacrifice. Piety after sacrifice: %s",
+                        _describe_sacrifice_piety_gain(piety_gain),
+                        _piety_asterisks(you.piety + piety_gain).c_str());
+}
+
+
 bool ru_do_sacrifice(ability_type sac)
 {
     const sacrifice_def &sac_def = _get_sacrifice_def(sac);
@@ -5918,7 +5940,6 @@ bool ru_do_sacrifice(ability_type sac)
     string mile_text;
     string sac_text;
     const bool is_sac_arcana = sac == ABIL_RU_SACRIFICE_ARCANA;
-    int piety_gain = 0;
 
     // For variable sacrifices, we need to compose the text that will be
     // displayed at the time of sacrifice offer and as a milestone if the
@@ -5970,17 +5991,8 @@ bool ru_do_sacrifice(ability_type sac)
         mile_text = make_stringf("%s.", sac_def.milestone_text);
     }
 
-    // If we're haven't yet calculated piety gain, get it now. Otherwise,
-    // use the calculated value and then add in the skill piety, which isn't
-    // saved because it can change over time.
-    piety_gain = you.sacrifice_piety[sac];
-    if (piety_gain == 0)
-        piety_gain = get_sacrifice_piety(sac);
-    else if (sac_def.sacrifice_skill != SK_NONE)
-        piety_gain += _piety_for_skill_by_sacrifice(sac);
-
     // get confirmation that the sacrifice is desired.
-    if (!_execute_sacrifice(piety_gain, offer_text.c_str()))
+    if (!_execute_sacrifice(sac, offer_text.c_str()))
         return false;
     // Apply the sacrifice, starting by mutating the player.
     if (variable_sac)
@@ -6045,10 +6057,8 @@ bool ru_do_sacrifice(ability_type sac)
         you.props["num_sacrifice_muts"] = num_sacrifices;
 
     // Actually give the piety for this sacrifice.
-    int new_piety = you.piety + piety_gain;
-    if (new_piety > piety_breakpoint(5))
-        new_piety = piety_breakpoint(5);
-    set_piety(new_piety);
+    set_piety(min(piety_breakpoint(5),
+                  you.piety + _ru_get_sac_piety_gain(sac)));
 
     if (you.piety == piety_breakpoint(5))
         simple_god_message(" indicates that your awakening is complete.");
@@ -6147,10 +6157,10 @@ void ru_reset_sacrifice_timer(bool clear_timer, bool faith_penalty)
 //Your chance of eligiblity scales with piety.
 bool will_ru_retaliate()
 {
-    // Scales up to a 33% chance of retribution
+    // Scales up to a 25% chance of retribution
     return have_passive(passive_t::upgraded_aura_of_power)
            && crawl_state.which_god_acting() != GOD_RU
-           && one_chance_in(div_rand_round(480, you.piety));
+           && one_chance_in(div_rand_round(640, you.piety));
 }
 
 // Power of retribution increases with damage, decreases with monster HD.
@@ -6256,7 +6266,6 @@ bool ru_power_leap()
         args.mode = TARG_ANY;
         args.range = 3;
         args.needs_path = false;
-        args.may_target_monster = false;
         args.top_prompt = "Aiming: <white>Power Leap</white>";
         args.self = CONFIRM_CANCEL;
         const int explosion_size = 1;
@@ -6757,7 +6766,6 @@ bool uskayaw_grand_finale()
         direction_chooser_args args;
         args.mode = TARG_HOSTILE;
         args.needs_path = false;
-        args.may_target_monster = true;
         args.top_prompt = "Aiming: <white>Grand Finale</white>";
         args.self = CONFIRM_CANCEL;
         targetter_smite tgt(&you, 7, 0, 0);
@@ -6975,7 +6983,6 @@ static coord_def _get_transference_target()
     args.mode = TARG_MOBILE_MONSTER;
     args.range = LOS_RADIUS;
     args.needs_path = false;
-    args.may_target_monster = true;
     args.self = CONFIRM_NONE;
     args.show_floor_desc = true;
     args.top_prompt = "Select a target.";

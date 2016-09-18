@@ -924,7 +924,7 @@ static const mon_spellbook mspell_list[] =
     },
 
     // ('G') Organs.
-    {  MST_GIANT_EYEBALL,
+    {  MST_FLOATING_EYE,
       {
        { SPELL_PARALYSIS_GAZE, 80, MON_SPELL_MAGICAL | MON_SPELL_INSTANT },
       }
@@ -958,7 +958,7 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
-    {  MST_GIANT_ORANGE_BRAIN,
+    {  MST_GLOWING_ORANGE_BRAIN,
       {
        { SPELL_BRAIN_FEED, 10, MON_SPELL_MAGICAL },
        { SPELL_CAUSE_FEAR, 10, MON_SPELL_MAGICAL },

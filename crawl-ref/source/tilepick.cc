@@ -933,8 +933,8 @@ static tileidx_t _zombie_tile_to_spectral(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_QUADRUPED_LARGE:
     case TILEP_MONS_ZOMBIE_ELEPHANT:
         return TILEP_MONS_SPECTRAL_QUADRUPED_LARGE;
-    case TILEP_MONS_ZOMBIE_TOAD:
-        return TILEP_MONS_SPECTRAL_TOAD;
+    case TILEP_MONS_ZOMBIE_FROG:
+        return TILEP_MONS_SPECTRAL_FROG;
     case TILEP_MONS_ZOMBIE_BAT:
         return TILEP_MONS_SPECTRAL_BAT;
     case TILEP_MONS_ZOMBIE_BEE:
@@ -1016,7 +1016,7 @@ static tileidx_t _zombie_tile_to_simulacrum(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_TURTLE:
         return TILEP_MONS_SIMULACRUM_QUADRUPED_SMALL;
     case TILEP_MONS_ZOMBIE_QUADRUPED_LARGE:
-    case TILEP_MONS_ZOMBIE_TOAD:
+    case TILEP_MONS_ZOMBIE_FROG:
     case TILEP_MONS_ZOMBIE_ELEPHANT:
         return TILEP_MONS_SIMULACRUM_QUADRUPED_LARGE;
     case TILEP_MONS_ZOMBIE_BAT:
@@ -1110,9 +1110,8 @@ static tileidx_t _zombie_tile_to_skeleton(const tileidx_t z_tile)
     case TILEP_MONS_ZOMBIE_QUADRUPED_LARGE:
     case TILEP_MONS_ZOMBIE_ELEPHANT:
         return TILEP_MONS_SKELETON_QUADRUPED_LARGE;
-    case TILEP_MONS_ZOMBIE_TOAD:
-        return TILEP_MONS_SKELETON_TOAD;
-    case TILEP_MONS_ZOMBIE_GRIFFON:
+    case TILEP_MONS_ZOMBIE_FROG:
+        return TILEP_MONS_SKELETON_FROG;
     case TILEP_MONS_ZOMBIE_QUADRUPED_WINGED:
         return TILEP_MONS_SKELETON_QUADRUPED_WINGED;
     case TILEP_MONS_ZOMBIE_BAT:
@@ -1211,7 +1210,6 @@ static tileidx_t _mon_to_zombie_tile(const monster_info &mon)
         { MONS_OGRE,                    TILEP_MONS_ZOMBIE_OGRE },
         { MONS_HARPY,                   TILEP_MONS_ZOMBIE_HARPY },
         { MONS_DRACONIAN,               TILEP_MONS_ZOMBIE_DRACONIAN },
-        { MONS_GRIFFON,                 TILEP_MONS_ZOMBIE_GRIFFON },
         { MONS_DRAGON,                  TILEP_MONS_ZOMBIE_DRAGON },
         { MONS_WYVERN,                  TILEP_MONS_ZOMBIE_WYVERN },
         { MONS_DRAKE,                   TILEP_MONS_ZOMBIE_DRAKE },
@@ -1220,8 +1218,7 @@ static tileidx_t _mon_to_zombie_tile(const monster_info &mon)
         { MONS_RAT,                     TILEP_MONS_ZOMBIE_RAT },
         { MONS_QUOKKA,                  TILEP_MONS_ZOMBIE_QUOKKA },
         { MONS_HOUND,                   TILEP_MONS_ZOMBIE_HOUND },
-        { MONS_GIANT_FROG,              TILEP_MONS_ZOMBIE_TOAD },
-        { MONS_BLINK_FROG,              TILEP_MONS_ZOMBIE_TOAD },
+        { MONS_FROG,                    TILEP_MONS_ZOMBIE_FROG },
         { MONS_CRAB,                    TILEP_MONS_ZOMBIE_CRAB },
         { MONS_SNAPPING_TURTLE,         TILEP_MONS_ZOMBIE_TURTLE },
         { MONS_WORM,                    TILEP_MONS_ZOMBIE_WORM },
@@ -1654,6 +1651,17 @@ static tileidx_t _tileidx_monster_no_props(const monster_info& mon)
             else
                 return base + 1;
         }
+
+        case MONS_AGNES:
+        {
+            // For if Agnes loses her lajatang
+            const item_def* weapon = mon.inv[MSLOT_WEAPON].get();
+            if (weapon->is_type(OBJ_WEAPONS, WPN_LAJATANG))
+                return TILEP_MONS_AGNES;
+            else
+                return TILEP_MONS_AGNES_STAVELESS;
+        }
+
 
         case MONS_BUSH:
             if (env.map_knowledge(mon.pos).cloud() == CLOUD_FIRE)
@@ -3252,16 +3260,9 @@ tileidx_t tileidx_ability(const ability_type ability)
         return TILEG_ABILITY_FLIGHT;
     case ABIL_STOP_FLYING:
         return TILEG_ABILITY_FLIGHT_END;
-    // Mummies
-    case ABIL_MUMMY_RESTORATION:
-        return TILEG_ABILITY_MUMMY_RESTORATION;
     // Vampires
     case ABIL_TRAN_BAT:
         return TILEG_ABILITY_BAT_FORM;
-#if TAG_MAJOR_VERSION == 34
-    case ABIL_BOTTLE_BLOOD:
-        return TILEG_ABILITY_BOTTLE_BLOOD;
-#endif
     // Deep Dwarves
     case ABIL_RECHARGING:
         return TILEG_ABILITY_RECHARGE;
@@ -3840,6 +3841,7 @@ void tile_init_props(monster* mon)
         case MONS_ABOMINATION_LARGE:
         case MONS_BLOCK_OF_ICE:
         case MONS_BUTTERFLY:
+        case MONS_HUMAN:
             break;
         default:
             return;

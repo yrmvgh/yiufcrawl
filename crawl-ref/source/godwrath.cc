@@ -1331,12 +1331,12 @@ static void _jiyva_summon_slimes()
 
     const monster_type slimes[] =
     {
-        MONS_GIANT_EYEBALL,
+        MONS_FLOATING_EYE,
         MONS_EYE_OF_DRAINING,
         MONS_EYE_OF_DEVASTATION,
         MONS_GREAT_ORB_OF_EYES,
         MONS_SHINING_EYE,
-        MONS_GIANT_ORANGE_BRAIN,
+        MONS_GLOWING_ORANGE_BRAIN,
         MONS_JELLY,
         MONS_ACID_BLOB,
         MONS_AZURE_JELLY,
@@ -1506,7 +1506,7 @@ static bool _fedhas_retribution()
     switch (random2(retribution_options))
     {
     case 0:
-        // Try and spawn some hostile giant spores, if none are created
+        // Try and spawn some hostile ballistomycete spores, if none are created
         // fall through to the elemental miscast effects.
         if (fedhas_corpse_spores(BEH_HOSTILE))
         {

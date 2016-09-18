@@ -854,6 +854,9 @@ void monster::equip_weapon(item_def &item, bool msg)
         case SPWPN_REAPING:
             mpr("It is briefly surrounded by shifting shadows.");
             break;
+        case SPWPN_ACID:
+            mprf("It begins to drip corrosive slime!");
+            break;
 
         default:
             // A ranged weapon without special message is known to be unbranded.
@@ -2466,11 +2469,11 @@ string monster::hand_name(bool plural, bool *can_plural) const
     case MON_SHAPE_ORB:
         switch (type)
         {
-            case MONS_GIANT_SPORE:
+            case MONS_BALLISTOMYCETE_SPORE:
                 str = "rhizome";
                 break;
 
-            case MONS_GIANT_EYEBALL:
+            case MONS_FLOATING_EYE:
             case MONS_EYE_OF_DRAINING:
             case MONS_SHINING_EYE:
             case MONS_EYE_OF_DEVASTATION:
@@ -2481,7 +2484,7 @@ string monster::hand_name(bool plural, bool *can_plural) const
                 str = "pupil";
                 break;
 
-            case MONS_GIANT_ORANGE_BRAIN:
+            case MONS_GLOWING_ORANGE_BRAIN:
             default:
                 if (rand)
                     str = "rhizome";
@@ -4420,8 +4423,17 @@ bool monster::corrode_equipment(const char* corrosion_source, int degree)
 void monster::splash_with_acid(const actor* evildoer, int /*acid_strength*/,
                                bool /*allow_corrosion*/, const char* /*hurt_msg*/)
 {
+    const int dam = roll_dice(2, 4);
+    const int post_res_dam = resist_adjust_damage(this, BEAM_ACID, dam);
+
+    if (this->observable())
+         mprf("%s is splashed with acid.", this->name(DESC_THE).c_str());
+
     if (!one_chance_in(3))
         corrode_equipment();
+
+    if (post_res_dam > 0)
+        hurt(evildoer, post_res_dam, BEAM_ACID, KILLED_BY_ACID);
 }
 
 int monster::hurt(const actor *agent, int amount, beam_type flavour,
