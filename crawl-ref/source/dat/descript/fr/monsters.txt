@@ -919,23 +919,23 @@ giant cockroach
 Un gros insecte brun qui produit des sifflements désagréables. Contrairement à
 la croyance populaire, ils sont en fait assez sensibles aux énergies mutagènes.
 %%%%
-giant eyeball
+floating eye
 
 Un globe oculaire géant en lévitation au regard hypnotique. Certains disent que
 les globes oculaires géants sont des serviteurs de Jiyva.
 %%%%
-giant frog
+bullfrog
 
 Un gros amphibien et inhabituellement agressif qui peut parcourir des distances
 rapidement en sautant.
 %%%%
-giant gecko
+leopard gecko
 
 Un lézard avec des coussinets lui permettant de grimper aux murs et au plafond,
 et avec des grandes dents acérées. Il est bien plus grand qu'un gecko normal,
 alors que sa taille contredit son agilité.
 %%%%
-giant leech
+tyrant leech
 
 Un annélide agressif, suceur de sang, qui prospère dans les marais et
 marécages.
@@ -944,7 +944,7 @@ giant mite
 
 Un énorme acarien assoiffé de sang. Ses mandibules sont empoisonnées.
 %%%%
-giant orange brain
+glowing orange brain
 
 Un énorme cerveau ridé, flottant au dessus du sol et irradiant d'énergie
 mutagène. De temps à autre, il a l'air de palpiter.
@@ -953,7 +953,7 @@ giant slug
 
 Un énorme gastropode dégueulasse, rampant lentement sur le sol du donjon.
 %%%%
-giant spore
+ballistomycete spore
 
 Une balle flottante et trompeusement rapide, emplie de gaz et de spores, prête
 à éclater à la moindre perturbation.
