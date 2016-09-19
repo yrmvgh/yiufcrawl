@@ -2546,7 +2546,7 @@ static bool _pan_level()
     // Unique pan lords become more common as you travel through pandemonium.
     // On average it takes 27 levels to see all four, and you're likely to see
     // your first one after about 10 levels.
-    if (x_chance_in_y(1 + place_info.levels_seen, 65 + place_info.levels_seen * 2)
+    if (x_chance_in_y(1 + place_info.levels_seen, 5 + place_info.levels_seen)
         && !all_demons_generated)
     {
         do
