@@ -32,7 +32,7 @@ typedef uint32_t ucs_t;
 #define ENDOFPACK 52
 
 // Max ghosts on a level.
-const int MAX_GHOSTS = 10;
+const int MAX_GHOSTS = 0;
 
 enum extra_monster_index_type
 {
