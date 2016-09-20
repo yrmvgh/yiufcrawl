@@ -238,7 +238,7 @@ ORIENT:  float
 SHUFFLE: d'
 : end
 SUBST:   '=.
-MONS:    worm
+MONS:    dart slug
 ITEM:    stone
 MAP
 xxxxxxxxxxxxxxxxx
@@ -1967,7 +1967,7 @@ ENDMAP
 ##############################################################################
 NAME:    dpeg_arrival_brainrot
 TAGS:    arrival no_monster_gen
-MONS:    jackal / worm
+MONS:    jackal
 ORIENT:  float
 SUBST:   l = l.
 NSUBST:  { = 1:{ / *:.
@@ -2152,7 +2152,7 @@ ORIENT:  float
 ITEM:    fruit q:1 / beef jerky / nothing / stone / w:30 nothing
 SHUFFLE: AB
 SUBST:   A : x , B = +., X = x+
-MONS:    w:30 nothing / w:10 plant / w:3 fungus / w:1 worm
+MONS:    w:30 nothing / w:10 plant / w:3 fungus / w:1 dart slug
 NSUBST:  { = 1:{ / *:.
 MAP
 xxxxxxxxx@xxxxxxx
@@ -2443,7 +2443,7 @@ SHUFFLE: 16
 MONS:    centaur / centaur warrior / yaktaur / yaktaur captain
 MONS:    rat / river rat / hell rat / quokka
 MONS:    worker ant / soldier ant / queen ant
-MONS:    worm / tyrant leech
+MONS:    tyrant leech
 MONS:    komodo dragon / iguana / basilisk
 MONS:    ettin / frost giant / hill giant / stone giant / fire giant
 : else
@@ -2452,7 +2452,7 @@ MONS:    frilled lizard / leopard gecko / iguana / crocodile / komodo dragon
 MONS:    hog / jackal / wolf / hound
 MONS:    giant cockroach / worker ant / butterfly / killer bee /\
          redback
-MONS:    swamp worm / lindwurm / worm
+MONS:    swamp worm / lindwurm
 MONS:    swamp drake / hydra / wyvern / rime drake
 MONS:    polar bear / black bear
 MONS:    black mamba / water moccasin / anaconda / salamander

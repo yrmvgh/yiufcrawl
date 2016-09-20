@@ -314,7 +314,7 @@ NAME:  slow_altar_1
 DEPTH: D:5-9
 TAGS:  patrolling no_monster_gen no_item_gen transparent
 TAGS:  uniq_slow_altar temple_overflow_1 temple_overflow_cheibriados
-KMONS: _ = worm / mummy / iron imp
+KMONS: _ = mummy / iron imp
 KFEAT: _ = altar_cheibriados
 SUBST: x : xxxcccmnvb
 MAP
@@ -335,7 +335,7 @@ NAME:    slow_altar_2
 DEPTH:   D:5-9
 TAGS:    patrolling no_monster_gen no_item_gen
 TAGS:    uniq_slow_altar temple_overflow_1 temple_overflow_cheibriados
-KMONS:   _ = worm / mummy / iron imp
+KMONS:   _ = mummy / iron imp
 KFEAT:   _ = altar_cheibriados
 SUBST:   x : xxxcccvb
 MAP
@@ -378,7 +378,7 @@ TAGS:   uniq_slow_altar overflow_altar_cheibriados transparent no_monster_gen
 TAGS:   transparent
 DEPTH:  D:4-9
 WEIGHT: 5
-KMONS:  a = worm / mummy / iron imp
+KMONS:  a = mummy / iron imp
 NSUBST: ' = 1:a / *:.
 KFEAT:  _ = altar_cheibriados
 MAP
@@ -400,7 +400,7 @@ TAGS:   uniq_slow_altar temple_overflow_cheibriados uniq_altar_cheibriados
 DEPTH:  D:5-9
 WEIGHT: 5
 KFEAT:  _ = altar_cheibriados
-MONS:   worm
+MONS:   dart slug
 MAP
 .............
 .xxxxx.xxxxx.
@@ -2044,7 +2044,7 @@ TAGS:   temple_overflow_1 temple_overflow_trog uniq_altar_trog
 DEPTH:  D:2-9
 KFEAT:  _ = altar_trog
 KPROP:  1 = no_tele_into
-MONS:   moth of wrath, rat / worm w:5
+MONS:   moth of wrath, rat / jackal w:5
 ITEM:   any weapon
 NSUBST: M = 4:d / *:.
 SUBST:  + = +....

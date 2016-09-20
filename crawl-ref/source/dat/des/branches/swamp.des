@@ -918,7 +918,7 @@ NAME:    hangedman_swamp_wriggling
 TAGS:    no_pool_fixup no_monster_gen patrolling transparent
 DEPTH:   Swamp, !Swamp:$
 KMONS:   0 = swamp worm
-MONS:    tyrant leech, worm
+MONS:    tyrant leech
 KFEAT:   0 = shallow_water
 SHUFFLE: })
 SUBST:   } = }>, ) = <)>, } = }:20 >, ) = ):25 <>, 4 = 23

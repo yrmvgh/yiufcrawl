@@ -3310,14 +3310,6 @@ wizard
 never clearly ascertain.”
     -Charles Darwin, _The Voyage of the Beagle_, ch. X. 1839.
 %%%%
-worm
-
-“While the angels, all pallid and wan,
-   Uprising, unveiling, affirm
- That the play is the tragedy, ‘Man’,
-   And its hero, the Conqueror Worm.”
-    -Edgar Allan Poe
-%%%%
 wraith
 
 “God, though this life is but a wraith,

@@ -122,7 +122,7 @@ NAME:   hive_lemuel
 TAGS:   no_trap_gen
 DEPTH:  D:9-, Spider
 MONS:   killer bee, meliai, queen bee, wasp, hornet
-KMONS:  *R = worm
+KMONS:  *R = dart slug
 KITEM:  * = *
 KITEM:  R = royal jelly
 SUBST:  ? : .w
@@ -293,7 +293,7 @@ ENDMAP
 NAME:  worms_lemuel
 TAGS:  no_rotate no_monster_gen no_pool_fixup
 DEPTH: D:8-13, Lair, Spider
-KMONS: 1 = worm
+KMONS: 1 = dart slug
 KMONS: 2| = swamp worm
 KMONS: P = plant
 KITEM: | = |, *, %
@@ -974,13 +974,13 @@ NAME:    hangedman_parallel_progression
 TAGS:    patrolling no_monster_gen transparent
 TAGS:    layout_rooms layout_corridors
 DEPTH:   D:11-
-MONS:    rat, bat, frilled lizard / leopard gecko, worm, ooze
+MONS:    rat, bat, frilled lizard / leopard gecko, dart slug, ooze
 MONS:    giant cockroach, jackal
 KMONS:   8 = ball python / adder w:8
 KMONS:   A = river rat
 KMONS:   B = vampire bat / fire bat w:8
 KMONS:   C = iguana / basilisk w:8
-KMONS:   D = worm / tyrant leech
+KMONS:   D = dart slug / tyrant leech
 KMONS:   E = jelly
 KMONS:   F = worker ant
 KMONS:   G = hound / wolf w:3

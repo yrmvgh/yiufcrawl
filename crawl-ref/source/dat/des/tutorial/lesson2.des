@@ -97,7 +97,7 @@ COLOUR:  deABCDEF = lightblue
 FTILE:   deABCDEF = tutorial_pad
 MONS:    training dummy hp:2 ; stone q:10
 MONS:    rat always_corpse
-MONS:    worm
+MONS:    dart slug
 ITEM:    tomahawk mundane q:10
 ITEM:    shortbow mundane not_cursed
 ITEM:    arrow mundane q:30

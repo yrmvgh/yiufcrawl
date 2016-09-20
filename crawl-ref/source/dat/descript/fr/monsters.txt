@@ -2042,11 +2042,6 @@ Un insecte sans ailes avec des mandibules acérées capable d'injecter un poison
 mortel. C'est une ouvrière, et sa tâche est de récupérer de la nourriture —
 n'importe quel être vivant qu'elle rencontre est un repas potentiel.
 %%%%
-worm
-
-Un annélide géant, luisant de slime et possédant des dents inhabituellement
-larges.
-%%%%
 wraith
 
 Cet esprit mort-vivant apparaît sous forme d'un nuage de brume noire entourant
