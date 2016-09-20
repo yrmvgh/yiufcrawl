@@ -5629,7 +5629,7 @@ static void _dream_sheep_sleep(monster& mons, actor& foe)
 void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
                mon_spell_slot_flags slot_flags, bool do_noise)
 {
-    // check sputtercast state for e.g. orb spiders. assumption: all
+    // check sputtercast state for e.g. floating eyes. assumption: all
     // sputtercasting monsters have one charge status and use it for all of
     // their spells.
     if (max_mons_charge(mons->type) > 0 && !_spell_charged(mons))

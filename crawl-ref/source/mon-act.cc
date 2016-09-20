@@ -3111,17 +3111,6 @@ bool mon_can_move_to_pos(const monster* mons, const coord_def& delta,
         }
     }
 
-    if (mons->type == MONS_MERFOLK_AVATAR)
-    {
-        // Don't voluntarily break LoS with a player we're mesmerising
-        if (you.beheld_by(*mons) && !you.see_cell(targ))
-            return false;
-
-        // And path around players instead of into them
-        if (you.pos() == targ)
-            return false;
-    }
-
     // Try to avoid deliberately blocking the player's line of fire.
     if (mons->type == MONS_SPELLFORGED_SERVITOR)
     {

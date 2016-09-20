@@ -1045,8 +1045,7 @@ bool invalid_monster_index(int i)
 
 bool mons_is_statue(monster_type mc)
 {
-    return mc == MONS_ORANGE_STATUE
-           || mc == MONS_OBSIDIAN_STATUE
+    return mc == MONS_OBSIDIAN_STATUE
            || mc == MONS_ICE_STATUE
            || mc == MONS_ROXANNE;
 }
@@ -1313,7 +1312,7 @@ monster_type mons_detected_base(monster_type mc)
  */
 bool mons_is_siren_beholder(monster_type mc)
 {
-    return mc == MONS_SIREN || mc == MONS_MERFOLK_AVATAR;
+    return mc == MONS_SIREN;
 }
 
 /** Does this monster behold opponents like a siren?
@@ -5040,8 +5039,7 @@ int count_allies()
 
 bool mons_stores_tracking_data(const monster& mons)
 {
-    return mons.type == MONS_THORN_HUNTER
-           || mons.type == MONS_MERFOLK_AVATAR;
+    return mons.type == MONS_THORN_HUNTER;
 }
 
 bool mons_is_beast(monster_type mc)

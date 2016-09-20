@@ -305,7 +305,7 @@ function arena_sprint_get_monster_set(round, boss)
                     w:5 sun demon / w:2 efreet / hell hound",
                 "steam dragon / air elemental / w:3 wind drake / lightning spire /\
                     w:20 sky beast / insubstantial wisp",
-                "earth elemental w:15 / gargoyle w:5 / boulder beetle /\
+                "earth elemental w:15 / gargoyle w:5 /\
                     rust devil / iron imp / w:5 iron troll",
                 "ice beast / rime drake / ogre simulacrum / water elemental",
                 "wraith w:20 / w:5 eidolon / phantasmal warrior / w:2 nergalle",

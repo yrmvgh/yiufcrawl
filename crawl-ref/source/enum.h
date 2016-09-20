@@ -2719,8 +2719,8 @@ enum monster_type                      // menv[].type
     MONS_BEETLE,
 #if TAG_MAJOR_VERSION == 34
     MONS_BORING_BEETLE,
+	MONS_BOULDER_BEETLE,
 #endif
-    MONS_BOULDER_BEETLE,
 #if TAG_MAJOR_VERSION > 34
     MONS_DEATH_SCARAB,
 #endif
@@ -2941,7 +2941,9 @@ enum monster_type                      // menv[].type
     MONS_OCTOPODE,
     MONS_MERFOLK,
     MONS_SIREN,
-    MONS_MERFOLK_AVATAR,
+#if TAG_MAJOR_VERSION == 34
+	MONS_MERFOLK_AVATAR,
+#endif
 #if TAG_MAJOR_VERSION > 34
     MONS_DROWNED_SOUL,
 #endif
@@ -3069,7 +3071,9 @@ enum monster_type                      // menv[].type
     MONS_KRAKEN_TENTACLE_SEGMENT,
 
     // Statuary
+#if TAG_MAJOR_VERSION == 34
     MONS_ORANGE_STATUE,
+#endif
     MONS_OBSIDIAN_STATUE,
     MONS_ICE_STATUE,
     MONS_STATUE,
