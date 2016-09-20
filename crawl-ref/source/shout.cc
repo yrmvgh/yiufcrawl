@@ -1374,7 +1374,7 @@ static void _actor_apply_noise(actor *act,
                  && mons_secondary_habitat(*mons) == HT_WATER
                  && !mons->friendly())
         {
-            // Sirens/merfolk avatar call (hostile) aquatic monsters.
+            // Sirens call (hostile) aquatic monsters.
             behaviour_event(mons, ME_ALERT, 0, apparent_source);
         }
         else

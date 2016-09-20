@@ -1614,11 +1614,6 @@ merfolk aquamancer
 A slender merfolk mystic with unusually webby hands. Its form shifts and
 glistens as if seen through ocean spray.
 %%%%
-merfolk avatar
-
-A beguiling merfolk whose voice mesmerizes listeners. It carries no weapon,
-but its song summons drowned souls to defend the sea against intruders.
-%%%%
 merfolk impaler
 
 A powerfully muscled merfolk warrior, bearing a deadly weapon.
@@ -2808,11 +2803,6 @@ A statue depicting a savage-looking slave driver with a vicious barbed whip.
 mad acolyte of Lugonu
 
 A devoted follower of Lugonu, driven mad by years of living in the Abyss.
-%%%%
-malarious merfolk avatar
-
-A young merfolk that looks deeply ill, but is still capable of bespelling its
-audience.
 %%%%
 master elementalist
 

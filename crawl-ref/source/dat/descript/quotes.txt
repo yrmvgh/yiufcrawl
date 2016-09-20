@@ -1866,15 +1866,6 @@ merfolk aquamancer
 
 <merfolk>
 %%%%
-merfolk avatar
-
-“Then up it raise the mermaiden,
- Wi the comb an glass in her hand:
- ‘Here’s a health to you, my merrie young men,
- For you never will see dry land.’”
-    -“Sir Patrick Spens”, Scottish folk song, version 58J in Francis James
-     Child, _The English and Scottish Popular Ballads_. 1898.
-%%%%
 merfolk impaler
 
 <merfolk>

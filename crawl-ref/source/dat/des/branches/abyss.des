@@ -1350,7 +1350,7 @@ MONS:   wizard hd:16 name:mad_acolyte_of_Lugonu n_rpl n_des col:lightgreen \
                blink.10.priest;blink_other.10.priest;\
                invisibility.10.priest ; \
         robe good_item . quarterstaff ego:distortion | dagger ego:distortion
-MONS:   generate_awake merfolk avatar, blink frog
+MONS:   generate_awake merfolk aquamancer, blink frog
 MONS:   tentacled monstrosity / tentacled starspawn / thrashing horror w:6
 KMONS:  O = starcursed mass
 KITEM:  O = abyssal rune of Zot

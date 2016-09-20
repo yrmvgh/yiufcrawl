@@ -7522,7 +7522,7 @@ static void _maybe_throw_ally(const monster &mons)
 }
 
 /**
- * Check if a siren or merfolk avatar should sing its song.
+ * Check if a siren or REMOVED should sing its song.
  *
  * @param mons   The singing monster.
  * @param avatar Whether to use the more powerful "avatar song".
@@ -7553,8 +7553,7 @@ static bool _should_siren_sing(monster* mons, bool avatar)
     }
 
     // Don't even try on berserkers. Sirens know their limits.
-    // (merfolk avatars should still sing since their song has other effects)
-    if (!avatar && you.berserk())
+    if (you.berserk())
         return false;
 
     // If the mer is trying to mesmerise you anew, only sing half as often.
@@ -7641,7 +7640,7 @@ static void _mons_awaken_earth(monster &mon, const coord_def &target)
 }
 
 /**
- * Have a siren or merfolk avatar attempt to mesmerize the player.
+ * Have a siren or REMOVED attempt to mesmerize the player.
  *
  * @param mons   The singing monster.
  * @param avatar Whether to use the more powerful "avatar song".

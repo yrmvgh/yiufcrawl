@@ -680,7 +680,7 @@ ENDMAP
 NAME:     shoals_end
 TAGS:     shoals_end
 KMONS:    1 = merfolk impaler / merfolk javelineer / merfolk aquamancer /\
-              merfolk avatar w:3 / merfolk w:3
+              merfolk aquamancer w:3 / merfolk w:3
 KMONS:    2 = Ilsuiw
 COLOUR:   12 = brown
 KITEM:    2 = barnacled rune of zot

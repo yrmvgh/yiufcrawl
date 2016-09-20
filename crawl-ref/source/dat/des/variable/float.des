@@ -2468,7 +2468,7 @@ KMONS: N = deep elf knight w:5 / deep elf archer w:5 / \
 KMONS: L = death yak / catoblepas w:5 / basilisk / lindwurm / blink frog
 KMONS: S = swamp dragon / hydra w:5 / thorn hunter / large slime creature / \
            alligator
-KMONS: A = alligator snapping turtle w:5 / merfolk avatar / merfolk aquamancer / \
+KMONS: A = alligator snapping turtle w:5 / merfolk aquamancer w:2 / \
            merfolk impaler / harpy
 KMONS: K = greater naga w:5 / naga mage / anaconda / naga warrior / \
            guardian serpent

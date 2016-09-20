@@ -335,7 +335,7 @@ function arena_sprint_get_monster_set(round, boss)
                     orc warlord w:3 / orc priest / orc high priest w:4 / urug w:3",
                 "place:Elf:$",
                 "place:Lair:$ w:100 / hydra / catoblepas / dire elephant / w:5 gastronok",
-                "place:Shoals:$ w:20 / w:6 merfolk avatar / w:5 harpy",
+                "place:Shoals:$ w:20 / w:6 merfolk aquamancer / w:5 harpy",
                 "place:Swamp:$ w:20 / w:6 hydra / w:5 swamp dragon",
                 "place:Spider:$ w:20 / w:5 wolf spider / w:5 orb spider / w:2 emperor scorpion",
                 "place:Snake:$ w:20 / w:5 naga mage / w:5 naga warrior / w:5 greater naga",
@@ -709,7 +709,7 @@ function arena_sprint_init_boss_table()
                  "gossamer rune of zot"}
     else
         bs[2] = {"place:Shoals", "polyphemus hp:350 / ilsuiw hp:250 / " ..
-                 "merfolk avatar name:dimme tile:mons_dimme n_rpl n_des n_spe " ..
+                 "merfolk aquamancer name:dimme tile:mons_dimme n_rpl n_des n_spe " ..
                     "col:lightmagenta hp:300 spells:avatar_song.160.natural;" ..
                                                    "malign_gateway.40.natural",
                  "barnacled rune of zot"}

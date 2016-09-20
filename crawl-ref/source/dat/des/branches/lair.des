@@ -3062,7 +3062,7 @@ PP.xx....xx....xx....xx.PP
       PPcPP    PPcPP
 ENDMAP
 
-# An ancient temple flooded with waters brought forth by a mystic avatar.
+# An ancient temple flooded with waters brought forth by a mystic aquamancer.
 NAME:    gammafunk_lair_ancient_temple
 PLACE:   Lair:$
 TAGS:    patrolling no_pool_fixup no_monster_gen
@@ -3072,7 +3072,7 @@ KMONS:   1 = water moccasin / crocodile / wasp / wyvern / spiny frog
 KMONS:   2 = elephant / komodo dragon / polar bear / rime drake
 KMONS:   3 = sea snake / manticore / hydra / wind drake / harpy
 KMONS:   4 = dire elephant
-KMONS:   5 = merfolk avatar
+KMONS:   5 = merfolk aquamancer
 KFEAT:   ~12345%*|! = W
 KITEM:   % = any no_pickup
 KITEM:   * = star_item no_pickup
