@@ -1462,7 +1462,7 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
             item_def& w(mitm[thing_created]);
 
             if (mon->type == MONS_CHUCK)
-                set_item_ego_type(w, OBJ_MISSILES, SPMSL_RETURNING);
+                set_item_ego_type(w, OBJ_MISSILES, SPMSL_CHAOS);
 
             w.quantity = qty;
             _give_monster_item(mon, thing_created, false);

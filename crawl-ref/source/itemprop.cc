@@ -631,7 +631,7 @@ struct missile_def
     int         id;
     const char *name;
     int         dam;
-    int         mulch_rate;
+    int         mulch_rate; //no longer does anything, rip
     int         price;
     bool        throwable;
 };
@@ -2183,22 +2183,6 @@ launch_retval is_launched(const actor *actor, const item_def *launcher,
         return LRET_LAUNCHED;
 
     return is_throwable(actor, missile) ? LRET_THROWN : LRET_FUMBLED;
-}
-
-
-/**
- * Returns whether a given missile will always destroyed on impact.
- *
- * @param missile      The missile in question.
- * @return             Whether the missile should always be destroyed on
- *                     impact.
- */
-bool ammo_always_destroyed(const item_def &missile)
-{
-    const int brand = get_ammo_brand(missile);
-    return brand == SPMSL_CHAOS
-           || brand == SPMSL_DISPERSAL
-           || brand == SPMSL_EXPLODING;
 }
 
 /**

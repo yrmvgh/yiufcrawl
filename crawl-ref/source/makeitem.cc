@@ -527,8 +527,7 @@ static special_missile_type _determine_missile_brand(const item_def& item,
                                     nw, SPMSL_POISONED);
         break;
     case MI_JAVELIN:
-        rc = random_choose_weighted(30, SPMSL_RETURNING,
-                                    32, SPMSL_PENETRATION,
+        rc = random_choose_weighted(32, SPMSL_PENETRATION,
                                     32, SPMSL_POISONED,
                                     21, SPMSL_STEEL,
                                     20, SPMSL_SILVER,
@@ -539,7 +538,6 @@ static special_missile_type _determine_missile_brand(const item_def& item,
                                     10, SPMSL_SILVER,
                                     10, SPMSL_STEEL,
                                     12, SPMSL_DISPERSAL,
-                                    28, SPMSL_RETURNING,
                                     15, SPMSL_EXPLODING,
                                     nw, SPMSL_NORMAL);
         break;
@@ -617,8 +615,6 @@ bool is_missile_brand_ok(int type, int brand, bool strict)
     switch (brand)
     {
     case SPMSL_POISONED:
-        return type == MI_JAVELIN || type == MI_TOMAHAWK;
-    case SPMSL_RETURNING:
         return type == MI_JAVELIN || type == MI_TOMAHAWK;
     case SPMSL_CHAOS:
         return type == MI_TOMAHAWK || type == MI_JAVELIN;
