@@ -32,7 +32,7 @@ const Branch branches[NUM_BRANCHES] =
       "Orcish Mines", "the Orcish Mines", "Orc",
       nullptr,
       BROWN, BROWN,
-      'O', {}, 4 },
+      'O', {}, 0 },
 
     { BRANCH_ELF, BRANCH_ORC, 2, 2, 3, 15,
       BFLAG_DANGEROUS_END,
@@ -58,7 +58,7 @@ const Branch branches[NUM_BRANCHES] =
       "Lair", "the Lair of Beasts", "Lair",
       nullptr,
       GREEN, BROWN,
-      'L', {}, 4 },
+      'L', {}, 0 },
 #endif
 
     { BRANCH_SWAMP, BRANCH_DUNGEON, 13, 14, 3, 15,
@@ -75,7 +75,7 @@ const Branch branches[NUM_BRANCHES] =
       "Shoals", "the Shoals", "Shoals",
       nullptr,
       BROWN, BROWN,
-      'A', { RUNE_SHOALS }, 3 },
+      'A', { RUNE_SHOALS }, 0 },
 
     { BRANCH_SNAKE, BRANCH_DUNGEON, 13, 14, 3, 15,
       BFLAG_DANGEROUS_END,
@@ -99,7 +99,7 @@ const Branch branches[NUM_BRANCHES] =
       "Slime Pits", "the Pits of Slime", "Slime",
       nullptr,
       GREEN, BROWN,
-      'M', { RUNE_SLIME }, -5 },
+      'M', { RUNE_SLIME }, 0 },
 
     { BRANCH_VAULTS, BRANCH_DUNGEON, 15, 15, 4, 19,
       BFLAG_DANGEROUS_END,
@@ -115,7 +115,7 @@ const Branch branches[NUM_BRANCHES] =
       "Hall of Blades", "the Hall of Blades", "Blade",
       nullptr,
       LIGHTGREY, BROWN,
-      'B', {}, -7 },
+      'B', {}, 0 },
 
 
     { BRANCH_CRYPT, BRANCH_VAULTS, -1, -1, 3, 19,
@@ -124,7 +124,7 @@ const Branch branches[NUM_BRANCHES] =
       "Crypt", "the Crypt", "Crypt",
       nullptr,
       LIGHTGREY, BROWN,
-      'C', {}, -3 },
+      'C', {}, 0 },
 #endif
 
     { BRANCH_TOMB, BRANCH_VAULTS, 3, 3, 3, 21,
@@ -133,7 +133,7 @@ const Branch branches[NUM_BRANCHES] =
       "Tomb", "the Tomb of the Ancients", "Tomb",
       nullptr,
       BROWN, BROWN,
-      'W', { RUNE_TOMB }, -10 },
+      'W', { RUNE_TOMB }, 0 },
 
     { BRANCH_VESTIBULE, NUM_BRANCHES, 27, 27, 1, 27,
       BFLAG_NO_ITEMS,
@@ -308,5 +308,5 @@ const Branch branches[NUM_BRANCHES] =
       "Desolation", "the Desolation of Salt", "Desolation",
       "You enter a great desolation of salt!",
       LIGHTGREY, BROWN, // TODO
-      '9', {}, 2 },
+      '9', {}, 0 },
 };
