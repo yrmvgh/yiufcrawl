@@ -3547,18 +3547,10 @@ static bool _lugonu_warp_monster(monster& mon, int pow)
         behaviour_event(&mon, ME_ANNOY, &you);
 
     const int damage = 1 + random2(pow / 6);
-    if (mons_genus(mon.type) == MONS_BLINK_FROG)
-    {
-        mprf("%s basks in the distortional energy.",
-             mon.name(DESC_THE).c_str());
-        mon.heal(damage);
-    }
-    else
-    {
-        mon.hurt(&you, damage);
-        if (!mon.alive())
-            return true;
-    }
+    mon.hurt(&you, damage);
+    if (!mon.alive())
+        return true;
+    
 
     if (!mon.no_tele(true, false))
         mon.blink();
