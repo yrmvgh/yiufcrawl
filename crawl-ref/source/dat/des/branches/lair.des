@@ -1691,7 +1691,7 @@ DEPTH:  Lair:2-, !Lair:$
 ORIENT: north
 KMONS:  p = plant / fungus / toadstool
 KMONS:  q = plant / fungus / toadstool
-KMONS:  1 = electric eel / rime drake / elephant / hippogriff w:5
+KMONS:  1 = electric eel / rime drake / elephant
 KMONS:  2 = lindwurm / dire elephant / catoblepas
 KITEM:  2 = * / |
 KFEAT:  q = W
@@ -2897,7 +2897,7 @@ PLACE:   Lair:$
 # mythological or dragon-y reptiles
 MONS:    basilisk, rime drake, komodo dragon, hydra
 # mythological non-reptiles
-MONS:    hippogriff, manticore
+MONS:    manticore
 KMONS:   8 = catoblepas
 # fast things
 KMONS:   9 = water moccasin

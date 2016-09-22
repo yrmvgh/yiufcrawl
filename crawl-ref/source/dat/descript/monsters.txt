@@ -1329,11 +1329,6 @@ A massive, burly humanoid standing taller even than an ogre. It is uncivilized
 in every sense of the word, and has few recreational interests beyond smashing
 adventurers.
 %%%%
-hippogriff
-
-A hybrid with the hindquarters of a horse and the wings, head and talons of a
-great eagle.
-%%%%
 hobgoblin
 
 A larger and even uglier goblin, with an even worse temper to match. Many

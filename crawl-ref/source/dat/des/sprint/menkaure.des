@@ -189,7 +189,7 @@ ENDMAP
 
 NAME:   sprint2_early_8
 TAGS:   sprint2_early no_item_gen no_trap_gen no_pool_fixup
-MONS:   hippogriff
+MONS:   wyvern
 KITEM:  $ = gold q:243
 COLOUR: x = magenta
 MAP
@@ -644,7 +644,7 @@ ENDMAP
 
 NAME:   sprint2_smallroom_12
 TAGS:   sprint2_smallroom no_item_gen no_trap_gen no_monster_gen no_pool_fixup
-MONS:   hippogriff
+MONS:   wyvern
 KITEM:  $ = gold q:81
 MAP
 11

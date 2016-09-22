@@ -230,7 +230,7 @@ function choose_mset_2(e)
                spriggan druid w:2")
 -- Shoals
   elseif rnd < 74 then
-    e.kmons("1 = merfolk w:20 / hippogriff / centaur / cyclops w:3")
+    e.kmons("1 = merfolk w:20 / wyvern / centaur / cyclops w:3")
 -- Hell
   elseif rnd < 80 then
     e.kmons("1 =  zombie / skeleton / lesser demon / hell hound")

@@ -138,7 +138,7 @@ ENDMAP
 
 NAME:    minmay_shoals_entry_beasts
 TAGS:    shoals_entry
-MONS:    hippogriff, manticore, nothing, nothing, nothing, nothing, nothing
+MONS:    manticore, manticore, nothing, nothing, nothing, nothing
 KMONS:   8 = nothing
 SHUFFLE: 12345678
 KFEAT:   O = enter_shoals
@@ -479,7 +479,7 @@ NAME: nicolae_shoals_undead_eyrie
 DEPTH: Shoals
 SUBST: y = ..xx1
 NSUBST: . = 4:1 / *:.
-MONS: harpy zombie w:30 / hippogriff zombie / bat zombie w:5
+MONS: harpy zombie w:30 / bat zombie w:5
 MAP
  .....
 ...y...
@@ -680,7 +680,7 @@ NAME: nicolae_shoals_siren_and_animal_friends
 DEPTH: Shoals
 TAGS: patrolling no_monster_gen
 SUBST: w = f:4 w W
-KMONS: f = bat w:5 / harpy / hippogriff w:5 / \
+KMONS: f = bat w:5 / harpy / \
        kraken w:1 / sea snake / sky beast w:1 / \
        snapping turtle / steam dragon w:1 / alligator w:5 / \
        alligator snapping turtle / anaconda w:1 / \

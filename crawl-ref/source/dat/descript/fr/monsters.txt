@@ -1064,11 +1064,6 @@ hill giant
 Bien qu'étant une des plus petite espèce de géant, ce géant des collines est
 encore bien assez grand pour être dangereux.
 %%%%
-hippogriff
-
-Une grande créature avec le postérieur d'un cheval et les ailes, la tête et les
-serres d'un aigle.
-%%%%
 hobgoblin
 
 Un gobelin encore plus gros et plus moche, avec un tempérament plus difficile.

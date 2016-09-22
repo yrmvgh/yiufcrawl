@@ -274,6 +274,7 @@ static monsterentry mondata[] =
 	AXED_MON(MONS_ORANGE_STATUE)
     AXED_MON(MONS_GRIFFON)
 	AXED_MON(MONS_MERFOLK_AVATAR)
+	AXED_MON(MONS_HIPPOGRIFF)
 #endif
 
 // Used for genus monsters (which are used for grouping monsters by how they
@@ -3378,20 +3379,6 @@ DUMMY(MONS_FROG, 'F', LIGHTGREEN, "giant frog", TILEP_MONS_BULLFROG)
 },
 
 // hybrids ('H')
-{
-    MONS_HIPPOGRIFF, 'H', BROWN, "hippogriff",
-    M_WARM_BLOOD | M_HYBRID | M_FLIES,
-    MR_NO_FLAGS,
-    8, MONS_HIPPOGRIFF, MONS_HIPPOGRIFF, MH_NATURAL, 25,
-    { {AT_BITE, AF_PLAIN, 12}, {AT_PECK, AF_PLAIN, 9}, {AT_CLAW, AF_PLAIN, 9},
-       AT_NO_ATK },
-    8, 435,
-    2, 7, MST_NO_SPELLS, CE_CLEAN, S_SCREECH,
-    I_ANIMAL, HT_LAND, 10, DEFAULT_ENERGY,
-    MONUSE_NOTHING, SIZE_LARGE, MON_SHAPE_QUADRUPED_WINGED,
-    {TILEP_MONS_HIPPOGRIFF}, TILE_CORPSE_HIPPOGRIFF
-},
-
 {
     MONS_MANTICORE, 'H', RED, "manticore",
     M_WARM_BLOOD | M_HYBRID | M_FLIES,
