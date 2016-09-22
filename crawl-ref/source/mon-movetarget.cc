@@ -276,46 +276,6 @@ bool pacified_leave_level(monster* mon, vector<level_exit> e, int e_index)
     return false;
 }
 
-// Assesses how desirable a spot is to a merfolk avatar (preferring spaces
-// surrounded by water, at least one of which is deep, and with at least one
-// neighbour which is inhabitable without swimming or flight)
-static int _merfolk_avatar_water_score(coord_def p, bool& deep)
-{
-    int score = 0;
-    bool near_floor = false;
-    deep = false;
-
-    for (adjacent_iterator ai(p); ai; ++ai)
-    {
-        if (grd(*ai) == DNGN_SHALLOW_WATER)
-        {
-            score++;
-            near_floor = true;
-        }
-        else if (grd(*ai) == DNGN_DEEP_WATER)
-        {
-            score++;
-            deep = true;
-        }
-        else if (feat_has_solid_floor(grd(*ai)))
-            near_floor = true;
-    }
-
-    // Don't prefer any locations non-adjacent to either shallow water or land
-    if (!near_floor)
-        return 0;
-
-    // Greatly prefer at least one tile of neighbouring deep water
-    if (deep)
-        score += 6;
-
-    // Slightly prefer standing in deep water, if possible
-    if (grd(p) == DNGN_DEEP_WATER)
-        score++;
-
-    return score;
-}
-
 // Returns true if further handling neeeded.
 static bool _handle_monster_travelling(monster* mon)
 {

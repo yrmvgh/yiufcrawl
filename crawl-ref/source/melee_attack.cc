@@ -1913,25 +1913,6 @@ bool melee_attack::consider_decapitation(int dam, int damage_type)
 }
 
 /**
- * Can the given actor lose its heads? (Is it hydra or hydra-like?)
- *
- * @param defender  The actor in question.
- * @return          Whether the given actor is susceptible to head-choppage.
- */
-static bool actor_can_lose_heads(const actor* defender)
-{
-    if (defender->is_monster()
-        && defender->as_monster()->has_hydra_multi_attack()
-        && defender->type != MONS_SPECTRAL_THING
-        && defender->as_monster()->mons_species() != MONS_SERPENT_OF_HELL)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-/**
  * Does this attack chop off one of the defender's heads? (Generally only
  * relevant for hydra defenders)
  *
