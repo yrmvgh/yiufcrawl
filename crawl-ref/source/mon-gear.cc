@@ -1307,14 +1307,14 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
                 set_item_ego_type(mitm[thing_created], OBJ_MISSILES,
                                   SPMSL_CURARE);
 
-                mitm[thing_created].quantity = random_range(4, 10);
+                mitm[thing_created].quantity = random_range(24, 60);
             }
             else if (mon->type == MONS_SPRIGGAN_RIDER)
             {
                 set_item_ego_type(mitm[thing_created], OBJ_MISSILES,
                                   SPMSL_CURARE);
 
-                mitm[thing_created].quantity = random_range(2, 4);
+                mitm[thing_created].quantity = random_range(12, 24);
             }
             else
             {
@@ -1323,7 +1323,7 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
                                                          : SPMSL_POISONED);
 
                 if (get_ammo_brand(mitm[thing_created]) == SPMSL_CURARE)
-                    mitm[thing_created].quantity = random_range(2, 8);
+                    mitm[thing_created].quantity = random_range(12, 24);
             }
         }
         else

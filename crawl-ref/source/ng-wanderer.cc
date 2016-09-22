@@ -18,13 +18,13 @@ static void _give_wanderer_weapon(skill_type wpn_skill, int plus)
         // get curare here.
         if (plus)
         {
-            newgame_make_item(OBJ_MISSILES, MI_NEEDLE, 1 + random2(4),
+            newgame_make_item(OBJ_MISSILES, MI_NEEDLE, 8 + random2(32),
                               0, SPMSL_CURARE);
         }
         // Otherwise, we just get some poisoned needles.
         else
         {
-            newgame_make_item(OBJ_MISSILES, MI_NEEDLE, 5 + roll_dice(2, 5),
+            newgame_make_item(OBJ_MISSILES, MI_NEEDLE, 40 + roll_dice(16, 40),
                               0, SPMSL_POISONED);
         }
     }
@@ -78,9 +78,9 @@ static void _give_wanderer_weapon(skill_type wpn_skill, int plus)
     newgame_make_item(OBJ_WEAPONS, sub_type, 1, plus);
 
     if (sub_type == WPN_SHORTBOW)
-        newgame_make_item(OBJ_MISSILES, MI_ARROW, 15 + random2avg(21, 5));
+        newgame_make_item(OBJ_MISSILES, MI_ARROW, 120 + random2avg(160, 5));
     else if (sub_type == WPN_HAND_CROSSBOW)
-        newgame_make_item(OBJ_MISSILES, MI_BOLT, 15 + random2avg(21, 5));
+        newgame_make_item(OBJ_MISSILES, MI_BOLT, 120 + random2avg(160, 5));
 }
 
 // The overall role choice for wanderers is a weighted chance based on

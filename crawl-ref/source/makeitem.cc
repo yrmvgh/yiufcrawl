@@ -662,12 +662,12 @@ static void _generate_missile_item(item_def& item, int force_type,
     // No fancy rocks -- break out before we get to special stuff.
     if (item.sub_type == MI_LARGE_ROCK)
     {
-        item.quantity = 2 + random2avg(5,2);
+        item.quantity = 2 + random2avg(70,2);
         return;
     }
     else if (item.sub_type == MI_STONE)
     {
-        item.quantity = 1 + random2(7) + random2(10) + random2(12) + random2(10);
+        item.quantity = 5 + random2(35) + random2(50) + random2(60) + random2(50);
         return;
     }
     else if (item.sub_type == MI_THROWING_NET) // no fancy nets, either
@@ -686,12 +686,12 @@ static void _generate_missile_item(item_def& item, int force_type,
     if (item.sub_type == MI_JAVELIN || item.sub_type == MI_TOMAHAWK
         || (item.sub_type == MI_NEEDLE && get_ammo_brand(item) != SPMSL_POISONED))
     {
-        item.quantity = random_range(2, 8);
+        item.quantity = random_range(20, 80);
     }
     else if (get_ammo_brand(item) != SPMSL_NORMAL)
-        item.quantity = 1 + random2(7) + random2(10) + random2(10);
+        item.quantity = 10 + random2(70) + random2(50) + random2(50);
     else
-        item.quantity = 1 + random2(7) + random2(10) + random2(10) + random2(12);
+        item.quantity = 10 + random2(70) + random2(50) + random2(50) + random2(60);
 }
 
 static bool _try_make_armour_artefact(item_def& item, int force_type,
