@@ -1395,7 +1395,7 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
 
         case MONS_CHUCK:
             weap_type  = MI_LARGE_ROCK;
-            qty = 2;
+            qty = 50;
             break;
 
         case MONS_POLYPHEMUS:
