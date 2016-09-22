@@ -1689,12 +1689,6 @@ skeleton
 
 Un squelette animé de non-vie par la nécromancie.
 %%%%
-sky beast
-
-Une étrange créature aérienne formée de nuages et de chairs torturées ayant
-l’éclat de l'électricité, et qui, de temps en temps, disparaît complètement de
-la vue.
-%%%%
 slave
 
 Un humain, autrefois si fier, qui a été magiquement réduit à l'esclavage et qui

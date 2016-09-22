@@ -2781,7 +2781,9 @@ enum monster_type                      // menv[].type
     MONS_UGLY_THING,
     MONS_VERY_UGLY_THING,
     MONS_ICE_BEAST,
+#if TAG_MAJOR_VERSION == 34
     MONS_SKY_BEAST,
+#endif
     MONS_SPHINX,
     MONS_ORB_GUARDIAN,
 

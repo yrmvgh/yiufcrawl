@@ -1067,21 +1067,6 @@ bool mon_special_ability(monster* mons)
         }
         break;
 
-    case MONS_SKY_BEAST:
-        if (one_chance_in(8))
-        {
-            // If we're invisible, become visible.
-            if (mons->invisible())
-            {
-                mons->del_ench(ENCH_INVIS);
-                place_cloud(CLOUD_RAIN, mons->pos(), 2, mons);
-            }
-            // Otherwise, go invisible.
-            else
-                enchant_monster_invisible(mons, "flickers out of sight");
-        }
-        break;
-
     case MONS_SNAPPING_TURTLE:
     case MONS_ALLIGATOR_SNAPPING_TURTLE:
         // Use the same calculations as for low-HP casting

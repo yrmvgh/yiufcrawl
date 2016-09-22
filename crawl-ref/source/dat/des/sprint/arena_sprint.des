@@ -262,7 +262,7 @@ function arena_sprint_get_monster_set(round, boss)
                 -- Fire, Air, Earth, Water, Death
                 "w:20 fire bat / fire elemental / w:5 mottled dragon",
                 "steam dragon / w:5 air elemental / w:1 wind drake / w:5 lightning spire /\
-                    w:30 sky beast / insubstantial wisp",
+                    w:30 wyvern / insubstantial wisp",
                 "w:15 earth elemental / w:5 gargoyle /\
                     w:15 rust devil / w:15 iron imp",
                 "w:20 ice beast / w:20 simulacrum / rime drake / w:5 water elemental",
@@ -304,7 +304,7 @@ function arena_sprint_get_monster_set(round, boss)
                 "fire bat / fire elemental / mottled dragon /\
                     w:5 sun demon / w:2 efreet / hell hound",
                 "steam dragon / air elemental / w:3 wind drake / lightning spire /\
-                    w:20 sky beast / insubstantial wisp",
+                    w:20 wyvern / insubstantial wisp",
                 "earth elemental w:15 / gargoyle w:5 /\
                     rust devil / iron imp / w:5 iron troll",
                 "ice beast / rime drake / ogre simulacrum / water elemental",
@@ -348,7 +348,7 @@ function arena_sprint_get_monster_set(round, boss)
                 "w:5 fire bat / fire elemental / mottled dragon /\
                     sun demon / efreet / hell hound /\
                     hell hog / w:5 fire crab",
-                "w:1 storm dragon / air elemental / w:5 wind drake / w:17 sky beast /\
+                "w:1 storm dragon / air elemental / w:5 wind drake /\
                     insubstantial wisp",
                 "earth elemental w:20 /\
                     rust devil / w:5 iron troll / w:1 roxanne /\
@@ -583,7 +583,7 @@ function arena_sprint_get_monster_set(round, boss)
                 "air elemental name:greater n_adj perm_ench:tornado col:lightcyan / air elemental w:20",
                 "iron golem hd:20 col:magenta name:orb_golem n_rpl n_des n_spe spells:orb_of_destruction.70.natural",
                 "brimstone fiend / ice fiend / tzitzimitl / executioner / hell sentinel",
-                "titan / spriggan air mage / blizzard demon / w:20 sky beast",
+                "titan / spriggan air mage / blizzard demon",
                 "sphinx / place:Tomb:$",
                 "orb of fire / orb of fire name:orb_of_ice n_rpl n_des spells:glaciate.80.magical col:lightblue tile:mons_orb_of_ice /\
                   orb of fire name:orb_of_electricity n_rpl n_des spells:chain_lightning.80.magical col:yellow tile:mons_orb_of_electricity",

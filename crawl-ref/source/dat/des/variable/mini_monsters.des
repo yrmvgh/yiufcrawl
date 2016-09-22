@@ -1008,7 +1008,7 @@ ENDMAP
 NAME:    hangedman_misty_isle
 TAGS:    transparent no_monster_gen no_pool_fixup patrolling
 DEPTH:   D:7-12
-KMONS:   123 = sky beast
+KMONS:   123 = ice beast
 KMONS:   45 = insubstantial wisp
 KMONS:   6 = steam dragon
 KITEM:   15% = any / gold
@@ -3113,7 +3113,7 @@ DEPTH:   Depths
 WEIGHT:  3
 MONS:    patrolling spriggan air mage ; staff of air ident:type . robe
 MONS:    patrolling spriggan rider ; spear ego:electrocution ident:type . buckler . robe
-MONS:    lightning spire, sky beast, electric eel
+MONS:    lightning spire, electric eel
 KMONS:   E = insubstantial wisp w:10 / ball lightning w:6 / \
              generate_awake air elemental w:7 / air elemental w:1
 KITEM:   dT = any weapon good_item ego:electrocution ident:type, \

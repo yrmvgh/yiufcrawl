@@ -2098,11 +2098,6 @@ skeleton
 
 A skeleton compelled to unlife by the exercise of necromancy.
 %%%%
-sky beast
-
-A strange aerial creature formed of clouds and tortured flesh that sparkles
-with electricity and, every so often, slips entirely from view.
-%%%%
 slave
 
 A once-proud human who has been magically enslaved, forcing it to perform any
