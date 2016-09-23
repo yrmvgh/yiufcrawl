@@ -31,9 +31,9 @@ default-depth: D:2-12
 NAME: grunt_ashenzari_visionary
 TAGS: temple_overflow_ashenzari uniq_altar_ashenzari no_trap_gen no_monster_gen
 WEIGHT: 5
-SHUFFLE: ef
+SHUFFLE: e
 # The branches should be in reverse order here so we don't select the
-# same branch twice.
+# same branch twice. 
 : local branches = {}
 : if crawl.game_started() and dgn.br_exists("Swamp") then
 :   table.insert(branches, "Swamp")
@@ -50,21 +50,6 @@ SUBVAULT: e : grunt_ashenzari_visionary_snake
 : else
 SUBVAULT: e : grunt_ashenzari_visionary
 : end
-: if crawl.game_started() and dgn.br_exists("Snake") then
-:   table.insert(branches, "Snake Pit")
-SUBVAULT: f : grunt_ashenzari_visionary_snake
-: elseif crawl.game_started() and dgn.br_exists("Spider") then
-:   table.insert(branches, "Spider Nest")
-SUBVAULT: f : grunt_ashenzari_visionary_spider
-: elseif crawl.game_started() and dgn.br_exists("Shoals") then
-:   table.insert(branches, "Shoals")
-SUBVAULT: f : grunt_ashenzari_visionary_shoals
-: elseif crawl.game_started() and dgn.br_exists("Swamp") then
-:   table.insert(branches, "Swamp")
-SUBVAULT: f : grunt_ashenzari_visionary_swamp
-: else
-SUBVAULT: f : grunt_ashenzari_visionary
-: end
 {{
 
 lua_marker(":", Triggerable.synchronized_markers(
@@ -77,21 +62,21 @@ KFEAT: d = stone_wall
 KFEAT: _ = altar_ashenzari
 MAP
 ccccc.@.ccccc
-ceeed...dfffc
-ceeed...dfffc
-ceeed...dfffc
-ceeed...dfffc
-ceeed:::dfffc
-ceeed:::dfffc
-ceeed:::dfffc
-ceeed:_:dfffc
-ceeed:::dfffc
-ceeed:::dfffc
-ceeed:::dfffc
-ceeed...dfffc
-ceeed...dfffc
-ceeed...dfffc
-ceeed...dfffc
+ceeed...ddddc
+ceeed...ddddc
+ceeed...ddddc
+ceeed...ddddc
+ceeed:::ddddc
+ceeed:::ddddc
+ceeed:::ddddc
+ceeed:_:ddddc
+ceeed:::ddddc
+ceeed:::ddddc
+ceeed:::ddddc
+ceeed...ddddc
+ceeed...ddddc
+ceeed...ddddc
+ceeed...ddddc
 ccccc.@.ccccc
 ENDMAP
 

@@ -82,18 +82,25 @@ void initialise_branch_depths()
         }
     }
 
-    // You will get one of Shoals/Swamp and one of Spider/Snake.
-    // This way you get one "water" branch and one "poison" branch.
-    branch_type disabled_branch[] =
+    // You will get one of Shoals/Swamp/Spider/Snake.
+    branch_type lair_branch[] =
     {
-        random_choose(BRANCH_SWAMP, BRANCH_SHOALS),
-        random_choose(BRANCH_SNAKE, BRANCH_SPIDER),
+        BRANCH_SWAMP, 
+		BRANCH_SHOALS,
+        BRANCH_SNAKE,  	
+		BRANCH_SPIDER
     };
-
-    for (branch_type disabled : disabled_branch)
+	
+	branch_type enabled_branch = random_choose(BRANCH_SWAMP, BRANCH_SHOALS, 
+	BRANCH_SNAKE, BRANCH_SPIDER);
+	
+    for (branch_type disabled : lair_branch)
     {
+		if(branches[disabled].shortname != branches[enabled_branch].shortname)
+		{
         dprf("Disabling branch: %s", branches[disabled].shortname);
         brentry[disabled].clear();
+		}
     }
 
     for (branch_iterator it; it; ++it)
