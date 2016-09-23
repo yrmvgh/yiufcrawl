@@ -142,7 +142,7 @@ DEPTH:   Geh, Coc, Zot:1-4
 :  if you.in_branch("Geh") then
 KMONS:   1 = brimstone fiend w:9 / hell sentinel w:1
 KMONS:   2 = hellion / balrug
-KMONS:   34 = smoke demon / red devil
+KMONS:   34 = smoke demon
 KMONS:   56 = skeletal warrior ; broad axe ego:flaming ident:type | \
          halberd ego:flaming ident:type w:7 | morningstar ego:flaming ident:type
 KMONS:   7 = hell knight
@@ -488,7 +488,7 @@ TAGS:   no_rotate
 MONS:   patrolling Asmodeus, brimstone fiend
 MONS:   balrug, sun demon, hellion, fire giant
 KMONS:  7 = molten gargoyle
-KMONS:  8 = red devil
+KMONS:  8 = sun demon
 # Place one Serpent in the inner circle.
 : serpent_of_hell_setup(_G)
 KFEAT:  D = lava
@@ -678,7 +678,7 @@ ENDMAP
 NAME:    geh_grunt
 ORIENT:  encompass
 MONS:    patrolling Asmodeus, Brimstone Fiend, balrug
-MONS:    hellion, sun demon, fire giant, red devil / crimson imp w:20
+MONS:    hellion, sun demon, fire giant / crimson imp w:20
 KMONS:   9 = molten gargoyle
 SHUFFLE: {[(<
 SUBST:   - = ll.
@@ -772,7 +772,7 @@ ORIENT: encompass
 MONS: patrolling Asmodeus
 MONS: smoke demon w:9 / sun demon w:9 / hellion w:1 / balrug w:1
 MONS: hell knight / fire giant w:2, Brimstone Fiend, fire giant / balrug w:2
-MONS: red devil / sun demon w:1 / smoke demon w:1, hellion
+MONS: sun demon w:1 / smoke demon w:1, hellion
 NSUBST: 2  = 10:2 / *:.
 NSUBST: 4  = 2:4 / *:.
 KFEAT:  g  = iron_grate
@@ -831,7 +831,7 @@ NAME:    geh_hangedman
 ORIENT:  encompass
 MONS:    patrolling Asmodeus, brimstone fiend, balrug
 MONS:    hellion, fire giant, hell knight, hell hog
-KMONS:   y = red devil w:20 / fire elemental / salamander
+KMONS:   y = fire elemental / salamander
 KMONS:   Y = molten gargoyle
 KMONS:   zZ = sun demon / efreet / smoke demon w:5 / \
               fire dragon skeleton w:5
@@ -934,7 +934,7 @@ ENDMAP
 NAME:    geh_grunt_pentagon
 ORIENT:  encompass
 MONS:    patrolling Asmodeus, Brimstone Fiend, balrug
-MONS:    hellion, sun demon, fire giant, red devil / crimson imp w:20
+MONS:    hellion, sun demon, fire giant / crimson imp w:20
 KMONS:   9 = molten gargoyle
 SHUFFLE: {[(
 SUBST:   - = ll.

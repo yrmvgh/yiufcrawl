@@ -41,7 +41,7 @@ function base_monster_setup(e)
            tarantella / jumping spider / demonic crawler /\
            small abomination / guardian mummy / spriggan /\
            orange demon / hellwing / smoke demon / ynoxinul / ice devil /\
-           red devil / centaur band")
+           centaur band")
   e.kmons("C = eye of devastation / hydra / skeletal warrior band w:5 /\
            catoblepas / vampire / wandering mushroom /\
            guardian serpent / rakshasa w:5 / slime creature band w:5 /\
@@ -134,7 +134,7 @@ function base_monster_setup(e)
            ghoul band / skeletal warrior band / vampire knight /\
            vampire mage band")
   e.kmons("S = orange demon / hellwing / smoke demon / ynoxinul /\
-           red devil / sixfirhy / chaos spawn / ice devil w:20 / sun demon /\
+           sixfirhy / chaos spawn / ice devil w:20 / sun demon /\
            rust devil / neqoxec band / green death w:5 / blizzard demon w:5 /\
            balrug w:5 / cacodemon w:5 / hell beast / reaper w:5 / soul eater /\
            lorocyproca")

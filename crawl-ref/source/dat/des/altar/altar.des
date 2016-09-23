@@ -286,7 +286,7 @@ NAME:  lemuel_hellish_altar
 DEPTH: D:8-, Crypt, Geh
 TAGS:  no_monster_gen
 MONS:  rust devil / orange demon
-MONS:  hell beast / red devil
+MONS:  hell beast
 MONS:  iron imp
 MONS:  hellion
 SUBST: 2 = 23

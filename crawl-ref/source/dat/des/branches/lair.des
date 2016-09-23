@@ -2551,7 +2551,7 @@ PLACE:   Lair:$
 TAGS:    no_pool_fixup no_wall_fixup no_monster_gen no_rotate
 ORIENT:  southeast
 MONS:    hydra / rime drake / dire elephant
-MONS:    red devil / ice devil w:15 / orange demon w:15 / hell hound w:5
+MONS:    ice devil w:15 / orange demon w:15 / hell hound w:5
 MONS:    hellwing, sun demon, sixfirhy, smoke demon, hell beast
 KMONS:   8 = wizard
 # XXX: no_pickup is incompatible with acquire any.

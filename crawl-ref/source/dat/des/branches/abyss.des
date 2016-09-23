@@ -390,7 +390,7 @@ ENDMAP
 
 NAME:    hangedman_abyss_shoalhut
 TAGS:    no_pool_fixup patrolling
-MONS:    red devil w:30 / smoke demon / eye of devastation w:5 / \
+MONS:    smoke demon w:30 / eye of devastation w:5 / \
          unseen horror / ynoxinul / snapping turtle skeleton w:15
 NSUBST:  = = 1:+ / 1:xx+ / *:x
 SUBST:   1 = 1., x = xxxxcccvb, l = wWll

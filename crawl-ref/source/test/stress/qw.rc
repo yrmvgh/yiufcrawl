@@ -1207,7 +1207,6 @@ local bia_monsters = {
   {15, "ice dragon"},
   {15, "Snorg"},
   {15, "death yak"},
-  {15, "red devil"},
 
   {17, "desc", "hydra"},
 

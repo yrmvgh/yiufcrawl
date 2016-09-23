@@ -2159,7 +2159,7 @@ ENDMAP
 
 NAME:   minmay_beelzebubs_servants
 DEPTH:  D:10-
-MONS:   orange demon, red devil
+MONS:   orange demon, sun demon
 NSUBST: 1 = 1:1 / * = 1., 2 = 1:2 / * = 2.
 MAP
 ........................
@@ -2200,30 +2200,6 @@ ENDMAP
 # Some earlyish demon minivaults by Eino.
 # The difficulty of most low-tier demons is lost by the time the player gets to
 # meet them. Here they aspire to be both challenging and flavourful.
-
-##### Red devils (4) can use weapons and armour.
-NAME:    einodemon_armed_red_devil_minivault
-TAGS:    patrolling
-DEPTH:   D:12-, Elf, !Elf:$
-MONS:    red devil ; spear | trident . ring mail | scale mail
-MONS:    red devil ; spear | trident . buckler
-MONS:    red devil ; spear good_item | trident good_item
-MONS:    red devil ; spear | trident . tomahawk
-SHUFFLE: 1234
-KMASK:   l = no_monster_gen
-MAP
-...........
-.ll.v.v.ll.
-.l..v.v..l.
-...vv.vv...
-.vvv1.2vvv.
-.....$.....
-.vvv3.4vvv.
-...vv.vv...
-.l..v.v..l.
-.ll.v.v.ll.
-...........
-ENDMAP
 
 ##### Demonic crawlers (s) and beetles.
 NAME:  einodemon_crawler_minivault
@@ -5537,7 +5513,7 @@ KITEM:   * = battleaxe no_pickup / great mace no_pickup / \
 KFEAT:   ^ = known zot trap
 : if you.in_branch("Geh") then
 KMONS:   9 = sun demon / smoke demon / hell knight / \
-             red devil w:5 / efreet w:5
+             hellion w:5 / efreet w:5
 KMONS:   8 = hellion / balrug
 KMONS:   7 = brimstone fiend
 MARKER:  F = lua:fog_machine {cloud_type = "flame", \
@@ -6119,7 +6095,7 @@ MONS:   obsidian statue
 MONS:   patrolling hell knight
 MONS:   sun demon / soul eater / smoke demon / neqoxec / \
         ynoxinul / chaos spawn
-MONS:   ice devil / rust devil / orange demon / red devil / hellwing / \
+MONS:   ice devil / rust devil / orange demon / hellwing / \
         sixfirhy
 KPROP:  ._-cGO12345 = bloody / nothing w:20
 KFEAT:  _ = altar_makhleb

@@ -1609,13 +1609,6 @@ reaper
 
 Une créature squelettique armée d'une faux géante.
 %%%%
-red devil
-
-Un cousin plus grand de l'imp ordinaire, arborant un rictus diabolique et avec
-deux petites ailes aux épaules. Ils préfèrent les tridents acérés, et se
-moquent souvent de leurs victimes alors qu'ils les piquent de loin avant de se
-replier prestement.
-%%%%
 hornet
 
 Une énorme guêpe rouge avec un dard acéré. Du poison paralytique puissant

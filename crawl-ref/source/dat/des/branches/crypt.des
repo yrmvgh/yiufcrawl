@@ -1609,7 +1609,7 @@ KMONS:  S = shadow / wraith / freezing wraith / shadow wraith / wight
 KMONS:  t = fire giant skeleton / fire dragon skeleton
 KMONS:  X = w:1 curse skull / w:19 revenant
 : else
-KMONS:  t = w:20 hell knight / smoke demon / red devil
+KMONS:  t = w:20 hell knight / smoke demon
 KMONS:  X = w:1 curse skull / w:19 hell knight
 : end
 ####### Randomisation of doors

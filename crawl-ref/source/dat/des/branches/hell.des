@@ -73,7 +73,7 @@ ENDMAP
 NAME:   hellmouth_1
 ORIENT: float
 TAGS:   no_rotate
-MONS:   crimson imp / red devil / hellwing / hell hound
+MONS:   crimson imp / hellwing / hell hound
 MONS:   hellion / balrug / soul eater / smoke demon
 ITEM:   good_item demon blade / good_item demon whip / \
         good_item demon trident
@@ -109,7 +109,7 @@ NAME:   hellmouth_2
 WEIGHT: 6
 ORIENT: float
 TAGS:   no_monster_gen transparent
-MONS:   crimson imp / red devil / hellwing / hell hound
+MONS:   crimson imp / hellwing / hell hound
 MONS:   hellion / balrug / soul eater w:20 / smoke demon w:20
 ITEM:   good_item demon blade / good_item demon whip /\
         good_item demon trident
@@ -148,7 +148,7 @@ ENDMAP
 # Hellmouth 3 (Lemuel)
 NAME:   hellmouth_3
 ORIENT: float
-MONS:   crimson imp / red devil / hellwing / hell hound
+MONS:   crimson imp / hellwing / hell hound
 MONS:   hellion / balrug / soul eater / smoke demon
 ITEM:   demon blade / demon whip / demon trident / nothing
 KMASK:  12Ad = opaque
@@ -182,7 +182,7 @@ NAME:   grunt_hell_entry_demonic_statue
 WEIGHT: 6
 ORIENT: float
 TAGS:   no_monster_gen no_tele_into
-MONS:   ice devil / orange demon / red devil / w:5 rust devil / \
+MONS:   ice devil / orange demon / w:5 rust devil / \
         w:35 nothing
 MONS:   sun demon / soul eater / w:20 nothing
 MONS:   shadow demon / blizzard demon / hell beast
@@ -296,7 +296,7 @@ TAGS: nolayout_encompass no_monster_gen uniq_hell_entry_high
 KMONS: O = hell beast
 MONS: simulacrum w:20 / freezing wraith / ice devil
 MONS: rust devil w:20 / iron troll
-MONS: red devil w:20 / hell hound / sun demon
+MONS: hell hound / sun demon
 MONS: skeleton / zombie / skeletal warrior band / flying skull band / \
       ancient champion band w:5 / soul eater
 : hell_entry_tier(_G, "mid")
@@ -323,7 +323,7 @@ ENDMAP
 NAME:    hangedman_geh_valley
 WEIGHT:  4
 TAGS:    transparent uniq_hell_entry_geh
-KMONS:   O = red devil / crimson imp w:20 / nothing
+KMONS:   O = sun demon / crimson imp w:20 / nothing
 SHUFFLE: +- / +- / =+
 NSUBST:  - = 1:+cc / *:c
 SUBST:   = = c
@@ -863,7 +863,7 @@ KFEAT:  G=enter_gehenna
 SUBST:  L = l.
 KMONS:  5 = crimson imp
 KMONS:  2 = hellion
-KMONS:  3 = red devil
+KMONS:  3 = sun demon
 KMONS:  2 = reaper / soul eater
 FTILE:  x'5a2V+ = floor_infernal_blank
 : hell_lava_spawns(_G)
@@ -896,7 +896,7 @@ KFEAT:   G = enter_gehenna
 SUBST:   ce = x, d : xlllLX., f : xlllLX., gi = ....m, m = mm.
 SUBST:   L = l., X = xl
 KMONS:   H = hellion
-KMONS:   m = crimson imp / red devil / smoke demon
+KMONS:   m = crimson imp / smoke demon
 KMONS:   ' = hell beast / hell hound / hell hog / nothing w:140
 FTILE:   AH' = floor_infernal_blank
 : hell_lava_spawns(_G)
@@ -923,8 +923,8 @@ NAME: vestibule_geh_grunt_obsidian_fortress
 TAGS: vestibule_geh
 KFEAT: G = enter_gehenna
 MONS: balrug / hellion, sun demon / smoke demon
-MONS: red devil / orange demon / hell hound / hell hog
-MONS: red devil / orange demon / hell hound / hell hog
+MONS: orange demon / hell hound / hell hog
+MONS: orange demon / hell hound / hell hog
 NSUBST: 2 = 3:2 / *:.
 NSUBST: 3 = 3:3 / *:.
 FTILE: 123+G = floor_infernal_blank

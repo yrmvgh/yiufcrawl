@@ -451,7 +451,7 @@ NAME: grunt_profane_temple_geh
 TAGS: grunt_profane_temple no_monster_gen
 : grunt_profane_halls_setup(_G)
 NSUBST: 4 = 8:4 / *:., 5 = 1:6 / *:5
-KMONS: 4 = red devil / hell hound / efreet w:5
+KMONS: 4 = hell hound / efreet w:5
 KMONS: 5 = sun demon
 KMONS: 6 = balrug
 KFEAT: A = stone_arch

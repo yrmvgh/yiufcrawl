@@ -1119,7 +1119,7 @@ ORIENT:    north
 : pan_lord_setup(_G, 'Cerebov')
 TILE:      v = dngn_metal_wall_brown
 MONS:      patrolling Cerebov, balrug, brimstone fiend
-MONS:      red devil, sun demon, crimson imp
+MONS:      sun demon, crimson imp
 epilogue{{
   pan_lord_epilogue('Cerebov')
 }}
@@ -1226,7 +1226,7 @@ TAGS:   cerebov uniq_cerebov
 ORIENT: northwest
 : pan_lord_setup(_G, 'Cerebov')
 MONS:   patrolling Cerebov, balrug, brimstone fiend
-MONS:   sun demon, red devil / crimson imp w:20
+MONS:   sun demon / crimson imp w:20
 epilogue{{
   pan_lord_epilogue('Cerebov')
 }}
@@ -3048,7 +3048,7 @@ ENDMAP
 
 NAME:   pan_captured_pigsty
 TAGS:   extra
-MONS:   red devil, holy swine
+MONS:   hellion, holy swine
 KFEAT:  o = iron_grate
 {{
 local function swineherd_die(monster, killer_type, killer_index, silent, wizard)
