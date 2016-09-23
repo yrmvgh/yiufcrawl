@@ -2472,7 +2472,7 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
                                    {MONS_DEEP_ELF_SORCERER, 1},
                                    {MONS_DEEP_ELF_DEATH_MAGE, 1}}}},
     { BAND_BALRUG,              {{{MONS_SUN_DEMON, 1},
-                                  {MONS_RED_DEVIL, 1}}}},
+                                  {MONS_HELLION, 1}}}},
     { BAND_HELLWING,            {{{MONS_HELLWING, 1},
                                   {MONS_SMOKE_DEMON, 1}}}},
     { BAND_CACODEMON,           {{{MONS_SIXFIRHY, 1},
@@ -2776,8 +2776,7 @@ static monster_type _band_member(band_type band, int which,
     case BAND_INFERNAL_DEMONSPAWN:
         if (which == 1 || one_chance_in(5))
         {
-            return random_choose_weighted( 2, MONS_RED_DEVIL,
-                                           2, MONS_SUN_DEMON,
+            return random_choose_weighted( 2, MONS_SUN_DEMON,
                                            3, MONS_INFERNAL_DEMONSPAWN);
         }
         return random_demonspawn_monster_species();
@@ -3379,7 +3378,6 @@ monster_type random_demon_by_tier(int tier)
         return random_choose(MONS_ICE_DEVIL,
                              MONS_RUST_DEVIL,
                              MONS_ORANGE_DEMON,
-                             MONS_RED_DEVIL,
                              MONS_CHAOS_SPAWN,
                              MONS_HELLWING);
     case 3:

@@ -988,7 +988,6 @@ static const pop_entry pop_volcano[] =
 { // Volcano
   {  1,  1,  515, FLAT, MONS_SALAMANDER },
   {  1,  1,  515, FLAT, MONS_HELL_HOUND },
-  {  1,  1,  385, FLAT, MONS_RED_DEVIL },
   {  1,  1,  515, FLAT, MONS_EFREET },
   {  1,  1,  515, FLAT, MONS_MANTICORE },
   {  1,  1,  515, FLAT, MONS_LINDWURM },
