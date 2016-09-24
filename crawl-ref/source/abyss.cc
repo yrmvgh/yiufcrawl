@@ -307,13 +307,12 @@ static int _abyss_create_items(const map_bitmask &abyss_genlevel_mask,
 {
     // During game start, number and level of items mustn't be higher than
     // that on level 1.
-    int num_items = 150, items_level = 52;
+    int num_items = 150;
     int items_placed = 0;
 
     if (player_in_starting_abyss())
     {
         num_items   = 3 + roll_dice(3, 11);
-        items_level = 0;
     }
 
     const int abyssal_rune_roll = _abyssal_rune_roll();
@@ -349,18 +348,6 @@ static int _abyss_create_items(const map_bitmask &abyss_genlevel_mask,
     {
         if (_abyss_place_rune(abyss_genlevel_mask))
             ++items_placed;
-    }
-
-    for (const coord_def place : chosen_item_places)
-    {
-        if (_abyss_square_accepts_items(abyss_genlevel_mask, place))
-        {
-            int thing_created = items(true, OBJ_RANDOM, OBJ_RANDOM,
-                                      items_level);
-            move_item_to_grid(&thing_created, place);
-            if (thing_created != NON_ITEM)
-                items_placed++;
-        }
     }
 
     return items_placed;
