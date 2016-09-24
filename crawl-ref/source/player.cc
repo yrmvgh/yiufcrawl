@@ -1991,7 +1991,7 @@ int player_movement_speed()
         mv = 5; // but allowed minimum is six
     else if (you.form == TRAN_PIG)
         mv = 7;
-    else if (you.form == TRAN_PORCUPINE || you.form == TRAN_WISP)
+    else if (you.form == TRAN_PORCUPINE)
         mv = 8;
     else if (you.fishtail || you.form == TRAN_HYDRA && you.in_water())
         mv = 6;
@@ -6202,7 +6202,7 @@ mon_holy_type player::holiness(bool temp) const
 {
     mon_holy_type holi = MH_NATURAL;
     if (species == SP_GARGOYLE ||
-        temp && (form == TRAN_STATUE || form == TRAN_WISP || petrified()))
+        temp && (form == TRAN_STATUE || petrified()))
     {
         holi = MH_NONLIVING;
     }
@@ -6265,7 +6265,7 @@ bool player::is_unbreathing() const
 
 bool player::is_insubstantial() const
 {
-    return form == TRAN_WISP;
+    return false;
 }
 
 int player::res_acid(bool calc_unid) const
@@ -7313,12 +7313,11 @@ bool player::polymorph(int pow)
     {
         // Whole-body transformations only; mere appendage doesn't seem fitting.
         f = random_choose_weighted(
-            100, TRAN_BAT,
-            100, TRAN_FUNGUS,
-            100, TRAN_PIG,
-            100, TRAN_TREE,
-            100, TRAN_PORCUPINE,
-            100, TRAN_WISP,
+            120, TRAN_BAT,
+            120, TRAN_FUNGUS,
+            120, TRAN_PIG,
+            120, TRAN_TREE,
+            120, TRAN_PORCUPINE,
              20, TRAN_SPIDER,
              20, TRAN_ICE_BEAST,
               5, TRAN_STATUE,
@@ -7820,7 +7819,7 @@ bool player::form_uses_xl() const
     // users of one particular [non-]weapon be effective for this
     // unintentional form while others can just run or die. I believe this
     // should apply to more forms, too.  [1KB]
-    return form == TRAN_WISP || form == TRAN_FUNGUS;
+    return form == TRAN_FUNGUS;
 }
 
 static int _get_device_heal_factor()

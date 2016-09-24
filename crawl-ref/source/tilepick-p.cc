@@ -473,8 +473,8 @@ tileidx_t tileidx_player()
     case TRAN_PORCUPINE: ch = TILEP_MONS_PORCUPINE; break;
     // non-animals
     case TRAN_ICE_BEAST: ch = TILEP_TRAN_ICE_BEAST; break;
-    case TRAN_WISP:      ch = TILEP_MONS_INSUBSTANTIAL_WISP; break;
 #if TAG_MAJOR_VERSION == 34
+    case TRAN_WISP:      ch = TILEP_MONS_INSUBSTANTIAL_WISP; break;
     case TRAN_JELLY:     ch = TILEP_MONS_JELLY;     break;
 #endif
     case TRAN_FUNGUS:    ch = TILEP_TRAN_MUSHROOM;  break;

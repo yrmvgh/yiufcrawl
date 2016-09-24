@@ -588,8 +588,8 @@ enum transformation_type
     TRAN_APPENDAGE,
     TRAN_TREE,
     TRAN_PORCUPINE,
-    TRAN_WISP,
 #if TAG_MAJOR_VERSION == 34
+    TRAN_WISP,
     TRAN_JELLY,
 #endif
     TRAN_FUNGUS,
@@ -2822,8 +2822,8 @@ enum monster_type                      // menv[].type
     MONS_GOLDEN_EYE,
     MONS_FIRE_VORTEX,
     MONS_SPATIAL_VORTEX,
-    MONS_INSUBSTANTIAL_WISP,
 #if TAG_MAJOR_VERSION == 34
+    MONS_INSUBSTANTIAL_WISP,
     MONS_VAPOUR,
 
     // Mimics:

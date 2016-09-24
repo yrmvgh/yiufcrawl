@@ -1050,8 +1050,6 @@ void player_reacts()
             if (!crawl_state.disables[DIS_SAVE_CHECKPOINTS])
                 save_game(false);
         }
-        else if (you.form == TRAN_WISP && !you.stasis())
-            uncontrolled_blink();
     }
 
     abyss_maybe_spawn_xp_exit();

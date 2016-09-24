@@ -905,6 +905,7 @@ public:
     }
 };
 
+#if TAG_MAJOR_VERSION == 34
 class FormWisp : public Form
 {
 private:
@@ -914,7 +915,6 @@ public:
     static const FormWisp &instance() { static FormWisp inst; return inst; }
 };
 
-#if TAG_MAJOR_VERSION == 34
 class FormJelly : public Form
 {
 private:

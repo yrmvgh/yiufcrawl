@@ -1323,7 +1323,7 @@ ENDMAP
 # though distorted by the use of the ninth room and each set rotated.
 NAME:    wizlab_golubria
 TAGS:    no_pool_fixup
-KMONS:   1 = spatial vortex w:7 / blink frog / insubstantial wisp w:3 / nothing w:5
+KMONS:   1 = spatial vortex w:7 / blink frog / nothing w:5
 KMONS:   2 = deep elf mage w:5 ; tomahawk ego:dispersal w:20 | tomahawk w:5 | nothing / \
              rakshasa w:5 ; tomahawk ego:dispersal w:20 | tomahawk w:5 | nothing / \
              boggart ; tomahawk ego:dispersal w:20 | tomahawk w:5 | nothing /  \
@@ -1513,7 +1513,7 @@ ENDMAP
 # TODO: Needs an "ocean of clouds" tiles, and fluffy "cotton wool" cloud tiles.
 NAME:       wizlab_cloud
 TAGS:       no_rotate
-MONS:       wind drake, air elemental, insubstantial wisp, spriggan air mage
+MONS:       wind drake, air elemental, spriggan air mage
 KMONS:      5 = twister
 {{
 wizname = crawl.make_name()
@@ -1546,7 +1546,7 @@ TILE:       o = dngn_transparent_stone_white
 TILE:       b = dngn_crystal_white
 COLOUR:     wWv#4 = silver
 :           set_border_fill_type('open_sea')
-:           set_random_mon_list("insubstantial wisp / air elemental / wind drake")
+:           set_random_mon_list("air elemental / wind drake")
 :           wizlab_setup(_G)
 :           set_feature_name("floor", "damp floor")
 :           set_feature_name("crystal_wall", "wall of white crystal")

@@ -181,7 +181,7 @@ static const form_entry formdata[] =
     FC_DEFAULT, FC_FORBID, FC_ENABLE, true, false,
     "squeak", -8, "front leg", "", "curl into a sanctuary of spikes before", "flesh"
 },
-
+#if TAG_MAJOR_VERSION == 34
 {
     TRAN_WISP, MONS_INSUBSTANTIAL_WISP, "Wisp", "wisp-form", "wisp",
     "an insubstantial wisp.",
@@ -196,7 +196,6 @@ static const form_entry formdata[] =
     "whoosh", -8, "misty tendril", "strand", "swirl around", "vapour"
 },
 
-#if TAG_MAJOR_VERSION == 34
 {
     TRAN_JELLY, MONS_JELLY, "Jelly", "jelly-form", "jelly",
     "a lump of jelly.",
