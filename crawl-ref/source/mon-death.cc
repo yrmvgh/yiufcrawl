@@ -2548,9 +2548,7 @@ item_def* monster_die(monster* mons, killer_type killer,
             && you.see_cell(mons->pos())
             && !was_banished)
         {
-            if (mons_base_type(*mons) == MONS_KRAKEN)
-                mpr("The dead kraken's tentacles slide back into the water.");
-            else if (mons->type == MONS_TENTACLED_STARSPAWN)
+            if (mons->type == MONS_TENTACLED_STARSPAWN)
                 mpr("The starspawn's tentacles wither and die.");
         }
     }

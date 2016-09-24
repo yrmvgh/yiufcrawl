@@ -34,7 +34,7 @@ function hell_water_spawns(e)
                " / " .. hell_water_abbrev(_G, "alligator", 120) ..
                " / " .. hell_water_abbrev(_G, "anaconda", 130) ..
                " / " .. hell_water_abbrev(_G, "hydra", 230) ..
-               "/ kraken zombie w:25 / kraken simulacrum w:12 \
+               "/ titan zombie w:25 / titan simulacrum w:12 \
                 / patrolling water elemental w:113")
     e.kfeat("Pw = w")
     e.kmask("wW = no_monster_gen")

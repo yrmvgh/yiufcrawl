@@ -681,7 +681,7 @@ NAME: sprint_mu_shoals_kraken
 TAGS: sprint_mu_shoals no_rotate no_hmirror no_vmirror
 MONS: snapping turtle, alligator snapping turtle
 MONS: plant, fungus
-KMONS: ! = kraken
+KMONS: ! = alligator
 KFEAT: ! = deep_water
 KMONS: ? = snapping turtle
 KFEAT: ? = deep_water
@@ -1355,7 +1355,7 @@ NAME: sprint_mu_cocytus_islands
 TAGS: sprint_mu_cocytus no_rotate no_hmirror no_vmirror
 KMONS: 1 = patrolling Antaeus ; large shield ego:reflection
 KMONS: 2 = patrolling ice fiend
-KMONS: 3 = kraken simulacrum
+KMONS: 3 = titan simulacrum
 KFEAT: 3 = deep_water
 NSUBST: w = 3:3 / *:w
 NSUBST: 2 = 1:1 / 1:! /*:2

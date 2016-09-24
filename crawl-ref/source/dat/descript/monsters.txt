@@ -1515,11 +1515,6 @@ komodo dragon
 
 An enormous monitor lizard more than capable of preying on large animals.
 %%%%
-kraken
-
-A gargantuan sea monster, capable of devouring entire ships. Its many tentacles
-reach towards the shore and crush any who draw near.
-%%%%
 large abomination
 
 A hideous conglomeration of mangled body parts, possessed and altered in ways

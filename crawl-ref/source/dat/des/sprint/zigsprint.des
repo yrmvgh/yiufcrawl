@@ -460,7 +460,7 @@ local rnd = crawl.random2(142)
   elseif rnd < 52 then
     e.kmons("1 = place:Shoals:$ w:55 / merfolk javelineer / merfolk impaler /\
                  merfolk aquamancer")
-    e.kmons("2 = kraken")
+    e.kmons("2 = alligator snapping turtle")
     e.subst("1 = 1:15 2:1")
     e.subst(". = W.")
     e.kfeat("2 = deep_water")

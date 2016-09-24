@@ -535,30 +535,6 @@ Xw1wwwwwww1wXx
     wwwww
 ENDMAP
 
-NAME: nicolae_shoals_kraken_intersection
-DEPTH: Shoals
-TAGS: transparent no_pool_fixup water_ok no_trap_gen
-SUBST: b = .w, z = x.
-KPROP: w1. = no_tide
-KPROP: c = no_tele_into
-SUBST: c = xw
-KFEAT: 1 = w
-KMONS: 1 = kraken
-MAP
- ccxx@@xxcc
-ccxxz..zxxcc
-cxxz.bb.zxxc
-xxz.bwwb.zxx
-xz.bwwwwb.zx
-@.bwww1wwb.@
-@.bwwwwwwb.@
-xz.bwwwwb.zx
-xxz.bwwb.zxx
-cxxz.bb.zxxc
-ccxxz..zxxcc
- ccxx@@xxcc
-ENDMAP
-
 NAME: nicolae_shoals_arrival_archipelago
 DEPTH: Shoals
 SHUFFLE: {[(<, abc, def
@@ -681,7 +657,7 @@ DEPTH: Shoals
 TAGS: patrolling no_monster_gen
 SUBST: w = f:4 w W
 KMONS: f = bat w:5 / harpy / \
-       kraken w:1 / sea snake / \
+       sea snake / \
        snapping turtle / steam dragon w:1 / alligator w:5 / \
        alligator snapping turtle / anaconda w:1 / \
        water moccasin w:5 / electric eel w:1
@@ -929,7 +905,7 @@ NAME: wheals_shoals_ruined_temple
 TAGS: water_ok
 DEPTH: Shoals, !Shoals:$
 KPROP: c.GWuw1 = no_tide
-KMONS: 1 = kraken
+KMONS: 1 = elemental wellspring
 KFEAT: 1 = w
 SUBST: u = Ww
 SUBST: . = .:500 0
@@ -1084,34 +1060,6 @@ xx1WW.xx
 ENDMAP
 
 # XXX: Rare teleport islets possibilities.
-NAME: nicolae_shoals_kraken_party
-DEPTH: Shoals, !Shoals:1
-TAGS: no_monster_gen no_trap_gen water_ok
-SUBST: { = {[(, . = ......wW, - = ...W
-KFEAT: 1 = w
-KMONS: 1 = kraken
-MAP
-      --.@.--
- xxxxxxx---xxxxxxx
- x1w-.........-w1x
- xw--.........--wx
- x--%.........%--x
- x...............x
--x...............x-
--x...............x-
-.-...............-.
-@-.......{.......-@
-.-...............-.
--x...............x-
--x...............x-
- x............%--x
- x--%........%--wx
- xw--........--1xx
- x1w-........-wxx
- xxxxxxx---xxxxx
-      --.@.--
-ENDMAP
-
 NAME: nicolae_shoals_water_shrine
 DEPTH: Shoals
 TAGS: water_ok no_monster_gen no_item_gen
@@ -1331,7 +1279,7 @@ NAME:    shoals_rune_alternative
 TAGS:    shoal_rune_hangedman shoal_mimic_hangedman water_ok allow_dup \
          transparent no_dump
 KMONS:   12 = merfolk impaler / merfolk javelineer / merfolk aquamancer
-KMONS:   3 = kraken / harpy band w:15
+KMONS:   3 = harpy band
 KMONS:   d = merfolk aquamancer / water nymph w:5
 : if shoals_vault_is_mimic() then
 KITEM:   d = barnacled rune of zot mimic
@@ -1416,7 +1364,7 @@ TAGS:   transparent allow_dup
 MONS:   merfolk impaler ; trident ego:freezing good_item . robe w:7 / \
         merfolk impaler ; demon trident ego:freezing good_item . robe w:1 / \
         merfolk impaler w:2 / merfolk javelineer / merfolk aquamancer
-KMONS:  K = kraken simulacrum / frost giant w:20
+KMONS:  K = frost giant
 : if shoals_vault_is_mimic() then
 KITEM:  O = barnacled rune of Zot mimic
 : else

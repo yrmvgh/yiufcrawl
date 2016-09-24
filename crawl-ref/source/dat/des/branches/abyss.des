@@ -1529,7 +1529,7 @@ TAGS:    abyss_rune unrand transparent no_pool_fixup patrolling
 KMONS:   1P = apocalypse crab
 KMONS:   2 = fire crab
 KMONS:   3 = ghost crab
-KMONS:   K = kraken
+KMONS:   K = elemental wellspring
 KMONS:   T = tentacled monstrosity
 KMONS:   S = shambling mangrove
 KITEM:   OP = abyssal rune of Zot
@@ -1879,7 +1879,7 @@ NAME:   evilmike_abyss_exit_kraken
 TAGS:   abyss_exit
 NSUBST: w = 1:m / *:w
 KFEAT:  m = w
-KMONS:  m = kraken
+KMONS:  m = elemental wellspring
 SUBST:  Z = wY, Y = wW, W = w., w=WWw
 : init_abyss_exit(_G, "O")
 MAP

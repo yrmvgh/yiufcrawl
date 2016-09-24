@@ -3067,10 +3067,10 @@ enum monster_type                      // menv[].type
     MONS_SWAMP_WORM,
 #if TAG_MAJOR_VERSION == 34
     MONS_SHARK,
-#endif
-    MONS_KRAKEN,
+	MONS_KRAKEN,
     MONS_KRAKEN_TENTACLE,
     MONS_KRAKEN_TENTACLE_SEGMENT,
+#endif
 
     // Statuary
 #if TAG_MAJOR_VERSION == 34

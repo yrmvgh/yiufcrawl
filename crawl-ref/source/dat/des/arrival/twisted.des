@@ -717,7 +717,7 @@ NAME: nicolae_arrival_kraken_aquarium_a
 TAGS: arrival no_monster_gen no_pool_fixup no_trap_gen generate_awake
 ORIENT: float
 WEIGHT: 1
-KMONS: K = kraken att:neutral
+KMONS: K = elemental wellspring att:neutral
 KFEAT: K = w
 NSUBST: ' = 12:! / *:'
 KMONS: ! = human / elf / orc; nothing / naga; nothing / centaur; nothing / \
@@ -748,7 +748,7 @@ NAME: nicolae_arrival_kraken_aquarium_b
 TAGS: arrival no_monster_gen no_pool_fixup no_trap_gen
 ORIENT: float
 WEIGHT: 1
-KMONS: K = kraken att:neutral
+KMONS: K = elemental wellspring att:neutral
 KFEAT: K = w
 NSUBST: ' = 15:! / *:'
 KMONS: ! = human / elf / orc; nothing / naga; nothing / centaur; nothing / \

@@ -552,7 +552,7 @@ MONS:    ice devil w:22 / bog body
 MONS:    anaconda simulacrum / titan simulacrum / \
          hydra simulacrum / storm dragon simulacrum
 KMONS:   6 = ice statue
-KMONS:   7 = patrolling kraken simulacrum / \
+KMONS:   7 = patrolling iron troll simulacrum / \
              patrolling elemental wellspring
 KMONS:   89 = ice dragon / frost giant w:4
 KMONS:   & = patrolling ice fiend

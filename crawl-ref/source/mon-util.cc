@@ -1935,7 +1935,7 @@ mon_attack_def mons_attack_spec(const monster& m, int attk_number, bool base_fla
     else if (mons_is_demonspawn(mc) && attk_number != 0)
         mc = draco_or_demonspawn_subspecies(mon);
 
-    if (zombified && mc != MONS_KRAKEN_TENTACLE)
+    if (zombified)
         mc = mons_zombie_base(mon);
 
     ASSERT_smc();

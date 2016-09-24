@@ -240,11 +240,6 @@ static bool _tentacle_pos_unknown(const monster *tentacle,
             const monster *mon = monster_at(*ai);
             if (mon && you.can_see(*mon))
             {
-                // Could originate from the kraken.
-                if (mon->type == MONS_KRAKEN)
-                    return true;
-
-                // Otherwise, we know the segment can't be there.
                 continue;
             }
             return true;
@@ -259,7 +254,7 @@ static bool _tentacle_pos_unknown(const monster *tentacle,
                 continue;
 
             // Disturbance in shallow water -> might be a tentacle.
-            if (mon->type == MONS_KRAKEN || mon->submerged())
+            if (mon->submerged())
                 return true;
         }
     }

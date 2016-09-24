@@ -4051,7 +4051,7 @@ static mon_spell_slot _choose_spell_to_cast(monster &mons,
     // Promote the casting of useful spells for low-HP monsters.
     // (kraken should always cast their escape spell of inky).
     if (_mons_in_emergency(mons)
-        && one_chance_in(mons.type == MONS_KRAKEN ? 4 : 8))
+        && one_chance_in(8))
     {
         // Note: There should always be at least some chance we don't
         // get here... even if the monster is on its last HP. That

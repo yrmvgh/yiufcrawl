@@ -290,7 +290,7 @@ static const pop_entry pop_shoals[] =
   {  0,  3,  355, SEMI, MONS_FAUN },
   {  0,  6,  300, SEMI, MONS_WATER_NYMPH },
   {  0,  6,  110, SEMI, MONS_CYCLOPS },
-  {  0,  6,   73, SEMI, MONS_KRAKEN },
+  {  0,  6,   73, SEMI, MONS_NO_MONSTER },
   {  0,  7,  265, SEMI, MONS_MERFOLK_IMPALER },
   {  0,  7,  125, SEMI, MONS_MERFOLK_AQUAMANCER },
   {  1,  4,  735, FLAT, MONS_MERFOLK },
@@ -1274,7 +1274,7 @@ static const pop_entry pop_water_hell[] =
   {  1,  7,   120, FLAT, MONS_ALLIGATOR },
   {  1,  7,   130, FLAT, MONS_ANACONDA },
   {  1,  7,   230, FLAT, MONS_HYDRA },
-  {  1,  7,    37, FLAT, MONS_KRAKEN },
+  {  1,  7,    37, FLAT, MONS_NO_MONSTER },
   {  1,  7,   115, FLAT, MONS_WATER_ELEMENTAL },
   {  0,  8,    74, RISE, MONS_ELEMENTAL_WELLSPRING },
   { 0,0,0,FLAT,MONS_0 }
