@@ -4703,7 +4703,7 @@ KMONS:  8 = bone dragon / lich / ancient lich / w:5 death cob / \
             w:20 reaper / soul eater / w:30 place:Crypt
 : elseif you.in_branch("Dis") then
 KMONS:  8 = w:5 tzitzimitl / w:5 ice fiend / w:5 brimstone fiend / \
-            w:5 hell sentinel / iron dragon / tormentor / iron golem / \
+            w:5 hell sentinel / iron dragon / tormentor / iron troll / \
             place:Dis
 SUBST:  *% = .
 : elseif you.in_branch("Geh") then

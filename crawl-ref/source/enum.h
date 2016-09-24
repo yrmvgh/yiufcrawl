@@ -2796,7 +2796,9 @@ enum monster_type                      // menv[].type
     MONS_SALTLING,
     MONS_PEACEKEEPER,
 #endif
+#if TAG_MAJOR_VERSION == 34
     MONS_IRON_GOLEM,
+#endif
     MONS_CRYSTAL_GUARDIAN,
     MONS_TOENAIL_GOLEM,
     MONS_ELECTRIC_GOLEM, // replacing the guardian robot -- bwr

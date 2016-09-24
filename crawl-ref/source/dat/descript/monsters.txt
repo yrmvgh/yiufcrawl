@@ -1433,11 +1433,6 @@ iron giant
 A huge, rusting monolith, larger than any other species of giant. It packs
 an incredible punch.
 %%%%
-iron golem
-
-A large, ponderous and very solid statue of metal, given the power of
-locomotion through some esoteric means.
-%%%%
 iron imp
 
 An ugly, twisted little minor demon with metal skin.

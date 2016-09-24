@@ -364,7 +364,7 @@ function choose_mset_3(e)
                storm dragon / titan w:2")
 -- Earth
   elseif rnd < 79 then
-    e.kmons("1 = earth elemental w:15 / gargoyle w:5 / iron golem w:20 /\
+    e.kmons("1 = earth elemental w:15 / gargoyle w:5 / iron troll w:20 /\
                crystal guardian / stone giant w:5 / iron dragon w:5 /\
                quicksilver dragon w:5")
 -- Dragon
@@ -497,7 +497,7 @@ local rnd = crawl.random2(142)
                storm dragon / titan / electric golem")
 -- Earth
   elseif rnd < 87 then
-    e.kmons("1 = earth elemental w:15 / gargoyle w:5 / iron golem /\
+    e.kmons("1 = earth elemental w:15 / gargoyle w:5 / iron troll /\
                crystal guardian / stone giant / iron dragon /\
                quicksilver dragon")
 -- Dragon

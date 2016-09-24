@@ -1065,7 +1065,7 @@ ENDMAP
 # Crypt 2, fortress
 NAME: sprint_mu_crypt_fortress
 TAGS: sprint_mu_crypt no_rotate no_hmirror no_vmirror
-MONS: patrolling iron golem, patrolling necromancer
+MONS: patrolling iron troll, patrolling necromancer
 MONS: patrolling hell knight, patrolling skeletal warrior
 KMONS: 5 = lich
 KITEM: 5 = star_item, star_item, star_item, star_item, star_item, star_item
@@ -1275,7 +1275,7 @@ NAME: sprint_mu_dis_giant
 TAGS: sprint_mu_dis no_rotate no_hmirror no_vmirror
 MONS: patrolling iron elemental
 MONS: patrolling iron giant ; skullcrusher
-MONS: iron dragon, rust devil, patrolling hell sentinel, war gargoyle, iron golem
+MONS: iron dragon, rust devil, patrolling hell sentinel, war gargoyle, iron troll
 KMONS: & = dispater
 KITEM: * = superb_item, superb_item, superb_item
 KITEM: ? = star_item, star_item, scroll of enchant armour ident:all q:4

@@ -1084,7 +1084,7 @@ ENDMAP
 NAME: vestibule_dis_mu
 TAGS: vestibule_dis
 KFEAT:  D=enter_dis
-KMONS:  8 = iron golem
+KMONS:  8 = iron troll
 KMONS:  3 = rust devil
 KMONS:  6 = war gargoyle
 FTILE:  'A+ = floor_infernal_blank
@@ -1113,7 +1113,7 @@ KFEAT:  D = enter_dis
 NSUBST: E = + / v, F = + / v, q = + / v, p = + / v, \
         B = 1:+ / 1:+vv / *:v, Z = 1:+ / 1:+v / *:v
 SUBST:  2 = 22., 3 = 33.
-KMONS:  1 = iron golem / iron dragon
+KMONS:  1 = iron troll / iron dragon
 KMONS:  2 = rust devil / iron imp w:5
 KMONS:  3 = war gargoyle / reaper w:5
 KFEAT:  H = G
@@ -1140,7 +1140,7 @@ ENDMAP
 
 NAME: vestibule_dis_grunt_castle
 TAGS: vestibule_dis
-MONS: war gargoyle / iron dragon, iron troll / iron golem
+MONS: war gargoyle / iron dragon, iron troll
 MONS: rust devil / iron imp w:5
 NSUBST: D = 1:D / *:A
 KFEAT: D = enter_dis

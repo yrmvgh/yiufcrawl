@@ -1185,11 +1185,6 @@ Gigantesque, maladroit et particulièrement lourd, ce monolithe rouillé peut
 délivrer de sacrés coups de poings. C'est très possiblement le plus grand géant
 que vous ayez jamais vu.
 %%%%
-iron golem
-
-Une grande statue de métal lourde et très solide, dont le pouvoir de locomotion
-à été donné par des moyens ésotériques.
-%%%%
 iron imp
 
 Un petit démon mineur, laid et déformé, à la peau métallique.

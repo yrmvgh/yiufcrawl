@@ -28,7 +28,7 @@ function callback.grunt_iron_hall_animate(data,triggerable,trigger,marker,ev)
         if crawl.one_chance_in(4) then
             dgn.terrain_changed(slave.x, slave.y, "floor", false)
             dgn.create_monster(slave.x, slave.y,
-                               "patrolling iron golem generate_awake")
+                               "patrolling iron troll generate_awake")
         end
     end
     crawl.mpr("You hear the creaking of ancient metal!", "warning")
@@ -187,7 +187,7 @@ KMONS:   01 = tormentor
 KMONS:   23 = reaper
 KMONS:   45 = hellion
 KMONS:   67 = quicksilver dragon
-KMONS:   89 = iron golem
+KMONS:   89 = iron troll
 KMONS:   AB = dancing weapon ; great sword good_item | battleaxe good_item | \
                                glaive good_item | great mace good_item
 KMONS:   CD = war gargoyle
@@ -573,7 +573,7 @@ ENDMAP
 NAME:   kennysheep_iron_temple
 ORIENT: centre
 TAGS:   transparent no_rotate no_vmirror no_monster_gen
-MONS:   hell sentinel, iron golem
+MONS:   hell sentinel, iron troll
 MARKER: F = lua:fog_machine { cloud_type = "flame", pow_min = 100, \
                               pow_max = 100, delay = 10, size = 1, \
                               delay = 10, size = 1, walk_dist = 0, \
@@ -769,7 +769,7 @@ NAME:    dis_mu
 KFEAT:   o = granite_statue
 MONS:    patrolling Dispater, brimstone fiend, ice fiend, rust devil
 MONS:    war gargoyle, iron dragon / iron giant w:5, iron troll
-KMONS:   8 = iron golem
+KMONS:   8 = iron troll
 KMONS:   9 = hell sentinel
 KMONS:   0 = quicksilver dragon
 : serpent_of_hell_setup(_G)
@@ -780,7 +780,7 @@ COLOUR:  o : cyan
 TILE:    o = dngn_statue_iron_golem
 # Use master/slave setup.
 MARKER:  o = lua:monster_on_death { \
-            death_monster="Dispater", new_monster="generate_awake iron golem", \
+            death_monster="Dispater", new_monster="generate_awake iron troll", \
             message_seen="The iron statue comes to life!", \
             message_unseen="You hear a grinding sound.", \
             monster_place_feature=dgn.fnum("granite_statue"), \
@@ -830,7 +830,7 @@ MONS:   iron troll, quicksilver dragon, cacodemon
 NSUBST: G = 4:8 / *:G
 TILE:   G = dngn_statue_iron_golem
 COLOUR: G = cyan
-KMONS:  8 = iron golem
+KMONS:  8 = iron troll
 KMONS:  9 = war gargoyle
 ITEM:   plate armour good_item / crystal plate armour good_item w:3
 ITEM:   acquire weapon
@@ -1203,7 +1203,7 @@ NSUBST:  f = 1:+ / 1:v / *=+vvv
 NSUBST:  . = 20:4 / 10:5 / *:.
 TILE:    G = dngn_statue_iron_golem
 COLOUR:  G = cyan
-KMONS:   8 = iron golem
+KMONS:   8 = iron troll
 KMONS:   9 = war gargoyle
 : serpent_of_hell_setup(_G)
 : dis_setup(_G)

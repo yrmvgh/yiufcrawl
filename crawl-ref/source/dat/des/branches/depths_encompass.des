@@ -42,7 +42,7 @@
         e.kmons("e = earth elemental")
         e.kmons("f = fire elemental")
         e.kmons("a = air elemental")
-        e.kmons("o = iron golem")
+        e.kmons("o = iron troll")
         e.kmons("r = molten gargoyle / gargoyle")
         e.kmons("t = glowing orange brain / wind drake w:5")
         e.kfeat("A = stone_arch")
