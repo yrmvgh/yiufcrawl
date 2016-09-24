@@ -386,10 +386,10 @@ static const pop_entry pop_vaults[] =
   {  0, 12,   89, PEAK, MONS_SPHINX },
   {  0, 12,   89, PEAK, MONS_VERY_UGLY_THING },
   {  1,  1,  440, FLAT, MONS_HILL_GIANT },
-  {  1,  1,  255, FLAT, MONS_UNSEEN_HORROR },
-  {  1,  1,  185, FLAT, MONS_WRAITH },
+  {  1,  1,  255, FLAT, MONS_NO_MONSTER }, //was unseen horror
+  {  1,  1,  185, FLAT, MONS_NO_MONSTER }, //was wraith
   {  1,  2,  415, FLAT, MONS_CYCLOPS },
-  {  1,  2,  165, FLAT, MONS_MOTTLED_DRAGON },
+  {  1,  2,  165, FLAT, MONS_NO_MONSTER }, //was mottled dragon
   {  1,  2,   89, FLAT, MONS_SKELETAL_WARRIOR },
   {  1,  3,  136, FLAT, MONS_RAKSHASA },
   {  1,  3,  440, FALL, MONS_SLIME_CREATURE },
