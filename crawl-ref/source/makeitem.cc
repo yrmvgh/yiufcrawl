@@ -667,7 +667,7 @@ static void _generate_missile_item(item_def& item, int force_type,
     }
     else if (item.sub_type == MI_STONE)
     {
-        item.quantity = 5 + random2(35) + random2(50) + random2(60) + random2(50);
+        item.quantity = 5 + random2(70) + random2(50) + random2(60) + random2(50);
         return;
     }
     else if (item.sub_type == MI_THROWING_NET) // no fancy nets, either
@@ -683,11 +683,14 @@ static void _generate_missile_item(item_def& item, int force_type,
     }
 
     // Reduced quantity if special.
-    if (item.sub_type == MI_JAVELIN || item.sub_type == MI_TOMAHAWK
-        || (item.sub_type == MI_NEEDLE && get_ammo_brand(item) != SPMSL_POISONED))
+    if (item.sub_type == MI_JAVELIN || item.sub_type == MI_TOMAHAWK)
     {
-        item.quantity = random_range(20, 80);
+        item.quantity = random_range(40, 160);
     }
+	else if (item.sub_type == MI_NEEDLE && get_ammo_brand(item) != SPMSL_POISONED)
+	{
+		item.quantity = random_range(20, 80);
+	}
     else if (get_ammo_brand(item) != SPMSL_NORMAL)
         item.quantity = 10 + random2(70) + random2(50) + random2(50);
     else
