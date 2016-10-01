@@ -41,22 +41,12 @@
  */
 static bool _start_butchering(item_def& corpse)
 {
-    const bool bottle_blood =
-        you.species == SP_VAMPIRE
-        && can_bottle_blood_from_corpse(corpse.mon_type);
-
     if (is_forbidden_food(corpse))
     {
-        mprf("It would be a sin to %sbutcher this!",
-             bottle_blood ? "bottle or " : "");
+        mpr("It would be a sin to butcher this!");
         return false;
     }
-
-    // Yes, 0 is correct (no "continue butchering" stage).
-    if (bottle_blood)
-        start_delay<BottleBloodDelay>(0, corpse);
-    else
-        start_delay<ButcherDelay>(0, corpse);
+    start_delay<ButcherDelay>(0, corpse);
 
     you.turn_is_over = true;
     return true;
@@ -406,26 +396,6 @@ void turn_corpse_into_chunks(item_def &item, bool bloodspatter,
         maybe_drop_monster_hide(corpse);
 }
 
-static void _turn_corpse_into_skeleton_and_chunks(item_def &item, bool prefer_chunks)
-{
-    item_def copy = item;
-
-    // Complicated logic, but unless we use the original, both could fail if
-    // mitm[] is overstuffed.
-    if (prefer_chunks)
-    {
-        turn_corpse_into_chunks(item);
-        turn_corpse_into_skeleton(copy);
-    }
-    else
-    {
-        turn_corpse_into_chunks(copy);
-        turn_corpse_into_skeleton(item);
-    }
-
-    copy_item_to_grid(copy, item_pos(item));
-}
-
 void butcher_corpse(item_def &item, maybe_bool skeleton, bool chunks)
 {
     item_was_destroyed(item);
@@ -433,25 +403,15 @@ void butcher_corpse(item_def &item, maybe_bool skeleton, bool chunks)
         skeleton = MB_FALSE;
     if (skeleton == MB_TRUE || skeleton == MB_MAYBE && one_chance_in(3))
     {
-        if (chunks)
-            _turn_corpse_into_skeleton_and_chunks(item, skeleton != MB_TRUE);
-        else
-        {
             _bleed_monster_corpse(item);
             maybe_drop_monster_hide(item);
-            turn_corpse_into_skeleton(item);
-        }
+            turn_corpse_into_skeleton(item);        
     }
     else
     {
-        if (chunks)
-            turn_corpse_into_chunks(item);
-        else
-        {
             _bleed_monster_corpse(item);
             maybe_drop_monster_hide(item);
             destroy_item(item.index());
-        }
     }
 }
 
