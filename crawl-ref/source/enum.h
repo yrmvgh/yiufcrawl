@@ -650,6 +650,7 @@ enum beam_type                  // bolt::flavour
     BEAM_DISINTEGRATION,
     BEAM_BLINK,
     BEAM_BLINK_CLOSE,
+    BEAM_BECKONING,
     BEAM_PETRIFY,
     BEAM_CORONA,
     BEAM_PORKALATOR,
@@ -4723,6 +4724,7 @@ enum spell_type : int
     SPELL_RESONANCE_STRIKE,
     SPELL_GHOSTLY_SACRIFICE,
     SPELL_DREAM_DUST,
+    SPELL_BECKONING,
     NUM_SPELLS
 };
 
@@ -4903,6 +4905,7 @@ enum zap_type
     ZAP_SAP_MAGIC,
     ZAP_VIRULENCE,
     ZAP_DRAIN_MAGIC,
+    ZAP_BECKONING,
     NUM_ZAPS
 };
 
