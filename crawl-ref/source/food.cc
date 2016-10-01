@@ -51,6 +51,7 @@ static void _heal_from_food(int hp_amt);
 void make_hungry(int hunger_amount, bool suppress_msg,
                  bool magic)
 {
+	return;
     if (crawl_state.disables[DIS_HUNGER])
         return;
 
@@ -107,6 +108,7 @@ static constexpr int hunger_threshold[HS_ENGORGED + 1] =
  */
 void lessen_hunger(int satiated_amount, bool suppress_msg, int max)
 {
+	return;
     if (you_foodless())
         return;
 
