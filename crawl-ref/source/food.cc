@@ -395,6 +395,7 @@ static void _describe_food_change(int food_increment)
 
 bool eat_item(item_def &food)
 {
+	return false;
     if (food.is_type(OBJ_CORPSES, CORPSE_BODY))
     {
         if (you.species != SP_VAMPIRE)
@@ -1032,55 +1033,7 @@ bool can_eat(const item_def &food, bool suppress_msg, bool check_hunger)
 #define FAIL(msg) { if (!suppress_msg) mpr(msg); return false; }
     ASSERT(food.base_type == OBJ_FOOD || food.base_type == OBJ_CORPSES);
 
-    // special case mutagenic chunks to skip hunger checks, as they don't give
-    // nutrition and player can get hungry by using spells etc. anyway
-    if (is_mutagenic(food))
-        check_hunger = false;
-
-    // [ds] These redundant checks are now necessary - Lua might be calling us.
-    if (!_eat_check(check_hunger, suppress_msg))
-        return false;
-
-    if (is_noxious(food))
-        FAIL("It is completely inedible.");
-
-    if (you.species == SP_VAMPIRE)
-    {
-        if (food.is_type(OBJ_CORPSES, CORPSE_BODY))
-            return true;
-
-        FAIL("Blech - you need blood!")
-    }
-    else if (food.base_type == OBJ_CORPSES)
-        return false;
-
-    if (food_is_veggie(food))
-    {
-        if (player_mutation_level(MUT_CARNIVOROUS) == 3)
-            FAIL("Sorry, you're a carnivore.")
-        else
-            return true;
-    }
-    else if (food_is_meaty(food))
-    {
-        if (player_mutation_level(MUT_HERBIVOROUS) == 3)
-            FAIL("Sorry, you're a herbivore.")
-        else if (food.sub_type == FOOD_CHUNK)
-        {
-            if (!check_hunger
-                || you.hunger_state < HS_SATIATED
-                || player_likes_chunks())
-            {
-                return true;
-            }
-
-            FAIL("You aren't quite hungry enough to eat that!")
-        }
-    }
-
-    // Any food types not specifically handled until here (e.g. meat
-    // rations for non-herbivores) are okay.
-    return true;
+return false;
 }
 
 /**

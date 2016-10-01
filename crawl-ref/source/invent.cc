@@ -421,7 +421,7 @@ string no_selectables_message(int item_selector)
     case OSEL_DRAW_DECK:
         return "You aren't carrying any decks from which to draw.";
     case OBJ_FOOD:
-        return "You aren't carrying any food.";
+        return "There is no food.";
     case OBJ_POTIONS:
         return "You aren't carrying any potions.";
     case OBJ_SCROLLS:
