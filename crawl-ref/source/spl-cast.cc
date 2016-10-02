@@ -143,7 +143,6 @@ static string _spell_extra_description(spell_type spell, bool viewing)
 
     desc << chop_string(spell_power_string(spell), 13)
          << chop_string(rangestring, 9 + tagged_string_tag_length(rangestring))
-         << chop_string(spell_hunger_string(spell), 8)
          << chop_string(spell_noise_string(spell, 10), 15);
 
     desc << "</" << colour_to_str(highlight) <<">";
@@ -178,7 +177,7 @@ int list_spells(bool toggle_with_I, bool viewing, bool allow_preselect,
                 " " + titlestring + "         Type          "
                 "                Failure  Level",
                 " " + titlestring + "         Power        "
-                "Range    " + "Hunger  " + "Noise          ",
+                "Range    " + "Noise          ",
                 MEL_ITEM);
         me->colour = BLUE;
         spell_menu.add_entry(me);
@@ -189,7 +188,7 @@ int list_spells(bool toggle_with_I, bool viewing, bool allow_preselect,
             " " + titlestring + "         Type          "
             "                Failure  Level",
             " " + titlestring + "         Power        "
-            "Range    " + "Hunger  " + "Noise          ",
+            "Range    " + "Noise          ",
             MEL_TITLE));
 #endif
     spell_menu.set_highlighter(nullptr);
