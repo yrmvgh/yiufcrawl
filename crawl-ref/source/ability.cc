@@ -3336,7 +3336,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     }
 
     if (you.species == SP_VAMPIRE && you.experience_level >= 3
-        && you.hunger_state <= HS_SATIATED
         && you.form != TRAN_BAT)
     {
         _add_talent(talents, ABIL_TRAN_BAT, check_confused);
