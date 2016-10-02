@@ -5,6 +5,7 @@ compiler:
 before_install:
     - perl .travis/apt.pl
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
+sudo: required
 env:
     - NOTHING=1
     - FULLDEBUG=1
@@ -26,10 +27,3 @@ notifications:
         on_failure: always
 #        recipients:
 #          - crawl-ref-commits@lists.sourceforge.net
-    irc:
-        channels: "chat.freenode.net##crawl-dev"
-        on_success: change
-        on_failure: always
-        use_notice: true
-        template:
-            - "%{message} (%{branch} - %{commit} #%{build_number} : %{author}): %{build_url}"
