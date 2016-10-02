@@ -30,9 +30,9 @@ run_one()
         echo "arena: miscasts 5 pandemonium lord v 20 20-headed hydra delay:0 t:10" 1>&2
         $CRAWL -arena 'miscasts 5 pandemonium lord v 20 20-headed hydra delay:0 t:10'
     ;;
-    7|kraken)
-        echo "arena: kraken v spectral kraken arena:small_deep_pool delay:0 t:20" 1>&2
-        $CRAWL -arena 'kraken v spectral kraken arena:small_deep_pool delay:0 t:20'
+    7|removed_kraken)
+        echo "arena: swamp worm v spectral swamp worm arena:small_deep_pool delay:0 t:20" 1>&2
+        $CRAWL -arena 'swamp worm v spectral swamp worm:small_deep_pool delay:0 t:20'
     ;;
     8|abyss_rest)
         echo "rc: test/stress/abyss_short_wait.rc" 1>&2
