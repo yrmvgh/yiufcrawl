@@ -354,8 +354,6 @@ function attack(allow_movement)
   local caught = you.caught()
   if af_hp_is_low() then
     crawl.mpr("You are too injured to fight recklessly!")
-  elseif af_food_is_low() then
-    crawl.mpr("You are too hungry to fight recklessly!")
   elseif you.confused() then
     crawl.mpr("You are too confused!")
   elseif caught then

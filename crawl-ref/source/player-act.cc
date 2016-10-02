@@ -832,8 +832,6 @@ bool player::can_go_berserk(bool intentional, bool potion, bool quiet,
         msg = "You cannot go berserk while under stasis.";
     else if (!intentional && !potion && clarity())
         msg = "You're too calm and focused to rage.";
-    else if (hunger <= HUNGER_VERY_HUNGRY)
-        msg = "You're too hungry to go berserk.";
     else
         success = true;
 

@@ -1876,12 +1876,6 @@ static void _toggle_travel_speed()
 
 static void _do_rest()
 {
-    if (you.hunger_state <= HS_STARVING && !you_min_hunger())
-    {
-        mpr("You're too hungry to rest.");
-        return;
-    }
-
     if (i_feel_safe())
     {
         if ((you.hp == you.hp_max || !player_regenerates_hp())
