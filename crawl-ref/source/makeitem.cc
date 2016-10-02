@@ -1310,44 +1310,15 @@ static void _generate_wand_item(item_def& item, int force_type, int item_level)
 static void _generate_food_item(item_def& item, int force_quant, int force_type)
 {
     // Determine sub_type:
-    if (force_type == OBJ_RANDOM)
-    {
-        item.sub_type = random_choose_weighted( 30, FOOD_BREAD_RATION,
-                                                10, FOOD_FRUIT,
-                                                30, FOOD_MEAT_RATION,
-                                                15, FOOD_BEEF_JERKY,
-                                                10, FOOD_PIZZA,
-                                                 5, FOOD_ROYAL_JELLY);
-    }
-    else
-        item.sub_type = force_type;
-
-    // Happens with ghoul food acquirement -- use place_chunks() outherwise
-    if (item.sub_type == FOOD_CHUNK)
-    {
-        // Set chunk flavour:
-        item.plus = _choose_random_monster_corpse();
-        item.orig_monnum = item.plus;
-        // Set duration.
-        item.freshness = (10 + random2(11)) * 10;
-    }
+    item.sub_type = FOOD_FRUIT;
 
     // Determine quantity.
     if (force_quant > 1)
         item.quantity = force_quant;
     else
     {
-        item.quantity = 1;
-
-        if (item.sub_type != FOOD_MEAT_RATION
-            && item.sub_type != FOOD_BREAD_RATION)
-        {
-            if (one_chance_in(80))
-                item.quantity += random2(3);
-
             if (is_fruit(item))
-                item.quantity += random2avg(5,2);
-        }
+                item.quantity += random2avg(3,2); 
     }
 }
 
@@ -1866,11 +1837,11 @@ int items(bool allow_uniques,
                                     30, OBJ_BOOKS,
                                     50, OBJ_JEWELLERY,
                                     70, OBJ_WANDS,
-                                   140, OBJ_FOOD,
+                                    20, OBJ_FOOD,
                                    212, OBJ_ARMOUR,
                                    212, OBJ_WEAPONS,
                                    176, OBJ_POTIONS,
-                                   300, OBJ_MISSILES,
+                                   420, OBJ_MISSILES,
                                    320, OBJ_SCROLLS,
                                    440, OBJ_GOLD);
 

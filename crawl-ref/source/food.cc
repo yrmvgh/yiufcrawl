@@ -227,7 +227,7 @@ bool eat_food(int slot)
     }
 
     if (you.species == SP_VAMPIRE)
-        mpr("There's nothing here to drain!");
+        mpr("You can't drain a corpse.");
 
     return prompt_eat_item(slot);
 }
@@ -569,6 +569,7 @@ static bool _compare_by_freshness(const item_def *food1, const item_def *food2)
  */
 int prompt_eat_chunks(bool only_auto)
 {
+	return 0;
     // Full herbivores cannot eat chunks.
     if (player_mutation_level(MUT_HERBIVOROUS) == 3)
         return 0;
