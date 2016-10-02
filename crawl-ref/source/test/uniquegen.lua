@@ -47,8 +47,8 @@ local function run_random_unique_tests()
     test_random_unique("Dis", depth, 3)
   end
 
-  for depth = 1, 4 do
-    test_random_unique("Swamp", depth, 5)
+  for depth = 1, 3 do
+    test_random_unique("Swamp", depth, 3)
   end
 end
 
