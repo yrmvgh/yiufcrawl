@@ -183,6 +183,18 @@ int artefact_value(const item_def &item)
     return (ret > 0) ? ret : 0;
 }
 
+const set<int> removed_shops =
+{
+#if TAG_MAJOR_VERSION == 34
+	{SHOP_FOOD},
+	#endif
+};
+
+bool shop_type_removed(int subtype)
+{
+    return removed_shops.count({subtype}) != 0;
+}
+
 unsigned int item_value(item_def item, bool ident)
 {
     // Note that we pass item in by value, since we want a local
@@ -1528,6 +1540,10 @@ string shop_type_name(shop_type type)
             return "Gadget";
         case SHOP_BOOK:
             return "Book";
+#if TAG_MAJOR_VERSION == 34			
+		case SHOP_FOOD:
+			return "Food";
+#endif
         case SHOP_SCROLL:
             return "Magic Scroll";
         case SHOP_GENERAL_ANTIQUE:

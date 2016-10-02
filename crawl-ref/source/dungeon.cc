@@ -5655,6 +5655,11 @@ object_class_type item_in_shop(shop_type shop_type)
 
     case SHOP_BOOK:
         return OBJ_BOOKS;
+		
+#if TAG_MAJOR_VERSION == 34
+	case SHOP_FOOD:
+        return OBJ_FOOD;
+#endif
 
     case SHOP_DISTILLERY:
         return OBJ_POTIONS;

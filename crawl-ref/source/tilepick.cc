@@ -127,6 +127,10 @@ static tileidx_t _tileidx_shop(coord_def where)
             return TILE_SHOP_JEWELLERY;
         case SHOP_EVOKABLES:
             return TILE_SHOP_GADGETS;
+#if TAG_MAJOR_VERSION == 34
+		case SHOP_FOOD:
+			return TILE_SHOP_FOOD;
+#endif
         case SHOP_BOOK:
             return TILE_SHOP_BOOKS;
         case SHOP_SCROLL:

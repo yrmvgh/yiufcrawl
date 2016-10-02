@@ -8,6 +8,9 @@
 
 int artefact_value(const item_def &item);
 
+extern const set<int> removed_shops;
+bool shop_type_removed(int subtype);
+
 // ident == true overrides the item ident level and gives the price
 // as if the item was fully id'd
 unsigned int item_value(item_def item, bool ident = false);
