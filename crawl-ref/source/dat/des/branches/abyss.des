@@ -338,7 +338,7 @@ KMONS:  1 = orange demon
 KMONS:  2 = hornet / wasp / killer bee w:2 / nothing w:2
 KMONS:  3 = death drake / green death
 KFEAT:  123 = W
-KITEM:  3 = royal jelly
+KITEM:  3 = stone
 COLOUR: x = yellow
 TILE:   x = wall_wax
 MAP
@@ -947,7 +947,7 @@ MONS:    draconian shifter w:5 / shadow demon w:5 / lich / \
 MONS:    bone dragon / tentacled starspawn / starcursed mass / \
          apocalypse crab / dancing weapon / tentacled monstrosity / \
          glowing shapeshifter
-ITEM:    superb_item, royal jelly q:2
+ITEM:    superb_item, fruit q:2
 ITEM:    bolt good_item q:40 / arrow good_item q:40, any magical staff
 ITEM:    scroll of magic mapping q:4 / scroll of random uselessness q:4
 ITEM:    ring mail randart / scale mail randart / chain mail randart w:20
@@ -1182,7 +1182,7 @@ TAGS:   abyss_rune unrand patrolling
 MONS:   killer bee, meliai, spark wasp
 MONS:   wretched star, green very ugly thing
 KMONS:  O = queen bee
-ITEM:   royal jelly q:1
+ITEM:   stone q:1
 KITEM:  O = abyssal rune of Zot
 KFEAT:  a = x
 KFEAT:  A = stone_arch

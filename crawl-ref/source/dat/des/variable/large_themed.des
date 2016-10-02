@@ -13,7 +13,7 @@
 function grandhive_vaults(e, hivewallglyph)
     e.tags('uniq_greathive no_monster_gen no_item_gen')
     e.kmons('P = plant')
-    e.item('royal jelly')
+    e.item('stone')
     e.kitem('% = % no_pickup')
     e.kitem('* = * no_pickup')
     e.kfeat(hivewallglyph .. ' = x')
@@ -125,7 +125,7 @@ WEIGHT: 5
 TAGS:   uniq_black_bear_nest
 DEPTH:  D:4-8
 NSUBST: ' = 1:1 / 2:R / *:.
-KITEM:  R = royal jelly
+KITEM:  R = stone
 MONS:   patrolling black bear
 MAP
 xxxxxxxxxxxxxxx
@@ -143,7 +143,7 @@ WEIGHT: 5
 TAGS:   uniq_black_bear_nest
 DEPTH:  D:4-8
 NSUBST: ' = 1:1 / 2:R / *:.
-KITEM:  R = royal jelly
+KITEM:  R = stone
 MONS:   patrolling black bear
 MAP
 xxxxxxxx@xx

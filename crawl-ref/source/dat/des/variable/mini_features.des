@@ -1352,7 +1352,7 @@ TAGS:    transparent extra decor
 DEPTH:   D, Depths, Elf
 WEIGHT:  1
 SHUFFLE: defgh
-ITEM:    q:1 $, beef jerky, fruit q:1, royal jelly q:1, stone q:1
+ITEM:    q:1 $, large rock, fruit q:1, sling bullet q:1, stone q:1
 NSUBST:  ' = 9:d / *:.
 MAP
 '.......'.......'
@@ -2903,7 +2903,7 @@ ENDMAP
 NAME:   supply_closet_lemuel
 DEPTH:  D:1-9
 TAGS:   no_monster_gen extra
-ITEM:   bread ration / meat ration / arrow /\
+ITEM:   sling bullet / arrow /\
         bolt / spear / any potion w:5
 MAP
 x+xx
@@ -3008,7 +3008,7 @@ SUBST:  . = ..", X = xxB
 KPROP:  "B = bloody
 SUBST:  " = ., B = x
 NSUBST: . = 5:d / 10=d. / 2:e / 1:e. / *=.f
-ITEM:   beef jerky / w:5 minotaur chunk
+ITEM:   arrow / w:5 hand axe
 : dgn.delayed_decay(_G, 'e', 'minotaur corpse')
 ITEM:   hand axe
 SUBST:  ' = .
