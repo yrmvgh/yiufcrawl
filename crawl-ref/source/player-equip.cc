@@ -1219,12 +1219,6 @@ static void _equip_jewellery_effect(item_def &item, bool unmeld,
 
         break;
 
-    case AMU_THE_GOURMAND:
-        // What's this supposed to achieve? (jpeg)
-        you.duration[DUR_GOURMAND] = 0;
-        mpr("You feel a craving for the dungeon's cuisine.");
-        break;
-
     case AMU_DISMISSAL:
         if (!unmeld)
             _equip_amulet_of_dismissal();
@@ -1344,10 +1338,6 @@ static void _unequip_jewellery_effect(item_def &item, bool mesg, bool meld,
 
     case RING_MAGICAL_POWER:
         canned_msg(MSG_MANA_DECREASE);
-        break;
-
-    case AMU_THE_GOURMAND:
-        you.duration[DUR_GOURMAND] = 0;
         break;
 
     case AMU_FAITH:

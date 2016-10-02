@@ -3592,8 +3592,7 @@ bool player::clarity(bool calc_unid, bool items) const
 
 bool player::gourmand(bool calc_unid, bool items) const
 {
-    return player_mutation_level(MUT_GOURMAND) > 0
-           || actor::gourmand(calc_unid, items);
+    return false;
 }
 
 bool player::stasis(bool calc_unid, bool items) const

@@ -770,7 +770,6 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case AMU_HARM:              return "harm";
         case AMU_DISMISSAL:         return "dismissal";
         case AMU_MANA_REGENERATION: return "magic regeneration";
-        case AMU_THE_GOURMAND:      return "gourmand";
 #if TAG_MAJOR_VERSION == 34
         case AMU_CONSERVATION:      return "conservation";
         case AMU_CONTROLLED_FLIGHT: return "controlled flight";
@@ -821,11 +820,7 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
 // lua doesn't want "the" in gourmand, but we do, so...
 static const char* _jewellery_effect_prefix(int jeweltype)
 {
-    switch (static_cast<jewellery_type>(jeweltype))
-    {
-    case AMU_THE_GOURMAND: return "the ";
-    default:               return "";
-    }
+	return "";
 }
 
 /**
@@ -3673,12 +3668,6 @@ bool is_useless_item(const item_def &item, bool temp)
 
         case RING_RESIST_CORROSION:
             return you.res_corr(false, false);
-
-        case AMU_THE_GOURMAND:
-            return player_likes_chunks(true) == 3
-                   || player_mutation_level(MUT_GOURMAND) > 0
-                   || player_mutation_level(MUT_HERBIVOROUS) == 3
-                   || you.undead_state(temp);
 
         case AMU_FAITH:
             return (you.species == SP_DEMIGOD && !you.religion)

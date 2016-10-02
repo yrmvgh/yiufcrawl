@@ -882,6 +882,7 @@ static const mutation_def mut_data[] =
   {"You feel vulnerable to rotting.", "", ""},
 },
 
+#if TAG_MAJOR_VERSION == 34
 { MUT_GOURMAND, 0, 1, mutflag::GOOD, false,
   "gourmand",
 
@@ -889,6 +890,7 @@ static const mutation_def mut_data[] =
   {"", "", ""},
   {"", "", ""},
 },
+#endif
 
 { MUT_SHAGGY_FUR, 2, 3, mutflag::GOOD, true,
   "shaggy fur",

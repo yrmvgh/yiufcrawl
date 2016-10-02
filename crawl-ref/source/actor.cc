@@ -207,7 +207,7 @@ int actor::inaccuracy() const
 
 bool actor::gourmand(bool calc_unid, bool items) const
 {
-    return items && wearing(EQ_AMULET, AMU_THE_GOURMAND, calc_unid);
+    return false;
 }
 
 bool actor::res_corr(bool calc_unid, bool items) const
