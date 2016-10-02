@@ -685,16 +685,16 @@ static void _generate_missile_item(item_def& item, int force_type,
     // Reduced quantity if special.
     if (item.sub_type == MI_JAVELIN || item.sub_type == MI_TOMAHAWK)
     {
-        item.quantity = random_range(40, 160);
+        item.quantity = random_range(40, 120);
     }
 	else if (item.sub_type == MI_NEEDLE && get_ammo_brand(item) != SPMSL_POISONED)
 	{
-		item.quantity = random_range(20, 80);
+		item.quantity = random_range(10, 30);
 	}
     else if (get_ammo_brand(item) != SPMSL_NORMAL)
-        item.quantity = 10 + random2(70) + random2(50) + random2(50);
+        item.quantity = 10 + random2(40) + random2(40) + random2(30);
     else
-        item.quantity = 10 + random2(70) + random2(50) + random2(50) + random2(60);
+        item.quantity = 10 + random2(40) + random2(40) + random2(30) + random2(30);
 }
 
 static bool _try_make_armour_artefact(item_def& item, int force_type,
