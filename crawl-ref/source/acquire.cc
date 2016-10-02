@@ -1533,8 +1533,6 @@ bool acquirement(object_class_type class_wanted, int agent,
         bad_class.set(OBJ_WANDS);
     }
 
-    bad_class.set(OBJ_FOOD, you_foodless_normally() && !you_worship(GOD_FEDHAS));
-
     static struct { object_class_type type; const char* name; } acq_classes[] =
     {
         { OBJ_WEAPONS,    "Weapon" },
@@ -1544,14 +1542,8 @@ bool acquirement(object_class_type class_wanted, int agent,
         { OBJ_STAVES,     "Staff " },
         { OBJ_WANDS,      "Wand" },
         { OBJ_MISCELLANY, "Misc. Evocable" },
-        { OBJ_FOOD,       0 }, // amended below
         { OBJ_GOLD,       "Gold" },
     };
-    ASSERT(acq_classes[7].type == OBJ_FOOD);
-    acq_classes[7].name = you_worship(GOD_FEDHAS) ? "Fruit":
-                          you.species == SP_VAMPIRE  ? "Blood":
-                                                       "Food";
-
     int thing_created = NON_ITEM;
 
     if (item_index == nullptr)
