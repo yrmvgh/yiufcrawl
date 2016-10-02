@@ -391,12 +391,6 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
-    {  MST_MERFOLK_AVATAR,
-      {
-       { SPELL_AVATAR_SONG, 160, MON_SPELL_WIZARD },
-      }
-    },
-
     {  MST_MERFOLK_AQUAMANCER,
       {
         { SPELL_PRIMAL_WAVE, 16, MON_SPELL_WIZARD },
@@ -692,14 +686,6 @@ static const mon_spellbook mspell_list[] =
     {  MST_APOCALYPSE_CRAB,
       {
        { SPELL_CHAOS_BREATH, 62, MON_SPELL_NATURAL },
-      }
-    },
-
-    // ('v') Vortices.
-    {  MST_INSUBSTANTIAL_WISP,
-      {
-       { SPELL_BLINK, 18, MON_SPELL_MAGICAL },
-       { SPELL_DISCHARGE, 32, MON_SPELL_MAGICAL },
       }
     },
 
@@ -1363,12 +1349,6 @@ static const mon_spellbook mspell_list[] =
     },
 
     // ('X') Greater horrors and tentacled things.
-    {  MST_KRAKEN,
-      {
-       { SPELL_CREATE_TENTACLES, 44, MON_SPELL_NATURAL },
-       { SPELL_INK_CLOUD, 22, MON_SPELL_NATURAL | MON_SPELL_EMERGENCY },
-      }
-    },
 
     {  MST_THRASHING_HORROR,
       {
@@ -1622,15 +1602,6 @@ static const mon_spellbook mspell_list[] =
        { SPELL_SUMMON_MINOR_DEMON, 33, MON_SPELL_MAGICAL },
        { SPELL_SUMMON_DEMON, 33, MON_SPELL_MAGICAL },
        { SPELL_MESMERISE, 33, MON_SPELL_MAGICAL },
-      }
-    },
-
-    {  MST_ORANGE_CRYSTAL_STATUE,
-      {
-       { SPELL_SHADOW_CREATURES, 40, MON_SPELL_MAGICAL },
-       { SPELL_BRAIN_FEED, 20, MON_SPELL_MAGICAL },
-       { SPELL_DRAINING_GAZE, 20, MON_SPELL_MAGICAL },
-       { SPELL_MASS_CONFUSION, 20, MON_SPELL_MAGICAL },
       }
     },
 
@@ -2052,15 +2023,6 @@ static const mon_spellbook mspell_list[] =
        { SPELL_CONFUSE, 10, MON_SPELL_WIZARD },
        { SPELL_SLOW, 10, MON_SPELL_WIZARD },
        { SPELL_INVISIBILITY, 10, MON_SPELL_WIZARD },
-      }
-    },
-
-    {  MST_MAURICE,
-      {
-       { SPELL_SPRINT, 14, MON_SPELL_WIZARD },
-       { SPELL_INVISIBILITY, 14, MON_SPELL_WIZARD },
-       { SPELL_BLINK, 14, MON_SPELL_WIZARD },
-       { SPELL_TELEPORT_SELF, 14, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
       }
     },
 
