@@ -584,7 +584,7 @@ NAME: nicolae_shop_scaring_up_business
 TAGS: extra
 DEPTH: D:7-
 WEIGHT: 1
-KFEAT: O = food shop
+KFEAT: O = distillery shop
 KMONS: O = patrolling angry ghost
 MAP
 ...

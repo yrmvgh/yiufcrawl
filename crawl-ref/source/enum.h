@@ -4115,7 +4115,6 @@ enum shop_type
     SHOP_JEWELLERY,
     SHOP_EVOKABLES, // wands, rods, and misc items
     SHOP_BOOK,
-    SHOP_FOOD,
     SHOP_DISTILLERY,
     SHOP_SCROLL,
     SHOP_GENERAL,
