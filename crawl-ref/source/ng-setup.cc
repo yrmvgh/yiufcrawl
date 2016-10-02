@@ -318,26 +318,7 @@ static void _give_items_skills(const newgame_def& ng)
 
 static void _give_starting_food()
 {
-    // No food for those who don't need it.
-    if (you_foodless())
-        return;
-
-    object_class_type base_type = OBJ_FOOD;
-    int sub_type = FOOD_BREAD_RATION;
-    int quantity = 1;
-    if (you.species == SP_VAMPIRE)
-    {
-        base_type = OBJ_POTIONS;
-        sub_type  = POT_BLOOD;
-    }
-    else if (player_mutation_level(MUT_CARNIVOROUS))
-        sub_type = FOOD_MEAT_RATION;
-
-    // Give another one for hungry species.
-    if (player_mutation_level(MUT_FAST_METABOLISM))
-        quantity = 2;
-
-    newgame_make_item(base_type, sub_type, quantity);
+    return;
 }
 
 static void _setup_tutorial_miscs()
@@ -369,9 +350,6 @@ static void _give_basic_knowledge()
     for (const item_def& i : you.inv)
         if (i.base_type == OBJ_BOOKS)
             mark_had_book(i);
-
-    // Recognisable by appearance.
-    you.type_ids[OBJ_POTIONS][POT_BLOOD] = true;
 
     // Removed item types are handled in _set_removed_types_as_identified.
 }

@@ -5850,8 +5850,8 @@ bool monster::can_drink_potion(potion_type ptype) const
         case POT_CURING:
         case POT_HEAL_WOUNDS:
             return !(holiness() & (MH_NONLIVING | MH_PLANT));
-        case POT_BLOOD:
 #if TAG_MAJOR_VERSION == 34
+        case POT_BLOOD:
         case POT_BLOOD_COAGULATED:
 #endif
             return mons_species() == MONS_VAMPIRE;
@@ -5883,8 +5883,8 @@ bool monster::should_drink_potion(potion_type ptype) const
                || has_ench(ENCH_CONFUSION);
     case POT_HEAL_WOUNDS:
         return hit_points <= max_hit_points / 2;
-    case POT_BLOOD:
 #if TAG_MAJOR_VERSION == 34
+    case POT_BLOOD:
     case POT_BLOOD_COAGULATED:
 #endif
         return hit_points <= max_hit_points / 2;
@@ -5939,9 +5939,9 @@ bool monster::drink_potion_effect(potion_type pot_eff, bool card)
         if (heal(10 + random2avg(28, 3)))
             simple_monster_message(*this, " is healed!");
         break;
-
-    case POT_BLOOD:
+		
 #if TAG_MAJOR_VERSION == 34
+    case POT_BLOOD:
     case POT_BLOOD_COAGULATED:
 #endif
         if (mons_species() == MONS_VAMPIRE)

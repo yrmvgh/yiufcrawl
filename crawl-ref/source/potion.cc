@@ -213,6 +213,7 @@ public:
 /**
  * Return a message for the player drinking blood when a non-vampire.
  */
+#if TAG_MAJOR_VERSION == 34
 static string _blood_flavour_message()
 {
     if (player_mutation_level(MUT_HERBIVOROUS) < 3 && player_likes_chunks())
@@ -264,7 +265,7 @@ public:
         return true;
     }
 };
-
+#endif
 
 class PotionHaste : public PotionEffect
 {

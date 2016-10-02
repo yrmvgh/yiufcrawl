@@ -399,13 +399,6 @@ static int _acquirement_food_subtype(bool /*divine*/, int& quantity)
     // Food is a little less predictable now. - bwr
     if (you.species == SP_GHOUL)
         type_wanted = FOOD_CHUNK;
-    else if (you.species == SP_VAMPIRE)
-    {
-        // Vampires really don't want any OBJ_FOOD but OBJ_CORPSES
-        // but it's easier to just give them a potion of blood
-        // class type is set elsewhere
-        type_wanted = POT_BLOOD;
-    }
     else if (you_worship(GOD_FEDHAS))
     {
         // Fedhas worshippers get fruit to use for growth and evolution
@@ -426,8 +419,6 @@ static int _acquirement_food_subtype(bool /*divine*/, int& quantity)
         quantity = 8 + random2avg(15, 2);
     else if (type_wanted == FOOD_ROYAL_JELLY || type_wanted == FOOD_CHUNK)
         quantity += 2 + random2avg(10, 2);
-    else if (type_wanted == POT_BLOOD)
-        quantity = 8 + random2(5);
 
     return type_wanted;
 }

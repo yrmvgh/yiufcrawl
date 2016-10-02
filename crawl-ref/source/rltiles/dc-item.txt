@@ -782,6 +782,7 @@ i-rage AMU_RAGE AMU_ID_FIRST
 i-harm AMU_HARM
 i-dismissal AMU_DISMISSAL
 i-m-regeneration AMU_MANA_REGENERATION
+i-gourmand AMU_THE_GOURMAND
 i-rage AMU_REMOVEME1
 i-rage AMU_REMOVEME2
 i-inaccuracy AMU_INACCURACY

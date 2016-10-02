@@ -136,6 +136,7 @@ const char* jewellery_base_ability_string(int subtype)
     case AMU_DISMISSAL:           return "Dismiss";
     case AMU_MANA_REGENERATION:   return "RegenMP";
 #if TAG_MAJOR_VERSION == 34
+	case AMU_THE_GOURMAND:		  return "Gourm";
     case AMU_CONSERVATION:        return "Cons";
     case AMU_CONTROLLED_FLIGHT:   return "cFly";
 #endif
@@ -387,6 +388,8 @@ static const char* _jewellery_base_ability_description(int subtype)
     case AMU_MANA_REGENERATION:
         return "It increases your magic regeneration.";
 #if TAG_MAJOR_VERSION == 34
+	case AMU_THE_GOURMAND:
+		return "It lets you eat chunks and shit";
     case AMU_CONSERVATION:
         return "It protects your inventory from destruction.";
 #endif

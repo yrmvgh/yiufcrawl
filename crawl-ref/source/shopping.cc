@@ -507,8 +507,8 @@ unsigned int item_value(item_def item, bool ident)
             case POT_PORRIDGE:
             case POT_SLOWING:
             case POT_DECAY:
-#endif
             case POT_BLOOD:
+#endif
             case POT_DEGENERATION:
                 valued += 10;
                 break;
@@ -840,9 +840,9 @@ bool is_worthless_consumable(const item_def &item)
     case OBJ_POTIONS:
         switch (item.sub_type)
         {
+#if TAG_MAJOR_VERSION == 34
         // Blood potions are worthless because they are easy to make.
         case POT_BLOOD:
-#if TAG_MAJOR_VERSION == 34
         case POT_BLOOD_COAGULATED:
         case POT_SLOWING:
         case POT_DECAY:

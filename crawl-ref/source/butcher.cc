@@ -438,27 +438,7 @@ int num_blood_potions_from_corpse(monster_type mons_class)
 // If autopickup is active, the potions are auto-picked up after creation.
 void turn_corpse_into_blood_potions(item_def &item)
 {
-    ASSERT(item.base_type == OBJ_CORPSES);
-
-    const item_def corpse = item;
-    const monster_type mons_class = corpse.mon_type;
-
-    ASSERT(can_bottle_blood_from_corpse(mons_class));
-
-    item.base_type = OBJ_POTIONS;
-    item.sub_type  = POT_BLOOD;
-    item_colour(item);
-    clear_item_pickup_flags(item);
-    item.props.clear();
-
-    item.quantity = num_blood_potions_from_corpse(mons_class);
-
-    // Initialise timer depending on corpse age
-    init_perishable_stack(item,
-                          item.freshness * ROT_TIME_FACTOR + FRESHEST_BLOOD);
-
-    // Happens after the blood has been bottled.
-    maybe_drop_monster_hide(corpse);
+    return;
 }
 
 void turn_corpse_into_skeleton_and_blood_potions(item_def &item)

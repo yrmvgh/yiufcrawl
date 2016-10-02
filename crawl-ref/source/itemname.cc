@@ -678,8 +678,8 @@ const char* potion_type_name(int potiontype)
     case POT_BERSERK_RAGE:      return "berserk rage";
     case POT_CURE_MUTATION:     return "cure mutation";
     case POT_MUTATION:          return "mutation";
-    case POT_BLOOD:             return "blood";
 #if TAG_MAJOR_VERSION == 34
+    case POT_BLOOD:             return "blood";
     case POT_BLOOD_COAGULATED:  return "coagulated blood";
 #endif
     case POT_RESISTANCE:        return "resistance";
@@ -771,6 +771,7 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case AMU_DISMISSAL:         return "dismissal";
         case AMU_MANA_REGENERATION: return "magic regeneration";
 #if TAG_MAJOR_VERSION == 34
+		case AMU_THE_GOURMAND:		return "gourmand";
         case AMU_CONSERVATION:      return "conservation";
         case AMU_CONTROLLED_FLIGHT: return "controlled flight";
 #endif
@@ -3626,9 +3627,9 @@ bool is_useless_item(const item_def &item, bool temp)
                     || player_mutation_level(MUT_CARNIVOROUS) == 3;
         case POT_BLOOD_COAGULATED:
 #endif
+#if TAG_MAJOR_VERSION == 34
         case POT_BLOOD:
             return you.species != SP_VAMPIRE;
-#if TAG_MAJOR_VERSION == 34
         case POT_DECAY:
             return you.res_rotting(temp) > 0;
         case POT_STRONG_POISON:
@@ -3668,7 +3669,13 @@ bool is_useless_item(const item_def &item, bool temp)
 
         case RING_RESIST_CORROSION:
             return you.res_corr(false, false);
-
+#if TAG_MAJOR_VERSION == 34
+		case AMU_THE_GOURMAND:
+            return player_likes_chunks(true) == 3
+                   || player_mutation_level(MUT_GOURMAND) > 0
+                   || player_mutation_level(MUT_HERBIVOROUS) == 3
+				   || you.undead_state(temp);
+#endif				   
         case AMU_FAITH:
             return (you.species == SP_DEMIGOD && !you.religion)
                     || you_worship(GOD_GOZAG)

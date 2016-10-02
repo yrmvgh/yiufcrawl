@@ -726,6 +726,7 @@ void init_properties()
 const set<pair<object_class_type, int> > removed_items =
 {
 #if TAG_MAJOR_VERSION == 34
+	{ OBJ_JEWELLERY, AMU_THE_GOURMAND },
     { OBJ_JEWELLERY, AMU_CONTROLLED_FLIGHT },
     { OBJ_JEWELLERY, AMU_CONSERVATION },
     { OBJ_JEWELLERY, RING_REGENERATION },
@@ -738,6 +739,7 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_POTIONS,   POT_GAIN_INTELLIGENCE },
     { OBJ_POTIONS,   POT_WATER },
     { OBJ_POTIONS,   POT_STRONG_POISON },
+	{ OBJ_POTIONS,	 POT_BLOOD},
     { OBJ_POTIONS,   POT_BLOOD_COAGULATED },
     { OBJ_POTIONS,   POT_PORRIDGE },
     { OBJ_POTIONS,   POT_SLOWING },
@@ -2328,19 +2330,17 @@ bool is_real_food(food_type food)
 {
     return food < NUM_FOODS && Food_index[food] < Food_index[FOOD_UNUSED];
 }
-
-#endif
 bool is_blood_potion(const item_def &item)
 {
     if (item.base_type != OBJ_POTIONS)
         return false;
 
     return item.sub_type == POT_BLOOD
-#if TAG_MAJOR_VERSION == 34
            || item.sub_type == POT_BLOOD_COAGULATED
-#endif
+
             ;
 }
+#endif
 
 bool food_is_meaty(int food_type)
 {
