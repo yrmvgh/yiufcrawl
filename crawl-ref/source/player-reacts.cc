@@ -898,7 +898,7 @@ static void _rot_ghoul_players()
     if (you.species != SP_GHOUL)
         return;
 
-    int resilience = 400;
+    int resilience = 4000;
     if (have_passive(passive_t::slow_metabolism))
         resilience = resilience * 3 / 2;
 
