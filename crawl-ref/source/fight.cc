@@ -117,10 +117,6 @@ bool fight_melee(actor *attacker, actor *defender, bool *did_hit, bool simu)
             return false;
         }
 
-        // It's hard to attack from within a shell.
-        if (attacker->as_monster()->withdrawn())
-            return false;
-
         // Boulders can't melee while they're rolling past you
         if (attacker->as_monster()->rolling())
             return false;

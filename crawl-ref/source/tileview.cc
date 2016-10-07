@@ -929,7 +929,6 @@ static void _tile_place_monster(const coord_def &gc, const monster_info& mon)
     tileidx_t flag = t & (~TILE_FLAG_MASK);
 
     if ((mons_class_is_stationary(mon.type)
-         || mon.is(MB_WITHDRAWN))
         && mon.type != MONS_TRAINING_DUMMY)
     {
         // If necessary add item brand.

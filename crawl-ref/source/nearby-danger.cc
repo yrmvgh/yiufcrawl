@@ -112,7 +112,6 @@ static bool _mons_is_always_safe(const monster *mon)
 {
     return mon->wont_attack()
         || mon->type == MONS_BUTTERFLY
-        || mon->withdrawn()
         || (mon->type == MONS_BALLISTOMYCETE && !mons_is_active_ballisto(*mon));
 }
 

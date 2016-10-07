@@ -427,7 +427,6 @@ public:
     bool strict_neutral() const;
     bool wont_attack() const override;
     bool pacified() const;
-    bool withdrawn() const {return has_ench(ENCH_WITHDRAWN);};
 
     bool rolling() const { return has_ench(ENCH_ROLLING); } ;
     bool has_spells() const;
