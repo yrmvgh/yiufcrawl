@@ -2129,7 +2129,7 @@ void handle_monster_move(monster* mons)
 
             if (_unfriendly_or_insane(*mons)
                 && !mons->has_ench(ENCH_CHARM)
-                && !mons->has_ench(ENCH_HEXED)
+                && !mons->has_ench(ENCH_HEXED))
             {
                 monster* new_target = 0;
                 if (!mons->wont_attack())
