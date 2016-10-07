@@ -4950,9 +4950,7 @@ spret_type qazlal_elemental_force(bool fail)
         ASSERT(cloud_at(pos));
         const cloud_struct &cl = *cloud_at(pos);
         actor *agent = actor_by_mid(cl.source);
-        mg.behaviour = !agent             ? BEH_NEUTRAL :
-                       agent->is_player() ? BEH_FRIENDLY
-                                          : SAME_ATTITUDE(agent->as_monster());
+        mg.behaviour = BEH_FRIENDLY;
         mg.pos       = pos;
         mg.cls = *map_find(elemental_clouds, cl.type);
         if (!create_monster(mg))
