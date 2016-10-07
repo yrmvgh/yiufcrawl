@@ -140,7 +140,8 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
     int num_sticks = 0;
     for (item_def& i : you.inv)
         if (i.is_type(OBJ_MISSILES, MI_ARROW)
-            && check_warning_inscriptions(i, OPER_DESTROY))
+            && check_warning_inscriptions(i, OPER_DESTROY)
+			&&i.quantity >= 8)
         {
             // If the player has bow skill, assume that they
             // would prefer that their regular ammo would be
@@ -181,7 +182,7 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
     for (int i = 0; i < how_many_max; i++)
     {
         monster_type mon;
-        if (!stick || stick->quantity == 0)
+        if (!stick || stick->quantity < 8)
         {
             stick = valid_sticks.front();
             valid_sticks.pop_front();
@@ -198,13 +199,13 @@ spret_type cast_sticks_to_snakes(int pow, god_type god, bool fail)
                                             false))
         {
             count++;
-            dec_inv_item_quantity(letter_to_index(stick->slot), 1);
+            dec_inv_item_quantity(letter_to_index(stick->slot), 8);
             snake->add_ench(mon_enchant(ENCH_FAKE_ABJURATION, dur));
         }
     }
     if (count)
     {
-        int sticks_left = num_sticks - count;
+        int sticks_left = num_sticks - count*8;
 
         if (count > 1)
             mprf("You create %d snakes!", count);
