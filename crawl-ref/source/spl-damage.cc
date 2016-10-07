@@ -2372,9 +2372,9 @@ int wielding_rocks()
     const item_def* wpn = you.weapon();
     if (!wpn || wpn->base_type != OBJ_MISSILES)
         return 0;
-    else if (wpn->sub_type == MI_STONE)
+    else if (wpn->sub_type == MI_STONE && wpn->quantity >= 8)
         return 1;
-    else if (wpn->sub_type == MI_LARGE_ROCK)
+    else if (wpn->sub_type == MI_LARGE_ROCK && wpn->quantity >= 8)
         return 2;
     else
         return 0;
@@ -2398,7 +2398,7 @@ spret_type cast_sandblast(int pow, bolt &beam, bool fail)
     const spret_type ret = zapping(zap, pow, beam, true, nullptr, fail);
 
     if (ret == SPRET_SUCCESS && zap != ZAP_SMALL_SANDBLAST)
-        dec_inv_item_quantity(you.equip[EQ_WEAPON], 1);
+        dec_inv_item_quantity(you.equip[EQ_WEAPON], 8);
 
     return ret;
 }

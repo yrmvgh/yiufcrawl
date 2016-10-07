@@ -1068,7 +1068,7 @@ However, it also makes them much more susceptible to cold.
 Sandblast spell
 
 Creates a short blast of high-velocity particles. It has increased power and
-range when the caster provides some source (by wielding a stone), but will
+range if the caster provides some source by wielding eight stones, but will
 still have some effect with no source wielded. Its damage is strongly reduced
 by armour.
 %%%%
