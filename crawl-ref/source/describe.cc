@@ -3132,7 +3132,9 @@ static void _print_bar(int value, int max, int scale,
  */
 static void _describe_monster_hp(const monster_info& mi, ostringstream &result)
 {
-    _print_bar(mons_avg_hp(mi.type), 600, 5, 5, "HP", result);
+	//print an actual number for average monster hp
+    std::string s = std::to_string(mons_avg_hp(mi.type));
+	result << "Average HP: " + s + "\n";
 }
 
 /**
@@ -3143,8 +3145,9 @@ static void _describe_monster_hp(const monster_info& mi, ostringstream &result)
  */
 static void _describe_monster_ac(const monster_info& mi, ostringstream &result)
 {
-    // max ac 40 (dispater)
-    _print_bar(mi.ac, 40, 5, 0, "AC", result);
+    // print an actual number for monster ac
+	std::string s = std::to_string(mi.ac);
+    result << "AC: " + s + "\n";
 }
 
 /**
@@ -3155,8 +3158,9 @@ static void _describe_monster_ac(const monster_info& mi, ostringstream &result)
  */
 static void _describe_monster_ev(const monster_info& mi, ostringstream &result)
 {
-    // max ev 30 (eresh) (also to make space for parens)
-    _print_bar(mi.ev, 30, 5, 0, "EV", result, mi.base_ev);
+    //print an actual number for monster ev
+	std::string s = std::to_string(mi.base_ev);
+    result << "EV: " + s + "\n";
 }
 
 /**
@@ -3169,13 +3173,12 @@ static void _describe_monster_mr(const monster_info& mi, ostringstream &result)
 {
     if (mi.res_magic() == MAG_IMMUNE)
     {
-        result << "MR ∞\n";
+        result << "MR: ∞\n";
         return;
     }
-
-    const int max_mr = 200; // export this? is this already exported?
-    const int bar_scale = MR_PIP;
-    _print_bar(mi.res_magic(), max_mr, bar_scale, 0, "MR", result);
+	//print an actual number for magic resistance
+		std::string s = std::to_string(mi.res_magic());
+		result << "MR: " + s + "\n";
 }
 
 
