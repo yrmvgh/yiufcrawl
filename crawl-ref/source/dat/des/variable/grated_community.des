@@ -59,7 +59,7 @@ KFEAT:  j = fountain_sparkling
 KFEAT:  ~ = closed_door
 KFEAT:  7 = tree
 KFEAT:  A = general shop type:Slaves suffix:and_Accessories count:10 ; \
-            w:50 whip | wand of enslavement | w:1 wand of hasting
+            w:50 whip | wand of enslavement
 KFEAT:  B = fountain_blue
 KFEAT:  C = distillery shop type:Miraculous suffix:Elixirs count:10 \
             greed:50 ; potion of mutation

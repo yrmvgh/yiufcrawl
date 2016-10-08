@@ -723,10 +723,6 @@ wand of fireball
 
 炎の爆風を放つ魔法の道具だ。
 %%%%
-wand of hasting
-
-狙った対象に動きを加速する魔法をかける魔法の道具だ。
-%%%%
 wand of heal wounds
 
 対象の傷を治療する魔法の道具だ。

@@ -1012,11 +1012,6 @@ wand of fireball
 
 En magisk anordning, som kaster eksplosive ildkugler.
 %%%%
-wand of hasting
-
-En magisk anordning, som kaster fortryllelser, der får målet til at bevæge sig
-og handle hurtigere.
-%%%%
 wand of heal wounds
 
 En magisk anordning, som kan helbrede et væsens sår.

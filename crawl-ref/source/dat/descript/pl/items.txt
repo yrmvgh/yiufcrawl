@@ -777,11 +777,6 @@ wand of fireball
 Magiczny przedmiot który strzela kulami ognia które wybuchają w żądanym
 miejscu.
 %%%%
-wand of hasting
-
-Magiczny przedmiot który rzuca czar który przyspiesza wszystkie działania
-istoty na którą został skierowany.
-%%%%
 wand of heal wounds
 
 Magiczny przedmiot który leczy rany stworzenia na które został skierowany.

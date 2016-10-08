@@ -1246,7 +1246,7 @@ static int _random_wand_subtype()
     return random_choose_weighted(10, WAND_FLAME,
                                   10, WAND_LIGHTNING,
                                   10, WAND_ICEBLAST,
-                                  6, WAND_SLOWING,
+                                  7, WAND_SLOWING,
                                   6, WAND_PARALYSIS,
                                   6, WAND_CONFUSION,
                                   6, WAND_POLYMORPH,
@@ -1256,7 +1256,6 @@ static int _random_wand_subtype()
                                   5, WAND_DIGGING,
                                   3, WAND_ENSLAVEMENT,
                                   3, WAND_TELEPORTATION,
-                                  1, WAND_HASTING,
                                   1, WAND_HEAL_WOUNDS);
 }
 

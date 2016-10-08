@@ -591,7 +591,6 @@ local function ziggurat_create_loot_at(c)
                                    "potion of beneficial mutation no_pickup w:40 q:1 /" ..
                                    "stone q:3 no_pickup w:80 /" ..
                                    "wand of heal wounds no_pickup / " ..
-                                   "wand of hasting no_pickup / " ..
                                    dgn.good_scrolls)
 
   local loot_spots = find_free_space(nloot * 4)

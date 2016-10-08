@@ -3165,10 +3165,6 @@ wand of flame
 
 <wand>
 %%%%
-wand of hasting
-
-<wand>
-%%%%
 wand of iceblast
 
 <wand>
