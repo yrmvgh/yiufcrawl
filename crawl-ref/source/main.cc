@@ -2513,16 +2513,11 @@ void world_reacts()
 
     ASSERT(you.time_taken >= 0);
     you.elapsed_time += you.time_taken;
-    if (you.elapsed_time >= 2*1000*1000*1000)
+    if (you.elapsed_time >= 2*1000*1000)
     {
-        // 2B of 1/10 turns. A 32-bit signed int can hold 2.1B.
-        // The worst case of mummy scumming had 92M turns, the second worst
-        // merely 8M. This limit is ~200M turns, with an efficient bot that
-        // keeps resting on a fast machine, it takes ~24 hours to hit it
-        // on a level with no monsters, at 100% CPU utilization, producing
-        // a gigabyte of bzipped ttyrec.
-        // We could extend the counters to 64 bits, but in the light of the
-        // above, it's an useless exercise.
+        // limit total game time to 2,000,000 aut. This should be long enough
+		// for reasonable play to win even with a weak combo while preventing
+		// unreasonable levels of scumming.
         mpr("Outside, the world ends.");
         mpr("Sorry, but your quest for the Orb is now rather pointless. "
             "You quit...");
