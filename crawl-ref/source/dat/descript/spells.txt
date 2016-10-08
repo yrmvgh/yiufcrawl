@@ -1262,7 +1262,8 @@ Throws a ball of hot steam towards a targeted creature.
 Sticks to Snakes spell
 
 Transforms a number of arrows in inventory into short-lived snakes, creating
-more dangerous snakes with higher power.
+more dangerous snakes with higher power. Eight arrows are consumed for each
+snake created.
 %%%%
 Sticky Flame Range spell
 
