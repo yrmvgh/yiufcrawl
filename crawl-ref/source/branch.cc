@@ -34,9 +34,9 @@ static const branch_type logical_branch_order[] = {
 #if TAG_MAJOR_VERSION == 34
     BRANCH_BLADE,
     BRANCH_FOREST,
-#endif
     BRANCH_CRYPT,
     BRANCH_TOMB,
+#endif
     BRANCH_DEPTHS,
     BRANCH_VESTIBULE,
     BRANCH_DIS,
