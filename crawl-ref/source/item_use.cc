@@ -1955,9 +1955,11 @@ void drink(item_def* potion)
         dec_mitm_item_quantity(potion->index(), 1);
     count_action(CACT_USE, OBJ_POTIONS);
     you.turn_is_over = true;
+#if TAG_MAJOR_VERSION == 34
     // This got deferred from PotionExperience::effect to prevent SIGHUP abuse.
     if (potion->sub_type == POT_EXPERIENCE)
         level_change();
+#endif
 }
 
 // XXX: there's probably a nicer way of doing this.

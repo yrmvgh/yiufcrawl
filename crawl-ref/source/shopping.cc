@@ -459,9 +459,11 @@ unsigned int item_value(item_def item, bool ident)
         {
             switch (item.sub_type)
             {
+#if TAG_MAJOR_VERSION == 34
             case POT_EXPERIENCE:
                 valued += 500;
                 break;
+#endif
 
 #if TAG_MAJOR_VERSION == 34
             case POT_GAIN_DEXTERITY:

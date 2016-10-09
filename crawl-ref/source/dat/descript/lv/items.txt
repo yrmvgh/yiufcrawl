@@ -95,10 +95,6 @@ pair of gloves
 
 Cimdu pāris.
 %%%%
-potion of experience
-
-Patiesi brīnišķīgs un ļoti rets dzēriens.
-%%%%
 potion of invisibility
 
 Dzira, kas tevi paslēpj no pārējo skatieniem.

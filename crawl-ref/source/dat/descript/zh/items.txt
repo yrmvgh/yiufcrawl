@@ -401,10 +401,6 @@ potion of decay
 
 如果你饮用了这瓶散发出腐味的浑浊药水，你的血肉会在你的眼前腐朽脱落。
 %%%%
-potion of experience
-
-一瓶非常罕见的极佳饮品。
-%%%%
 potion of flight
 
 这瓶药水会让饮用者在空中浮起来。

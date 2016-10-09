@@ -525,10 +525,6 @@ potion of decay
 En ækel og modbydelig forbandet væske, som får dit kød til at forrådne for
 øjnene af dig.
 %%%%
-potion of experience
-
-En virkeligt vidunderlig og særdeles sjælden drik.
-%%%%
 potion of flight
 
 En drik, som giver stor opdrift til den, der drikker den.

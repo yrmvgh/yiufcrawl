@@ -551,7 +551,7 @@ public:
         return true;
     }
 };
-
+#if TAG_MAJOR_VERSION == 34
 class PotionExperience : public PotionEffect
 {
 private:
@@ -587,7 +587,7 @@ public:
         return true;
     }
 };
-
+#endif
 class PotionMagic : public PotionEffect
 {
 private:

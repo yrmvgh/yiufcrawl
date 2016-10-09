@@ -671,8 +671,8 @@ const char* potion_type_name(int potiontype)
     case POT_DEGENERATION:      return "degeneration";
 #if TAG_MAJOR_VERSION == 34
     case POT_DECAY:             return "decay";
+	case POT_EXPERIENCE:        return "experience";
 #endif
-    case POT_EXPERIENCE:        return "experience";
     case POT_MAGIC:             return "magic";
 #if TAG_MAJOR_VERSION == 34
     case POT_RESTORE_ABILITIES: return "restore abilities";
@@ -3255,8 +3255,8 @@ bool is_good_item(const item_def &item)
         case POT_GAIN_STRENGTH:
         case POT_GAIN_INTELLIGENCE:
         case POT_GAIN_DEXTERITY:
+		case POT_EXPERIENCE:
 #endif
-        case POT_EXPERIENCE:
             return true;
         case POT_BENEFICIAL_MUTATION:
             return you.species != SP_GHOUL; // Mummies are already handled

@@ -409,10 +409,6 @@ potion of decay
 Un líquido maldito, vil y pútrido que provoca que tu carne se pudra ante tus
 ojos.
 %%%%
-potion of experience
-
-Una bebida rarísima y verdaderamente maravillosa.
-%%%%
 potion of invisibility
 
 Una poción que te oculta de la vista de los demás.

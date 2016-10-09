@@ -487,10 +487,6 @@ potion of decay
 Eine widerliche und verweste verfluchte Flüssigkeit, die bewirkt, dass Ihr
 Fleisch vor Ihren Augen verfallen lässt.
 %%%%
-potion of experience
-
-Ein wirklich wundervoller und sehr seltenes Getränk.
-%%%%
 potion of flight
 
 Ein Trank, welcher eine große Beschwingtheit, auf denjenigen der ihn trinkt,

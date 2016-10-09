@@ -765,10 +765,6 @@ potion of degeneration
 
 A noxious concotion which reduces strength, intelligence and dexterity.
 %%%%
-potion of experience
-
-A truly wonderful and very rare drink, which grants experience when consumed.
-%%%%
 potion of flight
 
 A potion which confers great buoyancy on one who consumes it.

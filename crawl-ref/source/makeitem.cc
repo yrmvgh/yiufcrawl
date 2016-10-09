@@ -1358,8 +1358,7 @@ static void _generate_potion_item(item_def& item, int force_type,
                                             35, POT_CANCELLATION,
                                             35, POT_AMBROSIA,
                                             29, POT_CURE_MUTATION,
-                                            11, POT_BENEFICIAL_MUTATION,
-                                             2, POT_EXPERIENCE);
+                                            13, POT_BENEFICIAL_MUTATION);
         }
         while (agent == GOD_XOM
                && _is_boring_item(OBJ_POTIONS, stype)
