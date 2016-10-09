@@ -761,10 +761,6 @@ potion of curing
 A potion which heals some wounds, clears the mind and cures poison and disease.
 It can also slightly repair rotting.
 %%%%
-potion of degeneration
-
-A noxious concotion which reduces strength, intelligence and dexterity.
-%%%%
 potion of flight
 
 A potion which confers great buoyancy on one who consumes it.

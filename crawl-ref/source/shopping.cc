@@ -521,11 +521,10 @@ unsigned int item_value(item_def item, bool ident)
             case POT_SLOWING:
             case POT_DECAY:
             case POT_BLOOD:
-#endif
             case POT_DEGENERATION:
                 valued += 10;
                 break;
-
+#endif
 #if TAG_MAJOR_VERSION == 34
             case POT_BLOOD_COAGULATED:
                 valued += 5;

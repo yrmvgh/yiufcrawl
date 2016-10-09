@@ -1198,7 +1198,7 @@ public:
         return nothing_happens;
     }
 };
-#endif
+
 
 class PotionDegeneration : public PotionEffect
 {
@@ -1228,6 +1228,7 @@ public:
         return true;
     }
 };
+#endif
 
 // placeholder 'buggy' potion
 class PotionStale : public PotionEffect
