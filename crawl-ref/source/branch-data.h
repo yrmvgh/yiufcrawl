@@ -34,7 +34,7 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, BROWN,
       'O', {}, 0 },
 
-    { BRANCH_ELF, BRANCH_ORC, 2, 2, 3, 15,
+    { BRANCH_ELF, BRANCH_VAULTS, 1, 2, 3, 15,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_ELF, DNGN_EXIT_ELF, NUM_FEATURES,
       "Elven Halls", "the Elven Halls", "Elf",
@@ -125,7 +125,6 @@ const Branch branches[NUM_BRANCHES] =
       nullptr,
       LIGHTGREY, BROWN,
       'C', {}, 0 },
-#endif
 
     { BRANCH_TOMB, BRANCH_VAULTS, 3, 3, 3, 21,
       BFLAG_ISLANDED | BFLAG_DANGEROUS_END | BFLAG_NO_SHAFTS,
@@ -134,7 +133,8 @@ const Branch branches[NUM_BRANCHES] =
       nullptr,
       BROWN, BROWN,
       'W', { RUNE_TOMB }, 0 },
-
+#endif
+	  
     { BRANCH_VESTIBULE, NUM_BRANCHES, 27, 27, 1, 27,
       BFLAG_NO_ITEMS,
       DNGN_ENTER_HELL, DNGN_EXIT_HELL, NUM_FEATURES,
