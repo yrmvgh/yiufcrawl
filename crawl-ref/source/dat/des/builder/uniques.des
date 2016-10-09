@@ -275,6 +275,10 @@ NAME:   uniq_bai_suzhen
 DEPTH:  Depths:1-3, Elf:$, Swamp:3-, Snake:3-, Shoals:3-, Spider:3-, Vaults:2-, Crypt
 : place_unique(_G, "Bai Suzhen")
 
+NAME:   uniq_khufu
+DEPTH:  Depths:2-, Tomb, Crypt
+: place_unique(_G, "Khufu band")
+
 # Do *not* change the name of this vault (uniq_boris) without changing the
 # relevant section in monstuff.cc:monster_die. If you wish to alter Boris'
 # weights by using multiple uniq_boris TAG'd maps, ensure that you add the
@@ -372,10 +376,6 @@ NAME:   uniq_dissolution
 DEPTH:  Slime:2-
 WEIGHT: 100
 : place_unique(_G, "Dissolution")
-
-NAME:   uniq_khufu
-DEPTH:  Tomb, Crypt
-: place_unique(_G, "Khufu band")
 
 NAME:   uniq_tiamat
 DEPTH:  Zot
