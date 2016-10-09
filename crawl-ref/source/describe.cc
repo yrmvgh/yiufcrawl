@@ -3160,7 +3160,7 @@ static void _describe_monster_ev(const monster_info& mi, ostringstream &result)
 {
     //print an actual number for monster ev
 	std::string s = std::to_string(mi.base_ev);
-    result << "EV: " + s + "\n";
+    result << "Base EV: " + s + "\n";
 }
 
 /**
@@ -3173,12 +3173,12 @@ static void _describe_monster_mr(const monster_info& mi, ostringstream &result)
 {
     if (mi.res_magic() == MAG_IMMUNE)
     {
-        result << "MR: ∞\n";
+        result << "Base MR: ∞\n";
         return;
     }
 	//print an actual number for magic resistance
 		std::string s = std::to_string(mi.res_magic());
-		result << "MR: " + s + "\n";
+		result << "Base MR: " + s + "\n";
 }
 
 
