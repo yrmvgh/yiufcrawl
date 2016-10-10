@@ -161,6 +161,8 @@ Monkey's Uncle
 
 Circus Animal
 
+Boosted Animal
+
 #classical mythical animals
 Cockatrice
 
@@ -406,6 +408,8 @@ the Ward
 Fortification
 
 Complete Protection
+
+Guaranteed Damage Reduction
 %%%%
 # other armour properties (beside protection)
 _armour_property_name_
@@ -618,6 +622,10 @@ the Harp
 the Gusle
 
 the Trombone
+
+the Tuba
+
+the Triangle
 %%%%
 _evil_being_
 
@@ -682,7 +690,7 @@ the Blizzard
 
 Chill Winds
 
-Spring Thaw
+Spring Thaws
 
 Cloud Cover
 %%%%
@@ -883,6 +891,10 @@ Democracy
 
 Communism
 
+the People's Cause
+
+the Demagogue
+
 %%%%
 _other_armour_name_
 
@@ -982,6 +994,8 @@ Aggressive Luring
 Life Insurance
 
 the Singularity
+
+the Sludge Elves
 %%%%
 _card_
 

@@ -232,6 +232,8 @@ Orange
 Purple
 
 Red
+
+Vermillion
 %%%%
 _sky_or_light_
 
@@ -579,6 +581,8 @@ Eyes
 
 Nights
 
+Days
+
 Orbs
 
 Runes
@@ -640,6 +644,12 @@ Shrikes
 Stories
 
 Tables
+
+Games
+
+Plagues
+
+Years
 
 w:5
 Spreadsheets

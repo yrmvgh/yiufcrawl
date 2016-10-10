@@ -3068,63 +3068,6 @@ static void _add_energy_to_string(int speed, int energy, string what,
 
 
 /**
- * Print a bar of +s and .s representing a given stat to a provided stream.
- *
- * @param value[in]         The current value represented by the bar.
- * @param max[in]           The max value that can be represented by the bar.
- * @param scale[in]         The value that each + and . represents.
- * @param quadratic[in]     The value to increment each +/.'s scale.
- * @param name              The name of the bar.
- * @param result[in,out]    The stringstream to append to.
- * @param base_value[in]    The 'base' value represented by the bar. If
- *                          INT_MAX, is ignored.
- */
-static void _print_bar(int value, int max, int scale,
-                       int quadratic,
-                       string name, ostringstream &result,
-                       int base_value = INT_MAX)
-{
-    if (base_value == INT_MAX)
-        base_value = value;
-
-    result << name << " ";
-
-    const int display_max = value ? value : base_value;
-    const bool currently_disabled = !value && base_value;
-
-    if (currently_disabled)
-      result << "(";
-
-    int current = 0;
-    for (int i = 0; current < max; i++)
-    {
-      current = current + scale + (i * quadratic);
-      if (display_max > current)
-        result << "+";
-      else
-        result << ".";
-    }
-
-    if (currently_disabled)
-      result << ")";
-
-#ifdef DEBUG_DIAGNOSTICS
-    result << " (" << value << ")";
-#endif
-
-    if (currently_disabled)
-    {
-        result << " (Normal " << name << ")";
-
-#ifdef DEBUG_DIAGNOSTICS
-        result << " (" << base_value << ")";
-#endif
-    }
-
-    result << "\n";
-}
-
-/**
  * Append information about a given monster's HP to the provided stream.
  *
  * @param mi[in]            Player-visible info about the monster in question.

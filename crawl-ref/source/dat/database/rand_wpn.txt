@@ -1406,6 +1406,8 @@ False Hope
 
 the Pharaoh's Fist
 
+the Free Win
+
 # akrasiac patch
 Irrepressible Laughter
 %%%%
@@ -1427,6 +1429,8 @@ Giant
 Beetle
 
 Jelly
+
+Shrike
 
 w:1
 Testudine

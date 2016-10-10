@@ -4949,7 +4949,6 @@ spret_type qazlal_elemental_force(bool fail)
         coord_def pos = targets[i];
         ASSERT(cloud_at(pos));
         const cloud_struct &cl = *cloud_at(pos);
-        actor *agent = actor_by_mid(cl.source);
         mg.behaviour = BEH_FRIENDLY;
         mg.pos       = pos;
         mg.cls = *map_find(elemental_clouds, cl.type);
