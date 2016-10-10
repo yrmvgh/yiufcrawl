@@ -2271,15 +2271,6 @@ static void _post_vault_build()
         int depth = you.depth - 6;
         _ruin_level(rectangle_iterator(1), MMT_VAULT,
                     20 - depth, depth / 2 + 4, 1 + (depth / 3));
-			//don't add a billion plants to D:15
-			if (you.depth != 15)
-			{				
-				do
-				{
-					_add_plant_clumps(12 - depth, 18 - depth / 4, depth / 4 + 2);
-					depth -= 3;
-				} while (depth > 0);	
-			}
     }
 }
 
