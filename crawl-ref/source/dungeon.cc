@@ -2265,17 +2265,21 @@ static void _place_feature_mimics(dungeon_feature_type dest_stairs_type)
 // regardless of game mode.
 static void _post_vault_build()
 {
-    if (player_in_branch(BRANCH_LAIR) || (player_in_branch(BRANCH_DUNGEON)
-		&& you.depth >= 10 && one_chance_in(3) ))
+    if (player_in_branch(BRANCH_DUNGEON)
+		&& you.depth >= 10 && one_chance_in(3) )
     {
-        int depth = you.depth + 1;
+        int depth = you.depth - 6;
         _ruin_level(rectangle_iterator(1), MMT_VAULT,
                     20 - depth, depth / 2 + 4, 1 + (depth / 3));
-			do
-			{
-				_add_plant_clumps(12 - depth, 18 - depth / 4, depth / 4 + 2);
-				depth -= 3;
-			} while (depth > 0);	
+			//don't add a billion plants to D:15
+			if (you.depth != 15)
+			{				
+				do
+				{
+					_add_plant_clumps(12 - depth, 18 - depth / 4, depth / 4 + 2);
+					depth -= 3;
+				} while (depth > 0);	
+			}
     }
 }
 
