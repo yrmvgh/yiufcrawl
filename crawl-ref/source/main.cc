@@ -2513,9 +2513,9 @@ void world_reacts()
 
     ASSERT(you.time_taken >= 0);
     you.elapsed_time += you.time_taken;
-    if (you.elapsed_time >= 2*1000*1000)
+    if (you.elapsed_time >= 4*1000*1000)
     {
-        // limit total game time to 2,000,000 aut. This should be long enough
+        // limit total game time to 4,000,000 aut. This should be long enough
 		// for reasonable play to win even with a weak combo while preventing
 		// unreasonable levels of scumming.
         mpr("Outside, the world ends.");
