@@ -3087,8 +3087,16 @@ static void _describe_monster_hp(const monster_info& mi, ostringstream &result)
 static void _describe_monster_ac(const monster_info& mi, ostringstream &result)
 {
     // print an actual number for monster ac
-	std::string s = std::to_string(get_mons_class_ac(mi.type));
-    result << "Base AC: " + s + "\n";
+	if (mons_class_is_zombified(mi.type))
+	{
+		std::string s = std::to_string(mi.ac); 
+		result << "Base AC: " + s + "\n";	
+	}
+	else
+	{
+		std::string s = std::to_string(get_mons_class_ac(mi.type));
+		result << "Base AC: " + s + "\n";
+	}
 }
 
 /**
