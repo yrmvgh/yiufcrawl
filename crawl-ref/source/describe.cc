@@ -3075,9 +3075,7 @@ static void _add_energy_to_string(int speed, int energy, string what,
  */
 static void _describe_monster_hp(const monster_info& mi, ostringstream &result)
 {
-	//print an actual number for average monster hp
-    std::string s = std::to_string(mons_avg_hp(mi.type));
-	result << "Average HP: " + s + "\n";
+	 result << "Max HP: " << mi.get_max_hp_desc() << "\n";
 }
 
 /**
@@ -3103,7 +3101,14 @@ static void _describe_monster_ev(const monster_info& mi, ostringstream &result)
 {
     //print an actual number for monster ev
 	std::string s = std::to_string(mi.base_ev);
+	if (mi.base_ev < 0)
+	{
+	result << "Base EV: 0\n";
+	}
+	else
+	{
     result << "Base EV: " + s + "\n";
+	}
 }
 
 /**
