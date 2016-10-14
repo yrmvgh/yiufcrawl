@@ -34,7 +34,7 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, BROWN,
       'O', {}, 0 },
 
-    { BRANCH_ELF, BRANCH_VAULTS, 1, 2, 3, 15,
+    { BRANCH_ELF, BRANCH_VAULTS, 1, 2, 1, 15,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_ELF, DNGN_EXIT_ELF, NUM_FEATURES,
       "Elven Halls", "the Elven Halls", "Elf",
