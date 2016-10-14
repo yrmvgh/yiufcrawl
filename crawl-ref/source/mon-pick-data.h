@@ -265,7 +265,7 @@ static const pop_entry pop_swamp[] =
   {  1,  4, 1000, FLAT, MONS_ALLIGATOR },
   {  1,  3,  600, FLAT, MONS_SPINY_FROG },
   {  1,  3,  400, FLAT, MONS_NO_MONSTER}, //remove some spiny frog weight
-  {  1,  3,  925, FLAT, MONS_BOG_BODY },
+  {  1,  3,  435, FLAT, MONS_BOG_BODY },
   {  1,  3,  925, FLAT, MONS_SWAMP_DRAKE },
   {  1,  3,  665, FLAT, MONS_VAMPIRE_MOSQUITO },
   {  1,  4,  915, FLAT, MONS_HYDRA },
@@ -275,14 +275,14 @@ static const pop_entry pop_swamp[] =
   {  1,  4,  435, FLAT, MONS_WASP },
   {  1,  4,  384, FLAT, MONS_HORNET },
   {  1,  4,  100, FALL, MONS_KOMODO_DRAGON },
-  {  1,  4,  245, RISE, MONS_TENTACLED_MONSTROSITY },
-  {  1,  4,  525, RISE, MONS_THORN_HUNTER },
-  {  1,  4,  385, RISE, MONS_GHOST_CRAB },
+  {  1,  3,  245, RISE, MONS_TENTACLED_MONSTROSITY },
+  {  1,  3,  525, RISE, MONS_THORN_HUNTER },
+  {  1,  3,  435, RISE, MONS_GHOST_CRAB },
   {  1,  5,  425, SEMI, MONS_SHAMBLING_MANGROVE },
   {  1,  7,  115, PEAK, MONS_BLINK_FROG },
   {  1,  7,  115, SEMI, MONS_VERY_UGLY_THING },
-  {  2,  4,  525, RISE, MONS_SPRIGGAN_DRUID },
-  {  3,  7,   52, RISE, MONS_SPRIGGAN_DEFENDER},
+  {  1,  4,  525, RISE, MONS_SPRIGGAN_DRUID },
+  {  3,  7,   52, RISE, MONS_SPRIGGAN_AIR_MAGE},
   { 0,0,0,FLAT,MONS_0 }
 };
 
@@ -311,39 +311,41 @@ static const pop_entry pop_shoals[] =
 
 static const pop_entry pop_snake[] =
 { // Snake Pit
-  { -4,  4,  750, SEMI, MONS_NAGA },
-  {  0,  4,  215, SEMI, MONS_SALAMANDER },
+  { -4,  2,  750, SEMI, MONS_NAGA },
+  {  0,  3,  215, SEMI, MONS_SALAMANDER },
   {  0,  6,  315, SEMI, MONS_ANACONDA },
-  {  0,  8, 1125, SEMI, MONS_BLACK_MAMBA },
-  {  0,  8,  340, SEMI, MONS_NAGA_WARRIOR },
-  {  0,  8,  550, SEMI, MONS_NAGA_MAGE },
-  {  0,  8,  225, SEMI, MONS_NAGA_RITUALIST },
+  {  0,  6,  600, SEMI, MONS_BLACK_MAMBA },
+  {  0,  6,  525, SEMI, MONS_NO_MONSTER}, //remove some mamba weight
+  {  0,  6,  340, SEMI, MONS_NAGA_WARRIOR },
+  {  0,  7,  550, SEMI, MONS_NAGA_MAGE },
+  {  0,  7,  225, SEMI, MONS_NAGA_RITUALIST },
   {  0,  8,  315, SEMI, MONS_NAGA_SHARPSHOOTER },
   {  0,  8,  415, PEAK, MONS_SHOCK_SERPENT },
-  {  1,  4,  200, FLAT, MONS_MANA_VIPER },
-  {  1,  7,  225, PEAK, MONS_GUARDIAN_SERPENT },
-  {  2,  5,  110, PEAK, MONS_SALAMANDER_MYSTIC },
-  {  2,  8,  245, SEMI, MONS_GREATER_NAGA },
+  {  1,  3,  200, FLAT, MONS_MANA_VIPER },
+  {  1,  5,  225, PEAK, MONS_GUARDIAN_SERPENT },
+  {  1,  4,  110, PEAK, MONS_SALAMANDER_MYSTIC },
+  {  1,  7,  245, SEMI, MONS_GREATER_NAGA },
   { 0,0,0,FLAT,MONS_0 }
 };
 
 static const pop_entry pop_spider[] =
 { // Spider Nest
-  { -1,  4,  260, RISE, MONS_HORNET },
-  { -1,  9,  765, SEMI, MONS_DEMONIC_CRAWLER },
-  {  1,  4,  955, FLAT, MONS_WOLF_SPIDER },
-  {  1,  4,  985, FLAT, MONS_JUMPING_SPIDER },
-  {  1,  4,  910, FLAT, MONS_TARANTELLA },
-  {  1,  4, 1045, FLAT, MONS_REDBACK },
-  {  1,  4,  550, FLAT, MONS_ORB_SPIDER },
-  {  1,  4,   52, FLAT, MONS_WASP },
-  {  1,  6,  100, FLAT, MONS_TORPOR_SNAIL },
-  {  1,  6,  190, SEMI, MONS_EMPEROR_SCORPION },
-  {  1,  6,  155, SEMI, MONS_MOTH_OF_WRATH },
-  {  1,  9,  300, SEMI, MONS_ENTROPY_WEAVER },
-  {  1,  9,  200, PEAK, MONS_GHOST_MOTH },
-  {  2,  4,   12, FLAT, MONS_MELIAI },
-  {  2, 10,  260, PEAK, MONS_SPARK_WASP },
+  { -1,  3,  260, RISE, MONS_HORNET },
+  { -1,  7,  765, SEMI, MONS_DEMONIC_CRAWLER },
+  {  1,  3,  955, FLAT, MONS_WOLF_SPIDER },
+  {  1,  3,  985, FLAT, MONS_JUMPING_SPIDER },
+  {  1,  3,  910, FLAT, MONS_TARANTELLA },
+  {  1,  3,  800, FLAT, MONS_REDBACK },
+  {  1,  3,  245, FLAT, MONS_NO_MONSTER}, //don't generate so many redbacks
+  {  1,  3,  550, FLAT, MONS_ORB_SPIDER },
+  {  1,  3,   52, FLAT, MONS_WASP },
+  {  1,  4,  100, FLAT, MONS_TORPOR_SNAIL },
+  {  1,  4,  190, SEMI, MONS_EMPEROR_SCORPION },
+  {  1,  5,  155, SEMI, MONS_MOTH_OF_WRATH },
+  {  1,  8,  300, SEMI, MONS_ENTROPY_WEAVER },
+  {  1,  8,  200, PEAK, MONS_GHOST_MOTH },
+  {  1,  4,   12, FLAT, MONS_MELIAI },
+  {  1, 10,  260, PEAK, MONS_SPARK_WASP },
   { 0,0,0,FLAT,MONS_0 }
 };
 
