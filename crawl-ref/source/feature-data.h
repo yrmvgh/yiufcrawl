@@ -420,7 +420,7 @@ PORTAL_EXIT(DNGN_EXIT_DESOLATION, "gate leading back out of this place", "exit_d
     YELLOW, RED, YELLOW, YELLOW, YELLOW,
     (FFT_NOTABLE | FFT_EXAMINE_HINT), MF_STAIR_BRANCH,
 },
-BRANCH_EXIT(DNGN_EXIT_SLIME, "staircase back to the Lair", "exit_slime_pits"),
+BRANCH_EXIT(DNGN_EXIT_SLIME, "staircase back to the Dungeon", "exit_slime_pits"),
 
 {
     DNGN_ENTER_ORC, "staircase to the Orcish Mines", "enter_orcish_mines",
@@ -449,22 +449,22 @@ BRANCH_ENTRANCE(DNGN_ENTER_TEMPLE, "staircase to the Ecumenical Temple", "enter_
 BRANCH_EXIT(DNGN_EXIT_TEMPLE, "staircase back to the Dungeon", "exit_temple"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_SNAKE, "staircase to the Snake Pit", "enter_snake_pit"),
-BRANCH_EXIT(DNGN_EXIT_SNAKE, "staircase back to the Lair", "exit_snake_pit"),
+BRANCH_EXIT(DNGN_EXIT_SNAKE, "staircase back to the Dungeon", "exit_snake_pit"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_ELF, "staircase to the Elven Halls", "enter_elven_halls"),
-BRANCH_EXIT(DNGN_EXIT_ELF, "staircase back to the Mines", "exit_elven_halls"),
+BRANCH_EXIT(DNGN_EXIT_ELF, "staircase back to the Vaults", "exit_elven_halls"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_TOMB, "staircase to the Tomb", "enter_tomb"),
 BRANCH_EXIT(DNGN_EXIT_TOMB, "staircase back to the Crypt", "exit_tomb"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_SWAMP, "staircase to the Swamp", "enter_swamp"),
-BRANCH_EXIT(DNGN_EXIT_SWAMP, "staircase back to the Lair", "exit_swamp"),
+BRANCH_EXIT(DNGN_EXIT_SWAMP, "staircase back to the Dungeon", "exit_swamp"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_SHOALS, "staircase to the Shoals", "enter_shoals"),
-BRANCH_EXIT(DNGN_EXIT_SHOALS, "staircase back to the Lair", "exit_shoals"),
+BRANCH_EXIT(DNGN_EXIT_SHOALS, "staircase back to the Dungeon", "exit_shoals"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_SPIDER, "hole to the Spider Nest", "enter_spider_nest"),
-BRANCH_EXIT(DNGN_EXIT_SPIDER, "crawl-hole back to the Lair", "exit_spider_nest"),
+BRANCH_EXIT(DNGN_EXIT_SPIDER, "crawl-hole back to the Dungeon", "exit_spider_nest"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_DEPTHS, "staircase to the Depths", "enter_depths"),
 BRANCH_EXIT(DNGN_EXIT_DEPTHS, "staircase back to the Dungeon", "exit_depths"),
