@@ -1801,14 +1801,14 @@ bool do_god_gift(bool forced)
                 // included in default force_more_message
 
                 if (gift_type == OBJ_MISSILES)
-                    _inc_gift_timeout(4 + roll_dice(2, 4));
+                    _inc_gift_timeout(6 + roll_dice(2, 5));
                 else
                 {
                     // Okawaru charges extra for armour acquirements.
                     if (you_worship(GOD_OKAWARU) && gift_type == OBJ_ARMOUR)
-                        _inc_gift_timeout(30 + random2avg(15, 2));
+                        _inc_gift_timeout(40 + random2avg(19, 2));
 
-                    _inc_gift_timeout(30 + random2avg(19, 2));
+                    _inc_gift_timeout(40 + random2avg(23, 2));
                 }
                 you.num_current_gifts[you.religion]++;
                 you.num_total_gifts[you.religion]++;
