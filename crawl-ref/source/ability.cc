@@ -395,9 +395,9 @@ static const ability_def Ability_List[] =
 
     // Okawaru
     { ABIL_OKAWARU_HEROISM, "Heroism",
-      2, 0, 0, 1, {FAIL_INVO, 30, 6, 20}, abflag::NONE },
+      2, 0, 0, 3, {FAIL_INVO, 30, 6, 20}, abflag::NONE },
     { ABIL_OKAWARU_FINESSE, "Finesse",
-      5, 0, 0, 3, {FAIL_INVO, 60, 4, 25}, abflag::NONE },
+      5, 0, 0, 4, {FAIL_INVO, 60, 4, 25}, abflag::NONE },
 
     // Makhleb
     { ABIL_MAKHLEB_MINOR_DESTRUCTION, "Minor Destruction",
