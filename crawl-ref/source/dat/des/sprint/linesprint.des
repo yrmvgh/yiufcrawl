@@ -566,7 +566,7 @@ ENDMAP
 NAME:     vaults_1
 TAGS:     vaults_1
 KMONS:    1 = place:Vaults:1
-KMONS:    2 = place:Vaults:4
+KMONS:    2 = place:Vaults:3
 KFEAT:    v = permarock_wall
 COLOUR:   v = cyan
 : line_setup(_G)

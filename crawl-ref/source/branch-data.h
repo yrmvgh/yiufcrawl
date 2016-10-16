@@ -101,7 +101,7 @@ const Branch branches[NUM_BRANCHES] =
       GREEN, BROWN,
       'M', { RUNE_SLIME }, 0 },
 
-    { BRANCH_VAULTS, BRANCH_DUNGEON, 15, 15, 4, 19,
+    { BRANCH_VAULTS, BRANCH_DUNGEON, 15, 15, 3, 19,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_VAULTS, DNGN_EXIT_VAULTS, NUM_FEATURES,
       "Vaults", "the Vaults", "Vaults",
