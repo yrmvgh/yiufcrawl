@@ -102,6 +102,26 @@ void initialise_branch_depths()
         brentry[disabled].clear();
 		}
     }
+	
+	 branch_type hell_branch[] =
+    {
+        BRANCH_DIS, 
+		BRANCH_TARTARUS,
+        BRANCH_COCYTUS,  	
+		BRANCH_GEHENNA
+    };
+	
+	branch_type enabled_hell = random_choose(BRANCH_DIS, BRANCH_TARTARUS, 
+	BRANCH_COCYTUS, BRANCH_GEHENNA);
+	
+	for (branch_type disabled : hell_branch)
+    {
+		if(branches[disabled].shortname != branches[enabled_hell].shortname)
+		{
+        dprf("Disabling branch: %s", branches[disabled].shortname);
+        brentry[disabled].clear();
+		}
+    }
 
     for (branch_iterator it; it; ++it)
         brdepth[it->id] = it->numlevels;

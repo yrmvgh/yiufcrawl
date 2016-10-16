@@ -647,10 +647,32 @@ NAME:     vestibule_of_hell_subvaulted
 PLACE:    Hell
 ORIENT:   encompass
 TAGS:     no_rotate no_dump
+: if crawl.game_started() and dgn.br_exists("Dis") then
 SUBVAULT: A : vestibule_dis
+SUBVAULT: B : vestibule_tar_empty
+SUBVAULT: C : vestibule_coc_empty
+SUBVAULT: D : vestibule_geh_empty
+: elseif crawl.game_started() and dgn.br_exists("Tar") then
+SUBVAULT: A : vestibule_dis_empty
 SUBVAULT: B : vestibule_tar
+SUBVAULT: C : vestibule_coc_empty
+SUBVAULT: D : vestibule_geh_empty
+: elseif crawl.game_started() and dgn.br_exists("Coc") then
+SUBVAULT: A : vestibule_dis_empty
+SUBVAULT: B : vestibule_tar_empty
 SUBVAULT: C : vestibule_coc
+SUBVAULT: D : vestibule_geh_empty
+: elseif crawl.game_started() and dgn.br_exists("Geh") then
+SUBVAULT: A : vestibule_dis_empty
+SUBVAULT: B : vestibule_tar_empty
+SUBVAULT: C : vestibule_coc_empty
 SUBVAULT: D : vestibule_geh
+: else
+SUBVAULT: A : vestibule_dis_empty
+SUBVAULT: B : vestibule_tar_empty
+SUBVAULT: C : vestibule_coc_empty
+SUBVAULT: D : vestibule_geh_empty
+:end
 SUBVAULT: E : vestibule_geryon
 SHUFFLE:  ABCD
 SUBST:    ABCDE = .
@@ -1163,7 +1185,442 @@ MAP
               .....
                ...
 ENDMAP
+######################### Vestibule Empty
+NAME: vestibule_empty_dis_old
+TAGS: vestibule_dis_empty
+KFEAT: D = stone_arch
+KMONS: D = war gargoyle / reaper
+FTILE: +'D = floor_infernal_blank
+MAP
+xxxxxxxxxxxxxvvvvvvvxxxxxxxxxxxxx
+ xxxxxxxxxx..v'''''v..xxxxxxxxxx
+  xxxxxx.....v'''''v....xxxxxxx
+   xxx.......v'''''v.......xxx
+    .........v''D''v.........
+     ........v'''''v........
+      .......v'''''v.......
+       ......vvv+vvv......
+        .................
+         ...............
+          .............
+           ...........
+            .........
+             .......
+              .....
+               ...
+ENDMAP
 
+NAME: vestibule_empty_dis_mu
+TAGS: vestibule_dis_empty
+KFEAT:  D=stone_arch
+KMONS:  8 = iron troll
+KMONS:  3 = rust devil
+KMONS:  6 = war gargoyle
+FTILE:  'A+ = floor_infernal_blank
+MAP
+.............v.vvv.v.............
+ ...vv....v...vv'vv...v....vv...
+  ..3v.....vv.v'D'v.vv.....v3..
+   .......v...vv'vv...v.......
+    ...vv....v.v+v.v....vv...
+     ..3v..6...8.8...6..v3..
+      .....................
+       ...vv...v.v...vv...
+        ..3v.........v3..
+         ...............
+          ...vv...vv...
+           ..3v...v3..
+            .........
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME:   vestibule_empty_dis_nicolae_mini_city_of_dis
+TAGS:   vestibule_dis_empty
+KFEAT:  D = stone_arch
+NSUBST: E = + / v, F = + / v, q = + / v, p = + / v, \
+        B = 1:+ / 1:+vv / *:v, Z = 1:+ / 1:+v / *:v
+SUBST:  2 = 22., 3 = 33.
+KMONS:  1 = iron troll / iron dragon
+KMONS:  2 = rust devil / iron imp w:5
+KMONS:  3 = war gargoyle / reaper w:5
+KFEAT:  H = G
+TILE:   GH = dngn_statue_iron_golem
+FTILE:  A'1H = floor_infernal_blank
+MAP
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+ ....Gv.......vHDHv.......vG....
+  ..2.E..2G...v'1'v...G2..F.2..
+   ...v.......v'''v.......v...
+    ..vvEvvvqqv'''vppvvvFvv..
+     .....Gv..v'''v..vG.....
+      ..2..v.3B'''B3.v..2..
+       ....E..vvBvv..F....
+        ...v..Z.3.Z..v...
+         ..vEvv...vvFv..
+          ..2Gv...vG2..
+           ...vZvZv...
+            ..G...G..
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_dis_grunt_castle
+TAGS: vestibule_dis_empty
+MONS: war gargoyle / iron dragon, iron troll
+MONS: rust devil / iron imp w:5
+NSUBST: D = 1:D / *:A
+KFEAT: D = stone_arch
+KFEAT: A = stone_arch
+MAP
+.......v.vvvvxxxxxxxvvvv.v.......
+ ..vv...vvD.vvxxxxxvv.Dvv...vv..
+  .3v...vv.2vvvvvvvvv2.vv...v3.
+   ....v.vvv.........vvv.v....
+    ....v.vv..1...1..vv.v....
+     ..v.vvv.........vvv.v..
+      ..vv.2vvv+++vvv2.vv..
+       .vvD.vv.....vv.Dvv.
+        .vvvv.v...v.vvvv.
+         .vv.v.3.3.v.vv.
+          ..v.v...v.v..
+           ..3.....3..
+            ..v...v..
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_coc_old
+TAGS: vestibule_coc_empty
+KFEAT: C = stone_arch
+KMONS: C = blizzard demon / ice statue
+: hell_water_spawns(_G)
+MAP
+wwwwwwwwwwwwwwwwCwwwwwwwwww......
+ wwwwwwwwwwwwww....wwwwwww......
+  wwwwwwwwww.........wwww......
+   wwwwwwwww..wwwww....ww.....
+    wwwwwwwww..wwwww....ww...
+     wwwwwwww....ww......ww.
+      .wwwww..ww.....ww....
+       ...w..wwwww..wwww..
+        ....wwwwwwwwwwww.
+         .....wwwwwwww..
+          ......wwwww..
+           ...........
+            .........
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_coc_mu
+TAGS: vestibule_coc_empty
+KFEAT:  C=stone_arch
+SUBST:  8 = 8 .:59
+KMONS:  8 = ice statue
+KMONS:  3 = ice devil
+: hell_water_spawns(_G)
+MAP
+...........wwwwwwwwwww...........
+ ....33...wwwwwwwwwwwww...33....
+  ....3...wwwwww8wwwwww...3....
+   ......wwwww.....wwwww......
+    .....wwww...C...wwww.....
+     ....wwww.......wwww....
+      ...www8..T.T..8www...
+       ..wwww.......wwww..
+        ..www..T.T..www..
+         ..www.....www..
+          ...ww...ww...
+           .....3.....
+            .........
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME:    vestibule_empty_coc_nicolae_fridge_bridge
+TAGS:    vestibule_coc_empty no_pool_fixup
+KFEAT:   C = stone_arch
+SHUFFLE: ab
+SUBST:   a = I, b : w., W = w.
+KMONS:   I = ice statue
+KMONS:   3 = blizzard demon
+KMONS:   2 = ice devil / freezing wraith / white imp / nothing
+: hell_water_spawns(_G)
+MAP
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+ WWWWwwwwwwwww.....wwwwwwwwwWWWW
+  ..WWWwwwwwww.3C3.wwwwwwwWWW..
+   ...WWwwwwww.....wwwwwwWW...
+    ...Wwwwwwwa...awwwwwwW...
+     ..WWwwwwww...wWwwwwWW..
+      ..Wwwwwww2.2wwwwwwW..
+       .WWwwwww...wwwwwWW.
+        .WWwwww...wwwwWW.
+         .WWWww2.2wwWWW.
+          ..WWW...WWW..
+           ...b...b...
+            .........
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_coc_grunt_go_with_the_floe
+TAGS: vestibule_coc_empty no_pool_fixup
+MONS: frost giant / blizzard demon / ice statue
+MONS: blizzard demon, ice devil / freezing wraith
+NSUBST: 3 = 3:3 / *:.
+SUBST: W = wW.
+KFEAT: A = stone_arch
+KFEAT: C = stone_arch
+KFEAT: W = W
+: hell_water_spawns(_G)
+MAP
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+ wwwwwWWWWWWWWWWwWWWWWWWWWWwwwww
+  wwwWW...WW...WWW...WW...WWwww
+   wwW..W2....3...3....2W..Www
+    wwW.3W...W..W..W...W3.Www
+     wwW..W.WWW.3.WWW.W..Www
+      wwW.C.WwW.W.WwW.A.Www
+       wwW..WwW.W.WwW..Www
+        wwW1WwW.3.WwW1Www
+         wwWWwW.W.WwWWww
+          wwwwW.W.Wwwww
+           wwwW.3.Wwww
+            wwW.W.Www
+             wW.W.Ww
+              W.3.W
+               .W.
+ENDMAP
+
+NAME: vestibule_empty_geh_old
+TAGS: vestibule_geh_empty
+KFEAT: G = stone_arch
+KMONS: G = hellion / balrug
+: hell_lava_spawns(_G)
+MAP
+xxxxxxxxxxxxxx.l.l.xxxxxxxxxxxxxx
+ xxxxxxxxxx...l.l.l...xxxxxxxxxx
+  xxxxxx.....l.l.l.l.....xxxxxx
+   .........l.l.l.l.l.........
+    .........l.l.l.l.l.......
+     .......l.l.l.l.l.......
+      .....l.l.l.l.l.l.....
+       .....l.l.G.l.l.....
+        ...l.l.l.l.l.....
+         ...l.l.l.l.l...
+          ...l.l.l.l...
+           ...l.l.....
+            .l.l.....
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_geh_mu
+TAGS: vestibule_geh_empty
+KFEAT:  G=stone_arch
+SUBST:  L = l.
+KMONS:  5 = crimson imp
+KMONS:  2 = hellion
+KMONS:  3 = sun demon
+KMONS:  2 = reaper / soul eater
+FTILE:  x'5a2V+ = floor_infernal_blank
+: hell_lava_spawns(_G)
+MAP
+lllllllllllllllllllllllllllllllll
+ Lllllllllllllllllllllllllllllll
+  LllxxxxxxxxxxxxxxxxxxxxxxxllL
+   Lllxx'''''''''''''''''xxllL
+    Lllxx''5''''G''''5''xxllL
+     Lllxx'''''''''''''xxllL
+      Lllxx''V''2''V''xxllL
+       Lllxx'''''''''xxllL
+        Lllxx'''''''xxllL
+         Lllxxx+++xxxllL
+          Lllxx...xxllL
+           Lll..3..llL
+            Lll...llL
+             Lll.llL
+              ll.ll
+               l.l
+ENDMAP
+
+NAME:    vestibule_empty_geh_nicolae_lava_paths
+TAGS:    vestibule_geh_empty
+SHUFFLE: ab/cd/ef, cd/cd/gh, ef/ef/ef/ij
+NSUBST:  a = G / H / ', b = 1:' / 2:'pp / *:p
+NSUBST:  h = 1:. / 2:.qq / *:q, j = 1:. / 2:.rr / *:r
+SUBST:   p : llXXx, q : llXXx, r : llXXx
+KFEAT:   G = stone_arch
+SUBST:   ce = x, d : xlllLX., f : xlllLX., gi = ....m, m = mm.
+SUBST:   L = l., X = xl
+KMONS:   H = hellion
+KMONS:   m = crimson imp / smoke demon
+KMONS:   ' = hell beast / hell hound / hell hog / nothing w:140
+FTILE:   AH' = floor_infernal_blank
+: hell_lava_spawns(_G)
+MAP
+.........bab.........dcd.........
+ ...m..bbbabbb.....dddcddd..m...
+  ....bbaaaaabb.m.ddcccccdd....
+   ...baaaaaaab...dcccccccd...
+    ..bbaaaaabb.m.ddcccccdd..
+     ..bbaabbb.....dddccdd..
+      ..bbbb.m.fff.m.dddd..
+       ......fffefff......
+        ..m.ffeeeeeff.m..
+         ...feeeeeeef...
+          ..ffeeeeeff..
+           ..ffeeeff..
+            .mfffffm.
+             .......
+              ..m..
+               ...
+ENDMAP
+
+NAME: vestibule_empty_geh_grunt_obsidian_fortress
+TAGS: vestibule_geh_empty
+KFEAT: G = stone_arch
+MONS: balrug / hellion, sun demon / smoke demon
+MONS: orange demon / hell hound / hell hog
+MONS: orange demon / hell hound / hell hog
+NSUBST: 2 = 3:2 / *:.
+NSUBST: 3 = 3:3 / *:.
+FTILE: 123+G = floor_infernal_blank
+: hell_lava_spawns(_G)
+MAP
+lllllllllccccccccccccccclllllllll
+ llllllccc'''c''1''c'''cccllllll
+  llllcc3''2'+''G''+'2''3ccllll
+   lllc''''''c''1''c''''''clll
+    llc'2'2'ccccccccc'2'2'cll
+     lcc''''c'''''''c''''ccl
+      lcc''c+''2'2''+c''ccl
+       lcccc'3'''''3'ccccl
+        lllc''3'''3''clll
+         llcc'''''''ccll
+          llccc+++cccll
+           lll.....lll
+            l.l4.4l.l
+             .lllll.
+              .lll.
+               ...
+ENDMAP
+
+NAME: vestibule_empty_tar_old
+TAGS: vestibule_tar_empty
+KFEAT: T = stone_arch
+KMONS: T = revenant / shadow dragon
+FTILE: +'T = floor_infernal_blank
+TILE: c = dngn_stone_dark
+MAP
+xxxxxxxxxxxxxxxcccxxxxxxxxxxxxxxx
+ xxxxxxxxxxxxxcc'ccxxxxxxxxxxxxx
+  ....xxxxccccc'T'cccccxxxx....
+   .......c'''c'''c'''c.......
+    ......c'''cc+cc'''c......
+     ....ccc'''''''''ccc....
+      ...ccc'''''''''ccc...
+       ..cccccc+++cccccc..
+        .ccc.........ccc.
+         ...............
+          .............
+           ...........
+            .........
+             .......
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_tar_mu
+TAGS: vestibule_tar_empty
+KFEAT:  T=stone_arch
+FTILE:  =T3Dz+'; = floor_infernal_blank
+TILE:   c = dngn_stone_dark
+SUBST:  ; = .
+KMONS:  3 = shadow wraith
+KMONS:  z = skeletal warrior / zombie / nothing
+KMONS:  D = shadow dragon
+KMONS:  2 = reaper / soul eater
+MAP
+ccccccccccccccccccccccccccccccccc
+ ccczz+'''''';;;;;;;''''''+zzccc
+  cczzc''3''c';;T;;'c''3''czzcc
+   c+ccc''''''c;;;c''''''ccc+c
+    .cccc'''''''D'''''''cccc.
+     ..ccc'''''''''''''ccc..
+      .cccc'''cc+cc'''cccc.
+       ..cccc'c'''c'cccc..
+        .cccc'cz'zc'cccc.
+         ..cccczzzcccc..
+          .cccc'''cccc.
+           ..ccc'ccc..
+            .c2c'c2c.
+             ..c+c..
+              .c.c.
+               ...
+ENDMAP
+
+NAME:   vestibule_empty_tar_nicolae_necropolis
+TAGS:   vestibule_tar_empty
+KFEAT:  T = stone_arch
+SUBST:  d = ccc., z = zzz..
+KMONS:  z = place:Depths:1 zombie
+KMONS:  b = revenant / lich / vampire mage / ancient lich / mummy priest / \
+           curse skull
+TILE:   c = dngn_stone_dark
+MAP
+.......dd...............dd.......
+ ...z..ddz..c.z.T.z.c..zdd..z...
+  .....dd...............dd.....
+   ..z.ddz..c.z.b.z.c..zdd.z..
+    ...ddd.............ddd...
+     ...dd....c.z.c....dd...
+      ..dddz.........zddd..
+       ..ddd..c.z.c..ddd..
+        ..ddd.......ddd..
+         ..dd.c.z.c.dd..
+          .............
+           .z.c.z.c.z.
+            .........
+             .c.z.c.
+              .....
+               ...
+ENDMAP
+
+NAME: vestibule_empty_tar_grunt_deathgaze
+TAGS: vestibule_tar_empty
+KFEAT: T = stone_arch
+KMONS: T = revenant / lich / shadow dragon
+MONS: ancient champion band, reaper / soul eater, skeletal warrior band
+FTILE: +'T12 = floor_infernal_blank
+TILE: c = dngn_stone_dark
+MAP
+...........ccccccccccc...........
+ ...cc...ccc'''''''''ccc...cc...
+  ..cc..cc'''''''''''''cc..cc..
+   .....c'''2'''T'''2'''c.....
+    ..3.cc'''''''''''''cc.3..
+     ....cccc'''''''cccc....
+      ...c''cc'''''cc''c...
+       ..cc'''''c'''''cc..
+        ..cc'1'ccc'1'cc..
+         ..cc''c'c''cc..
+          ..cc'''''cc..
+           ..cc+++cc..
+            .........
+             ...3...
+              .....
+               ...
+ENDMAP
 ######################### Vestibule Geryon
 NAME: vestibule_geryon_old
 TAGS: vestibule_geryon
