@@ -659,17 +659,18 @@ void actor::handle_constriction()
         DIAG_ONLY(const int infdam = damage);
 
         string exclamations;
+		std::string d = std::to_string(damage);	
         if (damage <= 0 && is_player()
             && you.can_see(*defender))
         {
             exclamations = ", but do no damage.";
         }
         else if (damage < HIT_WEAK)
-            exclamations = ".";
+            exclamations = " (" + d + ").";
         else if (damage < HIT_MED)
-            exclamations = "!";
+            exclamations = " (" + d + ")!";
         else if (damage < HIT_STRONG)
-            exclamations = "!!";
+            exclamations = " (" + d + ")!!";
         else
         {
             int tmpdamage = damage;
@@ -679,6 +680,7 @@ void actor::handle_constriction()
                 exclamations += "!";
                 tmpdamage >>= 1;
             }
+			exclamations = " (" + d + ")"+exclamations;
         }
 
         if (is_player() || you.can_see(*this))

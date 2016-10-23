@@ -691,12 +691,16 @@ static void _WYRMBANE_melee_effects(item_def* weapon, actor* attacker,
     string name = defender->name(DESC_THE);
 
     if (!mondied)
-    {
-        mprf("%s %s!",
+    {	
+		int bonus_damage = 1 + random2(3*dam/2);
+		std::string d = std::to_string(bonus_damage);
+		
+        mprf("%s %s (%s)!",
             defender->name(DESC_THE).c_str(),
-            defender->conj_verb("convulse").c_str());
+            defender->conj_verb("convulse").c_str(),
+			d.c_str());
 
-        defender->hurt(attacker, 1 + random2(3*dam/2));
+        defender->hurt(attacker, bonus_damage);
 
         // Allow the lance to charge when killing dragonform felid players.
         mondied = defender->is_player() ? defender->as_player()->pending_revival
@@ -747,10 +751,13 @@ static void _UNDEADHUNTER_melee_effects(item_def* item, actor* attacker,
     if (defender->holiness() & MH_UNDEAD && !one_chance_in(3)
         && !mondied && dam)
     {
-        mprf("%s %s blasted by disruptive energy!",
+		int bonus_damage = random2avg((1 + (dam * 3)), 3);
+		std::string d = std::to_string(bonus_damage);
+        mprf("%s %s blasted by disruptive energy (%s)!",
               defender->name(DESC_THE).c_str(),
-              defender->conj_verb("be").c_str());
-        defender->hurt(attacker, random2avg((1 + (dam * 3)), 3));
+              defender->conj_verb("be").c_str(),
+			  d.c_str());
+        defender->hurt(attacker, bonus_damage);
     }
 }
 
@@ -967,15 +974,17 @@ static void _ELEMENTAL_STAFF_melee_effects(item_def*, actor* attacker,
     }
 
     const int bonus_dam = _calc_elemental_staff_damage(flavour, defender);
-
+	std::string d = std::to_string(bonus_dam);	
+	
     if (bonus_dam <= 0)
         return;
-
-    mprf("%s %s %s.",
+	
+    mprf("%s %s %s (%s).",
          attacker->name(DESC_THE).c_str(),
          attacker->conj_verb(verb).c_str(),
          (attacker == defender ? defender->pronoun(PRONOUN_REFLEXIVE)
-                               : defender->name(DESC_THE)).c_str());
+                               : defender->name(DESC_THE)).c_str(),
+		 d.c_str());
 
     defender->hurt(attacker, bonus_dam, flavour);
 
@@ -1264,12 +1273,16 @@ static void _CAPTAIN_melee_effects(item_def* weapon, actor* attacker,
         item_def *wpn = defender->as_monster()->disarm();
         if (wpn)
         {
-            mprf("The captain's cutlass flashes! You lacerate %s!!",
-                defender->name(DESC_THE).c_str());
+			int bonus_damage = 18 + random2(18);
+			std::string d = std::to_string(bonus_damage);
+			
+            mprf("The captain's cutlass flashes! You lacerate %s (%s)!!",
+                defender->name(DESC_THE).c_str(),
+				d.c_str());
             mprf("%s %s falls to the floor!",
                 apostrophise(defender->name(DESC_THE)).c_str(),
                 wpn->name(DESC_PLAIN).c_str());
-            defender->hurt(attacker, 18 + random2(18));
+            defender->hurt(attacker, bonus_damage);
             did_god_conduct(DID_UNCHIVALRIC_ATTACK, 3);
         }
     }

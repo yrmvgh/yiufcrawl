@@ -462,19 +462,27 @@ bool attack::distortion_affects_defender()
                                                        5,  NONE);
 
     if (simu && !(choice == SMALL_DMG || choice == BIG_DMG))
+	{
         return false;
-
+	}
+	
+	std::string d = std::to_string(special_damage);
+	
     switch (choice)
     {
     case SMALL_DMG:
-        special_damage_message = make_stringf("Space bends around %s.",
-                                              defender_name(false).c_str());
-        special_damage += 1 + random2avg(7, 2);
+		special_damage += 1 + random2avg(7, 2);
+		d = std::to_string(special_damage);
+        special_damage_message = make_stringf("Space bends around %s (%s).",
+                                              defender_name(false).c_str(),
+											  d.c_str());
         break;
     case BIG_DMG:
-        special_damage_message = make_stringf("Space warps horribly around %s!",
-                                              defender_name(false).c_str());
-        special_damage += 3 + random2avg(24, 2);
+		special_damage += 3 + random2avg(24, 2);
+		d = std::to_string(special_damage);
+        special_damage_message = make_stringf("Space warps horribly around %s (%s)!",
+                                              defender_name(false).c_str(),
+											  d.c_str());
         break;
     case BLINK:
         if (defender_visible)
@@ -542,13 +550,14 @@ void attack::pain_affects_defender()
     {
         special_damage += resist_adjust_damage(defender, BEAM_NEG,
                               random2(1 + user->skill_rdiv(SK_NECROMANCY)));
-
+		std::string d = std::to_string(special_damage);
         if (special_damage && defender_visible)
         {
             special_damage_message =
-                make_stringf("%s %s in agony.",
+                make_stringf("%s %s in agony",
                              defender->name(DESC_THE).c_str(),
                              defender->conj_verb("writhe").c_str());
+			special_damage_message = special_damage_message + " (" + d + ").";
         }
     }
 }
@@ -979,20 +988,24 @@ void attack::drain_defender()
         return;
 
     special_damage = resist_adjust_damage(defender, BEAM_NEG,
-                                          (1 + random2(damage_done)) / 2);
-
+                                          (3 + random2(3) + random2(damage_done)) / 2);
+	std::string d = std::to_string(special_damage);
     if (defender->drain_exp(attacker, true, 20 + min(35, damage_done)))
     {
         if (defender->is_player())
+		{
+			mpr("You feel drained (" + d +").");
             obvious_effect = true;
+		}
         else if (defender_visible)
         {
             special_damage_message =
                 make_stringf(
-                    "%s %s %s!",
+                    "%s %s %s",
                     atk_name(DESC_THE).c_str(),
                     attacker->conj_verb("drain").c_str(),
                     defender_name(true).c_str());
+			special_damage_message = special_damage_message + " (" + d + ")!";
         }
     }
 }
@@ -1044,12 +1057,13 @@ string attack::debug_damage_number()
  */
 string attack::attack_strength_punctuation(int dmg)
 {
+	std::string d = std::to_string(dmg);
     if (dmg < HIT_WEAK)
-        return ".";
+        return " (" + d + ").";
     else if (dmg < HIT_MED)
-        return "!";
+        return " (" + d + ")!";
     else if (dmg < HIT_STRONG)
-        return "!!";
+        return " (" + d + ")!!";
     else
     {
         string ret = "!!!";
@@ -1059,7 +1073,7 @@ string attack::attack_strength_punctuation(int dmg)
             ret += "!";
             tmpdamage >>= 1;
         }
-        return ret;
+        return" (" + d + ")" + ret;
     }
 }
 
@@ -1633,11 +1647,12 @@ bool attack::apply_damage_brand(const char *what)
             break;
         else if (one_chance_in(3))
         {
+			special_damage = 8 + random2(13);
+			std::string d = std::to_string(special_damage);
             special_damage_message =
                 defender->is_player()?
-                   "You are electrocuted!"
-                :  "There is a sudden explosion of sparks!";
-            special_damage = 8 + random2(13);
+                   "You are electrocuted (" + d + ")!"
+                :  "There is a sudden explosion of sparks (" + d + ")!";
             special_damage_flavour = BEAM_ELECTRICITY;
             defender->expose_to_element(BEAM_ELECTRICITY, 2);
         }

@@ -2198,9 +2198,12 @@ int silver_damages_victim(actor* victim, int damage, string &dmg_msg)
         ret = damage * multiplier / 100;
     }
     else
+	{
         return 0;
+	}
 
-    dmg_msg = "The silver sears " + victim->name(DESC_THE) + "!";
+	std::string d = std::to_string(ret);
+    dmg_msg = "The silver sears " + victim->name(DESC_THE) + " (" + d + ")!";
     return ret;
 }
 

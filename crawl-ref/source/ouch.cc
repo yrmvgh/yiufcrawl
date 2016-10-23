@@ -401,9 +401,10 @@ void lose_level()
  * @param announce_full     Whether to print messages even when fully resisting
  *                          the drain.
  * @param ignore_protection Whether to ignore the player's rN.
+ * @param print_drained     Whether to print the "you feel drained" message
  * @return                  Whether draining occurred.
  */
-bool drain_player(int power, bool announce_full, bool ignore_protection)
+bool drain_player(int power, bool announce_full, bool ignore_protection, bool print_drained)
 {
     if (crawl_state.disables[DIS_AFFLICTIONS])
         return false;
@@ -426,7 +427,10 @@ bool drain_player(int power, bool announce_full, bool ignore_protection)
 
     if (power > 0)
     {
+		if(print_drained)
+		{
         mpr("You feel drained.");
+		}
         xom_is_stimulated(15);
 
         you.attribute[ATTR_XP_DRAIN] += power;

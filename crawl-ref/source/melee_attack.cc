@@ -258,11 +258,10 @@ bool melee_attack::handle_phase_dodged()
             player_warn_miss();
         else
         {
-            mprf("%s%s misses %s%s",
+            mprf("%s%s misses %s.",
                  atk_name(DESC_THE).c_str(),
                  evasion_margin_adverb().c_str(),
-                 defender_name(true).c_str(),
-                 attack_strength_punctuation(damage_done).c_str());
+                 defender_name(true).c_str());
         }
     }
     if (defender->is_player())
@@ -2047,8 +2046,12 @@ void melee_attack::apply_staff_damage()
         return;
 
     if (weapon->base_type != OBJ_STAVES)
+	{
         return;
+	}
 
+	std::string d = std::to_string(0);
+	
     switch (weapon->sub_type)
     {
     case STAFF_AIR:
@@ -2056,13 +2059,14 @@ void melee_attack::apply_staff_damage()
             resist_adjust_damage(defender,
                                  BEAM_ELECTRICITY,
                                  staff_damage(SK_AIR_MAGIC));
-
+		d = std::to_string(special_damage);
         if (special_damage)
         {
             special_damage_message =
-                make_stringf("%s %s electrocuted!",
+                make_stringf("%s %s electrocuted (%s)!",
                              defender->name(DESC_THE).c_str(),
-                             defender->conj_verb("are").c_str());
+                             defender->conj_verb("are").c_str(),
+							 d.c_str());
             special_damage_flavour = BEAM_ELECTRICITY;
         }
 
@@ -2073,15 +2077,16 @@ void melee_attack::apply_staff_damage()
             resist_adjust_damage(defender,
                                  BEAM_COLD,
                                  staff_damage(SK_ICE_MAGIC));
-
+		d = std::to_string(special_damage);
         if (special_damage)
         {
             special_damage_message =
                 make_stringf(
-                    "%s freeze%s %s!",
+                    "%s freeze%s %s (%s)!",
                     attacker->name(DESC_THE).c_str(),
                     attacker->is_player() ? "" : "s",
-                    defender->name(DESC_THE).c_str());
+                    defender->name(DESC_THE).c_str(),
+					d.c_str());
             special_damage_flavour = BEAM_COLD;
         }
         break;
@@ -2089,15 +2094,16 @@ void melee_attack::apply_staff_damage()
     case STAFF_EARTH:
         special_damage = staff_damage(SK_EARTH_MAGIC);
         special_damage = apply_defender_ac(special_damage);
-
+		d = std::to_string(special_damage);
         if (special_damage > 0)
         {
             special_damage_message =
                 make_stringf(
-                    "%s crush%s %s!",
+                    "%s crush%s %s (%s)!",
                     attacker->name(DESC_THE).c_str(),
                     attacker->is_player() ? "" : "es",
-                    defender->name(DESC_THE).c_str());
+                    defender->name(DESC_THE).c_str(),
+					d.c_str());
         }
         break;
 
@@ -2106,15 +2112,16 @@ void melee_attack::apply_staff_damage()
             resist_adjust_damage(defender,
                                  BEAM_FIRE,
                                  staff_damage(SK_FIRE_MAGIC));
-
+		d = std::to_string(special_damage);
         if (special_damage)
         {
             special_damage_message =
                 make_stringf(
-                    "%s burn%s %s!",
+                    "%s burn%s %s (%s)!",
                     attacker->name(DESC_THE).c_str(),
                     attacker->is_player() ? "" : "s",
-                    defender->name(DESC_THE).c_str());
+                    defender->name(DESC_THE).c_str(),
+					d.c_str());
             special_damage_flavour = BEAM_FIRE;
 
             if (defender->is_player())
@@ -2138,14 +2145,15 @@ void melee_attack::apply_staff_damage()
             resist_adjust_damage(defender,
                                  BEAM_NEG,
                                  staff_damage(SK_NECROMANCY));
-
+		d = std::to_string(special_damage);
         if (special_damage)
         {
             special_damage_message =
                 make_stringf(
-                    "%s %s in agony!",
+                    "%s %s in agony (%s)!",
                     defender->name(DESC_THE).c_str(),
-                    defender->conj_verb("writhe").c_str());
+                    defender->conj_verb("writhe").c_str(),
+					d.c_str());
 
             attacker->god_conduct(DID_EVIL, 4);
         }
@@ -2922,13 +2930,14 @@ void melee_attack::mons_apply_attack_flavour()
         special_damage = resist_adjust_damage(defender,
                                               BEAM_FIRE,
                                               special_damage);
-
         if (needs_message && special_damage)
         {
-            mprf("%s %s %s!",
+			std::string d = std::to_string(special_damage);
+            mprf("%s %s %s (%s)!",
                     atk_name(DESC_THE).c_str(),
                     attacker->conj_verb("burn").c_str(),
-                    defender_name(true).c_str());
+                    defender_name(true).c_str(),
+					d.c_str());
 
             _print_resist_messages(defender, special_damage, BEAM_FIRE);
         }

@@ -6799,11 +6799,12 @@ void player::splash_with_acid(const actor* evildoer, int acid_strength,
 
     const int dam = roll_dice(4, acid_strength);
     const int post_res_dam = resist_adjust_damage(&you, BEAM_ACID, dam);
+	std::string d = std::to_string(post_res_dam);	
 
     mpr("You are splashed with acid!");
     if (post_res_dam > 0)
     {
-        mpr(hurt_msg ? hurt_msg : "The acid burns!");
+        mpr(hurt_msg ? hurt_msg : "The acid burns (" + d + ")!");
 
         if (post_res_dam < dam)
             canned_msg(MSG_YOU_RESIST);
@@ -6815,7 +6816,7 @@ void player::splash_with_acid(const actor* evildoer, int acid_strength,
 
 bool player::drain_exp(actor *who, bool quiet, int pow)
 {
-    return drain_player(pow, !quiet);
+    return drain_player(pow, !quiet, false, false);
 }
 
 void player::confuse(actor *who, int str)

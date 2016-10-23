@@ -4335,7 +4335,7 @@ bool monster::drain_exp(actor *agent, bool quiet, int pow)
         mprf("%s is drained!", name(DESC_THE).c_str());
 
     // If quiet, don't clean up the monster in order to credit properly.
-    hurt(agent, 2 + random2(3), BEAM_NEG, KILLED_BY_DRAINING, "", "", !quiet);
+    hurt(agent, 0, BEAM_NEG, KILLED_BY_DRAINING, "", "", !quiet);
 
     if (alive())
     {
@@ -4416,9 +4416,11 @@ void monster::splash_with_acid(const actor* evildoer, int /*acid_strength*/,
 {
     const int dam = roll_dice(2, 4);
     const int post_res_dam = resist_adjust_damage(this, BEAM_ACID, dam);
+	std::string d = std::to_string(post_res_dam);	
 
     if (this->observable())
-         mprf("%s is splashed with acid.", this->name(DESC_THE).c_str());
+         mprf("%s is splashed with acid (%s).", this->name(DESC_THE).c_str(),
+		 d.c_str());
 
     if (!one_chance_in(3))
         corrode_equipment();
