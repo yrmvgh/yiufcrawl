@@ -1092,16 +1092,6 @@ static void _remove_amulet_of_faith(item_def &item)
     }
 }
 
-static void _remove_amulet_of_harm()
-{
-    if (you.undead_state() == US_ALIVE)
-        mpr("The amulet drains your life force as you remove it!");
-    else
-        mpr("The amulet drains your animating force as you remove it!");
-
-    drain_player(150, false, true);
-}
-
 static void _equip_amulet_of_regeneration()
 {
     if (player_mutation_level(MUT_SLOW_REGENERATION) == 3)
@@ -1330,11 +1320,6 @@ static void _unequip_jewellery_effect(item_def &item, bool mesg, bool meld,
     case AMU_FAITH:
         if (!meld)
             _remove_amulet_of_faith(item);
-        break;
-
-    case AMU_HARM:
-        if (!meld)
-            _remove_amulet_of_harm();
         break;
 
     case AMU_GUARDIAN_SPIRIT:

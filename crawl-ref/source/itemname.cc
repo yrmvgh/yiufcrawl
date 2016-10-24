@@ -769,8 +769,8 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_TELEPORT_CONTROL:      return "teleport control";
 #endif
         case AMU_RAGE:              return "rage";
-        case AMU_HARM:              return "harm";
 #if TAG_MAJOR_VERSION == 34
+        case AMU_HARM:              return "haram";
         case AMU_DISMISSAL:         return "unfeature";
 #endif
         case AMU_MANA_REGENERATION: return "magic regeneration";

@@ -1581,9 +1581,6 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
         return true;
     }
 
-    if (oper == OPER_REMOVE && item.is_type(OBJ_JEWELLERY, AMU_HARM))
-        return true;
-
     if (nasty_stasis(item, oper))
         return true;
 

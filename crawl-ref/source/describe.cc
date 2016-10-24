@@ -131,9 +131,7 @@ const char* jewellery_base_ability_string(int subtype)
     case RING_RESIST_CORROSION:   return "rCorr";
 #if TAG_MAJOR_VERSION == 34
     case RING_TELEPORT_CONTROL:   return "+cTele";
-#endif
     case AMU_HARM:                return "Harm";
-#if TAG_MAJOR_VERSION == 34
     case AMU_DISMISSAL:           return "Dismiss";
 #endif
     case AMU_MANA_REGENERATION:   return "RegenMP";
@@ -382,10 +380,8 @@ static const char* _jewellery_base_ability_description(int subtype)
 #if TAG_MAJOR_VERSION == 34
     case RING_TELEPORT_CONTROL:
         return "It can be evoked for teleport control.";
-#endif
     case AMU_HARM:
         return "It increases damage dealt and taken.";
-#if TAG_MAJOR_VERSION == 34
     case AMU_DISMISSAL:
         return "It may teleport away creatures that harm you.";
 #endif

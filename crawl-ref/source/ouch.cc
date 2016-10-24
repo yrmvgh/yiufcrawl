@@ -758,18 +758,6 @@ static void _wizard_restore_life()
 }
 #endif
 
-static int _apply_extra_harm(int dam, mid_t source)
-{
-    monster* damager = monster_by_mid(source);
-    // Don't check for monster amulet if there source isn't a monster
-    if (damager && damager->extra_harm())
-        return dam * 13 / 10; // +30% damage when the opponent has harm
-    else if (you.extra_harm())
-        return dam * 6 / 5; // +20% damage when you have harm
-
-    return dam;
-}
-
 void reset_damage_counters()
 {
     you.turn_damage = 0;
@@ -833,10 +821,6 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
     const bool is_torment = (aux && (strstr(aux, "torment")
                 || strstr(aux, "Torment")
                 || strstr(aux, "exploding lurking horror")));
-
-    // Multiply damage if amulet of harm is in play
-    if (dam != INSTANT_DEATH)
-        dam = _apply_extra_harm(dam, source);
 
     if (can_shave_damage() && dam != INSTANT_DEATH
         && death_type != KILLED_BY_POISON)

@@ -197,8 +197,8 @@ enum jewellery_type
 
     AMU_RAGE = 35,
     AMU_FIRST_AMULET = AMU_RAGE,
-    AMU_HARM,
 #if TAG_MAJOR_VERSION == 34
+    AMU_HARM,
     AMU_DISMISSAL,
 #endif
     AMU_MANA_REGENERATION,

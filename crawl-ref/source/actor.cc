@@ -281,11 +281,6 @@ bool actor::reflection(bool calc_unid, bool items) const
     return items && wearing(EQ_AMULET, AMU_REFLECTION, calc_unid);
 }
 
-bool actor::extra_harm(bool calc_unid, bool items) const
-{
-    return items && wearing(EQ_AMULET, AMU_HARM, calc_unid);
-}
-
 bool actor::rmut_from_item(bool calc_unid) const
 {
     return scan_artefacts(ARTP_RMUT, calc_unid);
