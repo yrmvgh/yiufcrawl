@@ -1668,7 +1668,7 @@ static void _generate_jewellery_item(item_def& item, bool allow_uniques,
             else if (force_type == NUM_JEWELLERY)
                 item.sub_type = get_random_amulet_type();
             else
-                item.sub_type = (one_chance_in(4) ? get_random_amulet_type()
+                item.sub_type = (one_chance_in(5) ? get_random_amulet_type()
                                                   : get_random_ring_type());
         }
         while (agent == GOD_XOM
