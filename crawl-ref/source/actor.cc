@@ -202,7 +202,7 @@ void actor::shield_block_succeeded(actor *foe)
 
 int actor::inaccuracy() const
 {
-    return wearing(EQ_AMULET, AMU_INACCURACY);
+     return 0;
 }
 
 bool actor::gourmand(bool calc_unid, bool items) const

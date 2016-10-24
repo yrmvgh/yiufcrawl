@@ -724,10 +724,6 @@ unsigned int item_value(item_def item, bool ident)
                 case AMU_NOTHING:
                     valued += 75;
                     break;
-
-                case AMU_INACCURACY:
-                    valued -= 300;
-                    break;
                     // got to do delusion!
                 }
             }

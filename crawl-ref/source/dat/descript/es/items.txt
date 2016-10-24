@@ -4,11 +4,6 @@ amulet of conservation
 Este amuleto protege de la destrucción algunas de las pertenencias de su
 portador, aunque no de forma infalible.
 %%%%
-amulet of inaccuracy
-
-Este amuleto hace que su portador sea menos preciso en el combate cuerpo a
-cuerpo, y cuando ataque monstruos mediante ataques a distancia o hechizos.
-%%%%
 amulet of rage
 
 Este amuleto permite a su portador entrar en un estado de furia.

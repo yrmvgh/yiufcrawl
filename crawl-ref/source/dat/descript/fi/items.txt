@@ -4,11 +4,6 @@ amulet of conservation
 Tämä amuletti suojaa joitakin käyttäjän omistamia tavaroita tuhoutumiselta,
 mutta ei pettämättömästi.
 %%%%
-amulet of inaccuracy
-
-Tämä amuletti laskee kantajansa tarkkuutta lähi- ja kaukotaistelussa sekä
-loitsiessa.
-%%%%
 amulet of rage
 
 Tämä amuletti antaa haltijalleen kyvyn siirtyä berserkkiraivon tilaan.

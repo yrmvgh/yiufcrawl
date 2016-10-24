@@ -8536,8 +8536,6 @@ void player::maybe_degrade_bone_armour(int trials)
 int player::inaccuracy() const
 {
     int degree = 0;
-    if (wearing(EQ_AMULET, AMU_INACCURACY))
-        degree++;
     if (player_mutation_level(MUT_MISSING_EYE))
         degree++;
     return degree;

@@ -4,11 +4,6 @@ amulet of conservation
 Ten amulet ochrania zwoje i eliksiry przed zniszczeniem, niestety nie jest
 niezawodny.
 %%%%
-amulet of inaccuracy
-
-Ten amulet mocno utrudnia swemu nosicielowi celowanie — tak w walce wręcz,
-strzelaniu jak i przy rzucaniu czarów.
-%%%%
 amulet of rage
 
 Ten amulet pozwala swemu nosicielowi wprowadzić się w bitewny szał — osławioną

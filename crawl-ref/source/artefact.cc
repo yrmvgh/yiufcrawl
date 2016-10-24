@@ -1470,10 +1470,6 @@ static bool _randart_is_redundant(const item_def &item,
         provides = ARTP_BERSERK;
         break;
 
-    case AMU_INACCURACY:
-        provides = ARTP_SLAYING;
-        break;
-
     case AMU_REGENERATION:
         provides = ARTP_REGENERATION;
         break;

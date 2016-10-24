@@ -2230,13 +2230,6 @@ static bool _identify(bool alreadyknown, const string &pre_msg)
         if (item.link == you.equip[EQ_WEAPON])
             you.wield_change = true;
 
-        if (item.is_type(OBJ_JEWELLERY, AMU_INACCURACY)
-            && item.link == you.equip[EQ_AMULET]
-            && !item_known_cursed(item))
-        {
-            learned_something_new(HINT_INACCURACY);
-        }
-
         auto_assign_item_slot(item);
     }
     return true;

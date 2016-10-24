@@ -4,11 +4,6 @@ amulet of conservation
 Denne amulet beskytter bærerens ejendele mod ødelæggelse, men er ikke
 ufejlbarlig.
 %%%%
-amulet of inaccuracy
-
-Denne amulet gør bæreren mindre præcis, hvad end det gælder nærkamp eller om at
-ramme uhyrer på afstand eller med besværgelser.
-%%%%
 amulet of rage
 
 Denne amulet lader bæreren forsøge at gå bersærk.

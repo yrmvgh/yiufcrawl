@@ -217,6 +217,9 @@ int attack::calc_to_hit(bool random)
 
         // hit roll
         mhit = maybe_random2(mhit, random);
+		
+		//inaccuracy from sac eye
+		mhit -= 5 * attacker->inaccuracy();
     }
     else    // Monster to-hit.
     {
@@ -234,7 +237,6 @@ int attack::calc_to_hit(bool random)
     }
 
     // Penalties for both players and monsters:
-    mhit -= 5 * attacker->inaccuracy();
 
     if (attacker->confused())
         mhit -= 5;

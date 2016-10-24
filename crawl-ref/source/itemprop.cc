@@ -731,6 +731,7 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_JEWELLERY, AMU_CONSERVATION },
 	{ OBJ_JEWELLERY, AMU_DISMISSAL },
 	{ OBJ_JEWELLERY, AMU_HARM },
+	{ OBJ_JEWELLERY, AMU_INACCURACY },
     { OBJ_JEWELLERY, RING_REGENERATION },
     { OBJ_JEWELLERY, RING_SUSTAIN_ATTRIBUTES },
     { OBJ_JEWELLERY, RING_TELEPORT_CONTROL },
@@ -2822,7 +2823,7 @@ bool gives_resistance(const item_def &item)
         }
         else
         {
-            if (item.sub_type != AMU_RAGE && item.sub_type != AMU_INACCURACY)
+            if (item.sub_type != AMU_RAGE)
                 return true;
         }
         break;

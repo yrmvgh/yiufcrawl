@@ -778,8 +778,8 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
 		case AMU_THE_GOURMAND:		return "gourmand";
         case AMU_CONSERVATION:      return "conservation";
         case AMU_CONTROLLED_FLIGHT: return "controlled flight";
+        case AMU_INACCURACY:        return "garbage";
 #endif
-        case AMU_INACCURACY:        return "inaccuracy";
         case AMU_NOTHING:           return "nothing";
         case AMU_GUARDIAN_SPIRIT:   return "guardian spirit";
         case AMU_FAITH:             return "faith";
@@ -3330,7 +3330,9 @@ bool is_bad_item(const item_def &item, bool temp)
 
         switch (item.sub_type)
         {
+#if TAG_MAJOR_VERSION == 34
         case AMU_INACCURACY:
+#endif
         case RING_LOUDNESS:
             return true;
         case RING_TELEPORTATION:
