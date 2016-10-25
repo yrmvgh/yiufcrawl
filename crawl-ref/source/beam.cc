@@ -347,7 +347,6 @@ static bool _stop_because_god_hates_target_prompt(monster* mon,
             return true;
         }
     }
-	
     return false;
 }
 
@@ -3905,7 +3904,7 @@ void bolt::affect_player()
     // handling of missiles
     if (item && item->base_type == OBJ_MISSILES)
     {
-        if (item->brand == SPMSL_CURARE)
+		if (item->sub_type == MI_DART_CURARE)
         {
             if (x_chance_in_y(90 - 3 * you.armour_class(), 100))
             {
@@ -4431,24 +4430,14 @@ void bolt::monster_post_hit(monster* mon, int dmg)
     // did no damage. Hostiles will still take umbrage.
     if (dmg > 0 || !mon->wont_attack() || !YOU_KILL(thrower))
     {
-        bool was_asleep = mon->asleep();
-        special_missile_type m_brand = SPMSL_FORBID_BRAND;
-        if (item && item->base_type == OBJ_MISSILES)
-            m_brand = get_ammo_brand(*item);
-
         // Don't immediately turn insane monsters hostile.
-        if (m_brand != SPMSL_FRENZY)
+        if (item && item->sub_type != MI_DART_FRENZY)
         {
             behaviour_event(mon, ME_ANNOY, agent());
             // behaviour_event can make a monster leave the level or vanish.
             if (!mon->alive())
                 return;
         }
-
-
-        // Don't allow needles of sleeping to awaken monsters.
-        if (m_brand == SPMSL_SLEEP && was_asleep && !mon->asleep())
-            mon->put_to_sleep(agent(), 0);
     }
 
     if (YOU_KILL(thrower) && !mon->wont_attack() && !mons_is_firewood(*mon))
@@ -4487,7 +4476,7 @@ void bolt::monster_post_hit(monster* mon, int dmg)
 
     // Handle missile effects.
     if (item && item->base_type == OBJ_MISSILES
-        && item->brand == SPMSL_CURARE && ench_power == AUTOMATIC_HIT)
+        && item->sub_type == MI_DART_CURARE && ench_power == AUTOMATIC_HIT)
     {
         curare_actor(agent(), mon, 2, name, source_name);
     }

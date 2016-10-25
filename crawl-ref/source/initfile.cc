@@ -604,6 +604,8 @@ static fire_type _str_to_fire_types(const string &str)
         return FIRE_NET;
     else if (str == "inscribed")
         return FIRE_INSCRIBED;
+    else if (str == "dart")
+        return FIRE_DART;
 
     return FIRE_NONE;
 }

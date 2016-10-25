@@ -905,7 +905,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
                 { WPN_SHORTBOW,                 1 },
                 { WPN_LONGBOW,                  1 },
         } } },
-        { MONS_SONJA, { { { WPN_BLOWGUN, 1 } } } },
         // salamanders only have secondary weapons; melee or bow, not both
         { MONS_SALAMANDER, {
             { { WPN_HALBERD,                    5 },
@@ -916,8 +915,7 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
             { 4, 0, 4 },
         } },
         { MONS_SPRIGGAN_RIDER, {
-            { { WPN_BLOWGUN,                    1 },
-              { NUM_WEAPONS,                    14 }, },
+              { { NUM_WEAPONS,                    14 }, },
         } },
         { MONS_WARMONGER, {
             { { WPN_LONGBOW,                    10 }, // total 60
@@ -958,15 +956,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
     // special cases.
     switch (type)
     {
-    case MONS_KOBOLD:
-        // A few of the smarter kobolds have blowguns.
-        if (one_chance_in(10) && level > 1)
-        {
-            item.base_type = OBJ_WEAPONS;
-            item.sub_type  = WPN_BLOWGUN;
-            break;
-        }
-        // intentional fallthrough
     case MONS_BIG_KOBOLD:
         if (x_chance_in_y(3, 5))     // give hand weapon
         {
@@ -1282,29 +1271,6 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
 
         if (xitt == MI_NEEDLE)
         {
-            if (mon->type == MONS_SONJA)
-            {
-                set_item_ego_type(mitm[thing_created], OBJ_MISSILES,
-                                  SPMSL_CURARE);
-
-                mitm[thing_created].quantity = random_range(24, 60);
-            }
-            else if (mon->type == MONS_SPRIGGAN_RIDER)
-            {
-                set_item_ego_type(mitm[thing_created], OBJ_MISSILES,
-                                  SPMSL_CURARE);
-
-                mitm[thing_created].quantity = random_range(12, 24);
-            }
-            else
-            {
-                set_item_ego_type(mitm[thing_created], OBJ_MISSILES,
-                                  got_curare_roll(level) ? SPMSL_CURARE
-                                                         : SPMSL_POISONED);
-
-                if (get_ammo_brand(mitm[thing_created]) == SPMSL_CURARE)
-                    mitm[thing_created].quantity = random_range(12, 24);
-            }
         }
         else
         {
@@ -1317,7 +1283,6 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
                 mitm[thing_created].brand = SPMSL_NORMAL;
             }
         }
-
         switch (mon->type)
         {
             case MONS_DEEP_ELF_MASTER_ARCHER:
@@ -1343,6 +1308,16 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
         switch (mon->type)
         {
         case MONS_KOBOLD:
+            // A few of the smarter kobolds have darts.
+            if (one_chance_in(10) && level > 1)
+            {
+                weap_type  = got_curare_roll(level) ? MI_DART_CURARE :
+                                                  MI_DART_POISONED;
+                qty        = weap_type == MI_DART_CURARE ? random_range(2, 8) :
+                                                       random_range(4, 16);
+                break;
+            }
+        // deliberate fall-through
         case MONS_BIG_KOBOLD:
             if (x_chance_in_y(2, 5))
             {
@@ -1400,6 +1375,16 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
                     break;
             }
 			break;
+
+         case MONS_SONJA:
+            weap_type  = MI_DART_CURARE;
+            qty        = random_range(4, 10);
+            break;
+
+        case MONS_SPRIGGAN_RIDER:
+            weap_type  = MI_DART_CURARE;
+            qty        = random_range(2, 4);
+            break;
 
         default:
             break;

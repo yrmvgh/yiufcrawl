@@ -604,9 +604,11 @@ static const weapon_def Weapon_prop[] =
         }},
 
     // Range weapons
+    #if TAG_MAJOR_VERSION == 34
     { WPN_BLOWGUN,           "blowgun",             0,  2, 10,
         SK_THROWING,     SIZE_LITTLE, SIZE_LITTLE, MI_NEEDLE,
         DAMV_NON_MELEE, 5, 0, 25, {}, },
+    #endif
 
     { WPN_HUNTING_SLING,     "hunting sling",       5,  2, 12,
         SK_SLINGS,       SIZE_LITTLE, SIZE_LITTLE, MI_STONE,
@@ -647,19 +649,22 @@ static int Missile_index[NUM_MISSILES];
 static const missile_def Missile_prop[] =
 {
 #if TAG_MAJOR_VERSION == 34
-    { MI_DART,          "dart",          2, 1,  1,  true  },
+    { MI_DART,          "dart",          2, 1,  true  },
+    { MI_NEEDLE,        "needle",        0, 2,  false },
 #endif
-    { MI_NEEDLE,        "needle",        0, 12, 2,  false },
-    { MI_STONE,         "stone",         2, 8,  1,  true  },
-    { MI_ARROW,         "arrow",         0, 8,  2,  false },
-    { MI_BOLT,          "bolt",          0, 8,  2,  false },
-    { MI_LARGE_ROCK,    "large rock",   20, 25, 7,  true  },
-    { MI_SLING_BULLET,  "sling bullet",  4, 8,  5,  false },
-    { MI_JAVELIN,       "javelin",      10, 20, 8,  true  },
+    { MI_STONE,         "stone",         2, 1,  true  },
+    { MI_ARROW,         "arrow",         0, 2,  false },
+    { MI_BOLT,          "bolt",          0, 2,  false },
+    { MI_LARGE_ROCK,    "large rock",   20, 7,  true  },
+    { MI_SLING_BULLET,  "sling bullet",  4, 5,  false },
+    { MI_JAVELIN,       "javelin",      10, 8,  true  },
 #if TAG_MAJOR_VERSION == 34
-    { MI_THROWING_NET,  "throwing net",  0, 0,  30, true  },
+    { MI_THROWING_NET,  "throwing net",  0, 30, true  },
 #endif
-    { MI_TOMAHAWK,      "tomahawk",      6, 20, 5,  true  },
+    { MI_TOMAHAWK,      "tomahawk",      6, 5,  true  },
+    { MI_DART_POISONED, "poisoned dart", 0, 3,  true  },
+    { MI_DART_CURARE,   "curare dart",   0, 10, true  },
+    { MI_DART_FRENZY,   "frenzy dart",   0, 8,  true  },
 };
 
 struct food_def
@@ -1897,7 +1902,7 @@ bool is_brandable_weapon(const item_def &wpn, bool allow_ranged, bool divine)
     if (is_artefact(wpn))
         return false;
 
-    if (!allow_ranged && is_range_weapon(wpn) || wpn.sub_type == WPN_BLOWGUN)
+    if (!allow_ranged && is_range_weapon(wpn))
         return false;
 
     // Only gods can rebrand blessed weapons, and they revert back to their
