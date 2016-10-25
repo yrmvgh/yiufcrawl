@@ -411,7 +411,7 @@ static void _gold_pile(item_def &corpse, monster_type corpse_class)
         ++you.props[GOZAG_GOLD_AURA_KEY].get_int();
 }
 
-+static void _create_monster_hide(const monster &mons)
+static void _create_monster_hide(const monster &mons)
 {
     const armour_type type = hide_for_monster(mons.type);
     ASSERT(type != NUM_ARMOURS);
@@ -495,12 +495,8 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
     // if a shifter turns into a ballistomycete spore and explodes. In this
     // case we place no corpse since the explosion means anything left
     // over would be scattered, tiny chunks of shifter.
-     if (in_bounds(mons.pos()))
-     {
-         move_item_to_grid(&o, mons.pos(), !mons.swimming());
-         if (!force)
-            _maybe_drop_monster_hide(mons);
-     }
+	if (!in_bounds(mons.pos()) && !force)
+		return nullptr;
 
     // Don't attempt to place corpses within walls, either.
     if (feat_is_solid(grd(mons.pos())) && !force)
@@ -540,8 +536,12 @@ item_def* place_monster_corpse(const monster& mons, bool silent, bool force)
         return nullptr;
     }
 
-    if (in_bounds(mons.pos()))
-        move_item_to_grid(&o, mons.pos(), !mons.swimming());
+	if (in_bounds(mons.pos()))
+	{
+		move_item_to_grid(&o, mons.pos(), !mons.swimming());
+		if (!force)
+			_maybe_drop_monster_hide(mons);
+	}
 
     if (o == NON_ITEM)
         return nullptr;
