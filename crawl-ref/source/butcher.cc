@@ -41,15 +41,8 @@
  */
 static bool _start_butchering(item_def& corpse)
 {
-    if (is_forbidden_food(corpse))
-    {
-        mpr("It would be a sin to butcher this!");
-        return false;
-    }
-    start_delay<ButcherDelay>(0, corpse);
-
-    you.turn_is_over = true;
-    return true;
+	mpr("Butchering corpses is strictly forbidden in this dungeon.");
+    return false;
 }
 
 void finish_butchering(item_def& corpse, bool bottling)
