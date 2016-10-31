@@ -38,7 +38,7 @@ show_more = false
 :                     "stress.boost_monster_hp()")
 :     crawl.sendkeys("&corb" .. eol .. eol)
 :   end
-:   if you.turns() < 10 then
+:   if you.turns() < 1000 then
 :     crawl.sendkeys(".")
 :   else
 :     crawl.sendkeys("*qyes" .. eol .. esc .. esc)
