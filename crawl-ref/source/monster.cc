@@ -3590,11 +3590,6 @@ bool monster::undead_or_demonic() const
     return bool(holi & (MH_UNDEAD | MH_DEMONIC));
 }
 
-bool monster::holy_wrath_susceptible() const
-{
-    return undead_or_demonic() && type != MONS_PROFANE_SERVITOR;
-}
-
 bool monster::is_holy(bool check_spells) const
 {
     return bool(holiness() & MH_HOLY);
@@ -3972,12 +3967,9 @@ int monster::res_rotting(bool /*temp*/) const
 int monster::res_holy_energy(const actor *attacker) const
 {
     if (type == MONS_PROFANE_SERVITOR)
-        return 1;
+        return 3;
 
     if (undead_or_demonic())
-        return -2;
-
-    if (evil())
         return -1;
 
     if (is_holy()
@@ -3986,7 +3978,7 @@ int monster::res_holy_energy(const actor *attacker) const
         || find_stab_type(attacker, *this) != STAB_NO_STAB
         || is_good_god(you.religion) && is_follower(*this))
     {
-        return 1;
+        return 3;
     }
 
     return 0;
