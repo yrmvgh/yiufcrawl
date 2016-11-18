@@ -6284,9 +6284,7 @@ bool ru_power_leap()
         }
     }
 
-    bool return_val = false;
-
-    if (you.attempt_escape(2)) // I'm hoping this returns true if not constrict
+    if (you.attempt_escape(2)) // returns true if not constricted
     {
         if (cell_is_solid(beam.target) || monster_at(beam.target))
             mpr("Something unexpectedly blocked you, preventing you from leaping!");
@@ -6296,7 +6294,6 @@ bool ru_power_leap()
 
     crawl_state.cancel_cmd_again();
     crawl_state.cancel_cmd_repeat();
-    return_val = true;
 
     bolt wave;
     wave.thrower = KILL_YOU;
@@ -6329,7 +6326,7 @@ bool ru_power_leap()
             BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
     }
 
-    return return_val;
+    return true;
 }
 
 int cell_has_valid_target(coord_def where)
