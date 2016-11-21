@@ -4730,6 +4730,7 @@ enum spell_type : int
     SPELL_GHOSTLY_SACRIFICE,
     SPELL_DREAM_DUST,
     SPELL_BECKONING,
+    SPELL_UPHEAVAL,
     NUM_SPELLS
 };
 
