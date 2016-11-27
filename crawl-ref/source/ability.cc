@@ -503,13 +503,13 @@ static const ability_def Ability_List[] =
 
     // Cheibriados
     { ABIL_CHEIBRIADOS_TIME_BEND, "Bend Time",
-      3, 0, 50, 1, {FAIL_INVO, 40, 4, 20}, abflag::NONE },
+      1, 0, 50, 1, {FAIL_INVO, 40, 4, 20}, abflag::NONE },
     { ABIL_CHEIBRIADOS_DISTORTION, "Temporal Distortion",
-      4, 0, 200, 3, {FAIL_INVO, 60, 5, 20}, abflag::INSTANT },
+      2, 0, 200, 3, {FAIL_INVO, 60, 5, 20}, abflag::INSTANT },
     { ABIL_CHEIBRIADOS_SLOUCH, "Slouch",
-      5, 0, 100, 8, {FAIL_INVO, 60, 4, 25}, abflag::NONE },
+      3, 0, 100, 8, {FAIL_INVO, 60, 4, 25}, abflag::NONE },
     { ABIL_CHEIBRIADOS_TIME_STEP, "Step From Time",
-      10, 0, 200, 10, {FAIL_INVO, 80, 4, 25}, abflag::NONE },
+      5, 0, 200, 10, {FAIL_INVO, 80, 4, 25}, abflag::NONE },
 
     // Ashenzari
     { ABIL_ASHENZARI_CURSE, "Curse Item",
