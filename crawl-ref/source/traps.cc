@@ -1535,15 +1535,7 @@ level_id generic_shaft_dest(coord_def pos, bool known = false)
 */
 int num_traps_for_place()
 {
-    if (player_in_branch(BRANCH_TEMPLE)
-        || (!player_in_connected_branch()
-            && !player_in_branch(BRANCH_PANDEMONIUM)))
-    {
-        return 0;
-    }
-
-    const int depth_bonus = div_rand_round(env.absdepth0, 5);
-    return random2avg(3 + depth_bonus, 2);
+    return 0;
 }
 
 /**
