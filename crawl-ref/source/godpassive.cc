@@ -226,7 +226,6 @@ static const vector<god_passive> god_passives[NUM_GODS] =
         {  0, passive_t::auto_map, "have improved mapping abilities" },
         {  0, passive_t::detect_montier, "sense threats" },
         {  0, passive_t::detect_items, "sense items" },
-        {  0, passive_t::search_traps, "are better at searching for traps" },
         {  2, passive_t::bondage_skill_boost,
               "get a skill boost from cursed items" },
         {  3, passive_t::sinv, "are clear of vision" },
