@@ -241,6 +241,8 @@ const char* scale_type(species_type species)
             return "glossy black";
         case SP_PURPLE_DRACONIAN:
             return "rich purple";
+        case SP_MOTTLED_DRACONIAN:
+            return "weird mottled";
         case SP_PALE_DRACONIAN:
             return "pale cyan-grey";
         case SP_BASE_DRACONIAN:
@@ -266,6 +268,8 @@ monster_type dragon_form_dragon_type()
         return MONS_STORM_DRAGON;
     case SP_PURPLE_DRACONIAN:
         return MONS_QUICKSILVER_DRAGON;
+    case SP_MOTTLED_DRACONIAN:
+        return MONS_MOTTLED_DRAGON;
     case SP_PALE_DRACONIAN:
         return MONS_STEAM_DRAGON;
     case SP_RED_DRACONIAN:
@@ -286,6 +290,7 @@ ability_type draconian_breath(species_type species)
     case SP_BLACK_DRACONIAN:   return ABIL_BREATHE_LIGHTNING;
     case SP_PURPLE_DRACONIAN:  return ABIL_BREATHE_POWER;
     case SP_PALE_DRACONIAN:    return ABIL_BREATHE_STEAM;
+    case SP_MOTTLED_DRACONIAN: return ABIL_BREATHE_STICKY_FLAME;
     case SP_BASE_DRACONIAN: case SP_GREY_DRACONIAN:
     default: return ABIL_NON_ABILITY;
     }
