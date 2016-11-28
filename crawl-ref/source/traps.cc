@@ -1088,31 +1088,13 @@ trap_type get_trap_type(const coord_def& pos)
 void search_around()
 {
     ASSERT(!crawl_state.game_is_arena());
-
-    int base_skill = you.experience_level * 100 / 3;
-    int skill = (2/(1+exp(-(base_skill+120)/325.0))-1) * 225
-    + (base_skill/200.0) + 15;
-
-    if (have_passive(passive_t::search_traps))
-        skill += you.piety * 2;
-
-    int max_dist = div_rand_round(skill, 32);
-    if (max_dist > 5)
-        max_dist = 5;
-    if (max_dist < 1)
-        max_dist = 1;
+	
+    int max_dist = 5;
 
     for (radius_iterator ri(you.pos(), max_dist, C_SQUARE, LOS_NO_TRANS); ri; ++ri)
     {
         if (grd(*ri) != DNGN_UNDISCOVERED_TRAP)
             continue;
-
-        int dist = ri->distance_from(you.pos());
-
-        // Own square is not excluded; may be flying.
-        // XXX: Currently, flying over a trap will always detect it.
-
-        int effective = (dist <= 1) ? skill : skill / (dist * 2 - 1);
 
         trap_def* ptrap = trap_at(*ri);
         if (!ptrap)
@@ -1123,14 +1105,11 @@ void search_around()
             dprf("You found a buggy trap! It vanishes!");
             continue;
         }
-
-        if (effective > ptrap->skill_rnd)
-        {
-            ptrap->reveal();
-            mprf("You found %s!",
-                 ptrap->name(DESC_A).c_str());
-            learned_something_new(HINT_SEEN_TRAP, *ri);
-        }
+        ptrap->reveal();
+        mprf("You found %s!",
+            ptrap->name(DESC_A).c_str());
+        learned_something_new(HINT_SEEN_TRAP, *ri);
+        
     }
 }
 
