@@ -1861,8 +1861,6 @@ void game_options::read_options(LineInput &il, bool runscript,
             mprf(MSGCH_ERROR, "Lua error: %s", luacond.orig_error().c_str());
     }
 #endif
-
-    evil_colour = str_to_colour(variables["evil"]);
 }
 
 void game_options::fixup_options()
@@ -1876,9 +1874,6 @@ void game_options::fixup_options()
 
     if (!check_mkdir("Morgue directory", &morgue_dir))
         end(1);
-
-    if (evil_colour == BLACK)
-        evil_colour = MAGENTA;
 }
 
 static int _str_to_killcategory(const string &s)
