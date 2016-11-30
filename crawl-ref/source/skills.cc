@@ -544,20 +544,7 @@ void update_can_train()
 
 bool training_restricted(skill_type sk)
 {
-    switch (sk)
-    {
-    case SK_FIGHTING:
-    // Requiring missiles would mean disabling the skill when you run out.
-    case SK_THROWING:
-    case SK_ARMOUR:
-    case SK_DODGING:
-    case SK_STEALTH:
-    case SK_UNARMED_COMBAT:
-    case SK_SPELLCASTING:
-        return false;
-    default:
-        return true;
-    }
+    return false;
 }
 
 /*
