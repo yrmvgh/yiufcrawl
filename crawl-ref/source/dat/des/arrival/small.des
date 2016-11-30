@@ -2100,7 +2100,7 @@ ORIENT:  float
 SHUFFLE: '"XY/ABVW, !?/CD
 SUBST:   ':., ":+, A:x, B:x, !:., ?:+, C:x, D:x, V=x, W=x, Y=@x
 SUBST:   c : cxx
-KFEAT:   X = teleport trap / floor
+KFEAT:   X = known teleport trap / floor
 MAP
          x@x
          x.x

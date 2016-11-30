@@ -418,7 +418,7 @@ ENDMAP
 NAME:   thingy_vault_2
 DEPTH:  Depths, !Depths:$
 ORIENT: southeast
-KFEAT:  ' = alarm trap / floor w:190
+KFEAT:  ' = known alarm trap / floor w:190
 MONS:   obsidian statue
 MAP
 xxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxx

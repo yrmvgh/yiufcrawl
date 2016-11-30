@@ -641,7 +641,7 @@ NAME:   lemuel_baited_zot_trap
 TAGS:   allow_dup extra luniq
 DEPTH:  Zot
 WEIGHT: 20
-KFEAT:  * = Zot trap
+KFEAT:  * = known zot trap
 KITEM:  * = any good_item
 MAP
 *
@@ -742,7 +742,7 @@ ENDMAP
 NAME:  lemuel_golem_globe
 DEPTH: Zot
 TAGS:  no_rotate no_exits
-KFEAT: T = permanent teleport trap
+KFEAT: T = known permanent teleport trap
 KFEAT: m = iron_grate
 SUBST: 1 = 1.
 MONS:  electric golem
@@ -2504,7 +2504,7 @@ TAGS:       no_dump
 # XXX: Fixed trap chance spots and slim chances for traps on nearly every
 # square should be replaced with per-chamber trap NSUBSTs, with separate
 # NSUBSTs for each chamber's inner and outer edges alongside main innards.
-KFEAT:    ~ = any trap / w:20 floor
+KFEAT:    ~ = w:3 known zot trap / w:1 known alarm trap / w:1 known teleport trap / w:20 floor
 KMASK:    1! = no_item_gen
 SUBST:    C = X:90 c
 SUBST:    ^ = ^ .:10

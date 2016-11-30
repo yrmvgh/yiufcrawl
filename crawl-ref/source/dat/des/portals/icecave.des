@@ -672,7 +672,7 @@ ORIENT:  encompass
 WEIGHT:  6
 KFEAT:   _ = altar_kikubaaqudgha
 SUBST:   - = ........-
-KFEAT:   - = alarm trap
+KFEAT:   - = known alarm trap
 : ice_cave_appearance(_G)
 : ice_cave_random_monster_list_undead_necromancer(_G)
 : ice_cave_item_attributes(_G)

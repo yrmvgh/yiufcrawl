@@ -66,7 +66,7 @@ NAME:   boulder_corridor_run
 DEPTH:  D:8-13
 TAGS:   luniq_boulder_trap no_monster_gen
 ORIENT: float
-KFEAT: ^ = pressure plate trap
+KFEAT: ^ = known pressure plate trap
 KITEM: ^ = *
 {{
 local tm = TriggerableFunction:new{func="callback.boulder_grate_trap_stepped",
@@ -95,7 +95,7 @@ NAME:   boulder_dual_corridor_run
 DEPTH:  Lair:3-
 TAGS:   luniq_boulder_trap no_monster_gen ruin_lair
 ORIENT: float
-KFEAT: ^ = pressure plate trap
+KFEAT: ^ = known pressure plate trap
 KITEM: ^ = *
 {{
 local tm = TriggerableFunction:new{func="callback.boulder_grate_trap_stepped",
@@ -123,7 +123,7 @@ NAME:   boulder_quad_collide
 DEPTH:  Lair:4-
 TAGS:   luniq_boulder_trap no_monster_gen
 ORIENT: float
-KFEAT:  ^ = pressure plate trap
+KFEAT:  ^ = known pressure plate trap
 {{
 local tm = TriggerableFunction:new{func="callback.boulder_grate_trap_stepped",
                                    repeated=true,
@@ -170,7 +170,7 @@ lua_marker(',', props_marker { grate_indie=1 })
 lua_marker('A', props_marker { boulder_indie=1 })
 lua_marker('B', props_marker { target_indie=1 })
 }}
-KFEAT:  ^ = pressure plate trap
+KFEAT:  ^ = known pressure plate trap
 SUBST: 2 = x 1 2
 SUBST: 1 = 1 2 .:5
 KMONS: 1 = ball python

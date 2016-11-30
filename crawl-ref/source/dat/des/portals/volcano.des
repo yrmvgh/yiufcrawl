@@ -1076,7 +1076,7 @@ TAGS:    no_vmirror unrand
 NSUBST:  X = 1:+ / *:v
 NSUBST:  Y = 1:+ / *:c
 NSUBST:  t = 1:! / *:.
-KFEAT:   ! = alarm trap
+KFEAT:   ! = known alarm trap
 #        The monsters.
 MONS:    mummy / vampire
 MONS:    troll skeleton / ogre skeleton / spriggan skeleton / centaur skeleton / \

@@ -1251,7 +1251,7 @@ WEIGHT: 5
 KMONS: P = human ; nothing / orc ; nothing / elf ; nothing / troll ; nothing / \
        centaur ; nothing / kobold ; nothing
 KFEAT: g = iron_grate
-KFEAT: ^ = alarm trap
+KFEAT: ^ = known alarm trap
 KMONS: 1 = vault guard
 KMONS: 2 = vault warden
 KMONS: 3 = ironheart preserver / ironbrand convoker

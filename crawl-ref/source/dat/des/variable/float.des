@@ -3747,7 +3747,7 @@ KITEM:   X = any good_item
 SUBST:   A=., B=., C=.
 : else
 SUBST:   X=*, B=., C=.
-KFEAT:   A = teleport trap
+KFEAT:   A = known teleport trap
 : end
 MAP
 xxxxxxxxxxxxxxxxx
@@ -4567,7 +4567,7 @@ TAGS:    no_monster_gen no_item_gen
 DEPTH:   Depths, !Depths:$
 ORIENT:  float
 KFEAT:   " : shallow_water / . w:90
-KFEAT:   ^ : alarm trap / . w:190
+KFEAT:   ^ : known alarm trap / . w:190
 KMASK:   ' = !no_monster_gen
 SUBST:   1 = 0.
 MAP

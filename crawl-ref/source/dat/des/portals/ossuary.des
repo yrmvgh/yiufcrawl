@@ -316,7 +316,7 @@ TAGS:    no_item_gen no_monster_gen no_rotate
 SHUFFLE: dwyz
 SUBST:   w=2, y=2
 NSUBST:  z= 1:1 / *:3
-KFEAT:   T = alarm trap / floor
+KFEAT:   T = known alarm trap / floor
 # loot: 12.5 items
 ITEM:    any scroll w:2 / any scroll q:2 w:3 / \
          any potion w:4 / any potion q:2 w:6
@@ -355,8 +355,8 @@ NAME:    ossuary_tomb_2
 WEIGHT:  40
 ORIENT:  encompass
 TAGS:    no_item_gen no_monster_gen no_rotate
-KFEAT:   ~ = arrow trap w:2 / needle trap
-KFEAT:   ^ = arrow trap / floor w:5
+KFEAT:   ~ = known arrow trap w:2 / known needle trap
+KFEAT:   ^ = known arrow trap / floor w:5
 # Number of 1's is 53, number of ~'s is 57.
 : if crawl.one_chance_in(10) then
 SUBST:   ~ = 1
@@ -417,7 +417,7 @@ MONS:    generate_awake orc zombie / generate_awake kobold zombie / \
 MONS:    mummy
 MONS:    orc zombie / kobold zombie / big kobold zombie / hobgoblin zombie
 ITEM:    nothing / any scroll w:5 / any potion
-KFEAT:   ^ = alarm trap
+KFEAT:   ^ = known alarm trap
 : ossuary_setup_features(_G)
 MAP
 cccccccccccccccccccccc
@@ -518,7 +518,7 @@ NSUBST:  d = 2:M / *:d
 NSUBST:  e = 2:M / *:e
 SUBST:   M = 1f, d = dddf, e = eeef
 NSUBST:  . = 6:^ / *:.
-KFEAT:   ^ = alarm trap / floor w:20
+KFEAT:   ^ = known alarm trap / floor w:20
 : ossuary_setup_features(_G)
 MAP
           vvv
@@ -555,7 +555,7 @@ MONS:   gnoll zombie / hobgoblin zombie / orc zombie / \
         human zombie / kobold zombie / goblin zombie / \
         big kobold zombie / centaur zombie / scorpion zombie w:20
 ITEM:   any scroll / any potion / any jewellery w:1 / nothing
-KFEAT:  ~ = needle trap / arrow trap / spear trap w:5 / floor w:50
+KFEAT:  ~ = floor
 SUBST:  1 = 1.
 SUBST:  3 = 3.
 : ossuary_setup_features(_G)
@@ -602,7 +602,7 @@ NSUBST:  B = 1:+ / *:n
 NSUBST:  C = 1:+ / *:n
 NSUBST:  D = 1:+ / *:n
 NSUBST:  E = 1:+ / *:n
-KFEAT:   ~ = needle trap / arrow trap / spear trap
+KFEAT:   ~ = known needle trap / known arrow trap / known spear trap
 SUBST:   ~ = ~.
 NSUBST:  X = 1:< / *:.
 : ossuary_setup_features(_G)
@@ -787,11 +787,11 @@ MONS:    mummy
 MONS:    generate_awake centaur zombie / generate_awake hobgoblin zombie / \
          generate_awake big kobold zombie / nothing w:20
 MONS:    centaur zombie / hobgoblin zombie / big kobold zombie / nothing w:20
-KFEAT:   ~ = net trap / needle trap / alarm trap w:5 / floor w:40
-KFEAT:   T = alarm trap w:20 / net trap / floor w:70
-KFEAT:   ^ = net trap w:15 / needle trap w:4 / spear trap w:1 / floor w:20
+KFEAT:   ~ = known alarm trap w:5 / floor w:40
+KFEAT:   T = known alarm trap w:20 / floor w:70
+KFEAT:   ^ = known alarm trap w:5 / floor w:20
 COLOUR:  ^ = red
-KFEAT:   W = arrow trap / floor w:20
+KFEAT:   W = known arrow trap / floor w:20
 : ossuary_setup_features(_G)
 MAP
            cccccccccccccccccccc
@@ -882,7 +882,7 @@ SUBST:   X = x2
 KITEM:   x = any scroll / any potion
 KMONS:   x = mummy
 NSUBST:  ' = 10:^ / *:.
-KFEAT:   ^ = arrow trap
+KFEAT:   ^ = known arrow trap
 KITEM:   y = any scroll w:5 / any potion w:5 / nothing w:10
 KMONS:   y = rat skeleton
 : ossuary_setup_features(_G)
@@ -922,9 +922,9 @@ MONS:    mummy
 KMONS:   4 = Menkaure, mummy
 # Loot: 1-16 items
 ITEM:    any scroll / any potion / w:5 nothing
-KFEAT:   ^ = arrow trap w:20 / alarm trap
-KFEAT:   m = spear trap
-KFEAT:   ~ = alarm trap
+KFEAT:   ^ = floor
+KFEAT:   m = known spear trap
+KFEAT:   ~ = known alarm trap
 NSUBST:  ' = 2:m / 25:1 / 25:2 / 30:^ / .
 # 1KB: what's the point of these shortcuts?  Removed for now...
 SUBST:    X : c
@@ -986,8 +986,8 @@ KMONS:  S = spectral rat / spectral goblin / spectral kobold /\
 ITEM:   any potion / any scroll / nothing w:1
 #
 # There are not always traps in corridors but they are guaranteed near the loot:
-KFEAT:  ' = arrow trap w:8 / alarm trap w:7 / floor w:85
-KFEAT:  " = spear trap w:1 / net trap w:3 / arrow trap w:15
+KFEAT:  ' = known alarm trap w:15 / floor w:85
+KFEAT:  " = known spear trap w:1 / known arrow trap w:15
 #
 : ossuary_setup_features(_G)
 MAP
@@ -1121,47 +1121,6 @@ cc.....ccc...<...ccc.....cc
             ccc
 ENDMAP
 
-# The intent is that the mummies chase the player through the whole ossuary,
-# forcing the player to either move quickly or soak up some death curses.
-NAME:   ossuary_minmay_chase
-WEIGHT: 10
-ORIENT: encompass
-TAGS:   no_item_gen no_monster_gen
-MONS:   rat zombie / quokka zombie / adder zombie /\
-        goblin zombie / hobgoblin zombie / kobold zombie / gnoll zombie w:2 /\
-        big kobold zombie w:1 / human zombie w:1 / elf zombie w:1 / orc zombie w:1
-MONS:   generate_awake mummy
-ITEM:   any scroll / any potion / gold w:4
-KFEAT:  ~ = arrow trap / needle trap / floor w:40
-: ossuary_setup_features(_G)
-MAP
-ccccc     ccc ccc ccc
-cdddccccccc1ccc1ccc1ccccccc
-cddd~~~~c.............c~~~c
-cd<d~~<~+.............+~<~c
-cddd~~~~c.............c~~~c
-cdddccccccc1ccc1ccc1cccc+cc
-ccccc     ccc ccc ccc c...c
-                     cc...cc
-                     c1...1c
-                     cc...cc
-                      c...c
-                     cc...cc
-                     c1...1c
-                     cc...cc
-                      c...c
-                     cc...cc
-                     c1...1c
-                     cc...cc
-cccc      ccc ccc ccc c...c
-c2.cccccccc1ccc1ccc1cccc+cc
-cc......c.............c~~~c
-c2..A.<.+.............+~<~c
-cc......c.............c~~~c
-c2.cccccccc1ccc1ccc1ccccccc
-cccc      ccc ccc ccc
-ENDMAP
-
 NAME:   ossuary_boxes_badplayer
 WEIGHT: 10
 TAGS:   no_item_gen no_monster_gen
@@ -1235,7 +1194,7 @@ KMONS:  3 = goblin zombie / hobgoblin zombie / kobold zombie / gnoll zombie w:2 
         big kobold zombie w:1 / human zombie w:1 / elf zombie w:1 / orc zombie w:1 /\
                 nothing w:36
 KITEM:  12d = any potion / any scroll / any jewellery w:1
-KFEAT:  . = needle trap / arrow trap / spear trap w:5 / floor w:600
+KFEAT:  . = floor
 NSUBST: d = 1:1 / 3:2 / 4:. / *:d
 : ossuary_setup_features(_G)
 MAP
