@@ -502,7 +502,7 @@ static int _beam_to_resist(const actor* defender, beam_type flavour)
         case BEAM_POISON_ARROW:
             return defender->res_poison();
         case BEAM_HOLY:
-            return defender->res_holy_energy(nullptr);
+            return defender->res_holy_energy();
         default:
             return 0;
     }
