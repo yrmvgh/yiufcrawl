@@ -1823,7 +1823,7 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
 
     case MONS_MARGERY:
         item.base_type = OBJ_ARMOUR;
-        item.sub_type = random_choose_weighted(3, ARM_MOTTLED_DRAGON_ARMOUR,
+        item.sub_type = random_choose_weighted(3, ARM_ACID_DRAGON_ARMOUR,
                                                1, ARM_SWAMP_DRAGON_ARMOUR,
                                                6, ARM_FIRE_DRAGON_ARMOUR);
         break;
@@ -2072,7 +2072,7 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
                                            ARM_FIRE_DRAGON_ARMOUR,
                                            ARM_ICE_DRAGON_ARMOUR,
                                            ARM_STEAM_DRAGON_ARMOUR,
-                                           ARM_MOTTLED_DRAGON_ARMOUR,
+                                           ARM_ACID_DRAGON_ARMOUR,
                                            ARM_STORM_DRAGON_ARMOUR,
                                            ARM_SWAMP_DRAGON_ARMOUR);
         }
