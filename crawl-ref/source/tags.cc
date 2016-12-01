@@ -2488,6 +2488,13 @@ static void tag_read_you(reader &th)
             else if (a > ABIL_DIG && a < ABIL_MIN_EVOKE)
                 a -= 1;
         }
+		
+		if (th.getMinorVersion() < TAG_MINOR_MOTTLED_REMOVAL)
+        {
+            if (a == ABIL_BREATHE_STICKY_FLAME)
+                a = ABIL_BREATHE_FIRE;
+        }
+
 
         // Bad offset from games transferred prior to 0.17-a0-2121-g4af814f.
         if (a == NUM_ABILITIES)
