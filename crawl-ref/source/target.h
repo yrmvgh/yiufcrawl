@@ -160,9 +160,11 @@ public:
 class targetter_splash : public targetter
 {
 public:
-    targetter_splash(const actor *act);
+    targetter_splash(const actor *act, int ran);
     bool valid_aim(coord_def a) override;
     aff_type is_affected(coord_def loc) override;
+private:
+    int range;
 };
 
 class targetter_los : public targetter
