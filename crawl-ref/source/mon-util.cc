@@ -2451,40 +2451,32 @@ int exper_value(const monster& mon, bool real)
     return x_val;
 }
 
-// TODO: clean up special cases when save compatibility is broken.
+// TODO: clean up special case when save compatibility is broken.
 monster_type random_draconian_monster_species()
 {
-    const int num_drac = MONS_LAST_SPAWNED_DRACONIAN - MONS_FIRST_BASE_DRACONIAN + 1;
+      int drac_type = random_range(MONS_FIRST_BASE_DRACONIAN, MONS_LAST_SPAWNED_DRACONIAN);
 
-#if TAG_MAJOR_VERSION > 34
-    int select_drac = random2(num_drac);
-#endif
 #if TAG_MAJOR_VERSION == 34
     // Special case to skip mottled draconian
-    int select_drac = 1;
-    while (select_drac == 1)
-        select_drac = random2(num_drac);
+	while (drac_type == MONS_MOTTLED_DRACONIAN)
+        drac_type = random_range(MONS_FIRST_BASE_DRACONIAN, MONS_LAST_SPAWNED_DRACONIAN);
 #endif
 
-    return static_cast<monster_type>(MONS_FIRST_BASE_DRACONIAN + select_drac);
+    return static_cast<monster_type>(drac_type);
 }
 
-// TODO: clean up special cases when save compatibility is broken.
+// TODO: clean up special case when save compatibility is broken.
 monster_type random_draconian_job()
 {
-    const int num_drac = MONS_LAST_SPAWNED_DRACONIAN - MONS_FIRST_BASE_DRACONIAN + 1;
+    int drac_type = random_range(MONS_FIRST_NONBASE_DRACONIAN, MONS_LAST_NONBASE_DRACONIAN);
 
-#if TAG_MAJOR_VERSION > 34
-    int select_drac = random2(num_drac);
-#endif
 #if TAG_MAJOR_VERSION == 34
     // Special case to skip draconian zealots
-    int select_drac = 2;
-    while (select_drac = 2)
-        select_drac = random2(num_drac);
+	while (drac_type == MONS_DRACONIAN_ZEALOT)
+        drac_type = random_range(MONS_FIRST_NONBASE_DRACONIAN, MONS_LAST_NONBASE_DRACONIAN);
 #endif
 
-    return static_cast<monster_type>(MONS_FIRST_BASE_DRACONIAN + select_drac);
+    return static_cast<monster_type>(drac_type);
 }
 
 monster_type random_demonspawn_monster_species()
