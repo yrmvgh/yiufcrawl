@@ -497,7 +497,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         { MONS_ORC,                     { ORC_WEAPONS } },
         { MONS_ORC_PRIEST,              { ORC_WEAPONS } },
         { MONS_DRACONIAN,               { ORC_WEAPONS } },
-        { MONS_DRACONIAN_ZEALOT,        { ORC_WEAPONS } },
         { MONS_TERENCE,
             { { { WPN_FLAIL,            30 },
                 { WPN_HAND_AXE,         20 },
@@ -1984,7 +1983,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
     case MONS_DRACONIAN_ANNIHILATOR:
     case MONS_DRACONIAN_CALLER:
     case MONS_DRACONIAN_MONK:
-    case MONS_DRACONIAN_ZEALOT:
     case MONS_DRACONIAN_KNIGHT:
     case MONS_BAI_SUZHEN:
         item.base_type = OBJ_ARMOUR;
