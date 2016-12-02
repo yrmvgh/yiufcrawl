@@ -2976,7 +2976,7 @@ int ugly_thing_colour_offset(colour_t colour)
 
 static const char *drac_colour_names[] =
 {
-    "black", "yellow", "green", "purple", "red", "white", "grey", "pale"
+    "black", "", "yellow", "green", "purple", "red", "white", "grey", "pale"
 };
 
 string draconian_colour_name(monster_type mon_type)
