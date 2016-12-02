@@ -2092,7 +2092,7 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
                                                 100, ARM_PLATE_ARMOUR,
                                                   5, ARM_FIRE_DRAGON_ARMOUR,
                                                   5, ARM_ICE_DRAGON_ARMOUR,
-                                                  5, ARM_MOTTLED_DRAGON_ARMOUR);
+                                                  5, ARM_ACID_DRAGON_ARMOUR);
         break;
 
     case MONS_HALAZID_WARLOCK:
