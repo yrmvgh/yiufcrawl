@@ -2503,7 +2503,7 @@ TAGS:       no_dump
 # XXX: Fixed trap chance spots and slim chances for traps on nearly every
 # square should be replaced with per-chamber trap NSUBSTs, with separate
 # NSUBSTs for each chamber's inner and outer edges alongside main innards.
-KFEAT:    ~ = w:3 known zot trap / w:1 known alarm trap / w:1 known teleport trap / w:30 floor
+KFEAT:    ~ = w:1 known zot trap / w:1 known alarm trap / w:1 known teleport trap / w:30 floor
 KMASK:    1! = no_item_gen
 SUBST:    C = X:90 c
 SUBST:    ^ = ^ .:10
