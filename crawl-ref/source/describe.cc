@@ -2972,7 +2972,7 @@ static string _flavour_effect(attack_flavour flavour, int HD)
         { AF_FIRE,              "deal up to %d fire damage" },
         { AF_HUNGER,            "cause hunger" },
         { AF_MUTATE,            "cause mutations" },
-        { AF_POISON_PARALYSE,   "poison and cause paralysis or slowing" },
+        { AF_PARALYSE,          "poison and cause paralysis" },
         { AF_POISON,            "cause poisoning" },
         { AF_POISON_STRONG,     "cause strong poisoning" },
         { AF_ROT,               "cause rotting" },
