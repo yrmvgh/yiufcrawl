@@ -210,14 +210,16 @@ const Branch branches[NUM_BRANCHES] =
       BLACK, BLACK, // set specially
       'R', { RUNE_DEMONIC, RUNE_MNOLEG, RUNE_LOM_LOBON, RUNE_CEREBOV,
              RUNE_GLOORX_VLOQ }, 0 },
-
-    { BRANCH_ZIGGURAT, BRANCH_DEPTHS, 1, 3, 27, 27,
+			 
+#if TAG_MAJOR_VERSION == 34
+    { BRANCH_ZIGGURAT, BRANCH_DEPTHS, -1, -1, 27, 27,
       BFLAG_NO_XLEV_TRAVEL | BFLAG_NO_ITEMS,
       DNGN_ENTER_ZIGGURAT, DNGN_EXIT_ZIGGURAT, DNGN_FLOOR,
       "Ziggurat", "a ziggurat", "Zig",
       "You land on top of a ziggurat so tall you cannot make out the ground.",
       BLACK, BLACK,
       'Q', {}, 0 },
+#endif	  
 
     { BRANCH_LABYRINTH, NUM_BRANCHES, -1, -1, 1, 15,
       BFLAG_NO_XLEV_TRAVEL | BFLAG_NO_ITEMS | BFLAG_NO_MAP,
