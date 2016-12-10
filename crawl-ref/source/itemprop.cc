@@ -1578,6 +1578,9 @@ int wand_charge_value(int type)
 {
     switch (type)
     {
+    case WAND_CLOUDS:
+        return 3;
+
     case WAND_ICEBLAST:
     case WAND_LIGHTNING:
     case WAND_ACID:
@@ -1652,6 +1655,7 @@ bool is_offensive_wand(const item_def& item)
     case WAND_POLYMORPH:
     case WAND_ACID:
     case WAND_DISINTEGRATION:
+    case WAND_CLOUDS:
         return true;
     }
     return false;
