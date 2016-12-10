@@ -666,10 +666,6 @@ wand of fireball
 
 一件发射爆裂火球的魔法道具。
 %%%%
-wand of heal wounds
-
-这件魔法道具可以治疗各种生物身上受到的伤害。
-%%%%
 wand of invisibility
 
 这件魔法道具能使目标生物隐形。

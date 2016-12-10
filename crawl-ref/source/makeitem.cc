@@ -1201,7 +1201,6 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
  */
 static int _random_wand_subtype()
 {
-    // total weight 84 [historical]
     return random_choose_weighted(10, WAND_FLAME,
                                   10, WAND_LIGHTNING,
                                   10, WAND_ICEBLAST,
@@ -1214,8 +1213,7 @@ static int _random_wand_subtype()
                                   5, WAND_DISINTEGRATION,
                                   5, WAND_DIGGING,
                                   3, WAND_ENSLAVEMENT,
-                                  3, WAND_TELEPORTATION,
-                                  1, WAND_HEAL_WOUNDS);
+                                  3, WAND_TELEPORTATION);
 }
 
 /**

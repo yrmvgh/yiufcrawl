@@ -1069,10 +1069,6 @@ wand of fireball
 
 Un instrument magique qui tire des salves de flammes explosives.
 %%%%
-wand of heal wounds
-
-Un instrument magique qui peut guérir les blessures d'une créature.
-%%%%
 wand of invisibility
 
 Un instrument magique qui cache une créature à la vue des autres.

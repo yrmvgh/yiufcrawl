@@ -586,10 +586,11 @@ local function ziggurat_create_loot_at(c)
   local good_loot = dgn.item_spec("* no_pickup w:7000 /" ..
                                   dgn.good_scrolls)
   local super_loot = dgn.item_spec("| no_pickup w:7000 /" ..
-                                   "potion of cure mutation no_pickup w:240 /" ..
-                                   "potion of beneficial mutation no_pickup w:90 q:1 /" ..
-                                   "stone q:3 no_pickup w:130 /" ..
-                                   "wand of heal wounds no_pickup / " ..
+                                   "potion of experience no_pickup w:190 q:1 /" ..
+                                   "potion of cure mutation no_pickup w:190 /" ..
+                                   "potion of beneficial mutation no_pickup w:40 q:1 /" ..
+                                   "royal jelly q:3 no_pickup w:80 /" ..
+                                   "potion of heal wounds q:5 no_pickup / " ..
                                    dgn.good_scrolls)
 
   local loot_spots = find_free_space(nloot * 4)

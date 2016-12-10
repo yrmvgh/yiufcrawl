@@ -992,10 +992,6 @@ wand of fireball
 
 En magisk anordning, som kaster eksplosive ildkugler.
 %%%%
-wand of heal wounds
-
-En magisk anordning, som kan helbrede et væsens sår.
-%%%%
 wand of invisibility
 
 En magisk anordning, som kan skjule et væsen for andres øjne.

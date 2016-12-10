@@ -606,8 +606,8 @@ static const char* _wand_type_name(int wandtype)
     case WAND_SLOWING:         return "slowing";
 #if TAG_MAJOR_VERSION == 34
     case WAND_HASTING:         return "hasting";
+	case WAND_HEAL_WOUNDS:     return "heal wounds";
 #endif
-    case WAND_HEAL_WOUNDS:     return "heal wounds";
     case WAND_PARALYSIS:       return "paralysis";
     case WAND_CONFUSION:       return "confusion";
     case WAND_DIGGING:         return "digging";
@@ -3189,8 +3189,6 @@ bool is_emergency_item(const item_def &item)
         {
         case WAND_TELEPORTATION:
             return you.species != SP_FORMICID;
-        case WAND_HEAL_WOUNDS:
-            return you.can_device_heal();
         default:
             return false;
         }
@@ -3548,15 +3546,6 @@ bool is_useless_item(const item_def &item, bool temp)
 
         if (item.sub_type == WAND_ENSLAVEMENT
             && item_type_known(item)
-            && player_mutation_level(MUT_NO_LOVE))
-        {
-            return true;
-        }
-
-        // heal wand is useless for VS if they can't get allies
-        if (item.sub_type == WAND_HEAL_WOUNDS
-            && item_type_known(item)
-            && !you.can_device_heal()
             && player_mutation_level(MUT_NO_LOVE))
         {
             return true;

@@ -684,19 +684,6 @@ static int _acquirement_misc_subtype(bool /*divine*/, int & /*quantity*/)
 }
 
 /**
- * What weight should wands of Heal Wounds be given in wand acquirement, based
- * on their utility to the player? (More utile -> higher weight -> more likely)
- */
-static int _hw_wand_weight()
-{
-    if (you.innate_mutation[MUT_NO_DEVICE_HEAL] != 3)
-        return 25; // quite powerful
-    if (!player_mutation_level(MUT_NO_LOVE))
-        return 5; // can be used on allies...? XXX: should be weight 1?
-    return 0; // with no allies, totally useless
-}
-
-/**
  * What weight should wands of Teleportation be given in wand acquirement,
  * based on their utility to the player? (More utile -> higher weight -> more
  * likely)
@@ -718,10 +705,8 @@ static int _tele_wand_weight()
  */
 static int _acquirement_wand_subtype(bool /*divine*/, int & /*quantity*/)
 {
-    // basic total: 140
+	
     vector<pair<wand_type, int>> weights = {
-        // normally 25
-        { WAND_HEAL_WOUNDS,     _hw_wand_weight() },
         // normally 15
         { WAND_TELEPORTATION,   _tele_wand_weight() },
         { WAND_LIGHTNING,       16 },

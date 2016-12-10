@@ -768,11 +768,6 @@ wand of fireball
 Magiczny przedmiot który strzela kulami ognia które wybuchają w żądanym
 miejscu.
 %%%%
-wand of heal wounds
-
-Magiczny przedmiot który leczy rany stworzenia na które został skierowany.
-Działa to nawet na nieumarłych zdolnych do zdrowienia.
-%%%%
 wand of invisibility
 
 Magiczny przedmiot który czyni stworzenie na które został skierowany

@@ -715,10 +715,6 @@ wand of fireball
 
 炎の爆風を放つ魔法の道具だ。
 %%%%
-wand of heal wounds
-
-対象の傷を治療する魔法の道具だ。
-%%%%
 wand of invisibility
 
 対象を他者の視覚から隠蔽する魔法の道具だ。

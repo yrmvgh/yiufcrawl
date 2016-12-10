@@ -797,10 +797,6 @@ wand of fireball
 
 Ein magisches Gerät welches explodierende Feuerstöße wirft.
 %%%%
-wand of heal wounds
-
-Ein magisches Gerät welchen die Wunden einer Kreatur heilt.
-%%%%
 wand of invisibility
 
 Ein magisches Gerät welches eine Kreatur vor den Blicken Anderer versteckt.
