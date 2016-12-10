@@ -4476,8 +4476,8 @@ bool gozag_call_merchant()
     for (int i = 0; i < NUM_SHOPS; i++)
     {
         shop_type type = static_cast<shop_type>(i);
-        // if they are useful to the player, food shops are handled through the
-        // first index.
+        if (type == SHOP_FOOD)
+			continue;
         if (type == SHOP_DISTILLERY && you.species == SP_MUMMY)
             continue;
         if (type == SHOP_EVOKABLES && player_mutation_level(MUT_NO_ARTIFICE))
