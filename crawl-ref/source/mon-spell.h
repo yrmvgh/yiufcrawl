@@ -653,6 +653,8 @@ static const mon_spellbook mspell_list[] =
     {  MST_ORB_SPIDER,
       {
        { SPELL_ORB_OF_ELECTRICITY, 50, MON_SPELL_MAGICAL },
+	   { SPELL_BLINK, 19, MON_SPELL_MAGICAL },
+	   { SPELL_LIGHTNING_BOLT, 19, MON_SPELL_MAGICAL },	   
       }
     },
 

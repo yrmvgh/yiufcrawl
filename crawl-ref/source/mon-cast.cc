@@ -1260,8 +1260,6 @@ bolt mons_spell_beam(const monster* mons, spell_type spell_cast, int power,
     switch (real_spell)
     {
     case SPELL_ORB_OF_ELECTRICITY:
-        beam.foe_ratio      = random_range(40, 55); // ...
-        // fallthrough to other zaps
     case SPELL_MAGIC_DART:
     case SPELL_THROW_FLAME:
     case SPELL_THROW_FROST:
