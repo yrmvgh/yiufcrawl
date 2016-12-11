@@ -692,13 +692,6 @@ void bolt::apply_beam_conducts()
         case BEAM_DAMNATION:
             did_god_conduct(DID_EVIL, 2 + random2(3), god_cares());
             break;
-        case BEAM_FIRE:
-        case BEAM_STICKY_FLAME:
-            did_god_conduct(DID_FIRE,
-                            pierce || is_explosion ? 6 + random2(3)
-                                                   : 2 + random2(3),
-                            god_cares());
-            break;
         default:
             break;
         }
@@ -885,7 +878,6 @@ void bolt::burn_wall_effect()
     if (whose_kill() == KC_YOU)
     {
         did_god_conduct(DID_KILL_PLANT, 1, god_cares());
-        did_god_conduct(DID_FIRE, 6, god_cares()); // guaranteed penance
     }
     else if (whose_kill() == KC_FRIENDLY && !crawl_state.game_is_arena())
         did_god_conduct(DID_KILL_PLANT, 1, god_cares());

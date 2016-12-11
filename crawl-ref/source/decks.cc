@@ -1166,7 +1166,6 @@ static void _suppressed_card_message(god_type god, conduct_type done)
         case DID_EVIL: forbidden_act = "evil"; break;
         case DID_CHAOS: forbidden_act = "chaotic"; break;
         case DID_HASTY: forbidden_act = "hasty"; break;
-        case DID_FIRE: forbidden_act = "fiery"; break;
 
         default: forbidden_act = "buggy"; break;
     }
@@ -1650,13 +1649,6 @@ static void _elements_card(int power, deck_rarity_type rarity)
 
         hackmon.type = mons_type;
         mons_load_spells(hackmon);
-
-        if (you_worship(GOD_DITHMENOS) && mons_is_fiery(hackmon))
-        {
-            _suppressed_card_message(you.religion, DID_FIRE);
-            start++;
-            continue;
-        }
 
         _friendly(mons_type, power_level + 2);
         start++;

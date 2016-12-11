@@ -3901,10 +3901,6 @@ bool god_hates_spell(spell_type spell, god_type god, bool fake_spell)
         if (is_hasty_spell(spell))
             return true;
         break;
-    case GOD_DITHMENOS:
-        if (is_fiery_spell(spell))
-            return true;
-        break;
     case GOD_PAKELLAS:
         if (spell == SPELL_SUBLIMATION_OF_BLOOD)
             return true;
@@ -3928,11 +3924,6 @@ bool god_hates_ability(ability_type ability, god_type god)
 {
     switch (ability)
     {
-        case ABIL_BREATHE_FIRE:
-#if TAG_MAJOR_VERSION == 34
-        case ABIL_DELAYED_FIREBALL:
-            return god == GOD_DITHMENOS;
-#endif
         case ABIL_EVOKE_BERSERK:
             return god == GOD_CHEIBRIADOS;
         default:

@@ -539,14 +539,6 @@ conduct_type god_hates_item_handling(const item_def &item)
         }
         break;
 
-    case GOD_DITHMENOS:
-        if (item_type_known(item)
-            && (_is_potentially_fiery_item(item) || is_fiery_item(item)))
-        {
-            return DID_FIRE;
-        }
-        break;
-
     case GOD_PAKELLAS:
         if (item_type_known(item) && is_channeling_item(item))
             return DID_CHANNEL;
