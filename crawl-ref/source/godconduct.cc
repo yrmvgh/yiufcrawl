@@ -68,7 +68,7 @@ static const char *conducts[] =
     "Kill Slime", "Kill Plant", "Was Hasty", "Corpse Violation",
     "Carrion Rot", "Souled Friend Died", "Attack In Sanctuary",
     "Kill Artificial", "Exploration", "Desecrate Holy Remains", "Seen Monster",
-    "Fire", "Kill Fiery", "Sacrificed Love", "Channel", "Hurt Foe",
+    "Kill Fiery", "Sacrificed Love", "Channel", "Hurt Foe",
 };
 COMPILE_CHECK(ARRAYSZ(conducts) == NUM_CONDUCTS);
 
@@ -445,13 +445,7 @@ static peeve_map divine_peeves[] =
     // GOD_ASHENZARI,
     peeve_map(),
     // GOD_DITHMENOS,
-    {
-        { DID_FIRE, {
-            "you use fiery magic or items", false,
-            1, 1, " forgives your accidental fire-starting, just this once.",
-            " does not appreciate your starting fires!", nullptr, -5
-        } },
-    },
+    peeve_map(),
     // GOD_GOZAG,
     peeve_map(),
     // GOD_QAZLAL,

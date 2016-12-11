@@ -868,28 +868,6 @@ static void _decrement_durations()
             _decrement_simple_duration((duration_type) i, delay);
 }
 
-
-// For worn items; weapons do this on melee attacks.
-static void _check_equipment_conducts()
-{
-    if (you_worship(GOD_DITHMENOS) && one_chance_in(10))
-    {
-        bool fiery = false;
-        const item_def* item;
-        for (int i = EQ_MIN_ARMOUR; i < NUM_EQUIP; i++)
-        {
-            item = you.slot_item(static_cast<equipment_type>(i));
-            if (item && is_fiery_item(*item))
-            {
-                fiery = true;
-                break;
-            }
-        }
-        if (fiery)
-            did_god_conduct(DID_FIRE, 1, true);
-    }
-}
-
 static void _handle_emergency_flight()
 {
     ASSERT(you.props[EMERGENCY_FLIGHT_KEY].get_bool());
@@ -988,8 +966,6 @@ void player_reacts()
 
     if (player_mutation_level(MUT_DEMONIC_GUARDIAN))
         check_demonic_guardian();
-
-    _check_equipment_conducts();
 
     if (you.unrand_reacts.any())
         unrand_reacts();
