@@ -516,9 +516,6 @@ int player::silence_radius() const
 
 int monster::silence_radius() const
 {
-    if (type == MONS_SILENT_SPECTRE)
-        return 10;
-
     if (!has_ench(ENCH_SILENCE))
         return -1;
 
