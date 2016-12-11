@@ -1008,7 +1008,8 @@ wizard's experiment.
 %%%%
 electric eel
 
-A type of fish capable of generating a powerful electric field.
+A type of fish capable of generating a powerful electric field. The dungeon's 
+eels are highly evolved and can wriggle across dry land for brief periods of time.
 %%%%
 elemental wellspring
 
