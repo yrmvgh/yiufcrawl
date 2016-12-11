@@ -68,7 +68,7 @@ static const char *conducts[] =
     "Kill Slime", "Kill Plant", "Was Hasty", "Corpse Violation",
     "Carrion Rot", "Souled Friend Died", "Attack In Sanctuary",
     "Kill Artificial", "Exploration", "Desecrate Holy Remains", "Seen Monster",
-    "Kill Fiery", "Sacrificed Love", "Channel", "Hurt Foe",
+    "Sacrificed Love", "Channel", "Hurt Foe",
 };
 COMPILE_CHECK(ARRAYSZ(conducts) == NUM_CONDUCTS);
 
@@ -915,10 +915,6 @@ static like_map divine_likes[] =
         { DID_KILL_DEMON, KILL_DEMON_RESPONSE },
         { DID_KILL_HOLY, KILL_HOLY_RESPONSE },
         { DID_KILL_NONLIVING, KILL_NONLIVING_RESPONSE },
-        { DID_KILL_FIERY, {
-            "you kill beings that bring fire to the dungeon", true,
-            -6, 10, 0, " appreciates your extinguishing a source of fire."
-        } },
     },
     // GOD_GOZAG,
     like_map(),
