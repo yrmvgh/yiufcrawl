@@ -542,7 +542,11 @@ void zap_wand(int slot)
 
     if (spell != SPELL_NO_SPELL)
     {
-        if (!has_charges)
+        spret_type ret = your_spells(spell, power, false, &wand);
+
+        if (ret == SPRET_ABORT)
+            return;
+        else if (ret == SPRET_FAIL)
         {
             canned_msg(MSG_NOTHING_HAPPENS);
             // It's an empty wand; inscribe it that way.
@@ -550,12 +554,6 @@ void zap_wand(int slot)
             you.turn_is_over = true;
             return;
         }
-
-        const spret_type ret = your_spells(spell, power, false, true, false,
-                                           wasteful);
-
-        if (ret == SPRET_ABORT)
-            return;
     }
     else
     {
