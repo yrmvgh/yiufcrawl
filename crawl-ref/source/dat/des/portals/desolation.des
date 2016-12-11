@@ -44,7 +44,7 @@ function desolation_portal(e)
         msg = messager })
   e.tags("uniq_desolation no_monster_gen chance_desolation")
   e.kfeat("O = enter_desolation")
-  e.depth("Elf, !Elf:$, Vaults, !Vaults:$")
+  e.depth("Crypt")
   e.chance(500)
 end
 
