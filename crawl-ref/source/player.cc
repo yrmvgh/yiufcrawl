@@ -3166,26 +3166,7 @@ static int _stealth_mod()
     int species_stealth_mod = species_stealth_modifier(you.species);
     if (you.form == TRAN_STATUE)
         species_stealth_mod -= 3;
-    // Thirsty vampires are (much) more stealthy
-    if (you.species == SP_VAMPIRE)
-    {
-        switch (you.hunger_state)
-        {
-        case HS_FAINTING:
-        case HS_STARVING:
-            species_stealth_mod += 3;
-            break;
 
-        case HS_NEAR_STARVING:
-        case HS_VERY_HUNGRY:
-        case HS_HUNGRY:
-            species_stealth_mod += 1;
-            break;
-
-        default:
-            break;
-        }
-    }
     return species_stealth_mod;
 }
 

@@ -683,7 +683,7 @@ static const map<species_type, species_def> species_data =
     "Vampire", "Vampiric", nullptr,
     SPF_NONE,
     -1, 0, 0,
-    18, 4,
+    21, 4,
     MONS_VAMPIRE,
     HT_LAND, US_SEMI_UNDEAD, SIZE_MEDIUM,
     7, 10, 9, // 26
