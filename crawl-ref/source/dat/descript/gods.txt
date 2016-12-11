@@ -30,10 +30,10 @@ time and its needless disturbances.
 Dithmenos
 
 Dithmenos the Shadowed desires all to be darkness. Followers of Dithmenos gain
-a strange and otherwordly affinity to the shadows of their environment. Worshippers 
-are not forbidden from bending light and fire to their purposes; every light casts
-a shadow. However, Dithmenos takes great pleasure in the extinguishing of sources
-of fire and rewards followers for doing so.
+a strange and otherwordly affinity to the shadows of their environment. Worshippers
+can quietly step into the shadows of other beings that are within their umbra, which
+expands as they gain favor with Dithmenos. Sufficiently adept followers may temporarily
+become one with the shadows, becoming invisible and reducing the damage that they receive.  
 %%%%
 Elyvilon
 
