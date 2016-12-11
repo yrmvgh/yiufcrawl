@@ -2245,25 +2245,6 @@ MAP
 .....
 ENDMAP
 
-NAME:    vehumet_statue
-DEPTH:   D:4-10
-TAGS:    temple_overflow_1 temple_overflow_vehumet transparent
-SHUFFLE: 12
-MONS:    statue name:charred name_adjective tile:mons_statue_mage \
-             hp:12 hd:3 spells:throw_flame.53.magical
-MONS:    statue name:frost-covered name_adjective tile:mons_statue_mage \
-             hp:12 hd:3 spells:throw_frost.53.magical
-KFEAT:   _ = altar_vehumet
-MAP
-...........
-.bbbbbbbbb.
-.b.......b.
-.b.1._.....
-.b.......b.
-.bbbbbbbbb.
-...........
-ENDMAP
-
 NAME:    vehumet_crystals
 DEPTH:   D:2-10, Orc, !Orc:$
 TAGS:    temple_overflow_1 temple_overflow_vehumet transparent
