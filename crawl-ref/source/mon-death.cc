@@ -2327,6 +2327,17 @@ item_def* monster_die(monster* mons, killer_type killer,
                 }
             }
 
+			//ghouls get pseudo-vamp on kills
+			if (gives_player_xp && you.species == SP_GHOUL)
+			{
+				int hp_heal = random2(1 + mons->get_experience_level());
+				if (hp_heal && you.hp < you.hp_max)
+                {
+                    canned_msg(MSG_GAIN_HEALTH);
+                    inc_hp(hp_heal);
+                }
+			}
+			
             if (gives_player_xp && you_worship(GOD_RU) && you.piety < 200
                 && one_chance_in(2))
             {

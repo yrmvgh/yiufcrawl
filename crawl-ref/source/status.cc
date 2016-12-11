@@ -146,7 +146,6 @@ static void _describe_airborne(status_info* inf);
 static void _describe_glow(status_info* inf);
 static void _describe_hunger(status_info* inf);
 static void _describe_regen(status_info* inf);
-static void _describe_rotting(status_info* inf);
 static void _describe_sickness(status_info* inf);
 static void _describe_speed(status_info* inf);
 static void _describe_poison(status_info* inf);
@@ -269,10 +268,6 @@ bool fill_status_info(int status, status_info* inf)
     case STATUS_REGENERATION:
         // DUR_REGENERATION + some vampire and non-healing stuff
         _describe_regen(inf);
-        break;
-
-    case STATUS_ROT:
-        _describe_rotting(inf);
         break;
 
     case STATUS_SICK:
@@ -870,27 +865,6 @@ static void _describe_airborne(status_info* inf)
     inf->long_text    = "You are flying" + desc + ".";
     inf->light_colour = _dur_colour(inf->light_colour, expiring);
     _mark_expiring(inf, expiring);
-}
-
-static void _describe_rotting(status_info* inf)
-{
-    if (you.species == SP_GHOUL)
-    {
-        inf->short_text = "rotting";
-        inf->long_text = "Your flesh is rotting";
-        int rot = 1 + (1 << max(0, HS_SATIATED - you.hunger_state));
-        if (rot > 15)
-            inf->long_text += " before your eyes";
-        else if (rot > 8)
-            inf->long_text += " away quickly";
-        else if (rot > 4)
-            inf->long_text += " badly";
-        else if (rot > 2)
-            inf->long_text += " faster than usual";
-        else
-            inf->long_text += " at the usual pace";
-        inf->long_text += ".";
-    }
 }
 
 static void _describe_sickness(status_info* inf)

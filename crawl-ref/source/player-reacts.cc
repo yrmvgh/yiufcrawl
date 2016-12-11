@@ -890,31 +890,6 @@ static void _check_equipment_conducts()
     }
 }
 
-/**
- * Handles player ghoul rotting over time.
- */
-static void _rot_ghoul_players()
-{
-    if (you.species != SP_GHOUL)
-        return;
-
-    int resilience = 4000;
-    if (have_passive(passive_t::slow_metabolism))
-        resilience = resilience * 3 / 2;
-
-
-    // Faster rotting when hungry.
-    if (you.hunger_state < HS_SATIATED)
-        resilience >>= HS_SATIATED - you.hunger_state;
-
-    if (one_chance_in(resilience))
-    {
-        dprf("rot rate: 1/%d", resilience);
-        mprf(MSGCH_WARN, "You feel your flesh rotting away.");
-        rot_hp(1);
-    }
-}
-
 static void _handle_emergency_flight()
 {
     ASSERT(you.props[EMERGENCY_FLIGHT_KEY].get_bool());
@@ -1070,7 +1045,6 @@ void player_reacts()
     handle_starvation();
 
     _decrement_durations();
-    _rot_ghoul_players();
 
     // Translocations and possibly other duration decrements can
     // escape a player from beholders and fearmongers. These should
