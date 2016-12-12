@@ -135,6 +135,7 @@ enum attack_flavour
 #if TAG_MAJOR_VERSION == 34
     AF_MIASMATA,
 #endif
+	AF_CLEAVE,
 };
 
 // Non-spell "summoning" types to give to monster::mark_summoned(), or
