@@ -56,6 +56,7 @@ static spell_type _choose_mem_spell(spell_list &spells, unsigned int num_misc);
 static const map<wand_type, spell_type> _wand_spells =
 {
     { WAND_CLOUDS, SPELL_CLOUD_CONE },
+    { WAND_SCATTERSHOT, SPELL_SCATTERSHOT },
 };
 
 
