@@ -627,18 +627,6 @@ static int _acquirement_staff_subtype(bool /*divine*/, int & /*quantity*/)
     return result;
 }
 
-static int _acquirement_rod_subtype(bool /*divine*/, int & /*quantity*/)
-{
-    int result;
-    do
-    {
-        result = random2(NUM_RODS);
-    }
-    while (player_mutation_level(MUT_NO_LOVE) && result == ROD_SHADOWS
-           || item_type_removed(OBJ_RODS, result));
-    return result;
-}
-
 /**
  * Return a miscellaneous evokable item for acquirement.
  * @return   The item type chosen.
@@ -737,7 +725,9 @@ static const acquirement_subtype_finder _subtype_finders[] =
     _acquirement_misc_subtype,
     0, // no corpses
     0, // gold handled elsewhere, and doesn't have subtypes anyway
-    _acquirement_rod_subtype,
+#if TAG_MAJOR_VERSION == 34
+    0, // no rods
+#endif
     0, // no runes either
 };
 
@@ -754,9 +744,9 @@ static int _find_acquirement_subtype(object_class_type &class_wanted,
 
     do
     {
-        // Misc items and rods have a common acquirement class.
+        // Misc items
         if (class_wanted == OBJ_MISCELLANY)
-            class_wanted = one_chance_in(8) ? OBJ_RODS : OBJ_MISCELLANY;
+            class_wanted = OBJ_MISCELLANY;
 
         // Vampires acquire blood, not food.
         if (class_wanted == OBJ_FOOD && you.species == SP_VAMPIRE)
@@ -1212,7 +1202,7 @@ int acquirement_create_item(object_class_type class_wanted,
             type_wanted = _useless_armour_type();
         else
         {
-            // This may clobber class_wanted (e.g. staves/rods, or vampire food)
+            // This may clobber class_wanted (e.g. staves or vampire food)
             type_wanted = _find_acquirement_subtype(class_wanted, quant,
                                                     divine, agent);
         }

@@ -25,7 +25,11 @@ static const ucs_t dchar_table[NUM_CSET][NUM_DCHAR_TYPES] =
     //       φ
         '0', 0x03C6, ')', '[', '/', '%', '?', '=', '!', '(',
     //                       †       ÷               §     ♣       ©
-        ':', '|', '\\', '}', 0x2020, 0xF7, '$', '"', 0xA7, 0x2663, 0xA9,
+        ':', '|', 
+#if TAG_MAJOR_VERSION == 34
+         '\\',
+#endif		
+		'}', 0x2020, 0xF7, '$', '"', 0xA7, 0x2663, 0xA9,
     //                 ÷
         ' ', '#', '*', 0xF7, 'X', '`', '#',  // space .. explosion
     //  ═       ║       ╔       ╗       ╚       ╝       ─       │
@@ -58,7 +62,11 @@ dungeon_char_type dchar_by_name(const string &name)
         "invis_exposed", "item_detected",
         "item_orb", "item_rune", "item_weapon", "item_armour", "item_wand", "item_food",
         "item_scroll", "item_ring", "item_potion", "item_missile", "item_book",
-        "item_staff", "item_rod", "item_miscellany", "item_corpse", "item_skeleton",
+        "item_staff",
+#if TAG_MAJOR_VERSION == 34
+        "item_rod",
+#endif
+        "item_miscellany", "item_corpse", "item_skeleton",
         "item_gold", "item_amulet", "cloud", "tree", "teleporter",
         "space", "fired_bolt", "fired_zap", "fired_burst", "fired_debug",
         "fired_missile", "explosion", "frame_horiz", "frame_vert",

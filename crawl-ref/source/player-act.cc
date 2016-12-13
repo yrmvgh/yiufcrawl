@@ -404,7 +404,7 @@ bool player::could_wield(const item_def &item, bool ignore_brand,
     }
 
     // Most non-weapon objects can be wielded, though there's rarely a point
-    if (!is_weapon(item) && item.base_type != OBJ_RODS)
+    if (!is_weapon(item))
     {
         if (item.base_type == OBJ_ARMOUR || item.base_type == OBJ_JEWELLERY)
         {
@@ -415,8 +415,6 @@ bool player::could_wield(const item_def &item, bool ignore_brand,
 
         return true;
     }
-    else if (item.base_type == OBJ_RODS)
-        return true;
 
     const size_type bsize = body_size(PSIZE_TORSO, ignore_transform);
     // Small species wielding large weapons...

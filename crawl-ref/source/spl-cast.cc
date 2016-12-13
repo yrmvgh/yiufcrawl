@@ -407,62 +407,58 @@ int stepdown_spellpower(int power)
 }
 
 int calc_spell_power(spell_type spell, bool apply_intel, bool fail_rate_check,
-                     bool cap_power, bool rod)
+                     bool cap_power)
 {
     int power = 0;
-    if (rod)
-        power = 5 + you.skill(SK_EVOCATIONS, 3); // will be adjusted later
-    else
+
+    const spschools_type disciplines = get_spell_disciplines(spell);
+
+    int skillcount = count_bits(disciplines);
+    if (skillcount)
     {
-        const spschools_type disciplines = get_spell_disciplines(spell);
-
-        int skillcount = count_bits(disciplines);
-        if (skillcount)
-        {
-            for (const auto bit : spschools_type::range())
-                if (disciplines & bit)
-                    power += you.skill(spell_type2skill(bit), 200);
-            power /= skillcount;
-        }
-
-        power += you.skill(SK_SPELLCASTING, 50);
-
-        // Brilliance boosts spell power a bit (equivalent to three
-        // spell school levels).
-        if (!fail_rate_check && you.duration[DUR_BRILLIANCE])
-            power += 600;
-
-        if (apply_intel)
-            power = (power * you.intel()) / 10;
-
-        // [dshaligram] Enhancers don't affect fail rates any more, only spell
-        // power. Note that this does not affect Vehumet's boost in castability.
-        if (!fail_rate_check)
-            power = apply_enhancement(power, _spell_enhancement(spell));
-
-        // Wild magic boosts spell power but decreases success rate.
-        if (!fail_rate_check)
-        {
-            power *= (10 + 3 * player_mutation_level(MUT_WILD_MAGIC));
-            power /= (10 + 3 * player_mutation_level(MUT_SUBDUED_MAGIC));
-        }
-
-        // Augmentation boosts spell power at high HP.
-        if (!fail_rate_check)
-        {
-            power *= 10 + 4 * augmentation_amount();
-            power /= 10;
-        }
-
-        // Each level of horror reduces spellpower by 10%
-        if (you.duration[DUR_HORROR] && !fail_rate_check)
-        {
-            power *= 10;
-            power /= 10 + (you.props[HORROR_PENALTY_KEY].get_int() * 3) / 2;
-        }
-
-        power = stepdown_spellpower(power);
+        for (const auto bit : spschools_type::range())
+            if (disciplines & bit)
+                power += you.skill(spell_type2skill(bit), 200);
+        power /= skillcount;
     }
+
+    power += you.skill(SK_SPELLCASTING, 50);
+
+    // Brilliance boosts spell power a bit (equivalent to three
+    // spell school levels).
+    if (!fail_rate_check && you.duration[DUR_BRILLIANCE])
+        power += 600;
+
+    if (apply_intel)
+        power = (power * you.intel()) / 10;
+
+    // [dshaligram] Enhancers don't affect fail rates any more, only spell
+    // power. Note that this does not affect Vehumet's boost in castability.
+    if (!fail_rate_check)
+        power = apply_enhancement(power, _spell_enhancement(spell));
+
+    // Wild magic boosts spell power but decreases success rate.
+    if (!fail_rate_check)
+    {
+        power *= (10 + 3 * player_mutation_level(MUT_WILD_MAGIC));
+        power /= (10 + 3 * player_mutation_level(MUT_SUBDUED_MAGIC));
+    }
+
+    // Augmentation boosts spell power at high HP.
+    if (!fail_rate_check)
+    {
+        power *= 10 + 4 * augmentation_amount();
+        power /= 10;
+    }
+
+    // Each level of horror reduces spellpower by 10%
+    if (you.duration[DUR_HORROR] && !fail_rate_check)
+    {
+        power *= 10;
+        power /= 10 + (you.props[HORROR_PENALTY_KEY].get_int() * 3) / 2;
+    }
+
+    power = stepdown_spellpower(power);
 
     const int cap = spell_power_cap(spell);
     if (cap > 0 && cap_power)
@@ -949,10 +945,11 @@ static void _majin_speak(spell_type spell)
  *
  * @param spell         The type of spell just cast.
  * @param god           Which god is casting the spell; NO_GOD if it's you.
- * @param real_spell    An actual spellcast, vs. spell-like effects (rods?)
+ * @param fake_spell    Whether the spell is evoked, or from an innate or
+ *                      divine ability.
  */
 static void _spellcasting_side_effects(spell_type spell, god_type god,
-                                       bool real_spell)
+                                       bool fake_spell)
 {
     _spellcasting_god_conduct(spell);
 
@@ -960,7 +957,7 @@ static void _spellcasting_side_effects(spell_type spell, god_type god,
     {
         if (you.duration[DUR_SAP_MAGIC]
             && you.props[SAP_MAGIC_KEY].get_int() < 3
-            && real_spell && coinflip())
+            && !fake_spell && coinflip())
         {
             mprf(MSGCH_WARN, "Your control over your magic is sapped.");
             you.props[SAP_MAGIC_KEY].get_int()++;
@@ -969,7 +966,7 @@ static void _spellcasting_side_effects(spell_type spell, god_type god,
         // Make some noise if it's actually the player casting.
         noisy(spell_noise(spell), you.pos());
 
-        if (real_spell && player_equip_unrand(UNRAND_MAJIN))
+        if (!fake_spell && player_equip_unrand(UNRAND_MAJIN))
         {
             // never kill the player (directly)
             int hp_cost = min(spell_mana(spell), you.hp - 1);
@@ -1162,8 +1159,6 @@ static unique_ptr<targetter> _spell_targetter(spell_type spell, int pow,
         return make_unique<targetter_smite>(&you, range, 0, 2);
     case SPELL_DAZZLING_SPRAY:
         return make_unique<targetter_spray>(&you, range, ZAP_DAZZLING_SPRAY);
-    case SPELL_EXPLOSIVE_BOLT:
-        return make_unique<targetter_explosive_bolt>(&you, pow, range);
     case SPELL_GLACIATE:
         return make_unique<targetter_cone>(&you, range);
     case SPELL_CLOUD_CONE:
@@ -1262,7 +1257,7 @@ vector<string> desc_success_chance(const monster_info& mi, int pow, bool evoked,
 /**
  * Targets and fires player-cast spells & spell-like effects.
  *
- * Not all of these are actually real spells; invocations, decks, rods or misc.
+ * Not all of these are actually real spells; invocations, decks or misc.
  * effects might also land us here.
  * Others are currently unused or unimplemented.
  *
@@ -1282,6 +1277,7 @@ spret_type your_spells(spell_type spell, int powc,
                        bool wasteful_wand)
 {
     ASSERT(!crawl_state.game_is_arena());
+    ASSERT(!evoked_item || evoked_item->base_type == OBJ_WANDS);
 
     const bool wiz_cast = (crawl_state.prev_cmd == CMD_WIZARD && !allow_fail);
 
@@ -1419,7 +1415,9 @@ spret_type your_spells(spell_type spell, int powc,
     }
     else
 #endif
-    if (allow_fail)
+    if (evoked_item && evoked_item->charges == 0)
+        return SPRET_FAIL;
+    else if (allow_fail)
     {
         int spfl = random2avg(100, 3);
 
@@ -1500,7 +1498,7 @@ spret_type your_spells(spell_type spell, int powc,
         {
             dithmenos_shadow_spell(&beam, spell);
         }
-        _spellcasting_side_effects(spell, god, allow_fail);
+        _spellcasting_side_effects(spell, god, !allow_fail);
         return SPRET_SUCCESS;
     }
     case SPRET_FAIL:
@@ -1798,21 +1796,6 @@ static spret_type _do_cast(spell_type spell, int powc,
 
     case SPELL_AURA_OF_ABJURATION:
         return cast_aura_of_abjuration(powc, fail);
-
-    case SPELL_WEAVE_SHADOWS:
-    {
-        level_id place(BRANCH_DUNGEON, 1);
-        const int level = 5 + div_rand_round(powc, 3);
-        const int depthsabs = branches[BRANCH_DEPTHS].absdepth;
-        if (level >= depthsabs && x_chance_in_y(level + 1 - depthsabs, 5))
-        {
-            place.branch = BRANCH_DEPTHS;
-            place.depth = level  + 1 - depthsabs;
-        }
-        else
-            place.depth = level;
-        return cast_shadow_creatures(spell, god, place, fail);
-    }
 
     case SPELL_EXCRUCIATING_WOUNDS:
         return cast_excruciating_wounds(powc, fail);
@@ -2122,9 +2105,9 @@ string failure_rate_to_string(int fail)
     return make_stringf("%d%%", failure_rate_to_int(fail));
 }
 
-string spell_hunger_string(spell_type spell, bool rod)
+string spell_hunger_string(spell_type spell)
 {
-    return hunger_cost_string(spell_hunger(spell, rod));
+    return hunger_cost_string(spell_hunger(spell));
 }
 
 string spell_noise_string(spell_type spell, int chop_wiz_display_width)
@@ -2184,34 +2167,34 @@ int power_to_barcount(int power)
     return breakpoint_rank(power, breakpoints, ARRAYSZ(breakpoints)) + 1;
 }
 
-static int _spell_power_bars(spell_type spell, bool rod)
+static int _spell_power_bars(spell_type spell)
 {
     const int cap = spell_power_cap(spell);
     if (cap == 0)
         return -1;
-    const int power = min(calc_spell_power(spell, true, false, false, rod), cap);
+    const int power = min(calc_spell_power(spell, true, false, false), cap);
     return power_to_barcount(power);
 }
 
 #ifdef WIZARD
-static string _wizard_spell_power_numeric_string(spell_type spell, bool rod)
+static string _wizard_spell_power_numeric_string(spell_type spell)
 {
     const int cap = spell_power_cap(spell);
     if (cap == 0)
         return "N/A";
-    const int power = min(calc_spell_power(spell, true, false, false, rod), cap);
+    const int power = min(calc_spell_power(spell, true, false, false), cap);
     return make_stringf("%d (%d)", power, cap);
 }
 #endif
 
-string spell_power_string(spell_type spell, bool rod)
+string spell_power_string(spell_type spell)
 {
 #ifdef WIZARD
     if (you.wizard)
-        return _wizard_spell_power_numeric_string(spell, rod);
+        return _wizard_spell_power_numeric_string(spell);
 #endif
 
-    const int numbars = _spell_power_bars(spell, rod);
+    const int numbars = _spell_power_bars(spell);
     const int capbars = power_to_barcount(spell_power_cap(spell));
     ASSERT(numbars <= capbars);
     if (numbars < 0)
@@ -2220,10 +2203,10 @@ string spell_power_string(spell_type spell, bool rod)
         return string(numbars, '#') + string(capbars - numbars, '.');
 }
 
-int calc_spell_range(spell_type spell, int power, bool rod)
+int calc_spell_range(spell_type spell, int power)
 {
     if (power == 0)
-        power = calc_spell_power(spell, true, false, false, rod);
+        power = calc_spell_power(spell, true, false, false);
     const int range = spell_range(spell, power);
 
     return range;
@@ -2234,13 +2217,12 @@ int calc_spell_range(spell_type spell, int power, bool rod)
  * player.
  *
  * @param spell     The spell in question.
- * @param rod       Whether the spell is being 'cast' from a rod.
  * @return          Something like "@-->.."
  */
-string spell_range_string(spell_type spell, bool rod)
+string spell_range_string(spell_type spell)
 {
     const int cap      = spell_power_cap(spell);
-    const int range    = calc_spell_range(spell, 0, rod);
+    const int range    = calc_spell_range(spell, 0);
     const int maxrange = spell_range(spell, cap);
 
     return range_string(range, maxrange, '@');
