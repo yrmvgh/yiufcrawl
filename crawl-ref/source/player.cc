@@ -1360,7 +1360,6 @@ int player_res_fire(bool calc_unid, bool temp, bool items)
     if (items)
     {
         // rings of fire resistance/fire
-        rf += you.wearing(EQ_RINGS, RING_PROTECTION_FROM_FIRE, calc_unid);
         rf += you.wearing(EQ_RINGS, RING_FIRE, calc_unid);
 
         // Staves
@@ -1486,7 +1485,6 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
     if (items)
     {
         // rings of cold resistance/ice
-        rc += you.wearing(EQ_RINGS, RING_PROTECTION_FROM_COLD, calc_unid);
         rc += you.wearing(EQ_RINGS, RING_ICE, calc_unid);
 
         // Staves
