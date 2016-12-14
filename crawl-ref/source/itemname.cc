@@ -747,9 +747,13 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_REGENERATION:          return "obsoleteness";
 #endif
         case RING_PROTECTION:            return "protection";
+#if TAG_MAJOR_VERSION == 34
         case RING_PROTECTION_FROM_FIRE:  return "protection from fire";
+#endif
         case RING_POISON_RESISTANCE:     return "poison resistance";
+#if TAG_MAJOR_VERSION == 34
         case RING_PROTECTION_FROM_COLD:  return "protection from cold";
+#endif
         case RING_STRENGTH:              return "strength";
         case RING_SLAYING:               return "slaying";
         case RING_SEE_INVISIBLE:         return "see invisible";
@@ -803,9 +807,13 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_REGENERATION:          return "obsoleteness";
 #endif
         case RING_PROTECTION:            return "AC";
+#if TAG_MAJOR_VERSION == 34
         case RING_PROTECTION_FROM_FIRE:  return "rF+";
+#endif
         case RING_POISON_RESISTANCE:     return "rPois";
+#if TAG_MAJOR_VERSION == 34
         case RING_PROTECTION_FROM_COLD:  return "rC+";
+#endif
         case RING_STRENGTH:              return "Str";
         case RING_SLAYING:               return "Slay";
         case RING_SEE_INVISIBLE:         return "sInv";

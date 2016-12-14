@@ -369,8 +369,6 @@ static map<jewellery_type, vector<jewellery_fake_artp>> jewellery_artps = {
     { RING_STEALTH, { { ARTP_STEALTH, 1 } } },
     { RING_LOUDNESS, { { ARTP_STEALTH, -1 } } },
 
-    { RING_PROTECTION_FROM_FIRE, { { ARTP_FIRE, 1 } } },
-    { RING_PROTECTION_FROM_COLD, { { ARTP_COLD, 1 } } },
     { RING_POISON_RESISTANCE, { { ARTP_POISON, 1 } } },
     { RING_LIFE_PROTECTION, { { ARTP_NEGATIVE_ENERGY, 1 } } },
     { RING_PROTECTION_FROM_MAGIC, { { ARTP_MAGIC_RESISTANCE, 1 } } },
@@ -1406,7 +1404,6 @@ static bool _randart_is_redundant(const item_def &item,
         break;
 
     case RING_FIRE:
-    case RING_PROTECTION_FROM_FIRE:
         provides = ARTP_FIRE;
         break;
 
@@ -1415,7 +1412,6 @@ static bool _randart_is_redundant(const item_def &item,
         break;
 
     case RING_ICE:
-    case RING_PROTECTION_FROM_COLD:
         provides = ARTP_COLD;
         break;
 
@@ -1693,7 +1689,7 @@ static void _make_faerie_armour(item_def &item)
 
 static jewellery_type octoring_types[8] =
 {
-    RING_SEE_INVISIBLE, RING_PROTECTION_FROM_FIRE, RING_PROTECTION_FROM_COLD,
+    RING_SEE_INVISIBLE, RING_FIRE, RING_ICE,
     RING_RESIST_CORROSION, RING_STEALTH, RING_WIZARDRY, RING_MAGICAL_POWER,
     RING_LIFE_PROTECTION
 };
