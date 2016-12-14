@@ -375,8 +375,8 @@ static map<jewellery_type, vector<jewellery_fake_artp>> jewellery_artps = {
     { RING_LIFE_PROTECTION, { { ARTP_NEGATIVE_ENERGY, 1 } } },
     { RING_PROTECTION_FROM_MAGIC, { { ARTP_MAGIC_RESISTANCE, 1 } } },
 
-    { RING_FIRE, { { ARTP_FIRE, 1 }, { ARTP_COLD, -1 } } },
-    { RING_ICE, { { ARTP_COLD, 1 }, { ARTP_FIRE, -1 } } },
+    { RING_FIRE, { { ARTP_FIRE, 1 } } },
+    { RING_ICE, { { ARTP_COLD, 1 } } },
 
     { RING_STRENGTH, { { ARTP_STRENGTH, 0 } } },
     { RING_INTELLIGENCE, { { ARTP_INTELLIGENCE, 0 } } },
