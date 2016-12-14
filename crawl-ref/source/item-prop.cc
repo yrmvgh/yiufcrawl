@@ -2518,9 +2518,6 @@ int get_jewellery_res_fire(const item_def &ring, bool check_artp)
     case RING_FIRE:
         res += 1;
         break;
-    case RING_ICE:
-        res -= 1;
-        break;
     default:
         break;
     }
@@ -2543,9 +2540,6 @@ int get_jewellery_res_cold(const item_def &ring, bool check_artp)
     case RING_PROTECTION_FROM_COLD:
     case RING_ICE:
         res += 1;
-        break;
-    case RING_FIRE:
-        res -= 1;
         break;
     default:
         break;
