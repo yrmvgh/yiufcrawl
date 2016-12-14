@@ -198,6 +198,7 @@ enum tag_minor_version
     TAG_MINOR_SPIT_POISON_AGAIN,   // Make Naga poison spit a 2-level mutation.
 	TAG_MINOR_HIDE_TO_SCALE,       // Rename dragon hides to scales.
 	TAG_MINOR_MOTTLED_REMOVAL,     // Mottled dracos get breathe fire
+    TAG_MINOR_SLIME_WALL_CLEAR,    // Turn existing Slime:$ walls clear, so they'll be removed on TRJ death.
 #endif
     NUM_TAG_MINORS,
     TAG_MINOR_VERSION = NUM_TAG_MINORS - 1
