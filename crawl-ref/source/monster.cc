@@ -5757,9 +5757,8 @@ void monster::lose_energy(energy_use_type et, int div, int mult)
 
     // Randomize movement cost slightly, to make it less predictable,
     // and make pillar-dancing not entirely safe.
+	// Actually, energy randomization is dumb and bad and therefore removed :^)
     // No randomization for allies following you to avoid traffic jam
-    if ((et == EUT_MOVE || et == EUT_SWIM) && (!friendly() || foe != MHITYOU))
-        energy_loss += random2(3) - 1;
 
     speed_increment -= energy_loss;
 }
