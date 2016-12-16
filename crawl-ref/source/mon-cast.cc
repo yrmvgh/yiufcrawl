@@ -6281,8 +6281,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         else
         {
             monster_type berserkers[] = { MONS_BLACK_BEAR, MONS_OGRE, MONS_TROLL,
-                                           MONS_HILL_GIANT, MONS_DEEP_TROLL,
-                                           MONS_TWO_HEADED_OGRE};
+                                           MONS_DEEP_TROLL, MONS_TWO_HEADED_OGRE};
             to_summon = RANDOM_ELEMENT(berserkers);
         }
 

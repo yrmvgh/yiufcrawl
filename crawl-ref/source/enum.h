@@ -2978,8 +2978,10 @@ enum monster_type                      // menv[].type
     MONS_DEEP_TROLL_EARTH_MAGE,
     MONS_DEEP_TROLL_SHAMAN,
 #endif
-    MONS_GIANT,                 // genus
+    MONS_GIANT,  	// genus
+#if TAG_MAJOR_VERSION == 34
     MONS_HILL_GIANT,
+#endif
     MONS_CYCLOPS,
     MONS_ETTIN,
     MONS_STONE_GIANT,
