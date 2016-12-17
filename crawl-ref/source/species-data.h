@@ -65,27 +65,6 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_DEEP_DWARF, {
-    "DD",
-    "Deep Dwarf", "Dwarven", "Dwarf",
-    SPF_NONE,
-    -1, 2, 0,
-    15, 6,
-    MONS_DEEP_DWARF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    11, 8, 8, // 27
-    { STAT_STR, STAT_INT }, 4,
-    { { MUT_SLOW_REGENERATION, 3, 1 }, { MUT_PASSIVE_MAPPING, 1, 1 },
-      { MUT_PASSIVE_MAPPING, 1, 9 }, { MUT_PASSIVE_MAPPING, 1, 18 },
-      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
-    { "You are resistant to damage.",
-      "You can recharge devices by infusing magical energy." },
-    { "damage resistance", "recharge devices" },
-    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
-      JOB_EARTH_ELEMENTALIST },
-    { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },
-} },
-
 { SP_DEEP_ELF, {
     "DE",
     "Deep Elf", "Elven", "Elf",
@@ -772,6 +751,27 @@ static const map<species_type, species_def> species_data =
     { JOB_HUNTER, JOB_SKALD, JOB_WIZARD, JOB_CONJURER, JOB_FIRE_ELEMENTALIST,
       JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST },
     { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
+{ SP_DEEP_DWARF, {
+    "DD",
+    "Deep Dwarf", "Dwarven", "Dwarf",
+    SPF_NONE,
+    -1, 2, 0,
+    15, 6,
+    MONS_DEEP_DWARF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    11, 8, 8, // 27
+    { STAT_STR, STAT_INT }, 4,
+    { { MUT_SLOW_REGENERATION, 3, 1 }, { MUT_PASSIVE_MAPPING, 1, 1 },
+      { MUT_PASSIVE_MAPPING, 1, 9 }, { MUT_PASSIVE_MAPPING, 1, 18 },
+      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+    { "You are resistant to damage.",
+      "You can recharge devices by infusing magical energy." },
+    { "damage resistance", "recharge devices" },
+    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
+      JOB_EARTH_ELEMENTALIST },
+    { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },
 } },
 #endif
 // Ideally this wouldn't be necessary...

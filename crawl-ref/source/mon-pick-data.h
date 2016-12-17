@@ -194,7 +194,6 @@ static const pop_entry pop_elf[] =
 #if TAG_MAJOR_VERSION == 34
 static const pop_entry pop_dwarf[] =
 { // Dwarven Hall
-  {  1,  1, 1000, FLAT, MONS_DEEP_DWARF },
   {  1,  1,  690, FLAT, MONS_DEATH_KNIGHT },
   {  1,  1,    3, FLAT, MONS_DEEP_TROLL },
   {  1,  1,    3, FLAT, MONS_DEEP_TROLL_EARTH_MAGE },

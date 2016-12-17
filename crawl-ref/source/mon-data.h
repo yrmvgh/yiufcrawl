@@ -285,6 +285,7 @@ static monsterentry mondata[] =
 	AXED_MON(MONS_MOTTLED_DRACONIAN)
 	AXED_MON(MONS_DRACONIAN_ZEALOT)
 	AXED_MON(MONS_HILL_GIANT)
+	AXED_MON(MONS_DEEP_DWARF)
 #endif
 
 // Used for genus monsters (which are used for grouping monsters by how they
@@ -1083,19 +1084,6 @@ static monsterentry mondata[] =
     I_HUMAN, HT_LAND, 10, DEFAULT_ENERGY,
     MONUSE_WEAPONS_ARMOUR, SIZE_MEDIUM, MON_SHAPE_HUMANOID,
     {TILEP_MONS_DWARF}, TILE_CORPSE_DWARF
-},
-
-{
-    MONS_DEEP_DWARF, 'g', LIGHTBLUE, "deep dwarf",
-    M_WARM_BLOOD | M_SPEAKS | M_NO_REGEN | M_NO_POLY_TO,
-    MR_NO_FLAGS,
-    10, MONS_DWARF, MONS_DEEP_DWARF, MH_NATURAL, 40,
-    { {AT_HIT, AF_PLAIN, 10}, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
-    5, 275,
-    2, 12, MST_NO_SPELLS, CE_CLEAN, S_SHOUT,
-    I_HUMAN, HT_LAND, 10, DEFAULT_ENERGY,
-    MONUSE_WEAPONS_ARMOUR, SIZE_MEDIUM, MON_SHAPE_HUMANOID,
-    {TILEP_MONS_DEEP_DWARF}, TILE_CORPSE_DEEP_DWARF
 },
 
 // carnivorous quadrupeds ('h')

@@ -1346,15 +1346,12 @@ static void _VINES_unequip(item_def *item, bool *show_msgs)
 
 static void _KRYIAS_equip(item_def *item, bool *show_msgs, bool unmeld)
 {
-    if (you.species == SP_DEEP_DWARF)
-        _equip_mpr(show_msgs, "You feel no connection to the armour.");
-    else
-        _equip_mpr(show_msgs, "Your attunement to healing devices increases!");
+	_equip_mpr(show_msgs, "Your attunement to healing devices increases!");
 }
 
 static void _KRYIAS_unequip(item_def *item, bool *show_msgs)
 {
-        _equip_mpr(show_msgs, "Your attunement to healing devices decreases.");
+    _equip_mpr(show_msgs, "Your attunement to healing devices decreases.");
 }
 
 ///////////////////////////////////////////////////

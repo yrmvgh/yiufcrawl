@@ -5,11 +5,6 @@ Rapides, forts et corpulents, ils ont des besoins en nourriture plus importants
 que les autres espèces. Ils sont particulièrement doués avec les armes à
 distances.
 %%%%
-Deep Dwarf
-
-Ils vivent dans de profonds souterrains et ne peuvent pas se régénérer
-naturellement, mais ils sont résistants et ont des outils de guérison.
-%%%%
 Deep Elf
 
 L'elfe le plus doué pour la magie, mais aussi le plus fragile.

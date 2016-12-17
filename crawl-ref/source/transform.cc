@@ -572,9 +572,7 @@ public:
      */
     string transform_message(transformation_type previous_trans) const override
     {
-        if (you.species == SP_DEEP_DWARF && one_chance_in(10))
-            return "You inwardly fear your resemblance to a lawn ornament.";
-        else if (you.species == SP_GARGOYLE)
+        if (you.species == SP_GARGOYLE)
             return "Your body stiffens and grows slower.";
         else
             return Form::transform_message(previous_trans);

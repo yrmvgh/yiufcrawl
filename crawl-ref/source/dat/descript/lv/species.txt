@@ -4,12 +4,6 @@ Centaur
 Spēji, stipri un miesīgi. Kentauriem vajag vairāk pārtikas kā citām sugām. Viņi
 ir īpaši prasmīgi ar tālcīņas ieročiem.
 %%%%
-Deep Dwarf
-
-Pazemes rūķi mitinās zemes dzīlēs un nespēj dabiskā ceļā atjaunot dzīvības,
-tomēr tie ir ļoti izturīgi pret ievainojumiem un līdzi nēsā dziedējošus
-līdzekļus.
-%%%%
 Demigod
 
 Viņi nekad nesekos dievam, taču Pusdievi to kompensē ar dievišķām spējām un

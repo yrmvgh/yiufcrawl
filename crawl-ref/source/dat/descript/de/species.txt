@@ -4,12 +4,6 @@ Centaur
 Schnell, stark und massig. Zentauren brauchen mehr Nahrung als andere Spezies.
 Sie sind besonders geschickt im Umgang mit Fernkampfwaffen.
 %%%%
-Deep Dwarf
-
-Tiefenzwerge leben im Untergrund und können sich nicht auf natürliche Weise
-heilen, aber sie sind sehr widerstandsfähig gegenüber Schaden und tragen
-Heilausrüstung mit sich.
-%%%%
 Deep Elf
 
 Die magieaffinsten Elfen, aber auch die gebrechlichsten.

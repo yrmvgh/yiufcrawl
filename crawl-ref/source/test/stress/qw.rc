@@ -446,7 +446,7 @@ function absolute_resist_value(str, n)
   elseif str == "SInv" then
     return 200
   elseif str == "Spirit" then
-    return ((you.race() == "Deep Dwarf") and -10000 or 75)
+    return 75
   end
   return 0
 end
@@ -484,8 +484,6 @@ function max_resist_value(str, d)
   elseif str == "Spirit" then
     if ires > 0 then
       return 0
-    elseif you.race() == "Deep Dwarf" then
-      return -10000
     else
       return 75
     end
@@ -494,9 +492,6 @@ function max_resist_value(str, d)
 end
 
 function min_resist_value(str, d)
-  if str == "Spirit" and you.race() == "Deep Dwarf" then
-    return -10000
-  end
   if d >= 0 then
     return 0
   end
@@ -575,9 +570,6 @@ function armour_value(it, cur, it2)
       return -1,-1
     end
     if name:find("Pondering") or name:find("hauberk") then
-      return -1,-1
-    end
-    if you.race() == "Deep Dwarf" and ap and ap["MP"] and ap["MP"] < 0 then
       return -1,-1
     end
   elseif name:find("runed") or name:find("glowing") or name:find("dyed") or
@@ -677,9 +669,6 @@ function weapon_value(it, cur, it2)
        and you.race() ~= "Ghoul" and you.race() ~= "Formicid" then
       return -1,-1
     end
-    if you.race() == "Deep Dwarf" and ap and ap["MP"] and ap["MP"] < 0 then
-      return -1,-1
-    end
   end
   local val1,val2 = total_resist_value(it, cur, it2)
   if it.artefact and not it.fully_identified or
@@ -708,8 +697,6 @@ function weapon_value(it, cur, it2)
     elseif ego == "antimagic" then
       if you.race() == "Vine Stalker" then
         value = value - 300
-      elseif you.race() ~= "Deep Dwarf" then
-        value = value + 75
       end
     end
   end
@@ -741,9 +728,6 @@ function amulet_value(it, cur, it2)
        and you.race() ~= "Ghoul" and you.race() ~= "Formicid" then
       return -1,-1
     end
-    if you.race() == "Deep Dwarf" and ap and ap["MP"] and ap["MP"] < 0 then
-      return -1,-1
-    end
     if name:find("macabre finger necklace") then
       return -1,-1
     end
@@ -764,7 +748,7 @@ function amulet_value(it, cur, it2)
   local val1,val2 = total_resist_value(it, cur, it2)
   if subtype == "amulet of resist mutation"
      or subtype == "amulet of clarity"
-     or subtype == "amulet of regeneration" and you.race() ~= "Deep Dwarf" then
+     or subtype == "amulet of regeneration" then
     value = value + 50
   elseif subtype == "amulet of inaccuracy" then
     value = value - 250
@@ -783,9 +767,6 @@ function ring_value(it, cur, it2)
     end
     if ap and ap["*Rage"] and you.race() ~= "Mummy"
        and you.race() ~= "Ghoul" and you.race() ~= "Formicid" then
-      return -1,-1
-    end
-    if you.race() == "Deep Dwarf" and ap and ap["MP"] and ap["MP"] < 0 then
       return -1,-1
     end
   end
@@ -1376,7 +1357,7 @@ function intrinsic_dodgy()
 end
 
 function intrinsic_heavy_dodgy()
-  return (you.race() == "Minotaur" or you.race() == "Deep Dwarf")
+  return (you.race() == "Minotaur")
 end
 
 function intrinsic_heavy()
@@ -2354,7 +2335,7 @@ function should_rest()
     return false
   end
   return (hp_is_low(90) and
-          (you.race() ~= "Deep Dwarf" and you.hunger_name() ~= "bloodless"
+          (you.hunger_name() ~= "bloodless"
            or you.regenerating())
           or you.slowed() or you.exhausted() or you.teleporting()
           or you.status("barbed spikes")
@@ -2512,7 +2493,6 @@ function dd_prefer_hand()
 end
 
 function plan_dd_hand_for_healing()
-  if you.race() ~= "Deep Dwarf" then
     return false
   end
   local hp,mhp = you.hp()
@@ -2543,7 +2523,6 @@ function plan_orbrun_hand()
 end
 
 function plan_dd_recharge_teleport()
-  if you.race() ~= "Deep Dwarf" then
     return false
   end
   if you.berserk() or you.confused() or you.hunger_name() == "starving" then
@@ -2595,7 +2574,6 @@ function plan_dd_recharge_teleport()
 end
 
 function plan_dd_orbrun_recharge_hasting()
-  if you.race() ~= "Deep Dwarf" then
     return false
   end
   if danger then
@@ -2647,7 +2625,6 @@ function plan_dd_orbrun_recharge_hasting()
 end
 
 function plan_dd_recharge_heal_wounds()
-  if you.race() ~= "Deep Dwarf" then
     return false
   end
   if you.berserk() or you.confused() or you.hunger_name() == "starving" then
@@ -2695,7 +2672,7 @@ function plan_dd_recharge_heal_wounds()
 end
 
 function plan_cure_bad_poison()
-  if not (danger or you.race() == "Deep Dwarf") then
+  if not (danger) then
     return false
   end
   local hp, mhp = you.hp()
@@ -2740,21 +2717,9 @@ function heal_wounds()
   if you.mutation("no device heal") >= 3 then
     return false
   end
-  if you.race() == "Deep Dwarf" then
-    if drink_by_name("heal wounds") then
-      dd_hw_meter = dd_hw_meter + 100
-      return true
-    end
-  end
   if selfzap_by_name("heal wounds") then
     dd_hw_meter = dd_hw_meter + 100
     return true
-  end
-  if you.race() ~= "Deep Dwarf" then
-    if drink_by_name("heal wounds") then
-      dd_hw_meter = dd_hw_meter + 100
-      return true
-    end
   end
   return false
 end
@@ -3028,9 +2993,6 @@ function want_to_teleport()
   if you.xl() <= 17 and not can_berserk() and count_big_slimes(LOS) > 0 then
     return true
   end
-  if you.race() == "Deep Dwarf" then
-    return dd_want_to_teleport()
-  end
   return ((immediate_danger and you.corrosion() >= 3
            or you.god() ~= "Trog" and immediate_danger and hp_is_low(25)
            or you.god() == "Trog" and (you.slowed() or too_hungry_to_berserk())
@@ -3070,9 +3032,6 @@ function dd_want_to_heal_wounds()
 end
 
 function want_to_heal_wounds()
-  if you.race() == "Deep Dwarf" then
-    return dd_want_to_heal_wounds()
-  end
   return (danger and hp_is_low(25))
 end
 
@@ -3105,8 +3064,7 @@ function want_to_hand()
 end
 
 function want_to_berserk()
-  return (hp_is_low(50) and sense_danger(2) and
-          (you.race() ~= "Deep Dwarf" or dd_want_to_heal_wounds()) or
+  return (hp_is_low(50) and sense_danger(2) or
           check_monsters(2, scary_monsters) or
           check_monsters(1, scary_slow_monsters) or
           (invisi_sigmund and not options.autopick_on))
@@ -3386,9 +3344,6 @@ function plan_find_altar()
   if not want_altar() then
     return false
   end
-  if you.race() == "Deep Dwarf" then
-    magic(control('f') .. "@altar&&<<trog||makhleb>>" .. "\ra\r")
-  else
     magic(control('f') .. "@altar&&trog" .. "\ra\r")
   end
   return true
@@ -3417,8 +3372,7 @@ function plan_join_god()
   if not want_altar() then
     return false
   end
-  if view.feature_at(0, 0) == "altar_trog" or
-     you.race() == "Deep Dwarf" and view.feature_at(0, 0) == "altar_makhleb" then
+  if view.feature_at(0, 0) == "altar_trog" then
     if you.silenced() then
       rest()
     else
@@ -3653,7 +3607,7 @@ function plan_use_good_consumables()
         return drink(it)
       end
       if it.name():find("cure mutation") then
-        if base_mutation("slow regeneration") > 0 and you.race() ~= "Deep Dwarf"
+        if base_mutation("slow regeneration") > 0
            and you.race() ~= "Ghoul" or
            base_mutation("dopey") > 1 or
            intrinsic_like_dex() and base_mutation("clumsy") > 1 or
@@ -4742,8 +4696,7 @@ end
 
 function plan_cure_poison()
   local hp, mhp = you.hp()
-  if you.poison_survival() <= 1 and you.poisoned()
-     or you.race() == "Deep Dwarf" and you.poison_survival() <= hp - 10 then
+  if you.poison_survival() <= 1 and you.poisoned() then
     if drink_by_name("curing") then
       say("(to cure poison)")
       return true
@@ -5236,14 +5189,6 @@ function handle_skills()
     you.train_skill("Invocations", 1)
   end
   -- logic for training skills for MP could be improved probably
-  if you.race() == "Deep Dwarf" and you.can_train_skill("Invocations") and
-      (you.base_skill("Invocations") < 4 or you.base_mp() < 5) then
-    you.train_skill("Invocations", 1)
-  end
-  if you.race() == "Deep Dwarf" and you.god() == "Trog"
-     and (you.base_skill("Evocations") < 4 or you.base_mp() < 5) then
-    you.train_skill("Evocations", 1)
-  end
   if you.race() == "Vine Stalker" and you.base_skill("Evocations") < 12
      and (at_min_delay or you.base_skill(weapon_skill)
                           >= 3*you.base_skill("Evocations")) then

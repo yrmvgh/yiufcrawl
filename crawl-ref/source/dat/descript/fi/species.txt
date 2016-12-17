@@ -3,11 +3,6 @@ Centaur
 
 Nopeita, vahvoja ja isoja, he tarvitsevat muita rotuja enemmän ruokaa.
 %%%%
-Deep Dwarf
-
-He elävät syvällä maan alla eivätkä saa terveyttään takaisin luonnollisesti,
-mutta ovat sitkeitä ja omistavat parannusvälineitä.
-%%%%
 Deep Elf
 
 Magiassa taitavin haltia, mutta myös haurain.

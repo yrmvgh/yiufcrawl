@@ -4,11 +4,6 @@ Centaur
 Kentauři jsou rychlý, silní a velcí, a proto potřebují více potravy než jiné
 druhy. Jsou obzvláště zruční se zbraněmi na dálku.
 %%%%
-Deep Dwarf
-
-Hlubinní trpaslíci žijí pod zemí a rány se jim nehojí přirozenou cestou. Jsou
-však velmi odolní vůči zranění a mají nástroje, které jim v léčení pomáhají.
-%%%%
 Deep Elf
 
 Magicky nejnadanější z elfů, ale také nejslabší tělem.

@@ -4,12 +4,6 @@ Centaur
 I centauri sono forti e di corporatura robusta, hanno bisogno di più cibo delle
 altre specie. Sono particolarmente abili nell'uso delle armi a distanza.
 %%%%
-Deep Dwarf
-
-I nani delle profondità vivono sottoterra e non possono guarire naturalmente
-dalle ferite, ma sono molto resistenti ai danni e portano con sé oggetti per
-curarsi.
-%%%%
 Deep Elf
 
 Gli elfi delle profondità sono la specie più affine alla magia, ma anche la più

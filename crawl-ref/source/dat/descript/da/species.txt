@@ -4,11 +4,6 @@ Centaur
 De er hurtige, stærke og svært bygget, og de har brug for mere mad end andre
 arter.
 %%%%
-Deep Dwarf
-
-De lever dybt under jorden og genvinder ikke deres helbred naturligt, men til
-gengæld er de hårdføre og har helbredende værktøjer.
-%%%%
 Deep Elf
 
 Denne elver har det største talent for magi, men er også den skrøbeligste.

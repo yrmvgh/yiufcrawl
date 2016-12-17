@@ -873,11 +873,6 @@ deep elf sorcerer
 A mighty spellcaster who draws power from the very Hells, and possesses lethal
 arcane abilities.
 %%%%
-deep dwarf
-
-A pale and unnaturally tough-skinned dwarf that dwells far below ground and
-almost never emerges into the sunlit upper world.
-%%%%
 deep troll
 
 A stooped troll with dark skin. It often travels in packs.

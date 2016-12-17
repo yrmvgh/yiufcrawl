@@ -4155,10 +4155,6 @@ bool player_regenerates_hp()
 
 bool player_regenerates_mp()
 {
-    // Don't let DD use guardian spirit for free HP, since their
-    // damage shaving is enough. (due, dpeg)
-    if (you.spirit_shield() && you.species == SP_DEEP_DWARF)
-        return false;
     // Pakellas blocks MP regeneration.
     if (have_passive(passive_t::no_mp_regen) || player_under_penance(GOD_PAKELLAS))
         return false;
@@ -4386,12 +4382,7 @@ int get_player_poisoning()
 {
     if (player_res_poison() < 3)
     {
-        // Approximate the effect of damage shaving by giving the first
-        // 25 points of poison damage for 'free'
-        if (you.species == SP_DEEP_DWARF)
-            return max(0, (you.duration[DUR_POISONING] / 1000) - 25);
-        else
-            return you.duration[DUR_POISONING] / 1000;
+        return you.duration[DUR_POISONING] / 1000;
     }
     else
         return 0;
@@ -4460,17 +4451,6 @@ void handle_player_poison(int delay)
     int dmg = (you.duration[DUR_POISONING] / 1000)
                - ((you.duration[DUR_POISONING] - decrease) / 1000);
 
-    // Approximate old damage shaving by giving immunity to small amounts
-    // of poison. Stronger poison will do the same damage as for non-DD
-    // until it goes below the threshold, which is a bit weird, but
-    // so is damage shaving.
-    if (you.species == SP_DEEP_DWARF && you.duration[DUR_POISONING] - decrease < 25000)
-    {
-        dmg = (you.duration[DUR_POISONING] / 1000)
-            - (25000 / 1000);
-        if (dmg < 0)
-            dmg = 0;
-    }
 
     msg_channel_type channel = MSGCH_PLAIN;
     const char *adj = "";
@@ -4539,13 +4519,11 @@ int poison_survival()
         return you.hp;
     const int rr = player_regen();
     const bool chei = have_passive(passive_t::slow_metabolism);
-    const bool dd = (you.species == SP_DEEP_DWARF);
+    const bool dd = (false);
     const int amount = you.duration[DUR_POISONING];
     const double full_aut = _poison_dur_to_aut(amount);
     // Calculate the poison amount at which regen starts to beat poison.
     double min_poison_rate = 0.25;
-    if (dd)
-        min_poison_rate = 25.0/15.0;
     if (chei)
         min_poison_rate /= 1.5;
     int regen_beats_poison;
@@ -7801,10 +7779,8 @@ static int _get_device_heal_factor()
     factor -= you.mutation[MUT_NO_DEVICE_HEAL];
 
     // then apply bonuses
-    // Kryia's doubles device healing for non-deep dwarves, because deep dwarves
-    // are abusive bastards.
-    if (you.species != SP_DEEP_DWARF)
-        factor *= player_equip_unrand(UNRAND_KRYIAS) ? 2 : 1;
+    // Kryia's doubles device healing
+    factor *= player_equip_unrand(UNRAND_KRYIAS) ? 2 : 1;
 
     // make sure we don't turn healing negative.
     return max(0, factor);

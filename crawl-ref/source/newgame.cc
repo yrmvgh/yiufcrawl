@@ -161,7 +161,7 @@ static const species_type species_order[] =
 {
     // comparatively human-like looks
     SP_HUMAN,          SP_DEEP_ELF,
-    SP_DEEP_DWARF,     SP_HILL_ORC,
+    SP_HILL_ORC,
     // small species
     SP_HALFLING,       SP_KOBOLD,
     SP_SPRIGGAN,

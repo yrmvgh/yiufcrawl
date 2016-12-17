@@ -3,11 +3,6 @@ Centaur
 
 Gyors, erős és nagydarab, több ételre van szükségük mint más fajoknak.
 %%%%
-Deep Dwarf
-
-Mélyen a föld alatt élnek, nem tudnak természetes módon regenerálni, de
-ellenállóak és van eszközük a gyógyításra.
-%%%%
 Deep Elf
 
 A mágiához legjobban értő tünde, de a legtörékenyebb is.

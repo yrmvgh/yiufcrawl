@@ -1215,6 +1215,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_VAMPIRE,         SK_INVOCATIONS,    -1),
     APT(SP_VAMPIRE,         SK_EVOCATIONS,     -1),
 
+#if TAG_MAJOR_VERSION == 34
     // SP_DEEP_DWARF
     APT(SP_DEEP_DWARF,      SK_FIGHTING,       -1),
     APT(SP_DEEP_DWARF,      SK_SHORT_BLADES,   -1),
@@ -1230,13 +1231,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DEEP_DWARF,      SK_ARMOUR,          1),
     APT(SP_DEEP_DWARF,      SK_DODGING,         1),
     APT(SP_DEEP_DWARF,      SK_STEALTH,         3),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_DEEP_DWARF,      SK_STABBING,      UNUSABLE_SKILL),
-#endif
     APT(SP_DEEP_DWARF,      SK_SHIELDS,         1),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_DEEP_DWARF,      SK_TRAPS,         UNUSABLE_SKILL),
-#endif
     APT(SP_DEEP_DWARF,      SK_UNARMED_COMBAT, -1),
     APT(SP_DEEP_DWARF,      SK_SPELLCASTING,   -2),
     APT(SP_DEEP_DWARF,      SK_CONJURATIONS,   -1),
@@ -1253,7 +1250,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DEEP_DWARF,      SK_POISON_MAGIC,   -2),
     APT(SP_DEEP_DWARF,      SK_INVOCATIONS,     3),
     APT(SP_DEEP_DWARF,      SK_EVOCATIONS,      3),
-
+#endif
     // SP_FELID
     APT(SP_FELID,           SK_FIGHTING,        0),
     APT(SP_FELID,           SK_SHORT_BLADES,  UNUSABLE_SKILL),

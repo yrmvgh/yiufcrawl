@@ -116,8 +116,6 @@ function species_mock(e)
     e.kmons("1 = hell beast")
   elseif you.race():find("Draconian") then
     e.kmons("1 = wyvern")
-  elseif you.race() == "Deep Dwarf" then
-    e.kmons("1 = deep dwarf zombie")
   elseif you.race() == "Deep Elf" then
     e.kmons("1 = crimson imp")
   elseif you.race() == "Halfling" then
