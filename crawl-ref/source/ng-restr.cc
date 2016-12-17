@@ -17,12 +17,7 @@
 
 static bool _banned_combination(job_type job, species_type species)
 {
-    return species == SP_FELID
-            && (job == JOB_GLADIATOR
-                || job == JOB_ASSASSIN
-                || job == JOB_HUNTER
-                || job == JOB_ARCANE_MARKSMAN)
-           || species == SP_DEMIGOD
+    return species == SP_DEMIGOD
                && (job == JOB_BERSERKER
                    || job == JOB_CHAOS_KNIGHT
                    || job == JOB_ABYSSAL_KNIGHT
@@ -83,9 +78,6 @@ char_choice_restriction weapon_restriction(weapon_type wpn,
            || !species_is_draconian(ng.species));
 
     // Some special cases:
-
-    if (ng.species == SP_FELID && wpn != WPN_UNARMED)
-        return CC_BANNED;
 
     // Can't use them with a shield.
     if (ng.species == SP_SPRIGGAN && ng.job == JOB_FIGHTER

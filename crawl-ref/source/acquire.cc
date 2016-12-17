@@ -785,9 +785,6 @@ static int _find_acquirement_subtype(object_class_type &class_wanted,
     COMPILE_CHECK(ARRAYSZ(_subtype_finders) == NUM_OBJECT_CLASSES);
     ASSERT(class_wanted != OBJ_RANDOM);
 
-    if (class_wanted == OBJ_ARMOUR && you.species == SP_FELID)
-        return OBJ_RANDOM;
-
     int type_wanted = OBJ_RANDOM;
 
     int useless_count = 0;
@@ -795,7 +792,7 @@ static int _find_acquirement_subtype(object_class_type &class_wanted,
     do
     {
         // Misc items and rods have a common acquirement class.
-        if (class_wanted == OBJ_MISCELLANY && you.species != SP_FELID)
+        if (class_wanted == OBJ_MISCELLANY)
             class_wanted = one_chance_in(8) ? OBJ_RODS : OBJ_MISCELLANY;
 
         // Vampires acquire blood, not food.
@@ -1495,14 +1492,6 @@ bool acquirement(object_class_type class_wanted, int agent,
     ASSERT(!crawl_state.game_is_arena());
 
     FixedBitVector<NUM_OBJECT_CLASSES> bad_class;
-    if (you.species == SP_FELID)
-    {
-        bad_class.set(OBJ_WEAPONS);
-        bad_class.set(OBJ_MISSILES);
-        bad_class.set(OBJ_ARMOUR);
-        bad_class.set(OBJ_STAVES);
-        bad_class.set(OBJ_RODS);
-    }
     if (player_mutation_level(MUT_NO_ARTIFICE))
     {
         bad_class.set(OBJ_MISCELLANY);

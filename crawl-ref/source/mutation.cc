@@ -445,23 +445,22 @@ string describe_mutations(bool center_title)
             !form_keeps_mutations());
     }
 
-    if (you.species != SP_FELID)
+
+    switch (you.body_size(PSIZE_TORSO, true))
     {
-        switch (you.body_size(PSIZE_TORSO, true))
-        {
-        case SIZE_LITTLE:
-            result += "You are tiny and cannot use many weapons and most armour.\n";
-            break;
-        case SIZE_SMALL:
-            result += "You are small and have problems with some larger weapons.\n";
-            break;
-        case SIZE_LARGE:
-            result += "You are too large for most types of armour.\n";
-            break;
-        default:
-            break;
-        }
+    case SIZE_LITTLE:
+        result += "You are tiny and cannot use many weapons and most armour.\n";
+        break;
+    case SIZE_SMALL:
+        result += "You are small and have problems with some larger weapons.\n";
+        break;
+    case SIZE_LARGE:
+        result += "You are too large for most types of armour.\n";
+        break;
+    default:
+        break;
     }
+    
 
     // Could move this into species-data, but then the hack that assumes
     // _dragon_abil should get called on all draconian fake muts would break.
@@ -1091,9 +1090,8 @@ bool physiology_mutation_conflict(mutation_type mutat)
         return true;
     }
 
-    // Felids have innate claws, and unlike trolls/ghouls, there are no
-    // increases for them. And octopodes have no hands.
-    if ((you.species == SP_FELID || you.species == SP_OCTOPODE)
+    // Octopodes have no hands.
+    if (you.species == SP_OCTOPODE
          && mutat == MUT_CLAWS)
     {
         return true;
@@ -1404,9 +1402,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         case MUT_LARGE_BONE_PLATES:
             {
                 const char *arms;
-                if (you.species == SP_FELID)
-                    arms = "legs";
-                else if (you.species == SP_OCTOPODE)
+				if (you.species == SP_OCTOPODE)
                     arms = "tentacles";
                 else
                     break;
@@ -1420,9 +1416,7 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         case MUT_MISSING_HAND:
             {
                 const char *hands;
-                if (you.species == SP_FELID)
-                    hands = "front paws";
-                else if (you.species == SP_OCTOPODE)
+				if (you.species == SP_OCTOPODE)
                     hands = "tentacles";
                 else
                     break;
@@ -1874,8 +1868,6 @@ string mutation_desc(mutation_type mut, int level, bool colour,
         ostr << mdef.have[level - 1] << sanguine_armour_bonus() / 100 << ")";
         result = ostr.str();
     }
-    else if (!ignore_player && you.species == SP_FELID && mut == MUT_CLAWS)
-        result = "You have sharp claws.";
     else if (have_passive(passive_t::no_mp_regen) && mut == MUT_ANTIMAGIC_BITE)
         result = "Your bite disrupts the magic of your enemies.";
     else if (result.empty() && level > 0)

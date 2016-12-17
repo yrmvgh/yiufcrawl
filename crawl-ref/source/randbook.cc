@@ -992,7 +992,7 @@ void make_book_kiku_gift(item_def &book, bool first)
     {
         chosen_spells[0] = coinflip() ? SPELL_ANIMATE_DEAD
             : SPELL_CIGOTUVIS_EMBRACE;
-        chosen_spells[1] = (you.species == SP_FELID || coinflip())
+        chosen_spells[1] = coinflip()
             ? SPELL_AGONY : SPELL_EXCRUCIATING_WOUNDS;
         chosen_spells[2] = random_choose(SPELL_BOLT_OF_DRAINING,
                                          SPELL_SIMULACRUM,
@@ -1007,8 +1007,6 @@ void make_book_kiku_gift(item_def &book, bool first)
                                         SPELL_BOLT_OF_DRAINING,
                                         SPELL_SIMULACRUM,
                                         SPELL_DEATH_CHANNEL);
-            if (you.species == SP_FELID && extra_spell == SPELL_EXCRUCIATING_WOUNDS)
-                extra_spell = SPELL_NO_SPELL;
             for (int i = 0; i < 3; i++)
                 if (extra_spell == chosen_spells[i])
                     extra_spell = SPELL_NO_SPELL;

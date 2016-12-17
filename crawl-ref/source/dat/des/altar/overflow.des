@@ -124,8 +124,6 @@ function species_mock(e)
     e.kmons("1 = goblin ; mundane hand axe . mundane ring mail")
   elseif you.race() == "Human" then
     e.kmons("1 = killer klown")
-  elseif you.race() == "Felid" then
-    e.kmons("1 = sphinx zombie")
   elseif you.race() == "Formicid" then
     e.kmons("1 = soldier ant")
   elseif you.race() == "Gargoyle" then

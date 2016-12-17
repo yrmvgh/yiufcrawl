@@ -109,11 +109,11 @@ function trove.get_trove_item(e, value, base_item)
        {base="weapon", type="demon trident", quant=2+d(3)+d(3)},
        {base="weapon", type="demon blade", quant=2+d(3)+d(3)} }
 
-  if you.race() ~= "Felid" then
+	   
     for _, toll in ipairs(wpn) do
       table.insert(prices, toll)
     end
-  end
+
 
   local arm = {
        {base="armour", type="gold dragon scales", quant=1+d(2)},
@@ -122,7 +122,7 @@ function trove.get_trove_item(e, value, base_item)
        {base="armour", type="fire dragon scales", quant=d(3)+d(3)},
        {base="armour", type="ice dragon scales", quant=d(3)+d(3)} }
 
-  if you.race() ~= "Felid" and you.race() ~= "Octopode" then
+  if you.race() ~= "Octopode" then
     for _, toll in ipairs(arm) do
       table.insert(prices, toll)
     end

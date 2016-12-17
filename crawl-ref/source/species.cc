@@ -215,9 +215,6 @@ string species_prayer_action(species_type species)
             return "coil in front of";
         case SP_OCTOPODE:
             return "curl up in front of";
-        case SP_FELID:
-            // < TGWi> you curl up on the altar and go to sleep
-            return "sit before";
         default:
             return "kneel at";
     }

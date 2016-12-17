@@ -956,9 +956,6 @@ ability_type fixup_ability(ability_type ability)
     case ABIL_TSO_BLESS_WEAPON:
     case ABIL_KIKU_BLESS_WEAPON:
     case ABIL_LUGONU_BLESS_WEAPON:
-        if (you.species == SP_FELID)
-            return ABIL_NON_ABILITY;
-        else
             return ability;
 
     case ABIL_ELYVILON_HEAL_OTHER:

@@ -723,8 +723,7 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
 
     case EQ_WEAPON:
     case EQ_STAFF:
-        return you.species == SP_FELID ? MB_FALSE :
-               you.body_size(PSIZE_TORSO, !temp) < SIZE_MEDIUM ? MB_MAYBE :
+        return you.body_size(PSIZE_TORSO, !temp) < SIZE_MEDIUM ? MB_MAYBE :
                                          MB_TRUE;
 
     // You can always wear at least one ring (forms were already handled).
@@ -804,7 +803,6 @@ maybe_bool you_can_wear(equipment_type eq, bool temp)
 bool player_has_feet(bool temp)
 {
     if (you.species == SP_NAGA
-        || you.species == SP_FELID
         || you.species == SP_OCTOPODE
 #if TAG_MAJOR_VERSION == 34
         || you.species == SP_DJINNI
@@ -2752,18 +2750,6 @@ bool will_gain_life(int lev)
     return you.lives + you.deaths < (lev - 1) / 3;
 }
 
-static void _felid_extra_life()
-{
-    if (will_gain_life(you.max_level)
-        && you.lives < 2)
-    {
-        you.lives++;
-        mprf(MSGCH_INTRINSIC_GAIN, "Extra life!");
-        you.attribute[ATTR_LIFE_GAINED] = you.max_level;
-        // Should play the 1UP sound from SMB...
-    }
-}
-
 static void _gain_and_note_hp_mp()
 {
     const int old_mp = you.magic_points;
@@ -3047,10 +3033,6 @@ void level_change(bool skip_attribute_increase)
                 break;
             }
 
-            case SP_FELID:
-                _felid_extra_life();
-                break;
-
             default:
                 break;
             }
@@ -3079,8 +3061,6 @@ void level_change(bool skip_attribute_increase)
         ASSERT(you.experience_level == you.get_max_xl());
         ASSERT(you.max_level < 127); // marshalled as an 1-byte value
         you.max_level++;
-        if (you.species == SP_FELID)
-            _felid_extra_life();
     }
 
     you.redraw_title = true;
@@ -3113,9 +3093,6 @@ void adjust_level(int diff, bool just_xp)
         while (diff < 0 && you.experience >=
                 exp_needed(max_exp_level))
         {
-            // Having XP for level 53 and going back to 26 due to a single
-            // card would mean your felid is not going to get any extra lives
-            // in foreseable future.
             you.experience -= exp_needed(max_exp_level)
                     - exp_needed(max_exp_level - 1);
             diff++;
@@ -3189,13 +3166,6 @@ int check_stealth()
 
     int stealth = you.dex() * 3;
 
-    if (you.form == TRAN_BLADE_HANDS && you.species == SP_FELID
-        && !you.airborne())
-    {
-        stealth -= 50; // klack klack klack go the blade paws
-        // this is an absurd special case but also it's really funny so w/e
-    }
-
     stealth += you.skill(SK_STEALTH, _stealth_mod());
 
     if (you.confused())
@@ -3250,9 +3220,6 @@ int check_stealth()
 
         else if (you.has_usable_hooves())
             stealth -= 5 + 5 * player_mutation_level(MUT_HOOVES);
-
-        else if (you.species == SP_FELID && (!you.form || you.form == TRAN_APPENDAGE))
-            stealth += 20;  // paws
     }
 
     // Radiating silence is the negative complement of shouting all the
@@ -5553,11 +5520,7 @@ string player::shout_verb(bool directed) const
 
     const int screaminess = max(player_mutation_level(MUT_SCREAM) - 1, 0);
 
-    if (species != SP_FELID)
-        return shout_verbs[screaminess];
-    if (directed && screaminess == 0)
-        return "hiss"; // hiss at, not meow at
-    return felid_shout_verbs[screaminess];
+    return shout_verbs[screaminess];
 }
 
 /**

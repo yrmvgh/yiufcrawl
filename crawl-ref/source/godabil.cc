@@ -4482,14 +4482,6 @@ bool gozag_call_merchant()
             continue;
         if (type == SHOP_EVOKABLES && player_mutation_level(MUT_NO_ARTIFICE))
             continue;
-        if (you.species == SP_FELID &&
-            (type == SHOP_ARMOUR
-             || type == SHOP_ARMOUR_ANTIQUE
-             || type == SHOP_WEAPON
-             || type == SHOP_WEAPON_ANTIQUE))
-        {
-            continue;
-        }
         valid_shops.push_back(type);
     }
 

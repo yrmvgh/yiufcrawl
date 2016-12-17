@@ -353,8 +353,6 @@ elseif you.transform() == "statue" then
     return "marble-toed"
 elseif you.transform() == "dragon" then
     return "opal-scaled"
-elseif you.race() == "Felid" then
-    return "pillow-pawed"
 elseif you.race() == "Octopode" then
     return "soft-tentacled"
 elseif you.race() == "Formicid" then
@@ -1840,8 +1838,6 @@ VISUAL:@The_monster@ whirls about in circles.
 _player_arms_
 
 {{
-if you.race() == "Felid" then
-    return "paws"
 elseif you.race() == "Octopode" then
     return "tentacles"
 elseif you.race() == "Formicid" then

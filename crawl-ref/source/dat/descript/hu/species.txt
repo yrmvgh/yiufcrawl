@@ -22,11 +22,6 @@ Draconian
 A sárkányfattyak sokoldalúak. A 7. szintet elérve válnak felnőtté és szerzik
 meg színüket.
 %%%%
-Felid
-
-Ezek a macskák értelmesek, de nem tudnak használni se fegyvereket, se
-páncélokat és sok más tárgyat sem.
-%%%%
 Ghoul
 
 Egy örök rothadásra ítélt élőhalott. Folyton rohadt húsra vágynak, hogy éles

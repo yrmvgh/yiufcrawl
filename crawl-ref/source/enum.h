@@ -4272,7 +4272,9 @@ enum species_type
     SP_MERFOLK,
     SP_VAMPIRE,
     SP_DEEP_DWARF,
+#if TAG_MAJOR_VERSION == 34
     SP_FELID,
+#endif
     SP_OCTOPODE,
 #if TAG_MAJOR_VERSION == 34
     SP_DJINNI,

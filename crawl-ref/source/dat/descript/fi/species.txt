@@ -22,11 +22,6 @@ Draconian
 Draconianit ovat monipuolisia hybridejä. Ne aikuistuvat tasolla 7, kehittäen
 itselleen värin.
 %%%%
-Felid
-
-Näillä kissoilla on älykkyttä, mutta ne eivät pysty panssarin tai aseistuksen
-käyttöön.
-%%%%
 Ghoul
 
 Epäkuollut, kirottu mätänemään ikuisesti. He aina etsivät syötäväksi

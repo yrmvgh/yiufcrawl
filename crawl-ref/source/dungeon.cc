@@ -4173,13 +4173,13 @@ static object_class_type _acquirement_object_class()
         OBJ_JEWELLERY,
         OBJ_BOOKS,
         OBJ_WANDS,
-        OBJ_MISCELLANY, // Felids stop here
+        OBJ_MISCELLANY,
         OBJ_WEAPONS,
         OBJ_ARMOUR,
         OBJ_STAVES,
     };
 
-    const int nc = (you.species == SP_FELID) ? 4 : ARRAYSZ(classes);
+    const int nc = ARRAYSZ(classes);
     return classes[random2(nc)];
 }
 

@@ -2201,7 +2201,7 @@ static void _get_hand_type(string &hand, bool &can_plural)
     }
 
     if (!form_changed_physiology()
-        && you.species != SP_FELID && you.species != SP_OCTOPODE)
+		&& you.species != SP_OCTOPODE)
     {
         hand_vec.emplace_back("elbow");
         plural_vec.push_back(true);

@@ -22,11 +22,6 @@ Draconian
 Drakošai yra įvairiapusiški mišrūnai. Jie subręsta pasiekę 7 lygį ir įgauna
 spalvą.
 %%%%
-Felid
-
-Šie katinai turi sąmonę, bet yra nepajėgūs valdyti sudėtingesnių daiktų, šarvų
-ir ginklų.
-%%%%
 Ghoul
 
 Nemirėliai, prakeikti amžinai pūti. Jie visada ieško supuvusio maisto,

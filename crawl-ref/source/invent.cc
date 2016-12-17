@@ -1958,7 +1958,7 @@ bool prompt_failed(int retval)
 bool item_is_wieldable(const item_def &item)
 {
     if (is_weapon(item) || item.base_type == OBJ_RODS)
-        return you.species != SP_FELID;
+        return true;
 
     if (item.base_type == OBJ_MISSILES
         && (item.sub_type == MI_STONE

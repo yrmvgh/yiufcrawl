@@ -159,12 +159,9 @@
   end
 
   function weapon_creation(e)
-    if you.race() == "Felid" then
-      e.kitem("{ = ring of slaying plus:27000 ident:all no_pickup not_cursed")
-    else
-      e.kitem("{ = axe_of_woe")
-    end
+    e.kitem("{ = axe_of_woe")
   end
+
 
   local border_top =
     "------------------------------------------------------------------------------\n" ..

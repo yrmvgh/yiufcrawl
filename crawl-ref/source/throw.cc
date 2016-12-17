@@ -355,12 +355,6 @@ static bool _fire_validate_item(int slot, string &err)
 // Returns true if warning is given.
 bool fire_warn_if_impossible(bool silent)
 {
-    if (you.species == SP_FELID)
-    {
-        if (!silent)
-            mpr("You can't grasp things well enough to throw them.");
-        return true;
-    }
 
     // If you can't wield it, you can't throw it.
     if (!form_can_wield())

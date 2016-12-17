@@ -1367,10 +1367,8 @@ monster_type transform_mons()
 string blade_parts(bool terse)
 {
     string str;
-
-    if (you.species == SP_FELID)
-        str = terse ? "paw" : "front paw";
-    else if (you.species == SP_OCTOPODE)
+	
+	if (you.species == SP_OCTOPODE)
         str = "tentacle";
     else
         str = "hand";

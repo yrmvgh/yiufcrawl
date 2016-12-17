@@ -302,28 +302,6 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_FELID, {
-    "Fe",
-    "Felid", "Feline", "Cat",
-    SPF_NONE,
-    -1, -4, 1,
-    18, 6,
-    MONS_FELID,
-    HT_LAND, US_ALIVE, SIZE_LITTLE,
-    4, 9, 11, // 24
-    { STAT_INT, STAT_DEX }, 5,
-    { { MUT_CARNIVOROUS, 3, 1 }, { MUT_FAST, 1, 1 }, { MUT_FANGS, 3, 1 },
-      { MUT_SHAGGY_FUR, 1, 1 }, { MUT_ACUTE_VISION, 1, 1 }, { MUT_PAWS, 1, 1 },
-      { MUT_SLOW_METABOLISM, 1, 1 }, { MUT_CLAWS, 1, 1 },
-      { MUT_SHAGGY_FUR, 1, 6 }, { MUT_SHAGGY_FUR, 1, 12 }, },
-    { "You cannot wear armour.",
-      "You are incapable of wielding weapons or throwing items." },
-    { "no armour", "no weapons or thrown items" },
-    { JOB_BERSERKER, JOB_ENCHANTER, JOB_TRANSMUTER, JOB_ICE_ELEMENTALIST,
-      JOB_CONJURER, JOB_SUMMONER, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
-    { SK_UNARMED_COMBAT },
-} },
-
 { SP_FORMICID, {
     "Fo",
     "Formicid", nullptr, "Ant",
@@ -772,6 +750,28 @@ static const map<species_type, species_def> species_data =
     { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
       JOB_EARTH_ELEMENTALIST },
     { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },
+} },
+
+{ SP_FELID, {
+    "Fe",
+    "Felid", "Feline", "Cat",
+    SPF_NONE,
+    -1, -4, 1,
+    18, 6,
+    MONS_FELID,
+    HT_LAND, US_ALIVE, SIZE_LITTLE,
+    4, 9, 11, // 24
+    { STAT_INT, STAT_DEX }, 5,
+    { { MUT_CARNIVOROUS, 3, 1 }, { MUT_FAST, 1, 1 }, { MUT_FANGS, 3, 1 },
+      { MUT_SHAGGY_FUR, 1, 1 }, { MUT_ACUTE_VISION, 1, 1 }, { MUT_PAWS, 1, 1 },
+      { MUT_SLOW_METABOLISM, 1, 1 }, { MUT_CLAWS, 1, 1 },
+      { MUT_SHAGGY_FUR, 1, 6 }, { MUT_SHAGGY_FUR, 1, 12 }, },
+    { "You cannot wear armour.",
+      "You are incapable of wielding weapons or throwing items." },
+    { "no armour", "no weapons or thrown items" },
+    { JOB_BERSERKER, JOB_ENCHANTER, JOB_TRANSMUTER, JOB_ICE_ELEMENTALIST,
+      JOB_CONJURER, JOB_SUMMONER, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
+    { SK_UNARMED_COMBAT },
 } },
 #endif
 // Ideally this wouldn't be necessary...

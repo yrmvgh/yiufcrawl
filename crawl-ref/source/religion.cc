@@ -348,8 +348,7 @@ void god_power::display(bool gaining, const char* fmt) const
 {
     // hack: don't mention the necronomicon alone unless it wasn't
     // already mentioned by the other message
-    if (abil == ABIL_KIKU_GIFT_NECRONOMICON
-        && you.species != SP_FELID)
+    if (abil == ABIL_KIKU_GIFT_NECRONOMICON)
     {
         return;
     }
@@ -1108,15 +1107,7 @@ static bool _give_pakellas_gift()
     else if (you.piety >= piety_breakpoint(4)
              && you.num_total_gifts[GOD_PAKELLAS] == 4)
     {
-        // Felids get another high-level wand or evoker instead of a rod.
-        if (you.species == SP_FELID)
-        {
-            basetype = coinflip() ? OBJ_WANDS : OBJ_MISCELLANY;
-            subtype = (basetype == OBJ_WANDS) ? _pakellas_high_wand()
-                                              : _pakellas_high_misc();
-        }
-        else
-            basetype = OBJ_RODS;
+        basetype = OBJ_RODS;
     }
 
     if (basetype == OBJ_UNASSIGNED)
@@ -1754,10 +1745,6 @@ bool do_god_gift(bool forced)
             {
                 break;
             }
-
-            // Should gift catnip instead.
-            if (you.species == SP_FELID)
-                break;
 
             const bool need_missiles = _need_missile_gift(forced);
             object_class_type gift_type;

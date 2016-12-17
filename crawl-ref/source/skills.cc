@@ -112,8 +112,6 @@ static const char *skill_titles[NUM_SKILLS][6] =
 
 static const char *martial_arts_titles[6] =
     {"Unarmed Combat", "Insei", "Martial Artist", "Black Belt", "Sensei", "Grand Master"};
-static const char *claw_and_tooth_titles[6] =
-    {"Unarmed Combat", "Scratcher", "Gouger", "Ripper", "Eviscerator", "Sabretooth"};
 
 struct species_skill_aptitude
 {
@@ -1239,11 +1237,6 @@ string skill_title_by_rank(skill_type best_skill, uint8_t skill_rank,
             break;
 
         case SK_UNARMED_COMBAT:
-            if (species == SP_FELID)
-            {
-                result = claw_and_tooth_titles[skill_rank];
-                break;
-            }
             result = dex_better ? martial_arts_titles[skill_rank]
                                 : skill_titles[best_skill][skill_rank];
 

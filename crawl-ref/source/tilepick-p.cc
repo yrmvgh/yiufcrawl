@@ -618,8 +618,10 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
 #endif
     case SP_GARGOYLE:
         return TILEP_BASE_GARGOYLE;
+#if TAG_MAJOR_VERSION == 34
     case SP_FELID:
         return TILEP_BASE_FELID;
+#endif
     case SP_OCTOPODE:
         return TILEP_BASE_OCTOPODE;
 #if TAG_MAJOR_VERSION == 34

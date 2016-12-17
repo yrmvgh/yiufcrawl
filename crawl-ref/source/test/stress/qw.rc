@@ -1308,7 +1308,7 @@ end
 
 function intrinsic_sinv()
   local sp = you.race()
-  if sp == "Naga" or sp == "Felid" or sp == "Formicid" or sp == "Vampire" then
+  if sp == "Naga" or sp == "Formicid" or sp == "Vampire" then
     return true
   end
   return false
@@ -1343,14 +1343,13 @@ end
 
 -- not exactly gourmand, but close enough
 function intrinsic_gourmand()
-  return (you.race() == "Kobold" or you.race() == "Troll"
-          or you.race() == "Felid")
+  return (you.race() == "Kobold" or you.race() == "Troll")
 end
 
 -- these next few functions determine armour/dodging skilling
 function intrinsic_dodgy()
   local sp = you.race()
-  return (sp == "Deep Elf" or sp:find("Draconian") or sp == "Felid"
+  return (sp == "Deep Elf" or sp:find("Draconian")
           or sp == "Halfling" or sp == "High Elf" or sp == "Kobold"
           or sp == "Merfolk" or sp == "Ogre" or sp == "Octopode"
           or sp == "Spriggan" or sp == "Troll")
@@ -1369,9 +1368,6 @@ function intrinsic_like_dex()
 end
 
 function want_buckler()
-  if you.race() == "Felid" then
-    return false
-  end
   if wskill() == "Short Blades" or wskill() == "Unarmed Combat" then
     return true
   end
@@ -1392,7 +1388,7 @@ end
 -- used for backgrounds who don't get to choose a weapon
 function weapon_choice()
   sp = you.race()
-  if sp == "Felid" or sp == "Troll" or sp == "Ghoul" then
+  if sp == "Troll" or sp == "Ghoul" then
     return "Unarmed Combat"
   elseif sp == "Halfling" or sp == "High Elf" then
     return "Long Blades"
@@ -3434,11 +3430,8 @@ function plan_read_id()
         scroll_letter = items.index_to_letter(weap.slot)
         items.swap_slots(weap.slot, items.letter_to_index('Y'), false)
       end
-      if you.race() ~= "Felid" then
         return read2(scroll_letter, ".Y" .. string.char(27) .. "YB")
-      else
-        return read2(scroll_letter, ".Y" .. string.char(27) .. "YF")
-      end
+	  end
     end
   end
   return false
@@ -3522,11 +3515,8 @@ function plan_use_good_consumables()
   for it in inventory() do
     if it.class(true) == "scroll" and can_read() then
       if it.name():find("acquirement") then
-        if you.race() ~= "Felid" then
           return read2(it, " b")
-        else
-          return read2(it, " f")
-        end
+      end
       elseif it.name():find("enchant weapon") then
         weapon = items.equipped_at("weapon")
         if weapon and not weapon.artefact and
@@ -5209,7 +5199,6 @@ function handle_skills()
     end
   end
   if (you.base_skill("Armour") >= 26 or you.race():find("Draconian")
-                                     or you.race() == "Felid"
                                      or you.race() == "Octopode")
      and you.base_skill("Dodging") >= 26 then
     you.train_skill("Evocations", 1)

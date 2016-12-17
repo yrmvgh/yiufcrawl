@@ -415,15 +415,6 @@ bool player::could_wield(const item_def &item, bool ignore_brand,
 
         return true;
     }
-    else if (species == SP_FELID)
-    {
-        if (!quiet)
-        {
-            mprf("You can't use %s.",
-                 item.base_type == OBJ_RODS ? "rods" : "weapons");
-        }
-        return false;
-    }
     else if (item.base_type == OBJ_RODS)
         return true;
 
@@ -502,9 +493,6 @@ static string _hand_name_singular()
     if (!get_form()->hand_name.empty())
         return get_form()->hand_name;
 
-    if (you.species == SP_FELID)
-        return "paw";
-
     if (you.has_usable_claws())
         return "claw";
 
@@ -563,9 +551,6 @@ static string _foot_name_singular(bool *can_plural)
         *can_plural = false;
         return "underbelly";
     }
-
-    if (you.species == SP_FELID)
-        return "paw";
 
     if (you.fishtail)
     {
@@ -644,10 +629,7 @@ string player::unarmed_attack_name() const
 
     if (has_usable_claws(true))
     {
-        if (species == SP_FELID)
-            default_name = "Teeth and claws";
-        else
-            default_name = "Claws";
+		default_name = "Claws";
     }
     else if (has_usable_tentacles(true))
         default_name = "Tentacles";

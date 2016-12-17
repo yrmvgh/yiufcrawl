@@ -25,11 +25,6 @@ I draconici sono ibridi versatili. Al raggiungimento del livello sette maturano
 acquisendo il colore che deriva dalla loro parentela e delle relative
 caratteristiche.
 %%%%
-Felid
-
-I felidi sono gatti dalle molte vite sono senzienti, ma non sono in grado di
-manipolare oggetti complessi, né indossare armature e utilizzare le armi.
-%%%%
 Ghoul
 
 I ghoul sono non morti eternamente dannati a cibarsi di cibo avariato e a

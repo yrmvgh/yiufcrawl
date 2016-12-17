@@ -410,15 +410,12 @@ bool InventoryRegion::update_tip_text(string& tip)
             case OBJ_WEAPONS:
             case OBJ_STAVES:
             case OBJ_RODS:
-                if (you.species != SP_FELID)
-                {
-                    _handle_wield_tip(tmp, cmd);
+                _handle_wield_tip(tmp, cmd);
                     if (is_throwable(&you, item))
                     {
                         tmp += "\n[Ctrl + L-Click] Fire (f)";
                         cmd.push_back(CMD_FIRE);
                     }
-                }
                 break;
             case OBJ_WEAPONS + EQUIP_OFFSET:
                 _handle_wield_tip(tmp, cmd, "", true);
@@ -454,11 +451,8 @@ bool InventoryRegion::update_tip_text(string& tip)
                 _handle_wield_tip(tmp, cmd, "\n[Ctrl + L-Click] ", true);
                 break;
             case OBJ_ARMOUR:
-                if (you.species != SP_FELID)
-                {
-                    tmp += "Wear (%)";
-                    cmd.push_back(CMD_WEAR_ARMOUR);
-                }
+                tmp += "Wear (%)";
+                cmd.push_back(CMD_WEAR_ARMOUR);
                 break;
             case OBJ_ARMOUR + EQUIP_OFFSET:
                 tmp += "Take off (%)";
@@ -473,23 +467,17 @@ bool InventoryRegion::update_tip_text(string& tip)
                 cmd.push_back(CMD_REMOVE_JEWELLERY);
                 break;
             case OBJ_MISSILES:
-                if (you.species != SP_FELID)
-                {
-                    tmp += "Fire (%)";
-                    cmd.push_back(CMD_FIRE);
+				tmp += "Fire (%)";
+                cmd.push_back(CMD_FIRE);
 
-                    if (wielded || you.can_wield(item))
-                        _handle_wield_tip(tmp, cmd, "\n[Ctrl + L-Click] ", wielded);
-                }
+                if (wielded || you.can_wield(item))
+                    _handle_wield_tip(tmp, cmd, "\n[Ctrl + L-Click] ", wielded);
                 break;
             case OBJ_WANDS:
-                if (you.species != SP_FELID)
-                {
-                    tmp += "Evoke (%)";
-                    cmd.push_back(CMD_EVOKE);
-                    if (wielded)
-                        _handle_wield_tip(tmp, cmd, "\n[Ctrl + L-Click] ", true);
-                }
+				tmp += "Evoke (%)";
+                cmd.push_back(CMD_EVOKE);
+                if (wielded)
+                    _handle_wield_tip(tmp, cmd, "\n[Ctrl + L-Click] ", true);
                 break;
             case OBJ_BOOKS:
                 if (item_type_known(item) && item_is_spellbook(item)

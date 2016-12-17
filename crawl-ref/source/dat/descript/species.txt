@@ -28,11 +28,6 @@ Formicid
 Formicids are humanoid ants adept at digging. Their limbs are exceptionally
 strong and they live in a state of permanent stasis.
 %%%%
-Felid
-
-Felids are many-lived cats possessing sentience. They are incapable of advanced
-item manipulation or the use of armour or weapons.
-%%%%
 Ghoul
 
 Ghouls are undead creatures, damned to rot eternally. They have sharp claws,

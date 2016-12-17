@@ -103,7 +103,7 @@ KMONS:   N = tengu ; nothing
 KMONS:   O = draconian ; nothing
 KMONS:   P = demonspawn ; nothing
 KMONS:   Q = mummy
-KMONS:   R = felid
+KMONS:   R = nothing
 KMONS:   S = ghoul
 KMONS:   T = vampire spells:. ; nothing
 KMONS:   U = demigod ; nothing
@@ -165,7 +165,7 @@ KMASK:   EMNOQ = no_item_gen
 # Player monsters:
 KMONS: M = human / elf / orc; nothing / naga; nothing / centaur; nothing / \
            draconian; nothing / ogre; nothing / minotaur / troll / kobold / \
-           mummy / ghoul / spriggan; nothing / dwarf; nothing / felid / \
+           mummy / ghoul / spriggan; nothing / dwarf; nothing / \
            octopode; nothing / vampire spells:. / formicid; nothing / \
            gargoyle; nothing / vine stalker; nothing
 # Player monsters, zombie versions (ghouls drop out because they need sustenance
@@ -173,14 +173,13 @@ KMONS: M = human / elf / orc; nothing / naga; nothing / centaur; nothing / \
 KMONS: N = human zombie / elf zombie / orc zombie / naga zombie / ogre zombie / \
            centaur zombie / draconian zombie / minotaur zombie / troll zombie / \
            kobold zombie / mummy / spriggan zombie / merfolk zombie / \
-           dwarf zombie / felid zombie / octopode zombie / formicid zombie
+           dwarf zombie / octopode zombie / formicid zombie
 # Player monsters, skeleton versions (octopodes and formicids drop out because
 # they have no skeletons):
 KMONS: O = human skeleton / elf skeleton / orc skeleton / naga skeleton / \
            centaur skeleton / draconian skeleton / ogre skeleton / \
            minotaur skeleton / troll skeleton / kobold skeleton / mummy / \
-           spriggan skeleton / dwarf skeleton / merfolk skeleton / \
-           felid skeleton
+           spriggan skeleton / dwarf skeleton / merfolk skeleton
 # And now for something completely different (if any of these turn out to be
 # able to escape or project spells out of their cells, they should be removed):
 KMONS: Q = orb of fire / ice dragon / shadow dragon / iron dragon / \

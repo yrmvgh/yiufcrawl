@@ -1807,26 +1807,6 @@ static void _experience_check()
         mpr("With the way you've been playing, I'm surprised you got this far.");
     }
 
-    if (you.species == SP_FELID)
-    {
-        int xl = you.experience_level;
-        // calculate the "real" level
-        while (you.experience >= exp_needed(xl + 1))
-            xl++;
-        int nl = you.max_level;
-        // and the next level you'll get a life
-        do nl++; while (!will_gain_life(nl));
-
-        // old value was capped at XL27
-        perc = (you.experience - exp_needed(xl)) * 100
-             / (exp_needed(xl + 1) - exp_needed(xl));
-        perc = (nl - xl) * 100 - perc;
-        mprf(you.lives < 2 ?
-             "You'll get an extra life in %d.%02d levels' worth of XP." :
-             "If you died right now, you'd get an extra life in %d.%02d levels' worth of XP.",
-             perc / 100, perc % 100);
-    }
-
     handle_real_time();
     msg::stream << "Play time: " << make_time_string(you.real_time())
                 << " (" << you.num_turns << " turns)"
@@ -1845,12 +1825,6 @@ static void _experience_check()
 
 static void _do_remove_armour()
 {
-    if (you.species == SP_FELID)
-    {
-        mpr("You can't remove your fur, sorry.");
-        return;
-    }
-
     if (!form_can_wear())
     {
         mpr("You can't wear or remove anything in your present form.");
@@ -1933,12 +1907,6 @@ static void _do_display_map()
 
 static void _do_cycle_quiver(int dir)
 {
-    if (you.species == SP_FELID)
-    {
-        mpr("You can't grasp things well enough to throw them.");
-        return;
-    }
-
     const int cur = you.m_quiver.get_fire_item();
     const int next = get_next_fire_item(cur, dir);
 #ifdef DEBUG_QUIVER

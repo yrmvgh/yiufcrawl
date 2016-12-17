@@ -1364,13 +1364,7 @@ void print_stats()
     }
     you.wield_change  = false;
 
-    if (you.species == SP_FELID)
-    {
-        // There are no circumstances under which Felids could quiver something.
-        // Reduce line counter for status display.
-        yhack -= 1;
-    }
-    else if (you.redraw_quiver || you.wield_change)
+	if (you.redraw_quiver || you.wield_change)
         _print_stats_qv(10 + yhack);
 
     you.redraw_quiver = false;
@@ -2289,24 +2283,6 @@ static vector<formatted_string> _get_overview_stats()
 
     cols.add_formatted(3, entry.to_colour_string(), false);
     entry.clear();
-
-    if (you.species == SP_FELID)
-    {
-        entry.textcolour(HUD_CAPTION_COLOUR);
-        entry.cprintf("Lives:  ");
-
-        entry.textcolour(HUD_VALUE_COLOUR);
-        entry.cprintf("%d", you.lives);
-
-        entry.textcolour(HUD_CAPTION_COLOUR);
-        entry.cprintf("   Deaths: ");
-
-        entry.textcolour(HUD_VALUE_COLOUR);
-        entry.cprintf("%d", you.deaths);
-
-        cols.add_formatted(3, entry.to_colour_string(), false);
-        entry.clear();
-    }
 
     return cols.formatted_lines();
 }
