@@ -268,7 +268,7 @@ function fiery_guardians (e, intelligent, village)
                     .. " / orc sorcerer ; " .. magestuff)
         elseif set_weight < 6 then
             e.mons("two-headed ogre ; " .. ogrestuff .. " . " .. ogrestuff
-                   .. " / hill giant w:5 ; " .. ogrestuff
+                   .. " / two-headed ogre w:5 ; " .. ogrestuff
                    .. " / ogre w:5 ; " .. ogrestuff)
             e.kmons("2 = ogre mage w:40 ; " .. magestuff
                     .. " / Erolcha ; " .. ogrestuff .. " . robe " .. res
@@ -1081,7 +1081,7 @@ KFEAT:   ! = known alarm trap
 MONS:    mummy / vampire
 MONS:    troll skeleton / ogre skeleton / spriggan skeleton / centaur skeleton / \
          merfolk skeleton
-MONS:    hill giant skeleton / manticore skeleton / naga skeleton / \
+MONS:    two-headed ogre skeleton / manticore skeleton / naga skeleton / \
          two-headed ogre skeleton / minotaur skeleton / sphinx skeleton w:5
 KMONS:   4 = guardian mummy / Menkaure w:5, guardian mummy
 #        Loot: 21 gold, 10 items.

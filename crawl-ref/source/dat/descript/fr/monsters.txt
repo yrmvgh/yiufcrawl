@@ -1059,11 +1059,6 @@ hellwing
 
 Un hideux démon squelettique avec des ailes de peau séchée.
 %%%%
-hill giant
-
-Bien qu'étant une des plus petite espèce de géant, ce géant des collines est
-encore bien assez grand pour être dangereux.
-%%%%
 hobgoblin
 
 Un gobelin encore plus gros et plus moche, avec un tempérament plus difficile.
