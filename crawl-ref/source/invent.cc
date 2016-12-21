@@ -1748,10 +1748,6 @@ bool check_warning_inscriptions(const item_def& item,
  *                         items to be listed.
  * @param other_valid_char A character that, if not '\0', will cause
  *                         PROMPT_GOT_SPECIAL to be returned when pressed.
- * @param excluded_slot    An inventory slot that will be omitted from listings.
- * @param count            [out] The quantity of the selected item to perform
- *                         the operation on.
- *                         Also disables numeric inscription shortcuts.
  * @param oper             The operation_type that will be used on the result.
  *                         Modifies some checks, including applicability of
  *                         warning inscriptions.
@@ -1766,9 +1762,7 @@ int prompt_invent_item(const char *prompt,
                        menu_type mtype, int type_expect,
                        operation_types oper,
                        invent_prompt_flag flags,
-                       const char other_valid_char,
-                       int excluded_slot,
-                       int *const count)
+                       const char other_valid_char)
 {
     const bool do_warning = !(flags & INVPROMPT_NO_WARNING);
     const bool allow_list_known = !(flags & INVPROMPT_HIDE_KNOWN);
@@ -1776,7 +1770,7 @@ int prompt_invent_item(const char *prompt,
     const bool auto_list = !(flags & INVPROMPT_MANUAL_LIST);
     const bool allow_easy_quit = !(flags & INVPROMPT_ESCAPE_ONLY);
 
-    if (!any_items_of_type(type_expect, excluded_slot)
+    if (!any_items_of_type(type_expect)
         && type_expect == OSEL_THROWABLE
         && (oper == OPER_FIRE || oper == OPER_QUIVER)
         && mtype == MT_INVLIST)
@@ -1784,8 +1778,7 @@ int prompt_invent_item(const char *prompt,
         type_expect = OSEL_ANY;
     }
 
-    if (!any_items_of_type(type_expect, excluded_slot)
-        && type_expect != OSEL_WIELD)
+    if (!any_items_of_type(type_expect) && type_expect != OSEL_WIELD)
     {
         mprf(MSGCH_PROMPT, "%s",
              no_selectables_message(type_expect).c_str());
@@ -1847,7 +1840,7 @@ int prompt_invent_item(const char *prompt,
                         prompt,
                         mtype,
                         keyin == '*' ? OSEL_ANY : type_expect,
-                        excluded_slot,
+                        -1,
                         MF_SINGLESELECT | MF_ANYPRINTABLE | MF_NO_SELECT_QTY
                             | MF_EASY_EXIT,
                         nullptr,
@@ -1863,14 +1856,10 @@ int prompt_invent_item(const char *prompt,
             need_getch  = false;
 
             // Don't redraw if we're just going to display another listing
-            need_redraw = (keyin != '?' && keyin != '*')
-                          && !(count && auto_list && isadigit(keyin));
+            need_redraw = keyin != '?' && keyin != '*';
 
             if (!items.empty())
             {
-                if (count)
-                    *count = items[0].quantity;
-
                 if (!crawl_state.doing_prev_cmd_again)
                 {
                     redraw_screen();
@@ -1878,18 +1867,7 @@ int prompt_invent_item(const char *prompt,
                 }
             }
         }
-        else if (count != nullptr && isadigit(keyin))
-        {
-            // The "read in quantity" mode
-            keyin = _get_invent_quant(keyin, *count);
-
-            need_prompt = false;
-            need_getch  = false;
-
-            if (auto_list)
-                need_redraw = true;
-        }
-        else if (count == nullptr && isadigit(keyin))
+        else if (isadigit(keyin))
         {
             // scan for our item
             int res = digit_inscription_to_inv_index(keyin, oper);
