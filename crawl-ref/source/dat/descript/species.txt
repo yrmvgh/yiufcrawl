@@ -1,4 +1,10 @@
 %%%%
+
+Barachian
+
+Barachians are amphibious humanoids with an exceptionally vicious disposition.
+They can hop long distances, though their movement is otherwise somewhat slow.
+%%%%
 Deep Elf
 
 Deep Elves have a strong affinity for all kinds of magic, but are very fragile.
