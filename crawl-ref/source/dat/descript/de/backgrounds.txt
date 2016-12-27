@@ -9,11 +9,6 @@ Air Elementalist
 kennen den Spruch Stromschlag. Später erlaubt ihnen das breitgefächerte Buch
 der Winde, im Überlebenskampf zu bestehen.
 %%%%
-Arcane Marksman
-
-sind für den Fernkampf bewaffnet und verwenden Magie, um ihre Feinde anfälliger
-für derartige Angriffe zu machen.
-%%%%
 Artificer
 
 beginnen mit einigen magischen Gerätschaften und können mit solchen Werkzeugen

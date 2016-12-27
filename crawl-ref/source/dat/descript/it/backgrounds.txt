@@ -9,11 +9,6 @@ Air Elementalist
 Gli elementalisti dell'aria hanno imparato l'incantesimo Shock. Più avanti il
 loro Libro dell'Aria fornisce loro la flessibilità per sopravvivere.
 %%%%
-Arcane Marksman
-
-Gli arcieri arcani usano le armi a distanza e la magia per rendere gli
-avversari più vulnerabili agli attacchi da lontano.
-%%%%
 Artificer
 
 Gli artefici iniziano il gioco con alcuni oggetti magici e sono competenti nel

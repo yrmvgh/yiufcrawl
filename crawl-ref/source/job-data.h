@@ -43,16 +43,6 @@ static const map<job_type, job_def> job_data =
       { SK_DODGING, 2 }, { SK_STEALTH, 2 }, },
 } },
 
-{ JOB_ARCANE_MARKSMAN, {
-    "AM", "Arcane Marksman",
-    3, 5, 4,
-    { SP_FORMICID, SP_DEEP_ELF, SP_KOBOLD, SP_SPRIGGAN, SP_TROLL, SP_CENTAUR, },
-    { "robe", "book of Debilitation" },
-    WCHOICE_RANGED,
-    { { SK_FIGHTING, 1 }, { SK_DODGING, 2 }, { SK_SPELLCASTING, 1 },
-      { SK_HEXES, 3 }, { SK_WEAPON, 2 }, },
-} },
-
 { JOB_ARTIFICER, {
     "Ar", "Artificer",
     4, 3, 5,
@@ -319,6 +309,15 @@ static const map<job_type, job_def> job_data =
 
 { JOB_STALKER, {
     "St", "Stalker",
+    0, 0, 0,
+    { },
+    { },
+    WCHOICE_NONE,
+    { },
+} },
+
+{ JOB_ARCANE_MARKSMAN, {
+    "AM", "Arcane Marksman",
     0, 0, 0,
     { },
     { },

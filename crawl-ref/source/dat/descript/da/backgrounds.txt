@@ -9,11 +9,6 @@ Air Elementalist
 Lufttroldmænd har lært besværgelsen Stød. Senere giver deres Bogen om luften
 dem alsidighed nok til at overleve.
 %%%%
-Arcane Marksman
-
-Trolddomsskytter bærer skydevåben og bruger magi til at gøre deres fjender mere
-sårbare over for distanceangreb.
-%%%%
 Artificer
 
 Artefaktmagere starter med nogle magiske anordninger og er dygtige til at bruge

@@ -1,9 +1,4 @@
 %%%%
-Arcane Marksman
-
-Burvju strēlnieki nēsā tālcīņas ieročus, reizē arī izmantojot burvestības savu
-naidnieku novājināšanai pret uzbrukumiem no attāluma.
-%%%%
 Chaos Knight
 
 Haosa bruņinieki ir neparedzamā Ksorna spēlmantiņas, kas atkarīgas no dieva
