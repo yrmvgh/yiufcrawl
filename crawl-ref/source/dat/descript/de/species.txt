@@ -1,9 +1,4 @@
 %%%%
-Centaur
-
-Schnell, stark und massig. Zentauren brauchen mehr Nahrung als andere Spezies.
-Sie sind besonders geschickt im Umgang mit Fernkampfwaffen.
-%%%%
 Deep Elf
 
 Die magieaffinsten Elfen, aber auch die gebrechlichsten.

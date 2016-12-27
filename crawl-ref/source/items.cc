@@ -3511,7 +3511,9 @@ colour_t item_def::armour_colour() const
         case ARM_CLOAK:
             return WHITE;
         case ARM_NAGA_BARDING:
+#if TAG_MAJOR_VERSION == 34
         case ARM_CENTAUR_BARDING:
+#endif
             return GREEN;
         case ARM_ROBE:
             return RED;

@@ -229,10 +229,6 @@ Et lille stykke træ og metal, som spændes på den ene arm til forsvar. Det er
 lidt uhåndterligt, så en kriger uden en smule træning vil angribe en kende
 langsommere.
 %%%%
-centaur barding
-
-Rustning til kentaurer, som de kan bære på deres hestehalvdel.
-%%%%
 chain mail
 
 En rustning, som udelukkende består af små metalringe. Ringbrynje yder stærk

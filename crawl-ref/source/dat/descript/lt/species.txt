@@ -1,8 +1,4 @@
 %%%%
-Centaur
-
-Greiti, stiprūs ir stambūs, jie reikalauja daugiau maisto negu kitos rūšys.
-%%%%
 Deep Elf
 
 Gabiausias magijai, bet pats silpniausias elfas.

@@ -168,7 +168,7 @@ static const species_type species_order[] =
     // large species
     SP_OGRE,           SP_TROLL,
     // significantly different body type from human ("monstrous")
-    SP_NAGA,           SP_CENTAUR,
+    SP_NAGA,           
     SP_MERFOLK,        SP_MINOTAUR,
     SP_TENGU,          SP_BASE_DRACONIAN,
     SP_GARGOYLE,       SP_FORMICID,

@@ -691,7 +691,7 @@ ITEM:    book of ice / book of frost / randbook disc:ice numspells:6 w:2
 ITEM:    manual of ice magic
 : item("cloak " .. coldres .. " w:15 / pair of gloves good_item " ..
 :   " / hat good_item / naga barding " .. coldres .. " w:5 " ..
-:   " / centaur barding " .. coldres .. " w:5 / buckler " .. coldres .. " w:5")
+:   " / naga barding " .. coldres .. " w:5 / buckler " .. coldres .. " w:5")
 SHUFFLE: fg
 KPROP:   l = no_tele_into
 MAP
@@ -793,7 +793,7 @@ ITEM: demon whip good_item / demon blade good_item / demon trident good_item
 :   " / troll leather armour " .. coldres ..
 :   " / ice dragon scales good_item / robe ego:resistance ident:type / " ..
 :   " / naga barding " .. goodcoldres .. " w:5" ..
-:   " / centaur barding " .. goodcoldres .. " w:5" ..
+:   " / naga barding " .. goodcoldres .. " w:5" ..
 :   " / crystal plate armour " .. goodcoldres ..
 :   " / troll leather armour " .. goodcoldres)
 MAP

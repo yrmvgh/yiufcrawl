@@ -1,9 +1,4 @@
 %%%%
-Centaur
-
-Kentauři jsou rychlý, silní a velcí, a proto potřebují více potravy než jiné
-druhy. Jsou obzvláště zruční se zbraněmi na dálku.
-%%%%
 Deep Elf
 
 Magicky nejnadanější z elfů, ale také nejslabší tělem.

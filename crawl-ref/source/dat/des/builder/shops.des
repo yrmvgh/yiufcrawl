@@ -395,7 +395,6 @@ SUBST: G : YlG
 :   book of unlife | randbook disc:necromancy w:5 | necronomicon w:1 | \
 :   grand grimoire w:1 | sceptre_of_torment w:1 | \
 :   scythe_of_curses w:1 | majin-bo w:1 | \
-:   black_knights_horse_barding w:1 | \
 :   obsidian_axe w:1 | damnation w:1 | \
 :   sword_of_zonguldrok w:1")
 KFEAT: a = altar_kikubaaqudgha / altar_yredelemnul / altar_makhleb / \
@@ -429,30 +428,6 @@ nnn
 ._.
 ...
 .s.
-ENDMAP
-
-#####################################################
-# All bardings, all the time.
-NAME: nicolae_barding_shop
-DEPTH: D:8-, Depths, Snake, !Snake:$
-WEIGHT: 1
-TAGS: transparent
-: if you.in_branch("Snake") then
-KMONS: s = naga w:50 / naga warrior
-: else
-KMONS: s = centaur w:50 / centaur warrior
-: end
-KFEAT: s = armour shop type:Specialty suffix:Armours count:6 use_all ; \
-   naga barding | naga barding | naga barding good_item | \
-   centaur barding | centaur barding | centaur barding good_item
-MAP
-.......
-..xxx..
-.x...x.
-.x.s.x.
-.x...x.
-..xxx..
-.......
 ENDMAP
 
 #####################################################

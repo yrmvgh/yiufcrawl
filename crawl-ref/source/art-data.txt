@@ -997,17 +997,6 @@ COLOUR:   ETC_ELECTRICITY
 BRAND:    SPARM_RUNNING
 BOOL:     elec
 
-ENUM:     BLACK_KNIGHT_HORSE
-NAME:     Black Knight's horse barding
-OBJ:      OBJ_ARMOUR/ARM_CENTAUR_BARDING
-PLUS:     +10
-TILE:     urand_bk_barding
-TILE_EQ:  black_knight
-COLOUR:   ETC_UNHOLY
-BRAND:    SPARM_PONDEROUSNESS
-LIFE:     1
-BOOL:     poison, evil
-
 NAME:     amulet of Vitality
 OBJ:      OBJ_JEWELLERY/AMU_REGENERATION
 HP:       +15

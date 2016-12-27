@@ -361,10 +361,6 @@ Une petite pièce de bois et de métal faite pour se défendre en l'attachant à
 bras. C'est un petit peu encombrant, et sans un peu d'entrainement, il réduit
 la vitesse d'attaque du combattant qui l’arbore.
 %%%%
-centaur barding
-
-Une armure pour les centaures, à porter sur la partie équine.
-%%%%
 chain mail
 
 Une armure entièrement composée de petits anneaux de métal. Offrant une bonne

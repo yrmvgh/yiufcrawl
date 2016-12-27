@@ -825,7 +825,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_BASE_DRACONIAN,  SK_INVOCATIONS,     1),
     APT(SP_BASE_DRACONIAN,  SK_EVOCATIONS,      0),
 
-    // SP_CENTAUR
+#if TAG_MAJOR_VERSION == 34
     APT(SP_CENTAUR,         SK_FIGHTING,        0),
     APT(SP_CENTAUR,         SK_SHORT_BLADES,   -1),
     APT(SP_CENTAUR,         SK_LONG_BLADES,    -1),
@@ -840,13 +840,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_CENTAUR,         SK_ARMOUR,         -3),
     APT(SP_CENTAUR,         SK_DODGING,        -3),
     APT(SP_CENTAUR,         SK_STEALTH,        -3),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_CENTAUR,         SK_STABBING,      UNUSABLE_SKILL),
-#endif
     APT(SP_CENTAUR,         SK_SHIELDS,        -3),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_CENTAUR,         SK_TRAPS,         UNUSABLE_SKILL),
-#endif
     APT(SP_CENTAUR,         SK_UNARMED_COMBAT,  0),
     APT(SP_CENTAUR,         SK_SPELLCASTING,   -3),
     APT(SP_CENTAUR,         SK_CONJURATIONS,   -1),
@@ -863,6 +859,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_CENTAUR,         SK_POISON_MAGIC,   -2),
     APT(SP_CENTAUR,         SK_INVOCATIONS,     1),
     APT(SP_CENTAUR,         SK_EVOCATIONS,     -1),
+#endif
 
     // SP_DEMIGOD
     APT(SP_DEMIGOD,         SK_FIGHTING,       -1),
@@ -1342,6 +1339,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_DJINNI,          SK_ARMOUR,          1),
     APT(SP_DJINNI,          SK_DODGING,        -1),
     APT(SP_DJINNI,          SK_STEALTH,        -1),
+	APT(SP_DJINNI,        	SK_STABBING,      UNUSABLE_SKILL),
     APT(SP_DJINNI,          SK_SHIELDS,         0),
     APT(SP_DJINNI,          SK_TRAPS,         UNUSABLE_SKILL),
     APT(SP_DJINNI,          SK_UNARMED_COMBAT, -1),

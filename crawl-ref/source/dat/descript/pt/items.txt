@@ -113,10 +113,6 @@ buckler
 
 Um escudo pequeno.
 %%%%
-centaur barding
-
-Uma armadura feita para centauros vestirem sobre a sua metade equina.
-%%%%
 chain mail
 
 Um traje feito de anéis de metal entrelaçados.

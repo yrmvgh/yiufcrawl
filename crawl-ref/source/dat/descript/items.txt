@@ -302,10 +302,6 @@ A small piece of wood and metal, to be strapped on one arm for defence. It is
 cumbersome to wear, and impedes the evasion, spellcasting ability, and attack
 speed of an unskilled wearer.
 %%%%
-centaur barding
-
-An armour made for centaurs, to wear over their equine half.
-%%%%
 chain mail
 
 A suit of armour made entirely out of tiny metal rings.

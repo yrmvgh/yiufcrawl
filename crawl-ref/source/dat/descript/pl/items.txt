@@ -166,10 +166,6 @@ buckler
 
 Mała tarcza.
 %%%%
-centaur barding
-
-Końska zbroja, pasująca także na dolną część centaura.
-%%%%
 chain mail
 
 Zbroja wykonana z gęstej plecionki stalowych kółek.

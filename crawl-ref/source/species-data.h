@@ -46,25 +46,6 @@ struct species_def
 static const map<species_type, species_def> species_data =
 {
 
-{ SP_CENTAUR, {
-    "Ce",
-    "Centaur", nullptr, nullptr,
-    SPF_SMALL_TORSO,
-    -1, 1, 0,
-    9, 3,
-    MONS_CENTAUR,
-    HT_LAND, US_ALIVE, SIZE_LARGE,
-    10, 7, 4, // 21
-    { STAT_STR, STAT_DEX }, 4,
-    { { MUT_TOUGH_SKIN, 3, 1 }, { MUT_FAST, 2, 1 },  { MUT_DEFORMED, 1, 1 },
-      { MUT_HOOVES, 3, 1 }, },
-    {},
-    {},
-    { JOB_FIGHTER, JOB_GLADIATOR, JOB_HUNTER, JOB_WARPER},
-    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
-      SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
-} },
-
 { SP_DEEP_ELF, {
     "DE",
     "Deep Elf", "Elven", "Elf",
@@ -768,6 +749,25 @@ static const map<species_type, species_def> species_data =
     { JOB_BERSERKER, JOB_ENCHANTER, JOB_TRANSMUTER, JOB_ICE_ELEMENTALIST,
       JOB_CONJURER, JOB_SUMMONER, JOB_AIR_ELEMENTALIST },
     { SK_UNARMED_COMBAT },
+} },
+
+{ SP_CENTAUR, {
+    "Ce",
+    "Centaur", nullptr, nullptr,
+    SPF_SMALL_TORSO,
+    -1, 1, 0,
+    9, 3,
+    MONS_CENTAUR,
+    HT_LAND, US_ALIVE, SIZE_LARGE,
+    10, 7, 4, // 21
+    { STAT_STR, STAT_DEX }, 4,
+    { { MUT_TOUGH_SKIN, 3, 1 }, { MUT_FAST, 2, 1 },  { MUT_DEFORMED, 1, 1 },
+      { MUT_HOOVES, 3, 1 }, },
+    {},
+    {},
+    { JOB_FIGHTER, JOB_GLADIATOR, JOB_HUNTER, JOB_WARPER},
+    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
+      SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 #endif
 // Ideally this wouldn't be necessary...

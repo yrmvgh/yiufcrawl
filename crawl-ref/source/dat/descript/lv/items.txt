@@ -19,10 +19,6 @@ book of fixed theme
 
 Burvestību grāmata.
 %%%%
-centaur barding
-
-Kentauriem domātas bruņas, valkāšanai tā zirga daļai.
-%%%%
 cheese
 
 Siera gabals.

@@ -433,8 +433,10 @@ tileidx_t tilep_equ_boots(const item_def &item)
     if (item.sub_type == ARM_NAGA_BARDING)
         return TILEP_BOOTS_NAGA_BARDING + min(etype, 3);
 
+#if TAG_MAJOR_VERSION == 34
     if (item.sub_type == ARM_CENTAUR_BARDING)
         return TILEP_BOOTS_CENTAUR_BARDING + min(etype, 3);
+#endif
 
     if (item.sub_type != ARM_BOOTS)
         return 0;
@@ -594,8 +596,10 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
         const int colour_offset = _draconian_colour(sp, level);
         return TILEP_BASE_DRACONIAN + colour_offset * 2;
     }
+#if TAG_MAJOR_VERSION == 34
     case SP_CENTAUR:
         return TILEP_BASE_CENTAUR;
+#endif
     case SP_DEMIGOD:
         return TILEP_BASE_DEMIGOD;
     case SP_SPRIGGAN:

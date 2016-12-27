@@ -101,7 +101,7 @@
 
       elseif s == "C" then i = { "book of callings", "book of cantrips", "club",
        "book of changes", "book of conjurations", "potion of cure mutation",
-       "centaur barding", "chain mail", "crystal ball of energy", "cloak",
+       "chain mail", "crystal ball of energy", "cloak",
        "crystal plate armour", "potion of cancellation", "rod of clouds",
        "book of clouds", "staff of cold", "wand of confusion", "cutlass",
        "staff of conjuration", "manual of crossbows", "manual of conjurations",

@@ -245,7 +245,7 @@ static species_type _get_hints_species(unsigned int type)
     case HINT_MAGIC_CHAR:
         return SP_DEEP_ELF;
     case HINT_RANGER_CHAR:
-        return SP_CENTAUR;
+        return SP_SPRIGGAN;
     default:
         // Use something fancy for debugging.
         return SP_TENGU;
@@ -1277,12 +1277,10 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
         cmd.push_back(CMD_REMOVE_ARMOUR);
         cmd.push_back(CMD_DISPLAY_INVENTORY);
 
-        if (you.species == SP_CENTAUR || you.species == SP_MINOTAUR)
+        if (you.species == SP_MINOTAUR)
         {
             text << "\nNote that as a " << species_name(you.species)
-                 << " you will be unable to wear "
-                 << (you.species == SP_CENTAUR ? "boots" : "helmets")
-                 << ".";
+                 << " you will be unable to wear helmets.";
         }
         break;
 
@@ -2126,12 +2124,6 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
         text << "Whenever your health is very low and you're in danger of "
                 "dying, check your options carefully. Often, retreat or use "
                 "of some item might be a viable alternative to fighting on.";
-
-        if (you.species == SP_CENTAUR)
-        {
-            text << " As a four-legged centaur you are particularly quick - "
-                    "running is an option!";
-        }
 
         text << " If retreating to another level, keep in mind that monsters "
                 "may follow you if they're standing right next to you when "
@@ -3178,15 +3170,8 @@ string hints_describe_item(const item_def &item)
         case OBJ_ARMOUR:
         {
             bool wearable = true;
-            if (you.species == SP_CENTAUR && item.sub_type == ARM_BOOTS)
-            {
-                ostr << "As a Centaur you cannot wear boots. "
-                        "(Type <w>%</w> to see a list of your mutations and "
-                        "innate abilities.)";
-                cmd.push_back(CMD_DISPLAY_MUTATIONS);
-                wearable = false;
-            }
-            else if (you.species == SP_MINOTAUR && is_hard_helmet(item))
+
+            if (you.species == SP_MINOTAUR && is_hard_helmet(item))
             {
                 ostr << "As a Minotaur you cannot wear helmets. "
                         "(Type <w>%</w> to see a list of your mutations and "
@@ -3194,11 +3179,7 @@ string hints_describe_item(const item_def &item)
                 cmd.push_back(CMD_DISPLAY_MUTATIONS);
                 wearable = false;
             }
-            else if (item.sub_type == ARM_CENTAUR_BARDING)
-            {
-                ostr << "Only centaurs can wear centaur barding.";
-                wearable = false;
-            }
+
             else if (item.sub_type == ARM_NAGA_BARDING)
             {
                 ostr << "Only nagas can wear naga barding.";

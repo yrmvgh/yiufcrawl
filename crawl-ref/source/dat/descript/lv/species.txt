@@ -1,9 +1,4 @@
 %%%%
-Centaur
-
-Spēji, stipri un miesīgi. Kentauriem vajag vairāk pārtikas kā citām sugām. Viņi
-ir īpaši prasmīgi ar tālcīņas ieročiem.
-%%%%
 Demigod
 
 Viņi nekad nesekos dievam, taču Pusdievi to kompensē ar dievišķām spējām un

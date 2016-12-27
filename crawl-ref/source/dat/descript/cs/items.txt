@@ -67,10 +67,6 @@ bread ration
 
 Ztvrdlé, ale vydatné pečivo.
 %%%%
-centaur barding
-
-Zbroj určená kentaurům, kteří jej nosí na své koňské polovině těla.
-%%%%
 cheese
 
 Kus sýra.

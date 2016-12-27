@@ -605,16 +605,12 @@ function armour_value(it, cur, it2)
   -- name always starts with {boots armour} here
   -- ^ is no longer true I think?
   if good_slots[st] == "Boots" then
-    if you.race() == "Centaur" then
-      if not (name:find("centaur barding")
-              or name:find("horse barding")) then
-        return -1,-1
-      end
-    elseif you.race() == "Naga" then
+    if you.race() == "Naga" then
       if not (name:find("naga barding")
               or name:find("lightning scales")) then
         return -1,-1
       end
+	end
     else
       if name:find("barding") then
         return -1,-1
@@ -1326,7 +1322,7 @@ end
 function intrinsic_fumble()
   local sp = you.race()
   if sp == "Merfolk" or sp == "Octopode" or sp == "Grey Draconian" or
-     sp == "Centaur" or sp == "Naga" or sp == "Troll" or sp == "Ogre" then
+     sp == "Naga" or sp == "Troll" or sp == "Ogre" then
     return false
   end
   return true
@@ -1629,7 +1625,7 @@ function player_speed_num()
   local num = 3
   if you.god() == "Cheibriados" then
     num = 1
-  elseif you.race() == "Spriggan" or you.race() == "Centaur" then
+  elseif you.race() == "Spriggan" then
     num = 4
   elseif you.race() == "Naga" then
     num = 2
@@ -2158,8 +2154,7 @@ function target_shield_skill()
   elseif you.race() == "Spriggan" then
     size = 9
   elseif you.race() == "Troll" or you.race() == "Ogre"
-         or you.race() == "Formicid" or you.race() == "Naga"
-         or you.race() == "Centaur" then
+         or you.race() == "Formicid" or you.race() == "Naga" then
     size = 3
   end
   return (shield.encumbrance * size)
@@ -3602,8 +3597,7 @@ function plan_use_good_consumables()
            base_mutation("dopey") > 1 or
            intrinsic_like_dex() and base_mutation("clumsy") > 1 or
            base_mutation("teleportitis") > 0 or
-           base_mutation("deformed body") > 0 and you.race() ~= "Naga"
-           and you.race() ~= "Centaur" or
+           base_mutation("deformed body") > 0 and you.race() ~= "Naga" or
            base_mutation("berserk") > 0 or
            base_mutation("deterioration") > 1 or
            base_mutation("blurry vision") > 0 or

@@ -1868,23 +1868,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
                                     : ARM_FIRE_DRAGON_ARMOUR;
         break;
 
-    // Centaurs sometimes wear barding.
-    case MONS_CENTAUR:
-    case MONS_CENTAUR_WARRIOR:
-    case MONS_YAKTAUR:
-    case MONS_YAKTAUR_CAPTAIN:
-        if (one_chance_in(type == MONS_CENTAUR              ? 1000 :
-                          type == MONS_CENTAUR_WARRIOR      ?  500 :
-                          type == MONS_YAKTAUR              ?  300
-                       /* type == MONS_YAKTAUR_CAPTAIN ? */ :  200))
-        {
-            item.base_type = OBJ_ARMOUR;
-            item.sub_type  = ARM_CENTAUR_BARDING;
-        }
-        else
-            return;
-        break;
-
     case MONS_NAGA:
     case MONS_NAGA_MAGE:
     case MONS_NAGA_RITUALIST:
@@ -2026,11 +2009,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
     case MONS_EUSTACHIO:
         item.base_type = OBJ_ARMOUR;
         item.sub_type  = ARM_LEATHER_ARMOUR;
-        break;
-
-    case MONS_NESSOS:
-        item.base_type = OBJ_ARMOUR;
-        item.sub_type  = ARM_CENTAUR_BARDING;
         break;
 
     case MONS_NIKOLA:
