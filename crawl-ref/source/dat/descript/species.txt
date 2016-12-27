@@ -31,7 +31,7 @@ strong and they live in a state of permanent stasis.
 Ghoul
 
 Ghouls are undead creatures, damned to rot eternally. They have sharp claws,
-and they feed on decaying flesh to sustain themselves.
+and they restore health when they slay enemies.
 %%%%
 Gargoyle
 
