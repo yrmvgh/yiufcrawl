@@ -104,15 +104,6 @@ Transmuter
 Los Transmutadores cambian su forma para luchar con una forma de bestia. Pueden
 convertir palos en serpientes además.
 %%%%
-Venom Mage
-
-Los Magos del Veneno comienzan con el Manual del Joven Envenenador y el hechizo
-Aguijón. Al comienzo no tienen demasiados problemas.
-%%%%
-Wanderer
-
-Los Viajeros comienzan con capacidades y una equipación al azar.
-%%%%
 Warper
 
 Los urdidores comienzan con un arma de que hayan elegido y un pergamino de

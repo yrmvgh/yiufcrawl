@@ -103,11 +103,6 @@ Transmuter
 I trasmutatori cambiano la loro forma per combattere con l'aspetto delle
 bestie. Possono anche trasformare bastoni in serpenti.
 %%%%
-Venom Mage
-
-I maghi del veleno cominciano con il Libro del Giovane Avvelenatore e
-l'incantesimo Pungiglione. I loro inizi nel dungeon sono abbastanza facili.
-%%%%
 Wanderer
 
 Gli erranti cominciano con equipaggiamento e abilità casuali.

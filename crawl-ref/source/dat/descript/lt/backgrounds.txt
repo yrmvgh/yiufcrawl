@@ -80,11 +80,6 @@ Transmuter
 Keitėjai keičia savo formą, kad galėtų kovoti žvėries pavidalu. Jie taip pat
 moka paversti lazdas į gyvates.
 %%%%
-Venom Mage
-
-Nuodų Magai pradeda su Jaunojo Nuodytojo Vadovėliu ir Geluonies burtažodžiu.
-Jiems lengva nuo pat pradžių.
-%%%%
 Wanderer
 
 Klajokliai pradeda su atsitiktiniais reikmenimis ir įgūdžiais.

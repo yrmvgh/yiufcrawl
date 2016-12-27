@@ -84,11 +84,6 @@ Transmuter
 Muodonmuuttajat muuttavat kehoaan petomaisemmaksi taistelua varten. Kepitkin
 muuttuvat kätevästi käärmeiksi.
 %%%%
-Venom Mage
-
-Myrkkymaagit aloittavat Nuoren myrkyttäjän käsikirjalla ja Pisto-taialla.
-Heillä on helppoa aluksi.
-%%%%
 Wanderer
 
 Vaeltajat aloittavat satunnaisella varustuksella ja taidoilla.

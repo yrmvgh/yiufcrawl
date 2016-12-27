@@ -93,11 +93,6 @@ Transmuter
 Transmuters start with the book of Changes. They can learn spells to shift
 their form, as well as to turn sticks into snakes.
 %%%%
-Venom Mage
-
-Venom Mages start with the Young Poisoner's Handbook and the Sting spell, and
-their poison magic is very effective against susceptible foes.
-%%%%
 Wanderer
 
 Wanderers start with random equipment and skills.

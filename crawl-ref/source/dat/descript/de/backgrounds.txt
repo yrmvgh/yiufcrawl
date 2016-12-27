@@ -102,11 +102,6 @@ Transmuter
 Verwandler ändern ihre Form in die eines Monsters. Sie können außerdem Stäbe in
 Schlangen verwandeln.
 %%%%
-Venom Mage
-
-Giftmagier starten mit dem Handbuch des jungen Giftmörders und dem
-Stich-Zauberspruch. Sie haben es am Anfang ziemlich leicht.
-%%%%
 Wanderer
 
 Wanderer beginnen mit zufälliger Ausrüstung und Fertigkeiten.

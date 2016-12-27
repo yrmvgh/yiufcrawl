@@ -109,11 +109,6 @@ Transmuter
 Les Transmuteurs changent leur forme pour combattre avec des attributs
 bestiaux. Ils sont aussi capables de transformer des bâtons en serpent.
 %%%%
-Venom Mage
-
-Les Mages Venimeux commence avec le Manuel du Jeune Empoisonneur et le sort
-Piqûre. Le début est assez facile pour eux.
-%%%%
 Wanderer
 
 Les Vagabonds commencent avec un équipement et des compétences aléatoires.

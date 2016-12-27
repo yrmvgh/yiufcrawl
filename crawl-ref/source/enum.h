@@ -2341,7 +2341,9 @@ enum job_type
     JOB_AIR_ELEMENTALIST,
     JOB_EARTH_ELEMENTALIST,
     JOB_SKALD,
+#if TAG_MAJOR_VERSION == 34
     JOB_VENOM_MAGE,
+#endif
     JOB_CHAOS_KNIGHT,
     JOB_TRANSMUTER,
 #if TAG_MAJOR_VERSION == 34
@@ -2352,8 +2354,8 @@ enum job_type
     JOB_WARPER,
     JOB_WANDERER,
     JOB_ARTIFICER,                     //   Greenberg/Bane
-    JOB_ARCANE_MARKSMAN,
 #if TAG_MAJOR_VERSION == 34
+    JOB_ARCANE_MARKSMAN,
     JOB_DEATH_KNIGHT,
 #endif
     JOB_ABYSSAL_KNIGHT,

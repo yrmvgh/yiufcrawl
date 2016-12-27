@@ -105,11 +105,6 @@ Transmuter
 Forvandlere ændrer deres krop, så de kan kæmpe i form af et dyr. De kan også
 forvandle pinde til slanger.
 %%%%
-Venom Mage
-
-Gifttroldmænd starter med Den unge giftblanders håndbog og besværgelsen Stik.
-De har det ret let i begyndelsen.
-%%%%
 Wanderer
 
 Vandringsmænd starter med tilfældigt udstyr og færdigheder.
