@@ -182,7 +182,7 @@ static skill_type _wanderer_role_weapon_select(stat_type role)
 
     const skill_type casting_schools[] =
         { SK_SUMMONINGS, SK_NECROMANCY, SK_TRANSLOCATIONS,
-          SK_TRANSMUTATIONS, SK_POISON_MAGIC, SK_CONJURATIONS,
+          SK_TRANSMUTATIONS, SK_CONJURATIONS,
           SK_HEXES, SK_CHARMS, SK_FIRE_MAGIC, SK_ICE_MAGIC,
           SK_AIR_MAGIC, SK_EARTH_MAGIC };
 
@@ -290,10 +290,6 @@ static void _give_wanderer_book(skill_type skill)
 
     case SK_EARTH_MAGIC:
         book = BOOK_GEOMANCY;
-        break;
-
-    case SK_POISON_MAGIC:
-        book = BOOK_YOUNG_POISONERS;
         break;
 
     case SK_HEXES:
@@ -537,7 +533,6 @@ static void _wanderer_good_equipment(skill_type & skill)
     case SK_ICE_MAGIC:
     case SK_AIR_MAGIC:
     case SK_EARTH_MAGIC:
-    case SK_POISON_MAGIC:
     case SK_HEXES:
     case SK_CHARMS:
         _give_wanderer_book(skill);
@@ -626,7 +621,6 @@ static void _wanderer_decent_equipment(skill_type & skill,
     case SK_ICE_MAGIC:
     case SK_AIR_MAGIC:
     case SK_EARTH_MAGIC:
-    case SK_POISON_MAGIC:
         _give_wanderer_minor_book(skill);
         break;
 

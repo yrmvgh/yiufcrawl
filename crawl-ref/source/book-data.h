@@ -82,13 +82,13 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_DISCORD,
 },
 
+#if TAG_MAJOR_VERSION == 34
 {   // Young Poisoner's Handbook
-    SPELL_STING,
     SPELL_MEPHITIC_CLOUD,
     SPELL_OLGREBS_TOXIC_RADIANCE,
     SPELL_INTOXICATE,
-    SPELL_VENOM_BOLT,
 },
+#endif
 
 {   // Book of the Tempests
     SPELL_DISCHARGE,
@@ -152,7 +152,6 @@ static const vector<spell_type> spellbook_templates[] =
 {   // Book of Clouds
     SPELL_MEPHITIC_CLOUD,
     SPELL_CONJURE_FLAME,
-    SPELL_POISONOUS_CLOUD,
     SPELL_FREEZING_CLOUD,
     SPELL_RING_OF_FLAMES,
 },
@@ -214,7 +213,6 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_SPIDER_FORM,
     SPELL_OLGREBS_TOXIC_RADIANCE,
     SPELL_INTOXICATE,
-    SPELL_POISONOUS_CLOUD,
 },
 #endif
 
@@ -271,7 +269,6 @@ static const vector<spell_type> spellbook_templates[] =
 {   // Book of Power
     SPELL_FULMINANT_PRISM,
     SPELL_ISKENDERUNS_MYSTIC_BLAST,
-    SPELL_VENOM_BOLT,
     SPELL_BOLT_OF_MAGMA,
     SPELL_IRON_SHOT,
     SPELL_IOOD,
@@ -353,7 +350,6 @@ static const vector<spell_type> spellbook_templates[] =
 },
 
 {   // Book of Annihilations
-    SPELL_POISON_ARROW,
     SPELL_CHAIN_LIGHTNING,
     SPELL_LEHUDIBS_CRYSTAL_SPEAR,
     SPELL_GLACIATE,

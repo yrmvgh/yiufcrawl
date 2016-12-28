@@ -143,7 +143,6 @@ int book_rarity(book_type which_book)
     case BOOK_GEOMANCY:
         return 4;
 
-    case BOOK_YOUNG_POISONERS:
     case BOOK_BATTLE:
     case BOOK_DEBILITATION:
         return 5;

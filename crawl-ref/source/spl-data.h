@@ -292,7 +292,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_MEPHITIC_CLOUD, "Mephitic Cloud",
-    SPTYP_CONJURATION | SPTYP_POISON | SPTYP_AIR,
+    SPTYP_CONJURATION | SPTYP_HEXES | SPTYP_AIR,
     SPFLAG_DIR_OR_TARGET | SPFLAG_AREA
         | SPFLAG_NEEDS_TRACER | SPFLAG_CLOUD,
     3,
@@ -315,8 +315,8 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_VENOM_BOLT, "Venom Bolt",
-    SPTYP_CONJURATION | SPTYP_POISON,
-    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER,
+    SPTYP_CONJURATION,
+    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER | SPFLAG_MONSTER,
     5,
     200,
     5, 5,
@@ -326,7 +326,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_OLGREBS_TOXIC_RADIANCE, "Olgreb's Toxic Radiance",
-    SPTYP_POISON,
+    SPTYP_HEXES,
     SPFLAG_AREA,
     4,
     100,
@@ -417,7 +417,7 @@ static const struct spell_desc spelldata[] =
 #if TAG_MAJOR_VERSION == 34
 {
     SPELL_SUMMON_SCORPIONS, "Summon Scorpions",
-    SPTYP_SUMMONING | SPTYP_POISON,
+    SPTYP_SUMMONING,
     SPFLAG_NONE,
     4,
     200,
@@ -473,8 +473,8 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_POISONOUS_CLOUD, "Poisonous Cloud",
-    SPTYP_CONJURATION | SPTYP_POISON | SPTYP_AIR,
-    SPFLAG_TARGET | SPFLAG_AREA | SPFLAG_NEEDS_TRACER | SPFLAG_CLOUD,
+    SPTYP_CONJURATION | SPTYP_HEXES | SPTYP_AIR,
+    SPFLAG_TARGET | SPFLAG_AREA | SPFLAG_NEEDS_TRACER | SPFLAG_CLOUD | SPFLAG_MONSTER,
     6,
     200,
     5, 5,
@@ -825,8 +825,8 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_POISON_ARROW, "Poison Arrow",
-    SPTYP_CONJURATION | SPTYP_POISON,
-    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER,
+    SPTYP_CONJURATION,
+    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER | SPFLAG_MONSTER,
     6,
     200,
     6, 6,
@@ -884,8 +884,8 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_STING, "Sting",
-    SPTYP_CONJURATION | SPTYP_POISON,
-    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER,
+    SPTYP_CONJURATION,
+    SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER | SPFLAG_MONSTER,
     1,
     25,
     6, 6,
@@ -1068,7 +1068,7 @@ static const struct spell_desc spelldata[] =
 #if TAG_MAJOR_VERSION == 34
 {
     SPELL_CURE_POISON, "Cure Poison",
-    SPTYP_POISON,
+    SPTYP_CHARMS,
     SPFLAG_RECOVERY | SPFLAG_HELPFUL | SPFLAG_UTILITY,
     2,
     200,
@@ -1092,7 +1092,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_POISON_WEAPON, "Poison Weapon",
-    SPTYP_CHARMS | SPTYP_POISON,
+    SPTYP_CHARMS,
     SPFLAG_HELPFUL,
     3,
     200,
@@ -1137,7 +1137,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_SPIDER_FORM, "Spider Form",
-    SPTYP_TRANSMUTATION | SPTYP_POISON,
+    SPTYP_TRANSMUTATION,
     SPFLAG_HELPFUL | SPFLAG_CHAOTIC | SPFLAG_UTILITY,
     3,
     200,
@@ -1337,7 +1337,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_IGNITE_POISON, "Ignite Poison",
-    SPTYP_FIRE | SPTYP_TRANSMUTATION | SPTYP_POISON,
+    SPTYP_FIRE | SPTYP_TRANSMUTATION,
     SPFLAG_AREA,
     3,
     100,
@@ -1506,7 +1506,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_INTOXICATE, "Alistair's Intoxication",
-    SPTYP_TRANSMUTATION | SPTYP_POISON,
+    SPTYP_TRANSMUTATION,
     SPFLAG_NONE,
     5,
     100,
@@ -1761,7 +1761,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_NOXIOUS_CLOUD, "Noxious Cloud",
-    SPTYP_CONJURATION | SPTYP_POISON | SPTYP_AIR,
+    SPTYP_CONJURATION | SPTYP_AIR,
     SPFLAG_TARGET | SPFLAG_AREA | SPFLAG_MONSTER | SPFLAG_NEEDS_TRACER
         | SPFLAG_CLOUD,
     5,
@@ -1817,7 +1817,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_SPIT_POISON, "Spit Poison",
-    SPTYP_POISON,
+    SPTYP_CONJURATION,
     SPFLAG_DIR_OR_TARGET | SPFLAG_MONSTER | SPFLAG_NOISY | SPFLAG_NEEDS_TRACER,
     2,
     0,
@@ -2929,7 +2929,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_VIRULENCE, "Virulence",
-    SPTYP_POISON | SPTYP_HEXES,
+    SPTYP_HEXES,
     SPFLAG_DIR_OR_TARGET | SPFLAG_NEEDS_TRACER | SPFLAG_MR_CHECK,
     4,
     200,
@@ -3368,7 +3368,7 @@ static const struct spell_desc spelldata[] =
 
 {
     SPELL_SUMMON_EMPEROR_SCORPIONS, "Summon Emperor Scorpions",
-    SPTYP_SUMMONING | SPTYP_POISON,
+    SPTYP_SUMMONING,
     SPFLAG_MONS_ABJURE,
     7,
     100,

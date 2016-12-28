@@ -1641,8 +1641,7 @@ static tileidx_t _tileidx_monster_no_props(const monster_info& mon)
             // (enhancer staves are compatible with those).
             const item_def* weapon = mon.inv[MSLOT_WEAPON].get();
             if (!mon.inv[MSLOT_SHIELD].get() && weapon
-                && (weapon->is_type(OBJ_STAVES, STAFF_POISON)
-                    || is_unrandom_artefact(*weapon, UNRAND_OLGREB)))
+                && (weapon->is_type(OBJ_STAVES, STAFF_DEATH))
             {
                 return base;
             }

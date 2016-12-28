@@ -876,13 +876,6 @@ Denne stav øger brugerens ildbesværgelsers kraft, men nedsætter den for
 isbesværgelser. Den beskytter brugeren mod virkningerne af ild. Hvis brugeren
 er kyndig i vækkelser og ildmagi kan staven fryse de fjender, den rammer.
 %%%%
-staff of poison
-
-Denne stav øger brugerens giftige besværgelsers kraft og beskytter ham eller
-hende mod konsekvenserne af gift. Hvis brugeren er kyndig i både vækkelser og
-giftmagi, vil staven også forgifte dem, den rammer – selv hvis ofrene
-sædvanligvis er modstandsdygtige.
-%%%%
 staff of power
 
 Denne stav øger brugerens reservoir af magisk energi.

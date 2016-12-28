@@ -1846,8 +1846,6 @@ int items(bool allow_uniques,
             item.base_type = OBJ_STAVES;
             if (unrand_id == UNRAND_WUCAD_MU)
                 force_type = STAFF_ENERGY;
-            else if (unrand_id == UNRAND_OLGREB)
-                force_type = STAFF_POISON;
             else
                 force_type = OBJ_RANDOM;
             // XXX: small chance of the other unrand...

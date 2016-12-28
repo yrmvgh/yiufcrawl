@@ -744,6 +744,7 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_JEWELLERY, RING_TELEPORT_CONTROL },
 	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_FIRE },
 	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_COLD },
+	{ OBJ_STAVES, 	 STAFF_POISON },
     { OBJ_STAVES,    STAFF_ENCHANTMENT },
     { OBJ_STAVES,    STAFF_CHANNELING },
     { OBJ_POTIONS,   POT_GAIN_STRENGTH },
@@ -758,8 +759,9 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_POTIONS,   POT_DECAY },
     { OBJ_POTIONS,   POT_POISON },
     { OBJ_POTIONS,   POT_RESTORE_ABILITIES },
-	{ OBJ_POTIONS, 	 POT_EXPERIENCE},
-	{ OBJ_POTIONS, 	 POT_DEGENERATION},
+	{ OBJ_POTIONS, 	 POT_EXPERIENCE },
+	{ OBJ_POTIONS, 	 POT_DEGENERATION },
+	{ OBJ_BOOKS, 	 BOOK_YOUNG_POISONERS },
     { OBJ_BOOKS,     BOOK_WIZARDRY },
     { OBJ_BOOKS,     BOOK_CONTROL },
     { OBJ_BOOKS,     BOOK_BUGGY_DESTRUCTION },
@@ -1968,7 +1970,6 @@ bool staff_uses_evocations(const item_def &item)
     {
     case STAFF_FIRE:
     case STAFF_COLD:
-    case STAFF_POISON:
     case STAFF_DEATH:
     case STAFF_AIR:
     case STAFF_EARTH:
@@ -2766,7 +2767,7 @@ bool gives_resistance(const item_def &item)
         break;
     }
     case OBJ_STAVES:
-        if (item.sub_type >= STAFF_FIRE && item.sub_type <= STAFF_POISON
+        if (item.sub_type >= STAFF_FIRE && item.sub_type <= STAFF_COLD
             || item.sub_type == STAFF_AIR
             || item.sub_type == STAFF_DEATH)
         {

@@ -860,12 +860,12 @@ TAGS:   no_monster_gen no_pool_fixup uniq_introduction_to_nature
 DEPTH:  D:8-13
 WEIGHT: 3
 ITEM:   any potion
-ITEM:   Young Poisoner's Handbook / book of Changes / \
-        randbook disc:Poison disc2:Transmutation slevels:8 w:5 / \
-        randbook numspells:5 title:Nature \
-        spells:beastly_appendage&summon_small_mammal&sticks_to_snakes&call_canine_familiar&spider_form / \
-        randbook numspells:5 title:Nature \
-        spells:beastly_appendage&sting&sticks_to_snakes&cure_poison&spider_form w:245
+ITEM:   book of Changes / \
+        randbook disc:Hexes disc2:Transmutation slevels:8 w:5 / \
+        randbook numspells:3 title:Nature \
+        spells:beastly_appendage&summon_small_mammal&call_canine_familiar / \
+        randbook numspells:3 title:Nature \
+        spells:beastly_appendage&sticks_to_snakes&spider_form
 : if crawl.coinflip() then
 KITEM:  f = javelin ego:poisoned q:4-6 / tomahawk ego:poisoned
 : else
@@ -915,12 +915,12 @@ NAME:   introduction_to_nature_2
 TAGS:   no_monster_gen no_pool_fixup uniq_introduction_to_nature
 DEPTH:  D:8-13
 ITEM:   any potion
-ITEM:   Young Poisoner's Handbook / book of Changes / \
-        randbook disc:Poison disc2:Transmutation slevels:8 w:5 / \
+ITEM:   book of Changes / \
+        randbook disc:Hexes disc2:Transmutation slevels:8 w:5 / \
         randbook numspells:5 title:Nature \
-        spells:beastly_appendage&summon_small_mammal&sticks_to_snakes&call_canine_familiar&spider_form / \
+        spells:beastly_appendage&summon_small_mammal&call_canine_familiar / \
         randbook numspells:5 title:Nature \
-        spells:beastly_appendage&sting&sticks_to_snakes&cure_poison&spider_form w:245
+        spells:beastly_appendage&sticks_to_snakes&spider_form
 : if crawl.coinflip() then
 KITEM:  f = javelin ego:poisoned q:4-6 / tomahawk ego:poisoned
 : else
@@ -6224,8 +6224,7 @@ MONS:    worker ant / soldier ant
 MONS:    killer bee
 MONS:    adder / water moccasin
 : if you.unrands("staff_of_olgreb") then
-ITEM:    book of envenomations / young poisoner's handbook / \
-         ring of poison resistance ident:type / staff of poison ident:type / \
+ITEM:    ring of poison resistance ident:type / \
          swamp dragon scales
 : else
 ITEM:    staff_of_olgreb no_pickup

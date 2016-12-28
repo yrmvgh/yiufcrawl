@@ -870,7 +870,6 @@ skill_type spell_type2skill(spschool_flag_type spelltype)
     case SPTYP_NECROMANCY:     return SK_NECROMANCY;
     case SPTYP_SUMMONING:      return SK_SUMMONINGS;
     case SPTYP_TRANSLOCATION:  return SK_TRANSLOCATIONS;
-    case SPTYP_POISON:         return SK_POISON_MAGIC;
     case SPTYP_EARTH:          return SK_EARTH_MAGIC;
     case SPTYP_AIR:            return SK_AIR_MAGIC;
 
@@ -894,7 +893,6 @@ spschool_flag_type skill2spell_type(skill_type spell_skill)
     case SK_NECROMANCY:      return SPTYP_NECROMANCY;
     case SK_SUMMONINGS:      return SPTYP_SUMMONING;
     case SK_TRANSLOCATIONS:  return SPTYP_TRANSLOCATION;
-    case SK_POISON_MAGIC:    return SPTYP_POISON;
     case SK_EARTH_MAGIC:     return SPTYP_EARTH;
     case SK_AIR_MAGIC:       return SPTYP_AIR;
 

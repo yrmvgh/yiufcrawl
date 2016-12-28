@@ -1117,7 +1117,9 @@ static const char* staff_type_name(int stafftype)
     case STAFF_POWER:       return "power";
     case STAFF_FIRE:        return "fire";
     case STAFF_COLD:        return "cold";
+#if TAG_MAJOR_VERSION == 34
     case STAFF_POISON:      return "poison";
+#endif
     case STAFF_ENERGY:      return "energy";
     case STAFF_DEATH:       return "death";
     case STAFF_CONJURATION: return "conjuration";
@@ -1219,9 +1221,9 @@ string sub_type_string(const item_def &item, bool known)
 #if TAG_MAJOR_VERSION == 34
         else if (sub_type == BOOK_BUGGY_DESTRUCTION)
             return "tome of obsoleteness";
-#endif
         else if (sub_type == BOOK_YOUNG_POISONERS)
             return "Young Poisoner's Handbook";
+#endif
         else if (sub_type == BOOK_FEN)
             return "Fen Folio";
 #if TAG_MAJOR_VERSION == 34

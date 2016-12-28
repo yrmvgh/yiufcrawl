@@ -167,8 +167,7 @@
        "plate armour", "ring of poison resistance", "manual of polearms",
        "wand of polymorph", "ring of positive energy", "ring of protection",
        "manual of poison magic", "staff of power", "wand of paralysis",
-       "ring of protection from magic",
-       "staff of poison"}
+       "ring of protection from magic" }
 
       elseif s == "Q" then i = { "quarterstaff", "quicksilver dragon scales",
        "quick blade" }
@@ -207,7 +206,7 @@
 
       elseif s == "X" then i = { "any" }
 
-      elseif s == "Y" then i = { "young poisoner's handbook" }
+      elseif s == "Y" then i = { "any" }
 
       elseif s == "Z" then i = { "any" }
 

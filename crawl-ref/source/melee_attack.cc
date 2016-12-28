@@ -2116,17 +2116,6 @@ void melee_attack::apply_staff_damage()
         }
         break;
 
-    case STAFF_POISON:
-    {
-        if (random2(300) >= attacker->skill(SK_EVOCATIONS, 20) + attacker->skill(SK_POISON_MAGIC, 10))
-            return;
-
-        // Base chance at 50% -- like mundane weapons.
-        if (x_chance_in_y(80 + attacker->skill(SK_POISON_MAGIC, 10), 160))
-            defender->poison(attacker, 2);
-        break;
-    }
-
     case STAFF_DEATH:
         special_damage =
             resist_adjust_damage(defender,
@@ -2150,6 +2139,7 @@ void melee_attack::apply_staff_damage()
     case STAFF_POWER:
     case STAFF_CONJURATION:
 #if TAG_MAJOR_VERSION == 34
+	case STAFF_POISON:
     case STAFF_ENCHANTMENT:
 #endif
     case STAFF_ENERGY:

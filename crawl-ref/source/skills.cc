@@ -1398,7 +1398,7 @@ void init_skill_order()
 bool is_useless_skill(skill_type skill)
 {
 #if TAG_MAJOR_VERSION == 34
-    if (skill == SK_STABBING || skill == SK_TRAPS)
+    if (skill == SK_STABBING || skill == SK_TRAPS || skill == SK_POISON_MAGIC)
         return true;
 #endif
 
@@ -1413,8 +1413,6 @@ bool is_useless_skill(skill_type skill)
         || (skill == SK_ICE_MAGIC && player_mutation_level(MUT_NO_ICE_MAGIC))
         || (skill == SK_NECROMANCY
             && player_mutation_level(MUT_NO_NECROMANCY_MAGIC))
-        || (skill == SK_POISON_MAGIC
-            && player_mutation_level(MUT_NO_POISON_MAGIC))
         || (skill == SK_SUMMONINGS
             && player_mutation_level(MUT_NO_SUMMONING_MAGIC))
         || (skill == SK_TRANSLOCATIONS

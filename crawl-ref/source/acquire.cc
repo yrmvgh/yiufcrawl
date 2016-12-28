@@ -608,7 +608,6 @@ static int _acquirement_staff_subtype(bool /*divine*/, int & /*quantity*/)
     case SK_ICE_MAGIC:    TRY_GIVE(STAFF_COLD);        break;
     case SK_AIR_MAGIC:    TRY_GIVE(STAFF_AIR);         break;
     case SK_EARTH_MAGIC:  TRY_GIVE(STAFF_EARTH);       break;
-    case SK_POISON_MAGIC: TRY_GIVE(STAFF_POISON);      break;
     case SK_NECROMANCY:   TRY_GIVE(STAFF_DEATH);       break;
     case SK_CONJURATIONS: TRY_GIVE(STAFF_CONJURATION); break;
     case SK_SUMMONINGS:   TRY_GIVE(STAFF_SUMMONING);   break;
