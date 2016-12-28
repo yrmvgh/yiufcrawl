@@ -293,7 +293,7 @@ unsigned int item_value(item_def item, bool ident)
             {
             case SPMSL_NORMAL:
             default:
-                valued *= 10;
+                valued *= 5;
                 break;
 
             case SPMSL_CHAOS:
@@ -330,7 +330,7 @@ unsigned int item_value(item_def item, bool ident)
                 break;
             }
 
-            valued /= 10;
+            valued /= 100;
         }
         break;
 
