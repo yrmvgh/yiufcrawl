@@ -604,10 +604,6 @@ static const char* _wand_type_name(int wandtype)
     {
     case WAND_FLAME:           return "flame";
     case WAND_SLOWING:         return "slowing";
-#if TAG_MAJOR_VERSION == 34
-    case WAND_HASTING:         return "hasting";
-	case WAND_HEAL_WOUNDS:     return "heal wounds";
-#endif
     case WAND_PARALYSIS:       return "paralysis";
     case WAND_CONFUSION:       return "confusion";
     case WAND_DIGGING:         return "digging";
