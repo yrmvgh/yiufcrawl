@@ -824,10 +824,6 @@ wand of slowing
 Ein magisches Gerät welches Verzauberungen auf Kreaturen in seiner Richtung
 wirft, welche dadurch verlangsamt werden.
 %%%%
-wand of teleportation
-
-Ein magisches Gerät, das ein Wesen veranlasst, zufällig verlagert zu werden.
-%%%%
 whip
 
 Ein langer gepflochtener-Streifen aus Leder. Ursprünglich entwickelt für den

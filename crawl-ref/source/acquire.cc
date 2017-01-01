@@ -707,8 +707,6 @@ static int _acquirement_wand_subtype(bool /*divine*/, int & /*quantity*/)
 {
 	
     vector<pair<wand_type, int>> weights = {
-        // normally 15
-        { WAND_TELEPORTATION,   _tele_wand_weight() },
         { WAND_LIGHTNING,       16 },
         { WAND_ACID,            16 },
         { WAND_ICEBLAST,        16 },

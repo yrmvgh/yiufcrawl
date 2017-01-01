@@ -608,7 +608,6 @@ static const char* _wand_type_name(int wandtype)
     case WAND_CONFUSION:       return "confusion";
     case WAND_DIGGING:         return "digging";
     case WAND_ICEBLAST:        return "iceblast";
-    case WAND_TELEPORTATION:   return "teleportation";
     case WAND_LIGHTNING:       return "lightning";
     case WAND_POLYMORPH:       return "polymorph";
     case WAND_ENSLAVEMENT:     return "enslavement";
@@ -3181,13 +3180,7 @@ bool is_emergency_item(const item_def &item)
     switch (item.base_type)
     {
     case OBJ_WANDS:
-        switch (item.sub_type)
-        {
-        case WAND_TELEPORTATION:
-            return you.species != SP_FORMICID;
-        default:
-            return false;
-        }
+        return false;
     case OBJ_SCROLLS:
         switch (item.sub_type)
         {

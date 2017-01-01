@@ -544,7 +544,6 @@ void zap_wand(int slot)
     switch (wand.sub_type)
     {
     case WAND_DIGGING:
-    case WAND_TELEPORTATION:
         targ_mode = TARG_ANY;
         break;
 
@@ -590,8 +589,6 @@ void zap_wand(int slot)
 
     if (zap_wand.target == you.pos())
     {
-        if (wand.sub_type == WAND_TELEPORTATION
-            && you.no_tele_print_reason(false, false))
         {
             return;
         }
@@ -655,12 +652,10 @@ void zap_wand(int slot)
     beam.range = _wand_range(type_zapped);
 
     dec_mp(mp_cost, false);
-    if (wand.sub_type != WAND_TELEPORTATION)
-    {
-        const int surge = pakellas_surge_devices();
-        surge_power(you.spec_evoke() + surge);
-        power = player_adjust_evoc_power(power, surge);
-    }
+	const int surge = pakellas_surge_devices();
+    surge_power(you.spec_evoke() + surge);
+    power = player_adjust_evoc_power(power, surge);
+    
 
     // zapping() updates beam.
     zapping(type_zapped, power, beam);

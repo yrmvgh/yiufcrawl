@@ -3322,7 +3322,6 @@ zap_type item_def::zap() const
     case WAND_CONFUSION:       result = ZAP_CONFUSE;         break;
     case WAND_DIGGING:         result = ZAP_DIG;             break;
     case WAND_ICEBLAST:        result = ZAP_ICEBLAST;        break;
-    case WAND_TELEPORTATION:   result = ZAP_TELEPORT_OTHER;  break;
     case WAND_LIGHTNING:       result = ZAP_LIGHTNING_BOLT;  break;
     case WAND_POLYMORPH:       result = ZAP_POLYMORPH;       break;
     case WAND_ENSLAVEMENT:     result = ZAP_ENSLAVEMENT;     break;
@@ -3332,6 +3331,7 @@ zap_type item_def::zap() const
     case NUM_WANDS:
 #if TAG_MAJOR_VERSION == 34
     case WAND_HASTING:
+	case WAND_TELEPORTATION:
     case WAND_INVISIBILITY_REMOVED:
     case WAND_MAGIC_DARTS_REMOVED:
     case WAND_FIRE_REMOVED:

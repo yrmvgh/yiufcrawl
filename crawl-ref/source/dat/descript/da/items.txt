@@ -1019,10 +1019,6 @@ wand of slowing
 En magisk anordning, som kaster fortryllelser, der gør et væsens handlinger
 langsommere.
 %%%%
-wand of teleportation
-
-En magisk anordning, som translokerer et væsen til et tilfældigt sted.
-%%%%
 whip
 
 Et langt, flettet stykke læder. Dette enkle våben blev oprindeligt brugt i

@@ -411,11 +411,6 @@ unsigned int item_value(item_def item, bool ident)
             switch (item.sub_type)
             {
 
-            case WAND_TELEPORTATION:
-                valued += 120;
-                good = true;
-                break;
-
             case WAND_ACID:
             case WAND_DIGGING:
                 valued += 80;
