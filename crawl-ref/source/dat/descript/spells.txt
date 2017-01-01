@@ -1073,10 +1073,8 @@ However, it also makes them much more susceptible to cold.
 %%%%
 Sandblast spell
 
-Creates a short blast of high-velocity particles. It has increased power and
-range if the caster provides some source by wielding eight stones, but will
-still have some effect with no source wielded. Its damage is strongly reduced
-by armour.
+Consumes eight stones to create a short blast of high-velocity rock shards. Its
+damage is strongly reduced by armour.
 %%%%
 Sap Magic spell
 
