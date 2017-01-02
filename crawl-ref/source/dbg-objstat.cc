@@ -205,9 +205,6 @@ static item_base_type _item_base_type(const item_def &item)
         else
             type = ITEM_BOOKS;
         break;
-    case OBJ_FOOD:
-        type = ITEM_FOOD;
-        break;
     case OBJ_GOLD:
         type = ITEM_GOLD;
         break;

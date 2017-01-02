@@ -4808,7 +4808,7 @@ int runes_in_pack()
 object_class_type get_random_item_mimic_type()
 {
    return random_choose(OBJ_GOLD, OBJ_WEAPONS, OBJ_ARMOUR, OBJ_SCROLLS,
-                        OBJ_POTIONS, OBJ_BOOKS, OBJ_STAVES, OBJ_FOOD,
+                        OBJ_POTIONS, OBJ_BOOKS, OBJ_STAVES,
                         OBJ_MISCELLANY, OBJ_JEWELLERY);
 }
 

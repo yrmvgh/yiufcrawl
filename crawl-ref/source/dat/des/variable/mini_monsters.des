@@ -1040,7 +1040,7 @@ TAGS:  patrolling no_monster_gen transparent
 DEPTH: D:2-5
 KMONS: 2 = adder
 KMONS: 3 = plant
-ITEM:  fruit
+ITEM:  stone
 SUBST: - = wwwwwwWWW
 SUBST: . = ........33
 SUBST: ? = .wwt3%dd22
@@ -2385,7 +2385,7 @@ TAGS:   no_monster_gen no_item_gen patrolling
 MONS:   spriggan skeleton / centaur skeleton
 MONS:   troll skeleton / angry ghost
 KMONS:  A = unseen horror
-ITEM:   fruit q:1
+ITEM:   any good_item
 SUBST:  D : DDDDE
 NSUBST: D = 1 = A:4 .:1 / 2:d / 2:e / 1:1, E = 2:d / 2:e / 2:1
 MAP
@@ -2751,25 +2751,6 @@ ccccccccccc
 c1x|mmm...c
 ccccccccc.c
 ccccccccc@c
-ENDMAP
-
-NAME:   hangedman_tree_tricks
-DEPTH:  D:8-, !D:$
-TAGS:   extra no_monster_gen
-NSUBST: T = 1:. / 1:t
-KMONS:  1 = oklob plant
-KITEM:  1A_ = fruit q:3
-KFEAT:  _ = altar_qazlal
-MAP
- tttttttttt
-tttt.ttttttt
-@tt.t.tttttt
-t.tt.t.Tt1tt
-t.t.ttT.A$tt
-tt.ttttA_Att
-t.t.tt1$Attt
-tt.ttttttttt
- tttttttttt
 ENDMAP
 
 NAME:   disabler_island

@@ -485,7 +485,7 @@ ORIENT:  northeast
 DEPTH:   D:5-8, Lair
 SHUFFLE: 23, 34
 MONS:    rat, rat / river rat w:5, river rat, hell rat
-ITEM:    stone w:80 / fruit
+ITEM:    stone w:80 / large rock
 SUBST:   d = d$..., e = d$
 : if you.in_branch("Lair") then
 TAGS:    extra
@@ -551,86 +551,6 @@ wwwwwwwww...........wwwwwwwwww
      wwwwwwwww...www
        wwwwww.@.www
          www
-ENDMAP
-
-##############################################################################
-# Pointless little "vaults" by Lemuel
-#
-
-# Three separate decorative bubbles mixed into one vault.
-NAME:   lemuel_fruit_fields
-TAGS:   allow_dup extra transparent decor
-DEPTH:  Lair
-ORIENT: float
-WEIGHT: 9
-MONS:   plant, butterfly
-ITEM:   fruit q:1 / fruit q:2 w:7 / fruit q:3 w:3 /\
-        fruit q:4 w:1 / fruit q:5 w:1 / fruit q:6 w:1
-KFEAT:  ^~ = .
-: local size = crawl.random2(9)
-: if size > 7 then
-SUBST:  '`"- = ^:20 ~:15 ., . = d:6 .:150 1:10 2:4
-: elseif size > 3 then
-SUBST:  "` = ^:20 ~:15 ., . = d .:50 1:8 2:4
-: else
-SUBST:  '" = ^:20 ~:15 ., . = d .:50 1:8 2:4
-: end
-CLEAR:  `'"-
-COLOUR: ^ = green
-FTILE:  ^ = floor_grass
-COLOUR: ~ = brown
-FTILE:  ~ = floor_dirt
-MAP
-       -------
-     -----------
-   -``------------
- -``````-----------
- ```````"'''-------
--`````"""'''''-``----
---```"""'''''""````--
-----`"''''''"""`````-
------'''''''"""`````-
------'""'''''""````--
-----``""""''''-``----
- --`````"""'--------
- --````````---------
-   -``````--------
-     -``--------
-       -------
-ENDMAP
-
-##############################################################################
-# Plantage
-#
-
-# Two separate small decorative vaults mixed into one:
-NAME:   lemuel_fruit_tree
-TAGS:   extra transparent decor
-DEPTH:  Lair, Snake
-ORIENT: float
-MONS:   plant, fungus
-KITEM:  a : fruit q:1
-: if crawl.one_chance_in(5) then
-SUBST:  '"~ = . 1
-SUBST:  0`-. = .:90 a:10 2:1
-SUBST:  _ = .:90 a:4
-: else
-CLEAR:  '-_
-SUBST:  `" = . a 2:1
-SUBST:  ~. = .:90 a:10 2:1
-SUBST:  0 = 1
-: end
-MAP
-   ________
-  _--------_
- _---..~..--_
-_--'.......--_
-_---..`"`.~--_
-_---..`0`..--_
-_---..`"`..--_
- _--~....~.-_
-  _--.....-_
-   ________
 ENDMAP
 
 ##############################################################################
@@ -1851,7 +1771,7 @@ DEPTH: Lair:4-
 TAGS: no_monster_gen no_item_gen no_trap_gen
 SUBST: P = P.
 NSUBST: D = 1:D / *:.
-KITEM: f = fruit / nothing
+KITEM: f = stone / nothing
 KMONS: Y = yak
 KMONS: D = death yak
 KMONS: C = catoblepas
@@ -1977,7 +1897,7 @@ NAME: grunt_forest_small_clearings
 TAGS: transparent extra decor
 DEPTH: Lair
 MONS: plant / bush
-KITEM: d = fruit
+KITEM: d = stone
 KMASK: G = no_monster_gen
 SHUFFLE: Ww. / ''` / ''`
 SUBST: t = t.., '` = 1:49 d:36 .:405
@@ -2021,7 +1941,7 @@ MONS:    plant / bush, wolf
 MONS:    black bear / polar bear, spriggan / centaur w:4
 KMONS:   9 = 9
 KMONS:   * = spriggan rider / faun w:4
-ITEM:    fruit q:1
+ITEM:    stone q:10
 KITEM:   9* = *
 KFEAT:   9 = W
 SHUFFLE: wW'"-~-_9 / ''GG''''* / '''0''''% / ``````22G

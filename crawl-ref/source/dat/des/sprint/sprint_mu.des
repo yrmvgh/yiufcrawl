@@ -168,7 +168,6 @@ MONS: patrolling phantom hd:2 / patrolling wolf hd:2 / patrolling scorpion / \
 MONS: patrolling human hd:2 hp:35
 KITEM: * = potion of flight ident:all q:2 / potion of flight q:1 / any potion, \
  potion of cure mutation ident:all q:2 / potion of cure mutation q:1 / any potion, \
- nothing w:20 / fruit, \
  scroll of remove curse ident:all q:2 / scroll of remove curse q:1 / any scroll, \
  scroll of identify ident:all q:2/ scroll of identify q:1 / any scroll, \
  scroll of torment / scroll of holy word / scroll of immolation, \
@@ -201,7 +200,6 @@ MONS: patrolling phantom hd:2 / patrolling wolf hd:2 / patrolling scorpion / \
 MONS: patrolling human hd:2 hp:35
 KITEM: * = potion of flight ident:all q:2 / potion of flight q:1 / any potion, \
  potion of cure mutation ident:all q:2 / potion of cure mutation q:1 / any potion, \
- nothing / fruit, \
  scroll of remove curse ident:all q:2 / scroll of remove curse q:1 / any scroll, \
  scroll of identify ident:all q:2 / scroll of identify q:1 / any scroll, \
  scroll of torment / scroll of holy word / scroll of immolation, \
@@ -520,7 +518,7 @@ KMONS: r = hydra simulacrum / fire dragon simulacrum / polar bear simulacrum /\
  wolf simulacrum / black mamba simulacrum
 KITEM: r = any, any, any, any, any, superb_item / w:1 wand of acid /\
  w:1 wand of disintegration
-KITEM: % = fruit q:6
+KITEM: % = stone q:6
 KFEAT: _ = altar_qazlal
 KMONS: s = patrolling Urug
 KMONS: u = death drake
@@ -841,7 +839,7 @@ KITEM: & = lamp of fire, scroll of acquirement q:1 ident:all, \
  scroll of acquirement q:1 ident:all / w:25 scroll of torment ident:all
 NSUBST: L = 1:& / *:l
 KMONS: A = patrolling Azrael
-KITEM: " = any weapon, any armour, any wand, gold, fruit
+KITEM: " = any weapon, any armour, any wand, gold
 
 MARKER:  ! = lua:fog_machine { \
                 pow_max = 15, delay_min = 100, delay_max = 150, \

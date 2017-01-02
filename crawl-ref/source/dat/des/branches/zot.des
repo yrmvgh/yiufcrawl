@@ -889,12 +889,12 @@ DEPTH:  Zot, !Zot:$
 ORIENT: float
 TAGS:   no_rotate no_hmirror no_monster_gen
 MONS:   killer klown
-MONS:   elephant / w:5 dire elephant / w:2 hellephant
+MONS:   dire elephant / w:5 hellephant
 MONS:   human ; club
 SUBST:  1 = 1 2:5 3:20
 SUBST:  2 = 2 2 .
 SUBST:  % = !:20 ?:5 .:20
-KITEM:  ! = fruit
+KITEM:  ! = whip / w:2 demon whip
 KITEM:  ? = wand of random effects
 COLOUR: " : yellow
 MAP
@@ -2249,7 +2249,7 @@ TAGS: no_monster_gen transparent
 MONS: lightning spire, patrolling electric golem
 NSUBST: % = 2:!
 KMONS: ! = patrolling death cob
-KITEM: %! = fruit q:1 / nothing w:10
+KITEM: %! = stone q:1 / nothing w:10
 MAP
 @xxxxx@
 .......

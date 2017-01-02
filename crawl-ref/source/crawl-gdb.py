@@ -107,7 +107,6 @@ class item_def_printer:
             'OBJ_MISSILES':  'missile_type',
             'OBJ_ARMOUR':    'armour_type',
             'OBJ_WANDS':     'wand_type',
-            'OBJ_FOOD':      'food_type',
             'OBJ_SCROLLS':   'scroll_type',
             'OBJ_JEWELLERY': 'jewellery_type',
             'OBJ_POTIONS':   'potion_type',
@@ -119,6 +118,7 @@ class item_def_printer:
             # 'OBJ_GOLD':
             # Remove when TAG_MAJOR_VERSION > 34:
             'OBJ_RODS':      'rod_type'
+			'OBJ_FOOD':      'food_type',
             }.get(ty, 'uint8_t')
         sub_ty = str(self.val['sub_type'].cast(gdb.lookup_type(sub_type_type)))
 

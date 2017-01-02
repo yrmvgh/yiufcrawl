@@ -341,7 +341,7 @@ ENDMAP
 
 NAME:     items_3
 TAGS:     items_3
-KITEM:    a = stone, fruit q:40
+KITEM:    a = stone
 KITEM:    b = pair of gloves mundane ident:all not_cursed /\
            pair of boots mundane ident:all not_cursed /\
            helmet mundane ident:all not_cursed /\

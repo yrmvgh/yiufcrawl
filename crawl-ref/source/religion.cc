@@ -4492,7 +4492,7 @@ static bool _is_god(god_type god)
 static bool _is_disabled_god(god_type god)
 {
     // Disabled, pending a rework.
-    return god == GOD_PAKELLAS;
+    return god == GOD_PAKELLAS || god == GOD_FEDHAS;
 }
 
 static bool _is_temple_god(god_type god)

@@ -1266,21 +1266,6 @@ static void _generate_wand_item(item_def& item, int force_type, int item_level)
         item.flags |= ISFLAG_NO_PICKUP;
 }
 
-static void _generate_food_item(item_def& item, int force_quant, int force_type)
-{
-    // Determine sub_type:
-    item.sub_type = FOOD_FRUIT;
-
-    // Determine quantity.
-    if (force_quant > 1)
-        item.quantity = force_quant;
-    else
-    {
-            if (is_fruit(item))
-                item.quantity += random2avg(3,2); 
-    }
-}
-
 static void _generate_potion_item(item_def& item, int force_type,
                                   int item_level, int agent)
 {
@@ -1772,13 +1757,12 @@ int items(bool allow_uniques,
                                     50, OBJ_BOOKS,
                                     50, OBJ_JEWELLERY,
                                     50, OBJ_WANDS,
-                                    20, OBJ_FOOD,
                                    212, OBJ_ARMOUR,
                                    212, OBJ_WEAPONS,
                                    176, OBJ_POTIONS,
                                    420, OBJ_MISSILES,
                                    320, OBJ_SCROLLS,
-                                   440, OBJ_GOLD);
+                                   460, OBJ_GOLD);
 
         // misc items placement wholly dependent upon current depth {dlb}:
         if (item_level > 7 && x_chance_in_y(21 + item_level, 5000))
@@ -1862,10 +1846,6 @@ int items(bool allow_uniques,
 
     case OBJ_WANDS:
         _generate_wand_item(item, force_type, item_level);
-        break;
-
-    case OBJ_FOOD:
-        _generate_food_item(item, allow_uniques, force_type);
         break;
 
     case OBJ_POTIONS:

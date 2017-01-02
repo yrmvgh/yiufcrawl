@@ -1816,7 +1816,7 @@ KMONS: . = plant w:5 / fungus w:5 / nothing w:100
 KMONS: - = plant / fungus / nothing w:80
 KITEM: h^m = % / * w:5
 KITEM: o = * / | w:5
-KITEM: f = fruit
+KITEM: f = wand of acid
 KITEM: b = Fen Folio ident:type
 KFEAT: ^, = .
 CLEAR: _

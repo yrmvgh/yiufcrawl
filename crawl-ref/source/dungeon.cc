@@ -5440,13 +5440,13 @@ static bool _valid_item_for_shop(int item_index, shop_type shop_type_,
 
     // Don't generate gold in shops! This used to be possible with
     // general stores (GDL)
-    if (item.base_type == OBJ_GOLD)
+	//don't generate food either, since it's removed forever
+    if (item.base_type == OBJ_GOLD || item.base_type == OBJ_FOOD)
         return false;
 
     // Don't place missiles or food in general antique shops...
     if (shop_type_ == SHOP_GENERAL_ANTIQUE
-            && (item.base_type == OBJ_MISSILES
-                || item.base_type == OBJ_FOOD))
+            && (item.base_type == OBJ_MISSILES))
     {
         // ...unless they're specified by the item spec.
         return !spec.items.empty();
@@ -5627,8 +5627,9 @@ object_class_type item_in_shop(shop_type shop_type)
         return OBJ_BOOKS;
 		
 #if TAG_MAJOR_VERSION == 34
+	//food shops shouldn't generate, but make extra sure to not generate food just in case
 	case SHOP_FOOD:
-        return OBJ_FOOD;
+        return OBJ_RANDOM; 
 #endif
 
     case SHOP_DISTILLERY:

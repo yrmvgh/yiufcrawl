@@ -659,9 +659,6 @@ void taken_new_item(object_class_type item_type)
     case OBJ_BOOKS:
         learned_something_new(HINT_SEEN_SPBOOK);
         break;
-    case OBJ_FOOD:
-        learned_something_new(HINT_SEEN_FOOD);
-        break;
     case OBJ_CORPSES:
         learned_something_new(HINT_SEEN_CARRION);
         break;

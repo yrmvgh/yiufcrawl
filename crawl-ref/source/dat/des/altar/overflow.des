@@ -1971,23 +1971,6 @@ MAP
  .....
 ENDMAP
 
-NAME:   eat_drink_and_be_merry_uskayaw
-DEPTH:  D:2-9
-TAGS:   temple_overflow_1 temple_overflow_uskayaw
-KFEAT:  _ = altar_uskayaw
-ITEM:   any potion q:1, any weapon
-ITEM:   fruit q:1 / fruit q:2
-MAP
-...........
-.G.......G.
-...........
-.G.......G.
-....def....
-.G..._...G.
-....ccc....
-  .......
-ENDMAP
-
 ### Vehumet overflow altars ###################################################
 
 # Rather than put the flame cloud on the altar, flames now surround the
