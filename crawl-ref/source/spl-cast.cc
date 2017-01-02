@@ -1935,7 +1935,6 @@ static spret_type _do_cast(spell_type spell, int powc,
     case SPELL_CONDENSATION_SHIELD:
     case SPELL_CONTROL_TELEPORT:
     case SPELL_DEMONIC_HORDE:
-    case SPELL_ENSLAVEMENT:
     case SPELL_EVAPORATE:
     case SPELL_FIRE_BRAND:
     case SPELL_FORCEFUL_DISMISSAL:
