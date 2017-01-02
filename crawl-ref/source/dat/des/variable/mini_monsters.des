@@ -883,7 +883,7 @@ KFEAT:  ' = known shaft trap
 KFEAT:  ~ = known alarm trap / floor
 KFEAT:  ` = known web trap / floor w:30
 : if you.absdepth() < 11 then
-KFEAT:  ? = altar_fedhas
+KFEAT:  ? = altar_qazlal
 SUBST:  m : 1twx
 SUBST:  5 = 25
 SUBST:  7 = 78
@@ -937,7 +937,7 @@ KFEAT:  78 = W
 KFEAT:  ' = known shaft trap
 KFEAT:  ` = known web trap / floor w:60
 : if you.absdepth() < 11 then
-KFEAT:  ? = altar_fedhas
+KFEAT:  ? = altar_qazlal
 SUBST:  m : 1twx
 SUBST:  5 = 25
 SUBST:  7 = 78
@@ -2759,7 +2759,7 @@ TAGS:   extra no_monster_gen
 NSUBST: T = 1:. / 1:t
 KMONS:  1 = oklob plant
 KITEM:  1A_ = fruit q:3
-KFEAT:  _ = altar_fedhas
+KFEAT:  _ = altar_qazlal
 MAP
  tttttttttt
 tttt.ttttttt

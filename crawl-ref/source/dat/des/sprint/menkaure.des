@@ -215,7 +215,6 @@ KFEAT:  b = altar_beogh
 KFEAT:  c = altar_cheibriados
 KFEAT:  d = altar_dithmenos
 KFEAT:  e = altar_elyvilon
-KFEAT:  f = altar_fedhas
 KFEAT:  g = altar_gozag
 KFEAT:  h = altar_hepliaklqana
 KFEAT:  j = altar_jiyva
@@ -241,7 +240,7 @@ b.j.s.z.
 .c.k.t.1
 ..d.l.u.
 ...e.m.v
-....f.n.
+......n.
 .....g.o
 ENDMAP
 

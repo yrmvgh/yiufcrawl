@@ -264,7 +264,6 @@ KITEM: N = any misc
 KFEAT: X = altar_xom
 KFEAT: M = altar_makhleb
 KFEAT: C = altar_cheibriados
-KFEAT: F = altar_fedhas
 KFEAT: G = altar_gozag
 KFEAT: Q = altar_qazlal
 KFEAT: H = altar_hepliaklqana
@@ -294,7 +293,7 @@ x.f.xJlxm..
 x...xNGx...
 x+xxxXHx...
 x.s5xMCx..*
-xVSKxQF+..j
+xVSKxQ.+..j
 ENDMAP
 
 ##############################################################################
@@ -522,7 +521,7 @@ KMONS: r = hydra simulacrum / fire dragon simulacrum / polar bear simulacrum /\
 KITEM: r = any, any, any, any, any, superb_item / w:1 wand of acid /\
  w:1 wand of disintegration
 KITEM: % = fruit q:6
-KFEAT: _ = altar_fedhas
+KFEAT: _ = altar_qazlal
 KMONS: s = patrolling Urug
 KMONS: u = death drake
 KFEAT: = = closed_door

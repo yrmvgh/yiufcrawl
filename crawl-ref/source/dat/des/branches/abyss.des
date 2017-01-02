@@ -245,10 +245,10 @@ TAGS:    no_rotate
 NSUBST:  . = 3:1 / 2:2 / *:.
 SUBST:   ' = .
 COLOUR:  " : white w:5 / none
-FTILE:   "ABCDEFGHIJKLMNOPRQSTU : floor_limestone w:5 / floor_nerves
+FTILE:   "ABCDEFGHIJKLMNOPRQST : floor_limestone w:5 / floor_nerves
 SUBST:   " = .
 MONS:    plant, bush
-SHUFFLE: ABCDEFHIJKLMNOPQRSTU
+SHUFFLE: ABCDEFHIJKLMNOPQRST
 KFEAT:   A = altar_makhleb
 KFEAT:   B = altar_xom
 KFEAT:   C = altar_zin
@@ -261,14 +261,13 @@ KFEAT:   J = altar_sif_muna
 KFEAT:   K = altar_trog
 KFEAT:   L = altar_nemelex_xobeh
 KFEAT:   M = altar_elyvilon
-KFEAT:   N = altar_fedhas
-KFEAT:   O = altar_cheibriados
-KFEAT:   P = altar_ashenzari
-KFEAT:   Q = altar_dithmenos
-KFEAT:   R = altar_gozag
-KFEAT:   S = altar_qazlal
-KFEAT:   T = altar_uskayaw
-KFEAT:   U = altar_hepliaklqana
+KFEAT:   N = altar_cheibriados
+KFEAT:   O = altar_ashenzari
+KFEAT:   P = altar_dithmenos
+KFEAT:   Q = altar_gozag
+KFEAT:   R = altar_qazlal
+KFEAT:   S = altar_uskayaw
+KFEAT:   T = altar_hepliaklqana
 MAP
 ''''''...............
 ''ccccccccccccccccc..
@@ -277,7 +276,7 @@ MAP
 ''G'c"""E"""""Q"""ct.
 ''''+"B"""J"N"""T"c..
 ''G'c"""F"""""R"""c..
-''''c"C"""K"O"""U"c.t
+''''c"C"""K"O"""A"c.t
 ''G'c"""H"""""S"""c..
 ''ccccccccccccccccc..
 .......t......ttt....

@@ -849,26 +849,6 @@ c...c
 cc+cc
 ENDMAP
 
-NAME: nicolae_crypt_fedhas_prevails
-TAGS: transparent extra
-DEPTH: Crypt
-WEIGHT: 3
-TAGS: no_monster_gen no_item_gen no_trap_gen
-SUBST: D = dw, W = wp
-KMONS: d = withered plant / nothing w:20
-KMONS: w = withered plant / nothing
-KMONS: p = plant
-KFEAT: _ = altar_fedhas
-MAP
-cccccccccc
-cddDwwWppc
-cddDwwWppc
-+......_pc
-cddDwwWppc
-cddDwwWppc
-cccccccccc
-ENDMAP
-
 NAME: nicolae_crypt_twisting_catacombs
 TAGS: transparent extra
 DEPTH: Crypt

@@ -982,7 +982,7 @@ LROCKTILE:  wall_hall
 # No exploration gods. Positions are random, and you don't have enough time to
 # reach an altar before the game starts.
 NSUBST: B = 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / h / i / j / k / l / \
-            m / n / o / p / q / *:.
+            m / n / o / p / *:.
 KFEAT:  0 = altar_zin
 KFEAT:  1 = altar_the_shining_one
 KFEAT:  2 = altar_lugonu
@@ -997,12 +997,11 @@ KFEAT:  h = altar_trog
 KFEAT:  i = altar_beogh
 KFEAT:  j = altar_cheibriados
 KFEAT:  k = altar_jiyva
-KFEAT:  l = altar_fedhas
-KFEAT:  m = altar_dithmenos
-KFEAT:  n = altar_gozag
-KFEAT:  o = altar_qazlal
-KFEAT:  p = altar_ru
-KFEAT:  q = altar_uskayaw
+KFEAT:  1 = altar_dithmenos
+KFEAT:  m = altar_gozag
+KFEAT:  n = altar_qazlal
+KFEAT:  o = altar_ru
+KFEAT:  p = altar_uskayaw
 KITEM:  { = scroll of blinking q:3, scroll of fog q:3 ident:all, \
             potion of heal wounds q:3, potion of haste q:3, \
             wand of iceblast charges:5 ident:all, \
