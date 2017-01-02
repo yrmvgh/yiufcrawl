@@ -582,7 +582,7 @@ void zap_wand(int slot)
         const int tracer_range = !randeff ? _wand_range(type_zapped)
                                           : _max_wand_range();
         const string zap_title =
-            "Zapping: " + menu_colour_item_name(wand, DESC_INVENTORY)
+            "Zapping: " + get_menu_colour_prefix_tags(wand, DESC_INVENTORY)
                         + (wasteful ? " <lightred>(will waste charges)</lightred>"
                                     : "");
         direction_chooser_args args;
