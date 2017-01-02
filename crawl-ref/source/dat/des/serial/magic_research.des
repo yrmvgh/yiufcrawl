@@ -132,29 +132,6 @@ cx..x..xc
 dcbadabcd
 ENDMAP
 
-NAME:    hangedman_research_toxicology
-MONS:    spiny frog / black mamba, redback
-MONS:    sea snake / redback, hornet / wasp
-MONS:    mana viper / tarantella
-KMONS:   D = death drake
-KITEM:   E = potion of lignification ident:type / \
-             potion of mutation ident:type
-COLOUR:  .012345DE = lightgreen
-FTILE:   .+n012345DE = floor_moss
-SHUFFLE: 12, 34
-: init_research(_G, 'poison')
-MAP
-@'''@'''@
-abcd+dcba
-b1n...n2b
-c1n...n2c
-dn+...+nd
-a0nEEEn0a
-b3nn+nn4b
-c3n5D5n4c
-dcbadabcd
-ENDMAP
-
 NAME:    hangedman_research_thanatology
 MONS:    macabre mass hd:4 / small abomination
 MONS:    place:Depths:$ skeleton, ghost crab, place:Depths:$ simulacrum
