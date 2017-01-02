@@ -22,6 +22,7 @@
 #include "fprop.h"
 #include "godabil.h"
 #include "godconduct.h"
+#include "invent.h"
 #include "itemname.h"
 #include "items.h"
 #include "losglobal.h"
@@ -2376,7 +2377,8 @@ spret_type cast_sandblast(int pow, bolt &beam, bool fail)
 	int num_stones = 0;
 	for (item_def& i : you.inv)
 	{
-		if (i.is_type(OBJ_MISSILES, MI_STONE))
+		if (i.is_type(OBJ_MISSILES, MI_STONE)
+			&& check_warning_inscriptions(i, OPER_DESTROY))
         {
             num_stones += i.quantity;
             stone = &i;
@@ -2394,7 +2396,12 @@ spret_type cast_sandblast(int pow, bolt &beam, bool fail)
     const spret_type ret = zapping(zap, pow, beam, true, nullptr, fail);
 	
 	if (ret == SPRET_SUCCESS)
-        dec_inv_item_quantity(letter_to_index(stone->slot), 8);
+	{
+        if(dec_inv_item_quantity(letter_to_index(stone->slot), 8))
+			mpr("You now have no stones remaining.");
+		else
+            mprf_nocap("%s", stone->name(DESC_INVENTORY).c_str());
+	}
 	
     return ret;
 }
