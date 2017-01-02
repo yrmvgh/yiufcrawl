@@ -6,9 +6,6 @@
 #Doroklohe |constructs or demons    |scrolls or armour       |12000
 #          |or top-tier undead      |or random               |
 #--------------------------------------------------------------------
-#Wucad Mu  |hell effect "monks",    |potions of experience,  |9000
-#          |summoning OCS           |staff of Wucad Mu       |
-#--------------------------------------------------------------------
 #Cigotuvi  |uglies, abominations,   |tmut potions / books,   |16000
 #          |lump shapeshifters      |scrolls of summoning    |
 #--------------------------------------------------------------------
@@ -39,9 +36,6 @@
 #---------------------------------------------------------------
 #Doroklohe's Tomb         |densely packed       |yellow walls,
 #                         |collapsing tombs     |dark floor
-#---------------------------------------------------------------
-#Wucad Mu's Monastery     |empty temple         |dark walls,
-#                         |                     |autumn trees
 #---------------------------------------------------------------
 #Cigotuvi's Fleshworks    |organic, irregular,  |magenta/red/yellow
 #                         |twisted innards      |flesh/blood tiles
@@ -248,99 +242,6 @@ function wizlab_zonguldrok_awaken_wizard(data, triggerable,
     if lich then
         data.awoke = true
     end
-end
-
-function wizlab_wucad_msgfn(data, triggerable, triggerer, marker, ev)
-  if data.trig == true then
-    return
-  end
-
-  if crawl.one_chance_in(3) then
-    return
-  end
-
-  if dgn.persist.wucad_mu_died == true then
-    return
-  end
-
-  if data.spot == 1 then
-    crawl.mpr("Strange, shadowy figures dance through the air in front of you.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 2 then
-    crawl.mpr("This room is filled with shadowy figures, quietly meditating.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 3 then
-    crawl.mpr("Here, spectral monks perform complicated, martial routines; they fade quickly.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 4 then
-    if you.silenced() then
-      return
-    end
-    crawl.mpr("Faint laughter comes from somewhere. Too faint to be real.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 5 then
-    if you.silenced() then
-      return
-    end
-    crawl.mpr("There is a faint scream of pain from a crouched figure. This too fades quickly.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 6 then
-    crawl.mpr("Grey monks gather around the fountain. They do not speak, nor look at each other.", "talk_visual")
-    data.trig = true
-  elseif data.spot == 7 then
-    crawl.mpr("A figure sits in silent meditation. It spots you, gestures wildly, and disappears.", "talk_visual")
-    data.trig = true
-  end
-end
-
-function wizlab_wucad_summon_monks(data, triggerable, triggerer, marker, ev)
-  if triggerer.type ~= "turn" or triggerer.sub_type ~= "countdown" then
-    return
-  end
-
-  if dgn.persist.wucad_mu_died == true then
-    return
-  end
-
-  -- For now, no spawning during Step From Time; perhaps monks should
-  -- continue to appear, just more slowly. If so, the circle_iterator below
-  -- needs a different centre from (0,0).
-  if you.pos() == 0 then
-    return
-  end
-
-  local msp = "monstrous demonspawn seen sum:shadow_creatures dur:2 " ..
-              "nas:old_memories generate_awake " ..
-              "tile:mons_faint_demonspawn_monk / deep troll seen " ..
-              "sum:shadow_creatures dur:2 nas:old_memories generate_awake " ..
-              "tile:mons_faint_deep_troll_monk / grey draconian monk w:5" ..
-              "seen sum:shadow_creatures dur:2 nas:old_memories " ..
-              "generate_awake tile:mons_faint_grey_draconian_monk"
-
-  local count = 0
-  for point in iter.circle_iterator(3) do
-    if crawl.one_chance_in(8) and count < 3 then
-      if feat.is_solid(point.x, point.y) or not feat.has_solid_floor(point.x, point.y) then
-      else
-       local mon = dgn.create_monster(point.x, point.y, msp)
-       count = count + 1
-      end
-    end
-  end
-
-  crawl.redraw_view()
-
-  if count == 1 then
-    crawl.mpr("One of the shadowy figures appears more solid!", "warning")
-  elseif count > 1 then
-    crawl.mpr("Shadows coalesce into solid form.", "warning")
-  end
-end
-
-function callback.wizlab_wucad_wucad_died(data, triggerable,
-                                           triggerer, marker, ev)
-  dgn.persist.wucad_mu_died = true
-  crawl.mpr("The shadows inhabiting this place fade forever.", "talk_visual")
 end
 
 function teleporter_golubria_switch_fn(data, triggerable, triggerer, marker, ev)
@@ -1174,142 +1075,6 @@ xx?!!.G.G.G..<..G.G.G.!!?xx
   xx?!!!!!!!!!!!!!!!!!?xx
    xx?????????????????xx
     xxxxxxxxxxxxxxxxxxx
-ENDMAP
-
-###############################################################################
-# Wucad Mu's Monastery
-#
-# TODO: Could use more "alien" statue tiles.
-#       Any spawn list (explicitly used here) blocks any redefinition
-#       for monsters, which altogether means the flavour redefinitions
-#       of the monks were cut they don't work consistently; currently,
-#       retiles apply to the level spawns but not the OCS spawns.
-#       dbname use may or may not be warranted to preserve old flavour.
-#
-#       A prefix as well as suffix but no regular modifier
-#       (so, "faint draconian monk") would be the best, if it's done.
-NAME:       wizlab_wucad
-TAGS:       no_rotate
-SUBST:      T = t.
-KMONS:      8 = obsidian statue name:Statue_of_Wucad_Mu n_rpl n_the \
-                hd:15 tile:mons_wucad_mu_statue
-KITEM:      8 = staff_of_wucad_mu
-COLOUR:     c = darkgrey
-COLOUR:     t = lightred / red w:3
-TILE:       t = dngn_tree_lightred / dngn_tree_red w:4 / dngn_tree_yellow w:4
-# This used to specify dngn_statue_troll as the only middle case, but that tile
-# no longer exists.
-TILE:       G = dngn_granite_statue / \
-                dngn_statue_angel / dngn_statue_imp / \
-                dngn_statue_ancient_evil / dngn_statue_ancient_hero
-COLOUR:     AG = red
-COLOUR:     < = lightred
-TILE:       c = dngn_stone_dark
-LFLOORTILE: floor_pebble_white
-KFEAT:      ' = open_door
-KFEAT:      1234567 = .
-KMONS:      1234567 = nothing
-LROCKCOL:   darkgrey
-ITEM:       potion of beneficial mutation q:2
-ITEM:       manual of fighting / manual of armour / manual of spellcasting / \
-            manual of staves / manual of fighting / manual of dodging
-ITEM:       book of enchantments
-SHUFFLE:    defg
-LFLOORCOL:  white
-
-{{
-dgn.persist.wucad_mu_died = false
-
-local function trigfn (spot)
-  return Triggerable.synchronized_markers(function_at_spot(
-            "wizlab_wucad_msgfn",
-            { spot=spot, trig = false}, true, { only_at_slave = true,
-              listen_to_slaves = true }))
-end
-
-lua_marker('1', trigfn(1))
-lua_marker('2', trigfn(2))
-lua_marker('3', trigfn(3))
-lua_marker('4', trigfn(4))
-lua_marker('5', trigfn(5))
-lua_marker('6', trigfn(6))
-lua_marker('7', trigfn(7))
-
-
-local summon_marker = TriggerableFunction:new ({
-    func="wizlab_wucad_summon_monks",
-    repeated=true })
-
-summon_marker:add_triggerer(DgnTriggerer:new {type="turn", delay_min=150,
-    delay_max=300 })
-
-local wucad_marker = TriggerableFunction:new ({
-    func="callback.wizlab_wucad_wucad_died",
-    repeated=false })
-
-wucad_marker:add_triggerer(DgnTriggerer:new {type="monster_dies",
-    target="Statue of Wucad Mu"})
-
-lua_marker('A', summon_marker)
-lua_marker('A', wucad_marker)
-
-}}
-MARKER:     G = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="veto", \
-                                  veto_shatter="veto" }
-MARKER:     + = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="veto", \
-                                  veto_shatter="veto" }
-MARKER:     ' = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="veto", \
-                                  veto_shatter="veto" }
-MARKER:     c = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="veto", \
-                                  veto_shatter="veto" }
-MARKER:     t = lua:props_marker {veto_fragmentation="veto", veto_disintegrate="veto", \
-                                  veto_shatter="veto", veto_fire="veto" }
-:           wizlab_setup(_G)
-:           set_border_fill_type("tree")
-:           set_random_mon_list([[shadow w:6 / flayed ghost w:2 / angry ghost w:2 / ]]
-:                            .. [[monstrous demonspawn / deep troll / ]]
-:                            .. [[grey draconian monk w:6 / ]])
-:           set_feature_name("tree", "autumnal tree")
-:           set_feature_name("stone_wall", "crumbled stone wall")
-:           set_feature_name("granite_statue", "strange statue")
-epilogue{{
-            wizlab_milestone(_G, "Wucad Mu's Monastery")
-}}
-MAP
-tttttttttttttttttttttttttttttttttttttttt
-tttttttttttttttttttttttttttttttttttttttt
-ttttttttttttttTTTTTTTttttttttttttttttttt
-ttttttTTTTTTTT.......TTTTTTTTTTTTttttttt
-tttttT.........ccccc.............Ttttttt
-ttttT.........cc777cc.............Tttttt
-tttT.......cccc77777cccc...........Ttttt
-ttT.......cc..cc777cc..cc......ccc..Tttt
-ttT......cc....cc+cc....cc....cc6cc..Ttt
-ttT.....Tc....G.....G....cT..cc6U6cc.Ttt
-ttT.....cc...............cc...cc6cc..Ttt
-ttT......+.G.....8.....G.c.....c+c...Ttt
-ttT.....cc...............cc..........Ttt
-ttT.....Tc....G.....G....cT..........Ttt
-ttT.c..cTcc.............cccT.........Ttt
-ttTcc++ccccccc.......ccccccc+cc......Ttt
-ttcc5555cccdeccc+++cccfgccc444cc.....Ttt
-ttc555555c....c.....c....c44444c....Tttt
-ttc555555cc.............cc44444cc..ctttt
-ttc555555ccccccccccccccccccc+cccc++ccttt
-ttcc5555ccc.............ccc222cc3333cctt
-tttccccccc...............+22222+33333ctt
-ttttttttccc..ccc+++ccc..ccc222cc3333cctt
-tttttttttcccccTT111Ttccccccccccccccccttt
-ttttttttttttttT11111Tttttttttttttttttttt
-tttttttttttT.........TTTTTTttttttttttttt
-tttccccctttT.....G........Ttcccccttttttt
-ttcc...cctT..............Ttcc...cctttttt
-ttc..A..'..................'..<..ctttttt
-ttcc...cctT.....TTTT.....Ttcc...cctttttt
-tttccccctttT...TTttTT....Tttcccccttttttt
-ttttttttttttTTTTttttTTTTTttttttttttttttt
-tttttttttttttttttttttttttttttttttttttttt
-tttttttttttttttttttttttttttttttttttttttt
 ENDMAP
 
 ################################################################################
