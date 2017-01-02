@@ -38,7 +38,7 @@ spschool_flag_type random_book_theme()
 {
     vector<spschool_flag_type> disciplines;
     for (auto discipline : spschools_type::range())
-        if (!(discipline & SPTYP_DIVINATION))
+        if (!(discipline & SPTYP_DIVINATION) && !(discipline & SPTYP_POISON))
             disciplines.push_back(discipline);
     return disciplines[random2(disciplines.size())];
 }
