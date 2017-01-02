@@ -3589,7 +3589,7 @@ ORIENT: float
 MONS: smoke demon / sun demon, balrug / w:2 nothing
 MONS: ynoxinul , blizzard demon / w:2 nothing
 : else
-MONS: red devil ; trident, sun demon / w:5 smoke demon / w:3 nothing
+MONS: sun demon / w:5 smoke demon / w:3 nothing
 MONS: ice devil, ynoxinul / w:2 nothing
 : end
 SHUFFLE: l2'/w4B
