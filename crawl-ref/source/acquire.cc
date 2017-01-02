@@ -684,18 +684,6 @@ static int _acquirement_misc_subtype(bool /*divine*/, int & /*quantity*/)
 }
 
 /**
- * What weight should wands of Teleportation be given in wand acquirement,
- * based on their utility to the player? (More utile -> higher weight -> more
- * likely)
- */
-static int _tele_wand_weight()
-{
-    if (you.species == SP_FORMICID || crawl_state.game_is_sprint())
-        return 1; // can only be used to tele away enemies
-    return 15;
-}
-
-/**
  * Choose a random type of wand to be generated via acquirement or god gifts.
  *
  * Heavily weighted toward more useful wands and wands the player hasn't yet

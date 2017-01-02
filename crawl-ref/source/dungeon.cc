@@ -101,9 +101,6 @@ static void _place_traps();
 static void _prepare_water();
 static void _check_doors();
 
-static void _add_plant_clumps(int rarity, int clump_sparseness,
-                              int clump_radius);
-
 static void _pick_float_exits(vault_placement &place,
                               vector<coord_def> &targets);
 static bool _feat_is_wall_floor_liquid(dungeon_feature_type);
@@ -5460,30 +5457,6 @@ static bool _valid_item_for_shop(int item_index, shop_type shop_type_,
 }
 
 /**
- * Attempt to make a corpse to be placed in a gozag ghoul corpse shop.
- *
- * @return  The mitm index of the corpse.
- *          If we couldn't make one, returns NON_ITEM instead.
- */
-static int _make_delicious_corpse()
-{
-    // Choose corpses from D:<XL>
-    const level_id lev(BRANCH_DUNGEON, you.get_experience_level());
-    const monster_type mon_type = pick_local_corpsey_monster(lev);
-
-    // Create corpse object.
-    monster dummy;
-    dummy.type = mon_type;
-    define_monster(dummy);
-
-    item_def* corpse = place_monster_corpse(dummy, true, true);
-    if (!corpse)
-        return NON_ITEM;
-	
-    return corpse->index();
-}
-
-/**
  * Create an item and place it in a shop.
  *
  * FIXME: I'm pretty sure this will go into an infinite loop if mitm is full.
@@ -5806,77 +5779,6 @@ static void _place_specific_trap(const coord_def& where, trap_spec* spec,
                        : DNGN_UNDISCOVERED_TRAP;
     t.prepare_ammo(charges);
     env.trap[where] = t;
-}
-
-/**
- * Sprinkle plants around the level.
- *
- * @param rarity            1/chance of placing clumps in any given place.
- * @param clump_density     1/chance of placing more plants within a clump.
- * @param clump_raidus      Radius of plant clumps.
- */
-static void _add_plant_clumps(int rarity,
-                              int clump_sparseness,
-                              int clump_radius)
-{
-    for (rectangle_iterator ri(1); ri; ++ri)
-    {
-        mgen_data mg;
-        mg.flags = MG_FORCE_PLACE;
-        if (mgrd(*ri) != NON_MONSTER && !map_masked(*ri, MMT_VAULT))
-        {
-            // clump plants around things that already exist
-            monster_type type = menv[mgrd(*ri)].type;
-            if ((type == MONS_PLANT
-                     || type == MONS_FUNGUS
-                     || type == MONS_BUSH)
-                 && one_chance_in(rarity))
-            {
-                mg.cls = type;
-            }
-            else
-                continue;
-        }
-        else
-            continue;
-
-        vector<coord_def> to_place;
-        to_place.push_back(*ri);
-        for (int i = 1; i < clump_radius; ++i)
-        {
-            for (radius_iterator rad(*ri, i, C_ROUND); rad; ++rad)
-            {
-                if (grd(*rad) != DNGN_FLOOR)
-                    continue;
-
-                // make sure the iterator stays valid
-                vector<coord_def> more_to_place;
-                for (auto c : to_place)
-                {
-                    if (*rad == c)
-                        continue;
-                    // only place plants next to previously placed plants
-                    if (abs(rad->x - c.x) <= 1 && abs(rad->y - c.y) <= 1)
-                    {
-                        if (one_chance_in(clump_sparseness))
-                            more_to_place.push_back(*rad);
-                    }
-                }
-                to_place.insert(to_place.end(), more_to_place.begin(),
-                                more_to_place.end());
-            }
-        }
-
-        for (auto c : to_place)
-        {
-            if (c == *ri)
-                continue;
-            if (plant_forbidden_at(c))
-                continue;
-            mg.pos = c;
-            mons_place(mgen_data(mg));
-        }
-    }
 }
 
 static coord_def _get_hatch_dest(coord_def base_pos, bool shaft)
