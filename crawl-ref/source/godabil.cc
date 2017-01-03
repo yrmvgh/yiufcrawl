@@ -5087,7 +5087,6 @@ static const vector<mutation_type> _minor_arcane_sacrifices =
     MUT_NO_FIRE_MAGIC,
     MUT_NO_ICE_MAGIC,
     MUT_NO_EARTH_MAGIC,
-    MUT_NO_POISON_MAGIC,
 };
 
 /// The list of all lists of arcana sacrifice mutations.
