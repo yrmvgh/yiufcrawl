@@ -612,7 +612,7 @@ static function<void(bolt&, const monster&, int)>
     {
         beam.flavour = flavour;
         const monster* target = _get_allied_target(caster, beam);
-        beam.target = target ? target->pos() : coord_def();
+        beam.target = target ? target->pos() : coord_def(GXM+1, GYM+1);
     };
 }
 

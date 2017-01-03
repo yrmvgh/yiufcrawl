@@ -499,45 +499,10 @@ static void _check_start_train()
     you.start_train.clear();
 }
 
-static void _check_stop_train()
-{
-    _check_inventory_skills();
-    _check_spell_skills();
-    _check_abil_skills();
-
-    if (you.stop_train.empty())
-        return;
-
-    skill_set skills;
-    for (skill_type sk : you.stop_train)
-    {
-        if (is_invalid_skill(sk))
-            continue;
-        if (skill_has_manual(sk))
-            continue;
-
-        if (skill_trained(sk) && you.training[sk])
-            skills.insert(sk);
-        you.can_train.set(sk, false);
-    }
-
-    if (!skills.empty())
-    {
-        mprf("You stop training %s.", skill_names(skills).c_str());
-        check_selected_skills();
-    }
-
-    reset_training();
-    you.stop_train.clear();
-}
-
 void update_can_train()
 {
     if (!you.start_train.empty())
         _check_start_train();
-
-    if (!you.stop_train.empty())
-        _check_stop_train();
 }
 
 bool training_restricted(skill_type sk)
@@ -567,8 +532,6 @@ void init_can_train()
         if (training_restricted(sk))
             you.stop_train.insert(sk);
     }
-
-    _check_stop_train();
 }
 
 void init_train()
