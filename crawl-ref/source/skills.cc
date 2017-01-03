@@ -410,62 +410,6 @@ static void _init_queue(list<skill_type> &queue, FixedVector<T, SIZE> &array)
     ASSERT(queue.size() == (unsigned)EXERCISE_QUEUE_SIZE);
 }
 
-static void _erase_from_stop_train(const skill_set &can_train)
-{
-    for (skill_type sk : can_train)
-        you.stop_train.erase(sk);
-}
-
-/*
- * Check the inventory to see what skills the player can train,
- * among the ones in you.stop_train.
- * Trainable skills are removed from the set.
- */
-static void _check_inventory_skills()
-{
-    for (const auto &item : you.inv)
-    {
-        // Exit early if there's no more skill to check.
-        if (you.stop_train.empty())
-            return;
-
-        skill_set skills;
-        if (!item.defined() || !item_skills(item, skills))
-            continue;
-
-        _erase_from_stop_train(skills);
-    }
-}
-
-static void _check_spell_skills()
-{
-    for (spell_type spell : you.spells)
-    {
-        // Exit early if there's no more skill to check.
-        if (you.stop_train.empty())
-            return;
-
-        if (spell == SPELL_NO_SPELL)
-            continue;
-
-        skill_set skills;
-        spell_skills(spell, skills);
-        _erase_from_stop_train(skills);
-    }
-}
-
-static void _check_abil_skills()
-{
-    for (ability_type abil : get_god_abilities())
-    {
-        // Exit early if there's no more skill to check.
-        if (you.stop_train.empty())
-            return;
-
-        you.stop_train.erase(abil_skill(abil));
-    }
-}
-
 string skill_names(const skill_set &skills)
 {
     return comma_separated_fn(begin(skills), end(skills), skill_name);
