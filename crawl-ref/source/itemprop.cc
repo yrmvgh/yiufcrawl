@@ -884,6 +884,7 @@ void auto_id_inventory()
 
 void do_curse_item(item_def &item, bool quiet)
 {
+  return; // curses are bad, fam. --mps
     // Already cursed?
     if (item.flags & ISFLAG_CURSED)
         return;
@@ -1060,6 +1061,7 @@ static bool _is_affordable(const item_def &item)
 //
 bool item_ident(const item_def &item, iflags_t flags)
 {
+  return true; // id is bad, fam. --mps
     return (item.flags & flags) == flags;
 }
 
@@ -1579,13 +1581,13 @@ int wand_charge_value(int type)
         return 5;
 
     default:
-        return 8;
+        return 6; // reduce wand capacity for low tier wands --mps
 
     case WAND_FLAME:
     case WAND_SLOWING:
     case WAND_CONFUSION:
     case WAND_RANDOM_EFFECTS:
-        return 16;
+        return 8; // reduce wand capacity for low tier wands --mps
     }
 }
 
