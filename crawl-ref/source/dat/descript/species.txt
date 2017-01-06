@@ -9,6 +9,11 @@ Bearkin
 Enormous humanoid bear shamans who are bigger than an Ogre and even bigger
 when angered. Can heft anything that's not a bow or a greatclub in one hand.
 %%%%
+Bultungin
+
+Bultungins are humanoids with the heads of dogs. They are quick to learn the basics
+of any skill, but struggle to master any.
+%%%%
 Centaur
 
 Swift, strong and bulky, Centaurs are particularly skilled with ranged

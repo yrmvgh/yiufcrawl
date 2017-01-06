@@ -1769,6 +1769,16 @@ Imps
   wih any manner of ranged weapon. They enjoy the traditional weapons of demon-
   kind: namely whips, tridents, and long blades.
 
+Bultungins
+  Bultungins are humanoids with the head of a dog, with origins from the eastern
+  deserts. Bultungins are unusually attracted to the dungeon, with mentions of the
+  Orb often generating blank stares, tilted heads, and involuntary drooling.
+
+  Bultungins are quick to learn, picking up the basics of any skill within a short
+  period of time. This comes at the cost of a poor attention span, making
+  it more difficult to learn a skill the higher it gets. Thus, Bultungins often
+  prefer to dabble in everything over mastering in one particular skill.
+
 The Undead
 ========================================
 
