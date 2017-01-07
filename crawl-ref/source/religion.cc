@@ -396,7 +396,7 @@ bool is_unavailable_god(god_type god)
         return true;
 
     // Disabled, pending a rework.
-    if (god == GOD_PAKELLAS || god == GOD_FEDHAS || GOD == GOD_ASHENZARI)
+    if (god == GOD_PAKELLAS || god == GOD_FEDHAS || god == GOD_ASHENZARI)
         return true;
 
     return false;

@@ -4107,7 +4107,7 @@ bool gozag_potion_petition()
             for (int i = 0; i < GOZAG_MAX_POTIONS; i++)
             {
                 prices[i] = 0;
-                int multiplier = random_range(20, 30); // arbitrary
+                int multiplier = random_range(26, 40); // arbitrary
 
                 if (!you.attribute[ATTR_GOZAG_FIRST_POTION])
                     multiplier = 0;
@@ -4222,7 +4222,7 @@ static int _gozag_max_shops()
 int gozag_price_for_shop(bool max)
 {
     // This value probably needs tweaking.
-    const int max_base = 800;
+    const int max_base = 900;
     const int base = max ? max_base : random_range(max_base/2, max_base);
     const int price = base
                       * (GOZAG_SHOP_BASE_MULTIPLIER
