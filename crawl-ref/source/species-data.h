@@ -306,7 +306,8 @@ static const map<species_type, species_def> species_data =
     "Ba",
     "Barachian", nullptr, "Frog",
     SPF_NO_HAIR,
-    0, 0, 0, 3,
+    0, 0, 0, 
+	15, 3,
     MONS_BULLFROG,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
     6, 6, 6, // 18

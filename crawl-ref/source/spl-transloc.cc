@@ -156,7 +156,7 @@ void uncontrolled_blink(bool override_stasis)
  * @return              True if a target was found; false if the player aborted.
  */
 static bool _find_cblink_target(coord_def &target, bool safe_cancel,
-                                string verb, targeter *hitfunc = nullptr)
+                                string verb, targetter *hitfunc = nullptr)
 {
     while (true)
     {
@@ -320,7 +320,7 @@ spret_type frog_hop(bool fail)
 {
     const int hop_range = 3 + player_mutation_level(MUT_HOP); // 4-5
     coord_def target;
-    targeter_smite tgt(&you, hop_range, 0, HOP_FUZZ_RADIUS);
+    targetter_smite tgt(&you, hop_range, 0, HOP_FUZZ_RADIUS);
     while (true)
     {
         if (!_find_cblink_target(target, true, "hop", &tgt))
@@ -339,7 +339,7 @@ spret_type frog_hop(bool fail)
     if (!you.attempt_escape(2)) // XXX: 1?
         return SPRET_SUCCESS; // of a sort
 
-    // invisible monster that the targeter didn't know to avoid, or similar
+    // invisible monster that the targetter didn't know to avoid, or similar
     if (target.origin())
     {
         mpr("You tried to hop, but there was no room to land!");
@@ -348,7 +348,7 @@ spret_type frog_hop(bool fail)
     }
 
     if (!cell_is_solid(you.pos())) // should be safe.....
-        place_cloud(CLOUD_DUST, you.pos(), 2 + random2(3), &you);
+        place_cloud(CLOUD_DUST_TRAIL, you.pos(), 2 + random2(3), &you);
     move_player_to_grid(target, false);
     crawl_state.cancel_cmd_again();
     crawl_state.cancel_cmd_repeat();
@@ -385,7 +385,7 @@ spret_type controlled_blink(bool fail, bool safe_cancel)
     if (!you.attempt_escape(2))
         return SPRET_SUCCESS; // of a sort
 
-    // invisible monster that the targeter didn't know to avoid
+    // invisible monster that the targetter didn't know to avoid
     if (monster_at(target))
     {
         mpr("Oops! There was something there already!");
