@@ -806,11 +806,6 @@ ring of resist corrosion
 A ring that protects the wearer from acid damage and from corrosion caused by
 acids, although not infallibly so.
 %%%%
-ring of loudness
-
-A ring that causes the wearer's movements to be particularly loud, making them
-less stealthy.
-%%%%
 ring of magical power
 
 A ring that increases its wearer's reserves of magical power.

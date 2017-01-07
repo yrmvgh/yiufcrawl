@@ -1349,12 +1349,6 @@ int acquirement_create_item(object_class_type class_wanted,
                 acq_item.plus = max(abs((int) acq_item.plus), 1);
                 break;
 
-            case RING_LOUDNESS:
-                // These are the only truly bad pieces of jewellery.
-                if (!one_chance_in(9))
-                    make_item_randart(acq_item);
-                break;
-
             default:
                 break;
             }

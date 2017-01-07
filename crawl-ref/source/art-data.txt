@@ -1041,7 +1041,7 @@ BOOL:     nogen
 
 ENUM:     OCTOPUS_KING_RING
 NAME:     ring of the Octopus King
-OBJ:      OBJ_JEWELLERY/RING_LOUDNESS
+OBJ:      OBJ_JEWELLERY/RING_FLIGHT
 COLOUR:   ETC_WATER
 TILE:     urand_octoring
 AC:       1

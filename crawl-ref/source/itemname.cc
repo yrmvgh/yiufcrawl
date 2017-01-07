@@ -753,8 +753,10 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_SLAYING:               return "slaying";
         case RING_SEE_INVISIBLE:         return "see invisible";
         case RING_RESIST_CORROSION:      return "resist corrosion";
+#if TAG_MAJOR_VERSION == 34
         case RING_LOUDNESS:              return "loudness";
         case RING_TELEPORTATION:         return "teleportation";
+#endif
         case RING_EVASION:               return "evasion";
 #if TAG_MAJOR_VERSION == 34
         case RING_SUSTAIN_ATTRIBUTES:    return "sustain attributes";
@@ -813,7 +815,9 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_SLAYING:               return "Slay";
         case RING_SEE_INVISIBLE:         return "sInv";
         case RING_RESIST_CORROSION:      return "rCorr";
+#if TAG_MAJOR_VERSION == 34
         case RING_LOUDNESS:              return "Stlth-";
+#endif
         case RING_EVASION:               return "EV";
         case RING_STEALTH:               return "Stlth+";
         case RING_DEXTERITY:             return "Dex";
@@ -3271,10 +3275,8 @@ bool is_bad_item(const item_def &item, bool temp)
         {
 #if TAG_MAJOR_VERSION == 34
         case AMU_INACCURACY:
-#endif
         case RING_LOUDNESS:
             return true;
-#if TAG_MAJOR_VERSION == 34
         case RING_TELEPORTATION:
             return !(you.stasis() || crawl_state.game_is_sprint());
 #endif

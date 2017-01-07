@@ -796,8 +796,6 @@ function ring_value(it, cur, it2)
   --       or subtype == "ring of stealth"
   --       or subtype == "ring of magical power" then
   --  value = value + 10
-  elseif subtype == "ring of loudness" then
-    value = value - 10
   end
   return value+val1,value+val2
 end

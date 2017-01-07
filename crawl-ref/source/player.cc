@@ -3176,7 +3176,6 @@ int check_stealth()
     stealth += STEALTH_PIP * you.scan_artefacts(ARTP_STEALTH);
 
     stealth += STEALTH_PIP * you.wearing(EQ_RINGS, RING_STEALTH);
-    stealth -= STEALTH_PIP * you.wearing(EQ_RINGS, RING_LOUDNESS);
 
     const item_def *body_armour = you.slot_item(EQ_BODY_ARMOUR);
     if (body_armour)

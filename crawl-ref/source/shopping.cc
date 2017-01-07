@@ -692,9 +692,9 @@ unsigned int item_value(item_def item, bool ident)
                 case RING_SEE_INVISIBLE:
                     valued += 150;
                     break;
-
-                case RING_LOUDNESS:
+					
 #if TAG_MAJOR_VERSION == 34
+                case RING_LOUDNESS:
                 case RING_TELEPORTATION:
 #endif
                 case AMU_NOTHING:
