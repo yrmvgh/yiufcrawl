@@ -23,11 +23,6 @@ Ghoul
 Epäkuollut, kirottu mätänemään ikuisesti. He aina etsivät syötäväksi
 pilaantunutta ruokaa, hakkaamalla kaiken kynsillään.
 %%%%
-Halfling
-
-Pieniä mutta kovapintaisia, he ovat hyviä linkojen kanssa. He pystyvät myös
-puolustautumaan mutaatioefekteiltä jonkin verran.
-%%%%
 Hill Orc
 
 Örkit ovat taitavia lähitaistelussa, mutta heikkoja taikuudessa. Useimpien

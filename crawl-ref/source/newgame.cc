@@ -163,8 +163,7 @@ static const species_type species_order[] =
     SP_HUMAN,          SP_DEEP_ELF,
     SP_HILL_ORC,
     // small species
-    SP_HALFLING,       SP_KOBOLD,
-    SP_SPRIGGAN,
+    SP_KOBOLD,		   SP_SPRIGGAN,
     // large species
     SP_OGRE,           SP_TROLL,
     // significantly different body type from human ("monstrous")

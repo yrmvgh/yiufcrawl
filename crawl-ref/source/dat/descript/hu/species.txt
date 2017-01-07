@@ -23,11 +23,6 @@ Ghoul
 Egy örök rothadásra ítélt élőhalott. Folyton rohadt húsra vágynak, hogy éles
 karmaikkal feldarabolják és felfalják.
 %%%%
-Halfling
-
-Kicsi de kemény, a félszerzet kiválóan bánik a parittyával. Enyhén ellenállóak
-mutációkkal szemben.
-%%%%
 Hill Orc
 
 Az orkok a közelharc mesterei, gyakran belekóstolnak a támadó mágiába is.

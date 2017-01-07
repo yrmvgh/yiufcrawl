@@ -29,11 +29,6 @@ Gargoyle
 
 Fatti di pietra vivente, i Gargoyle hanno un'innaturale affinità con la terra.
 %%%%
-Halfling
-
-Gli halfling sono piccoli ma resistenti e sono molto bravi a usare le fionde.
-Hanno una notevole resistenza contro gli effetti mutagenici.
-%%%%
 Hill Orc
 
 Gli orchi delle colline sono abili nella mischia e spesso possono usare alcuni

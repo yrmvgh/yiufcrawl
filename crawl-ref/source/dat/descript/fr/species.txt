@@ -35,11 +35,6 @@ Gargoyle
 Fait de pierre vivante, les gargouilles ont une affinité naturelle avec la
 terre.
 %%%%
-Halfling
-
-Petit mais robuste, ils sont excellents avec une fronde. Ils ont une résistance
-supplémentaire aux effets mutagènes.
-%%%%
 Hill Orc
 
 Les Orcs sont doué en combat rapproché et s'essaient souvent à la magie

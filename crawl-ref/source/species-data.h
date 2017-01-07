@@ -361,23 +361,6 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_STAVES, SK_BOWS, SK_CROSSBOWS },
 } },
 
-{ SP_HALFLING, {
-    "Ha",
-    "Halfling", nullptr, nullptr,
-    SPF_NONE,
-    1, -1, 0,
-    18, 3,
-    MONS_HALFLING,
-    HT_LAND, US_ALIVE, SIZE_SMALL,
-    9, 6, 9, // 24
-    { STAT_DEX }, 5,
-    { { MUT_MUTATION_RESISTANCE, 1, 1 }, },
-    {},
-    {},
-    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_SKALD },
-    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_AXES, SK_SLINGS },
-} },
-
 { SP_HILL_ORC, {
     "HO",
     "Hill Orc", "Orcish", "Orc",
@@ -786,6 +769,23 @@ static const map<species_type, species_def> species_data =
     { JOB_FIGHTER, JOB_GLADIATOR, JOB_HUNTER, JOB_WARPER},
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
+} },
+
+{ SP_HALFLING, {
+    "Ha",
+    "Halfling", nullptr, nullptr,
+    SPF_NONE,
+    1, -1, 0,
+    18, 3,
+    MONS_HALFLING,
+    HT_LAND, US_ALIVE, SIZE_SMALL,
+    9, 6, 9, // 24
+    { STAT_DEX }, 5,
+    { { MUT_MUTATION_RESISTANCE, 1, 1 }, },
+    {},
+    {},
+    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_SKALD },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_AXES, SK_SLINGS },
 } },
 #endif
 // Ideally this wouldn't be necessary...

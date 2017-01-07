@@ -4,11 +4,6 @@ Demigod
 Viņi nekad nesekos dievam, taču Pusdievi to kompensē ar dievišķām spējām un
 izturību.
 %%%%
-Halfling
-
-Mazi, taču rūdīgi, hobiti ir nepārspējami ar lingām. Tiem ir arī palielināta
-pretestība pret mutagēnisku iedarbību.
-%%%%
 Merfolk
 
 Kā puszivis un puscilvēki jūrcilvēki ir gan ūdens, gan zemes iemītnieki. Tie ir

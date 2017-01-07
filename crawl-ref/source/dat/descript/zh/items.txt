@@ -288,8 +288,7 @@ javelin
 
 这根轻型矛是为投掷而设计的，杀伤力可观。
 {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "很遗憾，它太大太笨重了，你无法使用它。"

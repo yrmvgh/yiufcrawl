@@ -531,8 +531,7 @@ javelin
 
 A lightweight spear, designed for throwing.
 {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "Unfortunately, it is too long and awkward for you to use."

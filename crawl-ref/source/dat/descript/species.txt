@@ -39,11 +39,6 @@ Gargoyle
 Made of living stone, Gargoyles have a preternatural affinity for the earth.
 They have low health, but their stone bodies are incredibly tough.
 %%%%
-Halfling
-
-Small but hardy, Halflings excel with slings. They have an increased resistance
-to mutagenic effects.
-%%%%
 Hill Orc
 
 Orcs are skilled in close combat, and often dabble in offensive magic. Hated by

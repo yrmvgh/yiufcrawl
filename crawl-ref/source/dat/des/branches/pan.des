@@ -2366,7 +2366,7 @@ WEIGHT: 1
 KMONS:  p = human / elf / orc / naga / centaur / draconian / ogre / \
             minotaur / troll / kobold / mummy / ghoul / spriggan / \
             octopode / vampire / base draconian / demigod / \
-            demonspawn / merfolk / halfling / gargoyle / formicid / vine stalker
+            demonspawn / merfolk / gargoyle / formicid / vine stalker
 NSUBST: t = 10:p / *:', b = 10:p / *:'
 KPROP:  p' = no_tele_into
 : pan_demonic_rune(_G, 'P', true)

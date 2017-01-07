@@ -26,11 +26,6 @@ Gargoyle
 
 Gargoiler er skabt af levende sten, og har et overnaturligt talent for jorden.
 %%%%
-Halfling
-
-De er små, men hårdføre, og fremragende til at bruge slynger. De har begrænset
-modstandskraft over for mutagene virkninger.
-%%%%
 Hill Orc
 
 Orker er dygtige i nærkamp, og de forsøger sig ofte med angrebsmagi. De er

@@ -28,11 +28,6 @@ Gargoyle
 Díky tomu, že jsou vytesáni ze žijícího kamene, mají nadpřirozeně pozitivní
 vztah k zemské magii.
 %%%%
-Halfling
-
-Malí, zato však houževnatí. Půlčíci jsou výbornymi střelci z praku a mají
-zvýšnou odolnost vůči mutagenním vlivům.
-%%%%
 Hill Orc
 
 Orkové jsou zruční v boji zblízka a často také fušují do útočné magie. Jsou

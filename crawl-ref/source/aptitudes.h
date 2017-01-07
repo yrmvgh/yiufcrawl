@@ -166,7 +166,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_SLUDGE_ELF,      SK_POISON_MAGIC,  UNUSABLE_SKILL),
     APT(SP_SLUDGE_ELF,      SK_INVOCATIONS,     1),
     APT(SP_SLUDGE_ELF,      SK_EVOCATIONS,      0),
-#endif
+
 
     // SP_HALFLING
     APT(SP_HALFLING,        SK_FIGHTING,       -1),
@@ -183,13 +183,10 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_HALFLING,        SK_ARMOUR,          1),
     APT(SP_HALFLING,        SK_DODGING,         1),
     APT(SP_HALFLING,        SK_STEALTH,         2),
-#if TAG_MAJOR_VERSION == 34
+
     APT(SP_HALFLING,        SK_STABBING,      UNUSABLE_SKILL),
-#endif
     APT(SP_HALFLING,        SK_SHIELDS,         1),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_HALFLING,        SK_TRAPS,         UNUSABLE_SKILL),
-#endif
     APT(SP_HALFLING,        SK_UNARMED_COMBAT, -2),
     APT(SP_HALFLING,        SK_SPELLCASTING,   -3),
     APT(SP_HALFLING,        SK_CONJURATIONS,   -2),
@@ -203,11 +200,10 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_HALFLING,        SK_ICE_MAGIC,       0),
     APT(SP_HALFLING,        SK_AIR_MAGIC,       0),
     APT(SP_HALFLING,        SK_EARTH_MAGIC,     0),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_HALFLING,        SK_POISON_MAGIC,  UNUSABLE_SKILL),
-#endif
     APT(SP_HALFLING,        SK_INVOCATIONS,     1),
     APT(SP_HALFLING,        SK_EVOCATIONS,      0),
+#endif
 
     // SP_HILL_ORC
     APT(SP_HILL_ORC,        SK_FIGHTING,        2),

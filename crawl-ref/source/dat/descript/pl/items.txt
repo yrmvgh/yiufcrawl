@@ -293,8 +293,7 @@ ogień.
 javelin
 
 Długi, lekki patyk do rzucania. {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "Niestety, jest za duży dla ciebie."

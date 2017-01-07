@@ -1341,7 +1341,7 @@ end
 function intrinsic_dodgy()
   local sp = you.race()
   return (sp == "Deep Elf" or sp:find("Draconian")
-          or sp == "Halfling" or sp == "High Elf" or sp == "Kobold"
+          or sp == "High Elf" or sp == "Kobold"
           or sp == "Merfolk" or sp == "Ogre" or sp == "Octopode"
           or sp == "Spriggan" or sp == "Troll")
 end
@@ -1362,7 +1362,7 @@ function want_buckler()
   if wskill() == "Short Blades" or wskill() == "Unarmed Combat" then
     return true
   end
-  if you.race() == "Formicid" or you.race() == "Halfling"
+  if you.race() == "Formicid"
      or you.race() == "Kobold" then
     return true
   end
@@ -1381,7 +1381,7 @@ function weapon_choice()
   sp = you.race()
   if sp == "Troll" or sp == "Ghoul" then
     return "Unarmed Combat"
-  elseif sp == "Halfling" or sp == "High Elf" then
+  elseif  sp == "High Elf" then
     return "Long Blades"
   elseif sp == "Ogre" or sp == "Kobold" then
     return "Maces & Flails"
@@ -2144,7 +2144,7 @@ function target_shield_skill()
     return 0
   end
   local size = 5
-  if you.race() == "Kobold" or you.race() == "Halfling" then
+  if you.race() == "Kobold" then
     size = 7
   elseif you.race() == "Spriggan" then
     size = 9

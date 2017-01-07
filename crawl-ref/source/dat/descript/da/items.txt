@@ -380,8 +380,7 @@ javelin
 Dette lette spyd er designet til at blive kastet og kan forvolde alvorlige
 skader.
 {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "Det er desværre for langt og uhåndterligt til, at du kan " ..

@@ -366,8 +366,7 @@ javelin
 
 이 가벼운 창은 투척용으로 만들어졌으며, 적에게 큰 피해를 줄 수 있을 것 같다.
 {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "불행하게도, 이 무기는 너무 길어서 제대로 던질 수가 없다."

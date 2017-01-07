@@ -189,8 +189,7 @@ javelin
 
 Esta lança leve foi projetada para ser arremessada e causar muito dano.
 {{
-    if you.race() == "Halfling"
-        or you.race() == "Kobold"
+    if you.race() == "Kobold"
         or you.race() == "Spriggan"
     then
         return "Infelizmente, ela é muito longa e desajeitada para que você."

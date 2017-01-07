@@ -23,11 +23,6 @@ Ghoul
 Nemirėliai, prakeikti amžinai pūti. Jie visada ieško supuvusio maisto,
 kapodamiesi savo nagais.
 %%%%
-Halfling
-
-Maži bet atsparūs, jie pranoksta visus kitus naudodami laidynes. Jie turi
-padidintą atsparumą mutageniniams efektams.
-%%%%
 Hill Orc
 
 Orkai yra įgudę artimoje kovoje ir dažniausiai šiek tiek gaudosi puolamojoje

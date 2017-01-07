@@ -27,11 +27,6 @@ Ghoul
 Un no-muerto, condenado a pudrirse eternamente. Están continuamente buscando
 comida podrida de la que alimentarse, despedazándola con sus garras.
 %%%%
-Halfling
-
-Pequeños pero duros, son excelentes con la honda. Tienen una cierta resistencia
-a los efectos mutagénicos.
-%%%%
 Hill Orc
 
 Los orcos tienen talento en el combate cuerpo a cuerpo, y a menudo tantean algo
