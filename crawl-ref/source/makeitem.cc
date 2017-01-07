@@ -1329,9 +1329,11 @@ static void _generate_scroll_item(item_def& item, int force_type,
             // total weight:    789  if depth_mod < 4
             //                  908  otherwise
             //                 -112  in sprint
+	    // id/curse removal: drop scrolls of id, rc, and random uselessness
+	    // reallocate item weight to gold, provisionally  --mps
             item.sub_type = random_choose_weighted(
-                200, SCR_IDENTIFY,
-                112, SCR_REMOVE_CURSE,
+		 0, SCR_IDENTIFY, // id is bad, fam. --mps
+                 0, SCR_REMOVE_CURSE, // curses are bad, fam. --mps
                  // [Cha] don't generate teleportation scrolls if in sprint
                  80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
 
@@ -1342,7 +1344,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  40, SCR_MAGIC_MAPPING,
                  32, SCR_FEAR,
                  32, SCR_FOG,
-                 32, SCR_RANDOM_USELESSNESS,
+                 0, SCR_RANDOM_USELESSNESS, // id "game" padding, bad --mps
                  32, SCR_BLINKING,
                  // [Cha] don't generate noise scrolls if in sprint
                  32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
@@ -1761,8 +1763,9 @@ int items(bool allow_uniques,
                                    212, OBJ_WEAPONS,
                                    176, OBJ_POTIONS,
                                    420, OBJ_MISSILES,
-                                   320, OBJ_SCROLLS,
-                                   460, OBJ_GOLD);
+				   202, OBJ_SCROLLS, // reallocate weight from
+				   578, OBJ_GOLD); // scrolls to gold for
+	                                           // id/curse removal --mps
 
         // misc items placement wholly dependent upon current depth {dlb}:
         if (item_level > 7 && x_chance_in_y(21 + item_level, 5000))
@@ -1774,7 +1777,9 @@ int items(bool allow_uniques,
                 || item.base_type == OBJ_WANDS)
             && random2(7) >= item_level)
         {
-            item.base_type = coinflip() ? OBJ_POTIONS : OBJ_SCROLLS;
+	  item.base_type = OBJ_GOLD; /* try drying out early game to compensate
+				      * for id removal --mps */
+	  //item.base_type = coinflip() ? OBJ_POTIONS : OBJ_SCROLLS;
         }
     }
 

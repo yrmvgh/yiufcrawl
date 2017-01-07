@@ -1934,7 +1934,7 @@ c..v..v...v.sqr.v...v.....v..v...v.sqr.v...vc
 cvv.vv..B..vv.vv..B.....jv.vv..B..vv.vv..B..c
 c..v..v...v.....v...v.....v..v...v.....v...vc
 c.....Qv.vR......v.v...h.....Qv.vR......v.v.c
-c...........vBv....................vBv......c
+c...........vvv....................vBv......c
 ccccccccccccccccccccccccccccccccccccccccccccc
 ENDMAP
 
@@ -2047,7 +2047,7 @@ tt.....{..21...t..............''ccccccccccccccccccc...22.tttt
 ttt...........ttt.......t.....''G'c"""""""""""""""c..t..ttttt
 tttt......2...................''''c"B"B"B"B"B"B"B"ctt....tttt
 tttttt.....................t..''G'c"""""""""""""""cttt...tttt
-ttttttttt..1.....2...t........''''+"B"B"B"B"B"B"""ctt..t...tt
+ttttttttt..1.....2...t........''''+"""B"B"B"B"B"""ctt..t...tt
 tttttttt......................''G'c"""""""""""""""c...tt..ttt
 ttttttttt...................1.''''c"B"B"B"B"B"B"B"c..ttt.tttt
 ttttttttttttttt....2....t.....''G'c"""""""""""""""c...t..tttt
@@ -2096,7 +2096,7 @@ bb...bb     bb...bbb...bb     bb...bb
   b+bb  bbb   b.b   bbb   bbb   b.b
   b..bbbb.bb bb.bb       bb.bb bb.bb
   bb..bb...bbb...bb     bb...bbb...bb
-   bb.+..B.....B..b     b..B.....B..b
+   bb.+..B.....T..b     b..B.....B..b
     bbbb...bbb...bb     bb...bbb...bb
        bb.bb bb.bb       bb.bb bb.bb
         b.b   bbb   bbb   b.b   bbb
@@ -2124,7 +2124,7 @@ SUBST:  ' : ......b
 MAP
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 bbbbbb'''b'''bbbbb'''b'''bbbbb'''b'''bbbbbb
-bbbbbb'B...B'bbbbb'B...B'bbbbb'B...B'bbbbbb
+bbbbbb'B...B'bbbbb'B....'bbbbb'B...B'bbbbbb
 bbbbbb''...''bbbbb''...''bbbbb''...''bbbbbb
 bbbbbbbb...bbbbbbbbb...bbbbbbbbb...bbbbbbbb
 bbbbbbb..b..bbbbbbb..b..bbbbbbb..b..bbbbbbb
@@ -2166,7 +2166,7 @@ WEIGHT:  5
 MAP
                 bbbbb
                 b...b
-            bbbbb.B.bbbbb
+            bbbbb.T.bbbbb
             b...........b
         bbbbb.B.bb.bb.B.bbbbb
         b...................b
@@ -2213,7 +2213,7 @@ wwwwwwwwwwwwwwwwww.................wwwwwwwwwwwwwwwwww
 wwwwwwwwwwwwwwww.g.................g.wwwwwwwwwwwwwwww
 wwwwwwwwwwwwwww...........A...........wwwwwwwwwwwwwww
 wwwwwwwwwwwwwwG.......................Gwwwwwwwwwwwwww
-wwwwwwwwwwwww.........B.......B.........wwwwwwwwwwwww
+wwwwwwwwwwwww.................B.........wwwwwwwwwwwww
 wwwwwwwwwwww.............................wwwwwwwwwwww
 wwwwwwwwwwwwg.....B...............B.....gwwwwwwwwwwww
 wwwwwwwwwww...............................wwwwwwwwwww
@@ -2282,7 +2282,7 @@ lllllllll.........cc.c..cc....c.......c....llllllll
 llllllll...A.....c...c....cc..c.......c..ccllllllll
 lllllllll........c....c.B...cc.........cc..llllllll
 llllllll........c.....c....c.........cc....llllllll
-lllllllll....B..c..B...c...c..B....cc..c...llllllll
+lllllllll....B..c......c...c..B....cc..c...llllllll
 llllllll.......c.......c....c....cc....c..lllllllll
 llllllll....cc.c.....cc'cc..c..cc.....c...lllllllEE
 llllllll..cc..c....cc..c--cc"cc...B...c....llllEEll
@@ -2377,7 +2377,7 @@ c..........mwwwwwwwwwwwwwwwwwwwm..........c
 c.<..F.I...mwwwWwTwww[wwwTwWwwwm...I.F....c
 c..........mwwwwwwwwwwwwwwwwwwwm..........c
 c.......H..mmwwwwwwwwwwwwwwwwwmm..H.......c
-cc.....BI...mmwwwwwTwWwTwwwwwmm...IB.....cc
+cc......I...mmwwwwwTwWwTwwwwwmm...IB.....cc
  c...........mmmwwwwwwwwwwwmmm...........c
  cc.......J....mmmmwwwwwmmmm....J.......cc
   cc.......E......mmmmmmm......C.......cc
