@@ -4919,10 +4919,13 @@ void bolt::affect_monster(monster* mon)
         if (hit_verb.empty())
             hit_verb = engulfs ? "engulfs" : "hits";
 
-        mprf("The %s %s %s.",
+		std::string d = std::to_string(final);
+		
+        mprf("The %s %s %s (%s).",
              name.c_str(),
              hit_verb.c_str(),
-             mon->name(DESC_THE).c_str());
+             mon->name(DESC_THE).c_str(),
+			 d.c_str());
 
     }
     else if (heard && !hit_noise_msg.empty())
