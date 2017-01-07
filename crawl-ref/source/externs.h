@@ -322,7 +322,7 @@ struct cloud_struct
 
     string cloud_name(bool terse = false) const;
     void announce_actor_engulfed(const actor *engulfee,
-                                 bool beneficial = false) const;
+                                 bool beneficial = false, int dam = 0) const;
 
     static kill_category killer_to_whose(killer_type killer);
     static killer_type   whose_to_killer(kill_category whose);
