@@ -225,7 +225,7 @@ KITEM: & = book of necromancy / book of death / book of unlife / w:12 nothing
 KMONS: P = withered plant
   : elseif occupant == 1 then
 MONS:  wizard / ogre mage / deep elf sorcerer
-KFEAT: * = altar_sif_muna / w:5 altar_ashenzari
+KFEAT: * = altar_sif_muna / w:5 altar_makhleb
 KITEM: " = gold, any potion / nothing, any potion / nothing, any potion /\
            nothing
 KFEAT: 8 = granite_statue / fountain_sparkling / fountain_blue / w:1 floor

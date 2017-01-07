@@ -396,7 +396,7 @@ bool is_unavailable_god(god_type god)
         return true;
 
     // Disabled, pending a rework.
-    if (god == GOD_PAKELLAS || god == GOD_FEDHAS)
+    if (god == GOD_PAKELLAS || god == GOD_FEDHAS || GOD == GOD_ASHENZARI)
         return true;
 
     return false;
@@ -4492,7 +4492,7 @@ static bool _is_god(god_type god)
 static bool _is_disabled_god(god_type god)
 {
     // Disabled, pending a rework.
-    return god == GOD_PAKELLAS || god == GOD_FEDHAS;
+    return god == GOD_PAKELLAS || god == GOD_FEDHAS || god == GOD_ASHENZARI;
 }
 
 static bool _is_temple_god(god_type god)

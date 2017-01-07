@@ -970,7 +970,7 @@ ENDMAP
 
 NAME:    temple_room_1
 TAGS:    the_temple
-KFEAT:   a = altar_ashenzari
+KFEAT:   a = altar_zin
 KFEAT:   b = altar_beogh
 KFEAT:   c = altar_cheibriados
 KFEAT:   d = altar_dithmenos
