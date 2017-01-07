@@ -261,7 +261,7 @@ enum ability_type
     // Formicids
     ABIL_DIG,
     ABIL_SHAFT_SELF,
-    // Barachians
+    // Frogtaurs
     ABIL_HOP,
     ABIL_MAX_INTRINSIC = ABIL_HOP,
 
@@ -2620,7 +2620,7 @@ enum monster_type                      // menv[].type
     MONS_SPINY_FROG,
     MONS_BLINK_FROG,
 #if TAG_MAJOR_VERSION > 34
-    MONS_BARACHIAN,
+    MONS_FROGTAUR,
     MONS_BEAR,                  // genus
 #endif
     MONS_GRIZZLY_BEAR,
@@ -3577,7 +3577,7 @@ enum monster_type                      // menv[].type
     MONS_HALAZID_WARLOCK,
     MONS_DREAM_SHEEP,
     MONS_FROG,
-    MONS_BARACHIAN,
+    MONS_FROGTAUR,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
@@ -4299,7 +4299,7 @@ enum species_type
     SP_GARGOYLE,
     SP_FORMICID,
     SP_VINE_STALKER,
-    SP_BARACHIAN,
+    SP_FROGTAUR,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,
