@@ -1631,13 +1631,6 @@ static void _generate_jewellery_item(item_def& item, bool allow_uniques,
     {
         make_item_randart(item);
     }
-    else if (item.sub_type == RING_LOUDNESS
-             || item.sub_type == RING_TELEPORTATION
-             || one_chance_in(50))
-    {
-        // Bad jewellery is always cursed {dlb}:
-        do_curse_item(item);
-    }
 }
 
 static void _generate_misc_item(item_def& item, int force_type, int force_ego)
@@ -2008,8 +2001,7 @@ static jewellery_type _get_raw_random_ring_type()
     {
         ring = (jewellery_type)(random_range(RING_FIRST_RING, NUM_RINGS - 1));
     }
-    while (ring == RING_TELEPORTATION && crawl_state.game_is_sprint()
-           || item_type_removed(OBJ_JEWELLERY, ring));
+    while (item_type_removed(OBJ_JEWELLERY, ring));
     return ring;
 }
 

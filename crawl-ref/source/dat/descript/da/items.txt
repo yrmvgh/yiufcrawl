@@ -604,11 +604,6 @@ ring of strength
 Denne ring øger eller mindsker sin bærers fysiske styrke, alt efter hvor
 fortryllet den er.
 %%%%
-ring of teleportation
-
-Denne ring translokerer lejlighedsvis bæreren til et tilfældigt sted og kan
-aktiveres med vilje for at opnå samme effekt.
-%%%%
 ring of wizardry
 
 Denne ring øger bærerens evne til at bruge magiske besværgelser.

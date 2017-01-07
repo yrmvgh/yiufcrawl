@@ -3274,8 +3274,10 @@ bool is_bad_item(const item_def &item, bool temp)
 #endif
         case RING_LOUDNESS:
             return true;
+#if TAG_MAJOR_VERSION == 34
         case RING_TELEPORTATION:
             return !(you.stasis() || crawl_state.game_is_sprint());
+#endif
         case RING_EVASION:
         case RING_PROTECTION:
         case RING_STRENGTH:
@@ -3624,9 +3626,11 @@ bool is_useless_item(const item_def &item, bool temp)
 
         case RING_WIZARDRY:
             return you_worship(GOD_TROG);
-
+			
+#if TAG_MAJOR_VERSION == 34
         case RING_TELEPORTATION:
             return !is_bad_item(item, temp);
+#endif
 
         case RING_FLIGHT:
             return you.permanent_flight()

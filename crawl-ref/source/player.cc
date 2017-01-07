@@ -1055,14 +1055,10 @@ int player_teleport(bool calc_unid)
     if (crawl_state.game_is_sprint())
         return 0;
 
-    // Short-circuit rings of teleport to prevent spam.
     if (you.species == SP_FORMICID)
         return 0;
 
     int tp = 0;
-
-    // rings (keep in sync with _equip_jewellery_effect)
-    tp += 8 * you.wearing(EQ_RINGS, RING_TELEPORTATION, calc_unid);
 
     // artefacts
     tp += 8 * you.scan_artefacts(ARTP_CAUSE_TELEPORTATION, calc_unid);

@@ -190,7 +190,7 @@
        "manual of spellcasting", "manual of summonings", "stone" }
 
       elseif s == "T" then i = { "book of the tempests", "scroll of torment",
-       "book of transfigurations", "ring of teleportation",
+       "book of transfigurations",
        "scroll of teleportation", "triple sword", "triple crossbow",
        "troll leather armour", "manual of throwing",
        "manual of translocations",

@@ -561,12 +561,6 @@ ring of strength
 Dieser Ring vergrößert oder vermindert die physische Kraft seines Trägers einem
 Grad-Abhängigen auf seiner Macht.
 %%%%
-ring of teleportation
-
-Dieser Ring übt gelegentlich seine Macht aus, seinen Träger zu einem anderen
-Platz zufällig zu verlagern, und kann für dieselbe Wirkung absichtlich
-aktiviert werden.
-%%%%
 ring of wizardry
 
 Dieser Ring verbessert die Fähigkeit seines Trägers Zaubersprüche zu wirken.

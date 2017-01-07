@@ -127,7 +127,9 @@ const char* jewellery_base_ability_string(int subtype)
     case RING_WIZARDRY:           return "Wiz";
     case RING_FIRE:               return "Fire";
     case RING_ICE:                return "Ice";
+#if TAG_MAJOR_VERSION == 34
     case RING_TELEPORTATION:      return "*Tele";
+#endif
     case RING_RESIST_CORROSION:   return "rCorr";
 #if TAG_MAJOR_VERSION == 34
     case RING_TELEPORT_CONTROL:   return "+cTele";

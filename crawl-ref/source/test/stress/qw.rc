@@ -766,9 +766,6 @@ function ring_value(it, cur, it2)
       return -1,-1
     end
   end
-  if subtype == "ring of teleportation" and you.race() ~= "Formicid" then
-    return -1,-1
-  end
   if it.artefact and not it.fully_identified or not (it.artefact or name:find("ring of")) then
     if cur then
       return 5000,5000

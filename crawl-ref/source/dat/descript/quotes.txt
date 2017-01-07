@@ -2282,10 +2282,6 @@ ring of stealth
 
 <ring>
 %%%%
-ring of teleportation
-
-<ring>
-%%%%
 ring of wizardry
 
 <ring>

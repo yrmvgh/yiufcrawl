@@ -1431,10 +1431,6 @@ static bool _randart_is_redundant(const item_def &item,
         provides = ARTP_STEALTH;
         break;
 
-    case RING_TELEPORTATION:
-        provides = ARTP_CAUSE_TELEPORTATION;
-        break;
-
     case RING_EVASION:
         provides = ARTP_EVASION;
         break;

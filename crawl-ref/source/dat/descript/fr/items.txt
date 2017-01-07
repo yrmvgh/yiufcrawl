@@ -776,11 +776,6 @@ ring of strength
 Cet anneau augmente ou diminue la force physique de son porteur, en fonction de
 son degré d'enchantement.
 %%%%
-ring of teleportation
-
-Cet anneau déclenche son pouvoir de temps en temps en téléportant son porteur à
-un autre endroit, et il peut être délibérément activé pour le même effet.
-%%%%
 ring of wizardry
 
 Cet anneau améliore la capacité du porteur à lancer des sorts.

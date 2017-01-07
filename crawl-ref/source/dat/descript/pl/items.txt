@@ -514,11 +514,6 @@ ring of strength
 Ten pierścień zwiększa lub zmniejsza fizyczną siłę nosiciela, w zależności od
 mocy i kierunku czaru nań rzuconego.
 %%%%
-ring of teleportation
-
-Ten pierścień od czasu do czasu przenosi swego nosiciela w przypadkowe miejsce.
-Można także celowo aktywować go aby uzyskać ten sam efekt na żądanie.
-%%%%
 ring of wizardry
 
 Ten pierścień znacznie ułatwia rzucanie czarów. Poprawia to szanse poprawnego

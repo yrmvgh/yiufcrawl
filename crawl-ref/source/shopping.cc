@@ -694,7 +694,9 @@ unsigned int item_value(item_def item, bool ident)
                     break;
 
                 case RING_LOUDNESS:
+#if TAG_MAJOR_VERSION == 34
                 case RING_TELEPORTATION:
+#endif
                 case AMU_NOTHING:
                     valued += 75;
                     break;

@@ -478,12 +478,6 @@ ring of strength
 Este anillo aumenta o disminuye la fuerza física de su portador, en un grado
 que depende de su poder.
 %%%%
-ring of teleportation
-
-Este anillo ocasionalmente activará su poder para teletranspotar a su portador
-a una posición aleatoria, y puede ser evocado deliberadamente para conseguir el
-mismo efecto.
-%%%%
 ring of wizardry
 
 Este anillo incrementa la habilidad de su portador para usar hechizos mágicos.

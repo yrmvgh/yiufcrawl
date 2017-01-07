@@ -1350,7 +1350,6 @@ int acquirement_create_item(object_class_type class_wanted,
                 break;
 
             case RING_LOUDNESS:
-            case RING_TELEPORTATION:
                 // These are the only truly bad pieces of jewellery.
                 if (!one_chance_in(9))
                     make_item_randart(acq_item);
