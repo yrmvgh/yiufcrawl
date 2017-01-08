@@ -3940,11 +3940,11 @@ void handle_god_time(int /*time_delta*/)
         switch (you.religion)
         {
         case GOD_TROG:
+		case GOD_OKAWARU:
 			if (one_chance_in(9))
 				lose_piety(1);
 			break;
 			
-        case GOD_OKAWARU:
         case GOD_MAKHLEB:
         case GOD_BEOGH:
         case GOD_LUGONU:
