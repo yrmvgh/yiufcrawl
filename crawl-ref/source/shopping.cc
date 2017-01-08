@@ -601,7 +601,9 @@ unsigned int item_value(item_def item, bool ident)
                 break;
 
             case SCR_NOISE:
+#if TAG_MAJOR_VERSION == 34
             case SCR_RANDOM_USELESSNESS:
+#endif
                 valued += 10;
                 break;
             }

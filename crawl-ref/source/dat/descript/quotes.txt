@@ -2394,10 +2394,6 @@ scroll of noise
 
 <scroll>
 %%%%
-scroll of random uselessness
-
-<scroll>
-%%%%
 scroll of recharging
 
 <scroll>

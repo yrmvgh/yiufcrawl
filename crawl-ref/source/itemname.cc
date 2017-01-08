@@ -708,8 +708,8 @@ static const char* scroll_type_name(int scrolltype)
     case SCR_ENCHANT_WEAPON:     return "enchant weapon";
     case SCR_ENCHANT_ARMOUR:     return "enchant armour";
     case SCR_TORMENT:            return "torment";
-    case SCR_RANDOM_USELESSNESS: return "random uselessness";
 #if TAG_MAJOR_VERSION == 34
+    case SCR_RANDOM_USELESSNESS: return "random uselessness";
     case SCR_CURSE_WEAPON:       return "curse weapon";
     case SCR_CURSE_ARMOUR:       return "curse armour";
     case SCR_CURSE_JEWELLERY:    return "curse jewellery";
@@ -3456,8 +3456,10 @@ bool is_useless_item(const item_def &item, bool temp)
 
         switch (item.sub_type)
         {
+#if TAG_MAJOR_VERSION == 34
         case SCR_RANDOM_USELESSNESS:
             return true;
+#endif
         case SCR_TELEPORTATION:
             return you.species == SP_FORMICID
                    || crawl_state.game_is_sprint();

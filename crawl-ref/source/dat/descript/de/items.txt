@@ -640,11 +640,6 @@ scroll of magic mapping
 
 Diese Schriftrolle offenbart die Umgebungen von demjenigen, der es liest.
 %%%%
-scroll of random uselessness
-
-Man wird leicht durch den Umstand geblendet das diese Schriftrolle überhaupt
-funktioniert, jedoch ist diese im wesentlichen nutzlos.
-%%%%
 scroll of teleportation
 
 Liest man die Worte auf dieser Schriftrolle wird sie dich nach kurzer Zeit an

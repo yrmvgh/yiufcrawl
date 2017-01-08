@@ -2653,9 +2653,11 @@ void read_scroll(item_def& scroll)
 
     switch (which_scroll)
     {
+#if TAG_MAJOR_VERSION == 34
     case SCR_RANDOM_USELESSNESS:
         random_uselessness();
         break;
+#endif
 
     case SCR_BLINKING:
     {

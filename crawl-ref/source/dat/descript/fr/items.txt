@@ -887,11 +887,6 @@ scroll of magic mapping
 
 Ce parchemin révèle les environs de celui qui le lit.
 %%%%
-scroll of random uselessness
-
-Il est facile d'être aveuglé par le sentiment d'accomplissement que l'on a à
-faire marcher ce parchemin, au vu de sa particulière inutilité.
-%%%%
 scroll of summoning
 
 Ce parchemin tire les ombres et les tisse pour leur donner la forme de
