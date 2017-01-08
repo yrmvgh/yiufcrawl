@@ -1803,8 +1803,8 @@ it strikes more susceptible to magic.
 phantom
 
 A nearly-transparent undead spirit, suspected by some sages to be a degenerate
-form of ghost, with no memories of its former life. It rarely stays in one
-place for long.
+form of ghost, with no memories of its former life. It relentlessly pursues its
+victims and can weaken them with a touch.
 %%%%
 pillar of salt
 
