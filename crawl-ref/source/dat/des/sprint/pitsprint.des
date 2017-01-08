@@ -631,7 +631,6 @@ KITEM: a = stone, \
        large rock
 KITEM: b = scroll of summoning ident:all q:1, \
        scroll of amnesia q:5 ident:all, \
-       scroll of remove curse q:3 ident:all, \
        scroll of vulnerability q:2 ident:all
 KITEM: c = staff of power ident:all, \
        stone q:10

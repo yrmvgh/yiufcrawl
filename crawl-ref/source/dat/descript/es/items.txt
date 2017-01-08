@@ -544,10 +544,6 @@ Este pergamino revela los alrededores del lector.
 Revelará la presencia de puertas secretas, pero no es lo suficientemente
 poderoso para ver más allá de ellas, o en zonas completamente cerradas.
 %%%%
-scroll of remove curse
-
-Leyendo este pergamino remueve maldiciones de objetos que estás usando.
-%%%%
 scroll of teleportation
 
 Cuando leas este pergamino seras transportado a un lugar aleatorio tras esperar

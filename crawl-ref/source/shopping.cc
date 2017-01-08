@@ -583,8 +583,9 @@ unsigned int item_value(item_def item, bool ident)
             case SCR_MAGIC_MAPPING:
                 valued += 35;
                 break;
-
+#if TAG_MAJOR_VERSION == 34
             case SCR_REMOVE_CURSE:
+#endif
             case SCR_TELEPORTATION:
                 valued += 30;
                 break;

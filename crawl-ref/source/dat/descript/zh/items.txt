@@ -540,10 +540,6 @@ scroll of random uselessness
 
 你也许会为自己能成功使用这个卷轴感到自豪，但其实它真的一点用都没有。
 %%%%
-scroll of remove curse
-
-阅读这个卷轴会移除你装备的物品上的诅咒。
-%%%%
 scroll of teleportation
 
 阅读这个卷轴上的文字后过一段时间，你会被传送到一个随机地点。

@@ -610,11 +610,6 @@ Kolejny głupi żart nudzących się czarodziei — ten zwój może mieć jeden 
 różnych efektów, ale zawsze jest to coś niemal zupełnie bez żadnego
 zastosowania.
 %%%%
-scroll of remove curse
-
-Odczytanie tego zwoju usuwa wszystkie przekleństwa rzucone na przedmioty
-przylegające do twego ciała.
-%%%%
 scroll of summoning
 
 Ten zwój przyzywa kilka stworzeń uformowanych z cienistej materii na kształt

@@ -744,11 +744,6 @@ Denne skriftrulle genopfylder en valgfri, magisk vånd eller stoks ladninger.
 Når den bruges på en stok, øger den også stokkens kraftlager og den fart, den
 genvinder kraft med.
 %%%%
-scroll of remove curse
-
-Denne skriftrulle fjerner forbandelserne fra de ting, du bruger, når du læser
-den.
-%%%%
 scroll of silence
 
 Denne skriftrulle får alle lyde i nærheden af læseren til at forstumme. Det gør

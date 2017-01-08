@@ -2759,7 +2759,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
                 [] (const item_def &it) -> bool
                 {
                     return it.defined()
-                           && it.is_type(OBJ_SCROLLS, SCR_REMOVE_CURSE)
+                           && it.is_type(OBJ_SCROLLS, POT_CURING)
                            && check_warning_inscriptions(it, OPER_DESTROY);
                 });
         if (iter != end(you.inv))

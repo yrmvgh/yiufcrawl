@@ -892,11 +892,6 @@ scroll of random uselessness
 Il est facile d'être aveuglé par le sentiment d'accomplissement que l'on a à
 faire marcher ce parchemin, au vu de sa particulière inutilité.
 %%%%
-scroll of remove curse
-
-Lire ce parchemin permet de libérer les objets que vous portez ou tenez en main
-de leurs malédictions.
-%%%%
 scroll of summoning
 
 Ce parchemin tire les ombres et les tisse pour leur donner la forme de

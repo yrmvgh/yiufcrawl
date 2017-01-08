@@ -2402,10 +2402,6 @@ scroll of recharging
 
 <scroll>
 %%%%
-scroll of remove curse
-
-<scroll>
-%%%%
 scroll of silence
 
 <scroll>
