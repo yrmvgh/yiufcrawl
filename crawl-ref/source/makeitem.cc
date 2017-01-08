@@ -1472,11 +1472,6 @@ static void _generate_staff_item(item_def& item, bool allow_uniques,
             item.sub_type = random2(NUM_STAVES);
         }
         while (item_type_removed(OBJ_STAVES, item.sub_type));
-
-        // staves of energy are 25% less common, wizardry/power
-        // are more common
-        if (item.sub_type == STAFF_ENERGY && one_chance_in(4))
-            item.sub_type = coinflip() ? STAFF_WIZARDRY : STAFF_POWER;
     }
     else
         item.sub_type = force_type;
@@ -1807,7 +1802,7 @@ int items(bool allow_uniques,
         {
             item.base_type = OBJ_STAVES;
             if (unrand_id == UNRAND_WUCAD_MU)
-                force_type = STAFF_ENERGY;
+                force_type = STAFF_POWER;
             else
                 force_type = OBJ_RANDOM;
             // XXX: small chance of the other unrand...

@@ -1863,9 +1863,6 @@ int player_energy()
 {
     int pe = 0;
 
-    // Staves
-    pe += you.wearing(EQ_STAFF, STAFF_ENERGY);
-
     return pe;
 }
 

@@ -2141,8 +2141,8 @@ void melee_attack::apply_staff_damage()
 #if TAG_MAJOR_VERSION == 34
 	case STAFF_POISON:
     case STAFF_ENCHANTMENT:
-#endif
     case STAFF_ENERGY:
+#endif
     case STAFF_WIZARDRY:
         break;
 

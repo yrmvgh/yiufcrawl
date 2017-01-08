@@ -509,8 +509,8 @@ enum stave_type
     STAFF_COLD,
 #if TAG_MAJOR_VERSION == 34
     STAFF_POISON,
-#endif
     STAFF_ENERGY,
+#endif
     STAFF_DEATH,
     STAFF_CONJURATION,
 #if TAG_MAJOR_VERSION == 34

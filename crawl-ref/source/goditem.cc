@@ -365,9 +365,8 @@ bool is_channeling_item(const item_def& item)
     if (is_unrandom_artefact(item, UNRAND_WUCAD_MU))
         return true;
 
-    return item.base_type == OBJ_STAVES && item.sub_type == STAFF_ENERGY
-           || item.base_type == OBJ_MISCELLANY
-              && item.sub_type == MISC_CRYSTAL_BALL_OF_ENERGY;
+    return item.base_type == OBJ_STAVES && item.base_type == OBJ_MISCELLANY
+          && item.sub_type == MISC_CRYSTAL_BALL_OF_ENERGY;
 }
 
 bool is_corpse_violating_spell(spell_type spell)

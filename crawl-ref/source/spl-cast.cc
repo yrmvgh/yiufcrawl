@@ -827,7 +827,6 @@ bool cast_a_spell(bool check_range, spell_type spell)
         }
     }
 
-    const bool staff_energy = player_energy();
     you.last_cast_spell = spell;
     // Silently take MP before the spell.
     dec_mp(cost, true);
@@ -860,16 +859,6 @@ bool cast_a_spell(bool check_range, spell_type spell)
     else // Redraw MP
 #endif
         flush_mp();
-
-    if (!staff_energy && you.undead_state() != US_UNDEAD)
-    {
-        const int spellh = spell_hunger(spell);
-        if (calc_hunger(spellh) > 0)
-        {
-            make_hungry(spellh, true, true);
-            learned_something_new(HINT_SPELL_HUNGER);
-        }
-    }
 
     if (sifcast_amount)
     {
