@@ -249,7 +249,6 @@ TILE:    spwpn_scythe_of_curses
 TILE_EQ: finisher
 BRAND:   SPWPN_DRAINING
 VALUE:   800
-CURSED:  3
 
 NAME:    sceptre of Torment
 OBJ:     OBJ_WEAPONS/WPN_STAFF
@@ -659,7 +658,6 @@ TILE_EQ: lshield_of_ignorance
 AC:      4
 INT:     -6
 LIFE:    1
-CURSED:  3
 
 NAME:    robe of Augmentation
 OBJ:     OBJ_ARMOUR/ARM_ROBE
@@ -718,7 +716,6 @@ COLOUR:   LIGHTMAGENTA
 TILE:     urand_misfortune
 TILE_EQ:  robe_misfortune
 EV:       -5
-CURSED:   1
 STEALTH:  -2
 BOOL:     nospell, rnd_tele, randapp, unided, mutate, drain
 
@@ -930,7 +927,6 @@ INT:     -3
 MAGIC:   1
 ANGRY:   5
 SLAY:    3
-CURSED:  3
 
 NAME:    ring of Shaolin
 OBJ:     OBJ_JEWELLERY/RING_EVASION
@@ -985,7 +981,6 @@ COLOUR:   ETC_UNHOLY
 TILE:     spwpn_demon_axe
 TILE_EQ:  demon_axe
 BRAND:    SPWPN_VORPAL
-CURSED:   1
 BOOL:     evil, seeinv, fly
 
 NAME:     lightning scales
@@ -1208,7 +1203,6 @@ TILE:    urand_eternal_torment
 TILE_EQ: eternal_torment
 INSCRIP: rTorment HP--
 LIFE:    3
-CURSED:  1
 BOOL:    evil, seeinv, nogen
 
 ENUM:    VINES
