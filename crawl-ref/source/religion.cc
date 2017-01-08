@@ -3948,7 +3948,6 @@ void handle_god_time(int /*time_delta*/)
         case GOD_MAKHLEB:
         case GOD_BEOGH:
         case GOD_LUGONU:
-        case GOD_DITHMENOS:
         case GOD_QAZLAL:
         case GOD_YREDELEMNUL:
         case GOD_KIKUBAAQUDGHA:
@@ -3961,6 +3960,7 @@ void handle_god_time(int /*time_delta*/)
             break;
 
         case GOD_ASHENZARI:
+		case GOD_DITHMENOS:
         case GOD_ELYVILON:
         case GOD_HEPLIAKLQANA:
         case GOD_FEDHAS:
