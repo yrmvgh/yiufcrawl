@@ -169,7 +169,7 @@ MONS: patrolling human hd:2 hp:35
 KITEM: * = potion of flight ident:all q:2 / potion of flight q:1 / any potion, \
  potion of cure mutation ident:all q:2 / potion of cure mutation q:1 / any potion, \
  scroll of remove curse ident:all q:2 / scroll of remove curse q:1 / any scroll, \
- scroll of identify ident:all q:2/ scroll of identify q:1 / any scroll, \
+ scroll of noise ident:all q:2/ scroll of noise q:1 / any scroll, \
  scroll of torment / scroll of holy word / scroll of immolation, \
  potion of mutation
 SUBST: T = t.
@@ -201,7 +201,7 @@ MONS: patrolling human hd:2 hp:35
 KITEM: * = potion of flight ident:all q:2 / potion of flight q:1 / any potion, \
  potion of cure mutation ident:all q:2 / potion of cure mutation q:1 / any potion, \
  scroll of remove curse ident:all q:2 / scroll of remove curse q:1 / any scroll, \
- scroll of identify ident:all q:2 / scroll of identify q:1 / any scroll, \
+ scroll of noise ident:all q:2 / scroll of noise q:1 / any scroll, \
  scroll of torment / scroll of holy word / scroll of immolation, \
  potion of mutation
 
@@ -802,7 +802,7 @@ MONS: spriggan defender hd:5 hp:55 ; dagger
 MONS: obsidian statue
 MONS: crystal guardian hd:10 hp:45, skeletal warrior
 KMONS: 2 = floating eye
-KITEM: 2 = q:10 scroll of identify ident:all
+KITEM: 2 = q:10 scroll of noise ident:all
 KMONS: P = plant
 SUBST: P = PPPPPPPPP.
 

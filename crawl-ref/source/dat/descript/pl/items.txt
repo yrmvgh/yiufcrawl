@@ -596,11 +596,6 @@ scroll of fog
 
 Ten zwój kryje czytającego za zasłoną gęstej mgły.
 %%%%
-scroll of identify
-
-Ten zwój pozwala odkryć własności od jednego do trzech przedmiotów. Użyty na
-talii kart, zwój ten także podejrzy górną kartę bez aktywowania jej działania.
-%%%%
 scroll of immolation
 
 Ten zwój napełnia stworzenia wokół czytającego niestabilnym wewnętrznym ogniem.

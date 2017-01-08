@@ -35,7 +35,7 @@ function general_item_setup(e)
           potion of cure mutation ident:all")
   e.kitem("? = scroll of blinking ident:all /\
           scroll of remove curse ident:all /\
-          scroll of identify ident:all / scroll of recharging ident:all /\
+          scroll of noise ident:all / scroll of recharging ident:all /\
           scroll of fog ident:all / scroll of fear ident:all /\
           scroll of enchant weapon ident:all q:2 /\
           scroll of enchant armour ident:all q:2")

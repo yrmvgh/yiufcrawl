@@ -570,13 +570,6 @@ scroll of fog
 
 この巻物は読み上げた者の周囲を濃い霧の煙で覆う。
 %%%%
-scroll of identify
-
-これはいかなる品物でも鑑定することを可能とする有用な魔法の巻き物だ。and will
-occasionally allow multiple identifications.
-
-If used on a deck of cards, this scroll will also give away the top card.
-%%%%
 scroll of immolation
 
 この巻物は読み手の周囲にいる者を不規則で強力な内なる炎に包む。

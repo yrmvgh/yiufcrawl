@@ -139,7 +139,7 @@
       elseif s == "I" then i = { "ring of ice",
        "scroll of immolation", "ice dragon scales", "book of ice",
        "potion of invisibility", "ring of intelligence",
-       "scroll of identify", "wand of iceblast", "manual of invocations",
+       "wand of iceblast", "manual of invocations",
        "manual of ice magic" }
 
       elseif s == "J" then i = { "javelin" }

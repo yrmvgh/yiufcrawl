@@ -719,13 +719,6 @@ Denne skriftrulle påkalder sig de gode guder for at forvolde stor skade på
 udøde eller dæmoniske væsener i nærheden – hvilket kunne inkludere dig! Den
 lammer de ramte uhyrer et kort øjeblik.
 %%%%
-scroll of identify
-
-Denne nyttige, magiske skriftrulle lader dig bestemme en given genstands
-egenskaber, og vil lejlighedsvis tillade flere identifikationer.
-
-Hvis den bruges på en stak kort, vil den også afsløre det øverste kort.
-%%%%
 scroll of immolation
 
 Den skriftrulle fylder væsener omkring læseren med en ustabil og kraftfuld

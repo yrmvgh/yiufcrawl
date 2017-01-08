@@ -116,8 +116,6 @@ static bool _is_boring_item(int type, int sub_type)
         // These scrolls increase knowledge and thus reduce risk.
         switch (sub_type)
         {
-        case SCR_REMOVE_CURSE:
-        case SCR_IDENTIFY:
         case SCR_MAGIC_MAPPING:
             return true;
         default:
@@ -1332,8 +1330,6 @@ static void _generate_scroll_item(item_def& item, int force_type,
 	    // id/curse removal: drop scrolls of id, rc, and random uselessness
 	    // reallocate item weight to gold, provisionally  --mps
             item.sub_type = random_choose_weighted(
-		 0, SCR_IDENTIFY, // id is bad, fam. --mps
-                 0, SCR_REMOVE_CURSE, // curses are bad, fam. --mps
                  // [Cha] don't generate teleportation scrolls if in sprint
                  80, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_TELEPORTATION),
 
@@ -1344,7 +1340,6 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  40, SCR_MAGIC_MAPPING,
                  32, SCR_FEAR,
                  32, SCR_FOG,
-                 0, SCR_RANDOM_USELESSNESS, // id "game" padding, bad --mps
                  32, SCR_BLINKING,
                  // [Cha] don't generate noise scrolls if in sprint
                  32, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),

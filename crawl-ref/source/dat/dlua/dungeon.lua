@@ -637,18 +637,12 @@ function persist_to_string()
 end
 
 -- List of useful scrolls, with some reasonable weights.
--- When changing the list or the weights, please keep the total weight at 1000.
 dgn.good_scrolls = [[
-    w:80  scroll of identify no_pickup /
-    w:35  scroll of identify no_pickup q:2 /
-    w:10  scroll of identify no_pickup q:3 /
     w:80  scroll of teleportation no_pickup /
     w:35  scroll of teleportation no_pickup q:2 /
     w:10  scroll of teleportation no_pickup q:3 /
     w:80  scroll of fog no_pickup /
     w:30  scroll of fog no_pickup q:2 /
-    w:80  scroll of remove curse no_pickup /
-    w:35  scroll of remove curse no_pickup q:2 /
     w:90  scroll of enchant weapon no_pickup /
     w:35  scroll of enchant weapon no_pickup q:2 /
     w:50  scroll of blinking no_pickup /
@@ -666,8 +660,7 @@ dgn.good_scrolls = [[
     w:20  scroll of silence no_pickup q:1 /
     w:5   scroll of silence no_pickup q:2 /
     w:10  scroll of acquirement no_pickup q:1 /
-    w:4   scroll of acquirement no_pickup q:2 /
-    w:1   scroll of acquirement no_pickup q:3 /
+    w:5   scroll of acquirement no_pickup q:2 /
     w:10  scroll of brand weapon no_pickup q:1 /
     w:10  scroll of torment no_pickup q:1 /
     w:10  scroll of vulnerability no_pickup

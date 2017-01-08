@@ -2392,8 +2392,7 @@ static void _vulnerability_scroll()
 
 static bool _is_cancellable_scroll(scroll_type scroll)
 {
-    return scroll == SCR_IDENTIFY
-           || scroll == SCR_BLINKING
+    return scroll == SCR_BLINKING
            || scroll == SCR_RECHARGING
            || scroll == SCR_ENCHANT_ARMOUR
            || scroll == SCR_AMNESIA
@@ -2401,6 +2400,7 @@ static bool _is_cancellable_scroll(scroll_type scroll)
 #if TAG_MAJOR_VERSION == 34
            || scroll == SCR_CURSE_ARMOUR
            || scroll == SCR_CURSE_JEWELLERY
+		   || scroll == SCR_IDENTIFY
 #endif
            || scroll == SCR_BRAND_WEAPON
            || scroll == SCR_ENCHANT_WEAPON
@@ -2519,8 +2519,10 @@ string cannot_read_item_reason(const item_def &item)
         case SCR_ENCHANT_WEAPON:
             return _no_items_reason(OSEL_ENCHANTABLE_WEAPON, true);
 
+#if TAG_MAJOR_VERSION == 34
         case SCR_IDENTIFY:
             return _no_items_reason(OSEL_UNIDENT, true);
+#endif
 
         case SCR_RECHARGING:
             return _no_items_reason(OSEL_RECHARGE);
@@ -2630,7 +2632,6 @@ void read(item_def* scroll)
 void read_scroll(item_def& scroll)
 {
     const scroll_type which_scroll = static_cast<scroll_type>(scroll.sub_type);
-    const int prev_quantity = scroll.quantity;
     const bool alreadyknown = item_type_known(scroll);
 
     // For cancellable scrolls leave printing this message to their
@@ -2819,6 +2820,7 @@ void read_scroll(item_def& scroll)
         cancel_scroll = !_handle_brand_weapon(alreadyknown, pre_succ_msg);
         break;
 
+#if TAG_MAJOR_VERSION == 34
     case SCR_IDENTIFY:
         if (!alreadyknown)
         {
@@ -2830,6 +2832,7 @@ void read_scroll(item_def& scroll)
         }
         cancel_scroll = !_identify(alreadyknown, pre_succ_msg);
         break;
+#endif
 
     case SCR_RECHARGING:
         if (!alreadyknown)
@@ -2916,20 +2919,6 @@ void read_scroll(item_def& scroll)
         else
             dec_mitm_item_quantity(scroll.index(), 1);
         count_action(CACT_USE, OBJ_SCROLLS);
-    }
-
-    if (!alreadyknown
-        && which_scroll != SCR_ACQUIREMENT
-        && which_scroll != SCR_BRAND_WEAPON
-        && which_scroll != SCR_ENCHANT_WEAPON
-        && which_scroll != SCR_IDENTIFY
-        && which_scroll != SCR_ENCHANT_ARMOUR
-        && which_scroll != SCR_RECHARGING
-        && which_scroll != SCR_AMNESIA)
-    {
-        mprf("It %s a %s.",
-             scroll.quantity < prev_quantity ? "was" : "is",
-             scroll_name.c_str());
     }
 
     if (!alreadyknown && dangerous)

@@ -1020,7 +1020,7 @@ KFEAT:  { = {
 # For your convenience, shop positions are not randomized, and are roughly
 # grouped by category.
 
-KFEAT:  C = scroll shop type:Identification suffix:Station count:17 greed:25 ; scroll of identify q:3
+KFEAT:  C = scroll shop type:Identification suffix:Station count:17 greed:25 ; scroll of noise q:3
 KFEAT:  D = book shop type:Must-Have suffix:Magic greed:7 count:12 use_all ; \
             book of summonings | book of spatial translocations | book of enchantments |\
             book of death | book of the sky | book of the warp |\

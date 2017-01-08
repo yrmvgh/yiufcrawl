@@ -878,14 +878,6 @@ scroll of fog
 
 Ce parchemin plonge le lecteur au sein d'un épais brouillard.
 %%%%
-scroll of identify
-
-Ce parchemin magique vous permet de déterminer les propriétés de n'importe quel
-objet, et occasionnellement de permettre de multiples identifications.
-
-Si on l'utilise sur un jeu de cartes, ce parchemin révèlera également la carte
-au dessus du paquet.
-%%%%
 scroll of immolation
 
 Ce parchemin imprègne les créatures autour du lecteur d'un feu puissant et

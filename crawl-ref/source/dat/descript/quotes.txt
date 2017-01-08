@@ -2382,10 +2382,6 @@ scroll of holy word
 
 <scroll>
 %%%%
-scroll of identify
-
-<scroll>
-%%%%
 scroll of immolation
 
 <scroll>

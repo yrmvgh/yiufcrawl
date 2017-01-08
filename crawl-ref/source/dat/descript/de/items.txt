@@ -636,15 +636,6 @@ scroll of fog
 
 Diese Schriftrolle umgibt den Leser mit einer dichten Nebelwolke.
 %%%%
-scroll of identify
-
-Diese nützliche magische Schriftrolle erlaubt Ihnen, die Eigenschaften jedes
-Gegenstands zu bestimmen, und wird gelegentlich vielfache Identifizierungen
-erlauben.
-
-Wenn verwendet, auf einem Deck von Karten wird diese Schriftrolle auch die
-Spitzenkarte weggeben.
-%%%%
 scroll of magic mapping
 
 Diese Schriftrolle offenbart die Umgebungen von demjenigen, der es liest.
