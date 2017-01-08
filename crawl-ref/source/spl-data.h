@@ -1218,7 +1218,7 @@ static const struct spell_desc spelldata[] =
     SPELL_NECROMUTATION, "Necromutation",
     SPTYP_TRANSMUTATION | SPTYP_NECROMANCY,
     SPFLAG_HELPFUL | SPFLAG_CORPSE_VIOLATING | SPFLAG_CHAOTIC,
-    8,
+    6,
     200,
     -1, -1,
     6, 0,
