@@ -765,13 +765,15 @@ static void _cast_smiting(monster &caster, mon_spell_slot slot, bolt&)
     const god_type god = _find_god(caster, slot.flags);
     actor* foe = caster.get_foe();
     ASSERT(foe);
-
+	
+	int damage = 7 + random2avg(11, 2);
+	
     if (foe->is_player())
-        mprf("%s smites you!", _god_name(god).c_str());
+        mprf("%s smites you (%d)!", _god_name(god).c_str(), damage);
     else
-        simple_monster_message(*foe->as_monster(), " is smitten.");
-
-    foe->hurt(&caster, 7 + random2avg(11, 2), BEAM_MISSILE, KILLED_BY_BEAM,
+        mprf("%s is smitten (%d).", caster.get_foe()->name(DESC_THE).c_str(), damage);
+	
+    foe->hurt(&caster, damage, BEAM_MISSILE, KILLED_BY_BEAM,
               "", "by divine providence");
 }
 
@@ -4620,8 +4622,9 @@ static bool _mons_cast_freeze(monster* mons)
 
     if (you.can_see(*target))
     {
-        mprf("%s %s frozen.", target->name(DESC_THE).c_str(),
-                              target->conj_verb("are").c_str());
+        mprf("%s %s frozen (%d).", target->name(DESC_THE).c_str(),
+                              target->conj_verb("are").c_str(),
+							  damage);
     }
 
     target->hurt(mons, damage, BEAM_COLD, KILLED_BY_BEAM, "", "by Freeze");
@@ -5867,19 +5870,23 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_WATERSTRIKE:
     {
-        if (you.can_see(*foe))
-        {
-            if (foe->airborne())
-                mprf("The water rises up and strikes %s!", foe->name(DESC_THE).c_str());
-            else
-                mprf("The water swirls and strikes %s!", foe->name(DESC_THE).c_str());
-        }
-
         pbolt.flavour    = BEAM_WATER;
 
         int damage_taken = waterstrike_damage(*mons).roll();
         damage_taken = foe->beam_resists(pbolt, damage_taken, false);
         damage_taken = foe->apply_ac(damage_taken);
+		
+        if (you.can_see(*foe))
+        {
+            if (foe->airborne())
+                mprf("The water rises up and strikes %s (%d)!", 
+					foe->name(DESC_THE).c_str(),
+					damage_taken);
+            else
+                mprf("The water swirls and strikes %s (%d)!", 
+					foe->name(DESC_THE).c_str(),
+					damage_taken);
+        }
 
         foe->hurt(mons, damage_taken, BEAM_MISSILE, KILLED_BY_BEAM,
                       "", "by the raging water");
@@ -5888,28 +5895,33 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
     case SPELL_AIRSTRIKE:
     {
-        // Damage averages 14 for 5HD, 18 for 10HD, 28 for 20HD, +50% if flying.
+		pbolt.flavour = BEAM_AIR;
+
+		// Damage averages 14 for 5HD, 18 for 10HD, 28 for 20HD, +50% if flying.
+        int damage_taken = 10 + 2 * mons->get_hit_dice();
+        damage_taken = foe->beam_resists(pbolt, damage_taken, false);
+		
+		// Previous method of damage calculation (in line with player
+        // airstrike) had absurd variance.
+		damage_taken = foe->apply_ac(random2avg(damage_taken, 3));
+		
         if (foe->is_player())
         {
             if (you.airborne())
-                mpr("The air twists around and violently strikes you in flight!");
+                mprf("The air twists around and violently strikes you in flight (%d)!",
+					damage_taken);
             else
-                mpr("The air twists around and strikes you!");
+                mprf("The air twists around and strikes you (%d)!",
+					damage_taken);
         }
         else
         {
-            simple_monster_message(*foe->as_monster(),
-                                   " is struck by the twisting air!");
+			const monster* enemy = foe->as_monster();
+            mprf("%s is struck by the twisting air (%d)!",
+				enemy->name(DESC_THE).c_str(),
+				damage_taken);
         }
 
-        pbolt.flavour = BEAM_AIR;
-
-        int damage_taken = 10 + 2 * mons->get_hit_dice();
-        damage_taken = foe->beam_resists(pbolt, damage_taken, false);
-
-        // Previous method of damage calculation (in line with player
-        // airstrike) had absurd variance.
-        damage_taken = foe->apply_ac(random2avg(damage_taken, 3));
         foe->hurt(mons, damage_taken, BEAM_MISSILE, KILLED_BY_BEAM,
                   "", "by the air");
         return;

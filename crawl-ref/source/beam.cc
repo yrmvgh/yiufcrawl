@@ -3548,7 +3548,9 @@ void bolt::affect_player_enchantment(bool resistible)
         const int dam = resist_adjust_damage(&you, flavour, damage.roll());
         if (dam)
         {
-            mpr("Pain shoots through your body!");
+			std::string d = std::to_string(dam);
+            mprf("Pain shoots through your body (%s)!",
+				d.c_str());
             internal_ouch(dam);
             obvious_effect = true;
         }
@@ -3563,22 +3565,27 @@ void bolt::affect_player_enchantment(bool resistible)
         break;
 
     case BEAM_DISPEL_UNDEAD:
+	{
         if (you.undead_state() == US_ALIVE)
         {
             canned_msg(MSG_YOU_UNAFFECTED);
             break;
         }
-
-        mpr("You convulse!");
+		
+		const int damg = damage.roll();
+		std::string dm = std::to_string(damg);
+        mprf("You convulse (%s)!", dm.c_str());
 
         if (aux_source.empty())
             aux_source = "by dispel undead";
 
-        internal_ouch(damage.roll());
+        internal_ouch(damg);
         obvious_effect = true;
         break;
-
+	}
+	
     case BEAM_DISINTEGRATION:
+	{
         mpr("You are blasted!");
 
         if (aux_source.empty())
@@ -3593,8 +3600,9 @@ void bolt::affect_player_enchantment(bool resistible)
         }
 
         obvious_effect = true;
-        break;
-
+		break;
+	}
+	
     case BEAM_PORKALATOR:
         if (!transform(ench_power, TRAN_PIG, true))
         {
@@ -3883,7 +3891,13 @@ void bolt::affect_player()
     }
 
     hurted = check_your_resists(hurted, flavour, "", this);
+	std::string d = std::to_string(hurted);
 
+	if (hurted > 0)
+	{
+		mprf("That hurt (%s)!", d.c_str());
+	}
+	
     if (flavour == BEAM_MIASMA && hurted > 0)
         was_affected = miasma_player(agent(), name);
 
@@ -3945,7 +3959,7 @@ void bolt::affect_player()
             was_affected = true;
         }
     }
-
+	
     // need to trigger qaz resists after reducing damage from ac/resists.
     //    for some reason, strength 2 is the standard. This leads to qaz's resists triggering 2 in 5 times at max piety.
     //    perhaps this should scale with damage?

@@ -1089,12 +1089,16 @@ static int _shatter_monsters(coord_def where, int pow, actor *agent)
     if (agent->is_player())
     {
         _player_hurt_monster(*mon, damage);
+		mprf("%s shudders (%d).", mon->name(DESC_THE).c_str(), damage);
 
         if (is_sanctuary(you.pos()) || is_sanctuary(mon->pos()))
             remove_sanctuary(true);
     }
     else
+	{
         mon->hurt(agent, damage);
+		mprf("%s shudders (%d).", mon->name(DESC_THE).c_str(), damage);
+	}
 
     return damage;
 }
@@ -1257,11 +1261,17 @@ static int _shatter_player(int pow, actor *wielder, bool devastator = false)
     dice_def dam_dice(_shatter_player_dice(), 5 + pow / 3);
 
     int damage = max(0, dam_dice.roll() - random2(you.armour_class()));
-
+	
+	
     if (damage > 0)
     {
-        mpr(damage > 15 ? "You shudder from the earth-shattering force."
-                        : "You shudder.");
+		std::string d = std::to_string(damage);
+		if(damage > 15)
+			mprf("You shudder from the earth-shattering force (%s).",
+						d.c_str());
+        else
+			mprf("You shudder (%s).", d.c_str());
+		
         if (devastator)
             ouch(damage, KILLED_BY_MONSTER, wielder->mid);
         else
@@ -1366,14 +1376,7 @@ void shillelagh(actor *wielder, coord_def where, int pow)
     }
     if (!affected_monsters.empty())
     {
-        const string message =
-            make_stringf("%s shudder%s.",
-                         affected_monsters.describe().c_str(),
-                         affected_monsters.count() == 1? "s" : "");
-        if (strwidth(message) < get_number_of_cols() - 2)
-            mpr(message);
-        else
-            mpr("There is a shattering impact!");
+        mpr("There is a shattering impact!");
     }
 
     // need to do this again to do the actual damage
@@ -1616,7 +1619,7 @@ static int _ignite_poison_monsters(coord_def where, int pow, actor *agent)
         return mons_aligned(mon, agent) ? -1 * damage : damage;
     }
 
-    simple_monster_message(*mon, " seems to burn from within!");
+    mprf("%s seems to burn from within (%d)!", mon->name(DESC_THE).c_str(), damage);
 
     dprf("Dice: %dd%d; Damage: %d", dam_dice.num, dam_dice.size, damage);
 
@@ -1678,11 +1681,11 @@ static int _ignite_poison_player(coord_def where, int pow, actor *agent)
 
     const int resist = player_res_fire();
     if (resist > 0)
-        mpr("You feel like your blood is boiling!");
+        mprf("You feel like your blood is boiling (%d)!", damage);
     else if (resist < 0)
-        mpr("The poison in your system burns terribly!");
+        mprf("The poison in your system burns terribly (%d)!", damage);
     else
-        mpr("The poison in your system burns!");
+        mprf("The poison in your system burns (%d)!", damage);
 
     ouch(damage, KILLED_BY_BEAM, agent->mid,
          "by burning poison", you.can_see(*agent),
@@ -1858,11 +1861,12 @@ int discharge_monsters(coord_def where, int pow, actor *agent)
 
     if (victim->is_player())
     {
-        mpr("You are struck by lightning.");
-        damage = 1 + random2(3 + pow / 15);
+		damage = 1 + random2(3 + pow / 15);
         dprf("You: static discharge damage: %d", damage);
         damage = check_your_resists(damage, BEAM_ELECTRICITY,
                                     "static discharge");
+        mprf("You are struck by lightning (%d).", damage);
+        
         ouch(damage, KILLED_BY_BEAM, agent->mid, "by static electricity", true,
              agent->is_player() ? "you" : agent->name(DESC_A).c_str());
         if (damage > 0)
@@ -1883,8 +1887,9 @@ int discharge_monsters(coord_def where, int pow, actor *agent)
 
         if (damage)
         {
-            mprf("%s is struck by lightning.",
-                 mons->name(DESC_THE).c_str());
+            mprf("%s is struck by lightning (%d).",
+                 mons->name(DESC_THE).c_str(),
+				 damage);
             if (agent->is_player())
             {
                 _player_hurt_monster(*mons, damage);
