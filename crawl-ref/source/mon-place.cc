@@ -308,21 +308,6 @@ static void _apply_ood(level_id &place)
     }
 }
 
-static int _vestibule_spawn_rate()
-{
-    // Monster generation in the Vestibule drops off quickly.
-    const int taper_off_turn = 500;
-    int genodds = 240;
-    // genodds increases once you've spent more than 500 turns in Hell.
-    if (env.turns_on_level > taper_off_turn)
-    {
-        genodds += (env.turns_on_level - taper_off_turn);
-        genodds  = (genodds < 0 ? 20000 : min(genodds, 20000));
-    }
-
-    return genodds;
-}
-
 //#define DEBUG_MON_CREATION
 
 /**
@@ -358,7 +343,7 @@ void spawn_random_monsters()
     }
 
     if (player_in_branch(BRANCH_VESTIBULE))
-        rate = _vestibule_spawn_rate();
+        rate = 0;
 
     if (player_on_orb_run())
         rate = have_passive(passive_t::slow_orb_run) ? 16 : 8;

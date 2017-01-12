@@ -1199,9 +1199,8 @@ void dgn_reset_level(bool enable_random_maps)
     }
     else if (player_in_connected_branch()
              || (player_on_orb_run() && !player_in_branch(BRANCH_ABYSS)))
-        env.spawn_random_rate = 240;
-    else if (player_in_branch(BRANCH_ABYSS)
-             || player_in_branch(BRANCH_PANDEMONIUM))
+        env.spawn_random_rate = 0; //ood spawning is actually not a good mechanic
+    else if (player_in_branch(BRANCH_ABYSS))
     {
         // Abyss spawn rate is set for those characters that start out in the
         // Abyss; otherwise the number is ignored in the Abyss.
