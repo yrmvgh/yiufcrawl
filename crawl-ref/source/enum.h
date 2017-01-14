@@ -2102,6 +2102,7 @@ enum enchant_type
     ENCH_BOUND_SOUL,
     ENCH_INFESTATION,
     ENCH_STILL_WINDS,
+    ENCH_RING_OF_THUNDER,
     // Update enchant_names[] in mon-ench.cc when adding or removing
     // enchantments.
     NUM_ENCHANTMENTS
@@ -4758,6 +4759,7 @@ enum spell_type : int
     SPELL_DREAM_DUST,
     SPELL_BECKONING,
     SPELL_UPHEAVAL,
+    SPELL_RING_OF_THUNDER,
     NUM_SPELLS
 };
 
