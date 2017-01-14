@@ -6406,6 +6406,9 @@ item_def* monster::disarm()
     if (your_tile_ok)
         move_top_item(pos(), you.pos());
 
+    if (type == MONS_CEREBOV)
+        you.props[CEREBOV_DISARMED_KEY] = true;
+
     return mons_wpn;
 }
 

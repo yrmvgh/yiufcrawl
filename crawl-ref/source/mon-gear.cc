@@ -1115,6 +1115,8 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         break;
 
     case MONS_CEREBOV:
+        if (you.props.exists(CEREBOV_DISARMED_KEY))
+            break;
         force_item = true;
         make_item_unrandart(item, UNRAND_CEREBOV);
         break;
