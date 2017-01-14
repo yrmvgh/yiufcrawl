@@ -852,6 +852,8 @@ spret_type vampiric_drain(int pow, monster* mons, bool fail)
     }
 
     const bool mons_was_summoned = mons->is_summoned();
+	
+	mprf("You drain life from %s (%d)!", mons->name(DESC_THE).c_str(), hp_gain);
 
     mons->hurt(&you, hp_gain);
 
