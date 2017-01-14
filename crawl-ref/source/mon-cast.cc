@@ -4572,8 +4572,8 @@ static void _mons_vampiric_drain(monster &mons, mon_spell_slot slot, bolt&)
         ouch(hp_cost, KILLED_BY_BEAM, mons.mid, "by vampiric draining");
         if (mons.heal(hp_cost * 2 / 3))
         {
-            simple_monster_message(mons,
-                " draws life force from you and is healed!");
+            mprf("%s draws life force from you (%d) and is healed!",
+				mons.name(DESC_THE).c_str(), hp_cost);
         }
     }
     else
@@ -4583,15 +4583,14 @@ static void _mons_vampiric_drain(monster &mons, mon_spell_slot slot, bolt&)
         mtarget->hurt(&mons, hp_cost);
         if (mtarget->is_summoned())
         {
-            simple_monster_message(mons,
-                                   make_stringf(" draws life force from %s!",
-                                                targname.c_str()).c_str());
+            mprf("%s draws life force from %s (%d)!",
+				mons.name(DESC_THE).c_str(), targname.c_str(), hp_cost);
+                                                
         }
         else if (mons.heal(hp_cost * 2 / 3))
         {
-            simple_monster_message(mons,
-                make_stringf(" draws life force from %s and is healed!",
-                targname.c_str()).c_str());
+           mprf("%s draws life force from %s (%d) and is healed!",
+                mons.name(DESC_THE).c_str(), targname.c_str(), hp_cost);
         }
         if (mtarget->alive())
             print_wounds(*mtarget);
