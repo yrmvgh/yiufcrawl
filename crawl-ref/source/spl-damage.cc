@@ -887,11 +887,18 @@ spret_type cast_freeze(int pow, monster* mons, bool fail)
 
     const bool abort = stop_attack_prompt(mons, false, you.pos());
 
+	bolt beam;
+    beam.flavour = BEAM_COLD;
+    beam.thrower = KILL_YOU;
+	
+	const int orig_hurted = roll_dice(1, 3 + pow / 3);
+    int hurted = mons_adjust_flavoured(mons, beam, orig_hurted);
+	
     if (!abort && !fail)
     {
         set_attack_conducts(conducts, mons);
 
-        mprf("You freeze %s.", mons->name(DESC_THE).c_str());
+        mprf("You freeze %s (%d).", mons->name(DESC_THE).c_str(), hurted);
 
         behaviour_event(mons, ME_ANNOY, &you);
     }
@@ -906,12 +913,6 @@ spret_type cast_freeze(int pow, monster* mons, bool fail)
 
     fail_check();
 
-    bolt beam;
-    beam.flavour = BEAM_COLD;
-    beam.thrower = KILL_YOU;
-
-    const int orig_hurted = roll_dice(1, 3 + pow / 3);
-    int hurted = mons_adjust_flavoured(mons, beam, orig_hurted);
     mons->hurt(&you, hurted);
 
     if (mons->alive())
