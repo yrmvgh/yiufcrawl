@@ -516,8 +516,10 @@ static bool _drain_lifeable_hitfunc(const actor* act)
 static int _drain_player(const actor* agent, int pow, int avg, bool actual)
 {
     const int hurted = resist_adjust_damage(&you, BEAM_NEG, avg);
+	
     if (actual)
     {
+		mprf("That hurt (%d)!", hurted);
         const monster* mons = agent ? agent->as_monster() : 0;
         ouch(hurted, KILLED_BY_BEAM, mons ? mons->mid : MID_NOBODY,
              "by drain life");
@@ -537,8 +539,8 @@ static int _drain_monster(const actor* agent, monster* target, int pow,
         {
             if (agent && agent->is_player())
             {
-                mprf("You draw life from %s.",
-                     target->name(DESC_THE).c_str());
+                mprf("You draw life from %s (%d).",
+                     target->name(DESC_THE).c_str(), hurted);
             }
             target->hurt(agent, hurted);
         }
