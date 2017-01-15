@@ -246,6 +246,9 @@ enum class passive_t
 	/// TSO prevents you from stabbing
     no_stabbing,
 	
+	///sif muna improves your magical skills
+	magic_skill_boost,
+	
 };
 
 enum ru_interference
@@ -268,6 +271,7 @@ void ash_id_monster_equipment(monster* mon);
 int ash_detect_portals(bool all);
 monster_type ash_monster_tier(const monster *mon);
 int ash_skill_boost(skill_type sk, int scale);
+int sif_magic_boost(skill_type sk, int scale);
 map<skill_type, int8_t> ash_get_boosted_skills(eq_type type);
 int gozag_gold_in_los(actor* whom);
 int qazlal_sh_boost(int piety = you.piety);

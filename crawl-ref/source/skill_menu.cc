@@ -585,6 +585,11 @@ string SkillMenuSwitch::get_help()
                 causes.push_back(apostrophise(god_name(you.religion))
                                  + " power");
             }
+			if(have_passive(passive_t::magic_skill_boost))
+			{
+				causes.push_back(apostrophise(god_name(you.religion))
+                                 + " power");
+			}
             if (_any_crosstrained())
                 causes.push_back("cross-training");
             result = "Skills enhanced by "

@@ -5826,6 +5826,14 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
             level = ash_skill_boost(sk, scale);
         }
     }
+	else if (have_passive(passive_t::magic_skill_boost))
+	{
+		if(sk >= SK_FIRST_MAGIC_SCHOOL && sk < SK_LAST_MAGIC 
+			|| sk == SK_SPELLCASTING)
+		{
+			level = sif_magic_boost(sk, scale);
+		}
+	}
     if (duration[DUR_HEROISM] && sk <= SK_LAST_MUNDANE)
         level = min(level + 5 * scale, 27 * scale);
     return level;

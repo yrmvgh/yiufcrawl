@@ -163,6 +163,8 @@ const vector<god_power> god_powers[NUM_GODS] =
            "request divine energy" },
       { 2, "Sif Muna is protecting you from the effects of miscast magic.",
            "Sif Muna no longer protects you from the effects of miscast magic." },
+	  { 3, "Sif Muna improves your magical skills.", 
+		   "Sif Muna no longer improves your magic."},
       { 3, ABIL_SIF_MUNA_CHANNEL_ENERGY, "call upon Sif Muna for magical energy"},
       { 4, ABIL_SIF_MUNA_FORGET_SPELL, "freely open your mind to new spells",
           "forget spells at will" },
@@ -1874,8 +1876,8 @@ bool do_god_gift(bool forced)
                     gift = BOOK_DEATH;
                 }
             }
-            else if (forced || you.piety >= piety_breakpoint(2)
-                               && random2(you.piety) > 50)
+            else if (forced || you.piety >= piety_breakpoint(4)
+                               && random2(you.piety) > 120)
             {
                 // Sif Muna special: Keep quiet if acquirement fails
                 // because the player already has seen all spells.

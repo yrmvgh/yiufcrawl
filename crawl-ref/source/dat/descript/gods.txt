@@ -382,8 +382,8 @@ Sif Muna will grant followers divine energy, allowing them to occasionally cast
 spells even with insufficient reserves of magic. Eventually worshippers will
 gain the ability to rapidly restore their magical energy, and to forget spells
 at will, so as to learn new ones. Sif Muna protects spellcasters against the
-negative effects of miscasting spells. Over time, followers will receive
-spellbooks containing a vast range of spells.
+negative effects of miscasting spells and passively boosts their magical skills.
+Over time, followers will receive spellbooks containing a vast range of spells.
 %%%%
 the Shining One powers
 
