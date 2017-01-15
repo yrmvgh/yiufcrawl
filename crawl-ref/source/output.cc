@@ -805,10 +805,8 @@ static void _print_stats_ac(int x, int y)
     else
         textcolour(HUD_VALUE_COLOUR);
     string ac = make_stringf("%2d ", you.armour_class());
-#ifdef WIZARD
-    if (you.wizard)
-        ac += make_stringf("(%d%%) ", you.gdr_perc());
-#endif
+    ac += make_stringf("(%d%%) ", you.gdr_perc());
+
     CPRINTF("%-12s", ac.c_str());
 
     // SH: (two lines lower)
