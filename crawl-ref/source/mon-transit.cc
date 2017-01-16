@@ -404,9 +404,10 @@ static bool _tag_follower_at(const coord_def &pos, bool &real_follower)
         return false;
     }
 
-    real_follower = true;
-
-    // Monster is chasing player through stairs.
+    // Monster is an ally, following player through stairs.
+	if(fol->friendly())
+	{
+	real_follower = true;
     fol->flags |= MF_TAKING_STAIRS;
 
     // Clear patrolling/travel markers.
@@ -418,8 +419,11 @@ static bool _tag_follower_at(const coord_def &pos, bool &real_follower)
 
     dprf("%s is marked for following.",
          fol->name(DESC_THE, true).c_str());
-
-    return true;
+		 
+	return true;
+	}
+	
+    return false;
 }
 
 static int follower_tag_radius()
