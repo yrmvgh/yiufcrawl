@@ -929,7 +929,11 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
         // big hit warning (in this case, a hit for half our HPs) -- bwr
         if (dam > 0 && you.hp_max <= dam * 2)
             mprf(MSGCH_DANGER, "Ouch! That really hurt!");
-
+		
+		//interrupt stairs and passwall
+		if(death_type != KILLED_BY_POISON && death_type != KILLED_BY_BURNING)
+			stop_delay(true);
+			
         if (you.hp > 0 && dam > 0)
         {
             if (Options.hp_warning
