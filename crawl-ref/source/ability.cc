@@ -748,7 +748,7 @@ const string make_cost_description(ability_type ability)
         && (you.undead_state() != US_SEMI_UNDEAD
             || you.hunger_state > HS_STARVING))
     {
-        ret += ", Hunger"; // randomised and exact amount hidden from player
+        ret += ""; // removed fam, food costs are bad
     }
 
     if (abil.piety_cost || abil.flags & abflag::PIETY)
@@ -847,9 +847,7 @@ static const string _detailed_cost_description(ability_type ability)
         && (you.undead_state() != US_SEMI_UNDEAD
             || you.hunger_state > HS_STARVING))
     {
-        have_cost = true;
-        ret << "\nHunger : ";
-        ret << hunger_cost_string(abil.food_cost + abil.food_cost / 2);
+        ret << ""; //remove food remove food remove food
     }
 
     if (abil.piety_cost || abil.flags & abflag::PIETY)
