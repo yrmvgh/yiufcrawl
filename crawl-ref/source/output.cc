@@ -2172,7 +2172,7 @@ static vector<formatted_string> _get_overview_stats()
     else
         entry.textcolour(HUD_VALUE_COLOUR);
 
-    entry.cprintf("%2d", you.armour_class());
+    entry.cprintf("%2d (%d%%)", you.armour_class(), you.gdr_perc());
 
     cols.add_formatted(1, entry.to_colour_string(), false);
     entry.clear();
