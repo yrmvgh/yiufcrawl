@@ -1837,13 +1837,6 @@ string get_item_description(const item_def &item, bool verbose,
                            " unfamiliarity with the device.";
         }
 
-
-        if (item_type_known(item) && !item_ident(item, ISFLAG_KNOW_PLUSES))
-        {
-            description << "\nIt can have at most " << wand_max_charges(item)
-                        << " charges.";
-        }
-
         if (known_empty)
             description << "\nUnfortunately, it has no charges left.";
         break;
