@@ -774,7 +774,7 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
 
         if (!item_is_rechargeable(wand, known))
         {
-            mpr("Choose an item to recharge, or Esc to abort.");
+            mpr("Choose an item to charge, or Esc to abort.");
             more();
 
             // Try again.
@@ -790,9 +790,8 @@ int recharge_wand(bool known, const string &pre_msg, int num, int den)
                        max<int>(wand.charges + 1,
                                 wand.charges + 3 * charge_gain * num / den))
             : max<int>(wand.charges,
-                       min(charge_gain * 3,
                            wand.charges +
-                           1 + random2avg(((charge_gain - 1) * 3) + 1, 3)));
+                           1 + random2avg(((charge_gain - 1) * 3) + 1, 3));
 
         const bool charged = (new_charges > wand.plus);
 
