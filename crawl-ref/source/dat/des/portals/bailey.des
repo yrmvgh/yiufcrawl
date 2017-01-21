@@ -1005,7 +1005,7 @@ ORIENT: encompass
 TAGS:   bailey_polearm no_item_gen no_monster_gen no_pool_fixup
 MONS:   gnoll ; spear | trident | halberd . \
             ring mail | scale mail | chain mail . \
-            throwing net | nothing
+            stone | nothing
 MONS:   gnoll sergeant ; halberd | glaive | bardiche w:1 . \
             chain mail w:20 | plate armour | crystal plate armour w:1
 MONS:   gnoll shaman ; spear | trident | halberd . \

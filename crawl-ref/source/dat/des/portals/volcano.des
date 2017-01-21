@@ -290,7 +290,7 @@ function fiery_guardians (e, intelligent, village)
                   .. " / two-headed ogre ; " .. ogrestuff .. " . " .. ogrestuff
                   .. " / " .. centaur
                   .. " / deep elf mage ; " .. elfstuff)
-           e.kmons("2 = Harold ; throwing net . halberd " .. flame
+           e.kmons("2 = Harold ; halberd " .. flame
                    .. " . ring mail " .. res
                    .. " / red draconian ; " .. dracstuff
                    .. " / red draconian ; " .. dracstuff

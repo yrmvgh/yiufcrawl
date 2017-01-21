@@ -1342,7 +1342,7 @@ MONS:    kobold, plant, bush
 : if you.absdepth() < 4 then
 MONS:    kobold ; dagger . stone
 : else
-MONS:    big kobold ; dagger . throwing net q:2
+MONS:    big kobold ; dagger . javelin q:2
 : end
 SUBST:   . = e f .:150
 : dgn.delayed_decay(_G, 'e', 'rat skeleton')

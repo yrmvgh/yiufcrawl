@@ -1808,7 +1808,7 @@ TAGS:   overflow_altar_trog no_monster_gen no_item_gen no_pool_fixup
 DEPTH:  D:2-9, Orc, !Orc:$
 MONS:   goblin ; stone q:5 . animal skin / \
         hobgoblin ; stone q:5 . animal skin / \
-        kobold ; stone q:5 | throwing net q:1 . animal skin
+        kobold ; stone q:5 | animal skin
 ITEM:   stone
 NSUBST: T = 6:1 / *:.
 SUBST:  . = d....
