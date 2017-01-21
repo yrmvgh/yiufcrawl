@@ -792,7 +792,8 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
     case ARM_CLOAK:
         return random_choose(SPARM_POISON_RESISTANCE,
                              SPARM_INVISIBILITY,
-                             SPARM_MAGIC_RESISTANCE);
+                             SPARM_MAGIC_RESISTANCE,
+							 SPARM_STEALTH);
 
     case ARM_HAT:
         return random_choose_weighted(8, SPARM_NORMAL,

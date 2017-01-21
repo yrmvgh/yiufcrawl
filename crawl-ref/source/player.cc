@@ -3157,6 +3157,7 @@ int check_stealth()
 
     const item_def *arm = you.slot_item(EQ_BODY_ARMOUR, false);
     const item_def *boots = you.slot_item(EQ_BOOTS, false);
+	const item_def *cloak = you.slot_item(EQ_CLOAK, false);
 
     if (arm)
     {
@@ -3200,6 +3201,9 @@ int check_stealth()
 
         else if (boots && get_armour_ego_type(*boots) == SPARM_STEALTH)
             stealth += STEALTH_PIP;
+		
+		else if (cloak && get_armour_ego_type(*cloak) == SPARM_STEALTH)
+			stealth += STEALTH_PIP;
 
         else if (you.has_usable_hooves())
             stealth -= 5 + 5 * player_mutation_level(MUT_HOOVES);
