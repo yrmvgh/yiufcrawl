@@ -1572,21 +1572,21 @@ int wand_charge_value(int type)
     {
     case WAND_CLOUDS:
     case WAND_SCATTERSHOT:
-        return 3;
+        return 2;
 
     case WAND_ICEBLAST:
     case WAND_LIGHTNING:
     case WAND_ACID:
-        return 5;
+        return 4;
 
     default:
-        return 6; // reduce wand capacity for low tier wands --mps
+        return 5; 
 
     case WAND_FLAME:
     case WAND_SLOWING:
     case WAND_CONFUSION:
     case WAND_RANDOM_EFFECTS:
-        return 8; // reduce wand capacity for low tier wands --mps
+        return 6; 
     }
 }
 
