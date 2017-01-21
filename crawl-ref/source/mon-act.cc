@@ -2297,9 +2297,8 @@ static void _post_monster_move(monster* mons)
         }
     }
 
-    if (mons->has_ench(ENCH_RING_OF_THUNDER))
+    if (mons->type == MONS_BAI_SUZHEN_DRAGON)
     {
-        // TODO: deduplicate with mon-ench.cc
         cloud_type ctype = CLOUD_STORM;
 
         for (adjacent_iterator ai(mons->pos()); ai; ++ai)
