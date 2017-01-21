@@ -912,7 +912,7 @@ int sif_magic_boost(skill_type sk, int scale)
 	//directly modeled off of ashenzari, but using a single factor
 	unsigned int skill_points = you.skill_points[sk];
 	
-	skill_points += 5 * (piety_rank() + 1)
+	skill_points += 3 * (piety_rank() + 1)
                     * max(you.skill(sk, 10, true), 1) * species_apt_factor(sk);
 					
 	int level = you.skills[sk];
