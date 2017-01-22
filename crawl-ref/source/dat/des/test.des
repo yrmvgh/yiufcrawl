@@ -41,7 +41,6 @@ KFEAT:  0 = altar_trog
 KFEAT:  B = altar_nemelex_xobeh
 KFEAT:  C = altar_elyvilon
 KFEAT:  D = altar_lugonu
-KFEAT:  E = altar_beogh
 KFEAT:  F = altar_jiyva
 KFEAT:  J = altar_cheibriados
 MAP
@@ -55,7 +54,7 @@ MAP
 .IGTUVY.....
 ............
 .0123456789.
-.BCDEF.J....
+.BCD.F.J....
 ............
 ENDMAP
 

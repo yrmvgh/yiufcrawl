@@ -373,7 +373,7 @@ SUBST: G : YlG
 :   obsidian_axe w:1 | damnation w:1 | \
 :   sword_of_zonguldrok w:1")
 KFEAT: a = altar_kikubaaqudgha / altar_yredelemnul / altar_makhleb / \
-           altar_beogh w:1 / altar_lugonu w:1
+           altar_lugonu w:1
 MAP
 ...   ...
 .G.a.s.G.

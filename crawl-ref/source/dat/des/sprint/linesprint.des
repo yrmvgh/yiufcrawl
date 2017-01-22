@@ -178,7 +178,6 @@ ENDMAP
 NAME:     line_temple
 TAGS:     line_temple
 # No Ashenzari.
-KFEAT:    b = altar_beogh
 KFEAT:    c = altar_cheibriados
 KFEAT:    d = altar_dithmenos
 KFEAT:    e = altar_elyvilon
@@ -206,7 +205,7 @@ KFEAT:    1 = altar_the_shining_one
 :           })
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxx
-~bcde.ghjklmnoqrstuvXyz1.
+~.cde.ghjklmnoqrstuvXyz1.
 xxxxxxxxxxxxxxxxxxxxxxxxx
 ENDMAP
 

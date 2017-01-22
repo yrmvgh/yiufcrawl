@@ -211,7 +211,6 @@ ENDMAP
 
 NAME:   sprint2_temple
 TAGS:   sprint2_temple no_item_gen no_trap_gen no_monster_gen no_pool_fixup
-KFEAT:  b = altar_beogh
 KFEAT:  c = altar_cheibriados
 KFEAT:  d = altar_dithmenos
 KFEAT:  e = altar_elyvilon
@@ -236,7 +235,7 @@ KFEAT:  1 = altar_the_shining_one
 MAP
 ..q.x...
 .h.r.y..
-b.j.s.z.
+..j.s.z.
 .c.k.t.1
 ..d.l.u.
 ...e.m.v

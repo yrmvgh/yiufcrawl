@@ -99,7 +99,6 @@ ENDMAP
 NAME:   sprint_temple
 TAGS:   fedhas_sprint_temple no_rotate no_hmirror no_vmirror
 # No Fedhas or Ashenzari.
-KFEAT:  b = altar_beogh
 KFEAT:  c = altar_cheibriados
 KFEAT:  d = altar_dithmenos
 KFEAT:  e = altar_elyvilon
@@ -124,7 +123,7 @@ KFEAT:  1 = altar_the_shining_one
 KMONS:  P = oklob sapling name:priest n_suf \
             spells:spit_acid.50.natural;cantrip.36.priest;smiting.18.priest
 MAP
-.T.b.c.d.e.T.
+.T...c.d.e.T.
 ..g.h.j.k.l..
 ...m.nPo.q...
 ..r.s.t.u.v..

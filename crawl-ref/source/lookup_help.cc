@@ -343,7 +343,8 @@ static vector<string> _get_god_keys()
     {
         god_type which_god = static_cast<god_type>(i);
         // XXX: currently disabled.
-        if (which_god != GOD_PAKELLAS && which_god != GOD_FEDHAS)
+        if (which_god != GOD_PAKELLAS && which_god != GOD_FEDHAS
+			&& which_god !=GOD_ASHENZARI && which_god != GOD_BEOGH)
             names.push_back(god_name(which_god));
     }
 

@@ -981,7 +981,7 @@ LROCKTILE:  wall_hall
 }}
 # No exploration gods. Positions are random, and you don't have enough time to
 # reach an altar before the game starts.
-NSUBST: B = 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / h / i / j / k / l / \
+NSUBST: B = 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / h / j / k / l / \
             m / n / o / p / *:.
 KFEAT:  0 = altar_zin
 KFEAT:  1 = altar_the_shining_one
@@ -994,7 +994,6 @@ KFEAT:  7 = altar_okawaru
 KFEAT:  8 = altar_makhleb
 KFEAT:  9 = altar_sif_muna
 KFEAT:  h = altar_trog
-KFEAT:  i = altar_beogh
 KFEAT:  j = altar_cheibriados
 KFEAT:  k = altar_jiyva
 KFEAT:  1 = altar_dithmenos

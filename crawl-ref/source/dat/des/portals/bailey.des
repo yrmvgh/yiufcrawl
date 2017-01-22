@@ -774,8 +774,7 @@ SUBST:  2 = 23
 NSUBST: 4 = 1:4 / *:3
 SUBST:  W : W..
 KFEAT:  T = known permanent teleport trap
-SUBST:  X = I G C
-KFEAT:  C = altar_beogh
+SUBST:  X = I G
 ITEM:   manual of armour / manual of fighting / manual of shields /\
         good_item bardiche / good_item executioner's axe
 ITEM:   potion of experience q:1 / scroll of acquirement q:1 /\

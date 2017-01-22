@@ -691,7 +691,7 @@ NAME:  room_start
 TAGS:  no_item_gen no_trap_gen no_pool_fixup no_rotate no_hmirror no_vmirror
 : setup_room(_G, 1)
 KFEAT:  a = altar_xom
-KFEAT:  b = altar_beogh
+KFEAT:  b = altar_zin
 KFEAT:  c = altar_cheibriados
 KFEAT:  d = altar_dithmenos
 KFEAT:  e = altar_elyvilon

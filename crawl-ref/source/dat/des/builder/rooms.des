@@ -85,9 +85,6 @@ function sroom_orc_lair(e)
     end
 
     fill_special_room(e, mon, lord_mon, true)
-    if crawl.coinflip() then
-        e.kfeat('2 = altar_beogh')
-    end
     e.kitem('1. = gold level:' .. level - 4 .. ' w:1 / nothing w:8')
     e.kitem('2 = gold')
 end

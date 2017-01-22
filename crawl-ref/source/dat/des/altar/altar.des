@@ -360,23 +360,6 @@ cccyy..yycc
      @@
 ENDMAP
 
-
-### Altars possibly to Beogh #################################################
-
-NAME:  david_defended_altar_orc
-DEPTH: D:7-14, Orc
-MONS:  patrolling orc priest
-TAGS:  uniq_defended_altar
-KFEAT: _ = altar_beogh / w:1 altar_okawaru / w:1 altar_makhleb / w:1 altar_trog
-MAP
-ccccc...
-c1..c...
-c1_.+.I@
-c1..c...
-ccccc...
-ENDMAP
-
-
 ### Altars to Jiyva ##########################################################
 
 NAME:   jiyva_altar_1

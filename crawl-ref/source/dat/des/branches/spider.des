@@ -647,7 +647,6 @@ KMONS:  z = jumping spider w:5 / wolf spider w:3 / redback w:1 / \
             tarantella w:1 / nothing w:96
 KITEM:  z = any armour w:5 / any weapon w:5 / gold w:1 / nothing w:50
 KFEAT:  z = web / floor w:60
-KFEAT:  _ = altar_beogh
 KFEAT:  X = rock_wall
 SUBST:  B = z.., z = v:1 z:14
 FTILE:  XzvcI_ = floor_orc
@@ -665,7 +664,7 @@ MAP
  xxxXXXzzzzzzXXxxx
 xxXXXXzzzzzzzXXxxx
 xXXXXXzIzzzIzXXxxx
-xXzzzzzzz_zzzXXxxx
+xXzzzzzzzzzzzXXxxx
 xXzzzzzIzzzIzzXXxx
 xXzzzzzzzzzzzzXXxx
 xXXXXzzzzzzzzXXxxx

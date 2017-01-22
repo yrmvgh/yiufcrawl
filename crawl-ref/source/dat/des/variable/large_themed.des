@@ -465,7 +465,7 @@ TAGS:   no_rotate
 DEPTH:  D:12-, !D:$, Orc
 MONS:   orc warlord, patrolling orc priest, patrolling orc high priest
 MONS:   orc warrior, orc wizard, orc knight, orc sorcerer
-KFEAT:  C = altar_beogh
+KFEAT:  C = altar_makhleb
 MAP
 xxxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxx

@@ -2316,7 +2316,7 @@ MONS:    butterfly
 ITEM:    stone q:1 no_pickup, large rock q:1 no_pickup
 ITEM:    sling bullet q:1 no_pickup, crystal ball of energy no_pickup
 # Altars obliquely refer to those temple maps.
-KFEAT:   D = altar_lugonu / altar_jiyva / altar_beogh w:5 / C w:20
+KFEAT:   D = altar_lugonu / altar_jiyva / C w:20
 KFEAT:   ~ = known zot trap
 SHUFFLE: Xy / Xy / Xy / Aa
 NSUBST:  A = 1:. / 19 = X:9 .:1 / *:X

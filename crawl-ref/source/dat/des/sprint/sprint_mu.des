@@ -232,7 +232,7 @@ KFEAT: 1 = altar_the_shining_one
 KFEAT: Z = altar_zin
 KMONS: e = patrolling deep elf mage ; long sword ego:holy_wrath
 KITEM: e = potion of curing / potion of heal wounds / potion of cure mutation
-KFEAT: B = altar_beogh
+KFEAT: B = altar_zin
 KFEAT: O = altar_okawaru
 KFEAT: T = altar_trog
 KFEAT: U = altar_uskayaw
@@ -382,7 +382,7 @@ MONS: orc knight, orc sorcerer, orc high priest, orc warlord
 NSUBST: r = 1:B / 2:! / 1:s / *:r
 KFEAT: s = any shop
 SUBST: B = Brrrrrrrrr
-KFEAT: B = altar_beogh
+KFEAT: B = altar_zin
 SUBST: R = xxxx$$
 SUBST: r = xxx$$
 SUBST: $ = $$$$$$$$$$$$$$!

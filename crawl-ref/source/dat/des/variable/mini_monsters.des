@@ -1902,7 +1902,7 @@ SUBST: 0 = 1:8 2:4 3:2 8:1
 : if you.absdepth() > 11 then
 SUBST: 4 = 6, 5 = 57
 : end
-KFEAT: _ = altar_beogh
+KFEAT: _ = altar_makhleb
 MAP
 ccccccccccccccccccccc
 cccc..000........cccc
@@ -4892,7 +4892,7 @@ KMONS:  1 = orc high priest band
 :else
 KMONS:  1 = orc priest band
 :end
-KFEAT:  1 = altar_beogh
+KFEAT:  1 = altar_makhleb
 TILE:   x = wall_zot_yellow
 MAP
  xxxxx
