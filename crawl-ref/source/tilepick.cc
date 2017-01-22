@@ -91,8 +91,10 @@ static tileidx_t _tileidx_trap(trap_type type)
         return TILE_DNGN_TRAP_BLADE;
     case TRAP_BOLT:
         return TILE_DNGN_TRAP_BOLT;
+#if TAG_MAJOR_VERSION == 34
     case TRAP_NET:
         return TILE_DNGN_TRAP_NET;
+#endif
     case TRAP_ZOT:
         return TILE_DNGN_TRAP_ZOT;
     case TRAP_NEEDLE:
@@ -2034,7 +2036,9 @@ static tileidx_t _tileidx_missile_base(const item_def &item)
     {
     case MI_STONE:        return TILE_MI_STONE;
     case MI_LARGE_ROCK:   return TILE_MI_LARGE_ROCK;
+#if TAG_MAJOR_VERSION == 34
     case MI_THROWING_NET: return TILE_MI_THROWING_NET;
+#endif
     case MI_TOMAHAWK:
         switch (brand)
         {
@@ -2619,9 +2623,11 @@ tileidx_t tileidx_item_throw(const item_def &item, int dx, int dy)
             case MI_JAVELIN:
                 ch = TILE_MI_JAVELIN0;
                 break;
+#if TAG_MAJOR_VERSION == 34
             case MI_THROWING_NET:
                 ch = TILE_MI_THROWING_NET0;
                 break;
+#endif
             case MI_TOMAHAWK:
                 ch = TILE_MI_TOMAHAWK0;
             default:

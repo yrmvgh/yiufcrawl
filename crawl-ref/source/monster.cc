@@ -1888,29 +1888,20 @@ bool monster::pickup_missile(item_def &item, bool msg, bool force)
 
     if (!force)
     {
-        if (item.sub_type == MI_THROWING_NET)
-        {
-            // Monster may not pick up trapping net.
-            if (caught() && item_is_stationary_net(item))
-                return false;
-        }
-        else // None of these exceptions hold for throwing nets.
-        {
-            // Spellcasters should not waste time with ammunition.
-            // Neither summons nor hostile enchantments are counted for
-            // this purpose.
-            if (!force && mons_has_ranged_spell(*this, true, false))
-                return false;
+        // Spellcasters should not waste time with ammunition.
+        // Neither summons nor hostile enchantments are counted for
+        // this purpose.
+        if (!force && mons_has_ranged_spell(*this, true, false))
+            return false;
 
-            // Monsters in a fight will only pick up missiles if doing so
-            // is worthwhile.
-            if (!mons_is_wandering(*this)
-                && foe != MHITYOU
-                && (item.quantity < 5 || miss && miss->quantity >= 7))
-            {
-                return false;
-            }
-        }
+        // Monsters in a fight will only pick up missiles if doing so
+        // is worthwhile.
+        if (!mons_is_wandering(*this)
+            && foe != MHITYOU
+            && (item.quantity < 5 || miss && miss->quantity >= 7))
+        {
+            return false;
+        }      
     }
 
     if (miss && items_stack(*miss, item))

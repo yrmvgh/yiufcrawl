@@ -1526,13 +1526,6 @@ bool items_similar(const item_def &item1, const item_def &item2)
     if (item1.base_type == OBJ_MISSILES && item1.brand != item2.brand)
         return false;
 
-    // Don't merge trapping nets with other nets.
-    if (item1.is_type(OBJ_MISSILES, MI_THROWING_NET)
-        && item1.net_placed != item2.net_placed)
-    {
-        return false;
-    }
-
     if (item1.is_type(OBJ_FOOD, FOOD_CHUNK)
         && determine_chunk_effect(item1) != determine_chunk_effect(item2))
     {
@@ -3478,8 +3471,10 @@ colour_t item_def::missile_colour() const
             return LIGHTBLUE;
         case MI_JAVELIN:
             return RED;
+#if TAG_MAJOR_VERSION == 34
         case MI_THROWING_NET:
             return MAGENTA;
+#endif
         case MI_TOMAHAWK:
             return GREEN;
         case NUM_SPECIAL_MISSILES:

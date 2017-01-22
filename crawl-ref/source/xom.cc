@@ -769,9 +769,8 @@ static bool _is_chaos_upgradeable(const item_def &item,
     // upgrade.
     if (item.base_type == OBJ_MISSILES)
     {
-        // Don't make boulders or throwing nets of chaos.
-        if (item.sub_type == MI_LARGE_ROCK
-            || item.sub_type == MI_THROWING_NET)
+        // Don't make boulders of chaos.
+        if (item.sub_type == MI_LARGE_ROCK)
         {
             return false;
         }

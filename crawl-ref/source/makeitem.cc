@@ -501,8 +501,8 @@ static special_missile_type _determine_missile_brand(const item_def& item,
     {
 #if TAG_MAJOR_VERSION == 34
     case MI_DART:
-#endif
     case MI_THROWING_NET:
+#endif
     case MI_STONE:
     case MI_LARGE_ROCK:
     case MI_SLING_BULLET:
@@ -665,11 +665,6 @@ static void _generate_missile_item(item_def& item, int force_type,
     else if (item.sub_type == MI_STONE)
     {
         item.quantity = 5 + random2(70) + random2(50) + random2(60) + random2(50);
-        return;
-    }
-    else if (item.sub_type == MI_THROWING_NET) // no fancy nets, either
-    {
-        item.quantity = 1 + one_chance_in(4); // and only one, rarely two
         return;
     }
 

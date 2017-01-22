@@ -1401,19 +1401,6 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
             }
 			break;
 
-        case MONS_HAROLD: // bounty hunter, up to 5 nets
-            if (mons_summoned)
-                break;
-
-            weap_type  = MI_THROWING_NET;
-            qty        = 1;
-            if (one_chance_in(3))
-                qty++;
-            if (mon->type == MONS_HAROLD)
-                qty += random2(4);
-
-            break;
-
         default:
             break;
         }

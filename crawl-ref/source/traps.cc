@@ -248,14 +248,6 @@ bool trap_def::is_safe(actor* act) const
 */
 int get_trapping_net(const coord_def& where, bool trapped)
 {
-    for (stack_iterator si(where); si; ++si)
-    {
-        if (si->is_type(OBJ_MISSILES, MI_THROWING_NET)
-            && (!trapped || item_is_stationary_net(*si)))
-        {
-            return si->index();
-        }
-    }
     return NON_ITEM;
 }
 
@@ -689,7 +681,8 @@ void trap_def::trigger(actor& triggerer)
             }
         }
         break;
-
+		
+#if TAG_MAJOR_VERSION == 34
     case TRAP_NET:
         if (you_trigger)
         {
@@ -786,6 +779,7 @@ void trap_def::trigger(actor& triggerer)
             }
         }
         break;
+#endif
 
     case TRAP_WEB:
         if (triggerer.body_size(PSIZE_BODY) >= SIZE_GIANT)
@@ -1027,8 +1021,6 @@ int trap_def::difficulty()
         return 10;
     case TRAP_BOLT:
         return 15;
-    case TRAP_NET:
-        return 5;
     case TRAP_NEEDLE:
         return 8;
     // Irrelevant:
@@ -1190,25 +1182,7 @@ void mons_clear_trapping_net(monster* mon)
 
 void free_stationary_net(int item_index)
 {
-    item_def &item = mitm[item_index];
-    if (item.is_type(OBJ_MISSILES, MI_THROWING_NET))
-    {
-        const coord_def pos = item.pos;
-        // Probabilistically mulch net based on damage done, otherwise
-        // reset damage counter (ie: item.net_durability).
-        if (x_chance_in_y(-item.net_durability, 9))
-            destroy_item(item_index);
-        else
-        {
-            item.net_durability = 0;
-            item.net_placed = false;
-        }
-
-        // Make sure we don't leave a bad trapping net in the stash
-        // FIXME: may leak info if a monster escapes an out-of-sight net.
-        StashTrack.update_stash(pos);
-        StashTrack.unmark_trapping_nets(pos);
-    }
+    return;
 }
 
 void clear_trapping_net()
@@ -1243,7 +1217,9 @@ item_def trap_def::generate_trap_item()
     case TRAP_BOLT:   base = OBJ_MISSILES; sub = MI_BOLT;         break;
     case TRAP_SPEAR:  base = OBJ_WEAPONS;  sub = WPN_SPEAR;       break;
     case TRAP_NEEDLE: base = OBJ_MISSILES; sub = MI_NEEDLE;       break;
+#if TAG_MAJOR_VERSION == 34
     case TRAP_NET:    base = OBJ_MISSILES; sub = MI_THROWING_NET; break;
+#endif
     default:          return item;
     }
 
@@ -1410,8 +1386,8 @@ dungeon_feature_type trap_category(trap_type type)
     case TRAP_BLADE:
     case TRAP_BOLT:
     case TRAP_NEEDLE:
-    case TRAP_NET:
 #if TAG_MAJOR_VERSION == 34
+    case TRAP_NET:
     case TRAP_GAS:
     case TRAP_DART:
 #endif
@@ -1584,9 +1560,6 @@ trap_type random_vault_trap()
         type = TRAP_NEEDLE;
     if (random2(1 + level_number) > 3)
         type = TRAP_SPEAR;
-
-    if (type == TRAP_ARROW && one_chance_in(15))
-        type = TRAP_NET;
 
     if (random2(1 + level_number) > 7)
         type = TRAP_BOLT;

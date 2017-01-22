@@ -507,8 +507,6 @@ static bool _item_matches(const item_def &item, fire_type types,
         return true;
     if ((types & FIRE_ROCK) && item.sub_type == MI_LARGE_ROCK)
         return true;
-    if ((types & FIRE_NET) && item.sub_type == MI_THROWING_NET)
-        return true;
     if ((types & FIRE_TOMAHAWK) && item.sub_type == MI_TOMAHAWK)
         return true;
 

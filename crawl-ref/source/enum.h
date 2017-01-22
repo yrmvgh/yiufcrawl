@@ -4813,7 +4813,9 @@ enum trap_type
     TRAP_ALARM,
     TRAP_BLADE,
     TRAP_BOLT,
+#if TAG_MAJOR_VERSION == 34
     TRAP_NET,
+#endif
     TRAP_ZOT,
     TRAP_NEEDLE,
     TRAP_SHAFT,

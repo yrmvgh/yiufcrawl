@@ -1264,19 +1264,7 @@ bool handle_throw(monster* mons, bolt & beem, bool teleport, bool check_only)
 
     item_def *missile = &mitm[mon_item];
 
-    const actor *act = actor_at(beem.target);
     ASSERT(missile->base_type == OBJ_MISSILES);
-    if (act && missile->sub_type == MI_THROWING_NET)
-    {
-        // Throwing a net at a target that is already caught would be
-        // completely useless, so bail out.
-        if (act->caught())
-            return false;
-        // Netting targets that are already permanently stuck in place
-        // is similarly useless.
-        if (mons_class_is_stationary(act->type))
-            return false;
-    }
 
     // If the attack needs a launcher that we can't wield, bail out.
     if (launcher)

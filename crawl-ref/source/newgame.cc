@@ -1485,7 +1485,6 @@ static void _construct_weapon_menu(const newgame_def& ng,
             else
                 thrown_name = "javelins";
             text += thrown_name;
-            text += " and throwing nets";
             break;
         default:
             text += weapon_base_name(wpn_type);

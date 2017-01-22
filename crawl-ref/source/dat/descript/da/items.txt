@@ -912,12 +912,6 @@ Det slimede{{
 }} skind fra en sumpdrage. Det giver modstandskraft over for gift og kan med
 magiske midler forvandles til rigtig rustning.
 %%%%
-throwing net
-
-Et net af reb, som er bundet sammen og har vægte i kanten, som bruges til at
-besnære og indfange bytte. Sprællende ofre vil til sidst ødelægge nettet og
-bryde fri hvis de lever længe nok.
-%%%%
 trident
 
 Et fiskespyd, som er forbedret med et længere skaft og et tregrenet metalhoved.

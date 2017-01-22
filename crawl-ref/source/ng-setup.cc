@@ -219,7 +219,6 @@ static void _give_ammo(weapon_type weapon, int plus)
             newgame_make_item(OBJ_MISSILES, MI_TOMAHAWK, 160 + 40 * plus);
         else
             newgame_make_item(OBJ_MISSILES, MI_JAVELIN, 100 + 20* plus);
-        newgame_make_item(OBJ_MISSILES, MI_THROWING_NET, 2);
         break;
     case WPN_SHORTBOW:
         newgame_make_item(OBJ_MISSILES, MI_ARROW, 160);

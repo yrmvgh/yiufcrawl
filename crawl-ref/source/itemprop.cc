@@ -656,7 +656,9 @@ static const missile_def Missile_prop[] =
     { MI_LARGE_ROCK,    "large rock",   20, 25, 7,  true  },
     { MI_SLING_BULLET,  "sling bullet",  4, 8,  5,  false },
     { MI_JAVELIN,       "javelin",      10, 20, 8,  true  },
+#if TAG_MAJOR_VERSION == 34
     { MI_THROWING_NET,  "throwing net",  0, 0,  30, true  },
+#endif
     { MI_TOMAHAWK,      "tomahawk",      6, 20, 5,  true  },
 };
 
@@ -997,8 +999,7 @@ void do_uncurse_item(item_def &item, bool check_bondage)
 */
 void set_net_stationary(item_def &item)
 {
-    if (item.is_type(OBJ_MISSILES, MI_THROWING_NET))
-        item.net_placed = true;
+    return;
 }
 
 /**
@@ -1021,7 +1022,7 @@ bool item_is_stationary(const item_def &item)
 */
 bool item_is_stationary_net(const item_def &item)
 {
-    return item.is_type(OBJ_MISSILES, MI_THROWING_NET) && item.net_placed;
+    return false;
 }
 
 /**
@@ -2078,8 +2079,11 @@ bool has_launcher(const item_def &ammo)
            && ammo.sub_type != MI_DART
 #endif
            && ammo.sub_type != MI_JAVELIN
-           && ammo.sub_type != MI_TOMAHAWK
-           && ammo.sub_type != MI_THROWING_NET;
+#if TAG_MAJOR_VERSION == 34
+           && ammo.sub_type != MI_THROWING_NET
+#endif
+           && ammo.sub_type != MI_TOMAHAWK;
+
 }
 
 // Returns true if item can be reasonably thrown without a launcher.
@@ -2126,7 +2130,7 @@ launch_retval is_launched(const actor *actor, const item_def *launcher,
  */
 bool ammo_never_destroyed(const item_def &missile)
 {
-    return missile.sub_type == MI_THROWING_NET;
+    return false;
 }
 
 /**

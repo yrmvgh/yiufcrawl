@@ -2667,19 +2667,6 @@ void bolt::drop_object()
 
     if (!thrown_object_destroyed(item, pos()))
     {
-        if (item->sub_type == MI_THROWING_NET)
-        {
-            monster* m = monster_at(pos());
-            // Player or monster at position is caught in net.
-            if (you.pos() == pos() && you.attribute[ATTR_HELD]
-                || m && m->caught())
-            {
-                // If no trapping net found mark this one.
-                if (get_trapping_net(pos(), true) == NON_ITEM)
-                    set_net_stationary(*item);
-            }
-        }
-
         copy_item_to_grid(*item, pos(), 1);
     }
     else
@@ -3918,16 +3905,7 @@ void bolt::affect_player()
     // handling of missiles
     if (item && item->base_type == OBJ_MISSILES)
     {
-        if (item->sub_type == MI_THROWING_NET)
-        {
-            if (player_caught_in_net())
-            {
-                if (monster_by_mid(source_id))
-                    xom_is_stimulated(50);
-                was_affected = true;
-            }
-        }
-        else if (item->brand == SPMSL_CURARE)
+        if (item->brand == SPMSL_CURARE)
         {
             if (x_chance_in_y(90 - 3 * you.armour_class(), 100))
             {

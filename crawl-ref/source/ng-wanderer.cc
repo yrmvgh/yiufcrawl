@@ -502,14 +502,8 @@ static void _wanderer_good_equipment(skill_type & skill)
         break;
 
     case SK_DODGING:
-        // +2 leather armour or +0 leather armour and also 2-4 nets
-        if (coinflip())
-            newgame_make_item(OBJ_ARMOUR, ARM_LEATHER_ARMOUR, 1, 2);
-        else
-        {
-            newgame_make_item(OBJ_ARMOUR, ARM_LEATHER_ARMOUR);
-            newgame_make_item(OBJ_MISSILES, MI_THROWING_NET, 2 + random2(3));
-        }
+        // +2 leather armour 
+        newgame_make_item(OBJ_ARMOUR, ARM_LEATHER_ARMOUR, 1, 2);
         break;
 
     case SK_STEALTH:

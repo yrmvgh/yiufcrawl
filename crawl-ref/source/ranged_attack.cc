@@ -278,15 +278,6 @@ bool ranged_attack::handle_phase_hit()
         set_attack_verb(0);
         announce_hit();
     }
-    else if (projectile->is_type(OBJ_MISSILES, MI_THROWING_NET))
-    {
-        set_attack_verb(0);
-        announce_hit();
-        if (defender->is_player())
-            player_caught_in_net();
-        else
-            monster_caught_in_net(defender->as_monster(), attacker);
-    }
     else
     {
         damage_done = calc_damage();
