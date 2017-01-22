@@ -6366,6 +6366,42 @@ VISUAL:@The_monster@ flickers into the darkness.
 
 VISUAL:@The_monster@ grins at you slowly.
 %%%%
+################## Liches ###############################
+# Memes
+lich
+
+w:8
+__NONE
+
+w:2
+@_dasharez0ne_@
+%%%%
+ancient lich
+
+w:8
+__NONE
+
+w:2
+@_dasharez0ne_@
+%%%%
+_dasharez0ne_
+
+@The_monster@ says @to_foe@, "Lasertag sucks ass."
+
+VISUAL:@The_monster@ looks tired but strong.
+
+@The_monster@ says @to_foe@, "Your damn right I'm POLY. Poundin Off and Lonely Yall."
+
+@The_monster@ says @to_foe@, "Skateboarding is not a crime. Otherwise its pretty cool."
+
+@The_monster@ says @to_foe@, "Some self-loathing is healthy."
+
+@The_monster@ says @to_foe@, "Your going to be a skeleton much longer than whatever you are now."
+
+@The_monster@ says @to_foe@, "Made it through another week. Big shout out to drugs and alcohol."
+
+@The_monster@ says @to_foe@, "Hell is on fire. Please donate what you can."
+%%%%
 ################## Tormentor ###############################
 # A cruel demon
 tormentor
