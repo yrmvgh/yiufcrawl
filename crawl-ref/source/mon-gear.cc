@@ -1399,20 +1399,7 @@ static void _give_ammo(monster* mon, int level, bool mons_summoned)
                 if (active_monster_band == BAND_MERFOLK_JAVELINEER)
                     break;
             }
-            if (one_chance_in(4) && !mons_summoned)
-            {
-                weap_type  = MI_THROWING_NET;
-                qty        = 1;
-                if (one_chance_in(4))
-                    qty += random2(3); // up to three nets
-            }
-            break;
-
-        case MONS_DRACONIAN_KNIGHT:
-        case MONS_GNOLL:
-            if (!level || !one_chance_in(20))
-                break;
-            // deliberate fall-through to harold
+			break;
 
         case MONS_HAROLD: // bounty hunter, up to 5 nets
             if (mons_summoned)
