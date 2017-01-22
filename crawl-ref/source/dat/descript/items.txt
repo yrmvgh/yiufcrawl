@@ -327,10 +327,8 @@ A corpse. You can butcher it to produce chunks of meat.
 crystal ball of energy
 
 A magical device which can be used to restore magical energy, with its
-effectiveness increasing with Evocations skill. However, it may fail and drain
-all of those energies completely, or cause other negative mental effects. When
-used with low reserves of magic it becomes increasingly likely to deplete those
-reserves.
+effectiveness increasing with Evocations skill. However, it may also drain
+its user's intelligence if evoked poorly. It must be recharged between uses.
 %%%%
 crystal plate armour
 

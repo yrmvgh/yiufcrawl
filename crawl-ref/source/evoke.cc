@@ -274,7 +274,7 @@ static bool _evoke_horn_of_geryon(item_def &item)
     return true;
 }
 
-static bool _check_crystal_ball()
+static bool _check_crystal_ball(item_def item)
 {
 #if TAG_MAJOR_VERSION == 34
     if (you.species == SP_DJINNI)
@@ -285,28 +285,21 @@ static bool _check_crystal_ball()
     }
 #endif
 
+	if(!evoker_is_charged(item))
+	{
+		mpr("That is presently inert.");
+		return false;
+	}
+
     if (you.confused())
     {
         mpr("You are unable to concentrate on the shapes in the crystal ball.");
         return false;
     }
 
-    if (!enough_mp(1, false))
-    {
-        mpr("Your reserves of magic are too empty for the crystal ball to "
-            "function.");
-        return false;
-    }
-
     if (you.magic_points == you.max_magic_points)
     {
         mpr("Your reserves of magic are already full.");
-        return false;
-    }
-
-    if (you.skill(SK_EVOCATIONS) < 2)
-    {
-        mpr("You lack the skill to use this item.");
         return false;
     }
 
@@ -1116,41 +1109,14 @@ static bool _ball_of_energy()
     const int surge = pakellas_surge_devices();
     surge_power(you.spec_evoke() + surge);
 
-    int use = player_adjust_evoc_power(random2(you.skill(SK_EVOCATIONS, 6)),
-                                       surge);
-
-    if (use < 2)
-        lose_stat(STAT_INT, 1 + random2avg(5, 2));
-    else if (use < 5 && enough_mp(1, true))
-    {
-        mpr("You feel your power drain away!");
-        dec_mp(you.magic_points);
-    }
-    else if (use < 10)
-        confuse_player(10 + random2(10));
-    else
-    {
-        int proportional = (you.magic_points * 100) / you.max_magic_points;
-
-        if (random2avg(
-                77 - player_adjust_evoc_power(you.skill(SK_EVOCATIONS, 2),
-                                              surge), 4)
-            > proportional
-            || one_chance_in(25))
-        {
-            mpr("You feel your power drain away!");
-            dec_mp(you.magic_points);
-        }
-        else
-        {
-            mpr("You are suffused with power!");
-            inc_mp(
-                player_adjust_evoc_power(
-                    5 + random2avg(you.skill(SK_EVOCATIONS), 2), surge));
-
-            ret = true;
-        }
-    }
+	mpr("You are suffused with power!");
+        inc_mp(
+        player_adjust_evoc_power(
+            1 + random2avg(div_rand_round(you.skill(SK_EVOCATIONS)*8,3), 2), surge));
+    ret = true;							   
+									   
+    if (random2(div_rand_round(you.skill(SK_EVOCATIONS)*2,2)) < 2)
+        lose_stat(STAT_INT, 1 + random2avg(3, 2));
 
     did_god_conduct(DID_CHANNEL, 5, true);
 
@@ -2000,10 +1966,13 @@ bool evoke_item(int slot, bool check_range)
             break;
 
         case MISC_CRYSTAL_BALL_OF_ENERGY:
-            if (!_check_crystal_ball())
+            if (!_check_crystal_ball(item))
                 unevokable = true;
             else if (_ball_of_energy())
+			{
+				expend_xp_evoker(item);
                 practise_evoking(1);
+			}
             break;
 
         case MISC_DISC_OF_STORMS:
