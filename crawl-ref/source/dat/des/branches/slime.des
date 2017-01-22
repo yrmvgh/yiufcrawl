@@ -7,8 +7,10 @@ function fixup_slime_vaults(data, triggerable, triggerer, marker, ev)
   if not dgn.persist.fix_slime_vaults then
     return
   end
+  
+  local to_feat = "floor"
 
-  local seen = dgn.seen_destroy_feat("clear_stone_wall")
+  local seen = dgn.seen_replace_feat("clear_stone_wall", to_feat)
 
   if you.god() == "Jiyva" and you.piety_rank() >= 6 then
     if you.silenced() then
