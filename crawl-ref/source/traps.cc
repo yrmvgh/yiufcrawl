@@ -268,44 +268,6 @@ const char* held_status(actor *act)
         return "caught in a web";
 }
 
-// If there are more than one net on this square
-// split off one of them for checking/setting values.
-static void _maybe_split_nets(item_def &item, const coord_def& where)
-{
-    if (item.quantity == 1)
-    {
-        set_net_stationary(item);
-        return;
-    }
-
-    item_def it;
-
-    it.base_type = item.base_type;
-    it.sub_type  = item.sub_type;
-    it.net_durability      = item.net_durability;
-    it.net_placed  = item.net_placed;
-    it.flags     = item.flags;
-    it.special   = item.special;
-    it.quantity  = --item.quantity;
-    item_colour(it);
-
-    item.quantity = 1;
-    set_net_stationary(item);
-
-    copy_item_to_grid(it, where);
-}
-
-static void _mark_net_trapping(const coord_def& where)
-{
-    int net = get_trapping_net(where);
-    if (net == NON_ITEM)
-    {
-        net = get_trapping_net(where, false);
-        if (net != NON_ITEM)
-            _maybe_split_nets(mitm[net], where);
-    }
-}
-
 /**
  * Attempt to trap a monster in a net.
  *
@@ -686,98 +648,16 @@ void trap_def::trigger(actor& triggerer)
     case TRAP_NET:
         if (you_trigger)
         {
-            if (trig_knows && one_chance_in(3))
-                mpr("A net swings high above you.");
-            else
-            {
-                item_def item = generate_trap_item();
-                copy_item_to_grid(item, triggerer.pos());
-
-                if (random2limit(you.evasion(), 40)
-                    + random2(4) + (trig_knows ? 3 : 0) > 12)
-                {
-                    mpr("A net drops to the ground!");
-                }
-                else
-                {
-                    mpr("A large net falls onto you!");
-                    if (player_caught_in_net())
-                    {
-                        if (player_in_a_dangerous_place())
-                            xom_is_stimulated(50);
-
-                        // Mark the item as trapping; after this it's
-                        // safe to update the view.
-                        _mark_net_trapping(you.pos());
-                    }
-                }
-
-                trap_destroyed = true;
-            }
+			mpr("A net swings high above you.");
+            trap_destroyed = true;
         }
         else if (m)
         {
-            bool triggered = false;
-            if (one_chance_in(3) || (trig_knows && coinflip()))
-            {
-                // Not triggered, trap stays.
-                triggered = false;
-                if (you_know)
-                    simple_monster_message(*m, " fails to trigger a net trap.");
-                else
-                    hide();
-            }
-            else if (random2(m->evasion()) > 8
-                     || (trig_knows && random2(m->evasion()) > 8))
-            {
-                // Triggered but evaded.
-                triggered = true;
-
-                if (in_sight)
-                {
-                    if (!simple_monster_message(*m,
-                                                " nimbly jumps out of the way "
-                                                "of a falling net."))
-                    {
-                        mpr("A large net falls down!");
-                    }
-                }
-            }
+            if (you_know)
+                simple_monster_message(*m, " fails to trigger a net trap.");
             else
-            {
-                // Triggered and hit.
-                triggered = true;
-
-                if (in_sight)
-                {
-                    if (m->visible_to(&you))
-                    {
-                        mprf("A large net falls down onto %s!",
-                             m->name(DESC_THE).c_str());
-                    }
-                    else
-                        mpr("A large net falls down!");
-                }
-
-                // actually try to net the monster
-                if (monster_caught_in_net(m, nullptr))
-                {
-                    // Don't try to escape the net in the same turn
-                    m->props[NEWLY_TRAPPED_KEY] = true;
-                }
-            }
-
-            if (triggered)
-            {
-                item_def item = generate_trap_item();
-                copy_item_to_grid(item, triggerer.pos());
-
-                if (m->caught())
-                    _mark_net_trapping(m->pos());
-
-                trap_destroyed = true;
-            }
-        }
+                hide();
+		}
         break;
 #endif
 
