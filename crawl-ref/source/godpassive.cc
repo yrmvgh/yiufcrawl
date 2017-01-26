@@ -68,7 +68,7 @@ struct god_passive
     }
 };
 
-static const vector<god_passive> god_passives[NUM_GODS] =
+static const vector<god_passive> god_passives[] =
 {
     // no god
     { },
@@ -289,6 +289,7 @@ static const vector<god_passive> god_passives[NUM_GODS] =
         {  5, passive_t::transfer_drain, "drain nearby creatures when transferring your ancestor" },
     },
 };
+COMPILE_CHECK(ARRAYSZ(god_passives) == NUM_GODS);
 
 bool have_passive(passive_t passive)
 {
