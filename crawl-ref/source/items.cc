@@ -1847,6 +1847,23 @@ static void _get_rune(const item_def& it, bool quiet)
 }
 
 /**
+ * Place a book into the player's inventory.
+ *
+ * @param it      The item (book) to pick up.
+ * @param quiet   Whether to suppress (most?) messages.
+ */
+static void _get_book(const item_def& it, bool quiet)
+{
+    you.books_in_inventory.push_back(it);
+    
+    if (!quiet)
+    {
+        mprf("You pick up %s and add it to your library.",
+		it.name(DESC_THE).c_str());
+    }
+}
+
+/**
  * Place the Orb of Zot into the player's inventory.
  *
  * @param it      The ORB!
@@ -2092,6 +2109,14 @@ static bool _merge_items_into_inv(item_def &it, int quant_got,
         _get_rune(it, quiet);
         return true;
     }
+	
+	// Books are also massless.
+    if (it.base_type == OBJ_BOOKS && it.sub_type != BOOK_MANUAL)
+    {
+        _get_book(it, quiet);
+        return true;
+    }
+
     // The Orb is also handled specially.
     if (item_is_orb(it))
     {
@@ -4045,11 +4070,6 @@ bool item_def::is_valid(bool iinfo) const
     {
         dprf("black item");
         return false; // No black items.
-    }
-    if (!appearance_initialized())
-    {
-        dprf("no rnd");
-        return false; // no items with uninitialized rnd
     }
     return true;
 }

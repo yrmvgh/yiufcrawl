@@ -345,9 +345,19 @@ static void _give_basic_knowledge()
 {
     identify_inventory();
 
+    int count = 0;
     for (const item_def& i : you.inv)
-        if (i.base_type == OBJ_BOOKS)
-            mark_had_book(i);
+    {
+         if (i.base_type == OBJ_BOOKS)
+             mark_had_book(i);
+        // An awful hack - after placing book in inventory, remove and goldify it
+        if(i.base_type == OBJ_BOOKS)
+        {
+            you.books_in_inventory.push_back(i);
+            dec_inv_item_quantity(count, 1);
+        }
+        count++;
+    }
 
     // Removed item types are handled in _set_removed_types_as_identified.
 }

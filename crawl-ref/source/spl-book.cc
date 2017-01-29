@@ -388,7 +388,16 @@ static bool _list_available_spells(spell_set &available_spells)
         _mark_book_known(book);
         book_errors = _get_book_spells(book, available_spells) || book_errors;
     }
+	
+	for (auto &book : you.books_in_inventory)
+	{
+        if (!book.defined() || !item_is_spellbook(book))
+            continue;
 
+        _mark_book_known(book);
+        book_errors = _get_book_spells(book, available_spells) || book_errors;
+    }
+	
     // We also check the ground
     auto items = item_list_on_square(you.visible_igrd(you.pos()));
 
