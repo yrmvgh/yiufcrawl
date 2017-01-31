@@ -2,12 +2,12 @@
 
 # Dungeon Crawl Stone Soup (hellcrawl fork)
 
-## Hellcrawl is a meme-based fork of DCSS:
+#### Hellcrawl is a meme-based fork of DCSS:
 
 * Information and discussion about Hellcrawl is primarily found on the Tavern discussion thread:
 * https://crawl.develz.org/tavern/viewtopic.php?f=17&t=21527
 
-## The readme for DCSS trunk follows:
+#### The readme for DCSS trunk follows:
 
 Dungeon Crawl Stone Soup is a game of dungeon exploration, combat and magic, involving characters of diverse skills, worshipping deities of great power and caprice. To win, you'll need to be a master of tactics and strategy, and prevail against overwhelming odds.
 
