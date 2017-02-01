@@ -175,6 +175,7 @@ of @_armour_property_name_@
 w:20
 of @_wacky_armour_name_@
 
+w:30
 of the @_profession_name_@
 
 of @_politics_name_armour_@
@@ -191,13 +192,13 @@ of the @_celestial_bodies_@
 w:5
 of @_instrument_name_@
 
-w:20
+w:3
 of the @_armour_animal_@
 
 w:3
 of @_flower_name_@
 
-w:3
+w:20
 of the @_critter_name_@
 
 w:5
@@ -229,7 +230,6 @@ of @_time_name_@
 w:8
 of @_sky_or_light_@
 
-w:30
 of @_virtue_or_vice_@
 
 w:16
@@ -261,7 +261,7 @@ of @_suspicion_name_@
 # as defined for weapons (see rand_wpn.txt)
 of the @_people_name_@
 
-w:17
+w:5
 of @_balance_or_order_@
 
 w:14
@@ -279,7 +279,7 @@ of the @_armour_animal_@
 w:3
 of @_flower_name_@
 
-w:5
+w:17
 of @_evil_being_@
 
 w:20
@@ -305,10 +305,10 @@ of Xom's @_xom_esteem_@
 w:7
 of @_virtue_name_@
 
-w:13
+w:20
 of @_vice_name_@
 
-w:20
+w:13
 of @_number_or_qualifier_@ @_thing_names_@
 %%%%
 ######################################################
@@ -526,7 +526,7 @@ Xom armour
 w:5
 of @_chaos_name_@
 
-w:5
+w:1
 of Xom's @_xom_esteem_@
 
 w:2
@@ -536,7 +536,7 @@ of Xom's @divine_esteem@
 w:1
 of @xom_name@
 
-w:1
+w:5
 of @_game_name_@
 
 w:1
@@ -909,8 +909,13 @@ lapis lazuli
 
 glass
 
+clay
+
 w:2
 gossamer
+
+w:2
+vine
 %%%%
 _amulet material_
 
