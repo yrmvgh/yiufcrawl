@@ -2,7 +2,7 @@
 
 # Dungeon Crawl Stone Soup (hellcrawl fork)
 
-#### Hellcrawl is a meme-based fork of DCSS:
+#### Hellcrawl is a meme-based fork of DCSS that you can play right now:
 
 * It is a streamlined experience. Content, mechanics, and options from DCSS which are tedious, unpopular, or unnecessary have been removed.
 * Notably, this include no food, no curses, no Lair branch, no player ghosts, no item identification, no poison magic, no halflings, no centaurs, and no felids.
@@ -11,7 +11,7 @@
 * https://crawl.develz.org/tavern/viewtopic.php?f=17&t=21527
 * You may also occasionally spot the project maintainer, hellmonk, in the ##crawl channel on the Freenode IRC server.
 
-#### The readme for DCSS trunk follows:
+#### The readme from DCSS trunk may also be of use to you:
 
 Dungeon Crawl Stone Soup is a game of dungeon exploration, combat and magic, involving characters of diverse skills, worshipping deities of great power and caprice. To win, you'll need to be a master of tactics and strategy, and prevail against overwhelming odds.
 
@@ -28,7 +28,7 @@ If you'd like to dive in immediately, we suggest one of:
 
 * Start a game and pick a tutorial (select tutorial in the game menu),
 * Read [quickstart.txt](crawl-ref/docs/quickstart.txt) (in the [docs/](crawl-ref/docs/) directory), or
-* For the studious, [read Crawl's full manual](crawl-ref/docs/crawl_manual.reST).
+* For the studious, [read Crawl's full manual](crawl-ref/docs/crawl_manual.rst).
 
 There is also an ingame list of frequently asked questions which you can access by typing
 `?Q`.
