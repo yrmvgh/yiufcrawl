@@ -909,13 +909,8 @@ lapis lazuli
 
 glass
 
-clay
-
 w:2
 gossamer
-
-w:2
-vine
 %%%%
 _amulet material_
 
