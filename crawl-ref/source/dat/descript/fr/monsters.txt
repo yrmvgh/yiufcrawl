@@ -929,12 +929,6 @@ bullfrog
 Un gros amphibien et inhabituellement agressif qui peut parcourir des distances
 rapidement en sautant.
 %%%%
-leopard gecko
-
-Un lézard avec des coussinets lui permettant de grimper aux murs et au plafond,
-et avec des grandes dents acérées. Il est bien plus grand qu'un gecko normal,
-alors que sa taille contredit son agilité.
-%%%%
 tyrant leech
 
 Un annélide agressif, suceur de sang, qui prospère dans les marais et

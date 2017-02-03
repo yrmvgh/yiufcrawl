@@ -143,7 +143,7 @@ ENDMAP
 
 NAME:   portal_sewer_entry_f
 : sewer_portal(_G)
-KMONS:  1 = leopard gecko / giant cockroach / nothing w:5
+KMONS:  1 = rat / giant cockroach / nothing w:5
 NSUBST: W = 6:1 / *:W
 COLOUR: W = green / cyan w:5
 MAP
@@ -157,7 +157,7 @@ ENDMAP
 NAME:   gup_sewer_entry_pipe
 TAGS:   patrolling no_pool_fixup
 : sewer_portal(_G)
-KMONS:  2 = giant cockroach / leopard gecko / nothing
+KMONS:  2 = giant cockroach / rat / nothing
 SUBST:  W = WW.
 MAP
 @Wxxxxxxxxx
@@ -177,7 +177,7 @@ NAME:   gup_sewer_entry_spiral
 TAGS:   patrolling
 : sewer_portal(_G)
 KMONS:  1 = rat / river rat w:5 / adder w:5 / giant cockroach / \
-            leopard gecko / nothing
+             nothing
 NSUBST: - : 8:1 / 8:. / *:W
 MAP
 xxxxxxxxxx
@@ -197,7 +197,7 @@ NAME:   gup_sewer_entry_bubbles
 TAGS:   patrolling
 : sewer_portal(_G)
 KMONS:  1 = rat / river rat w:5 / adder w:5 / giant cockroach / \
-            leopard gecko / nothing
+            nothing
 NSUBST: - = 8:1 / *:W
 MAP
  xxx    xxx
@@ -217,7 +217,7 @@ ENDMAP
 NAME:   gup_sewer_entry_bowl
 : sewer_portal(_G)
 KMONS:  1 = rat / river rat w:5 / \
-            giant cockroach / leopard gecko / nothing
+            giant cockroach / nothing
 MAP
 ..........
 .xxx.xxxx..
@@ -455,7 +455,7 @@ ITEM:     scroll of teleportation w:3 / scroll of blinking
 MONS:     frilled lizard / ball python w:5 / giant cockroach / \
           generate_awake frilled lizard / generate_awake ball python w:5 / \
           generate_awake giant cockroach / generate_awake \
-          leopard gecko / adder w:8 / nothing w:8
+          adder w:8 / nothing w:8
 NSUBST:   ! = 2:! / *:w
 KFEAT:    ! = w
 COLOUR:   ! = green
@@ -500,7 +500,7 @@ ORIENT:   encompass
 NSUBST:   ! = 2:! / *:w
 SUBST:    - = WWWW.
 KMONS:    W = frilled lizard / ball python / giant cockroach / \
-              leopard gecko / ooze / adder w:4 / \
+              ooze / adder w:4 / \
               nothing w:270
 KFEAT:    W = W
 KFEAT:    ! = w
@@ -831,13 +831,13 @@ COLOUR:   " = green
 NSUBST:   W = 4:? / *:W
 KFEAT:    ? = W
 KMONS:    ? = bat / frilled lizard / ball python / giant cockroach / \
-              leopard gecko / ooze w:4 / adder w:2
+              ooze w:4 / adder w:2
 COLOUR:   ? = lightgreen
 #       a little more random shallow water
 SUBST:    - = W..
 : sewer_setup(_G)
 MONS:     bat / frilled lizard / ball python / giant cockroach / \
-          leopard gecko / ooze w:4 / adder w:2
+          ooze w:4 / adder w:2
 SHUFFLE:  23
 MONS:     bat / nothing w:2
 MONS:     patrolling jackal
@@ -902,7 +902,7 @@ KMONS:  G = electric eel
 KMONS:  H = nothing
 KMONS:  hJ = frilled lizard / ball python / adder / nothing w:2
 KMONS:  g = frilled lizard / ball python / giant cockroach / \
-            leopard gecko / nothing w:7
+            nothing w:7
 KFEAT:  gsh = W
 KFEAT:  O = open_sea
 COLOUR: gh = lightgreen

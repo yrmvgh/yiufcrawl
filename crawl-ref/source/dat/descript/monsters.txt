@@ -1508,11 +1508,6 @@ lava snake
 A burning red snake which dwells in pools of lava. It spits gobs of molten rock
 at passers-by.
 %%%%
-leopard gecko
-
-A brightly-coloured lizard with huge, sharp teeth. The pads on its toes allow
-it to cling to walls and ceilings.
-%%%%
 lich
 
 A powerful wizard who has learned to cheat death itself, now existing as a
