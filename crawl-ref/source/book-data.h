@@ -68,7 +68,6 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_BLINK,
     SPELL_SHROUD_OF_GOLUBRIA,
     SPELL_BECKONING,
-    SPELL_PORTAL_PROJECTILE,
     SPELL_TELEPORT_OTHER,
     SPELL_GOLUBRIAS_PASSAGE,
 },
@@ -300,11 +299,11 @@ static const vector<spell_type> spellbook_templates[] =
 },
 #endif
 
-{   // Book of Debilitation
+{   // Book of Arcane Marksmanship
     SPELL_CORONA,
     SPELL_SLOW,
-    SPELL_GRAVITAS,
-    SPELL_INNER_FLAME,
+    SPELL_BLINK,
+    SPELL_PORTAL_PROJECTILE,
     SPELL_CAUSE_FEAR,
     SPELL_LEDAS_LIQUEFACTION,
 },

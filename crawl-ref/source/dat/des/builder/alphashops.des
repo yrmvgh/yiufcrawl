@@ -107,7 +107,7 @@
        "staff of conjuration", "manual of crossbows", "manual of conjurations",
        "manual of charms", "potion of curing" }
 
-      elseif s == "D" then i = { "book of death", "book of debilitation",
+      elseif s == "D" then i = { "book of death", "book of arcane marksmanship",
        "book of dreams", "book of the dragon", "dagger", "demon blade",
        "demon trident", "demon whip", "dire flail", "disc of storms",
        "double sword", "ring of dexterity",

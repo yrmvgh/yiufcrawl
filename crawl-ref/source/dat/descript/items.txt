@@ -148,10 +148,10 @@ book of death
 A manuscript containing dark spells of Necromancy. Each page is filled with
 grotesque art depicting scenes of disgusting decay.
 %%%%
-book of debilitation
+book of arcane marksmanship
 
-A spellbook containing Hexes that obstruct and impede, compiled by rebels
-fighting an empire long-since passed.
+A spellbook containing Hexes that obstruct and impede, and Translocations 
+that enable a skilled archer to get the better of their foes.
 %%%%
 book of dreams
 

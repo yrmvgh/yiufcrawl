@@ -103,7 +103,7 @@ book of conjurations
 
 これは破壊的な魔法である妖術の入門書だ。本を開くとわずかに含んだ力により震える。
 %%%%
-book of debilitation
+book of arcane marksmanship
 
 これは神秘の射手にとって有用な呪術が含まれた本だ。
 製本する前に彼らがアーチェリーのとして的で使用したかのように、
