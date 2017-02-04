@@ -9,6 +9,11 @@ Air Elementalist
 Oro burtininkai moka Šoko burtažodį. Vėliau jų turima Oro knyga suteikia jiems
 lankstumą išgyvenimui.
 %%%%
+Arcane Marksman
+
+Šauliai nešiojasi šaunamuosius ginklus ir magijos pagalba paverčia savo priešus
+labiau pažeidžiamus atakoms iš toli.
+%%%%
 Artificer
 
 Mechanikai pradeda su keliais magiškais įrenginiais ir moka jais naudotis.

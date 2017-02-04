@@ -9,6 +9,11 @@ Air Elementalist
 Air Elementalists have learned the Shock spell. Later on, their book of Air
 provides them with the flexibility to survive.
 %%%%
+Arcane Marksman
+
+Arcane Marksmen carry ranged weapons, and use magic to make their foes more
+vulnerable to attacks from afar.
+%%%%
 Artificer
 
 Artificers start with a few magical devices and are competent at using such

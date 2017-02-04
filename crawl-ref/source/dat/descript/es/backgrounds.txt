@@ -9,6 +9,11 @@ Air Elementalist
 Los Elementalistas del Aire han aprendido el hechizo de la Descarga. Más
 adelante, su Libro del Aire les provee de flexibilidad para sobrevivir.
 %%%%
+Arcane Marksman
+
+Los Tiradores Arcanos llevan armas de alcance y usan la magia para que sus
+enemigos se vuelvan más vulnerables a sus ataques a distancia.
+%%%%
 Artificer
 
 Los Artificieros comienzan con unos pocos instrumentos mágicos y son

@@ -9,3 +9,8 @@ Air Elementalist
 A Légelmentalista a Sokk varázslatot tanulta meg. Később a Levegő könyve
 biztosít alkalmazkodóképességet a túléléshez.
 %%%%
+Arcane Marksman
+
+A Misztikus Íjász távfegyverekkel szerelkezik fel, és mágiát használ hogy
+ellenfeleit sebezhetőbbé tegye.
+%%%%

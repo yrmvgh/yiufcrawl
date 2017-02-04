@@ -9,6 +9,11 @@ Air Elementalist
 Les Élementalistes de l'Air ont appris le sort Choc. Plus tard, le livre de
 l'Air leur fournira la flexibilité nécessaire à leur survie.
 %%%%
+Arcane Marksman
+
+Les Tireurs d'élite Arcanistes sont entrainé à manier des armes à distance, et
+utilisent la magie pour rendre leurs ennemis plus vulnérables à leurs attaques.
+%%%%
 Artificer
 
 Les Artificiers entrent dans le Donjon avec quelques dispositifs magiques et

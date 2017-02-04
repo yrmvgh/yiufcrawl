@@ -9,6 +9,11 @@ Air Elementalist
 Ilmaelementalistit ovat oppineet Sähköisku-taian. Myöhemmässä vaiheessa Ilman
 kirja antaa heille joustavuutta selviytymiseen.
 %%%%
+Arcane Marksman
+
+Taika-ampujat kantavat pitkän matkan aseita ja käyttävät taikuutta tehdäkseen
+vastustajistaan heikompia kaukohyökkäyksille.
+%%%%
 Artificer
 
 Esinesoturit aloittavat muutamalla maagisella esineellä, joiden käytössä he
