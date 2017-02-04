@@ -6404,11 +6404,16 @@ static bool _get_stomped(monster& mons)
     int damage = div_rand_round(mons.hit_points, 6);
     int die_size = 2 + div_rand_round(you.skill(SK_INVOCATIONS), 2);
     damage += roll_dice(2, die_size);
-
-    mons.hurt(&you, damage, BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
-
+	
+	const monster m = mons;
+	
+    damage = mons.hurt(&you, damage, BEAM_ENERGY, KILLED_BY_BEAM, "", "", true);
+	
     if (mons.alive() && you.can_see(mons))
+	{
+		mprf("%s gets stomped (%d)!", m.name(DESC_THE).c_str(), damage);
         print_wounds(mons);
+	}
 
     return true;
 }
