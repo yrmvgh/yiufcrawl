@@ -935,6 +935,12 @@ void trap_def::trigger(actor& triggerer)
         if (trig_knows)
             break;
 
+        // Formicids can't fall for shaftung.
+        if (you.species == SP_FORMICID)
+            mpr("You know all about tunnels and shafts!");
+            mpr("You decide not to fall in to this one.");
+            break;
+
         // A chance to escape.
         if (one_chance_in(4))
             break;
@@ -1096,6 +1102,9 @@ void search_around()
 
     if (have_passive(passive_t::search_traps))
         skill += you.piety * 2;
+
+    if (you.species == SP_HIGH_ELF)
+        skill += 75
 
     int max_dist = div_rand_round(skill, 32);
     if (max_dist > 5)
