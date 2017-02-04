@@ -2109,6 +2109,10 @@ bool is_throwable(const actor *actor, const item_def &wpn, bool force)
         {
             return false;
         }
+		if (wpn.sub_type == MI_DART_CURARE || wpn.sub_type == MI_DART_FRENZY || wpn.sub_type == MI_DART_POISONED)
+		{
+			return true;
+		}
     }
 
     return Missile_prop[Missile_index[wpn.sub_type]].throwable;
