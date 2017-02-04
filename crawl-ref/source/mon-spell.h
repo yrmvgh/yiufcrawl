@@ -198,11 +198,10 @@ static const mon_spellbook mspell_list[] =
 
     {  MST_DEEP_ELF_ELEMENTALIST,
       {
-       { SPELL_FREEZING_CLOUD, 18, MON_SPELL_WIZARD },
-       { SPELL_FIREBALL, 18, MON_SPELL_WIZARD },
+       { SPELL_FLASH_FREEZE, 24, MON_SPELL_WIZARD },
+       { SPELL_FIREBALL, 24, MON_SPELL_WIZARD },
        { SPELL_DIG, 36, MON_SPELL_WIZARD },
-       { SPELL_AIRSTRIKE, 18, MON_SPELL_WIZARD },
-       { SPELL_HASTE, 18, MON_SPELL_WIZARD },
+       { SPELL_HASTE, 24, MON_SPELL_WIZARD },
       }
     },
 
