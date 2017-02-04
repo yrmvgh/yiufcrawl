@@ -18,9 +18,6 @@ ae += dangerous_item
 # Exclude items which your god disapproves of.
 ae += forbidden
 
-# Ignore books that you have already seen
-ae += [^n]identified.*spellbook
-
 : add_autopickup_func(function (it, name)
 :         if you.god() == "Trog" then
 :             if it.class(true) == "book" and not it.name():find("manual") then
