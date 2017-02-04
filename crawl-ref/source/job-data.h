@@ -243,18 +243,6 @@ static const map<job_type, job_def> job_data =
     { }, // Randomised
 } },
 
-{ JOB_WARPER, {
-    "Wr", "Warper",
-    3, 5, 4,
-    { SP_SPRIGGAN, SP_BASE_DRACONIAN, },
-    { "leather armour", "book of Spatial Translocations", "scroll of blinking",
-      "tomahawk ego:dispersal q:5" },
-    WCHOICE_PLAIN,
-    { { SK_FIGHTING, 2 }, { SK_ARMOUR, 1 }, { SK_DODGING, 2 },
-      { SK_SPELLCASTING, 2 }, { SK_TRANSLOCATIONS, 3 }, { SK_THROWING, 1 },
-      { SK_WEAPON, 2 }, },
-} },
-
 { JOB_WIZARD, {
     "Wz", "Wizard",
     -1, 10, 3,
@@ -313,6 +301,15 @@ static const map<job_type, job_def> job_data =
 
 { JOB_VENOM_MAGE, {
     "VM", "Venom Mage",
+    0, 0, 0,
+    { },
+    { },
+    WCHOICE_NONE,
+    { },
+} },
+
+{ JOB_WARPER, {
+    "Wr", "Warper",
     0, 0, 0,
     { },
     { },

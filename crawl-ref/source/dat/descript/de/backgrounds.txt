@@ -111,12 +111,6 @@ Wanderer
 
 Wanderer beginnen mit zufälliger Ausrüstung und Fertigkeiten.
 %%%%
-Warper
-
-Teleporter starten mit einer Waffe ihrer Wahl und einer
-Kurzstreckenteleport-Schriftrolle(?). Sie können Zaubersprüche aus dem Buch der
-räumlichen Bewegungen lernen.
-%%%%
 Wizard
 
 Zauberer starten mit einem Buch der kleinen Magie, das eine breite Auswahl an

@@ -118,12 +118,6 @@ Wanderer
 
 Les Vagabonds commencent avec un équipement et des compétences aléatoires.
 %%%%
-Warper
-
-Les Translocateurs commencent avec une arme de leur choix et un parchemin de
-clignotement. Ils peuvent apprendre des sorts du livre des Déplacements
-Spaciaux.
-%%%%
 Wizard
 
 Les magiciens commencent avec un livre de Magie Mineure, contenant un large

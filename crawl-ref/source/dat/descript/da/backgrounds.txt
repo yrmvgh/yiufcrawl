@@ -114,11 +114,6 @@ Wanderer
 
 Vandringsmænd starter med tilfældigt udstyr og færdigheder.
 %%%%
-Warper
-
-Forvrængere starter med et valgfrit våben og en skriftrulle med blink. De kan
-lære besværgelser fra Bogen om spatiale translokationer.
-%%%%
 Wizard
 
 Troldmænd starter med Bogen om mindre magi, som indeholder et bredt udvalg af

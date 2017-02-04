@@ -93,11 +93,6 @@ Wanderer
 
 Vaeltajat aloittavat satunnaisella varustuksella ja taidoilla.
 %%%%
-Warper
-
-Varppaajat aloittavat haluamallaan aseella ja Välähdys-kääröllä. He voivat
-oppia taikoja Spatiaalisten translokaatioiden kirjasta.
-%%%%
 Wizard
 
 Velhot aloittavat Vähäisen taikuuden kirjalla, jossa on vino pino taikoja.

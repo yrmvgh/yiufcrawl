@@ -112,11 +112,6 @@ Wanderer
 
 Gli erranti cominciano con equipaggiamento e abilità casuali.
 %%%%
-Warper
-
-I distorsori cominciano con un'arma a scelta e una pergamena di Lampeggio.
-Possono imparare incantesimi dal Libro delle Traslocazioni dello Spazio.
-%%%%
 Wizard
 
 I maghi cominciano con il Libro della Magia Minore che contiene una gamma di

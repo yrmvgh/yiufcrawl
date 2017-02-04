@@ -102,11 +102,6 @@ Wanderer
 
 Wanderers start with random equipment and skills.
 %%%%
-Warper
-
-Warpers start with a weapon of their choice and a scroll of blinking. They can
-learn spells from the book of Spatial Translocations.
-%%%%
 Wizard
 
 Wizards start with a book of Minor Magic, containing a wide range of spells.
