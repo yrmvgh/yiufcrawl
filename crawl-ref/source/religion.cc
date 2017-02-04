@@ -3046,6 +3046,12 @@ bool player_can_join_god(god_type which_god)
 
     if (which_god == GOD_GOZAG && you.gold < gozag_service_fee())
         return false;
+    
+    if (player_mutation_level(MUT_EVOLVE)
+       && which_god == GOD_ZIN)
+    {
+      return false;
+    }
 
     if (player_mutation_level(MUT_NO_LOVE)
         && (which_god == GOD_BEOGH
