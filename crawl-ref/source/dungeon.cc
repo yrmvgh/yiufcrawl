@@ -2263,7 +2263,7 @@ static void _place_feature_mimics(dungeon_feature_type dest_stairs_type)
 static void _post_vault_build()
 {
     if (player_in_branch(BRANCH_DUNGEON)
-		&& you.depth >= 10 && one_chance_in(3) )
+		&& you.depth >= 10 && one_chance_in(4) )
     {
         int depth = you.depth - 6;
         _ruin_level(rectangle_iterator(1), MMT_VAULT,
