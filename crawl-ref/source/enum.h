@@ -3194,8 +3194,8 @@ enum monster_type                      // menv[].type
 #endif
 #if TAG_MAJOR_VERSION == 34
     MONS_PLAGUE_SHAMBLER,
-#endif
     MONS_NECROPHAGE,
+#endif
     MONS_GHOUL,
 #if TAG_MAJOR_VERSION == 34
     MONS_FLAMING_CORPSE,

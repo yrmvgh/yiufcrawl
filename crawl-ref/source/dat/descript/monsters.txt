@@ -1650,11 +1650,6 @@ necromancer
 An evil wizard who is devoted to the practice of death magic, the mastery of
 unholy energies, and the raising of corpses into a parody of life.
 %%%%
-necrophage
-
-A vile undead creation of the most unholy necromancy, made from the decaying
-corpses of humanoid creatures. It exists to spread disease and decay.
-%%%%
 neqoxec
 
 A weirdly shaped demon, pulsing and shifting with mutagenic energies, its belly

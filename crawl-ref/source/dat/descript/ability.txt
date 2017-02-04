@@ -481,9 +481,9 @@ already one before it died.
 Fungal Bloom ability
 
 Call up Fedhas to accelerate the natural process of decay, transforming all
-corpses nearby into fast-growing, short-lived toadstools. Zombies, ghouls,
-and necrophages are considered walking corpses, and are affected accordingly;
-zombies rot into skeletons, and ghouls and necrophages rot away entirely,
+corpses nearby into fast-growing, short-lived toadstools. Zombies and ghouls,
+are considered walking corpses, and are affected accordingly;
+zombies rot into skeletons, and ghouls rot away entirely,
 granting no experience.
 %%%%
 Sunlight ability

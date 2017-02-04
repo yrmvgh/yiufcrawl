@@ -2470,7 +2470,6 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
     { BAND_NAGA_SHARPSHOOTER,   {{{MONS_NAGA_SHARPSHOOTER, 1},
                                   {MONS_NAGA, 2}}}},
     { BAND_GHOULS,              {{{MONS_GHOUL, 4},
-                                  {MONS_NECROPHAGE, 3},
                                   {MONS_BOG_BODY, 2}}}},
     { BAND_ILSUIW,              {{{MONS_SIREN, 6},
                                   {MONS_MERFOLK, 3},

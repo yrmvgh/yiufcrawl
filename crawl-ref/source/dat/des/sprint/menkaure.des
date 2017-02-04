@@ -145,7 +145,7 @@ ENDMAP
 
 NAME:   sprint2_early_3
 TAGS:   sprint2_early no_item_gen no_trap_gen no_pool_fixup
-MONS:   necrophage
+MONS:   angry ghost
 KITEM:  $ = gold q:243
 COLOUR: x = magenta
 MAP
@@ -866,7 +866,7 @@ KITEM:  a = scroll of acquirement q:3 / potion of cure mutation q:3
 KFEAT:  e = any shop
 KITEM:  f = potion of flight q:3
 SHUFFLE: 12
-MONS:   golden dragon, storm dragon, necrophage, iron imp
+MONS:   golden dragon, storm dragon, angry ghost, iron imp
 SUBVAULT: A : sprint2_smallroom
 SUBVAULT: B : sprint2_smallroom
 SUBVAULT: C : sprint2_smallroom

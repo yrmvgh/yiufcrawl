@@ -938,7 +938,7 @@ NAME:    hangedman_swamp_ravenous
 TAGS:    no_pool_fixup no_monster_gen patrolling transparent
 DEPTH:   Swamp, !Swamp:$
 MONS:    bog body
-MONS:    necrophage
+MONS:    bog body
 MONS:    ghoul
 SUBST:   jl = t
 KFEAT:   % = shallow_water / .
@@ -1041,7 +1041,7 @@ ENDMAP
 
 NAME:    st_shrine_of_shade
 DEPTH:   Swamp, !Swamp:$
-MONS:    bog body w:20 / necrophage w:5 / ghoul w:5 / nothing w:25, shadow
+MONS:    bog body w:20 / ghoul w:5 / nothing w:25, shadow
 KMONS:   P = withered plant
 SUBST:   p = Pp, p = PP., o = P..
 MAP

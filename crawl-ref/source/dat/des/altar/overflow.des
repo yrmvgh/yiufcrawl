@@ -721,7 +721,7 @@ DEPTH:  D:7-, Crypt
 MONS:   w:50 human zombie/orc zombie/elf zombie/w:5 ogre zombie/w:5 troll zombie
 MONS:   w:50 human skeleton/orc skeleton/elf skeleton/w:5 ogre skeleton/\
         w:5 troll skeleton
-MONS:   mummy, wight, wraith, necrophage
+MONS:   mummy, wight, wraith, angry ghost
 NSUBST: ? = 1:_ / *:1
 SUBST:  1 = 1:25 2 3 4:8 5:7 6:5
 KFEAT:  _ = altar_kikubaaqudgha
@@ -896,7 +896,7 @@ DEPTH:  D:2-9
 : dgn.delayed_decay(_G, '1', 'human corpse')
 KMONS:  2 = hound
 : else
-KMONS:  1 = necrophage
+KMONS:  1 = wight
 KMONS:  2 = hound skeleton
 : end
 KFEAT:  _ = altar_makhleb
@@ -2169,7 +2169,7 @@ DEPTH:  D:7-, Crypt
 MONS:   w:50 human zombie/orc zombie/elf zombie/w:5 ogre zombie/w:5 troll zombie
 MONS:   w:50 human skeleton/orc skeleton/elf skeleton/w:5 ogre skeleton/\
         w:5 troll skeleton
-MONS:   mummy, wight, wraith, necrophage
+MONS:   mummy, wight, wraith, angry ghost
 NSUBST: ? = 1:_ / *:1
 SUBST:  1 = 1:25 2 3 4:8 5:7 6:5
 KFEAT:  _ = altar_yredelemnul

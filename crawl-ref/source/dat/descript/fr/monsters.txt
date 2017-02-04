@@ -1353,13 +1353,6 @@ Un magicien maléfique qui s'est dévoué à la pratique de la magie de la mort,
 maîtrise des énergies malsaines, et la réanimation des corps dans un semblant
 de vie.
 %%%%
-necrophage
-
-Une vile création mort-vivante de la nécromancie des plus malsaines, ces
-créatures sont faites des cadavres en décomposition de créatures humanoïdes.
-Elles sont là pour répandre la maladie et la putréfaction, et elles se
-nourrissent des cadavres en état de décomposition des autres êtres.
-%%%%
 neqoxec
 
 Un démon d'une drôle de forme, se changeant et palpitant d'énergies mutagènes,

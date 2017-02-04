@@ -2242,27 +2242,6 @@ xxxxxxx.....@
 xxxxxxxxxxxxx
 ENDMAP
 
-# Carrion pond
-# Bad water, a lot of carrion and feeders around, yuck!
-NAME:   roderic_carrion_pond
-TAGS:   no_monster_gen no_trap_gen
-DEPTH:  Lair:2-, !Lair:$, Swamp
-MONS:   necrophage
-SUBST:  ' = 111.
-SUBST:  ? = %%.
-: dgn.delayed_decay(_G, '%', 'any corpse')
-: if you.in_branch("Swamp") or you.depth() > 4 then
-TAGS:   extra
-: end
-MAP
- ..'..?..
-.?'.?.??'.
-'?.www?.?.
-.'wwwww.?.
-?..ww?.?'.
- .?'.?...
-ENDMAP
-
 ###############################################################################
 # Kobold demonologist guarded by invisible demons. (nrook)
 # Added "evil rite" looking colours, so players expect some nastiness.

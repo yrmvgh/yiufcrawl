@@ -2880,7 +2880,7 @@ w:50
 
 @The_monster@ says, "That ghoul gave me heartburn."
 
-@The_monster@ says, "What sort of name is 'necrophage', anyway?"
+@The_monster@ says, "What sort of name is 'eidolon', anyway?"
 
 @The_monster@ says, "Where are all the doors?"
 
