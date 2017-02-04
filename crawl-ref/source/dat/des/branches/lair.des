@@ -31,7 +31,7 @@ function wad_woods_setup(e, uniq, weight, mist, delaynum, sizenum, spreadnum)
             e.mons("porcupine")
         elseif you.absdepth() >= 5 then
             e.mons("gnoll / ogre w:1")
-            e.mons("river rat")
+            e.mons("iguana")
         else
             e.mons("gnoll")
             e.mons("quokka")
@@ -215,7 +215,7 @@ ORIENT:  float
 MONS:    w:100 nothing / w:40 yak / death yak
 MONS:    w:100 nothing / w:20 iguana / w:20 crocodile /\
          komodo dragon / basilisk w:5
-MONS:    river rat / porcupine / hell rat / quokka / rat
+MONS:    iguana / porcupine / hell rat / quokka / rat
 MONS:    w:90 nothing / w:30 bullfrog / blink frog / spiny frog
 SHUFFLE: 1234
 KFEAT:   O = enter_lair
@@ -270,7 +270,7 @@ MONS:   plant / bush w:2 / fungus w:2
 MONS:   crocodile / basilisk w:5
 MONS:   yak
 MONS:   iguana
-MONS:   rat w:2 / porcupine / river rat / quokka w:1
+MONS:   rat w:2 / porcupine / iguana / quokka w:1
 SUBST:  . = .:400 tt111123355
 SUBST:  ' = .:200 tt111123355
 SUBST:  3 : 334
@@ -401,7 +401,7 @@ ENDMAP
 NAME:   due_lair_maze_entry_diamond
 TAGS:   lair_entry
 MONS:   plant / fungus
-MONS:   w:100 bat / w:100 rat / w:30 river rat / crocodile /\
+MONS:   w:100 bat / w:100 rat / w:30 iguana / crocodile /\
         yak / nothing
 ORIENT: float
 SUBST:  . = G:20 B:15 .
@@ -441,7 +441,7 @@ NAME:   grunt_lair_entry_orc_guard_hut
 ORIENT: float
 TAGS:   lair_entry transparent
 MONS:   plant / fungus / nothing
-MONS:   w:100 bat / w:100 rat / w:30 river rat / crocodile / yak / w:20 nothing
+MONS:   w:100 bat / w:100 rat / w:30 iguana / crocodile / yak / w:20 nothing
 MONS:   patrolling orc warrior
 KFEAT:  O = enter_lair
 SUBST:  D = 1:5 2:2 .
@@ -484,7 +484,7 @@ NAME:    lemuel_ratsnest
 ORIENT:  northeast
 DEPTH:   D:5-8, Lair
 SHUFFLE: 23, 34
-MONS:    rat, rat / river rat w:5, river rat, hell rat
+MONS:    rat, rat / iguana w:5, iguana, hell rat
 ITEM:    stone w:80 / large rock
 SUBST:   d = d$..., e = d$
 : if you.in_branch("Lair") then
@@ -1465,7 +1465,7 @@ NAME:   kennysheep_rathole
 TAGS:   no_monster_gen
 DEPTH:  Lair
 ORIENT: float
-MONS:   river rat band, hell rat, river rat / rat
+MONS:   iguana band, hell rat, iguana / rat
 KMONS:  P = plant / fungus w:2
 KITEM:  d = stone
 NSUBST: W = 1:1 / 2:P / 2:2 / 2:3 / 2:d
@@ -1486,7 +1486,7 @@ NAME:   kennysheep_abandoned_house
 TAGS:   ruin
 DEPTH:  Lair
 ORIENT: float
-MONS:   river rat / rat, hell rat, rat
+MONS:   iguana / rat, hell rat, rat
 KITEM:  d = stone
 SUBST:  d = d123..., 2 = 2.
 NSUBST: 1 = *:1
@@ -2837,7 +2837,7 @@ KMONS:   J = dream sheep
 # some non-set monsters right outside the vault
 # to make sure you don't miss that there's a vault here maybe
 KMONS:   K = crocodile
-KMONS:   L = river rat
+KMONS:   L = iguana
 KMONS:   M = wolf
 KMONS:   N = wyvern
 KMONS:   P = plant w:12 / fungus w:8 / nothing
@@ -2940,7 +2940,7 @@ ENDMAP
 NAME:    hangedman_lair_tendril_chambers
 PLACE:   Lair:$
 ORIENT:  float
-MONS:    worker ant w:16 / adder w:24 / river rat w:2
+MONS:    worker ant w:16 / adder w:24 / iguana w:2
 MONS:    water moccasin / wyvern, wasp
 MONS:    spiny frog, black mamba, hornet / redback w:5, wolf spider
 KMONS:   8 = guardian serpent

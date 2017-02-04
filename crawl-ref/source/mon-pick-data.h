@@ -218,7 +218,6 @@ static const pop_entry pop_blade[] =
 static const pop_entry pop_lair[] =
 { // Lair
   { -3,  5,  825, SEMI, MONS_IGUANA },
-  { -2,  6,  750, SEMI, MONS_RIVER_RAT },
   { -1,  4,   52, SEMI, MONS_BLACK_BEAR },
   {  0,  5,   25, PEAK, MONS_SCORPION },
   {  0,  6,  260, SEMI, MONS_BASILISK },

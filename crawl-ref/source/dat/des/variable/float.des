@@ -1174,7 +1174,7 @@ KITEM:   + = damaged eveningstar, damaged short sword, \
 KITEM:   & = damaged mace / nothing
 MONS:    fungus, plant
 MONS:    adder, scorpion
-MONS:    rat / porcupine, river rat / hell rat
+MONS:    rat / porcupine, iguana / hell rat
 MONS:    bat
 KFEAT:   w = web
 SHUFFLE: ?!+
@@ -1339,7 +1339,7 @@ NAME:    lemuel_vampire_tower
 TAGS:    no_monster_gen no_pool_fixup
 DEPTH:   D:12-, Depths, !Depths:$, Crypt
 ORIENT:  float
-MONS:    rat / porcupine / w:6 river rat / w:3 hell rat / w:20 bat
+MONS:    rat / porcupine / w:3 hell rat / w:20 bat
 MONS:    wolf / spectral wolf w:2 / hell hound w:12 / raiju w:2
 MONS:    flying skull, phantasmal warrior / jiangshi
 MONS:    human zombie, frost giant zombie / fire giant zombie, vampire

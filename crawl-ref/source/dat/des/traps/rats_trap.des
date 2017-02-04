@@ -49,7 +49,7 @@ NAME:   dk_rats_in_the_wall
 DEPTH:  D:4-10
 TAGS:   no_monster_gen
 KPROP:  R = no_tele_into
-MONS:   generate_awake rat, generate_awake river rat
+MONS:   generate_awake rat, generate_awake iguana
 SUBST:  R = 112
 KFEAT:  ^ = known pressure plate trap
 # some chance for a big hole in the wall

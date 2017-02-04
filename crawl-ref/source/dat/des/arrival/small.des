@@ -2441,7 +2441,7 @@ ORIENT:  float
 : if crawl.one_chance_in(10) then
 SHUFFLE: 16
 MONS:    centaur / centaur warrior / yaktaur / yaktaur captain
-MONS:    rat / river rat / hell rat / quokka
+MONS:    rat / hell rat / quokka
 MONS:    worker ant / soldier ant / queen ant
 MONS:    tyrant leech
 MONS:    komodo dragon / iguana / basilisk
@@ -2924,7 +2924,7 @@ TAGS:   arrival no_monster_gen
 ORIENT: float
 COLOUR: W# = lightgreen
 NSUBST: W = 6:% / 7:#
-KITEM:  % = nothing / q:1 river rat chunk / w:5 river rat skeleton
+KITEM:  % = nothing / w:5 rat skeleton
 MARKER: # = lua:fog_machine { cloud_type = "foul pestilence", pow_max = 10, \
                               delay = 5, size = 5, excl_rad = 0 }
 KFEAT:  %# = W
