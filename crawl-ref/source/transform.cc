@@ -1838,16 +1838,8 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
         break;
 
     case TRAN_SPIDER:
-        if (you.attribute[ATTR_HELD])
-        {
-            trap_def *trap = trap_at(you.pos());
-            if (trap && trap->type == TRAP_WEB)
-            {
-                mpr("You disentangle yourself from the web.");
-                you.attribute[ATTR_HELD] = 0;
-            }
-        }
-        break;
+        leave_web();
+		break;
 
     case TRAN_TREE:
         mpr("Your roots penetrate the ground.");
@@ -1875,7 +1867,7 @@ bool transform(int pow, transformation_type which_trans, bool involuntary,
                 destroy_item(net);
             }
 
-            you.attribute[ATTR_HELD] = 0;
+            stop_being_held();
         }
         break;
 
