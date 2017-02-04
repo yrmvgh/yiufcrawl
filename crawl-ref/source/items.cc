@@ -2084,6 +2084,7 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     god_id_item(item);
     if (item.base_type == OBJ_WANDS)
     {
+		item.quantity = 1;
         set_ident_type(item, true);
 
         if (have_passive(passive_t::identify_devices)
@@ -2093,7 +2094,6 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
         }
     }
 
-    maybe_identify_base_type(item);
     if (item.base_type == OBJ_BOOKS)
     {
         set_ident_flags(item, ISFLAG_IDENT_MASK);
@@ -2101,17 +2101,6 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     }
 
     note_inscribe_item(item);
-
-    // avoid blood potion timer/stack size mismatch
-    if (quant_got != it.quantity && is_perishable_stack(it))
-        remove_newest_perishable_item(item);
-
-    if (crawl_state.game_is_hints())
-    {
-        taken_new_item(item.base_type);
-        if (is_artefact(item) || get_equip_desc(item) != ISFLAG_NO_DESC)
-            learned_something_new(HINT_SEEN_RANDART);
-    }
 
     you.m_quiver.on_inv_quantity_changed(freeslot, quant_got);
     you.last_pickup[item.link] = quant_got;
