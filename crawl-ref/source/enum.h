@@ -2683,6 +2683,9 @@ enum monster_type                      // menv[].type
     MONS_EYE_OF_DEVASTATION,
     MONS_GREAT_ORB_OF_EYES,
     MONS_GLOWING_ORANGE_BRAIN,
+#if TAG_MAJOR_VERSION > 34
+	MONS_MUTATATOTOT,
+#endif
 
     MONS_DANCING_WEAPON,
 #if TAG_MAJOR_VERSION > 34
@@ -2826,6 +2829,7 @@ enum monster_type                      // menv[].type
     MONS_GUARDIAN_GOLEM,
     MONS_SPELLFORGED_SERVITOR,
     MONS_USHABTI,
+	MONS_ZOTBOT,
 #endif
     MONS_ORB_OF_FIRE,    // Swords renamed to fit -- bwr
 #if TAG_MAJOR_VERSION > 34
@@ -3602,6 +3606,8 @@ MONS_ANTIMATTER_ELF,
 	MONS_DEV_FAVORITE,
 	MONS_PLUTONIUM_CRAB,
 	MONS_GIANT_GIANT,
+	MONS_MUTATATOTOT,
+	MONS_ZOTBOT,
 #endif
 
     NUM_MONSTERS,               // used for polymorph

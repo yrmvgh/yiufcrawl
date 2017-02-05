@@ -1638,6 +1638,11 @@ mutant beast
 A bizarre creature, twisted and warped by overexposure to magical radiation.
 Each has a different set of traits.
 %%%%
+mutatatotot
+
+A twisted, almost-sentient lump of flesh. Caustic to the touch, it mutates everything
+around it.
+%%%%
 naga
 
 A hybrid that is human from the waist up; below is a scaly, muscular snakelike
@@ -2566,9 +2571,13 @@ zombie
 
 A corpse raised to undeath by necromancy.
 %%%%
+zotbot
+
+A magical robotic guardian of the realm of Zot.
+%%%%
 zotling
 
-A small, human-shaped agglomeration of zot.
+A small, human-shaped agglomeration of Zot.
 %%%%
 # Specials
 test spawner

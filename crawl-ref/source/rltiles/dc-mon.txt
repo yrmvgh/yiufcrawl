@@ -446,6 +446,7 @@ ushabti MONS_USHABTI
 peacekeeper MONS_PEACEKEEPER
 saltling MONS_SALTLING
 zotling MONS_ZOTLING
+zotbot MONS_ZOTBOT
 %rim 1
 # For the Cigotuvi WizLab
 flesh_golem MONS_FLESH_GOLEM
@@ -756,6 +757,7 @@ slime_creature5
 azure_jelly MONS_AZURE_JELLY
 acid_blob MONS_ACID_BLOB
 death_ooze MONS_DEATH_OOZE
+mutatatotot MONS_MUTATATOTOT
 
 ## Kobolds ('K')
 %sdir mon/unique
