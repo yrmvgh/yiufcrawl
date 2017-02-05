@@ -821,6 +821,15 @@ static const mon_spellbook mspell_list[] =
        { SPELL_THROW_ALLY, 80, MON_SPELL_NATURAL },
       }
     },
+	
+	{  MST_GIANT_GIANT,
+      {
+       { SPELL_IRON_SHOT, 17, MON_SPELL_WIZARD },
+       { SPELL_BOLT_OF_COLD, 17, MON_SPELL_WIZARD },
+	   { SPELL_LIGHTNING_BOLT, 17, MON_SPELL_WIZARD },
+	   { SPELL_BOLT_OF_FIRE, 17, MON_SPELL_WIZARD },
+      }
+    },
 
     // ('D') Dragons.
     {  MST_STEAM_DRAGON,

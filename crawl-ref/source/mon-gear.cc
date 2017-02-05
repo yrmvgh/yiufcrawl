@@ -1036,7 +1036,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
 
     case MONS_CYCLOPS:
     case MONS_STONE_GIANT:
-	case MONS_GIANT_GIANT:
         item.base_type = OBJ_MISSILES;
         item.sub_type  = MI_LARGE_ROCK;
         break;
