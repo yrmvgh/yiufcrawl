@@ -706,7 +706,6 @@ static void _WYRMBANE_melee_effects(item_def* weapon, actor* attacker,
     // * iron dragon, golden dragon, pearl dragon (18)
     // * Xtahua (19)
     // * bone dragon, Serpent of Hell (20)
-    // * Tiamat (22)
     // * pghosts (up to 27)
     dprf("Killed a drac with hd %d.", hd);
 

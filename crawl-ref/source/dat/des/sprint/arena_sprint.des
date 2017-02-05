@@ -208,7 +208,7 @@ end
 function arena_sprint_get_monster_set(round, boss)
     if not boss then
         if round == 27 then
-            return {"place:Zot:$ / orb guardian w:70 / tiamat / " ..
+            return {"place:Zot:$ / orb guardian w:70 / " ..
                        "orb of fire / electric golem / killer klown / " ..
                        "ancient lich / moth of wrath"}
         end
@@ -429,7 +429,6 @@ function arena_sprint_get_monster_set(round, boss)
                     profane servitor",
                 "vault guard / necromancer / hell knight / wizard /\
                     killer klown",
-                "base draconian / w:1 nonbase draconian",
                 "golden eye / shining eye / floating eye / eye of devastation /\
                     great orb of eyes / eye of draining / w:5 ophan",
                 "vampire / vampire knight / vampire mage / w:1 jory",
@@ -493,7 +492,6 @@ function arena_sprint_get_monster_set(round, boss)
                 "hell knight w:20 / w:1 margery",
                 "vault guard / necromancer / hell knight / wizard /\
                     killer klown",
-                "base draconian / w:5 nonbase draconian",
                 "golden eye / shining eye / floating eye / eye of devastation /\
                     great orb of eyes / eye of draining / w:5 ophan",
                 "vampire knight / vampire mage / w:1 jory",
@@ -546,8 +544,6 @@ function arena_sprint_get_monster_set(round, boss)
                     iron elemental / stone giant / cacodemon",
                 "orb of fire / brimstone fiend / balrug / hellion /\
                     fire giant / sun demon",
-                "place:Coc:$ w:20 / ice fiend / blizzard demon / ice devil /\
-                    white draconian",
                 "spriggan air mage / titan / electric golem / ball lightning /\
                     storm dragon",
                 "shadow fiend / reaper / shadow dragon / death drake /\
@@ -561,7 +557,6 @@ function arena_sprint_get_monster_set(round, boss)
                 "w:5 fire dragon / w:5 ice dragon / w:7 storm dragon / shadow dragon /\
                     golden dragon / quicksilver dragon / iron dragon",
                 "glowing shapeshifter hd:20",
-                "w:5 base draconian / nonbase draconian",
                 "golden eye / shining eye / floating eye / eye of devastation /\
                     great orb of eyes / eye of draining / w:5 ophan",
                 "w:20 hellion / hell sentinel / hell beast / hell hog / hell knight /\
@@ -616,8 +611,6 @@ function arena_sprint_get_monster_set(round, boss)
                 "hell sentinel / quicksilver dragon w:20 / iron elemental / cacodemon",
                 "orb of fire w:20 / brimstone fiend / balrug / hellion w:20 /\
                     fire giant",
-                "ice fiend / blizzard demon / ice devil /\
-                    white draconian annihilator",
                 "spriggan air mage / titan / electric golem w:20 /\
                     storm dragon",
                 "shadow fiend / reaper / shadow dragon / death drake /\
@@ -631,7 +624,6 @@ function arena_sprint_get_monster_set(round, boss)
                 "w:7 storm dragon / golden dragon w:15 /\
                     quicksilver dragon w:15 / iron dragon",
                 "glowing shapeshifter hd:20",
-                "nonbase draconian",
                 "golden eye / shining eye / floating eye w:15 / eye of devastation /\
                     great orb of eyes / eye of draining / w:5 ophan",
                 "w:30 hellion / hell sentinel / hell beast / hell hog / hell knight /\
@@ -752,7 +744,7 @@ function arena_sprint_init_boss_table()
               "floating eye / golden eye / eye of devastation / " ..
               "eye of draining / shining eye", "mnoleg", "glowing rune of zot"}
     bs[11] = {"smoke demon / blizzard demon / green death / rakshasa / " ..
-              "glowing orange brain / titan / lich / draconian annihilator / " ..
+              "glowing orange brain / titan / lich / " ..
               "deep elf annihilator", "lom lobon", "magical rune of zot"}
     bs[12] = {"efreet / sun demon / ynoxinul / balrug / brimstone fiend",
               "cerebov", "fiery rune of zot"}

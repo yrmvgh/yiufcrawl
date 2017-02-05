@@ -581,11 +581,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
             { { { WPN_DAGGER,           12 },
                 { WPN_SCIMITAR,         5 },
         }, { 2, 1, 4 }, { { SPWPN_VENOM, 1 } } } },
-        { MONS_TIAMAT,
-            { { { WPN_BARDICHE,         1 },
-                { WPN_DEMON_TRIDENT,    1 },
-                { WPN_GLAIVE,           1 },
-        }, {}, {}, 1 } },
         { MONS_RUPERT,
             // Rupert favours big two-handers with visceral up-close
             // effects, i.e. no polearms.

@@ -301,7 +301,7 @@ monster_info::monster_info(monster_type p_type, monster_type p_base_type)
     type = p_type;
 
     // give 'job' monsters a default race.
-    const bool classy_drac = mons_is_draconian_job(type) || type == MONS_TIAMAT;
+    const bool classy_drac = false;
     base_type = p_base_type != MONS_NO_MONSTER ? p_base_type
                 : classy_drac ? MONS_DRACONIAN
                 : mons_is_demonspawn_job(type) ? MONS_DEMONSPAWN
@@ -1703,14 +1703,6 @@ bool monster_info::has_spells() const
 
     if (props.exists(SEEN_SPELLS_KEY))
         return true;
-
-    // Almost all draconians have breath spells.
-    if (mons_genus(draco_or_demonspawn_subspecies()) == MONS_DRACONIAN
-        && draco_or_demonspawn_subspecies() != MONS_GREY_DRACONIAN
-        && draco_or_demonspawn_subspecies() != MONS_DRACONIAN)
-    {
-        return true;
-    }
 
     const vector<mon_spellbook_type> books = get_spellbooks(*this);
 

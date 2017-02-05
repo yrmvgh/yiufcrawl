@@ -763,7 +763,7 @@ TAGS:     d_27
 KMONS:    1 = place:Depths:$
 KMONS:    2 = fire dragon w:20 / ice dragon w:20 / storm dragon /\
               bone dragon / golden dragon / acid dragon
-KMONS:    3 = base draconian
+KMONS:    3 = zotling
 SUBST:    2 = 2223, 3 = 3332
 : line_setup(_G)
 : general_item_setup(_G)
@@ -879,10 +879,10 @@ ENDMAP
 
 NAME:     zot_1
 TAGS:     zot_1
-KMONS:    1 = place:Zot:1 w:30 / base draconian / nonbase draconian
-KMONS:    2 = place:Zot:2 w:30 / base draconian / nonbase draconian
-KMONS:    3 = place:Zot:3 w:30 / base draconian / nonbase draconian
-KMONS:    4 = place:Zot:4 w:30 / base draconian / nonbase draconian
+KMONS:    1 = place:Zot:1 w:30 / zotling / zotbot
+KMONS:    2 = place:Zot:2 w:30 / zotling / zotbot
+KMONS:    3 = place:Zot:3 w:30 / zotling / zotbot
+KMONS:    4 = place:Zot:4 w:30 / zotling / zotbot
 COLOUR:   # = white
 COLOUR:   1 = lightgrey
 COLOUR:   X = blue
@@ -914,7 +914,7 @@ KMONS:    2 = place:Zot:$
 KMONS:    3 = orb of fire
 KMONS:    4 = ancient lich
 KMONS:    5 = electric golem
-KMONS:    6 = shadow dragon / golden dragon / nonbase draconian /\
+KMONS:    6 = shadow dragon / golden dragon /\
               killer klown / moth of wrath / place:Zot:$
 KMONS:    7 = moth of wrath
 KITEM:    7 = orb of zot

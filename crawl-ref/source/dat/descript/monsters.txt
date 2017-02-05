@@ -427,11 +427,6 @@ A violent murderer who kills for both pleasure and profit, Terence has been
 forced into hiding after a botched job. There's a price on his head, and he
 can't afford to leave anyone who sees him alive!
 %%%%
-Tiamat
-
-The earthly avatar of Tiamat, deity of dragonkind, here incarnated as a mighty
-draconian warrior. Her scales seem to shimmer and change colour as you watch.
-%%%%
 Urug
 
 A coarse and lanky orc. Urug lost her eye in a fight with a harpy, and has
@@ -616,10 +611,6 @@ black bear
 
 A small black bear. Like all ursines, it will become enraged if badly hurt or
 frightened.
-%%%%
-black draconian
-
-A muscular black-scaled humanoid with a reptilian tail and powerful wings.
 %%%%
 black mamba
 
@@ -934,37 +925,6 @@ draconian
 A brown-scaled humanoid with a reptilian tail and small wings. It is yet to
 develop the distinct colouring and powerful breath weapon of its mature form.
 %%%%
-draconian annihilator
-
-A draconian that uses powerful conjurations to destroy anyone who dares to
-stand in its way.
-%%%%
-draconian knight
-
-A draconian protected by thick scales, skillful weapon use, and complementary
-magic. It specializes in ice magic and necromancy.
-%%%%
-draconian monk
-
-A draconian who has eschewed the study of weaponry and magic in order to train
-in the art of unarmed combat. Its scaly fists, well-thewed legs, and mighty
-tail rain down blows upon its opponents.
-%%%%
-draconian scorcher
-
-A cunning draconian who has mastered the inner secrets of the element of fire.
-Its scales are sooty from years of magical pyrotechnics.
-%%%%
-draconian shifter
-
-A draconian master of the warp, who can translocate both itself and anyone else
-to any place, either on this world or outside of it.
-%%%%
-draconian stormcaller
-
-A draconian deriving its thunderous powers and draconic allies from the worship
-of Qazlal.
-%%%%
 dream sheep
 
 A drowsy, fluffy ovine whose coat sparkles with motes of dream dust. It gathers
@@ -1252,14 +1212,6 @@ A formidable naga that is skilled in both martial and magical arts.
 green death
 
 A bloated form covered in oozing sores and exhaling clouds of lethal poison.
-%%%%
-green draconian
-
-A muscular green-scaled humanoid with a reptilian tail and small wings.
-%%%%
-grey draconian
-
-A muscular grey-scaled humanoid with a reptilian tail and small wings.
 %%%%
 guardian golem
 
@@ -1787,10 +1739,6 @@ orc wizard
 An orc who has gained proficiency in the occult arts, using them for martial
 purposes.
 %%%%
-pale draconian
-
-A muscular humanoid with pale scales, a reptilian tail and small wings.
-%%%%
 pandemonium lord
 
 A formidable demon lord inhabiting the endless halls of Pandemonium. Each one
@@ -1859,10 +1807,6 @@ program bug
 A ravenous and incredibly buggy monster. Please report its existence to the
 DevTeam.
 %%%%
-purple draconian
-
-A muscular purple-scaled humanoid with a reptilian tail and small wings.
-%%%%
 putrid demonspawn
 
 <demonspawn>
@@ -1917,10 +1861,6 @@ reaper
 
 A skeletal form wielding a giant scythe, ceaselessly harvesting the souls of
 the living.
-%%%%
-red draconian
-
-A muscular red-scaled humanoid with a reptilian tail and small wings.
 %%%%
 hornet
 
@@ -2479,10 +2419,6 @@ A capricious nature spirit, deeply bonded with the waters in which she lives.
 Wherever they flow, so may she, and ponds and rivers surge and leap at her
 whim.
 %%%%
-white draconian
-
-A muscular white-scaled humanoid with a reptilian tail and small wings.
-%%%%
 white imp
 
 A small and mischievous minor demon covered in frost.
@@ -2552,10 +2488,6 @@ yaktaur captain
 
 An exceptionally strong and brutish yaktaur, able to order its weaker brethren
 around to do its bidding.
-%%%%
-yellow draconian
-
-A muscular yellow-scaled humanoid with a reptilian tail and small wings.
 %%%%
 wasp
 

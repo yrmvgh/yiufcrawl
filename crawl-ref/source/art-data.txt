@@ -1024,16 +1024,15 @@ BOOL:     special
 # hrm, nothing fitting, shouldn't be elemental but should be marked
 COLOUR:   WHITE
 
-# Worn by Tiamat.
+# not worn by Tiamat, because tiamat is removed.
 ENUM:     DRAGONSKIN
 NAME:     dragonskin cloak
 APPEAR:   opalescent scaly cloak
 OBJ:      OBJ_ARMOUR/ARM_CLOAK
 TILE:     urand_dragonskin
 TILE_EQ:  dragonskin
-PLUS:     +4
+PLUS:     +3
 COLOUR:   ETC_HEAL
-BOOL:     nogen
 
 ENUM:     OCTOPUS_KING_RING
 NAME:     ring of the Octopus King

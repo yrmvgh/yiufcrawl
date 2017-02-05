@@ -21,10 +21,10 @@
 {{
 function zot_entry_setup(e)
     e.kfeat("O = enter_zot")
-    e.mons("patrolling base draconian")
+    e.mons("patrolling zotling")
     e.mons("fire dragon / ice dragon / storm dragon / \
             shadow dragon / bone dragon / golden dragon")
-    e.mons("patrolling nonbase draconian")
+    e.mons("patrolling mutatatotot")
     e.kmons("0 = ettin / yaktaur captain / glowing shapeshifter w:5 / \
                  stone giant / spriggan berserker / hell knight w:5")
     e.kmons("9 = fire giant w:12 / titan w:8 / vampire knight / \
@@ -2341,12 +2341,11 @@ MONS:    orc high priest / orc sorcerer / naga warrior / naga mage / \
          salamander mystic
 MONS:    fire giant / frost giant / stone giant w:5 / ettin / \
          hell knight w:5 / orc warlord / minotaur / \
-         vampire knight / vampire mage / ghoul w:5 / base draconian / \
+         vampire knight / vampire mage / ghoul w:5 / \
          spriggan berserker w:3 / spriggan air mage w:4 / \
          deep troll earth mage w:4 / deep elf death mage w:2
 MONS:    titan / lich / deep elf annihilator / deep elf sorcerer / \
-         sphinx w:5 / greater naga w:5 / mummy priest w:1 / \
-         white draconian knight w:1
+         sphinx w:5 / greater naga w:5 / mummy priest w:1
 SHUFFLE: AB, CD, EF, GH, IJ, KL / MN, OP / QR, ST, ST / UV
 SUBST:   ACEG : x, BDFH : ., c : cccvb, x : x:70 cb
 SUBST:   IKO = 1, LPS = 2, T = 3, JMNQRUV = %
@@ -2454,12 +2453,12 @@ ORIENT: float
 DEPTH: Depths
 TAGS: no_monster_gen
 SHUFFLE: PFIEMONLSAKRVCTHD
-KMONS: P = green death / green draconian / greater naga w:5 / swamp dragon / \
+KMONS: P = green death / greater naga w:5 / swamp dragon / \
            redback
-KMONS: F = fire giant w:5 / fire dragon / fire elemental / red draconian / sun demon
-KMONS: I = frost giant w:5 / ice dragon / blizzard demon / white draconian / \
+KMONS: F = fire giant w:5 / fire dragon / fire elemental / sun demon
+KMONS: I = frost giant w:5 / ice dragon / blizzard demon / \
            ice dragon
-KMONS: E = titan w:5 / storm dragon / black draconian / ball lightning
+KMONS: E = titan w:5 / storm dragon / ball lightning
 KMONS: O = orc knight / orc sorcerer / orc warlord w:5 / orc high priest / \
            orc warrior
 KMONS: N = deep elf knight w:5 / deep elf archer w:5 / \
@@ -2569,9 +2568,9 @@ DEPTH:  Depths, Zot, !Zot:$
 PLACE:  Depths:$
 {{
   if you.in_branch("Zot") then
-     kmons("1 = draconian annihilator band")
+     kmons("1 = acid robin band")
      kmons("2 = moth of wrath")
-     kmons("3 = base draconian")
+     kmons("3 = zotling")
      kfeat("1 = stone_stairs_down_i / stone_stairs_down_ii / "
            .. "stone_stairs_down_iii / escape_hatch_down")
      subst("* = .")
@@ -2579,8 +2578,8 @@ PLACE:  Depths:$
      colour(".+123* = magenta")
      ftile(".+123* = floor_hall")
      kfeat("1 = enter_zot")
-     kmons("1 = nonbase draconian")
-     kmons("2 = base draconian")
+     kmons("1 = subtractor snake")
+     kmons("2 = zotling")
      nsubst("3 = 4:2 / 2 = 2. / *:.")
      kmons("* = golden dragon / shadow dragon / storm dragon / bone dragon"
            .. " / fire dragon / ice dragon")
@@ -2654,7 +2653,7 @@ PLACE:   Depths:$
 WEIGHT:  5 (Depths:$, Geh), 10
 MONS:    hell knight
 : if you.where() == dgn.level_name(dgn.br_entrance("Zot")) then
-MONS:    yellow draconian, black draconian, ettin
+MONS:    giant giant, juggernaut, ettin
 NSUBST:  2 = 2:2 / 2:3 / 2:4 / * = 222334
 : elseif you.in_branch("Depths") then
 MONS:    deep troll
@@ -2672,7 +2671,7 @@ KFEAT:   - = open_door
 SHUFFLE: })]>
 : if you.where() == dgn.level_name(dgn.br_entrance("Zot")) then
 KFEAT: } = enter_zot
-KMONS: )]> = nonbase draconian w:30 / \
+KMONS: )]> = subtractor snake w:30 / \
              shadow dragon / golden dragon / storm dragon
 : end
 MARKER:  O = lua:fog_machine { cloud_type = 'flame', pow_min=10, pow_max=10, \
@@ -3068,8 +3067,8 @@ KMONS:  7 = spriggan defender ; staff of fire | staff of cold | \
 KMONS:  8 = tengu reaver ; battleaxe ego:flaming | great sword ego:freezing | \
                            halberd ego:electrocution | lajatang ego:vorpal . \
                            fire dragon scales | ice dragon scales
-KMONS:  9 = red draconian / white draconian / black draconian
-KMONS:  0 = red draconian monk / white draconian monk / black draconian monk
+KMONS:  9 = zotling
+KMONS:  0 = THE GIAGGOSTUONO / dev favorite / electric golem
 KMONS:  ! = orb of fire / electric golem / ice fiend / iron giant
 KMONS:  & = ancient lich
 KITEM:  $ = $ no_pickup
@@ -5042,7 +5041,7 @@ KMONS:  8 = w:15 blizzard demon / frost giant / w:5 titan / w:15 ice fiend / \
             w:5 simulacrum / place:Coc
 SUBST:  *% = .
 : elseif you.in_branch("Zot") then
-KMONS:  8 = w:35 nonbase draconian / orb of fire / electric golem / \
+KMONS:  8 = w:35 THE GIAGGOSTUONO / orb of fire / electric golem / \
             killer klown / death cob / w:5 curse toe / w:5 ancient lich
 SUBST:  *% = .
 :else

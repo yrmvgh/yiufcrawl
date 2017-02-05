@@ -66,30 +66,6 @@
 
 static bool _slime_split_merge(monster* thing);
 
-// Currently only used for Tiamat.
-void draconian_change_colour(monster* drac)
-{
-    if (mons_genus(drac->type) != MONS_DRACONIAN)
-        return;
-
-    drac->base_monster = random_choose(MONS_RED_DRACONIAN,
-                                       MONS_WHITE_DRACONIAN,
-                                       MONS_BLACK_DRACONIAN,
-                                       MONS_GREEN_DRACONIAN,
-                                       MONS_PURPLE_DRACONIAN,
-                                       MONS_YELLOW_DRACONIAN);
-    drac->colour = mons_class_colour(drac->base_monster);
-
-    // Get rid of the old breath weapon first.
-    monster_spells oldspells = drac->spells;
-    drac->spells.clear();
-    for (const mon_spell_slot &slot : oldspells)
-        if (!(slot.flags & MON_SPELL_BREATH))
-            drac->spells.push_back(slot);
-
-    drac->spells.push_back(drac_breath(draco_or_demonspawn_subspecies(*drac)));
-}
-
 bool ugly_thing_mutate(monster* ugly, bool force)
 {
     if (!(one_chance_in(9) || force))
@@ -1003,9 +979,7 @@ bool mon_special_ability(monster* mons)
 {
     bool used = false;
 
-    const monster_type mclass = (mons_genus(mons->type) == MONS_DRACONIAN)
-                                  ? draco_or_demonspawn_subspecies(*mons)
-                                  : mons->type;
+    const monster_type mclass = mons->type;
 
     // Slime creatures can split while out of sight.
     if ((!mons->near_foe() || mons->asleep() || mons->submerged())

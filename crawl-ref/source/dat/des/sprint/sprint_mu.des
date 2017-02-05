@@ -1175,7 +1175,7 @@ KMONS: i = patrolling floating eye
 KMONS: j = patrolling golden eye
 KMONS: k = patrolling shining eye
 KMONS: m = patrolling glowing orange brain
-KMONS: o = patrolling yellow draconian
+KMONS: o = patrolling mutatatotot
 KMONS: q = generate_awake wasp / generate_awake hornet
 KMONS: r = hydra simulacrum / golden dragon zombie / spectral iron dragon / \
  iron troll simulacrum / anaconda zombie / anaconda simulacrum / stone giant skeleton /\
@@ -1193,7 +1193,7 @@ KMONS: D = patrolling hell beast
 KMONS: E = patrolling sun demon
 KMONS: F = patrolling soul eater
 KMONS: G = iron troll simulacrum hd:20
-KMONS: I = patrolling vault guard / patrolling orc knight / patrolling draconian knight /\
+KMONS: I = patrolling vault guard / patrolling orc knight /\
  patrolling deep elf knight
 KITEM: % = quad damage
 KFEAT: % = known zot trap
@@ -1453,14 +1453,14 @@ MARKER: T = lua:fog_machine { \
         size_buildup_time = 1000, cloud_type = "mutagenic fog" }
 KFEAT: T = zot trap
 KMONS: * = orb of fire
-MONS: Tiamat, yellow draconian stormcaller / yellow draconian shifter
-MONS: white draconian scorcher
+MONS: THE GIAGGOSTUONO, storm dragon
+MONS: dev favorite
 MARKER: i = lua:fog_machine { \
         pow_max = 10, delay_min = 100, delay_max = 150, \
         size = 2, size_buildup_amnt = 15, \
         size_buildup_time = 1000, cloud_type = "freezing vapour" }
 MONS: patrolling storm dragon / patrolling electric golem
-MONS: red draconian stormcaller
+MONS: THE GIAGGOSTUONO
 KMONS: 7 = patrolling fire giant
 KMONS: 8 = patrolling frost giant
 KMONS: L = patrolling ancient lich

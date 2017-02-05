@@ -14,10 +14,10 @@ function zot_entry_setup(e)
     e.place("Depths:$")
     e.orient("float")
     e.kfeat("O = enter_zot")
-    e.mons("patrolling base draconian")
+    e.mons("patrolling zotling")
     e.mons("fire dragon / ice dragon / storm dragon / \
             shadow dragon / bone dragon / golden dragon")
-    e.mons("patrolling nonbase draconian")
+    e.mons("patrolling acid robin / patrolling ghost robin")
     e.kmons("0 = ettin / yaktaur captain / glowing shapeshifter w:5 / \
                  stone giant w:12 / spriggan berserker w:8 / hell knight w:5")
     e.kmons("9 = fire giant w:12 / titan w:8 / vampire knight / \
@@ -36,7 +36,7 @@ function st_zot_vaults_setup(e)
                iron dragon w:5 / quicksilver dragon w:5 / bone dragon w:5 /\
                lindwurm w:2 / rime drake w:2 / death drake w:2 /\
                swamp dragon w:5")
-    e.kmons("d = base draconian / nonbase draconian")
+    e.kmons("d = zotling / subtractor snake")
     e.kmons("Y = patrolling golden dragon")
     e.kitem("Y = |")
 end
@@ -181,7 +181,7 @@ FTILE:  .+cm^01234$ = floor_hall
 SUBST:  D = +, "' = .
 NSUBST: 3 = 1:9 / *:3
 : zot_entry_setup(_G)
-MONS:   base draconian ; glaive | halberd
+MONS:   zotling
 MAP
 '''''''''''''''''''''''''''''''''''''''''
 'wwwwwwwww'''''''''''''''''''''wwwwwwwww'
@@ -226,32 +226,32 @@ SUBST:  - = ., D = +
 KFEAT:  O = enter_zot
 # easy: 1, 2
 : if crawl.coinflip() then
-MONS:   pale draconian, steam dragon
+MONS:   zotling, steam dragon
 : else
-MONS:   grey draconian, wyvern
+MONS:   zotling, wyvern
 : end
 # medium: 3, 4
 : if crawl.coinflip() then
-MONS:   yellow draconian, acid dragon
+MONS:   zotling, acid dragon
 : else
-MONS:   green draconian, swamp dragon
+MONS:   zotling, swamp dragon
 : end
 # hard: 5, 6
 : if crawl.coinflip() then
-MONS:   red draconian, fire dragon
+MONS:   mutatatotot, fire dragon
 : else
-MONS:   white draconian, ice dragon
+MONS:   mutatatotot, ice dragon
 : end
 # harder: 7, 8
 : if crawl.coinflip() then
-MONS:   black draconian
+MONS:   subtractor snake
 KMONS:  8 = storm dragon
 : else
-MONS:   purple draconian
+MONS:   subtractor snake
 KMONS:  8 = quicksilver dragon
 : end
 # boss: 9, 0
-KMONS:  9 = nonbase draconian
+KMONS:  9 = antimatter elf
 KMONS:  0 = golden dragon
 MAP
 ccc+ccccccccccccccccccc
@@ -277,50 +277,6 @@ ccccccc.+.....+.ccccccc
 cccccccccb.56bccccccccc
 cccccccccvb.bvccccccccc
 ccccccccccccccccccccccc
-ENDMAP
-
-NAME:   evilmike_zot_entry_argh
-TAGS:   no_monster_gen zot_entry patrolling
-# Grey dracs can escape from the islands if they have water. This is intentional.
-SUBST:  G: GXm., m: mmlw
-KFEAT:  m = iron_grate
-SUBST:  x: Xccv
-NSUBST: 2 = 2:2 / *:-
-TILE:   X = wall_zot_magenta
-COLOUR: X = lightmagenta
-SUBST:  X = x
-COLOUR: . = white
-FTILE:  -12O = floor_hall
-SUBST:  - = .
-KMONS:  O = nonbase draconian
-: zot_entry_setup(_G)
-MONS:   draconian stormcaller
-MAP
-xxxxxxxxxxxx@xxxxxxxxxxxx
-xxx........---........xxx
-xxmmm.....G.-.G.....mmmxx
-x.m4m.......-.......m4m.x
-x.mmm...G...-...G...mmm.x
-x..........---..........x
-x.....G....---....G.....x
-x..........---..........x
-x...G.....-----.....G...x
-x........XX---XX........x
-x.G.....-X1---1X-.....G.x
-x-...------2-2------...-x
-@-----------O-----------@
-x-...------2-2------...-x
-x.G.....-X1---1X-.....G.x
-x........XX---XX........x
-x...G.....-----.....G...x
-x..........---..........x
-x.....G....---....G.....x
-x..........---..........x
-x.mmm...G...-...G...mmm.x
-x.m4m.......-.......m4m.x
-xxmmm.....G.-.G.....mmmxx
-xxx........---........xxx
-xxxxxxxxxxxx@xxxxxxxxxxxx
 ENDMAP
 
 NAME:   evilmike_zot_entry_hall
@@ -757,14 +713,14 @@ mm.11.mm
 ENDMAP
 
 ###################################################################
-# Draconian Sentry Boxes
+# ZOTBOXES
 # There is an 70% chance all three downstairs will be here.
 #
 NAME:   lemuel_draconian_sentries
 DEPTH:  Zot, !Zot:$
 ORIENT: float
 TAGS:   no_rotate uniq_draconian_sentries
-MONS:   red draconian scorcher / green draconian stormcaller / yellow draconian stormcaller
+MONS:   zotbot
 SUBST:  } = }:80 >, ) = ):80 > , ] = ]:80 >
 SUBST:  w:w., w=Ww
 KFEAT:  m = iron_grate
@@ -790,7 +746,7 @@ NAME:   lemuel_draconian_sentries_small
 DEPTH:  Zot, !Zot:$
 ORIENT: float
 TAGS:   no_rotate uniq_draconian_sentries
-MONS:   red draconian scorcher / green draconian stormcaller / yellow draconian stormcaller
+MONS:   zotbot
 SUBST:  } = }:80 >, ) = ):80 > , ] = ]:80 >
 SUBST:  w:w., w=Ww
 KFEAT:  m = iron_grate
@@ -816,8 +772,8 @@ ENDMAP
 NAME:   lemuel_acid_trip
 DEPTH:  Zot, !Zot:$
 ORIENT: centre
-MONS:   oklob plant, acid blob, jelly, yellow draconian
-MONS:   any nonbase yellow draconian
+MONS:   oklob plant, acid blob, jelly, mutatatotot
+MONS:   subtractor snake
 SUBST:  1 = 1:2 .
 SUBST:  . = .:20 3:3 2:1
 SUBST:  } = }:80 >, ) = ):80 >, ] = ]:80 >
@@ -851,8 +807,8 @@ DEPTH:  Zot, !Zot:$
 ORIENT: centre
 MONS:   orb of fire
 MONS:   fire elemental
-MONS:   red draconian
-MONS:   any nonbase red draconian
+MONS:   plutonium crab
+MONS:   THE GIAGGOSTUONO
 MONS:   efreet
 SUBST:  1=122, 3=322
 SUBST:  4 = 2:20 4:5 3:15 .:20
@@ -929,13 +885,11 @@ KFEAT: X = W
 MARKER: X = lua:fog_machine { cloud_type="steam", \
             pow_min = 2, pow_max = 10, delay = 25, \
             size = 2, walk_dist = 3, spread_rate= 10 }
-KMONS: M = patrolling red draconian att:neutral / \
-      patrolling red draconian scorcher att:neutral w:2 / \
-      patrolling red draconian stormcaller att:neutral w:2 / \
-      patrolling red draconian shifter att:neutral w:2 / \
-      patrolling red draconian annihilator att:neutral w:2 / \
-      patrolling red draconian knight att:neutral w:2 / \
-      patrolling red draconian monk att:neutral w:2
+KMONS: M = patrolling antimatter elf att:neutral / \
+      patrolling giant giant att:neutral w:2 / \
+      patrolling fire giant att:neutral w:2 / \
+      patrolling plutonium crab att:neutral w:2 / \
+      patrolling plutonium crab att:neutral w:2
 KFEAT: M = W
 KMONS: F = orb of fire att:neutral
 KFEAT: F = W
@@ -1383,60 +1337,6 @@ xxxllxxlllxxlxxxxx..xxx
 xxxxxxxxxxxxxxxx@.xxxxx
 ENDMAP
 
-# draconians are a bit more organised with their hoards.
-NAME:   st_large_dragon_hoard_4
-SUBST:  D = DDD$
-KITEM:  D = $
-KMONS:  1 = nonbase draconian band
-: st_zot_vaults_setup(_G)
-MAP
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-x$$$$xxxx.......xxxxxxxxxxxxxxxx
-x$$$$xx......1....x*$*xxxx...xxx
-xxx+xx..x.........+$|$xxx.....xx
-xxx....xxxx......xx*$*xxx.xx...x
-xx..xxxxxxxxxx..xxxxxxxx.xxx..xx
-xxx..xxxD*Dxxxx...xxxxx..xxxx..x
-xDxx.xx$*Y*$Dxxxx..x....xxxx..xx
-xD$x.xxD$|D$$*xxxx...xxxxxxx..xx
-xxx..xxx*$$$$$xxxxxxx$Dxxxx..xxx
-xx.xxxxxxD$.1..x|*|xD|Dxx...xxxx
-xxx..xxxxxx....+*|*xxDxx.x.xxxxx
-xxxx.....x....xx|*|xxxx.x.xxxxxx
-xxxxxx......xxxxxxxxx..x...xxxxx
-xxxxxxxxxxxxxxxxxxxx.xxx@xx.xxxx
-ENDMAP
-
-# A mighty hoard indeed...
-# Intended to be an extreme visual spectacle.
-# Obviously lowering the amount of gold in stacks is necessary.
-# There's about 800 gold.
-NAME:   st_grand_hoard_of_tiamat
-TAGS:   no_monster_gen
-KMONS:  1 = patrolling Tiamat, patrolling golden dragon
-SUBST:  D = DDD$
-KITEM:  D = $
-KITEM:  $ = gold q:1
-: st_zot_vaults_setup(_G)
-MAP
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxx*x$$x$x$$xxxxxxxxx
-xxxxx*xxD*$xxD$$$xD$x$xxxxx
-xxx$xD$x$$$$$$x$*$$$$x$$xxx
-xx$$x$$$*xx$$$$*Yx$$$$$xxxx
-xx$x*$x*Y*$D$$$$*$$xD$x$*xx
-xxxxD$x$*$$$D|DD$$$x$$$$Dxx
-xx$$x$$$$$DD*|*$DD$$$x$$xx.
-xxx$$$$D$$$||1||$$$$$$$$$..
-xx$x$x$$$$$D*|*$D$D$x$$$x.@
-xxxD*$$x$*$D$|DD$$x*$$$xxx.
-xx*xx$$$xY*xxD$$$$*Y*xxD$xx
-xxx$$$x$$*$$$$Dx$xx*$x$$xxx
-xxxxx$$xDxx$$x$$x$$x$$xxxxx
-xxxxxxxxx$$x$$xx*Dxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-ENDMAP
-
 #########################
 # Minivaults based on the old orb chambers.
 #
@@ -1639,124 +1539,20 @@ ENDMAP
 
 ##########################################################################
 
-NAME: nicolae_zot_draconian_monastery
-DEPTH: Zot, !Zot:$
-ORIENT: float
-TAGS: no_trap_gen no_monster_gen no_item_gen
-MONS: draconian monk / base draconian w:15, patrolling draconian stormcaller, patrolling draconian knight
-MONS: patrolling draconian scorcher
-SHUFFLE: ]}), rybgmq, DZF
-MARKER: + = lua:restrict_door()
-# The choice of altar might matter more once monster gods are better implemented.
-# Till then, it's just a style thing.
-KFEAT: _ = altar_xom / altar_lugonu / altar_zin / altar_the_shining_one / \
-           altar_makhleb / altar_qazlal / altar_yredelemnul
-SUBST: 1 = 1.
-# What kind of holy books would draconians have?
-KITEM: D = book of the Dragon
-KITEM: Z = randbook numspells:4 spells:summon_demon&fireball&animate_dead&airstrike title:the_Zealot
-KITEM: F = randbook numspells:4 spells:bolt_of_fire&fireball&sticky_flame&conjure_flame title:Fire_and_Brimstone
-KITEM: _ = manual of invocations
-COLOUR: r = red, y = yellow, b = blue, g = green, m = magenta, q = cyan, c = magenta
-TILE: r = dngn_transparent_stone_red, y = dngn_transparent_stone_yellow, \
-      b = dngn_transparent_stone_blue, m = dngn_transparent_stone_magenta, \
-      g = dngn_transparent_stone_green, q = dngn_transparent_stone
-KFEAT: rybgmq = n
-MAP
-           @.......................@
-ccccccccccccqqcrrcyycbbcggcmmcqqcrrccccccccccc
-cG............G..G..G..G..G..G..G..ccc.ccc.ccc
-c...ccccc..T.......................cc...c...ccl
-c]2.cccDccccc..1..1..1..1..1..1..1.c..1...1..cl
-c...cc...cc........................cc.......ccll
-cG..+..2....c.cc.cc.cc.cc.cc.cc.cc.cT........clll
-cccccc...cccc.cc.cc.cc.cc.cc.cc.cc.ccc.......clllll
-ccccTc...cccc......................ccc..1..1.c....l
-@qc......1.........................+.........+..3.@
-@mF.4.._......1..1..1..1..1..1..1..+.........+.T..@
-@qc......1.........................+.........+..3.@
-ccccTc...cccc......................ccc..1..1.c....l
-cccccc...cccc.cc.cc.cc.cc.cc.cc.cc.ccc.......clllll
-cG..+..2....c.cc.cc.cc.cc.cc.cc.cc.cT........clll
-c...cc...cc........................cc.......ccll
-c}2.cccZccccc..1..1..1..1..1..1..1.c..1...1..cl
-c...ccccc..T.......................cc...c...ccl
-cG............G..G..G..G..G..G..G..ccc.ccc.ccc
-ccccccccccccqqcrrcyycbbcggcmmcqqcrrccccccccccc
-           @.......................@
-ENDMAP
-
-##########################################################################
-
-NAME:    hangedman_zot_spectrum
-TAGS:    no_monster_gen
-DEPTH:   Zot, !Zot:$
-KMONS:   A = red very ugly thing
-KMONS:   B = red draconian
-KMONS:   C = balrug / nonbase red draconian w:6
-KMONS:   D = cyan very ugly thing
-KMONS:   E = black draconian
-KMONS:   F = electric golem / nonbase black draconian w:6
-KMONS:   G = green very ugly thing
-KMONS:   H = green draconian
-KMONS:   I = green death / nonbase green draconian w:6
-KMONS:   J = white very ugly thing
-KMONS:   K = white draconian
-KMONS:   L = cool robin / nonbase white draconian w:6
-KMONS:   M = brown very ugly thing
-KMONS:   N = yellow draconian
-KMONS:   O = acid blob / nonbase yellow draconian w:6
-KMONS:   Z = golden dragon / killer klown / Tiamat, golden dragon / killer klown
-KITEM:   BEHKN = $ w:15 / % w:25 / *
-KITEM:   z = any good_item
-KITEM:   Z = acquire any
-# Rotates out loot, upstairs, downstairs,
-# both (in an enclosed bubble), or nothing, at either end.
-SHUFFLE: defg{>Z' / defg{<'' / fgde>{'Z / fgde<{'' / defg'|Z' / fgde|''Z / \
-         fgfg''() / fgfg'')( / dede'''' / dede'''' / dede''''
-SHUFFLE: ABC / DEF / GHI / JKL / MNO
-SUBST:   d = @, e = ., f = x, g = c, c : ccb, Z = z Z:6, {' = .
-NSUBST:  < = 1:{ / 1:[, > = 1:} / 1:]
-MAP
- ddddxxxx
-ddeeeecxxxxxxxx
-dee{..cxxxccccx
-de{'c+cccccBBcx
-de.cc.......Acxxx
-xe.+.......Accccx
-xccc..Cc+ccccEEcx
-xxxc..cc......Dcxxx
-xxxc..+......Dccccx
- xxc..c..Fc+cccHHcx
- xcc..c..cc.....Gcxxx
- xcB.Ac..+.....Gccccx
- xcBAcc..c..Ic+ccKKcx
- xccccE.Dc..cc....Jcx
- xxxxcEDcc..+....Jccx
-    xccccH.Gc..Lc+cgx
-    xxxxcHGcc..cc.>gf
-       xccccK.J+.Z.gf
-       xxxxcKJcc>.ggf
-          xccccggggff
-          xxxxxxffff
-ENDMAP
-
-##########################################################################
-
 NAME:    hangedman_zot_vaults_quadrants
 TAGS:    no_monster_gen no_item_gen transparent
 DEPTH:   Zot, !Zot:$
 ORIENT:  centre
 # Humanoids, guardian beasts, the strongest; first V, then Zot.
 MONS:    ettin / stone giant w:5 / fire giant / frost giant
-MONS:    base draconian w:18 / guardian mummy w:1
+MONS:    zotling w:18 / guardian mummy w:1
 MONS:    glowing shapeshifter w:20 / sphinx w:15 / quicksilver dragon w:20 / \
          iron dragon w:20 / shadow dragon / golden dragon
 MONS:    fire dragon / ice dragon / storm dragon w:8 / moth of wrath w:12 / \
          ghost moth w:5 / tentacled monstrosity w:5 / bone dragon w:5
 MONS:    titan / lich / deep elf annihilator w:3 / deep elf high priest w:4 / \
          deep elf sorcerer w:3 / glowing orange brain w:3 / war gargoyle w:3
-MONS:    nonbase draconian w:20 / killer klown / orb of fire w:5 / \
+MONS:    giant giant w:20 / killer klown / orb of fire w:5 / \
          curse toe w:5 / ancient lich / electric golem / death cob
 SHUFFLE: ABCDEF, GH / GH / GH / HG
 NSUBST:  1 = 3:1 / 3:2 / 1:112 / 1:122, 0 = 3:1 / 3:2 / 1:112 / 1:122
@@ -2072,58 +1868,14 @@ MAP
 ENDMAP
 
 ####
-# A bit of sporting fun...
-NAME: grunt_zot_stairs_faceoff
-DEPTH: Zot, !Zot:$
-ORIENT: float
-# The competitors:
-{{
-  local teams = { "black", "", "yellow", "green", "purple", "red", "white"}
-  local team1 = crawl.random2(#teams) + 1
-  local team2 = 0
-  repeat
-    team2 = crawl.random2(#teams) + 1
-  until team2 ~= team1
-  mons(teams[team1] .. " draconian")
-  mons(teams[team1] .. " draconian knight")
-  mons(teams[team2] .. " draconian")
-  mons(teams[team2] .. " draconian knight")
-}}
-# The refs:
-MONS:   Killer Klown
-# The ball / puck / whatever:
-ITEM:   crystal ball of energy
-
-KFEAT:  K = iron_grate
-NSUBST: @ = 2:@ / *:x
-SUBST:  } = }:80 >, ] = ]:80 >, ) = ):80 >
-MAP
-  xxxxxxxxxxxxxxxxxxxxxxx
- xx.....................xx
-xx..mmmmmm.mmmmm.mmmmmm..xx
-x..mm........5........mm..x
-@.mm...................mm.@
-x.m.KK.....1...3.....KK.m.x
-x.m.K}..1.........3...K.m.x
-x.m.K.1....2.d.4....3)K.m.x
-x.m.K]..1.........3...K.m.x
-x.m.KK.....1...3.....KK.m.x
-@.mm...................mm.@
-x..mm........5........mm..x
-xx..mmmmmm.mmmmm.mmmmmm..xx
- xx.....................xx
-  xxxxxxxxxxxxxxxxxxxxxxx
-ENDMAP
-
-####
-# A microcosm of everything Zot: draconians, dragons, weird enemies,
+# A microcosm of everything Zot: dragons, weird enemies,
 # and fractal vault patterns.
 NAME:   grunt_zot_stairs_mandelzot
 TAGS:   no_monster_gen
 DEPTH:  Zot, !Zot:$
 ORIENT: east
 SUBST:  } = }:80 >, ] = ]:80 >, ) = ):80 >
-MONS:   nonbase draconian, base draconian w:30 / nothing, moth of wrath
+MONS:   subtractor snake, zotling w:30 / nothing, moth of wrath
 MONS:   fire dragon w:30 / ice dragon w:30 / shadow dragon w:20 / \
         storm dragon w:50 / bone dragon w:30 / golden dragon w:35
 MONS:   Killer Klown / electric golem w:5 / curse toe w:5 / nothing
@@ -2170,7 +1922,7 @@ ORIENT: north
 SUBST: l : lw
 SHUFFLE: ]})>, 12
 MONS: ghost moth, moth of wrath
-MONS: any base draconian
+MONS: giant giant
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxx......xxxxxxxxx......xxx
@@ -2221,8 +1973,8 @@ TAGS: transparent no_pool_fixup patrolling
 SHUFFLE: Gg/Gg/Gg/Hh, Pp/Pp/Pp/Qq
 SUBST: GP = x, g = r, p = c, HQ = @, hq = .
 COLOUR: r = red, c = blue
-KMONS: R = nonbase red draconian
-KMONS: C = nonbase white draconian
+KMONS: R = THE GIAGGOSTUONO
+KMONS: C = dev favorite
 KMONS: D = fire dragon
 KMONS: I = ice dragon
 KFEAT: r = c
@@ -2306,7 +2058,7 @@ ORIENT:  northwest
 WEIGHT:  5
 # Cheap plastic imitations, mostly. Well, maybe not cheap...
 MONS:    ugly thing w:15 / raiju / guardian serpent / harpy zombie / \
-         base draconian perm_ench:shapeshifter / boggart / \
+         boggart / \
          orb spider w:5 / great orb of eyes w:5 / rakshasa w:5
 MONS:    very ugly thing w:20 / deep elf annihilator w:15 / \
          deep elf death mage w:15 / balrug w:15 / \
@@ -2403,14 +2155,13 @@ NAME:   infiniplex_zot_generator
 TAGS:   no_pool_fixup no_item_gen no_monster_gen no_trap_gen
 DEPTH:  Zot, !Zot:$
 ORIENT: south
-MONS:   shock serpent w:12 / raiju / sixfirhy, black draconian
+MONS:   shock serpent w:12 / raiju / sixfirhy, sixfirhy
 MONS:   war gargoyle / dancing weapon ; scimitar good_item / spark wasp w:5
-MONS:   black draconian monk / black draconian shifter / storm dragon
+MONS:   electric golem / titan / storm dragon
 MONS:   ghost moth / moth of wrath / death cob / \
         tentacled monstrosity / killer klown w:5
 MONS:   patrolling electric golem
-MONS:   patrolling black draconian annihilator ; cloak good_item . \
-        rapier ego:electrocution
+MONS:   patrolling giant giant
 KMONS:  zZ = ball lightning
 KMONS:  O = diamond obelisk
 KMONS:  S = lightning spire

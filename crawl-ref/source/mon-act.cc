@@ -1642,9 +1642,6 @@ void handle_monster_move(monster* mons)
     if (!mons->alive())
         return;
 
-    if (mons->type == MONS_TIAMAT && one_chance_in(3))
-        draconian_change_colour(mons);
-
     _monster_regenerate(mons);
 
     // Please change _slouch_damage to match!

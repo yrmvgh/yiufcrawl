@@ -2691,65 +2691,6 @@ void describe_spell(spell_type spelled, const monster_info *mon_owner,
     }
 }
 
-static string _describe_draconian(const monster_info& mi)
-{
-    string description;
-    const int subsp = mi.draco_or_demonspawn_subspecies();
-
-    if (subsp != mi.type)
-    {
-        description += "It has ";
-
-        switch (subsp)
-        {
-        case MONS_BLACK_DRACONIAN:      description += "black ";   break;
-        case MONS_YELLOW_DRACONIAN:     description += "yellow ";  break;
-        case MONS_GREEN_DRACONIAN:      description += "green ";   break;
-        case MONS_PURPLE_DRACONIAN:     description += "purple ";  break;
-        case MONS_RED_DRACONIAN:        description += "red ";     break;
-        case MONS_WHITE_DRACONIAN:      description += "white ";   break;
-        case MONS_GREY_DRACONIAN:       description += "grey ";    break;
-        case MONS_PALE_DRACONIAN:       description += "pale ";    break;
-        default:
-            break;
-        }
-
-        description += "scales. ";
-    }
-
-    switch (subsp)
-    {
-    case MONS_BLACK_DRACONIAN:
-        description += "Sparks flare out of its mouth and nostrils.";
-        break;
-    case MONS_YELLOW_DRACONIAN:
-        description += "Acidic fumes swirl around it.";
-        break;
-    case MONS_GREEN_DRACONIAN:
-        description += "Venom drips from its jaws.";
-        break;
-    case MONS_PURPLE_DRACONIAN:
-        description += "Its outline shimmers with magical energy.";
-        break;
-    case MONS_RED_DRACONIAN:
-        description += "Smoke pours from its nostrils.";
-        break;
-    case MONS_WHITE_DRACONIAN:
-        description += "Frost pours from its nostrils.";
-        break;
-    case MONS_GREY_DRACONIAN:
-        description += "Its scales and tail are adapted to the water.";
-        break;
-    case MONS_PALE_DRACONIAN:
-        description += "It is cloaked in a pall of superheated steam.";
-        break;
-    default:
-        break;
-    }
-
-    return description;
-}
-
 static string _describe_demonspawn_role(monster_type type)
 {
     switch (type)
@@ -3511,25 +3452,6 @@ void get_monster_db_desc(const monster_info& mi, describe_info &inf,
 
     switch (mi.type)
     {
-    case MONS_RED_DRACONIAN:
-    case MONS_WHITE_DRACONIAN:
-    case MONS_GREEN_DRACONIAN:
-    case MONS_PALE_DRACONIAN:
-    case MONS_BLACK_DRACONIAN:
-    case MONS_YELLOW_DRACONIAN:
-    case MONS_PURPLE_DRACONIAN:
-    case MONS_GREY_DRACONIAN:
-    case MONS_DRACONIAN_SHIFTER:
-    case MONS_DRACONIAN_SCORCHER:
-    case MONS_DRACONIAN_ANNIHILATOR:
-    case MONS_DRACONIAN_STORMCALLER:
-    case MONS_DRACONIAN_MONK:
-    case MONS_DRACONIAN_KNIGHT:
-    {
-        inf.body << "\n" << _describe_draconian(mi) << "\n";
-        break;
-    }
-
     case MONS_MONSTROUS_DEMONSPAWN:
     case MONS_GELID_DEMONSPAWN:
     case MONS_INFERNAL_DEMONSPAWN:

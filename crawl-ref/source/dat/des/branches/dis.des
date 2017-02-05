@@ -200,15 +200,14 @@ KMONS:   ? = patrolling iron imp
 : else
 KMONS:   01 = ghost moth
 KMONS:   23 = golden dragon
-KMONS:   4567 = nonbase draconian
+KMONS:   45 = antimatter elf
+KMONS:   67 = giant giant
 KMONS:   89 = killer klown
 KMONS:   AB = curse toe
 KMONS:   CD = electric golem
 KMONS:   E = orb of fire
 KMONS:   F = ancient lich
-KMONS:   ! = base draconian w:30 ; cloak . great sword good_item | \
-             battleaxe good_item | bardiche good_item | great mace good_item / \
-             fire dragon / ice dragon / storm dragon / bone dragon w:5
+KMONS:   ! = fire dragon / ice dragon / storm dragon / bone dragon w:5
 KMONS:   ? = moth of wrath / death cob w:2 / guardian mummy w:2
 KITEM:   % = % / * w:2
 : end

@@ -2485,8 +2485,8 @@ cloud_type bolt::get_cloud_type() const
     if (origin_spell == SPELL_CHAOS_BREATH)
         return CLOUD_CHAOS;
 	
-	if (origin_spell == SPELL_RADIATION_BREATH)
-		return CLOUD_MUTAGENIC;
+    if (origin_spell == SPELL_RADIATION_BREATH)
+        return CLOUD_MUTAGENIC;
 
     if (origin_spell == SPELL_MIASMA_BREATH)
         return CLOUD_MIASMA;

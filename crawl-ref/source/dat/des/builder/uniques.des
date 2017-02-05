@@ -377,10 +377,6 @@ DEPTH:  Slime:2-
 WEIGHT: 100
 : place_unique(_G, "Dissolution")
 
-NAME:   uniq_tiamat
-DEPTH:  Zot
-: place_unique(_G, "Tiamat band")
-
 NAME:   uniq_cerebov
 DEPTH:  Pan
 CHANCE: 25%

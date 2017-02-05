@@ -282,8 +282,8 @@ SUBST:   d = d., + = +..., { = {}...., c = c:49 .:1, C = c
 MARKER:  F = lua:fog_machine { cloud_type = "foul pestilence", pow_min = 200, \
              pow_max = 300, delay = 25, size = 1, walk_dist = 0, excl_rad = 0 }
 {{
-dgn.delayed_decay(_G, 'd', 'base draconian corpse w:5 / ' ..
-                           'base draconian skeleton / ' ..
+dgn.delayed_decay(_G, 'd', 'shadow dragon corpse w:5 / ' ..
+                           'shadow dragon skeleton / ' ..
                            'shadow dragon corpse w:5 / ' ..
                            'shadow dragon skeleton')
 }}

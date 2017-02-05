@@ -610,46 +610,6 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
-    // ('q') Classed draconians.
-
-    {  MST_DRACONIAN_SCORCHER,
-      {
-       { SPELL_BOLT_OF_FIRE, 13, MON_SPELL_WIZARD },
-       { SPELL_BOLT_OF_MAGMA, 13, MON_SPELL_WIZARD },
-       { SPELL_FIREBALL, 13, MON_SPELL_WIZARD },
-       { SPELL_HURL_DAMNATION, 13, MON_SPELL_WIZARD },
-       { SPELL_CALL_DOWN_DAMNATION, 13, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
-      }
-    },
-
-    {  MST_DRACONIAN_KNIGHT,
-      {
-       { SPELL_THROW_ICICLE, 13, MON_SPELL_WIZARD },
-       { SPELL_BOLT_OF_COLD, 13, MON_SPELL_WIZARD },
-       { SPELL_OZOCUBUS_ARMOUR, 13, MON_SPELL_WIZARD },
-       { SPELL_HASTE, 13, MON_SPELL_WIZARD },
-       { SPELL_INVISIBILITY, 13, MON_SPELL_WIZARD },
-      }
-    },
-
-    {  MST_DRACONIAN_STORMCALLER,
-      {
-        { SPELL_SMITING, 20, MON_SPELL_PRIEST },
-        { SPELL_SUMMON_DRAKES, 20, MON_SPELL_PRIEST },
-        { SPELL_UPHEAVAL, 20, MON_SPELL_PRIEST },
-      }
-    },
-
-    {  MST_DRACONIAN_SHIFTER,
-      {
-       { SPELL_DIMENSION_ANCHOR, 15, MON_SPELL_WIZARD },
-       { SPELL_BLINK_OTHER, 15, MON_SPELL_WIZARD },
-       { SPELL_BLINK_RANGE, 15, MON_SPELL_WIZARD },
-       { SPELL_BLINK_ALLIES_ENCIRCLE, 15, MON_SPELL_WIZARD },
-       { SPELL_BLINK_AWAY, 15, MON_SPELL_WIZARD | MON_SPELL_EMERGENCY },
-      }
-    },
-
     // ('s') Spiders and insects.
     {  MST_JUMPING_SPIDER,
       {

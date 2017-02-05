@@ -1849,8 +1849,8 @@ MONS:    deep elf mage, deep elf knight / deep elf archer, deep elf mage
 : elseif you.in_branch("Orc") then
 MONS:    orc, orc warrior, orc wizard w:9 / orc sorcerer w:1
 : else
-MONS:    any draconian, draconian scorcher
-MONS:    draconian annihilator / draconian knight
+MONS:    giant giant, antimatter elf
+MONS:    subtractor snake / antimatter elf
 : end
 MAP
 ............
@@ -1964,7 +1964,7 @@ ENDMAP
 NAME:  grunt_absolute_annihilation
 DEPTH: Depths
 MONS:    ancient lich
-MONS:    deep elf annihilator / draconian annihilator w:5 / lich
+MONS:    deep elf annihilator / titan w:5 / lich
 MONS:    deep elf mage / tengu conjurer / wizard / orc sorcerer / \
          naga mage / ogre mage
 ITEM:    book of annihilations, book of power, book of conjurations
@@ -3422,8 +3422,8 @@ DEPTH:  D:9-, Depths
 MONS:   ancient lich w:50 / greater mummy
 ITEM:   any scroll w:6 / any book
 : elseif you.absdepth() > 20 then
-MONS:   lich w:60 / draconian annihilator w:20 / \
-        draconian scorcher / draconian shifter
+MONS:   lich w:60 / ancient lich w:20 / \
+        deep elf annihilator / deep elf sorcerer
 ITEM:   any scroll / any book
 : elseif you.absdepth() > 15 then
 MONS:   deep elf annihilator w:30 / deep elf sorcerer w:20 / \
@@ -4912,12 +4912,8 @@ ENDMAP
 
 NAME:   kennysheep_underground_church
 TAGS:   no_pool_fixup misc_elf_vault
-DEPTH:  Depths, Elf, Zot
-: if not you.in_branch("Zot") then
+DEPTH:  Depths, Elf
 MONS:   deep elf high priest, deep elf mage
-:else
-MONS:   draconian stormcaller, base draconian
-:end
 COLOUR: x = white
 TILE:   x = wall_church
 FTILE:  xmwFt12|*+. = floor_limestone
@@ -5993,7 +5989,7 @@ KMONS:   K = Frances / hell knight, hell knight / nothing
 KMONS:   L = Agnes / spriggan defender, spriggan defender / nothing
 KMONS:   M = Rupert / vampire knight, vampire knight / nothing
 KMONS:   N = Asterion / ancient champion, ancient champion / nothing
-KMONS:   O = Frederick / draconian knight, draconian knight / nothing
+KMONS:   O = Frederick / iron giant / nothing
 KMONS:   P = Sojobo / tengu reaver, tengu reaver / nothing
 KMONS:   S = dancing weapon ; long sword good_item | good_item great sword | \
                               demon blade good_item | triple sword good_item | \
@@ -6462,7 +6458,7 @@ KMONS:  8 = w:15 shadow fiend / reaper / w:5 soul eater / shadow dragon / lich /
 KMONS:  8 = w:15 blizzard demon / frost giant / w:5 titan / w:15 ice fiend / \
             w:5 simulacrum / place:Coc
 : elseif you.in_branch("Zot") then
-KMONS:  8 = w:35 nonbase draconian / orb of fire / electric golem / killer klown / \
+KMONS:  8 = w:35 dev favorite / orb of fire / electric golem / killer klown / \
             death cob / w:5 curse toe / w:5 ancient lich
 : end
 : if you.in_branch("Geh") or you.in_branch("Tar")

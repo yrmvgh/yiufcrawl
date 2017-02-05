@@ -1396,25 +1396,6 @@ tileidx_t tileidx_monster_base(int type, bool in_water, int colour, int number,
                                  number <= 5 ?
                                  number - 1 : 4 + (number - 1)/5);
 
-    // draconian ('d')
-    case MONS_TIAMAT:
-    {
-        int offset = 0;
-        switch (colour)
-        {
-        case BLUE:          offset = 0; break;
-        case YELLOW:        offset = 1; break;
-        case GREEN:         offset = 2; break;
-        case LIGHTGREY:     offset = 3; break;
-        case LIGHTMAGENTA:  offset = 4; break;
-        case CYAN:          offset = 5; break;
-        case MAGENTA:       offset = 6; break;
-        case RED:           offset = 7; break;
-        case WHITE:         offset = 8; break;
-        }
-
-        return TILEP_MONS_TIAMAT + offset;
-    }
     }
 
     const monster_type mtype = static_cast<monster_type>(type);

@@ -371,10 +371,7 @@ resists_t get_mons_resists(const monster& m)
     if (mons_is_ghost_demon(mon.type))
         resists |= mon.ghost->resists;
 
-    if (mons_genus(mon.type) == MONS_DRACONIAN
-            && mon.type != MONS_DRACONIAN
-        || mon.type == MONS_TIAMAT
-        || mons_genus(mon.type) == MONS_DEMONSPAWN
+    if (mons_genus(mon.type) == MONS_DEMONSPAWN
             && mon.type != MONS_DEMONSPAWN)
     {
         monster_type subspecies = draco_or_demonspawn_subspecies(mon);
@@ -822,11 +819,6 @@ bool cheibriados_thinks_mons_is_fast(const monster& mon)
 // Dithmenos also hates fire users, flaming weapons, and generally fiery beings.
 bool mons_is_fiery(const monster& mon)
 {
-    if (mons_genus(mon.type) == MONS_DRACONIAN
-        && draco_or_demonspawn_subspecies(mon) == MONS_RED_DRACONIAN)
-    {
-        return true;
-    }
     if (mons_genus(mon.type) == MONS_DANCING_WEAPON
         && mon.weapon() && mon.weapon()->brand == SPWPN_FLAMING)
     {
@@ -1295,7 +1287,7 @@ monster_type draco_or_demonspawn_subspecies(monster_type type,
 {
     const monster_type species = mons_species(type);
 
-    if ((species == MONS_DRACONIAN || species == MONS_DEMONSPAWN)
+    if ((species == MONS_DEMONSPAWN)
         && type != species)
     {
         return base;
@@ -2202,7 +2194,7 @@ int mons_class_res_magic(monster_type type, monster_type base)
 {
     const monster_type base_type =
         base != MONS_NO_MONSTER &&
-        (mons_is_draconian(type) || mons_is_demonspawn(type))
+        (mons_is_demonspawn(type))
             ? draco_or_demonspawn_subspecies(type, base)
             : type;
 
@@ -2635,23 +2627,6 @@ unique_books get_unique_spells(const monster_info &mi,
 
         vector<mon_spell_slot> slots;
 
-        // Only prepend the first time; might be misleading if a draconian
-        // ever gets multiple sets of natural abilities.
-        if (mons_genus(mi.type) == MONS_DRACONIAN && i == 0)
-        {
-            const mon_spell_slot breath =
-                drac_breath(mi.draco_or_demonspawn_subspecies());
-            if (breath.flags & flags && breath.spell != SPELL_NO_SPELL)
-                slots.push_back(breath);
-            // No other spells; quit right away.
-            if (book == MST_NO_SPELLS)
-            {
-                if (slots.size())
-                    result.push_back(slots);
-                return result;
-            }
-        }
-
         if (book != MST_GHOST)
             ASSERT(msidx < ARRAYSZ(mspell_list));
         for (const mon_spell_slot &slot : (book == MST_GHOST
@@ -2680,24 +2655,9 @@ unique_books get_unique_spells(const monster_info &mi,
     return result;
 }
 
-mon_spell_slot drac_breath(monster_type drac_type)
+mon_spell_slot drac_breath()
 {
-    spell_type sp;
-    switch (drac_type)
-    {
-    case MONS_BLACK_DRACONIAN:   sp = SPELL_LIGHTNING_BOLT; break;
-    case MONS_YELLOW_DRACONIAN:  sp = SPELL_ACID_SPLASH; break;
-    case MONS_GREEN_DRACONIAN:   sp = SPELL_POISONOUS_CLOUD; break;
-    case MONS_PURPLE_DRACONIAN:  sp = SPELL_QUICKSILVER_BOLT; break;
-    case MONS_RED_DRACONIAN:     sp = SPELL_SEARING_BREATH; break;
-    case MONS_WHITE_DRACONIAN:   sp = SPELL_CHILLING_BREATH; break;
-    case MONS_DRACONIAN:
-    case MONS_GREY_DRACONIAN:    sp = SPELL_NO_SPELL; break;
-    case MONS_PALE_DRACONIAN:    sp = SPELL_STEAM_BALL; break;
-
-    default:
-        die("Invalid draconian subrace: %d", drac_type);
-    }
+    spell_type sp = SPELL_NO_SPELL;
 
     mon_spell_slot slot;
     slot.spell = sp;
@@ -2717,7 +2677,7 @@ void mons_load_spells(monster& mon)
     mon.spells.clear();
     if (mons_genus(mon.type) == MONS_DRACONIAN)
     {
-        mon_spell_slot breath = drac_breath(draco_or_demonspawn_subspecies(mon));
+        mon_spell_slot breath = drac_breath();
         if (breath.spell != SPELL_NO_SPELL)
             mon.spells.push_back(breath);
     }
@@ -2818,13 +2778,6 @@ void define_monster(monster& mons)
     case MONS_LERNAEAN_HYDRA:
         // The Lernaean hydra starts off with 27 heads.
         mons.num_heads = 27;
-        break;
-
-    case MONS_TIAMAT:
-        // Initialise to a random draconian type.
-        draconian_change_colour(&mons);
-        monbase = mons.base_monster;
-        col = mons.colour;
         break;
 
     case MONS_STARCURSED_MASS:

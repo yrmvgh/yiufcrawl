@@ -1147,7 +1147,6 @@ local scary_monsters = {
   {100, "Brimstone Fiend"},
   {100, "curse toe"},
   {100, "curse skull"},
-  {100, "Tiamat"},
   {100, "titanic slime creature"},
   {100, "enormous slime creature"},
   {100, "titan"},

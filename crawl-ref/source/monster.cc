@@ -259,12 +259,10 @@ bool monster::submerged() const
 bool monster::extra_balanced_at(const coord_def p) const
 {
     const dungeon_feature_type grid = grd(p);
-    return (mons_genus(type) == MONS_DRACONIAN
-            && draco_or_demonspawn_subspecies(*this) == MONS_GREY_DRACONIAN)
-                || grid == DNGN_SHALLOW_WATER
+    return (grid == DNGN_SHALLOW_WATER
                    && (mons_genus(type) == MONS_NAGA // tails, not feet
                        || mons_genus(type) == MONS_SALAMANDER
-                       || body_size(PSIZE_BODY) >= SIZE_LARGE);
+                       || body_size(PSIZE_BODY) >= SIZE_LARGE));
 }
 
 bool monster::extra_balanced() const
@@ -3623,7 +3621,6 @@ int monster::known_chaos(bool check_spells_god) const
         || type == MONS_ABOMINATION_LARGE
         || type == MONS_WRETCHED_STAR
         || type == MONS_KILLER_KLOWN      // For their random attacks.
-        || type == MONS_TIAMAT            // For her colour-changing.
         || type == MONS_BAI_SUZHEN
         || type == MONS_BAI_SUZHEN_DRAGON // For her transformation.
         || mons_is_demonspawn(type))      // Like player demonspawn.

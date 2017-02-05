@@ -717,7 +717,7 @@ ENDMAP
 NAME:   sprint2_transparent_cluster_1
 TAGS:   sprint2_transparent_cluster no_item_gen no_trap_gen no_monster_gen no_pool_fixup no_rotate no_hmirror no_vmirror
 MARKER: + = lua:restrict_door()
-MONS:   oklob plant, orc warlord / Nikola / draconian knight, toenail golem, the Lernaean hydra
+MONS:   oklob plant, orc warlord / Nikola / toenail golem, the Lernaean hydra
 SUBST:  ' = '.
 KFEAT:  ' = net trap / needle trap / bolt trap / spear trap / arrow trap
 KFEAT:  , = book shop
@@ -779,7 +779,7 @@ NAME:   sprint2_heavy_combat_area_1
 TAGS:   sprint2_heavy_combat_area no_item_gen no_trap_gen no_pool_fixup
 MARKER: + = lua:restrict_door()
 NSUBST: . = 1:1 / 1:2 / 1:3 / 1:4 / 3:$ / *:.
-MONS:   hellephant, Sonja, draconian shifter, glowing orange brain
+MONS:   hellephant, Sonja, subtractor snake, glowing orange brain
 KITEM:  $ = gold q:243
 COLOUR: X = red
 COLOUR: + = red

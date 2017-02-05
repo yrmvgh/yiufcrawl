@@ -180,10 +180,10 @@ function choose_mset_1(e)
     e.kmons("1 = orc / orc wizard / orc priest")
 -- Drac
   elseif rnd < 124 then
-    e.kmons("1 = draconian / base draconian w:1")
+    e.kmons("1 = zotling")
 -- Zot
   elseif rnd < 126 then
-    e.kmons("1 = draconian / base draconian w:1 / death cob w:1")
+    e.kmons("1 = zotling / death cob w:1")
 -- Chaos
   elseif rnd < 130 then
     e.kmons("1 = shapeshifter hd:5 / ugly thing w:5")
@@ -275,10 +275,10 @@ function choose_mset_2(e)
     e.kmons("1 = orc / orc wizard / orc priest / orc warrior")
 -- Drac
   elseif rnd < 132 then
-    e.kmons("1 = draconian / base draconian w:5")
+    e.kmons("1 = zotbot")
 -- Zot
   elseif rnd < 134 then
-    e.kmons("1 = draconian / base draconian w:5 / death cob w:1")
+    e.kmons("1 = zotbot / death cob w:1")
 -- Chaos
   elseif rnd < 139 then
     e.kmons("1 = shapeshifter / ugly thing w:5 / neqoxec w:5 / shining eye w:2")
@@ -397,10 +397,10 @@ function choose_mset_3(e)
                stone giant w:2 / orc warlord w:5 / moth of wrath w:1")
 -- Drac
   elseif rnd < 105 then
-    e.kmons("1 = base draconian w:60 / nonbase draconian")
+    e.kmons("1 = zotling")
 -- Zot
   elseif rnd < 107 then
-    e.kmons("1 = base draconian w:15 / place:Zot:1 w:5 / orb guardian w:2")
+    e.kmons("1 = zotling / place:Zot:1 w:5 / orb guardian w:2")
 -- Chaos
   elseif rnd < 111 then
     e.kmons("1 = shapeshifter / ugly thing w:5 / very ugly thing w:5 / neqoxec w:5 /\
@@ -532,10 +532,10 @@ local rnd = crawl.random2(142)
                stone giant / orc warlord / moth of wrath w:3")
 -- Drac
   elseif rnd < 125 then
-    e.kmons("1 = base draconian w:30 / nonbase draconian")
+    e.kmons("1 = zotling / zotbot")
 -- Zot
   elseif rnd < 128 then
-    e.kmons("1 = base draconian / place:Zot:$ / orb guardian w:7")
+    e.kmons("1 = zotling / place:Zot:$ / orb guardian w:7")
 -- Chaos
   elseif rnd < 136 then
     e.kmons("1 = shapeshifter w:5 / glowing shapeshifter w:15 / glowing shapeshifter hd:27")
@@ -552,7 +552,7 @@ local rnd = crawl.random2(142)
                Frederick / Geryon / Gloorx Vloq / Ignacio / Ilsuiw / Jory / Khufu /\
                Lom Lobon / Mara / Margery / Mennas / Mnoleg / Murray / Sojobo /\
                the Enchantress / the Lernaean hydra / the Serpent of Hell /\
-               the Royal Jelly / Tiamat / Xtahua / Nellie / Chuck")
+               the Royal Jelly / Xtahua / Nellie / Chuck")
 -- Holy
   else
     e.kmons("1 = daeva / angel / cherub / pearl dragon / ophan / \
