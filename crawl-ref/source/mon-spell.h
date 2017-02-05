@@ -93,6 +93,12 @@ static const mon_spellbook mspell_list[] =
         { SPELL_THROW_ICICLE, 24, MON_SPELL_NATURAL | MON_SPELL_BREATH },
       }
     },
+	
+	{  MST_GHOST_ROBIN,
+      {
+        { SPELL_VAMPIRIC_DRAINING, 24, MON_SPELL_NATURAL },
+      }
+    },
 
     // ('c') Centaurs and such.
     {  MST_FAUN_I,
