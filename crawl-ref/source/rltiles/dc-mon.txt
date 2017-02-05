@@ -885,6 +885,7 @@ eidolon MONS_EIDOLON
 %sdir mon
 %rim 0
 orb_guardian MONS_ORB_GUARDIAN
+dev_favorite MONS_DEV_FAVORITE
 
 ## Centaurs ('c')
 %rim 1

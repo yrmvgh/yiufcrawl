@@ -909,6 +909,11 @@ demonspawn
 A half-mortal, half-demonic creature, with its hellish heritage asserting
 itself through a certain devilish cast to its features.
 %%%%
+dev favorite
+
+The pet creation of an ancient sorcerer, this ill-conceived abomination wreaks
+havoc wherever it roams.
+%%%%
 diamond obelisk
 
 A towering obelisk surrounded by a powerful storm.

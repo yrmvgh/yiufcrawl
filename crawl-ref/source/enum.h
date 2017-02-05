@@ -2801,6 +2801,9 @@ enum monster_type                      // menv[].type
 #endif
     MONS_SPHINX,
     MONS_ORB_GUARDIAN,
+#if TAG_MAJOR_VERSION > 34
+	MONS_DEV_FAVORITE
+#endif
 
     MONS_GOLEM,                 // genus
 #if TAG_MAJOR_VERSION == 34
@@ -3594,6 +3597,7 @@ MONS_ANTIMATTER_ELF,
 	MONS_ANTIMATTER_ELF,
 	MONS_ZOTLING,
 	MONS_GHOST_ROBIN,
+	MONS_DEV_FAVORITE,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
