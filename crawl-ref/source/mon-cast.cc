@@ -1468,6 +1468,16 @@ bolt mons_spell_beam(const monster* mons, spell_type spell_cast, int power,
         beam.flavour      = BEAM_CHAOS;
         beam.pierce       = true;
         break;
+		
+	case SPELL_RADIATION_BREATH:
+        beam.name         = "blast of radiation";
+        beam.aux_source   = "blast of radiation breath";
+        beam.damage       = dice_def(1, 3 * mons->get_hit_dice() / 2);
+        beam.colour       = LIGHTRED;
+        beam.hit          = 30;
+        beam.flavour      = BEAM_FIRE;
+        beam.pierce       = true;
+        break;
 
     case SPELL_CHILLING_BREATH:
     case SPELL_COLD_BREATH:
