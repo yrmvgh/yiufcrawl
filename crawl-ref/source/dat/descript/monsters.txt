@@ -2549,6 +2549,10 @@ zombie
 
 A corpse raised to undeath by necromancy.
 %%%%
+zotling
+
+A small, human-shaped agglomeration of zot.
+%%%%
 # Specials
 test spawner
 

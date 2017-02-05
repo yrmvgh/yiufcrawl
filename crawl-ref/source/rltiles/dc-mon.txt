@@ -443,6 +443,7 @@ toenail_golem MONS_TOENAIL_GOLEM
 ushabti MONS_USHABTI
 peacekeeper MONS_PEACEKEEPER
 saltling MONS_SALTLING
+zotling MONS_ZOTLING
 %rim 1
 # For the Cigotuvi WizLab
 flesh_golem MONS_FLESH_GOLEM

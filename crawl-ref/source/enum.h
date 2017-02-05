@@ -2810,6 +2810,7 @@ enum monster_type                      // menv[].type
 #else
     MONS_SALTLING,
     MONS_PEACEKEEPER,
+	MONS_ZOTLING,
 #endif
 #if TAG_MAJOR_VERSION == 34
     MONS_IRON_GOLEM,
@@ -3591,6 +3592,7 @@ MONS_ANTIMATTER_ELF,
 	MONS_SUBTRACTOR_SNAKE,
 	MONS_THE_GIAGGOSTUONO,
 	MONS_ANTIMATTER_ELF,
+	MONS_ZOTLING,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
