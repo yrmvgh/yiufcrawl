@@ -5178,7 +5178,7 @@ bool monster::can_mutate() const
         return false;
 
     // too weird
-    if (type == MONS_CHAOS_SPAWN)
+    if (type == MONS_CHAOS_SPAWN || type == MONS_PLUTONIUM_CRAB)
         return false;
 
     // Abominations re-randomize their tile when mutated. They do not gain the
