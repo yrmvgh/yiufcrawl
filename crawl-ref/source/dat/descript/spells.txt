@@ -1024,6 +1024,10 @@ Quicksilver Bolt spell
 
 <Breathe Dispelling Energy ability>
 %%%%
+Radiation Breath spell
+
+Exhales a large cloud of radioactive gas.
+%%%%
 Random Bolt spell
 
 Fires, at random, a bolt of venom, negative energy, fire, cold, dispelling
