@@ -1166,6 +1166,10 @@ ghost moth
 A vile interdimensional predator that feeds on the life force of living beings.
 It resembles an enormous, spiny moth.
 %%%%
+ghost robin
+
+A swift, nightmarish undead bird whose spooky feathers drip with ectoplasm.
+%%%%
 ghoul
 
 A decayed cadaver, reanimated and accursed with a terrible hunger. It desires

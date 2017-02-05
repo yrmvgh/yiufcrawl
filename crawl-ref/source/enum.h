@@ -2696,7 +2696,7 @@ enum monster_type                      // menv[].type
     MONS_BENNU,
     MONS_CAUSTIC_SHRIKE,
     MONS_SHARD_SHRIKE,
-
+	MONS_GHOST_ROBIN,
 #endif
     MONS_FIRE_CRAB,
 #if TAG_MAJOR_VERSION == 34
@@ -3593,6 +3593,7 @@ MONS_ANTIMATTER_ELF,
 	MONS_THE_GIAGGOSTUONO,
 	MONS_ANTIMATTER_ELF,
 	MONS_ZOTLING,
+	MONS_GHOST_ROBIN,
 #endif
 
     NUM_MONSTERS,               // used for polymorph
