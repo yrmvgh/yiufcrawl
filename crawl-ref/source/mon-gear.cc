@@ -550,6 +550,10 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         { MONS_DRACONIAN_SCORCHER,      { DRAC_MAGE_WEAPONS } },
         { MONS_DRACONIAN_ANNIHILATOR,   { DRAC_MAGE_WEAPONS } },
         { MONS_DRACONIAN_STORMCALLER,   { DRAC_MAGE_WEAPONS } },
+		{ MONS_ANTIMATTER_ELF, 
+			{ { { WPN_LAJATANG,         1 },
+                { WPN_DOUBLE_SWORD,     1 },
+		  } } },
         { MONS_RAGGED_HIEROPHANT,       { DRAC_MAGE_WEAPONS } },
         { MONS_VASHNIA,                 { NAGA_WEAPONS, {}, {}, 1 } },
         { MONS_NAGA_SHARPSHOOTER,       { NAGA_WEAPONS } },
@@ -1649,6 +1653,7 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
     case MONS_DEEP_ELF_MAGE:
     case MONS_DEEP_ELF_SORCERER:
     case MONS_DEEP_ELF_ELEMENTALIST:
+	case MONS_ANTIMATTER_ELF:
     case MONS_ORC:
     case MONS_ORC_HIGH_PRIEST:
     case MONS_ORC_PRIEST:

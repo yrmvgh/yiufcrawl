@@ -240,6 +240,15 @@ static const mon_spellbook mspell_list[] =
        { SPELL_TWISTED_RESURRECTION, 11, MON_SPELL_WIZARD },
       }
     },
+	
+	{  MST_ANTIMATTER_ELF,
+      {
+       { SPELL_DIMENSION_ANCHOR, 22, MON_SPELL_WIZARD },
+	   { SPELL_HURL_DAMNATION, 22, MON_SPELL_WIZARD },
+	   { SPELL_HASTE, 11, MON_SPELL_WIZARD },
+	   {SPELL_IOOD, 22, MON_SPELL_WIZARD },
+      }
+    },
 
     // ('f') Mobile plants and fungi.
     {  MST_THORN_HUNTER,

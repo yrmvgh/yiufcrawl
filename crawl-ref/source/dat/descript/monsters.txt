@@ -533,6 +533,11 @@ angel
 A divine warrior of the Shining One. It is a towering winged figure of
 unnatural beauty surrounded by an aura of brilliant white light.
 %%%%
+antimatter elf
+
+A strange elf from another world. It seems to react violently with the
+matter of this dimension.
+%%%%
 apis
 
 A placid, sacred bull of Elyvilon.
