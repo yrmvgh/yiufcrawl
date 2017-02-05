@@ -1902,6 +1902,13 @@ static const mon_spellbook mspell_list[] =
        { SPELL_SUMMON_EYEBALLS, 62, MON_SPELL_PRIEST },
       }
     },
+	
+	{  MST_MUTATATOTOT,
+      {
+       { SPELL_CORRUPTING_PULSE, 40, MON_SPELL_MAGICAL },
+	   { SPELL_CORROSIVE_BOLT, 29, MON_SPELL_MAGICAL },
+      }
+    },
 
     // ('K') Kobolds.
     {  MST_SONJA,

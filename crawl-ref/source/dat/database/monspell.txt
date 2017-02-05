@@ -488,6 +488,10 @@ wretched star cast
 
 @The_monster@ glows turbulently.
 %%%%
+mutatatotot cast
+
+@The_monster@ squelches.
+%%%%
 thrashing horror cast
 
 @The_monster@ churns violently!
@@ -743,6 +747,10 @@ Static Discharge shock serpent cast
 Corrupting Pulse wretched star cast
 
 @The_monster@ pulses with an eldritch light!
+%%%%
+Corrupting Pulse mutatatotot cast
+
+@The_monster@ throbs with mutagenic energy!
 ###########################################################################
 # Generic messages for priests and wizards which have been polymorphed into
 # something without hands.
