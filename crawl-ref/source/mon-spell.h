@@ -710,6 +710,13 @@ static const mon_spellbook mspell_list[] =
        { SPELL_FORCEFUL_INVITATION, 58, MON_SPELL_MAGICAL },
       }
     },
+	
+	{  MST_DEV_FAVORITE,
+      {
+       { SPELL_BLINK_OTHER_CLOSE, 19, MON_SPELL_MAGICAL },
+	   { SPELL_FLASH_FREEZE, 19, MON_SPELL_MAGICAL },
+      }
+    },
 
     // ('y') Flying insects.
     {  MST_MELIAI,
