@@ -431,6 +431,10 @@ glowing orange brain cast
 
 @The_monster@ pulsates.
 %%%%
+zotbot cast
+
+@The_monster@ opens its chest plate.
+%%%%
 silent flayed ghost cast
 
 @The_monster@ moans in silent anguish.

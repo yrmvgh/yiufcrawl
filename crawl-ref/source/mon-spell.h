@@ -1585,6 +1585,15 @@ static const mon_spellbook mspell_list[] =
        { SPELL_CRYSTAL_BOLT, 66, MON_SPELL_MAGICAL },
       }
     },
+	
+	{  MST_ZOTBOT,
+      {
+       { SPELL_CALL_DOWN_DAMNATION, 17, MON_SPELL_MAGICAL },
+	   { SPELL_AIRSTRIKE, 17, MON_SPELL_MAGICAL },
+	   { SPELL_QUICKSILVER_BOLT, 17, MON_SPELL_MAGICAL },
+	   { SPELL_FORCE_LANCE, 17, MON_SPELL_MAGICAL },
+      }
+    },
 
     {  MST_ELECTRIC_GOLEM,
       {
