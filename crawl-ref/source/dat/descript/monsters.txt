@@ -2204,6 +2204,11 @@ storm dragon
 A powerful dragon with a hide of thick matte scales almost like blue rubber,
 and enormous scaly wings crackling with sparks.
 %%%%
+subtractor snake
+
+An ancient, intelligent, and deadly snake. It adds its allies into the fray 
+and then subtracts its foes from existence. 
+%%%%
 sun demon
 
 A demonic figure shining with the heat and fury of a fallen star.

@@ -2555,6 +2555,7 @@ enum monster_type                      // menv[].type
 #if TAG_MAJOR_VERSION > 34
     MONS_SHOCK_SERPENT,
     MONS_MANA_VIPER,
+	MONS_SUBTRACTOR_SNAKE,
 #endif
     MONS_RAT,
 #if TAG_MAJOR_VERSION == 34
@@ -3582,6 +3583,7 @@ enum monster_type                      // menv[].type
     MONS_DREAM_SHEEP,
     MONS_FROG,
     MONS_FROGTAUR,
+	MONS_SUBTRACTOR_SNAKE,
 #endif
 
     NUM_MONSTERS,               // used for polymorph

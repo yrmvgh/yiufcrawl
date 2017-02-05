@@ -1270,6 +1270,13 @@ static const mon_spellbook mspell_list[] =
        { SPELL_ELECTRICAL_BOLT, 33, MON_SPELL_NATURAL },
       }
     },
+	
+	{  MST_SUBTRACTOR_SNAKE,
+      {
+       { SPELL_POISON_ARROW, 39, MON_SPELL_WIZARD },
+       { SPELL_BLINK_ALLIES_ENCIRCLE, 39, MON_SPELL_WIZARD },
+      }
+    },
 
     // ('T') Trolls.
     {  MST_DEEP_TROLL_EARTH_MAGE,

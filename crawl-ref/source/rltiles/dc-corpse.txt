@@ -275,6 +275,7 @@ big_kobold CORPSE_BIG_KOBOLD
 ## Nagas ('N')
 naga CORPSE_NAGA
 guardian_serpent CORPSE_GUARDIAN_SERPENT
+subtractor_snake CORPSE_SUBTRACTOR_SNAKE
 salamander CORPSE_SALAMANDER
 
 ## Ogres ('O')
