@@ -2705,6 +2705,7 @@ enum monster_type                      // menv[].type
 #else
     MONS_GHOST_CRAB,
     MONS_CRAB,
+	MONS_PLUTONIUM_CRAB,
 #endif
 
     MONS_BUTTERFLY,
@@ -3598,6 +3599,7 @@ MONS_ANTIMATTER_ELF,
 	MONS_ZOTLING,
 	MONS_GHOST_ROBIN,
 	MONS_DEV_FAVORITE,
+	MONS_PLUTONIUM_CRAB,
 #endif
 
     NUM_MONSTERS,               // used for polymorph

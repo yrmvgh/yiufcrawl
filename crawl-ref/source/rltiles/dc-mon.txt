@@ -155,6 +155,7 @@ alligator_snapping_turtle_shell
 %rim 0
 fire_crab MONS_FIRE_CRAB
 ghost_crab MONS_GHOST_CRAB
+plutonium_crab MONS_PLUTONIUM_CRAB
 %rim 1
 
 ## Worms ('w')

@@ -1826,6 +1826,10 @@ abilities the adventurer had in life. It is condemned to haunt this particular
 level of the dungeons, lashing out violently at the next adventurer to cross
 its path.
 %%%%
+plutonium crab
+
+A green, glowing, radioactive crab. You probably shouldn't touch it.
+%%%%
 polar bear
 
 A bear covered in glistening white fur, habituated to cold conditions. Like all
