@@ -251,6 +251,7 @@ iron_dragon CORPSE_IRON_DRAGON
 storm_dragon CORPSE_STORM_DRAGON
 golden_dragon CORPSE_GOLDEN_DRAGON
 shadow_dragon CORPSE_SHADOW_DRAGON
+the_giaggostuono CORPSE_THE_GIAGGOSTUONO
 mon/holy/pearl_dragon CORPSE_PEARL_DRAGON
 
 ## Hybrids ('H')

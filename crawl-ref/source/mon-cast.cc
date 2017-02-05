@@ -1359,7 +1359,7 @@ bolt mons_spell_beam(const monster* mons, spell_type spell_cast, int power,
         beam.colour     = YELLOW;
         beam.name       = "bolt of energy";
         beam.short_name = "energy";
-        beam.damage     = dice_def(3, 20);
+        beam.damage     = dice_def(3, 10 + mons->get_hit_dice());
         beam.hit        = 15 + power / 30;
         beam.flavour    = BEAM_DEVASTATION; // DEVASTATION is BEAM_MMISSILE
         beam.pierce     = true;             // (except bloodier)

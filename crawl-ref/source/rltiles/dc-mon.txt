@@ -637,6 +637,7 @@ iron_dragon MONS_IRON_DRAGON
 storm_dragon MONS_STORM_DRAGON
 %rim 0
 golden_dragon MONS_GOLDEN_DRAGON
+the_giaggostuono MONS_THE_GIAGGOSTUONO
 %rim 1
 shadow_dragon MONS_SHADOW_DRAGON
 %rim 0

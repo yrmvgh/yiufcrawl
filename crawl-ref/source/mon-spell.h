@@ -886,6 +886,14 @@ static const mon_spellbook mspell_list[] =
                                  | MON_SPELL_NOISY },
       }
     },
+	
+	{  MST_THE_GIAGGOSTUONO,
+      {
+       { SPELL_FLAMING_CLOUD, 31, MON_SPELL_NATURAL | MON_SPELL_BREATH
+                                 | MON_SPELL_NOISY },
+	   { SPELL_ENERGY_BOLT, 31, MON_SPELL_NATURAL },  
+      }
+    },
 
     // ('E') Elementals.
     {  MST_ELEMENTAL_WELLSPRING,
