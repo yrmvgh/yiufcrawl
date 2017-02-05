@@ -1190,6 +1190,10 @@ giant cockroach
 A big brown insect that makes a nasty hissing noise. Contrary to popular myth,
 it is in fact quite susceptible to mutagenic energies.
 %%%%
+giant giant
+
+Truly a giant's giant, this giant is rather giant in size.
+%%%%
 glowing orange brain
 
 A huge wrinkled brain, floating just off the floor and glowing with mutagenic

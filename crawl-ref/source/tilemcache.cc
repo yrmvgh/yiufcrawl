@@ -402,6 +402,7 @@ bool mcache_monster::get_weapon_offset(tileidx_t mon_tile,
     // Shift upwards.
     case TILEP_MONS_CENTAUR_WARRIOR_MELEE:
     case TILEP_MONS_DEEP_ELF_SORCERER:
+	case TILEP_MONS_ANTIMATTER_ELF:
     case TILEP_MONS_DEEP_ELF_HIGH_PRIEST:
     case TILEP_MONS_RUPERT:
     case TILEP_MONS_HELL_KNIGHT:

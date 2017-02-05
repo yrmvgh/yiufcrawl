@@ -605,6 +605,7 @@ stone_giant MONS_STONE_GIANT
 titan MONS_TITAN
 juggernaut MONS_JUGGERNAUT
 iron_giant MONS_IRON_GIANT
+giant_giant MONS_GIANT_GIANT
 %rim 1
 
 ## Drakes (also 'l')
