@@ -2076,7 +2076,6 @@ void monster::struggle_against_net()
         trap_def *trap = trap_at(pos());
         if (trap && trap->type == TRAP_WEB)
         {
-
             if (coinflip())
             {
                 if (you.see_cell(pos()))
@@ -2089,16 +2088,8 @@ void monster::struggle_against_net()
                 }
                 return;
             }
-
-            if (trap->ammo_qty == 1) // temp web from e.g. jumpspider/spidersack
-            {
-                simple_monster_message(*this, " tears the web.");
-                destroy_trap(pos());
-            }
-            else
-                simple_monster_message(*this, " pulls away from the web.");
-
         }
+        monster_web_cleanup(*this);
         del_ench(ENCH_HELD);
         return;
     }
