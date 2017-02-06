@@ -307,8 +307,10 @@ static const ability_def Ability_List[] =
     { ABIL_DAMNATION, "Hurl Damnation",
         0, 150, 200, 0, {FAIL_XL, 50, 1}, abflag::NONE },
 
+#if TAG_MAJOR_VERSION == 34
     { ABIL_DELAYED_FIREBALL, "Release Delayed Fireball",
       0, 0, 0, 0, {}, abflag::INSTANT },
+#endif
     { ABIL_STOP_SINGING, "Stop Singing",
       0, 0, 0, 0, {}, abflag::NONE },
 
@@ -1614,7 +1616,9 @@ bool activate_talent(const talent& tal)
         case ABIL_STOP_FLYING:
         case ABIL_EVOKE_TURN_VISIBLE:
         case ABIL_END_TRANSFORMATION:
+#if TAG_MAJOR_VERSION == 34
         case ABIL_DELAYED_FIREBALL:
+#endif
         case ABIL_STOP_SINGING:
         case ABIL_STOP_RECALL:
         case ABIL_TRAN_BAT:
@@ -1799,6 +1803,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         }
         return frog_hop(fail);
 
+#if TAG_MAJOR_VERSION == 34
     case ABIL_DELAYED_FIREBALL:
     {
         fail_check();
@@ -1823,6 +1828,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         viewwindow();
         break;
     }
+#endif
 
     case ABIL_SPIT_POISON:      // Naga poison spit
     {
@@ -3399,9 +3405,11 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         _add_talent(talents, ABIL_BREATHE_FIRE, check_confused);
     }
 
+#if TAG_MAJOR_VERSION == 34
     // Checking for unreleased Delayed Fireball.
     if (you.attribute[ ATTR_DELAYED_FIREBALL ])
         _add_talent(talents, ABIL_DELAYED_FIREBALL, check_confused);
+#endif
 
     if (you.duration[DUR_SONG_OF_SLAYING])
         _add_talent(talents, ABIL_STOP_SINGING, check_confused);

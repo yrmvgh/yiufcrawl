@@ -5768,11 +5768,13 @@ void unmarshallMonster(reader &th, monster& m)
             slot.spell = _fixup_soh_breath(m.type);
             m.spells.push_back(slot);
         }
+#if TAG_MAJOR_VERSION == 34
         else if (slot.spell != SPELL_DELAYED_FIREBALL
                  && slot.spell != SPELL_MELEE)
         {
             m.spells.push_back(slot);
         }
+#endif
     }
 #endif
     }

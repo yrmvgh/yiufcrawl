@@ -235,7 +235,9 @@ enum ability_type
     ABIL_BREATHE_ACID,
     ABIL_BLINK,
     // Others
+#if TAG_MAJOR_VERSION == 34
     ABIL_DELAYED_FIREBALL,
+#endif
     ABIL_END_TRANSFORMATION,
     ABIL_STOP_SINGING, // From song of slaying
 
@@ -498,7 +500,9 @@ enum attribute_type
     ATTR_DIVINE_DEATH_CHANNEL,
     ATTR_CARD_COUNTDOWN,
     ATTR_BANISHMENT_IMMUNITY,   // banishment immunity until
+#if TAG_MAJOR_VERSION == 34
     ATTR_DELAYED_FIREBALL,      // bwr: reserve fireballs
+#endif
     ATTR_HELD,                  // caught in a net or web
     ATTR_ABYSS_ENTOURAGE,       // maximum number of hostile monsters in
                                 // sight of the player while in the Abyss.
@@ -4347,8 +4351,8 @@ enum spell_type : int
     SPELL_MAGIC_DART,
     SPELL_FIREBALL,
     SPELL_APPORTATION,
-    SPELL_DELAYED_FIREBALL,
 #if TAG_MAJOR_VERSION == 34
+    SPELL_DELAYED_FIREBALL,
     SPELL_STRIKING,
 #endif
     SPELL_CONJURE_FLAME,
@@ -4791,6 +4795,7 @@ enum spell_type : int
     SPELL_BECKONING,
     SPELL_UPHEAVAL,
 	SPELL_RADIATION_BREATH,
+    SPELL_IGNITION,
     NUM_SPELLS
 };
 
