@@ -16,7 +16,7 @@ local function assert_place_monster_on(monster, feature)
 end
 
 assert_place_monster_on("quokka", "floor")
-assert_place_monster_on("necrophage", "altar_zin")
+assert_place_monster_on("death drake", "altar_zin")
 assert_place_monster_on("rat", "shallow water")
 
 -- [ds] One wonders why due has this morbid fetish involving flying
