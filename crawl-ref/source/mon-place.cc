@@ -322,25 +322,10 @@ void spawn_random_monsters()
     if (crawl_state.disables[DIS_SPAWNS])
         return;
 
-    if (crawl_state.game_is_arena()
-        || (crawl_state.game_is_sprint()
-            && player_in_connected_branch()
-            && you.chapter == CHAPTER_ORB_HUNTING))
-    {
-        return;
-    }
-
 #ifdef DEBUG_MON_CREATION
     mprf(MSGCH_DIAGNOSTICS, "in spawn_random_monsters()");
 #endif
-    int rate = env.spawn_random_rate;
-    if (!rate)
-    {
-#ifdef DEBUG_MON_CREATION
-        mprf(MSGCH_DIAGNOSTICS, "random monster gen turned off");
-#endif
-        return;
-    }
+    int rate = 0;
 
     if (player_in_branch(BRANCH_VESTIBULE))
         rate = 0;
@@ -348,21 +333,23 @@ void spawn_random_monsters()
     if (player_on_orb_run())
         rate = have_passive(passive_t::slow_orb_run) ? 16 : 8;
     else if (!player_in_starting_abyss())
+	{
         rate = _scale_spawn_parameter(rate, 6 * rate, 0);
+	}
 
-    if (rate == 0)
-    {
-        dprf(DIAG_MONPLACE, "random monster gen scaled off, %d turns on level",
-             env.turns_on_level);
-        return;
-    }
-
-    if (player_in_branch(BRANCH_ABYSS))
+	if (player_in_branch(BRANCH_ABYSS))
     {
         if (!player_in_starting_abyss())
             rate = 5;
         if (have_passive(passive_t::slow_abyss))
             rate *= 2;
+    }
+	
+    if (rate == 0)
+    {
+        dprf(DIAG_MONPLACE, "random monster gen scaled off, %d turns on level",
+             env.turns_on_level);
+        return;
     }
 
     if (!x_chance_in_y(5, rate))
