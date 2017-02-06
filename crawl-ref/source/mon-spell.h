@@ -679,8 +679,8 @@ static const mon_spellbook mspell_list[] =
 	
 	{  MST_DEV_FAVORITE,
       {
-       { SPELL_BLINK_OTHER_CLOSE, 19, MON_SPELL_MAGICAL },
-	   { SPELL_FLASH_FREEZE, 19, MON_SPELL_MAGICAL },
+       { SPELL_BLINK_OTHER_CLOSE, 19, MON_SPELL_WIZARD },
+	   { SPELL_FLASH_FREEZE, 19, MON_SPELL_WIZARD },
       }
     },
 
@@ -888,7 +888,7 @@ static const mon_spellbook mspell_list[] =
       {
        { SPELL_FLAMING_CLOUD, 31, MON_SPELL_NATURAL | MON_SPELL_BREATH
                                  | MON_SPELL_NOISY },
-	   { SPELL_ENERGY_BOLT, 31, MON_SPELL_NATURAL },  
+	   { SPELL_ISKENDERUNS_MYSTIC_BLAST, 31, MON_SPELL_NATURAL },  
       }
     },
 

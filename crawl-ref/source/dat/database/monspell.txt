@@ -107,6 +107,10 @@ branch summon cast prefix
 @The_monster@ calls forth creatures from
 %%%%
 %%%%
+Iskenderun's mystic blast THE GIAGGOSTUONO cast
+
+@The_monster@ shoots energy from its eyes!
+%%%%
 Mara Summon cast
 
 @The_monster@ weaves an illusion.
