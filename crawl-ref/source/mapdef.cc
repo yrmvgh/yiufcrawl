@@ -4330,66 +4330,7 @@ mons_spec mons_list::get_salt_spec(const string &name) const
 //
 mons_spec mons_list::drac_monspec(string name) const
 {
-    mons_spec spec;
-
-    spec.type = get_monster_by_name(name);
-
-    // Check if it's a simple drac name, we're done.
-    if (spec.type != MONS_PROGRAM_BUG)
-        return spec;
-
-    spec.type = RANDOM_DRACONIAN;
-
-    // Request for any draconian?
-    if (starts_with(name, "any "))
-        name = name.substr(4); // Strip "any "
-
-    if (starts_with(name, "base "))
-    {
-        // Base dracs need no further work.
-        return RANDOM_BASE_DRACONIAN;
-    }
-    else if (starts_with(name, "nonbase "))
-    {
-        spec.type = RANDOM_NONBASE_DRACONIAN;
-        name = name.substr(8);
-    }
-
-    trim_string(name);
-
-    // Match "any draconian"
-    if (name == "draconian")
-        return spec;
-
-    // Check for recognition again to match any (nonbase) <colour> draconian.
-    const monster_type colour = get_monster_by_name(name);
-    if (colour != MONS_PROGRAM_BUG)
-    {
-        spec.monbase = colour;
-        return spec;
-    }
-
-    // Only legal possibility left is <colour> boss drac.
-    string::size_type wordend = name.find(' ');
-    if (wordend == string::npos)
-        return MONS_PROGRAM_BUG;
-
-    string scolour = name.substr(0, wordend);
-    if ((spec.monbase = draconian_colour_by_name(scolour)) == MONS_PROGRAM_BUG)
-        return MONS_PROGRAM_BUG;
-
-    name = trimmed_string(name.substr(wordend + 1));
-    spec.type = get_monster_by_name(name);
-
-    // We should have a non-base draconian here.
-    if (spec.type == MONS_PROGRAM_BUG
-        || mons_genus(static_cast<monster_type>(spec.type)) != MONS_DRACONIAN
-        || mons_is_base_draconian(spec.type))
-    {
-        return MONS_PROGRAM_BUG;
-    }
-
-    return spec;
+    return MONS_DRACONIAN;
 }
 
 // As with draconians, so with demonspawn.

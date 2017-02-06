@@ -521,9 +521,7 @@ static bool _find_mon_place_near_stairs(coord_def& pos,
 
 bool needs_resolution(monster_type mon_type)
 {
-    return mon_type == RANDOM_DRACONIAN || mon_type == RANDOM_BASE_DRACONIAN
-           || mon_type == RANDOM_NONBASE_DRACONIAN
-           || mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON
+    return mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON
            || mon_type == RANDOM_DEMONSPAWN
            || mon_type == RANDOM_BASE_DEMONSPAWN
            || mon_type == RANDOM_NONBASE_DEMONSPAWN
@@ -543,20 +541,7 @@ monster_type resolve_monster_type(monster_type mon_type,
     if (want_band)
         *want_band = false;
 
-    if (mon_type == RANDOM_DRACONIAN)
-    {
-        // Pick any random drac, constrained by colour if requested.
-        do
-        {
-            mon_type = MONS_DRACONIAN;
-        }
-        while (base_type != MONS_PROGRAM_BUG);
-    }
-    else if (mon_type == RANDOM_BASE_DRACONIAN)
-        mon_type = MONS_DRACONIAN;
-    else if (mon_type == RANDOM_NONBASE_DRACONIAN)
-        mon_type = MONS_DRACONIAN;
-    else if (mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON)
+    if (mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON)
         mon_type = summon_any_demon(mon_type, true);
     else if (mon_type == RANDOM_DEMONSPAWN)
     {
@@ -1316,7 +1301,6 @@ static monster* _place_monster_aux(const mgen_data &mg, const monster *leader,
                 mon->god = GOD_JIYVA;
                 break;
             case MONS_MUMMY:
-            case MONS_DRACONIAN:
             case MONS_ELF:
                 // [ds] Vault defs can request priest monsters of unusual types.
             default:
@@ -2656,7 +2640,7 @@ static monster_type _band_member(band_type band, int which,
 
 
     case BAND_DRACONIAN:
-        return MONS_DRACONIAN;
+        return MONS_ORC;
 
     case BAND_DEATH_KNIGHT:
         if (!player_in_branch(BRANCH_DUNGEON)
