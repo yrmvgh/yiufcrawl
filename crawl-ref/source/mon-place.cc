@@ -2158,7 +2158,7 @@ static const map<monster_type, band_set> bands_by_leader = {
 	{ MONS_ZOTLING,         { {}, {{ BAND_ZOTLINGS, {3, 6} }}}},
 	{ MONS_ANTIMATTER_ELF,  { {}, {{ BAND_ANTIMATTER_ELF, {1, 2} }}}},
 	{ MONS_SUBTRACTOR_SNAKE, { {}, {{ BAND_SUBTRACTOR_SNAKE, {1, 4} }}}},
-	{ MONS_MUTATATOTOT,     { {}, {{ BAND_MUTATATOTOT, {1, 2} }}}},
+	//{ MONS_MUTATATOTOT,     { {}, {{ BAND_MUTATATOTOT, {1, 2} }}}},
     { MONS_SPARK_WASP,      { {0, 0, []() {
         return you.where_are_you == BRANCH_DEPTHS;
     }},                           {{ BAND_SPARK_WASPS, {1, 4} }}}},
@@ -2337,7 +2337,7 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
     { BAND_SALAMANDERS,         {{{MONS_SALAMANDER, 1}}}},
     { BAND_SPARK_WASPS,         {{{MONS_SPARK_WASP, 1}}}},
     { BAND_UGLY_THINGS,         {{{MONS_UGLY_THING, 1}}}},
-	{ BAND_MUTATATOTOT,         {{{MONS_MUTATATOTOT, 1}}}},
+	//{ BAND_MUTATATOTOT,         {{{MONS_MUTATATOTOT, 1}}}},
     { BAND_DREAM_SHEEP,         {{{MONS_DREAM_SHEEP, 1}}}},
     { BAND_DEATH_SCARABS,       {{{MONS_DEATH_SCARAB, 1}}}},
     { BAND_FLYING_SKULLS,       {{{MONS_FLYING_SKULL, 1}}}},
@@ -2564,12 +2564,10 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
                                   {MONS_IRONBRAND_CONVOKER, 2},
                                   {MONS_GUARDIAN_SERPENT, 2},
                                   {MONS_IMPERIAL_MYRMIDON, 2}}}},
-	{ BAND_ZOTLINGS,            {{{MONS_SUBTRACTOR_SNAKE, 1},
-                                  {MONS_PLUTONIUM_CRAB, 2},
-								  {MONS_ZOTBOT, 1}},
+	{ BAND_ZOTLINGS,            {{{MONS_SUBTRACTOR_SNAKE, 1}, {MONS_PLUTONIUM_CRAB, 1}, {MONS_ZOTBOT, 1}},
 
                                  {{MONS_ZOTLING, 1}}}},
-	{ BAND_ANTIMATTER_ELF,       {{{MONS_ANTIMATTER_ELF, 100},
+	{ BAND_ANTIMATTER_ELF,      {{{MONS_ANTIMATTER_ELF, 100},
                                   {MONS_GIANT_GIANT, 30},
                                   {MONS_CURSE_SKULL, 15},
                                   {MONS_ANCIENT_LICH, 5}}}},
