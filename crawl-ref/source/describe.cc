@@ -2881,6 +2881,7 @@ static string _flavour_effect(attack_flavour flavour, int HD)
         { AF_SWOOP,             "" },
         { AF_PLAIN,             "" },
 		{ AF_CLEAVE,            "cleave through adjacent enemies"},
+		{ AF_CONTAM,            "cause magical contamination"},
     };
 
     const string* base_desc = map_find(base_descs, flavour);

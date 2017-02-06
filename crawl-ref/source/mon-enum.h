@@ -136,6 +136,7 @@ enum attack_flavour
     AF_MIASMATA,
 #endif
 	AF_CLEAVE,
+	AF_CONTAM,
 };
 
 // Non-spell "summoning" types to give to monster::mark_summoned(), or

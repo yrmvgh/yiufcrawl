@@ -2674,6 +2674,19 @@ void melee_attack::mons_apply_attack_flavour()
             drain_defender();
         break;
 
+	case AF_CONTAM:	
+		if(defender->is_player())
+		{
+			contaminate_player(1000 + random2(1000), false);
+		}
+		else if (one_chance_in(8)) // fall back to af_mutate behavior, but less frequent
+        {
+            defender->malmutate(you.can_see(*attacker) ?
+                apostrophise(attacker->name(DESC_PLAIN)) + " mutagenic touch" :
+                "mutagenic touch");
+        }
+		break;
+		
     case AF_PARALYSE:
     {
         // Only wasps at the moment, so Zin vitalisation
