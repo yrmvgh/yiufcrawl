@@ -482,7 +482,7 @@ bool can_place_on_trap(monster_type mon_type, trap_type trap)
 
 bool drac_colour_incompatible(int drac, int colour)
 {
-    return drac == MONS_DRACONIAN_SCORCHER && colour == MONS_WHITE_DRACONIAN;
+    return false;
 }
 
 // Finds a random square as close to a staircase as possible
@@ -561,20 +561,14 @@ monster_type resolve_monster_type(monster_type mon_type,
         // Pick any random drac, constrained by colour if requested.
         do
         {
-            if (coinflip())
-                mon_type = random_draconian_monster_species();
-            else
-                mon_type = random_draconian_job();
+            mon_type = MONS_DRACONIAN;
         }
-        while (base_type != MONS_PROGRAM_BUG
-               && mon_type != base_type
-               && (mons_species(mon_type) == mon_type
-                   || drac_colour_incompatible(mon_type, base_type)));
+        while (base_type != MONS_PROGRAM_BUG);
     }
     else if (mon_type == RANDOM_BASE_DRACONIAN)
-        mon_type = random_draconian_monster_species();
+        mon_type = MONS_DRACONIAN;
     else if (mon_type == RANDOM_NONBASE_DRACONIAN)
-        mon_type = random_draconian_job();
+        mon_type = MONS_DRACONIAN;
     else if (mon_type >= RANDOM_DEMON_LESSER && mon_type <= RANDOM_DEMON)
         mon_type = summon_any_demon(mon_type, true);
     else if (mon_type == RANDOM_DEMONSPAWN)
@@ -1825,7 +1819,7 @@ bool zombie_picker::veto(monster_type mt)
 
     // XXX: nonbase draconian leave base draconian corpses.
     if (mt != MONS_DRACONIAN && corpse_type == MONS_DRACONIAN)
-        corpse_type = random_draconian_monster_species();
+        corpse_type = MONS_DRACONIAN;
 
     // Zombifiability in general.
     if (!mons_class_can_leave_corpse(corpse_type))
@@ -2066,6 +2060,7 @@ static const map<monster_type, band_set> bands_by_leader = {
     { MONS_KILLER_BEE,      { {}, {{ BAND_KILLER_BEES, {2, 6} }}}},
     { MONS_CAUSTIC_SHRIKE,  { {}, {{ BAND_CAUSTIC_SHRIKE, {2, 5} }}}},
     { MONS_SHARD_SHRIKE,    { {}, {{ BAND_SHARD_SHRIKE, {1, 4} }}}},
+	{ MONS_GHOST_ROBIN,     { {}, {{ BAND_GHOST_ROBIN, {1, 4} }}}},
     { MONS_FLYING_SKULL,    { {}, {{ BAND_FLYING_SKULLS, {2, 6} }}}},
     { MONS_SLIME_CREATURE,  { {}, {{ BAND_SLIME_CREATURES, {2, 6} }}}},
     { MONS_YAK,             { {}, {{ BAND_YAKS, {2, 6} }}}},
@@ -2189,6 +2184,10 @@ static const map<monster_type, band_set> bands_by_leader = {
     { MONS_DEATH_SCARAB,    { {}, {{ BAND_DEATH_SCARABS, {3, 6} }}}},
     { MONS_SERAPH,          { {}, {{ BAND_HOLIES, {1, 4}, true }}}},
     { MONS_IRON_GIANT,      { {}, {{ BAND_ANCIENT_CHAMPIONS, {2, 3}, true }}}},
+	{ MONS_ZOTLING,         { {}, {{ BAND_ZOTLINGS, {3, 6} }}}},
+	{ MONS_ANTIMATTER_ELF,  { {}, {{ BAND_ANTIMATTER_ELF, {1, 2} }}}},
+	{ MONS_SUBTRACTOR_SNAKE, { {}, {{ BAND_SUBTRACTOR_SNAKE, {1, 4} }}}},
+	{ MONS_MUTATATOTOT,     { {}, {{ BAND_MUTATATOTOT, {1, 2} }}}},
     { MONS_SPARK_WASP,      { {0, 0, []() {
         return you.where_are_you == BRANCH_DEPTHS;
     }},                           {{ BAND_SPARK_WASPS, {1, 4} }}}},
@@ -2367,10 +2366,12 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
     { BAND_SALAMANDERS,         {{{MONS_SALAMANDER, 1}}}},
     { BAND_SPARK_WASPS,         {{{MONS_SPARK_WASP, 1}}}},
     { BAND_UGLY_THINGS,         {{{MONS_UGLY_THING, 1}}}},
+	{ BAND_MUTATATOTOT,         {{{MONS_MUTATATOTOT, 1}}}},
     { BAND_DREAM_SHEEP,         {{{MONS_DREAM_SHEEP, 1}}}},
     { BAND_DEATH_SCARABS,       {{{MONS_DEATH_SCARAB, 1}}}},
     { BAND_FLYING_SKULLS,       {{{MONS_FLYING_SKULL, 1}}}},
     { BAND_SHARD_SHRIKE,        {{{MONS_SHARD_SHRIKE, 1}}}},
+	{ BAND_GHOST_ROBIN,         {{{MONS_GHOST_ROBIN, 1}}}},
     { BAND_SOJOBO,              {{{MONS_TENGU_REAVER, 1}}}},
     { BAND_AIR_ELEMENTALS,      {{{MONS_AIR_ELEMENTAL, 1}}}},
     { BAND_HOWLER_MONKEY,       {{{MONS_HOWLER_MONKEY, 1}}}},
@@ -2564,7 +2565,7 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
     { BAND_LOM_LOBON,           {{{MONS_SPRIGGAN_AIR_MAGE, 1},
                                   {MONS_TITAN, 1},
                                   {MONS_LICH, 1},
-                                  {MONS_DRACONIAN_ANNIHILATOR, 2},
+                                  {MONS_GIANT_GIANT, 2},
                                   {MONS_DEEP_ELF_ANNIHILATOR, 2},
                                   {MONS_GLOWING_ORANGE_BRAIN, 2},
                                   {MONS_BLIZZARD_DEMON, 2},
@@ -2592,6 +2593,18 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
                                   {MONS_IRONBRAND_CONVOKER, 2},
                                   {MONS_GUARDIAN_SERPENT, 2},
                                   {MONS_IMPERIAL_MYRMIDON, 2}}}},
+	{ BAND_ZOTLINGS,            {{{MONS_SUBTRACTOR_SNAKE, 1},
+                                  {MONS_PLUTONIUM_CRAB, 2},
+								  {MONS_ZOTBOT, 1}},
+
+                                 {{MONS_ZOTLING, 1}}}},
+	{ BAND_ANTIMATTER_ELF,       {{{MONS_ANTIMATTER_ELF, 100},
+                                  {MONS_GIANT_GIANT, 30},
+                                  {MONS_CURSE_SKULL, 15},
+                                  {MONS_ANCIENT_LICH, 5}}}},
+	{ BAND_SUBTRACTOR_SNAKE,    {{{MONS_GOLDEN_DRAGON, 5},{MONS_SHADOW_DRAGON, 5},{MONS_QUICKSILVER_DRAGON, 2}},
+
+	                            {{MONS_CAUSTIC_SHRIKE, 10}, {MONS_GHOST_ROBIN, 10}, {MONS_SHARD_SHRIKE, 7}}}},
 };
 
 /**
@@ -2656,19 +2669,7 @@ static monster_type _band_member(band_type band, int which,
 
 
     case BAND_DRACONIAN:
-        if (env.absdepth0 >= 24 && x_chance_in_y(13, 40))
-        {
-            // Hack: race is rolled elsewhere.
-            return random_choose_weighted(
-                1, MONS_DRACONIAN_STORMCALLER,
-                2, MONS_DRACONIAN_KNIGHT,
-                2, MONS_DRACONIAN_MONK,
-                2, MONS_DRACONIAN_SHIFTER,
-                2, MONS_DRACONIAN_ANNIHILATOR,
-                2, MONS_DRACONIAN_SCORCHER);
-        }
-
-        return random_draconian_monster_species();
+        return MONS_DRACONIAN;
 
     case BAND_DEATH_KNIGHT:
         if (!player_in_branch(BRANCH_DUNGEON)

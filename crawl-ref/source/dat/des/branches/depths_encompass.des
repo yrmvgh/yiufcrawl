@@ -6,9 +6,9 @@
 {{
     function grunt_profane_halls_setup(e)
         if you.where() == dgn.level_name(dgn.br_entrance("Zot")) then
-            e.kmons('1 = base draconian / nothing w:25')
-            e.kmons('2 = nonbase draconian / base draconian w:20')
-            e.kmons('3 = draconian stormcaller / draconian monk w:2')
+            e.kmons('1 = zotling / nothing w:25')
+            e.kmons('2 = mutatatotot / zotling w:20')
+            e.kmons('3 = plutonium crab / antimatter elf w:2')
         else
             e.kmons('1 = tengu warrior / tengu conjurer / '
                     .. 'glowing orange brain / spriggan berserker w:5 / '
@@ -612,7 +612,7 @@ TILE: c = wall_zot_magenta
 COLOUR: JO.1+ = magenta
 FTILE: JO.1+ = floor_hall
 KFEAT: O = enter_zot
-KMONS: 1 = nonbase draconian / base draconian
+KMONS: 1 = zotling / mutatatotot
 MARKER: J = lua:fog_machine { cloud_type = "magical condensation", \
                               pow_min = 3, pow_max = 5, \
                               delay_min = 5, delay_max = 15, \
@@ -673,7 +673,7 @@ KMONS:    6 = deep elf master archer ; fire dragon scales | ice dragon scales . 
                                        longbow ego:flaming | longbow ego:freezing . \
                                        arrow . potion of haste | potion of resistance
 KMONS:    7 = lich / ancient lich w:5
-KMONS:    8 = titan / draconian annihilator w:5
+KMONS:    8 = titan / giant giant
 KMONS:    A = golden dragon w:19 / golden dragon perm_ench:shapeshifter w:1 / \
               quicksilver dragon w:14 / \
               quicksilver dragon perm_ench:shapeshifter w:1
@@ -880,9 +880,8 @@ MONS:    sphinx / entropy weaver / spark wasp / flayed ghost / \
          tentacled monstrosity / juggernaut zombie w:2
 MONS:    spriggan defender w:30 / titan w:30 / ancient lich w:30 / \
          deep elf blademaster / deep elf master archer / \
-         draconian monk / draconian annihilator / draconian knight / \
          juggernaut w:20
-KMONS:   Z = draconian knight / draconian annihilator
+KMONS:   Z = deep elf annihilator
 KFEAT:   z^ = known zot trap w:499 / floor w:1
 KFEAT:   Z = enter_zot
 SHUFFLE: Y], {([>, HI / HI / IH, JK / JK / KJ

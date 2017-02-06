@@ -496,7 +496,7 @@ KMONS:   8 = orc sorcerer
 KMONS:   9 = sphinx
 KMONS:   & = lich
 KMONS:   @ = deep elf sorcerer
-KMONS:   Z = nonbase draconian
+KMONS:   Z = deep elf annihilator
 ITEM:    randbook numspells:1 w:19 / randbook numspells:2 w:1, any scroll
 KFEAT:   _ = altar_sif_muna
 SHUFFLE: ABCDEF
@@ -935,12 +935,12 @@ ENDMAP
 NAME:    hangedman_abyss_town
 TAGS:    no_monster_gen patrolling allow_dup
 WEIGHT:  5
-MONS:    rakshasa / efreet / smoke demon / wizard / base draconian w:5 / \
+MONS:    rakshasa / efreet / smoke demon / wizard / \
          guardian serpent w:1 / vampire w:3 / necromancer w:3
 MONS:    thrashing horror / blink frog / ugly thing / \
          large abomination / unseen horror / shapeshifter / \
          wretched star w:5 / air elemental / raiju / worldbinder
-MONS:    draconian shifter w:5 / shadow demon w:5 / lich / \
+MONS:    shadow demon w:5 / lich / \
          profane servitor w:5 / lorocyproca / deep elf demonologist / \
          deep elf sorcerer / death knight
 MONS:    bone dragon / tentacled starspawn / starcursed mass / \
@@ -1379,7 +1379,7 @@ KMONS:   1 = elephant
 KMONS:   23 = dire elephant
 KMONS:   45 = hellephant
 KMONS:   67 = generate_awake spatial vortex
-KMONS:   89 = draconian shifter
+KMONS:   89 = dev favorite
 KMONS:   _ = patrolling spatial maelstrom
 ITEM:    potion of flight q:1 ident:type
 KITEM:   _ = abyssal rune of Zot

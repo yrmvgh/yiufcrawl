@@ -984,61 +984,6 @@ Ttt..twW..ttM
  @WWwtTtwW@
 ENDMAP
 
-NAME:    hangedman_swamp_dais
-TAGS:    no_pool_fixup no_monster_gen no_item_gen patrolling
-DEPTH:   Swamp, Zot, !Zot:$
-KITEM:   *| = % no_pickup w:2 / * no_pickup / | no_pickup
-KFEAT:   aA = stone_arch
-KFEAT:   B = shallow_water
-KFEAT:   Z = known zot trap
-: if you.in_branch("Swamp") then
-MONS:    swamp drake, hydra, swamp dragon
-KMONS:   A = swamp dragon
-KMONS:   B = green draconian
-SUBST:   x = t
-NSUBST:  1 = 1:2 / 1:3 / * = 1:80 23
-: else
-KMONS:   1 = green draconian
-KMONS:   a = death drake
-KMONS:   A = tentacled monstrosity / green death
-# No burning down the trees or making them look burnt.
-KMONS:   b = green draconian stormcaller w:15 / yellow draconian stormcaller w:1 / \
-             white draconian stormcaller w:1 / purple draconian stormcaller w:1
-KMONS:   B = green draconian stormcaller w:15 / yellow draconian stormcaller w:1 / \
-             white draconian stormcaller w:1 / purple draconian stormcaller w:1
-KMONS:   % = ugly thing / orange demon
-KMONS:   *d = swamp dragon w:8 / seven-headed hydra w:5 / eight-headed hydra w:5
-KMONS:   | = large abomination / tentacled monstrosity w:5
-SHUFFLE: AB%| / abd*
-: end
-SUBST:   < : <:1 .:9
-NSUBST:  < = 1:{ / 1:}
-SHUFFLE: {} / {[ / {[ / }] / }]
-MARKER:  A = lua:fog_machine { cloud_type = "translocational energy", pow_max = 2, \
-                 delay_min = 100, delay_max = 150, size = 1, walk_dist = 1 }
-MAP
-         xxxxx
-        @xWxWxxxx
-       @@......<xx
-    xxxxxxxxxx..Zxx
-   xxxxxcxxxx.x1.<x
-  xxxWWW.WWW.xGx..x
- xxxW1..W...W.x.x.xx
-xxxW...twt...W.xx.Wx
-xxW1.t..t..t..Wxx.xx
-xxW...t.w.t...Wxx.Wx
-xxW.t..w|w..t.Wxx.xx
-xc.Wwtw|A|wtwW.cx@@
-xxW.t.%w|w..t.Wxx@
-xxW...t%w.t...Wxx
-xxW..t..t..t.1Wxx
-xxxB...twt...Wxxx
- xxxB...W..1Wxxx
-  xxxWWW.WWWxxx
-   xxxxxcxxxxx
-    xxxxxxxxx
-ENDMAP
-
 NAME:    st_shrine_of_shade
 DEPTH:   Swamp, !Swamp:$
 MONS:    bog body w:20 / ghoul w:5 / nothing w:25, shadow

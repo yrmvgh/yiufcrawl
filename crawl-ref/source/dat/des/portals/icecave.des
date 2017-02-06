@@ -184,8 +184,7 @@ function ice_cave_caverns_natural_giant_monster_set(e)
   e.mons("polar bear w:8 / death yak w:4 / rime drake w:2")
   e.mons("polar bear / yak")
   e.mons("wolf / nothing w:3")
-  e.mons("patrolling frost giant / patrolling white draconian w:1 ; \
-          battleaxe ego:freezing . cloak ")
+  e.mons("patrolling frost giant ; battleaxe ego:freezing")
 end
 
 function ice_cave_item_attributes(e)
@@ -520,7 +519,7 @@ default-depth: IceCv
 # to overcome the midpoint and then go back to dungeon, and strong characters
 # can try to clear the whole cave. The cavey parts should have no chokepoints.
 
-# Foes: animals + frost giant (or rare draconian) & an ice statue.
+# Foes: animals + frost giant & an ice statue.
 # Loot: heavy weapons and rC gear wearable by big races,
 #       plus some useful potions in the freezer.
 NAME:    ice_cave_small_giant
@@ -537,8 +536,7 @@ MONS:    yak / wolf / polar bear w:4
 MONS:    polar bear w:3 generate_awake / wolf generate_awake / \
          yak generate_awake
 MONS:    polar bear, rime drake
-MONS:    frost giant / white draconian w:1 ; \
-         battleaxe ego:freezing . cloak
+MONS:    frost giant ; battleaxe ego:freezing
 MONS:    ice statue
 ITEM:    giant club / giant spiked club / great mace w:9 / \
          battleaxe w:7 / glaive w:8 / halberd w:8 / great sword w:6 / \
