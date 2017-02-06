@@ -2003,14 +2003,6 @@ static const band_conditions naga_band_condition
 static const function<bool()> drac_branch
     = []() { return player_in_connected_branch(); };
 
-/// non-classed draconian band description
-static const band_set basic_drac_set = { {3, 19, drac_branch},
-                                         {{BAND_DRACONIAN, {2, 5} }}};
-
-/// classed draconian band description
-static const band_set classy_drac_set = { {0, 21, drac_branch},
-                                          {{BAND_DRACONIAN, {3, 7} }}};
-
 // javelineer & impaler
 static const band_conditions mf_band_condition = { 0, 0, []() {
     return !player_in_branch(BRANCH_DEPTHS) &&
@@ -2158,7 +2150,7 @@ static const map<monster_type, band_set> bands_by_leader = {
 	{ MONS_ZOTLING,         { {}, {{ BAND_ZOTLINGS, {3, 6} }}}},
 	{ MONS_ANTIMATTER_ELF,  { {}, {{ BAND_ANTIMATTER_ELF, {1, 2} }}}},
 	{ MONS_SUBTRACTOR_SNAKE, { {}, {{ BAND_SUBTRACTOR_SNAKE, {1, 4} }}}},
-	//{ MONS_MUTATATOTOT,     { {}, {{ BAND_MUTATATOTOT, {1, 2} }}}},
+	{ MONS_MUTATATOTOT,     { {}, {{ BAND_MUTATATOTOT, {1, 2} }}}},
     { MONS_SPARK_WASP,      { {0, 0, []() {
         return you.where_are_you == BRANCH_DEPTHS;
     }},                           {{ BAND_SPARK_WASPS, {1, 4} }}}},
@@ -2337,7 +2329,7 @@ static const map<band_type, vector<member_possibilites>> band_membership = {
     { BAND_SALAMANDERS,         {{{MONS_SALAMANDER, 1}}}},
     { BAND_SPARK_WASPS,         {{{MONS_SPARK_WASP, 1}}}},
     { BAND_UGLY_THINGS,         {{{MONS_UGLY_THING, 1}}}},
-	//{ BAND_MUTATATOTOT,         {{{MONS_MUTATATOTOT, 1}}}},
+	{ BAND_MUTATATOTOT,         {{{MONS_MUTATATOTOT, 1}}}},
     { BAND_DREAM_SHEEP,         {{{MONS_DREAM_SHEEP, 1}}}},
     { BAND_DEATH_SCARABS,       {{{MONS_DEATH_SCARAB, 1}}}},
     { BAND_FLYING_SKULLS,       {{{MONS_FLYING_SKULL, 1}}}},
@@ -2635,10 +2627,6 @@ static monster_type _band_member(band_type band, int which,
         }
         else
             return one_chance_in(7) ? MONS_SALAMANDER : MONS_NAGA;
-
-
-    case BAND_DRACONIAN:
-        return MONS_ORC;
 
     case BAND_DEATH_KNIGHT:
         if (!player_in_branch(BRANCH_DUNGEON)
