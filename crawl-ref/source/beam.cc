@@ -5302,11 +5302,18 @@ mon_resist_type bolt::apply_enchantment_to_monster(monster* mon)
         return MON_AFFECTED;
 
     case BEAM_DISPEL_UNDEAD:
+	{
         if (simple_monster_message(*mon, " convulses!"))
+		{
             obvious_effect = true;
-        mon->hurt(agent(), damage.roll());
+		}
+		string monname = mon->name(DESC_THE);
+		int dddd = mon->hurt(agent(), damage.roll());
+		if(obvious_effect)
+		    mprf("%s is dispelled (%d)!", monname.c_str(), dddd);
+		
         return MON_AFFECTED;
-
+	}
     case BEAM_ENSLAVE_SOUL:
     {
         if (!ench_flavour_affects_monster(flavour, mon))
