@@ -2130,10 +2130,8 @@ void learned_something_new(hints_event_type seen_what, coord_def gc)
     case HINT_YOU_MUTATED:
         text << "Mutations can be obtained from several sources, among them "
                 "potions, spell miscasts, and overuse of strong enchantments "
-                "like invisibility. The only reliable way to get rid of "
-                "mutations is with potions of cure mutation. There are about "
-                "as many harmful as beneficial mutations, and some of them "
-                "have multiple levels. Check your mutations with <w>%</w>.";
+                "like invisibility. The gods Zin and Jiyva will cure your "
+                "mutations. Check your mutations with <w>%</w>.";
         cmd.push_back(CMD_DISPLAY_MUTATIONS);
         break;
 
