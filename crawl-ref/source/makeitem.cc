@@ -153,9 +153,11 @@ static weapon_type _determine_weapon_subtype(int item_level)
         while (true)
         {
             const int wpntype = random2(NUM_WEAPONS);
-
-            if (x_chance_in_y(weapon_rarity(wpntype), 10))
-                return static_cast<weapon_type>(wpntype);
+			if (wpntype != WPN_BLOWGUN)
+			{
+				if (x_chance_in_y(weapon_rarity(wpntype), 10))
+					return static_cast<weapon_type>(wpntype);
+			}
         }
     }
     else if (x_chance_in_y(item_level, item_level+7))
