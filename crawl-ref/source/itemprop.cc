@@ -649,22 +649,22 @@ static int Missile_index[NUM_MISSILES];
 static const missile_def Missile_prop[] =
 {
 #if TAG_MAJOR_VERSION == 34
-    { MI_DART,          "dart",          2, 1,  true  },
-    { MI_NEEDLE,        "needle",        0, 2,  false },
+    { MI_DART,          "dart",          2, 1, 1, true  },
+    { MI_NEEDLE,        "needle",        0, 2, 2, false },
 #endif
-    { MI_STONE,         "stone",         2, 1,  true  },
-    { MI_ARROW,         "arrow",         0, 2,  false },
-    { MI_BOLT,          "bolt",          0, 2,  false },
-    { MI_LARGE_ROCK,    "large rock",   20, 7,  true  },
-    { MI_SLING_BULLET,  "sling bullet",  4, 5,  false },
-    { MI_JAVELIN,       "javelin",      10, 8,  true  },
+    { MI_STONE,         "stone",         2, 1, 1, true  },
+    { MI_ARROW,         "arrow",         0, 2, 2, false },
+    { MI_BOLT,          "bolt",          0, 2, 2, false },
+    { MI_LARGE_ROCK,    "large rock",   20, 7, 7, true  },
+    { MI_SLING_BULLET,  "sling bullet",  4, 5, 5, false },
+    { MI_JAVELIN,       "javelin",      10, 8, 8, true  },
 #if TAG_MAJOR_VERSION == 34
-    { MI_THROWING_NET,  "throwing net",  0, 30, true  },
+    { MI_THROWING_NET,  "throwing net",  0, 30, 30, true },
 #endif
-    { MI_TOMAHAWK,      "tomahawk",      6, 5,  true  },
-    { MI_DART_POISONED, "poisoned dart", 0, 3,  true  },
-    { MI_DART_CURARE,   "curare dart",   0, 10, true  },
-    { MI_DART_FRENZY,   "frenzy dart",   0, 8,  true  },
+    { MI_TOMAHAWK,      "tomahawk",      6, 5, 5, true  },
+    { MI_DART_POISONED, "poisoned dart", 0, 3, 3, true  },
+    { MI_DART_CURARE,   "curare dart",   0, 10, 10, true  },
+    { MI_DART_FRENZY,   "frenzy dart",   0, 8, 8, true  },
 };
 
 struct food_def
@@ -2109,13 +2109,11 @@ bool is_throwable(const actor *actor, const item_def &wpn, bool force)
         {
             return false;
         }
-		if (wpn.sub_type == MI_DART_CURARE || wpn.sub_type == MI_DART_FRENZY || wpn.sub_type == MI_DART_POISONED)
-		{
-			return true;
-		}
     }
 
     return Missile_prop[Missile_index[wpn.sub_type]].throwable;
+	
+	return true;
 }
 
 // Decide if something is launched or thrown.
@@ -2129,6 +2127,8 @@ launch_retval is_launched(const actor *actor, const item_def *launcher,
         return LRET_LAUNCHED;
 
     return is_throwable(actor, missile) ? LRET_THROWN : LRET_FUMBLED;
+	
+	return LRET_THROWN;
 }
 
 /**

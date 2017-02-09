@@ -498,7 +498,13 @@ static bool _item_matches(const item_def &item, fire_type types,
         return true;
     if ((types & FIRE_TOMAHAWK) && item.sub_type == MI_TOMAHAWK)
         return true;
-
+    if ((types & FIRE_DART) && item.sub_type == MI_DART_CURARE)
+        return true;
+    if ((types & FIRE_DART) && item.sub_type == MI_DART_POISONED)
+        return true;
+    if ((types & FIRE_DART) && item.sub_type == MI_DART_FRENZY)
+        return true;
+	
     if (types & FIRE_LAUNCHER)
     {
         if (launcher && item.launched_by(*launcher))
