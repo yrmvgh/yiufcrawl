@@ -2112,8 +2112,6 @@ bool is_throwable(const actor *actor, const item_def &wpn, bool force)
     }
 
     return Missile_prop[Missile_index[wpn.sub_type]].throwable;
-	
-	return true;
 }
 
 // Decide if something is launched or thrown.
@@ -2127,8 +2125,6 @@ launch_retval is_launched(const actor *actor, const item_def *launcher,
         return LRET_LAUNCHED;
 
     return is_throwable(actor, missile) ? LRET_THROWN : LRET_FUMBLED;
-	
-	return LRET_THROWN;
 }
 
 /**
