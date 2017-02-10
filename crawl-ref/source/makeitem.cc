@@ -645,14 +645,14 @@ static void _generate_missile_item(item_def& item, int force_type,
     else
     {
         item.sub_type =
-            random_choose_weighted(51, MI_STONE,
+            random_choose_weighted(56, MI_STONE,
                                    20, MI_ARROW,
                                    12, MI_BOLT,
                                    12, MI_SLING_BULLET,
-                                   6,  MI_DART_POISONED,
+                                   4,  MI_DART_POISONED,
                                    3,  MI_TOMAHAWK,
                                    2,  MI_JAVELIN,
-                                   2,  MI_DART_CURARE,
+                                   1,  MI_DART_CURARE,
                                    2,  MI_DART_FRENZY,
                                    1,  MI_LARGE_ROCK);
     }
@@ -682,7 +682,7 @@ static void _generate_missile_item(item_def& item, int force_type,
 		if (get_ammo_brand(item) == SPMSL_DISPERSAL)
 			item.quantity = random_range(4, 12);
         else if (item.sub_type == MI_DART_CURARE || item.sub_type == MI_DART_FRENZY)
-			item.quantity = random_range(8, 24);
+			item.quantity = random_range(6, 18);
 		else
 			item.quantity = random_range(40, 120);
     }
