@@ -1040,7 +1040,7 @@ void game_options::reset_options()
 
     // Clear fire_order and set up the defaults.
     set_fire_order("launcher, return, "
-                   "javelin / tomahawk / stone / rock / net, "
+                   "javelin / tomahawk / stone / rock / net / dart, "
                    "inscribed",
                    false, false);
 

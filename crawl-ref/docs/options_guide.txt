@@ -198,7 +198,8 @@ There are three broad types of Crawl options: true/false values
 options are usually described with their default values (if there is a
 default); this should also explain which of the above-mentioned types
 it is. Each option should have some remarks on how it's typically used
-- but keep in mind that the options you want to use depend on your
+- but keep in mind that
+ the options you want to use depend on your
 playing style and sometimes also on your operating system.
 
 There are two styles you can use to set options. The classic
@@ -431,7 +432,8 @@ autopickup_exceptions ^= <pickup-regex, >don't-pickup-regex, ...
         (Ordered list option)
         A set of regexes that force matching items to be picked up (if
         prefixed with <), or never picked up (if prefixed with >).
-        Excludes (>) take precedence over includes (<), so if the same
+        Excludes (>) take precedence over includes
+ (<), so if the same
         item is matched by both an exclude and an include, it will not
         be subject to autopickup.
 
@@ -657,7 +659,8 @@ symmetric_scroll = true
         are set.
 
 scroll_margin_x = 2
-        How far from the left or right edges scrolling starts. By
+        How far from the left or right
+ edges scrolling starts. By
         default, if the PC's circle of line-of-sight is closer than
         two squares from the edge, the viewport scrolls. If set at
         zero, the viewport scrolls only when the LOS circle reaches
@@ -871,7 +874,8 @@ rest_wait_both = false
 
 rest_wait_percent = 100
         When resting, if your HP or MP is below this percentage of being full,
-        it will stop resting when this percent of maximum HP or MP is refilled.
+        it will
+ stop resting when this percent of maximum HP or MP is refilled.
         Resting after this point will still rest up to 100%.
 
 explore_auto_rest = false
@@ -1102,7 +1106,8 @@ sort_menus = [menu:](true | false | auto:X)[:sort_order]
         any:    All menus; this is the default when unspecified.
 
         For example,
-             sort_menus = true : equipped, basename, qualname, curse, qty
+           
+  sort_menus = true : equipped, basename, qualname, curse, qty
         will produce the same inventory and drop menus as by default,
         with the exception that all worn/wielded items come first. This
         can be convenient if you use the '.' command to select
@@ -1333,7 +1338,8 @@ status_caption_colour = brown
 enemy_hp_colour = green green brown brown magenta red
         Colours enemy health appropriately in the monster pane. The
         colourings correspond to full health, lightly wounded, moderately
-        wounded, heavily wounded, severely wounded, and almost dead.
+   
+     wounded, heavily wounded, severely wounded, and almost dead.
 
 clear_messages = false
         Setting this option to true will cause messages to cleared
@@ -1539,7 +1545,8 @@ menu_colour ^= <match>:<colour>:<regex>, <colour>:<regex>, ...
            stash         (the results from Ctrl-F)
            stats         (the player stats panel)
 
-        Crawl has a couple of prefixes defined to make inventory colouring
+        Crawl has a couple
+ of prefixes defined to make inventory colouring
         easier. These are, in order of definition:
            identified      (The item is fully identified.)
            known           (You recognize the item's subtype.)
@@ -1622,7 +1629,7 @@ fire_items_start = a
         missiles to fire. The default is a.
 
 fire_order  = launcher, return
-fire_order += javelin / tomahawk / stone / rock / net
+fire_order += javelin / tomahawk / stone / rock / net / dart
 fire_order += inscribed
         (Ordered list option)
         Controls the order of items autoselected for firing. Items
@@ -1754,7 +1761,8 @@ macros += M \{9} za
         The second argument describes the trigger key and consists the
         character or keycode of that key (for example 'a', 'A' or \{9} for the
         A, Shift-A or Tab keys). The third argument describes the macro or
-        keymap action and consists the command sequence to be associated with
+        keymap action and
+ consists the command sequence to be associated with
         the second argument. (for example "zap" for zapping the spell in slot a
         at the previous target).
 
@@ -1973,6 +1981,7 @@ tile_font_ft_light = false
 
 tile_show_minihealthbar = true
 tile_show_minimagicbar  = true
+
         Will show health and magic bars on top of the player tile when the
         player gets hurt or spends magic.
 
@@ -2176,7 +2185,8 @@ user_note_prefix = <string>
 
 note_items += <regex>, <regex>, ...
         (List option)
-        When an item is identified for the first time, it will be
+        When an item is identified
+ for the first time, it will be
         noted if its short description matches a regex. E.g.
              note_items += rod,book,acquirement
         Artefacts (fixed, unrand, or random) will always be noted when
@@ -2393,7 +2403,8 @@ mon_glyph -= <monster name or symbol>
         existing symbols. For instance, if you want to put elves on E
         and elementals on e, you can do this:
 
-             mon_glyph += e : E
+            
+ mon_glyph += e : E
              mon_glyph += E : e
 
         You can specify a different symbol, or a colour, or both, in any
@@ -2621,3 +2632,4 @@ The above caveat applies to the "wiz_mode" option as well. Instead of
 conditionalized wiz_mode, you can add to the command line
 "-extra-opt-last wiz_mode=yes" to make any new game start in wizard
 mode.
+
