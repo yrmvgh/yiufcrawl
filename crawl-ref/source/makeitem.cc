@@ -509,6 +509,7 @@ static special_missile_type _determine_missile_brand(const item_def& item,
     case MI_BOLT:
         rc = SPMSL_NORMAL;
         break;
+#if TAG_MAJOR_VERSION == 34
     case MI_NEEDLE:
         // Curare is special cased, all the others aren't.
         if (got_curare_roll(item_level))
@@ -523,6 +524,7 @@ static special_missile_type _determine_missile_brand(const item_def& item,
                                     10, SPMSL_FRENZY,
                                     nw, SPMSL_POISONED);
         break;
+#endif
     case MI_JAVELIN:
         rc = random_choose_weighted(32, SPMSL_PENETRATION,
                                     32, SPMSL_POISONED,
@@ -568,9 +570,11 @@ bool is_missile_brand_ok(int type, int brand, bool strict)
     switch (brand)
     {
     case SPMSL_POISONED:
+#if TAG_MAJOR_VERSION == 34
         if (type == MI_NEEDLE)
             return true;
         break;
+#endif
 
     case SPMSL_CURARE:
     case SPMSL_PARALYSIS:
@@ -592,8 +596,10 @@ bool is_missile_brand_ok(int type, int brand, bool strict)
 #endif
 
     default:
+#if TAG_MAJOR_VERSION == 34
         if (type == MI_NEEDLE)
             return false;
+#endif
     }
 
     // Everything else doesn't matter.
@@ -686,10 +692,6 @@ static void _generate_missile_item(item_def& item, int force_type,
 		else
 			item.quantity = random_range(40, 120);
     }
-	else if (item.sub_type == MI_NEEDLE && get_ammo_brand(item) != SPMSL_POISONED)
-	{
-		item.quantity = random_range(10, 30);
-	}
     else if (get_ammo_brand(item) != SPMSL_NORMAL)
 	{
 		item.quantity = 10 + random2(40) + random2(40) + random2(30);
