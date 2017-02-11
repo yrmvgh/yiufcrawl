@@ -2684,6 +2684,9 @@ item_def* monster_die(monster* mons, killer_type killer,
     if (!gives_player_xp
         && mons_class_gives_xp(mons->type)
 		&& player_in_branch(BRANCH_ABYSS)
+        && !summoned
+        && !fake_abjure
+        && !mons->friendly()
 		&& (killer == KILL_YOU
             || killer == KILL_YOU_MISSILE
             || killer == KILL_YOU_CONF
