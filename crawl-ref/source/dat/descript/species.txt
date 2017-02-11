@@ -60,8 +60,8 @@ to mutagenic effects.
 %%%%
 High Elf
 
-High Elves are adept with blades and with many schools of magic, and have high
-attributes.
+Spell and song, blade and bow! High elves have an approximate knowledge of many
+arts, which they can blend together, well, artfully.
 %%%% 
 Hill Orc
 
@@ -113,7 +113,7 @@ and have an excellent grasp of magic.
 %%%%
 Sludge Elf
 
-Sludge Elves are skilled at unarmed combat and life/unlife magic. Their bodies
+Sludge Elves are skilled at unarmed combat and a bit of magic. Their bodies
 are constantly mutating, and partially Orcish.
 attributes.
 %%%% 
