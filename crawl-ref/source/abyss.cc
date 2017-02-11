@@ -938,6 +938,9 @@ static void _abyss_generate_monsters(int nmonsters)
         return;
 
     mgen_data mg;
+	mg.set_summoned(nullptr, 0, 0);
+    mg.set_non_actor_summoner("the Abyss");
+    mg.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
     mg.proximity = PROX_ANYWHERE;
 
     for (int mcount = 0; mcount < nmonsters; mcount++)

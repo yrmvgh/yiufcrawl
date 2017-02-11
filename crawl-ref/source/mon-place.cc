@@ -380,6 +380,12 @@ void spawn_random_monsters()
     }
 
     mgen_data mg(WANDERING_MONSTER);
+	if(player_in_branch(BRANCH_ABYSS)) //no free lunch in the abyss
+	{
+    mg.set_summoned(nullptr, 0, 0);
+    mg.non_actor_summoner = "the Abyss";
+    mg.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
+	}
     if (player_in_branch(BRANCH_PANDEMONIUM)
         && !env.properties.exists("vault_mon_weights")
         && !one_chance_in(40))

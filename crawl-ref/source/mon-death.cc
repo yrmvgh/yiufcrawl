@@ -7,6 +7,7 @@
 
 #include "mon-death.h"
 
+#include "abyss.h" //for abyss stair exp
 #include "act-iter.h"
 #include "areas.h"
 #include "arena.h"
@@ -2347,6 +2348,7 @@ item_def* monster_die(monster* mons, killer_type killer,
             {
                 bless_follower();
             }
+			
             break;
         }
 
@@ -2676,6 +2678,32 @@ item_def* monster_die(monster* mons, killer_type killer,
     const unsigned int monster_xp = _calc_monster_experience(mons, killer,
                                                              killer_index);
 
+				
+    // If we are in the abyss, need to "give exp" to the abyssal exit timeout
+	// for abyssal durable summons.
+    if (!gives_player_xp
+        && mons_class_gives_xp(mons->type)
+		&& player_in_branch(BRANCH_ABYSS)
+		&& (killer == KILL_YOU
+            || killer == KILL_YOU_MISSILE
+            || killer == KILL_YOU_CONF
+            || pet_kill))
+    {
+        int fake_experience = exper_value(*mons);	
+		const int xp_factor =
+        max(min((int)exp_needed(you.experience_level+1, 0) / 7,
+                you.experience_level * 425),
+            you.experience_level*2 + 15) / 5;
+
+        if (!you.props.exists(ABYSS_STAIR_XP_KEY))
+            you.props[ABYSS_STAIR_XP_KEY] = EXIT_XP_COST;
+        const int reqd_xp = you.props[ABYSS_STAIR_XP_KEY].get_int();
+        const int new_req = reqd_xp - div_rand_round(fake_experience, xp_factor);
+        dprf("reducing xp timer from %d to %d (factor = %d)",
+             reqd_xp, new_req, xp_factor);
+        you.props[ABYSS_STAIR_XP_KEY].get_int() = new_req;		
+    }														 
+															 
     // Player Powered by Death
     if (gives_player_xp && player_mutation_level(MUT_POWERED_BY_DEATH)
         && (killer == KILL_YOU
