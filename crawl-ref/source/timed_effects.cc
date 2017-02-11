@@ -144,21 +144,24 @@ static void _themed_hell_summon_or_miscast()
     {
         const monster_type fiend
             = spec->fiend_types[random2(spec->fiend_types.size())];
-        create_monster(
-                       mgen_data::hostile_at(fiend, true, you.pos())
-                       .set_non_actor_summoner("the effects of Hell"));
+		mgen_data mg = mgen_data::hostile_at(fiend, true, you.pos())
+					   .set_summoned(nullptr, 0, 0)
+                       .set_non_actor_summoner("the effects of Hell");
+		mg.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
+        create_monster(mg);
     }
     else
     {
         MiscastEffect(&you, nullptr, HELL_EFFECT_MISCAST, spec->miscast_type,
                       4 + random2(6), random2avg(97, 3),
                       "the effects of Hell");
-    }
+    }	
 }
 
 /**
  * Try to summon at some number of random spawns from the current branch, to
- * harass the player & give them easy xp/TSO piety. Occasionally, to kill them.
+ * harass the player & give them fucking nothing because scumming is bad. 
+ * Occasionally, to kill them.
  *
  * Min zero, max five, average 1.67.
  *
@@ -175,7 +178,9 @@ static void _minor_hell_summons()
     mgen_data mg;
     mg.pos = you.pos();
     mg.foe = MHITYOU;
+	mg.set_summoned(nullptr, 0, 0);
     mg.non_actor_summoner = "the effects of Hell";
+	mg.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
     create_monster(mg);
 
     for (int i = 0; i < 4; ++i)
