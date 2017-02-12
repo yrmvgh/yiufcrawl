@@ -1181,6 +1181,20 @@ int player_regen()
     return rr;
 }
 
+int player_mp_regen()
+{
+    int regen_amount = 14 + you.max_magic_points / 2;
+
+    int multiplier = 100;
+    if (player_mutation_level(MUT_MANA_REGENERATION))
+        multiplier += 100;
+    if (you.wearing(EQ_AMULET, AMU_MANA_REGENERATION)
+		&& you.props[MANA_REGEN_AMULET_ACTIVE].get_int() == 1)
+        multiplier += 200;
+
+    return regen_amount * multiplier / 100;
+}
+
 // Amulet of regeneration needs to be worn while at full health before it begins
 // to function.
 void update_regen_amulet_attunement()
