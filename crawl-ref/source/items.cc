@@ -2336,7 +2336,7 @@ bool copy_item_to_grid(item_def &item, const coord_def& p,
     if (!silenced(p) && !silent)
         feat_splash_noise(grd(p));
 
-    if (feat_destroys_items(grd(p)))
+    if (feat_destroys_items(grd(p)) || is_deck(item))
     {
         if (item_is_spellbook(item))
             destroy_spellbook(item);
@@ -2548,6 +2548,10 @@ bool drop_item(int item_dropped, int quant_drop)
 
     ASSERT(item.defined());
 
+	bool deck = false;
+	if(is_deck(item))
+		deck = true;
+	
     if (!copy_item_to_grid(item, you.pos(), quant_drop, true, true))
     {
         mpr("Too many items on this level, not dropping the item.");
@@ -2570,6 +2574,12 @@ bool drop_item(int item_dropped, int quant_drop)
     }
 
     dec_inv_item_quantity(item_dropped, quant_drop);
+	
+	if (deck)
+	{
+		mprf("Nemelex Xobeh reclaims the deck.");
+	}
+	
     you.turn_is_over = true;
 
     you.last_pickup.erase(item_dropped);

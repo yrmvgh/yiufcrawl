@@ -1604,6 +1604,8 @@ static string _describe_deck(const item_def &item)
     description += make_stringf("\nMost decks begin with %d to %d cards and can contain no more than 127 cards.",
                                 MIN_STARTING_CARDS,
                                 MAX_STARTING_CARDS);
+								
+	description += "\nNemelex Xobeh will take the deck from you if you drop it.";
 
     const int num_cards = cards_in_deck(item);
     // The list of known cards, ending at the first one not known to be at the
