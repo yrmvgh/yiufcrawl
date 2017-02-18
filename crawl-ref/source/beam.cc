@@ -4434,7 +4434,7 @@ void bolt::monster_post_hit(monster* mon, int dmg)
     if (dmg > 0 || !mon->wont_attack() || !YOU_KILL(thrower))
     {
         // Don't immediately turn insane monsters hostile.
-        if (item && item->sub_type != MI_DART_FRENZY)
+        if (!item || (item && item->sub_type != MI_DART_FRENZY))
         {
             behaviour_event(mon, ME_ANNOY, agent());
             // behaviour_event can make a monster leave the level or vanish.
