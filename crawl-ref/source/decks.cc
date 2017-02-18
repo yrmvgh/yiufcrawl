@@ -713,14 +713,6 @@ bool deck_deal()
     if (_check_buggy_deck(deck))
         return false;
 
-    CrawlHashTable &props = deck.props;
-    if (props[STACKED_KEY].get_bool())
-    {
-        mpr("This deck seems insufficiently random for dealing.");
-        crawl_state.zero_turns_taken();
-        return false;
-    }
-
     const int num_cards = cards_in_deck(deck);
     _deck_ident(deck);
 
