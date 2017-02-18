@@ -444,9 +444,8 @@ to keep, discarding the other two.
 Deal Four ability
 
 Deals four cards from any unmarked deck in the time it normally takes to draw a
-single card. Some additional cards from the deck will be discarded. If the deck 
-does not contain enough cards, Nemelex will give you one extra card, but you 
-might not like it.
+single card. If the deck does not contain enough cards, Nemelex will give you 
+one extra card, but you might not like it.
 %%%%
 Stack Five ability
 

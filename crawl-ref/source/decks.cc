@@ -699,8 +699,7 @@ static void _deck_ident(item_def& deck)
 }
 
 // Draw the top four cards of an unstacked deck and play them.
-// Discards part of the deck. Return false if the operation was
-// failed/aborted along the way.
+// Return false if the operation was failed/aborted along the way.
 bool deck_deal()
 {
     const int slot = _choose_inventory_deck("Deal from which deck?");
@@ -743,27 +742,8 @@ bool deck_deal()
         draw_from_deck_of_punishment(true);
     }
 
-    // If the deck had cards left, discard some of them
-	int to_discard = 3 +random2(4);
-    while (deck.quantity > 0 && to_discard > 0)
-    {
-        uint8_t flags;
-        _draw_top_card(deck, false, flags);
-		to_discard -= 1;
-		
-		if (cards_in_deck(deck) == 0)
-		{
-			mpr(_empty_deck_msg(deck.deck_rarity));
-			if (slot == you.equip[EQ_WEAPON])
-				unwield_item();
-
-			dec_inv_item_quantity(slot, 1);
-		}
-		else
-		{
-			deck.used_count = -cards_in_deck(deck);
-		}
-    }	
+    if (deck.quantity > 0)
+		deck.used_count = -cards_in_deck(deck);	
 
     return true;
 }
