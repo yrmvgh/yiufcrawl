@@ -461,9 +461,9 @@ static const ability_def Ability_List[] =
     { ABIL_NEMELEX_TRIPLE_DRAW, "Triple Draw",
       2, 0, 0, 2, {FAIL_INVO, 60, 5, 20}, abflag::NONE },
     { ABIL_NEMELEX_DEAL_FOUR, "Deal Four",
-      8, 0, 0, 8, {FAIL_INVO, -1}, abflag::NONE }, // failure special-cased
+      8, 0, 0, 10, {FAIL_INVO, -1}, abflag::NONE }, // failure special-cased
     { ABIL_NEMELEX_STACK_FIVE, "Stack Five",
-      5, 0, 0, 10, {FAIL_INVO, 80, 4, 25}, abflag::NONE },
+      5, 0, 0, 15, {FAIL_INVO, 80, 4, 25}, abflag::NONE },
 
     // Beogh
     { ABIL_BEOGH_SMITING, "Smiting",
