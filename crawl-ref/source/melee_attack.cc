@@ -225,11 +225,10 @@ bool melee_attack::handle_phase_attempted()
         if (you.see_cell(attack_position))
         {
             mprf("%s strikes at %s from the darkness!",
-                 attacker->name(DESC_THE, true).c_str(),
+                 attacker->name(DESC_THE).c_str(),
                  defender->name(DESC_THE).c_str());
         }
         to_hit = AUTOMATIC_HIT;
-        needs_message = false;
     }
     else if (attacker->is_monster()
              && attacker->type == MONS_DROWNED_SOUL)
@@ -2925,7 +2924,7 @@ void melee_attack::mons_apply_attack_flavour()
         break;
 
     case AF_SHADOWSTAB:
-        attacker->as_monster()->del_ench(ENCH_INVIS, true);
+		attacker->as_monster()->del_ench(ENCH_INVIS, true);
         break;
 
     case AF_DROWN:
@@ -2941,11 +2940,11 @@ void melee_attack::mons_apply_attack_flavour()
 
             if (needs_message)
             {
-                mprf("%s %s %s%s",
+                mprf("%s %s %s (%d)!",
                     atk_name(DESC_THE).c_str(),
                     attacker->conj_verb("drown").c_str(),
                     defender_name(true).c_str(),
-                    attack_strength_punctuation(special_damage).c_str());
+                    special_damage);
             }
         }
         break;
