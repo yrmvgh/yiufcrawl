@@ -676,6 +676,10 @@ angel cast targeted
 
 @The_monster@ calls down the wrath of @possessive_God@ upon @target@.
 %%%%
+plutonium crab cast targeted
+
+@The_monster@ breathes radiation @at@ @target@.
+%%%%
 crab cast targeted
 
 @The_monster@ breathes @beam@ @at@ @target@.

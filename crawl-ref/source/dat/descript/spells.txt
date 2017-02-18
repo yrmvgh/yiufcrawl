@@ -1026,7 +1026,7 @@ Quicksilver Bolt spell
 %%%%
 Radiation Breath spell
 
-Exhales a large cloud of radioactive gas.
+Exhales a large cloud of radioactive, mutagenic gas.
 %%%%
 Random Bolt spell
 
