@@ -773,7 +773,7 @@ NAME:   lemuel_acid_trip
 DEPTH:  Zot, !Zot:$
 ORIENT: centre
 MONS:   oklob plant, acid blob, jelly, mutatatotot
-MONS:   subtractor snake
+MONS:   subtractor snake / acid robin / acid blob / mutatatotot
 SUBST:  1 = 1:2 .
 SUBST:  . = .:20 3:3 2:1
 SUBST:  } = }:80 >, ) = ):80 >, ] = ]:80 >
