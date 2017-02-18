@@ -2054,12 +2054,6 @@ static bool _slot_is_unique(const mut_array_t &mut,
 static vector<demon_mutation_info> _select_ds_mutations()
 {
     int ct_of_tier[] = { 1, 1, 2, 1 };
-    // 1 in 10 chance to create a monstrous set
-    if (one_chance_in(10))
-    {
-        ct_of_tier[0] = 3;
-        ct_of_tier[1] = 0;
-    }
 
 try_again:
     vector<demon_mutation_info> ret;
