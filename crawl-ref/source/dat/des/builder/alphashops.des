@@ -166,7 +166,7 @@
        "pearl dragon scales", "phantom mirror", "phial of floods",
        "plate armour", "ring of poison resistance", "manual of polearms",
        "wand of polymorph", "ring of positive energy", "ring of protection",
-       "manual of poison magic", "staff of power", "wand of paralysis",
+       "staff of power", "wand of paralysis",
        "ring of protection from magic" }
 
       elseif s == "Q" then i = { "quarterstaff", "quicksilver dragon scales",

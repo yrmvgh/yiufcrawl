@@ -1410,9 +1410,12 @@ static void _generate_book_item(item_def& item, bool allow_uniques,
     {
         if (one_chance_in(4))
         {
+		    while(item.skill == SK_POISON_MAGIC)
+			{
             item.skill = static_cast<skill_type>(SK_SPELLCASTING +
                                                  random2(NUM_SKILLS -
                                                          SK_SPELLCASTING));
+			}
         }
         else
 #if TAG_MAJOR_VERSION == 34
