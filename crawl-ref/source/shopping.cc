@@ -1031,7 +1031,7 @@ class ShopEntry : public InvEntry
                             itemstr.c_str(),
                             cost,
                             text.c_str(),
-                            shop_item_unknown(*item) ? " (unknown)" : "",
+                            "",
                             itemstr.c_str());
     }
 
