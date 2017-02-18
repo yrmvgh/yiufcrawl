@@ -450,9 +450,8 @@ might not like it.
 %%%%
 Stack Five ability
 
-Shows you five cards from any unmarked deck in your inventory, losing the rest
-of the deck, and allows you to sort them into any order. Subsequently, you can
-draw these cards in the order you chose.
+Shows you five cards from any unmarked deck in your inventory and allows you to sort 
+them into any order. Subsequently, you can draw these cards in the order you chose.
 %%%%
 # Beogh
 Smiting ability

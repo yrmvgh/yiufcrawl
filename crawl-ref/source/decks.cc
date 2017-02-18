@@ -880,7 +880,7 @@ bool deck_stack()
         mpr("The deck has exactly five cards.");
     else
     {
-        mprf("You draw the first five cards out of %d and discard the rest.",
+        mprf("You draw the first five cards out of %d.",
              num_cards);
     }
     // these are included in default force_more_message to show them before menu
@@ -904,7 +904,7 @@ bool stack_five(int slot)
 
     vector<card_type> draws;
     vector<uint8_t>   flags;
-    for (int i = 0; i < num_cards; ++i)
+    for (int i = 0; i < num_to_stack; ++i)
     {
         uint8_t   _flags;
         card_type card = _draw_top_card(deck, false, _flags);
@@ -914,11 +914,9 @@ bool stack_five(int slot)
             draws.push_back(card);
             flags.push_back(_flags | CFLAG_SEEN);
         }
-        // Rest of deck is discarded.
     }
 
     CrawlHashTable &props = deck.props;
-    deck.used_count = -num_to_stack;
     props[STACKED_KEY] = true;
     you.wield_change = true;
     bool done = true;
