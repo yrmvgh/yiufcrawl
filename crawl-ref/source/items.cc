@@ -1497,7 +1497,10 @@ bool is_stackable_item(const item_def &item)
     if (item.is_type(OBJ_MISCELLANY, MISC_PHANTOM_MIRROR)
         || item.is_type(OBJ_MISCELLANY, MISC_ZIGGURAT)
         || item.is_type(OBJ_MISCELLANY, MISC_SACK_OF_SPIDERS)
-        || item.is_type(OBJ_MISCELLANY, MISC_BOX_OF_BEASTS))
+        || item.is_type(OBJ_MISCELLANY, MISC_BOX_OF_BEASTS)
+	    || item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_DESTRUCTION)
+		|| item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_ESCAPE)
+		|| item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_SUMMONING))
     {
         return true;
     }
@@ -1592,7 +1595,13 @@ void merge_item_stacks(const item_def &source, item_def &dest, int quant)
 			dest.charges += source.charges;
 		}
     }
-
+	if ((source.is_type(OBJ_MISCELLANY, MISC_DECK_OF_DESTRUCTION) && dest.is_type(OBJ_MISCELLANY, MISC_DECK_OF_DESTRUCTION))
+	    || (source.is_type(OBJ_MISCELLANY, MISC_DECK_OF_ESCAPE) && dest.is_type(OBJ_MISCELLANY, MISC_DECK_OF_ESCAPE))
+	    || (source.is_type(OBJ_MISCELLANY, MISC_DECK_OF_SUMMONING) && dest.is_type(OBJ_MISCELLANY, MISC_DECK_OF_SUMMONING)))
+    {
+		merge_decks(source, dest);
+		dest.used_count = -cards_in_deck(dest);
+	}
     if (is_perishable_stack(source) && is_perishable_stack(dest))
         merge_perishable_stacks(source, dest, quant);
 }
@@ -1922,20 +1931,33 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
 		
         merge_item_stacks(it, you.inv[inv_slot], quant_got);
 		
-		if (it.base_type != OBJ_WANDS)
+		if (it.base_type != OBJ_WANDS && !is_deck(it))
 		{
 			inc_inv_item_quantity(inv_slot, quant_got);
+		}
+		if(is_deck(it))
+		{
+			you.inv[inv_slot].used_count = -cards_in_deck(you.inv[inv_slot]);
 		}
 		
 		you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
         {
+			if(!is_deck(it))
+			{
 				mprf_nocap("%s (gained %d%s)",
                         get_menu_colour_prefix_tags(you.inv[inv_slot],
                                                     DESC_INVENTORY).c_str(),
                         quant,
 						it.base_type == OBJ_WANDS ? " charges" : "");
+			}
+			else
+			{
+				mprf_nocap("%s",
+				        get_menu_colour_prefix_tags(you.inv[inv_slot],
+                                                    DESC_INVENTORY).c_str());
+			}
         }
 
         return true;
@@ -2029,7 +2051,10 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     item.flags &= ~ISFLAG_UNOBTAINABLE;
 
     god_id_item(item);
-    if (item.base_type == OBJ_WANDS)
+    if (item.base_type == OBJ_WANDS
+	    || item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_DESTRUCTION)
+		|| item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_ESCAPE)
+		|| item.is_type(OBJ_MISCELLANY, MISC_DECK_OF_SUMMONING))
     {
 		item.quantity = 1;
         set_ident_type(item, true);
@@ -2212,7 +2237,7 @@ bool move_item_to_grid(int *const obj, const coord_def& p, bool silent)
                 // of obj, while returning the found item. -- bwr
                 merge_item_stacks(item, *si);
 				
-				if (item.base_type != OBJ_WANDS)
+				if (item.base_type != OBJ_WANDS && !is_deck(item))
 					inc_mitm_item_quantity(si->index(), item.quantity);
 				
                 destroy_item(ob);
@@ -4782,6 +4807,8 @@ item_info get_item_info(const item_def& item)
             }
             ii.props[CARD_KEY] = info_cards;
             ii.props[CARD_FLAG_KEY] = info_card_flags;
+			
+			ii.used_count = -cards_in_deck(item);
         }
         break;
     case OBJ_GOLD:

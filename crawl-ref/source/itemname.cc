@@ -1401,7 +1401,7 @@ static void _name_deck(const item_def &deck, description_level_type desc,
         if (deck.used_count > 0)
             buff << "drawn: ";
         else
-            buff << "left: ";
+            buff << "cards: ";
 
         buff << abs(deck.used_count);
     }

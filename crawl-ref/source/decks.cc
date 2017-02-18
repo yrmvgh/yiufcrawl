@@ -579,14 +579,16 @@ static bool _check_buggy_deck(item_def& deck)
     if (num_cards > deck.initial_cards)
     {
         if (deck.initial_cards == 0)
+		{
             strm << "Deck was created with zero cards???" << endl;
+            problems  = true;
+        }
         else if (deck.initial_cards < 0)
+		{
             strm << "Deck was created with *negative* cards?!" << endl;
-        else
-            strm << "Deck has more cards than it was created with?" << endl;
-
-        deck.initial_cards = num_cards;
-        problems  = true;
+            problems  = true;
+        }
+        deck.initial_cards = num_cards;      
     }
 
     if (num_cards > num_flags)
@@ -696,8 +698,8 @@ static void _deck_ident(item_def& deck)
     }
 }
 
-// Draw the top four cards of an unstacked deck and play them all.
-// Discards the rest of the deck. Return false if the operation was
+// Draw the top four cards of an unstacked deck and play them.
+// Discards part of the deck. Return false if the operation was
 // failed/aborted along the way.
 bool deck_deal()
 {
@@ -749,15 +751,27 @@ bool deck_deal()
         draw_from_deck_of_punishment(true);
     }
 
-    // If the deck had cards left, exhaust it.
-    if (deck.quantity > 0)
+    // If the deck had cards left, discard some of them
+	int to_discard = 3 +random2(4);
+    while (deck.quantity > 0 && to_discard > 0)
     {
-        mpr(_empty_deck_msg(deck.deck_rarity));
-        if (slot == you.equip[EQ_WEAPON])
-            unwield_item();
+        uint8_t flags;
+        _draw_top_card(deck, false, flags);
+		to_discard -= 1;
+		
+		if (cards_in_deck(deck) == 0)
+		{
+			mpr(_empty_deck_msg(deck.deck_rarity));
+			if (slot == you.equip[EQ_WEAPON])
+				unwield_item();
 
-        dec_inv_item_quantity(slot, 1);
-    }
+			dec_inv_item_quantity(slot, 1);
+		}
+		else
+		{
+			deck.used_count = -cards_in_deck(deck);
+		}
+    }	
 
     return true;
 }
@@ -2422,7 +2436,41 @@ void init_deck(item_def &item)
 
     props.assert_validity();
 
-    item.used_count  = 0;
+    item.used_count  = -cards_in_deck(item);
+}
+
+void merge_decks(const item_def& source, item_def& dest)
+{
+	const CrawlHashTable &source_props = source.props;
+	CrawlHashTable &dest_props = dest.props;
+	
+	ASSERT(is_deck(source));
+	ASSERT(is_deck(dest));
+	ASSERT_RANGE(cards_in_deck(source), 1, 128);
+	ASSERT_RANGE(cards_in_deck(dest), 1, 128);
+	
+	CrawlVector    &dest_cards = dest_props[CARD_KEY].get_vector();
+    CrawlVector    &dest_flags = dest_props[CARD_FLAG_KEY].get_vector();
+	
+	const CrawlVector    &source_cards = source_props[CARD_KEY].get_vector();
+    //CrawlVector    &source_flags = source_props[CARD_FLAG_KEY].get_vector();
+	
+	for (int i = 0; i < cards_in_deck(source); ++i)
+	{
+	    uint8_t   _flags;
+
+        int num_cards = source_cards.size();
+        int idx       = num_cards - i - 1;
+		
+		ASSERT(num_cards > 0);
+		
+        card_type card = get_card_and_flags(source, idx, _flags);
+		if(cards_in_deck(dest) < 127)
+		{
+		dest_cards.insert(0,(char) card);
+		dest_flags.insert(0,(char) _flags);
+		}
+	}
 }
 
 void shuffle_all_decks_on_level()

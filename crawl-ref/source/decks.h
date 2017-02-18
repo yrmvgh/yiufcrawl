@@ -28,7 +28,7 @@
 /// The minimum number of cards a deck starts with, when generated normally.
 const int MIN_STARTING_CARDS = 4;
 /// The maximum number of cards a deck starts with, when generated normally.
-const int MAX_STARTING_CARDS = 13;
+const int MAX_STARTING_CARDS = 9;
 
 enum deck_type
 {
@@ -178,6 +178,7 @@ bool is_deck(const item_def &item, bool iinfo = false);
 bool bad_deck(const item_def &item);
 colour_t deck_rarity_to_colour(deck_rarity_type rarity);
 void init_deck(item_def &item);
+void merge_decks(const item_def& source, item_def& dest);
 
 int cards_in_deck(const item_def &deck);
 card_type get_card_and_flags(const item_def& deck, int idx,
