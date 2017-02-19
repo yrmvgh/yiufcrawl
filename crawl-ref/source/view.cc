@@ -1029,7 +1029,7 @@ static update_flags player_view_update_at(const coord_def &gc)
     if (!(env.pgrid(gc) & FPROP_SEEN_OR_NOEXP))
     {
         env.pgrid(gc) |= FPROP_SEEN_OR_NOEXP;
-        if (!crawl_state.game_is_arena())
+        if (!crawl_state.game_is_arena() && !player_in_branch(BRANCH_ABYSS))
         {
             did_god_conduct(DID_EXPLORATION, 2500);
             const int density = env.density ? env.density : 2000;
