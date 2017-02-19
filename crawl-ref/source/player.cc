@@ -1190,7 +1190,7 @@ int player_mp_regen()
         multiplier += 100;
     if (you.wearing(EQ_AMULET, AMU_MANA_REGENERATION)
 		&& you.props[MANA_REGEN_AMULET_ACTIVE].get_int() == 1)
-        multiplier += 200;
+        multiplier += 165;
 
     return regen_amount * multiplier / 100;
 }
