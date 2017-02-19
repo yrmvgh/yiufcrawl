@@ -4329,7 +4329,9 @@ enum species_type
     SP_GARGOYLE,
     SP_FORMICID,
     SP_VINE_STALKER,
+#if TAG_MAJOR_VERSION == 34
     SP_FROGTAUR,
+#endif
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

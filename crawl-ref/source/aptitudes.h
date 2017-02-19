@@ -1528,7 +1528,8 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
     APT(SP_VINE_STALKER,    SK_INVOCATIONS,     0),
     APT(SP_VINE_STALKER,    SK_EVOCATIONS,     -1),
-
+	
+#if TAG_MAJOR_VERSION == 34
     // SP_FROGTAUR
     APT(SP_FROGTAUR,           SK_FIGHTING,        1),
     APT(SP_FROGTAUR,           SK_SHORT_BLADES,    0),
@@ -1544,13 +1545,9 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_FROGTAUR,           SK_ARMOUR,          1),
     APT(SP_FROGTAUR,           SK_DODGING,         0),
     APT(SP_FROGTAUR,           SK_STEALTH,         1),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_FROGTAUR,           SK_STABBING,      UNUSABLE_SKILL),
-#endif
     APT(SP_FROGTAUR,           SK_SHIELDS,         0),
-#if TAG_MAJOR_VERSION == 34
     APT(SP_FROGTAUR,           SK_TRAPS,         UNUSABLE_SKILL),
-#endif
     APT(SP_FROGTAUR,           SK_UNARMED_COMBAT,  0),
     APT(SP_FROGTAUR,           SK_SPELLCASTING,   -1),
     APT(SP_FROGTAUR,           SK_CONJURATIONS,    0),
@@ -1567,6 +1564,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_FROGTAUR,           SK_POISON_MAGIC,    0),
     APT(SP_FROGTAUR,           SK_INVOCATIONS,     1),
     APT(SP_FROGTAUR,           SK_EVOCATIONS,      0),
+#endif
 };
 
 #endif
