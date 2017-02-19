@@ -2749,7 +2749,7 @@ static void _autoinscribe_item(item_def& item)
     item.inscription.clear();
 
     string iname = _autopickup_item_name(item);
-
+	
     for (const auto &ai_entry : Options.autoinscriptions)
     {
         if (ai_entry.first.matches(iname))
@@ -2775,6 +2775,12 @@ static void _autoinscribe_item(item_def& item)
         else
             item.inscription = old_inscription + ", " + item.inscription;
     }
+	
+	if (is_deck(item))
+	{
+		item.inscription += "!d";
+	}
+
 }
 
 static void _autoinscribe_floor_items()

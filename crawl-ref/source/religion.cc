@@ -934,8 +934,6 @@ static bool _give_nemelex_gift(bool forced = false)
         int thing_created = items(true, OBJ_MISCELLANY, gift_type, 1, 0,
                                   GOD_NEMELEX_XOBEH);
 
-        //move_item_to_grid(&thing_created, you.pos(), true);
-
         if (thing_created != NON_ITEM)
         {
             const deck_rarity_type rarity = DECK_RARITY_RARE;
