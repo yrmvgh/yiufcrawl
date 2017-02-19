@@ -1859,7 +1859,7 @@ spret_type cast_ignition(const actor *agent, int pow, bool fail)
 
     fail_check();
 
-    targeter_los hitfunc(agent, LOS_NO_TRANS);
+    targetter_los hitfunc(agent, LOS_NO_TRANS);
 
     // Ignition affects squares that had hostile monsters on them at the time
     // of casting. This way nothing bad happens when monsters die halfway
