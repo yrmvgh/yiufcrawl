@@ -954,6 +954,8 @@ static bool _give_nemelex_gift(bool forced = false)
 			else
 				mprf("...but your inventory is too cluttered to receive it.");
         }
+		
+		destroy_item(thing_created);
         return true;
     }
 
