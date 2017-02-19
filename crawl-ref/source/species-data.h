@@ -302,13 +302,13 @@ static const map<species_type, species_def> species_data =
       SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_FROGTAUR, {
-    "Fr",
-    "Frogtaur", nullptr, "Frog",
+{ SP_BARACHIAN, {
+    "Ba",
+    "Barachian", nullptr, "Frog",
     SPF_NO_HAIR,
     0, 0, 0, 
 	15, 3,
-    MONS_FROGTAUR,
+    MONS_BARACHIAN,
     HT_WATER, US_ALIVE, SIZE_MEDIUM,
     6, 6, 6, // 18
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
