@@ -925,6 +925,13 @@ void trap_def::trigger(actor& triggerer)
             break;
         }
 
+        // Formicids can't fall for shaftung.
+        if (you.species == SP_FORMICID)
+        mpr("You know all about tunnels and shafts!");
+        mpr("You decide not to fall in to this one.");
+        learned_something_new(HINT_SEEN_TRAP, p);
+            break;
+
         // If the shaft isn't known, don't reveal it.
         // The shafting code in downstairs() needs to know
         // whether it's undiscovered.
@@ -1104,7 +1111,7 @@ void search_around()
         skill += you.piety * 2;
 
     if (you.species == SP_HIGH_ELF)
-        skill += 75
+        skill += 75;
 
     int max_dist = div_rand_round(skill, 32);
     if (max_dist > 5)
