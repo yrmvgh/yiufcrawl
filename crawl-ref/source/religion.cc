@@ -181,7 +181,7 @@ const vector<god_power> god_powers[NUM_GODS] =
     // Nemelex
     { { 3, ABIL_NEMELEX_TRIPLE_DRAW, "choose one out of three cards" },
       { 4, ABIL_NEMELEX_DEAL_FOUR, "deal four cards at a time" },
-      { 5, ABIL_NEMELEX_STACK_FIVE, "order the top five cards of a deck, losing the rest",
+      { 5, ABIL_NEMELEX_STACK_FIVE, "order the top five cards of a deck",
                                     "stack decks" },
     },
 
@@ -934,7 +934,7 @@ static bool _give_nemelex_gift(bool forced = false)
         int thing_created = items(true, OBJ_MISCELLANY, gift_type, 1, 0,
                                   GOD_NEMELEX_XOBEH);
 
-        move_item_to_grid(&thing_created, you.pos(), true);
+        //move_item_to_grid(&thing_created, you.pos(), true);
 
         if (thing_created != NON_ITEM)
         {
@@ -946,13 +946,15 @@ static bool _give_nemelex_gift(bool forced = false)
             deck.flags |= ISFLAG_KNOW_TYPE;
 
             simple_god_message(" grants you a gift!");
-            // included in default force_more_message
-            canned_msg(MSG_SOMETHING_APPEARS);
-
-            _inc_gift_timeout(5 + random2avg(9, 2));
-            you.num_current_gifts[you.religion]++;
-            you.num_total_gifts[you.religion]++;
-            take_note(Note(NOTE_GOD_GIFT, you.religion));
+            if(move_item_to_inv(deck))
+            {
+				_inc_gift_timeout(5 + random2avg(9, 2));
+				you.num_current_gifts[you.religion]++;
+				you.num_total_gifts[you.religion]++;
+				take_note(Note(NOTE_GOD_GIFT, you.religion));
+			}
+			else
+				mprf("...but your inventory is too cluttered to receive it.");
         }
         return true;
     }
