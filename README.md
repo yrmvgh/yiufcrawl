@@ -1,9 +1,29 @@
 [![Build Status](https://travis-ci.org/crawl/crawl.svg?branch=master)](https://travis-ci.org/crawl/crawl)
 
-# Dungeon Crawl Stone Soup
+# Yiuf's Home for Lost and Forgotten Species
+## A fork of Dungeon Crawl Stone Soup
+### Removed races, excised experiments, and tragic taxa
+--------------------------------
+#### *Here are some brief notes about this fork, expect a better changelog soon*
 
-Dungeon Crawl Stone Soup is a game of dungeon exploration, combat and magic, involving characters of diverse skills, worshipping deities of great power and caprice. To win, you'll need to be a master of tactics and strategy, and prevail against overwhelming odds.
+*Future plans:*
+Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: lava orcs, then perhaps imps.
 
+*Current features:*
+Sludge elves, are part orcish, and they evolve. High Elves, have heightened trapsense. Deep elves, don't YET have a noise attenuation modifier that makes everything they do quieter. But they will have one soon! Also there are a bunch of fiddly, unimportant apt tweaks to reduce the Elf Overlap, which includes treading tengu as elf race #4.
+
+Ogres are cooler now in a big way. (hint: that means HP) Trolls got taken down a peg, they're fine.
+
+Formicids can't fall in shafts by accident. They've got too many arms, and experience.
+
+Items don't block doorways.
+
+Berserkers are a little bit more entertaining as a starting background.
+
+Surface Dwarves are just an apt race at this point. high MR, HP, like DD. didn't have any bright ideas for a cool mut, yet. may leave that up to tavern. but job 1 was making them exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go, I guess! Suggestions on how to make them special are most welcome.
+
+#### *Below you will find the original DCSS readme:*
+--------------------------------
 ## Contents
 
 1. [How to Play](#how-to-play)
