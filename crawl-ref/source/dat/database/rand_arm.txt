@@ -516,11 +516,19 @@ the Pink Corner
 
 Philately
 
+Synchronized Stabbing
+
+This Worked Last Time
+
+Goodbye, My Love
+
 Precision Catastrophes
 
 Poor Excuses
 
 Dramatic Exits
+
+Thank Me Later
 
 the True Pharaoh
 
@@ -740,7 +748,15 @@ the Game of Kings
 
 Dice, Bag, and Bottle
 
+Spin the Turtle
+
+You Go First
+
+It's Over Quickly
+
 # children's games
+Never Talk to Strangers
+
 Peek-a-Boo
 
 Hide-and-Seek
@@ -768,7 +784,7 @@ Jigsaw
 
 Whack-A-Mole
 
-Snakes and Ladders
+Ladders and Snakes
 
 Marbles
 
@@ -922,6 +938,8 @@ the Slightly Bent
 
 the Moon Troll
 
+God Told Me To
+
 Time Monsters
 
 the Sacrificial Victim
@@ -986,4 +1004,10 @@ Damnable Contraption
 Earthly Heaven
 
 Put-Me-On
+
+Dragondude
+
+Dragonlady
+
+Dragonmonster
 %%%%
