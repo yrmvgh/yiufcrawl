@@ -805,6 +805,7 @@ const set<pair<object_class_type, int> > removed_items =
 	{ OBJ_SCROLLS,   SCR_IDENTIFY },
 	{ OBJ_SCROLLS,   SCR_REMOVE_CURSE },
 	{ OBJ_SCROLLS,   SCR_RANDOM_USELESSNESS },
+	{ OBJ_MISSILES,   MI_NEEDLE },
 #endif
     // Outside the #if because we probably won't remove these.
     { OBJ_RUNES,     RUNE_ELF },
