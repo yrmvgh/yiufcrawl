@@ -1620,6 +1620,14 @@ Deep Dwarves
   most at home with the magic of earth and death, eventually gaining some
   resistance to the dark powers of necromancy.
 
+Deep Elves
+   This is an Elven species who long ago fled the overworld to live in darkness
+   underground. There, they developed their mental powers, evolving a natural
+   gift for all forms of magic (including necromancy and earth magic), and
+   adapted physically to their new environment, becoming shorter, weaker, and
+   losing all colouration. They are poor at melee combat, but excellent
+   at fighting from a distance.
+
 Felids
   Felids are a breed of cats that have been granted sentience. Originally they
   were witches' familiars that were magically augmented to provide help for
