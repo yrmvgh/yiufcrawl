@@ -927,10 +927,12 @@ void trap_def::trigger(actor& triggerer)
 
         // Formicids can't fall for shaftung.
         if (you.species == SP_FORMICID)
-        mpr("You know all about tunnels and shafts!");
-        mpr("You decide not to fall in to this one.");
-        learned_something_new(HINT_SEEN_TRAP, p);
+        {
+            mpr("You know all about tunnels and shafts!");
+            mpr("You decide not to fall in to this one.");
+            learned_something_new(HINT_SEEN_TRAP, p);
             break;
+        }
 
         // If the shaft isn't known, don't reveal it.
         // The shafting code in downstairs() needs to know
@@ -940,12 +942,6 @@ void trap_def::trigger(actor& triggerer)
 
         // Known shafts don't trigger as traps.
         if (trig_knows)
-            break;
-
-        // Formicids can't fall for shaftung.
-        if (you.species == SP_FORMICID)
-            mpr("You know all about tunnels and shafts!");
-            mpr("You decide not to fall in to this one.");
             break;
 
         // A chance to escape.
