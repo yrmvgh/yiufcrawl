@@ -3,13 +3,9 @@
 enum species_type
 {
     SP_HUMAN,
-#if TAG_MAJOR_VERSION == 34
     SP_HIGH_ELF,
-#endif
     SP_DEEP_ELF,
-#if TAG_MAJOR_VERSION == 34
     SP_SLUDGE_ELF,
-#endif
     SP_HALFLING,
     SP_HILL_ORC,
     SP_KOBOLD,
@@ -52,6 +48,7 @@ enum species_type
     SP_FORMICID,
     SP_VINE_STALKER,
     SP_BARACHIAN,
+    SP_SURFACE_DWARF,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,
