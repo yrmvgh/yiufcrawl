@@ -113,9 +113,8 @@ and have an excellent grasp of magic.
 %%%%
 Sludge Elf
 
-Sludge Elves are skilled at unarmed combat and a bit of magic. Their bodies
-are constantly mutating, and partially Orcish.
-attributes.
+Sludge Elves are skilled at unarmed combat and a bit of magic. Orcish blood and
+chaotic mutagenic energies course through their veins.
 %%%% 
 Spriggan
 
