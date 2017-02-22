@@ -1584,32 +1584,41 @@ Demonspawn
   and conjurations and much better at necromancy and invocations. Note that
   unlike Demigods, they can take on gods, although not all will accept them.
 
+
+Dwarves
+========================================
+
+There are a few distinct species of Dwarf. Dwarves are stout, short, and long-
+lived. Stronger than Humans, but sometimes slower to learn new things. They are
+skilled with magical devices, and comfortable with a mace and shield in hand.
+
+Surface Dwarves
+  Surface Dwarves, as opposed to the subterranean specimen, come from halls and
+  hills above the Dungeon. They love to fight, and often venture forth to seek
+  fame and fortune through battle. As such, they are very robust and excellent
+  at hand combat. Polearms usually are too big for them to wield comfortably and
+  so make quite bad weapons for Surface Dwarves.
+
+  In general, they are rather more resistant to magic than capable of using it
+  themselves. However, they are very proficient at earth, fire, and skald magic.
+  They advance in levels at a similar rate to Deep Elves.
+
 Deep Dwarves
-  Deep Dwarves are short, hardy people who, unlike their extinct surface
+  Deep Dwarves are short, hardy people who, unlike their foolhardy surface
   relatives, never left the underground homelands. Living there for countless
   generations made them turn pale and lose all ability to regenerate health
   over time, or to have their rate of regeneration hastened by any effects.
   Deep Dwarves can instead draw on their magical essence to heal, but doing so
   will gradually deplete their maximum reserves of magic. They are passively
   able to reduce all incoming damage, and their empathy with the earth allows
-  them to sense their surroundings; these abilities increase in power as they
-  gain experience levels.
+  them to sense their surroundings.
 
   Naturally, Deep Dwarves are quite adept with all arts of avoiding blows and
   damage. Offensively, they are skilled users of axes, crossbows, and slings.
   Deep Dwarves are highly spiritual beings, often portrayed as actual spirits
-  by outsiders; because of this, their skill with invocations is great, and
-  they often rely on divine assistance for healing. They are most at home with
-  the magic of earth and death, eventually gaining some resistance to the dark
-  powers of necromancy.
-
-Deep Elves
-   This is an Elven species who long ago fled the overworld to live in darkness
-   underground. There, they developed their mental powers, evolving a natural
-   gift for all forms of magic (including necromancy and earth magic), and
-   adapted physically to their new environment, becoming shorter, weaker, and
-   losing all colouration. They are poor at melee combat, but excellent
-   at fighting from a distance.
+  by outsiders, and they often rely on divine assistance for healing. They are
+  most at home with the magic of earth and death, eventually gaining some
+  resistance to the dark powers of necromancy.
 
 Felids
   Felids are a breed of cats that have been granted sentience. Originally they
@@ -1622,13 +1631,45 @@ Felids
   cats, Felids are incapable of thriving on vegetable food, and need meat to
   survive.
 
-  Their agility and stealth are legendary, as is their ability to get to hard to
-  reach places. They move faster than most races, but don't run as fast as
-  Centaurs or Spriggans. Felids advance in levels very slowly. They are skilled
-  with many forms of magic, though less so with raw elemental magic.
+  Their agility and stealth are legendary, They move faster than most races, but
+  not as fast as Centaurs or Spriggans. Felids advance in levels very slowly.
+  They are skilled with many forms of magic, though not with raw elemental magic.
 
   Felids gain extra lives as they increase in levels. Upon death, they will be
   resurrected in a safe place, losing an experience level in the process.
+
+
+Elves
+========================================
+
+There are a number of distinct species of Elf. Elves are all physically slight
+but long-lived people, quicker-witted than Humans, but sometimes slower to learn
+new things.
+
+High Elves
+  This is a tall and powerful Elven species who advance in levels slowly,
+  requiring half again as much experience as Humans. They have good intelligence
+  and dexterity, but suffer in strength. Compared with Humans, they have fewer
+  HP but more magic. Among all races, they are best with blades and bows. They
+  are not very good with necromancy or with earth or poison magic, but are
+  highly skilled with most other forms of magic, especially Air and Charms.
+
+Deep Elves
+  This is an Elven species who long ago fled the overworld to live in darkness
+  underground. There, they developed their mental powers, evolving a natural
+  gift for all forms of magic (including necromancy and earth magic), and
+  adapted physically to their new environment, becoming shorter and weaker than
+  High Elves and losing all colouration. They are poor at hand-to-hand combat,
+  but excellent at fighting from a distance. They advance in levels at the same
+  speed as High Elves.
+
+Sludge Elves
+  This is a somewhat unfortunate species of Elves. A mad priest of Beogh spent
+  years trying to transmute a species with the strength of orcs and the grace of
+  of High Elves. Sludge Elves are the result. Their shifting, mutated bodies are
+  both a blessing and a curse, resulting in natural necromantic, poisonous and
+  and transmutative talents. As fighters, they are often most dangerous unarmed.
+  They advance in levels slower than Humans, but faster than other Elves.
 
 Barachians
   Barachians are an amphibious humanoid race, said to be distantly related to

@@ -423,6 +423,23 @@ static const map<species_type, species_def> species_data =
     { SK_SHORT_BLADES, SK_LONG_BLADES, SK_AXES, SK_SLINGS },
 } },
 
+{ SP_HIGH_ELF, {
+    "HE",
+    "High Elf", "Elven", "Elf",
+    SPF_ELVEN,
+    -1, -1, 1, 4,
+    MONS_ELF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    7, 11, 10, // 28
+    { STAT_INT, STAT_DEX }, 3,
+    {},
+    { "You are unusually perceptive of traps and noises." },
+    { "keen senses" },
+    { JOB_HUNTER, JOB_SKALD, JOB_WIZARD, JOB_CONJURER, JOB_FIRE_ELEMENTALIST,
+      JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST },
+    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
+} },
+
 { SP_HILL_ORC, {
     "HO",
     "Hill Orc", "Orcish", "Orc",
@@ -591,6 +608,23 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_SLUDGE_ELF, {
+    "SE",
+    "Sludge Elf", "Elven", "Elf",
+    SPF_ORCISH,
+    -1, 0, 1, 3,
+    MONS_ELF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    9, 8, 7, // 24
+    { STAT_STR, STAT_DEX }, 4,
+    { { MUT_EVOLUTION, 1, 1 }, { MUT_EVOLUTION, 1, 24 }, },
+    {},
+    {},
+    { JOB_ASSASSIN, JOB_HUNTER, JOB_WIZARD, JOB_TRANSMUTER, JOB_VENOM_MAGE,
+      JOB_EARTH_ELEMENTALIST, JOB_MONK, JOB_NECROMANCER, JOB_WARPER },
+    { SK_MACES_FLAILS, SK_AXES, SK_UNARMED_COMBAT },
+} },
+
 { SP_SPRIGGAN, {
     "Sp",
     "Spriggan", nullptr, nullptr,
@@ -687,22 +721,6 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 #if TAG_MAJOR_VERSION == 34
-{ SP_SLUDGE_ELF, {
-    "SE",
-    "Sludge Elf", "Elven", "Elf",
-    SPF_ELVEN,
-    0, -1, 1, 3,
-    MONS_ELF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    8, 8, 8, // 24
-    { STAT_INT, STAT_DEX }, 4,
-    {},
-    {},
-    {},
-    {}, // not a starting race
-    {}, // not a starting race
-} },
-
 { SP_LAVA_ORC, {
     "LO",
     "Lava Orc", "Orcish", "Orc",
@@ -736,23 +754,6 @@ static const map<species_type, species_def> species_data =
     { "fire immunity", "cold vulnerability" },
     {}, // not a starting race
     {}, // not a starting race
-} },
-
-{ SP_HIGH_ELF, {
-    "HE",
-    "High Elf", "Elven", "Elf",
-    SPF_ELVEN,
-    -1, -1, 1, 4,
-    MONS_ELF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    7, 11, 10, // 28
-    { STAT_INT, STAT_DEX }, 3,
-    {},
-    {},
-    {},
-    { JOB_HUNTER, JOB_SKALD, JOB_WIZARD, JOB_CONJURER, JOB_FIRE_ELEMENTALIST,
-      JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST },
-    { SK_SHORT_BLADES, SK_LONG_BLADES, SK_STAVES, SK_BOWS },
 } },
 #endif
 // Ideally this wouldn't be necessary...
