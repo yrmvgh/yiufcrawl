@@ -65,12 +65,16 @@ arts, which they can blend together, well, artfully.
 %%%% 
 Hill Orc
 
-Orcs are skilled in close combat, and often dabble in offensive magic. Hated by
-most, orcs are very proud and many of them feel superior.
+Orcs were forged in a volcano by Beogh, but Hill Orcs wandered and forgot their
+past. All they crave now is gold. Orcs are strong, skilled with armour and axe.
 %%%%
 Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
+%%%% 
+Lava Orc
+
+LAVA ORC DOES NOT WORK YET. Choosing this is a bad idea! YA BEEN WARNED, kid!
 %%%%
 Tengu
 
@@ -120,6 +124,11 @@ Spriggan
 
 Very small, very frail and very fast, Spriggans make highly competent stabbers
 and spellcasters.
+%%%%
+Surface Dwarf
+
+Surface Dwarves are simple warriors with a high resistance to hexes and curses.
+All dwarves have a slight predilection towards wands, maces and shields.
 %%%%
 Troll
 
