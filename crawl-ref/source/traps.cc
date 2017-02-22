@@ -1107,7 +1107,7 @@ void search_around()
         skill += you.piety * 2;
 
     if (you.species == SP_HIGH_ELF)
-        skill += 75;
+        skill += 125;
 
     int max_dist = div_rand_round(skill, 32);
     if (max_dist > 5)
