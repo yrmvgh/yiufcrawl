@@ -159,11 +159,12 @@ void choose_tutorial_character(newgame_def& ng_choice)
 // We have subsequently added a few new categories.
 static const species_type species_order[] =
 {
+    //fork-specific races first to highlight their presence
+    SP_SURFACE_DWARF,  SP_HIGH_ELF,
+    SP_SLUDGE_ELF,     SP_LAVA_ORC,
     // comparatively human-like looks
-    SP_HUMAN,          SP_HIGH_ELF,
-    SP_DEEP_ELF,       SP_SLUDGE_ELF,
-    SP_HILL_ORC,       SP_DEEP_DWARF,
-    SP_SURFACE_DWARF,
+    SP_HILL_ORC,       SP_HUMAN,
+    SP_DEEP_ELF,       SP_DEEP_DWARF,
     // small species
     SP_HALFLING,       SP_KOBOLD,
     SP_SPRIGGAN,
