@@ -3395,9 +3395,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     if (!you_worship(GOD_NO_GOD))
         _add_talent(talents, ABIL_RENOUNCE_RELIGION, check_confused);
 
-    if (env.level_state & LSTATE_BEOGH && can_convert_to_beogh())
-        _add_talent(talents, ABIL_CONVERT_TO_BEOGH, check_confused);
-
     //jmf: Check for breath weapons - they're exclusive of each other, I hope!
     //     Make better ones come first.
     if (you.species != SP_RED_DRACONIAN && you.form == TRAN_DRAGON

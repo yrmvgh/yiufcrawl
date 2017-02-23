@@ -888,11 +888,7 @@ bool mons_is_sensed(monster_type mc)
 
 bool mons_allows_beogh(const monster& mon)
 {
-    if (!species_is_orcish(you.species) || you_worship(GOD_BEOGH))
-        return false; // no one else gives a damn
-
-    return mons_genus(mon.type) == MONS_ORC
-           && mon.is_priest() && mon.god == GOD_BEOGH;
+    return false;
 }
 
 bool mons_allows_beogh_now(const monster& mon)
