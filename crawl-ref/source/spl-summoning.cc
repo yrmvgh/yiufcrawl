@@ -1424,7 +1424,8 @@ spret_type cast_summon_forest(actor* caster, int pow, god_type god, bool fail)
         fail_check();
         // Replace some rock walls with trees, then scatter a smaller number
         // of trees on unoccupied floor (such that they do not break connectivity)
-        for (distance_iterator di(caster->pos(), false, true, LOS_RADIUS); di; ++di)
+        for (distance_iterator di(caster->pos(), false, true,
+                                  LOS_DEFAULT_RANGE); di; ++di)
         {
             if ((grd(*di) == DNGN_ROCK_WALL && x_chance_in_y(pow, 150))
                     || ((grd(*di) == DNGN_FLOOR && x_chance_in_y(pow, 1250)
