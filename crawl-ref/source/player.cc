@@ -1781,7 +1781,7 @@ int player_spec_fire()
     // rings of fire:
     sf += you.wearing(EQ_RINGS, RING_FIRE);
 
-    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_FIRE_BOOST))
+    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST))
         sf++;
 
     if (you.duration[DUR_FIRE_SHIELD])
@@ -1816,6 +1816,9 @@ int player_spec_earth()
 
     // Staves
     se += you.wearing(EQ_STAFF, STAFF_EARTH);
+    
+    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST)) 
+    	se++;
 
     return se;
 }
@@ -6023,6 +6026,9 @@ int player::racial_ac(bool temp) const
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
+        else if (species == SP_LAVA_ORC && you.temperature <= TEMP_WARM)
+            return 200 + 100 * experience_level / 6;        // max 6
+            
     }
 
     return 0;
@@ -8028,11 +8034,12 @@ bool temperature_effect(int which)
 //      case nothing, right now:
 //            return (you.temperature >= TEMP_COOL && you.temperature < TEMP_WARM); // 5-8
         case LORC_LAVA_BOOST:
-            return temperature() >= TEMP_WARM && temperature() < TEMP_HOT; // 9-10
+            return temperature() >= TEMP_WARM; // 9-10
         case LORC_FIRE_RES_II:
             return temperature() >= TEMP_WARM; // 9-15
         case LORC_FIRE_RES_III:
-        case LORC_FIRE_BOOST:
+//      rolling this case into lava boost
+//        case LORC_FIRE_BOOST:
         case LORC_COLD_VULN:
             return temperature() >= TEMP_HOT; // 11-15
         case LORC_PASSIVE_HEAT:
@@ -8074,17 +8081,17 @@ string temperature_text(int temp)
     switch (temp)
     {
         case TEMP_MIN:
-            return "rF+";
+            return "rF+; racial 'Stoneskin' bonus to AC";
         case TEMP_COOL:
             return "";
         case TEMP_WARM:
-            return "rF++; lava magic boost; Stoneskin melts";
+            return "rF++; lava magic boost; Stoneskin ends";
         case TEMP_HOT:
-            return "rF+++; rC-; fire magic boost";
+            return "rF+++; rC-; lava magic boost";
         case TEMP_FIRE:
             return "Burn attackers";
         case TEMP_MAX:
-            return "Burn surroundings; cannot read scrolls";
+            return "All above effects; fire aura; can't read";
         default:
             return "";
     }
