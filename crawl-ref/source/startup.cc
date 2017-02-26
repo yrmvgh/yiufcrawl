@@ -300,7 +300,6 @@ static void _post_init(bool newc)
     you.redraw_evasion      = true;
     you.redraw_experience   = true;
     if (you.species == SP_LAVA_ORC)
-#endif
     you.redraw_quiver       = true;
     you.wield_change        = true;
 

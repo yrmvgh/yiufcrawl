@@ -1106,8 +1106,6 @@ bool form_likes_lava(transformation form)
            && (!form_changed_physiology(form)
                || form == transformation::ice_beast
                || form == transformation::statue);
-#else
-    return false;
 }
 
 // Used to mark transformations which override species intrinsics.

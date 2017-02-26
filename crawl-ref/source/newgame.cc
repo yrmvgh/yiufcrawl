@@ -934,41 +934,45 @@ void species_group::attach(const newgame_def& ng, const newgame_def& defaults,
 static species_group species_groups[] =
 {
     {
-        "Simple",
-        coord_def(0, 0),
+        "Not found in DCSS",
+        coord_def(0, -1),
+        20,
+        {
+    SP_SURFACE_DWARF,
+    SP_HIGH_ELF,
+    SP_SLUDGE_ELF,
+    SP_LAVA_ORC,
+        }
+    },
+    {
+        "Basic DCSS",
+        coord_def(25, -1),
         20,
         {
             SP_HILL_ORC,
             SP_MINOTAUR,
             SP_MERFOLK,
             SP_GARGOYLE,
-            SP_BASE_DRACONIAN,
             SP_HALFLING,
             SP_TROLL,
             SP_GHOUL,
-        }
-    },
-    {
-        "Intermediate",
-        coord_def(25, 0),
-        20,
-        {
             SP_HUMAN,
             SP_KOBOLD,
-            SP_DEMONSPAWN,
             SP_CENTAUR,
             SP_SPRIGGAN,
-            SP_TENGU,
             SP_DEEP_ELF,
             SP_OGRE,
-            SP_DEEP_DWARF,
         }
     },
     {
-        "Advanced",
-        coord_def(50, 0),
+        "Advanced DCSS",
+        coord_def(50, -1),
         20,
         {
+            SP_BASE_DRACONIAN,
+            SP_TENGU,
+            SP_DEMONSPAWN,
+            SP_DEEP_DWARF,
             SP_VINE_STALKER,
             SP_VAMPIRE,
             SP_DEMIGOD,

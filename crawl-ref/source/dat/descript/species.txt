@@ -74,7 +74,8 @@ Humans advance quickly in levels and have equal abilities in most skills.
 %%%% 
 Lava Orc
 
-LAVA ORC DOES NOT WORK YET. Choosing this is a bad idea! YA BEEN WARNED, kid!
+Orcs were forged in a volcano by Beogh! Lava Orcs are excellent at casting Fire
+and Earth spells. Orcs are strong, and skilled with armor and axes.
 %%%%
 Tengu
 
