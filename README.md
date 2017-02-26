@@ -1,28 +1,42 @@
-[![Build Status](https://travis-ci.org/crawl/crawl.svg?branch=master)](https://travis-ci.org/crawl/crawl)
-
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup
-### Removed races, excised experiments, and tragic taxa
+## A fork of Dungeon Crawl Stone Soup with extra soup
+### Excised races, expired experiments, and extinct species
+    download instructions:
+    git clone https://github.com/yrmvgh/crawl.git
+    cd crawl/crawl-ref/source
+    make TILES=y
+    then just run the file named "crawl"
+for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
 --------------------------------
-#### *Here are some brief notes about this fork, expect a better changelog soon*
+> #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
 
-*Future plans:*
-Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: lava orcs, then perhaps imps.
+### *They're Back:*
 
-*Current features:*
-Sludge elves, are part orcish, and they evolve. High Elves, have heightened trapsense. Deep elves, don't YET have a noise attenuation modifier that makes everything they do quieter. But they will have one soon! Also there are a bunch of fiddly, unimportant apt tweaks to reduce the Elf Overlap, which includes treading tengu as elf race #4.
+* **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
+* **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
+* **Surface Dwarf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR.
+* **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 
-Ogres are cooler now in a big way. (hint: that means HP) Trolls got taken down a peg, they're fine.
+All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
 
-Formicids can't fall in shafts by accident. They've got too many arms, and experience.
+### *Future plans:*
+Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: change lava orcs to be based on damage, not tension, and add plutonians and imps to the game.
+
+To further differentiate the elven subraces, deep elves will gain a noise attenuation modifier that makes everything they do quieter.
+
+Surface Dwarves are just an apt race at this point. high MR and HP, just like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making SD exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
+
+### *Minor "personal preference" changes:*
+Ogres are cooler now in a big way. (that means HP) Trolls got taken down a peg, they'll be fine.
+
+Formicids can't fall in shafts by accident.
 
 Items don't block doorways.
 
-Berserkers are a little bit more entertaining as a starting background.
+Berserkers start with no weapons, and no weapon skill.
 
-Surface Dwarves are just an apt race at this point. high MR, HP, like DD. didn't have any bright ideas for a cool mut, yet. may leave that up to tavern. but job 1 was making them exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go, I guess! Suggestions on how to make them special are most welcome.
-
-#### *Below you will find the original DCSS readme:*
+#### *Below you will find the contents of the original DCSS readme:*
+[![Build Status](https://travis-ci.org/yrmvgh/crawl.svg?branch=master)](https://travis-ci.org/yrmvgh/crawl)
 --------------------------------
 ## Contents
 
