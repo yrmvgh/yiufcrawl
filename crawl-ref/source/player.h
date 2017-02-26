@@ -4,8 +4,7 @@
 **/
 
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include <chrono>
 #include <list>
@@ -1174,5 +1173,4 @@ bool temperature_effect(int which);
 int temperature_colour(int temp);
 string temperature_string(int temp);
 string temperature_text(int temp);
-
 #endif
