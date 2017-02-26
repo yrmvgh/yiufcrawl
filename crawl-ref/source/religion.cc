@@ -331,15 +331,15 @@ const vector<god_power> god_powers[NUM_GODS] =
       { 4, ABIL_HEPLIAKLQANA_IDEALISE, "heal and protect your ancestor" },
       { 5, "drain nearby creatures when transferring your ancestor"},
     },
-    // Ieoh Jian
+    // Wu Jian
     { { 1, "attack and slow monsters by moving around them",
            "no longer perform spinning attacks" },
       { 2, "perform a distracting airborne attack by moving against a solid obstacle",
            "no longer perform airborne attacks" },
       { 3, "strike by moving towards foes, devastating them if slowed or distracted",
            "no longer perform lunging strikes" },
-      { 4, ABIL_IEOH_JIAN_SERPENTS_LASH, "move short distances at supernatural speeds" },
-      { 5, ABIL_IEOH_JIAN_HEAVEN_ON_EARTH, "summon a storm of heavenly clouds to empower your attacks" },
+      { 4, ABIL_WU_JIAN_SERPENTS_LASH, "move short distances at supernatural speeds" },
+      { 5, ABIL_WU_JIAN_HEAVEN_ON_EARTH, "summon a storm of heavenly clouds to empower your attacks" },
     },
 };
 
@@ -2058,7 +2058,7 @@ string god_name(god_type which_god, bool long_name)
     case GOD_PAKELLAS:      return "Pakellas";
     case GOD_USKAYAW:       return "Uskayaw";
     case GOD_HEPLIAKLQANA:  return "Hepliaklqana";
-    case GOD_IEOH_JIAN:     return "Ieoh Jian";
+    case GOD_WU_JIAN:     return "Wu Jian";
     case GOD_JIYVA: // This is handled at the beginning of the function
     case GOD_ECUMENICAL:    return "an unknown god";
     case NUM_GODS:          return "Buggy";
@@ -2075,7 +2075,7 @@ string god_name_jiyva(bool second_name)
     return name;
 }
 
-string ieoh_jian_random_sifu_name()
+string wu_jian_random_sifu_name()
 {
     switch (random2(7))
     {
@@ -2903,7 +2903,7 @@ void excommunication(bool voluntary, god_type new_god)
         you.exp_docked_total[old_god] = you.exp_docked[old_god];
         break;
 
-    case GOD_IEOH_JIAN:
+    case GOD_WU_JIAN:
         you.attribute[ATTR_SERPENTS_LASH] = 0;
         you.attribute[ATTR_HEAVEN_ON_EARTH] = 0;
         _set_penance(old_god, 25);
@@ -3561,9 +3561,12 @@ void join_religion(god_type which_god)
     mark_milestone("god.worship", "became a worshipper of "
                    + god_name(you.religion) + ".");
     take_note(Note(NOTE_GET_GOD, you.religion));
+    const bool returning = you.worshipped[which_god]
+                           || is_good_god(which_god)
+                              && you.species == SP_BARACHIAN;
     simple_god_message(
         make_stringf(" welcomes you%s!",
-                     you.worshipped[which_god] ? " back" : "").c_str());
+                     returning ? " back" : "").c_str());
     // included in default force_more_message
 #ifdef DGL_WHEREIS
     whereis_record();
@@ -4011,7 +4014,7 @@ void handle_god_time(int /*time_delta*/)
         case GOD_ZIN:
         case GOD_PAKELLAS:
         case GOD_JIYVA:
-        case GOD_IEOH_JIAN:
+        case GOD_WU_JIAN:
             if (one_chance_in(17))
                 lose_piety(1);
             break;
@@ -4086,7 +4089,7 @@ int god_colour(god_type god) // mv - added
     case GOD_BEOGH:
     case GOD_LUGONU:
     case GOD_ASHENZARI:
-    case GOD_IEOH_JIAN:
+    case GOD_WU_JIAN:
         return LIGHTRED;
 
     case GOD_GOZAG:
@@ -4183,7 +4186,7 @@ colour_t god_message_altar_colour(god_type god)
         return BLUE;
 
     case GOD_LUGONU:
-    case GOD_IEOH_JIAN:
+    case GOD_WU_JIAN:
         return LIGHTRED;
 
     case GOD_CHEIBRIADOS:

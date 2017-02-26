@@ -2710,9 +2710,7 @@ static void tag_read_you(reader &th)
         you.sacrifices[j]       = unmarshallUByte(th);
 #if TAG_MAJOR_VERSION == 34
         }
-#endif
 
-#if TAG_MAJOR_VERSION == 34
         if (you.innate_mutation[j] + you.temp_mutation[j] > you.mutation[j])
         {
             mprf(MSGCH_ERROR, "Mutation #%d out of sync, fixing up.", j);
@@ -2979,6 +2977,29 @@ static void tag_read_you(reader &th)
     {
         if (you.mutation[MUT_SPIT_POISON] > 1)
             you.mutation[MUT_SPIT_POISON] -= 1;
+    }
+
+    // Slow regeneration split into two single-level muts:
+    // * Inhibited regeneration (no regen in los of monsters, what Gh get)
+    // * No regeneration (what DDs get)
+    {
+        if (you.species == SP_DEEP_DWARF
+            && (you.mutation[MUT_INHIBITED_REGENERATION] > 0
+                || you.mutation[MUT_NO_REGENERATION] != 1))
+        {
+            you.innate_mutation[MUT_INHIBITED_REGENERATION] = 0;
+            you.mutation[MUT_INHIBITED_REGENERATION] = 0;
+            you.innate_mutation[MUT_NO_REGENERATION] = 1;
+            you.mutation[MUT_NO_REGENERATION] = 1;
+        }
+        else if (you.species == SP_GHOUL
+                 && you.mutation[MUT_INHIBITED_REGENERATION] > 1)
+        {
+            you.innate_mutation[MUT_INHIBITED_REGENERATION] = 1;
+            you.mutation[MUT_INHIBITED_REGENERATION] = 1;
+        }
+        else if (you.mutation[MUT_INHIBITED_REGENERATION] > 1)
+            you.mutation[MUT_INHIBITED_REGENERATION] = 1;
     }
 
     // Fixup for Sacrifice XP from XL 27 (#9895). No minor tag, but this
@@ -3751,8 +3772,10 @@ static PlaceInfo unmarshallPlaceInfo(reader &th)
 
 #if TAG_MAJOR_VERSION == 34
     int br = unmarshallInt(th);
+    // This is for extremely old saves that predate NUM_BRANCHES, probably only
+    // a very small window of time in the 34 major version.
     if (br == -1)
-        br = NUM_BRANCHES;
+        br = GLOBAL_BRANCH_INFO;
     ASSERT(br >= 0);
     // at the time NUM_BRANCHES was one above BRANCH_DEPTHS, so we check that
     if (th.getMinorVersion() < TAG_MINOR_GLOBAL_BR_INFO && br == BRANCH_DEPTHS+1)
@@ -3910,17 +3933,34 @@ static void tag_read_you_dungeon(reader &th)
     you.set_place_info(place_info);
 
     unsigned short count_p = (unsigned short) unmarshallShort(th);
+
+    auto places = you.get_all_place_info();
     // Use "<=" so that adding more branches or non-dungeon places
     // won't break save-file compatibility.
-    ASSERT(count_p <= you.get_all_place_info().size());
+    ASSERT(count_p <= places.size());
 
     for (int i = 0; i < count_p; i++)
     {
         place_info = unmarshallPlaceInfo(th);
-        ASSERT(!place_info.is_global());
+        if (place_info.is_global()
+            && th.getMinorVersion() <= TAG_MINOR_DESOLATION_GLOBAL)
+        {
+            // This is to fix some crashing saves that didn't import
+            // correctly, where the desolation slot occasionally gets marked
+            // as global on conversion from pre-0.19 to post-0.19a.   This
+            // assumes that the order in `logical_branch_order` (branch.cc)
+            // hasn't changed since the save version (which is moderately safe).
+            const branch_type branch_to_fix = places[i].branch;
+            ASSERT(branch_to_fix == BRANCH_DESOLATION);
+            place_info.branch = branch_to_fix;
+        }
+        else
+        {
+            // These should all be branch-specific, not global
+            ASSERT(!place_info.is_global());
+        }
         you.set_place_info(place_info);
     }
-
     typedef pair<string_set::iterator, bool> ssipair;
     unmarshall_container(th, you.uniq_map_tags,
                          (ssipair (string_set::*)(const string &))

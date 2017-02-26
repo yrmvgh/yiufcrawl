@@ -180,14 +180,14 @@ static void _CURSES_melee_effects(item_def* weapon, actor* attacker,
 
 static bool _DISPATER_evoke(item_def *item, bool* did_work, bool* unevokable)
 {
-    if (!enough_hp(11, true))
+    if (!enough_hp(14, true))
     {
         mpr("You're too close to death to use this item.");
         *unevokable = true;
         return true;
     }
 
-    if (!enough_mp(5, false))
+    if (!enough_mp(4, false))
     {
         *unevokable = true;
         return true;
@@ -203,8 +203,8 @@ static bool _DISPATER_evoke(item_def *item, bool* did_work, bool* unevokable)
     }
 
     mpr("You feel the staff feeding on your energy!");
-    dec_hp(5 + random2avg(19, 2), false);
-    dec_mp(2 + random2avg(5, 2));
+    dec_hp(14, false);
+    dec_mp(4);
     make_hungry(100, false, true);
     practise_evoking(random_range(1, 2));
 
@@ -275,7 +275,7 @@ static void _OLGREB_melee_effects(item_def* weapon, actor* attacker,
 
 static void _power_pluses(item_def *item)
 {
-    item->plus  = min(you.hp / 10, 27);
+    item->plus = min(you.hp / 10, 27);
 }
 
 static void _POWER_equip(item_def *item, bool *show_msgs, bool unmeld)
@@ -873,11 +873,6 @@ static void _WOE_melee_effects(item_def* weapon, actor* attacker,
 
 ///////////////////////////////////////////////////
 
-static void _DAMNATION_equip(item_def *item, bool *show_msgs, bool unmeld)
-{
-    _equip_mpr(show_msgs, you.hands_act("smoulder", "for a moment.").c_str());
-}
-
 static setup_missile_type _DAMNATION_launch(item_def* item, bolt* beam,
                                            string* ammo_name, bool* returning)
 {
@@ -1227,20 +1222,6 @@ static void _OCTOPUS_KING_world_reacts(item_def *item)
 
 ///////////////////////////////////////////////////
 
-static void _CAPTAIN_equip(item_def *item, bool *show_msgs, bool unmeld)
-{
-    if (you_worship(GOD_SHINING_ONE))
-    {
-        _equip_mpr(show_msgs,
-                   "You feel dishonourable wielding this.");
-    }
-    else
-    {
-        _equip_mpr(show_msgs,
-                   "You feel a cutthroat vibe.");
-    }
-}
-
 static void _CAPTAIN_melee_effects(item_def* weapon, actor* attacker,
                                 actor* defender, bool mondied, int dam)
 {
@@ -1418,8 +1399,47 @@ static void _THERMIC_ENGINE_world_reacts(item_def *item)
             item->plus = 2;
 
         you.wield_change = true;
-
-        if (item->plus == 2)
-            mpr("The engine shudders to a halt.");
     }
+}
+
+///////////////// Ratskin Cloak ///////////////////
+
+static bool _RATSKIN_CLOAK_evoke(item_def *item, bool* did_work, bool* unevokable)
+{
+    if (!enough_mp(3, false))
+    {
+        *unevokable = true;
+        return true;
+    }
+
+    if (!x_chance_in_y(you.skill(SK_EVOCATIONS, 100), 1500))
+        return false;
+
+    bool success = false;
+    const int how_many = coinflip() + 1;
+
+    for (int i = 0; i < how_many; ++i)
+    {
+        monster_type mon = one_chance_in(3) ? MONS_HELL_RAT : MONS_RIVER_RAT;
+
+        mgen_data mg(mon, BEH_FRIENDLY, you.pos(), MHITYOU);
+        mg.set_summoned(&you, 0, 0);
+        mg.extra_flags |= (MF_NO_REWARD | MF_HARD_RESET);
+        monster *m = create_monster(mg);
+
+        if (m)
+        {
+            m->add_ench(mon_enchant(ENCH_FAKE_ABJURATION, 3));
+            success = true;
+        }
+    }
+
+    if (success)
+        mpr("You call out to the rats of the Dungeon...");
+
+    dec_mp(3);
+    make_hungry(50, false, true);
+    practise_evoking(1);
+
+    return true;
 }

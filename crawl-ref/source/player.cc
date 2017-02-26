@@ -652,15 +652,22 @@ monster_type player_mons(bool transform)
 
 void update_vision_range()
 {
-    you.normal_vision = LOS_RADIUS;
+    you.normal_vision = LOS_DEFAULT_RANGE;
     int nom   = 1;
     int denom = 1;
+
+    // Barachians have +1 base LOS.
+    if (you.species == SP_BARACHIAN)
+    {
+        nom *= LOS_DEFAULT_RANGE + 1;
+        denom *= LOS_DEFAULT_RANGE;
+    }
 
     // Nightstalker gives -1/-2/-3.
     if (player_mutation_level(MUT_NIGHTSTALKER))
     {
-        nom *= LOS_RADIUS - player_mutation_level(MUT_NIGHTSTALKER);
-        denom *= LOS_RADIUS;
+        nom *= LOS_DEFAULT_RANGE - player_mutation_level(MUT_NIGHTSTALKER);
+        denom *= LOS_DEFAULT_RANGE;
     }
 
     // the Darkness spell.
@@ -1106,23 +1113,30 @@ static int _player_bonus_regen()
     return rr;
 }
 
-// Slow regeneration mutation: slows or stops regeneration when monsters are
-// visible at level 1 or 2 respectively, stops regeneration at level 3.
-static int _slow_regeneration_rate()
+// Inhibited regeneration: stops regeneration when monsters are visible
+bool regeneration_is_inhibited()
 {
-    if (player_mutation_level(MUT_SLOW_REGENERATION) == 3)
-        return 0;
-
-    for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi)
+    switch (player_mutation_level(MUT_INHIBITED_REGENERATION))
     {
-        if (mons_is_threatening(**mi)
-            && !mi->wont_attack()
-            && !mi->neutral())
+    case 0:
+      return false;
+    case 1:
+      {
+        for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi)
         {
-            return 2 - player_mutation_level(MUT_SLOW_REGENERATION);
+            if (mons_is_threatening(**mi)
+                && !mi->wont_attack()
+                && !mi->neutral())
+            {
+                return true;
+            }
         }
+        return false;
+      }
+    default:
+      die("Unknown inhibited regeneration level.");
+      break;
     }
-    return 2;
 }
 
 int player_regen()
@@ -1163,19 +1177,13 @@ int player_regen()
             rr += (100 - you.hp_max) / 6;
 #endif
 
-    // Slow regeneration mutation.
-    if (player_mutation_level(MUT_SLOW_REGENERATION) > 0)
-    {
-        rr *= _slow_regeneration_rate();
-        rr /= 2;
-    }
     if (you.duration[DUR_COLLAPSE])
         rr /= 4;
 
-    if (you.disease)
+    if (you.disease || regeneration_is_inhibited() || !player_regenerates_hp())
         rr = 0;
 
-    // Trog's Hand. This circumvents the slow regeneration mutation.
+    // Trog's Hand. This circumvents sickness or inhibited regeneration.
     if (you.duration[DUR_TROGS_HAND])
         rr += 100;
 
@@ -1200,7 +1208,7 @@ int player_mp_regen()
 void update_regen_amulet_attunement()
 {
     if (you.wearing(EQ_AMULET, AMU_REGENERATION)
-        && player_mutation_level(MUT_SLOW_REGENERATION) < 3)
+        && player_mutation_level(MUT_NO_REGENERATION) == 0)
     {
         if (you.hp == you.hp_max
             && you.props[REGEN_AMULET_ACTIVE].get_int() == 0)
@@ -1591,9 +1599,6 @@ int player_res_electricity(bool calc_unid, bool temp, bool items)
 
     if (temp)
     {
-        if (you.attribute[ATTR_DIVINE_LIGHTNING_PROTECTION])
-            return 3;
-
         if (you.duration[DUR_RESISTANCE])
             re++;
 
@@ -4125,7 +4130,7 @@ int get_real_mp(bool include_items)
 
 bool player_regenerates_hp()
 {
-    if (player_mutation_level(MUT_SLOW_REGENERATION) == 3)
+    if (player_mutation_level(MUT_NO_REGENERATION) > 0)
         return false;
     if (you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
         return false;
@@ -5274,8 +5279,8 @@ player::player()
 
     octopus_king_rings = 0;
 
-    normal_vision    = LOS_RADIUS;
-    current_vision   = LOS_RADIUS;
+    normal_vision    = LOS_DEFAULT_RANGE;
+    current_vision   = LOS_DEFAULT_RANGE;
 
     real_time_ms     = chrono::milliseconds::zero();
     real_time_delta  = chrono::milliseconds::zero();
@@ -5383,11 +5388,7 @@ player::player()
     constricting = 0;
 
     // Protected fields:
-    for (branch_iterator it; it; ++it)
-    {
-        branch_info[it->id].branch = it->id;
-        branch_info[it->id].assert_validity();
-    }
+    clear_place_info();
 }
 
 void player::init_skills()
@@ -5493,7 +5494,7 @@ bool player::is_banished() const
 bool player::is_sufficiently_rested() const
 {
     // Only return false if resting will actually help.
-    return (hp >= _rest_trigger_level(hp_max) || !player_regenerates_hp())
+    return (!player_regenerates_hp() || hp >= _rest_trigger_level(hp_max))
             && (magic_points >= _rest_trigger_level(max_magic_points)
                 || !player_regenerates_mp());
 }
