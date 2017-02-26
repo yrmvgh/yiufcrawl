@@ -73,9 +73,7 @@
 
 static bool _handle_pickup(monster* mons);
 static void _mons_in_cloud(monster& mons);
-#if TAG_MAJOR_VERSION == 34
 static void _heated_area(monster& mons);
-#endif
 static bool _monster_move(monster* mons);
 
 // [dshaligram] Doesn't need to be extern.
@@ -1495,9 +1493,7 @@ static void _pre_monster_move(monster& mons)
         // Update constriction durations
         mons.accum_has_constricted();
 
-#if TAG_MAJOR_VERSION == 34
         _heated_area(mons);
-#endif
         if (mons.type == MONS_NO_MONSTER)
             return;
     }
@@ -1641,9 +1637,7 @@ void handle_monster_move(monster* mons)
     mons->shield_blocks = 0;
 
     _mons_in_cloud(*mons);
-#if TAG_MAJOR_VERSION == 34
     _heated_area(*mons);
-#endif
     if (!mons->alive())
         return;
 
@@ -3699,7 +3693,6 @@ static void _mons_in_cloud(monster& mons)
     actor_apply_cloud(&mons);
 }
 
-#if TAG_MAJOR_VERSION == 34
 static void _heated_area(monster& mons)
 {
     if (!heated(mons.pos()))
@@ -3749,4 +3742,3 @@ static void _heated_area(monster& mons)
             print_wounds(mons);
     }
 }
-#endif

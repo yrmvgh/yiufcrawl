@@ -426,23 +426,21 @@ void moveto_location_effects(dungeon_feature_type old_feat,
                     noisy(4, you.pos(), "Gloop!");
 
                 mprf("You %s lava.",
-                     (stepped) ? "slowly immerse yourself in the" : "fall into the");
+                     (stepped) ? "slowly wade into the" : "fall into the");
 
                 // Extra time if you stepped in.
                 if (stepped)
                     you.time_taken *= 2;
-#if TAG_MAJOR_VERSION == 34
                 // This gets called here because otherwise you wouldn't heat
                 // until your second turn in lava.
                 if (temperature() < TEMP_FIRE)
                     mpr("The lava instantly superheats you.");
                 you.temperature = TEMP_MAX;
-#endif
             }
 
             else if (!feat_is_lava(new_grid) && feat_is_lava(old_feat))
             {
-                mpr("You slowly pull yourself out of the lava.");
+                mpr("You slowly wade out of the lava.");
                 you.time_taken *= 2;
             }
         }
@@ -1393,7 +1391,6 @@ int player_res_fire(bool calc_unid, bool temp, bool items)
     if (you.species == SP_MUMMY)
         rf--;
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
     {
         if (temperature_effect(LORC_FIRE_RES_I))
@@ -1403,7 +1400,6 @@ int player_res_fire(bool calc_unid, bool temp, bool items)
         if (temperature_effect(LORC_FIRE_RES_III))
             rf++;
     }
-#endif
 
     // mutations:
     rf += player_mutation_level(MUT_HEAT_RESISTANCE, temp);
@@ -1484,10 +1480,8 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
                 rc++;
         }
 
-#if TAG_MAJOR_VERSION == 34
         if (you.species == SP_LAVA_ORC && temperature_effect(LORC_COLD_VULN))
             rc--;
-#endif
     }
 
     if (items)
@@ -1787,10 +1781,8 @@ int player_spec_fire()
     // rings of fire:
     sf += you.wearing(EQ_RINGS, RING_FIRE);
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_FIRE_BOOST))
         sf++;
-#endif
 
     if (you.duration[DUR_FIRE_SHIELD])
         sf++;
@@ -1808,14 +1800,12 @@ int player_spec_cold()
     // rings of ice:
     sc += you.wearing(EQ_RINGS, RING_ICE);
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC
         && (temperature_effect(LORC_LAVA_BOOST)
             || temperature_effect(LORC_FIRE_BOOST)))
     {
         sc--;
     }
-#endif
 
     return sc;
 }
@@ -5215,10 +5205,8 @@ player::player()
     lives = 0;
     deaths = 0;
 
-#if TAG_MAJOR_VERSION == 34
     temperature = 1; // 1 is min; 15 is max.
     temperature_last = 1;
-#endif
 
     xray_vision = false;
 
@@ -7847,7 +7835,6 @@ int player::scale_potion_healing(int healing_amount)
     return div_rand_round(healing_amount * _get_potion_heal_factor(), 3);
 }
 
-#if TAG_MAJOR_VERSION == 34
 // Lava orcs!
 int temperature()
 {
@@ -8102,7 +8089,6 @@ string temperature_text(int temp)
             return "";
     }
 }
-#endif
 
 void player_open_door(coord_def doorpos)
 {
@@ -8546,10 +8532,8 @@ void player_end_berserk()
     if (!you.duration[DUR_PARALYSIS] && !you.petrified())
         mprf(MSGCH_WARN, "You are exhausted.");
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
         mpr("You feel less hot-headed.");
-#endif
 
     you.berserk_penalty = 0;
 

@@ -454,7 +454,7 @@ static const map<species_type, species_def> species_data =
     {},
     { JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT,
       JOB_NECROMANCER, JOB_FIRE_ELEMENTALIST },
-    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES },
+    { SK_AXES, SK_POLEARMS, SK_LONG_BLADES },
 } },
 
 { SP_HUMAN, {
@@ -490,6 +490,23 @@ static const map<species_type, species_def> species_data =
     { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_ENCHANTER,
       JOB_CONJURER, JOB_SUMMONER },
     { SK_SHORT_BLADES, SK_MACES_FLAILS, SK_STAVES, SK_CROSSBOWS },
+} },
+
+{ SP_LAVA_ORC, {
+    "LO",
+    "Lava Orc", "Orcish", "Orc",
+    SPF_ORCISH | SPF_NO_HAIR,
+    -1, 1, 0, 3,
+    MONS_LAVA_ORC,
+    HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
+    10, 8, 6, // 24
+    { STAT_STR, STAT_INT }, 5,
+    {},
+    { "You heat up during combat." },
+    { "heat effects" },
+    {JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_TRANSMUTER,
+     JOB_EARTH_ELEMENTALIST, JOB_FIRE_ELEMENTALIST },
+    { SK_LONG_BLADES, SK_AXES, SK_POLEARMS, SK_UNARMED_COMBAT },
 } },
 
 { SP_MERFOLK, {
@@ -630,7 +647,7 @@ static const map<species_type, species_def> species_data =
 { SP_SLUDGE_ELF, {
     "SE",
     "Sludge Elf", "Elven", "Elf",
-    SPF_ORCISH,
+    SPF_ORCISH | SPF_ELVEN,
     -1, 0, 1, 3,
     MONS_ELF,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
@@ -739,23 +756,8 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
-#if TAG_MAJOR_VERSION == 34
-{ SP_LAVA_ORC, {
-    "LO",
-    "Lava Orc", "Orcish", "Orc",
-    SPF_ORCISH | SPF_NO_HAIR,
-    -1, 1, 0, 3,
-    MONS_LAVA_ORC,
-    HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
-    10, 8, 6, // 24
-    { STAT_INT, STAT_DEX }, 5,
-    {},
-    {},
-    {},
-    {}, // not a starting race
-    {}, // not a starting race
-} },
 
+#if TAG_MAJOR_VERSION == 34
 { SP_DJINNI, {
     "Dj",
     "Djinni", "Djinn", nullptr,

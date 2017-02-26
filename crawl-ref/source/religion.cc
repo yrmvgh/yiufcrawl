@@ -3034,7 +3034,6 @@ bool player_can_join_god(god_type which_god)
     if (which_god == GOD_FEDHAS && you.holiness() & MH_UNDEAD)
         return false;
 
-#if TAG_MAJOR_VERSION == 34
     // Dithmenos hates fiery species.
     if (which_god == GOD_DITHMENOS
         && (you.species == SP_DJINNI
@@ -3042,7 +3041,6 @@ bool player_can_join_god(god_type which_god)
     {
         return false;
     }
-#endif
 
     if (which_god == GOD_ZIN && player_mutation_level(MUT_EVOLUTION) > 0)
         return false;

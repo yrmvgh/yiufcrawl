@@ -972,10 +972,8 @@ void player_reacts()
     mprf(MSGCH_DIAGNOSTICS, "stealth: %d", stealth);
 #endif
 
-#if TAG_MAJOR_VERSION == 34
     if (you.species == SP_LAVA_ORC)
         temperature_check();
-#endif
 
     if (player_mutation_level(MUT_DEMONIC_GUARDIAN))
         check_demonic_guardian();
