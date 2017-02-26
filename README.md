@@ -6,7 +6,9 @@
     cd crawl/crawl-ref/source
     make TILES=y
     then just run the file named "crawl"
+    
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
+
 --------------------------------
 > #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
 
