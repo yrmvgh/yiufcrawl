@@ -1075,7 +1075,7 @@ bool physiology_mutation_conflict(mutation_type mutat)
 
     // Only Draconians (and gargoyles) can get wings.
     if (!species_is_draconian(you.species) && you.species != SP_GARGOYLE
-        && mutat == MUT_BIG_WINGS)
+        && you.species != SP_IMP && mutat == MUT_BIG_WINGS)
     {
         return true;
     }

@@ -782,7 +782,8 @@ void yell(const actor* mon)
              shout_verb.c_str(),
              you.duration[DUR_RECITE] ? " your recitation" : "",
              mon->name(DESC_THE).c_str(),
-             you.species == SP_IMP ? _imp_insult(*mon).c_str() : "!");
+             you.species == SP_IMP && coinflip() ? _imp_insult(*mon).c_str()
+             : "!");
     }
     else
     {
@@ -900,7 +901,7 @@ void check_monsters_sense(sense_type sense, int range, const coord_def& where)
                 {
                     if (coinflip())
                     {
-                        dprf(DIAG_NOISE, "disturbing %s (%d, %d)",
+                        dprf(DIAG_NOISE, "disturbing %s (%d, %td)",
                              mi->name(DESC_A, true).c_str(),
                              mi->pos().x, mi->pos().y);
                         behaviour_event(*mi, ME_DISTURB, 0, where);
