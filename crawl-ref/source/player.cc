@@ -1513,6 +1513,9 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
             rc++;
     }
 
+    if (you.species == SP_IMP)
+        rc--;
+
 #if TAG_MAJOR_VERSION == 34
     // species:
     if (you.species == SP_DJINNI)

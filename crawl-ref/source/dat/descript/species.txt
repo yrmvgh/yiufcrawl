@@ -72,6 +72,11 @@ Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
 %%%% 
+Imp
+
+Tiny warlike demons. They have fire resistance, wings, and a difficulty staying
+in one place. They are skilled in fire magic, and love tridents.
+%%%%
 Lava Orc
 
 Orcs were forged in a volcano by Beogh! Lava Orcs are excellent at casting Fire

@@ -475,6 +475,27 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_IMP, {
+    "Im",
+    "Imp", "Demonic", nullptr,
+    SPF_NONE,
+    0, -2, 0, 4,
+    MONS_CRIMSON_IMP,
+    HT_LAND, US_ALIVE, SIZE_LITTLE,
+    7, 8, 10, // 24
+    { STAT_INT, STAT_DEX }, 4,
+    { { MUT_BLINK, 1, 1 }, { MUT_HEAT_RESISTANCE, 1, 1 }, { MUT_SCREAM, 1, 1 },
+      { MUT_REGENERATION, 1, 1 }, { MUT_TELEPORT, 1, 1 }, { MUT_HORNS, 1, 1 },
+      { MUT_REGENERATION, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 }, 
+      { MUT_BIG_WINGS, 1, 14 }, { MUT_TELEPORT, 1, 14 },
+      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+    {},
+    {},
+    { JOB_ASSASSIN, JOB_ARTIFICER, JOB_ABYSSAL_KNIGHT, JOB_WARPER,
+      JOB_ENCHANTER, JOB_CONJURER, JOB_FIRE_ELEMENTALIST },
+    { SK_SHORT_BLADES, SK_SLINGS },
+} },
+
 { SP_KOBOLD, {
     "Ko",
     "Kobold", nullptr, nullptr,

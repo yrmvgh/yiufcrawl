@@ -49,6 +49,7 @@ enum species_type
     SP_VINE_STALKER,
     SP_BARACHIAN,
     SP_SURFACE_DWARF,
+    SP_IMP,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

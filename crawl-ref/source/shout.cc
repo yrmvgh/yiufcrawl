@@ -711,6 +711,37 @@ void issue_orders()
 }
 
 /**
+ * Impitis dialogue, to be shouted at an unruly foe.
+ *
+ * A small subset of do_mon_str_replacements, basically.
+ *
+ * @param foe       The foe to be shouted at.
+ * @return          An impish sort of insult, surrounded by punctuation.
+ *                  E.g. ', "Scamper hence, thou jarring miscreant tiler!"'
+ *                  Returns "!" if it fails (but it shouldn't?)
+ */
+string _imp_insult(const actor &foe)
+{
+    const string raw_insult = getSpeakString("imp_taunt");
+    if (raw_insult.empty())
+        return "!TEST!";
+
+    const string genus = mons_type_name(mons_genus(foe.type), DESC_PLAIN);
+
+    string msg = raw_insult;
+    if (msg.find("@species_insult_") != string::npos)
+    {
+        msg = replace_all(msg, "@species_insult_adj1@",
+                          get_species_insult(genus, "adj1"));
+        msg = replace_all(msg, "@species_insult_adj2@",
+                          get_species_insult(genus, "adj2"));
+        msg = replace_all(msg, "@species_insult_noun@",
+                          get_species_insult(genus, "noun"));
+    }
+    return make_stringf(", \"%s!\"", msg.c_str());
+}
+
+/**
  * Make the player yell, either at a monster or at nothing in particular.
  *
  * @mon     The monster to yell at; may be null.
