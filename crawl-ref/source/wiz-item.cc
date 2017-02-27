@@ -994,8 +994,6 @@ static void _debug_acquirement_stats(FILE *ostat)
             for (int d = 0; d <= SPTYP_LAST_EXPONENT; ++d)
             {
                 const auto disc = spschools_type::exponent(d);
-                if (disc & SPTYP_DIVINATION)
-                    continue;
 
                 if (disciplines & disc)
                 {
@@ -1008,8 +1006,6 @@ static void _debug_acquirement_stats(FILE *ostat)
         for (int d = 0; d <= SPTYP_LAST_EXPONENT; ++d)
         {
             const auto disc = spschools_type::exponent(d);
-            if (disc & SPTYP_DIVINATION)
-                continue;
 
             fprintf(ostat, "%-13s:  %2d/%2d spells unseen\n",
                     spelltype_long_name(disc),
@@ -1152,7 +1148,6 @@ static void _debug_acquirement_stats(FILE *ostat)
                 "transmutation",
                 "necromancy",
                 "summoning",
-                "divination",
                 "translocation",
                 "poison magic",
                 "earth magic",
