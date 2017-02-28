@@ -199,7 +199,7 @@ static const species_type species_order[] =
     SP_DEMIGOD,        SP_DEMONSPAWN,
     // undead species
     SP_MUMMY,          SP_GHOUL,
-    SP_VAMPIRE,
+    SP_VAMPIRE,        SP_SKELETON,
     // not humanoid at all
     SP_FELID,          SP_OCTOPODE,
 };
@@ -940,13 +940,14 @@ static species_group species_groups[] =
         coord_def(0, -1),
         20,
         {
-    SP_DORF,
-    SP_HIGH_ELF,
-    SP_SLUDGE_ELF,
-    SP_LAVA_ORC,
-    SP_IMP,
-    SP_PLUTONIAN,
-    SP_NULL,
+            SP_DORF,
+            SP_HIGH_ELF,
+            SP_SLUDGE_ELF,
+            SP_LAVA_ORC,
+            SP_IMP,
+            SP_PLUTONIAN,
+            SP_NULL,
+            SP_SKELETON,
         }
     },
     {
