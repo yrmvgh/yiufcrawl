@@ -491,9 +491,9 @@ static const map<species_type, species_def> species_data =
       { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
     {},
     {},
-    { JOB_ASSASSIN, JOB_ARTIFICER, JOB_ABYSSAL_KNIGHT, JOB_WARPER,
-      JOB_ENCHANTER, JOB_CONJURER, JOB_FIRE_ELEMENTALIST },
-    { SK_SHORT_BLADES, SK_SLINGS },
+    { JOB_HUNTER, JOB_BERSERKER, JOB_ASSASSIN, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
+      JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
+    { SK_POLEARMS, SK_LONG_BLADES, SK_MACES_FLAILS, SK_SLINGS },
 } },
 
 { SP_KOBOLD, {
@@ -576,11 +576,10 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     10, 8, 9, // 27
     { STAT_STR, STAT_DEX }, 4,
-    { { MUT_PASSIVE_MAPPING, 1, 9 }, { MUT_PASSIVE_MAPPING, 1, 18 },
-      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
-    { "You are resistant to damage.",
-      "You can heal yourself by infusing magical energy." },
-    { "damage resistance", "heal wounds" },
+    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
+    { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+    {},
+    {},
     { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
       JOB_EARTH_ELEMENTALIST },
     { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },

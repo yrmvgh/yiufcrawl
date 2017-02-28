@@ -21,6 +21,7 @@ elf_m ELF
 elf_f
 deep_elf_f DEEP_ELF
 deep_elf_m
+dorf DORF
 dwarf_f DWARF
 dwarf_m
 frog_m BARACHIAN
