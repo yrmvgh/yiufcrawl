@@ -1,6 +1,6 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup with extra soup
-### Excised races, expired experiments, and extinct species
+## A fork of Dungeon Crawl Stone Soup with leftover soup
+### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/crawl.git
     cd crawl/crawl-ref/source
@@ -16,7 +16,7 @@ for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/IN
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
 * **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
-* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep life simple.
+* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 
