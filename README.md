@@ -6,7 +6,9 @@
     cd crawl/crawl-ref/source
     make TILES=y
     then just run the file named "crawl"
+    
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
+
 --------------------------------
 > #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
 
@@ -14,7 +16,7 @@ for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/IN
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
 * **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
-* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep life simple.
+* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 
 All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
