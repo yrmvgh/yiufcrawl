@@ -28,6 +28,11 @@ Demonspawn
 Demonspawn are half human, half demon. They acquire strong demonic mutations as
 they grow.
 %%%%
+Surface Dwarf
+
+Dorfs are simple warriors with a high resistance to hexes and curses.
+All dwarves have a slight predilection towards wands, maces and shields.
+%%%%
 Draconian
 
 Draconians are versatile hybrids. They mature when reaching level 7 and develop
@@ -61,21 +66,26 @@ to mutagenic effects.
 High Elf
 
 Spell and song, blade and bow! High elves have an approximate knowledge of many
-arts, which they can blend together, well, artfully.
-%%%% 
+arts, which they can blend together, well... artfully.
+%%%%
 Hill Orc
 
 Orcs were forged in a volcano by Beogh, but Hill Orcs wandered and forgot their
-past. All they crave now is gold. Orcs are strong, skilled with armour and axe.
+past. All they crave now is gold and violence.
 %%%%
 Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
-%%%% 
+%%%%
+Imp
+
+Tiny warlike demons. They possess wings and a difficulty staying in one place.
+They are enthusiastic about fire, whips, and tridents, but afraid of cold.
+%%%%
 Lava Orc
 
-Orcs were forged in a volcano by Beogh! Lava Orcs are excellent at casting Fire
-and Earth spells. Orcs are strong, and skilled with armor and axes.
+Forged in a volcano by Beogh! Lava Orcs are excellent at casting Fire and Earth
+and Earth spells. All orcs are strong, skilled with armour and axe.
 %%%%
 Tengu
 
@@ -118,18 +128,13 @@ and have an excellent grasp of magic.
 %%%%
 Sludge Elf
 
-Sludge Elves are skilled at unarmed combat and a bit of magic. Orcish blood and
-chaotic mutagenic energies course through their veins.
-%%%% 
+Sludge Elves are good at unarmed combat and magic. Orcish blood and chaotic
+mutagenic energies course through their veins.
+%%%%
 Spriggan
 
 Very small, very frail and very fast, Spriggans make highly competent stabbers
 and spellcasters.
-%%%%
-Surface Dwarf
-
-Surface Dwarves are simple warriors with a high resistance to hexes and curses.
-All dwarves have a slight predilection towards wands, maces and shields.
 %%%%
 Troll
 

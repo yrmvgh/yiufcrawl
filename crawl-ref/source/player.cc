@@ -1513,6 +1513,9 @@ int player_res_cold(bool calc_unid, bool temp, bool items)
             rc++;
     }
 
+    if (you.species == SP_IMP)
+        rc--;
+
 #if TAG_MAJOR_VERSION == 34
     // species:
     if (you.species == SP_DJINNI)
@@ -1816,9 +1819,9 @@ int player_spec_earth()
 
     // Staves
     se += you.wearing(EQ_STAFF, STAFF_EARTH);
-    
-    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST)) 
-    	se++;
+
+    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST))
+        se++;
 
     return se;
 }
@@ -6028,7 +6031,7 @@ int player::racial_ac(bool temp) const
         }
         else if (species == SP_LAVA_ORC && you.temperature <= TEMP_WARM)
             return 200 + 100 * experience_level / 6;        // max 6
-            
+
     }
 
     return 0;

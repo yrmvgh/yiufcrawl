@@ -149,7 +149,7 @@ static string _welcome(const newgame_def& ng)
         text = "unnamed " + text;
     if (!text.empty())
         text = ", " + text;
-    text = "Welcome" + text + ".";
+    text = "Welcome" + text + "!";
     return text;
 }
 
@@ -177,6 +177,7 @@ static const species_type species_order[] =
     //fork-specific races first to highlight their presence
     SP_SURFACE_DWARF,  SP_HIGH_ELF,
     SP_SLUDGE_ELF,     SP_LAVA_ORC,
+    SP_IMP,
     // comparatively human-like looks
     SP_HILL_ORC,       SP_HUMAN,
     SP_DEEP_ELF,       SP_DEEP_DWARF,
@@ -942,6 +943,7 @@ static species_group species_groups[] =
     SP_HIGH_ELF,
     SP_SLUDGE_ELF,
     SP_LAVA_ORC,
+    SP_IMP,
         }
     },
     {
@@ -1146,19 +1148,19 @@ static void _prompt_choice(int choice_type, newgame_def& ng, newgame_def& ng_cho
     clrscr();
 
     // TODO: attach these to the menu in a NoSelectTextItem
-    textcolour(BROWN);
+    textcolour(LIGHTCYAN);
     cprintf("%s", _welcome(ng).c_str());
 
     textcolour(YELLOW);
 
     if (choice_type == C_JOB)
     {
-        cprintf(" Please select your background.");
+        cprintf(" Yiuf's Home for Lost and Forgotten Species");
         _construct_backgrounds_menu(ng, defaults, freeform);
     }
     else
     {
-        cprintf(" Please select your species.");
+        cprintf(" Yiuf's Home for Lost and Forgotten Species");
         _construct_species_menu(ng, defaults, freeform);
     }
 

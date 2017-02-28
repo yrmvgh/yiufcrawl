@@ -564,18 +564,16 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
     case SP_HUMAN:
         return TILEP_BASE_HUMAN;
     case SP_HIGH_ELF:
+    case SP_SLUDGE_ELF:
         return TILEP_BASE_ELF;
     case SP_DEEP_ELF:
         return TILEP_BASE_DEEP_ELF;
     case SP_HALFLING:
         return TILEP_BASE_HALFLING;
-    case SP_SLUDGE_ELF:
     case SP_HILL_ORC:
         return TILEP_BASE_ORC;
-#if TAG_MAJOR_VERSION == 34
     case SP_LAVA_ORC:
         return TILEP_BASE_LAVA_ORC;
-#endif
     case SP_KOBOLD:
         return TILEP_BASE_KOBOLD;
     case SP_MUMMY:
@@ -635,6 +633,10 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
         return TILEP_BASE_VINE_STALKER;
     case SP_BARACHIAN:
         return TILEP_BASE_BARACHIAN;
+    case SP_IMP:
+        return TILEP_MONS_CRIMSON_IMP;
+    case SP_SURFACE_DWARF:
+        return TILEP_BASE_DORF;
     default:
         return TILEP_BASE_HUMAN;
     }
@@ -670,16 +672,15 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
     switch (sp)
     {
         case SP_HIGH_ELF:
-        case SP_SLUDGE_ELF:
             hair = TILEP_HAIR_ELF_YELLOW;
             break;
         case SP_DEEP_ELF:
             hair = TILEP_HAIR_ELF_WHITE;
             break;
         case SP_HILL_ORC:
+        case SP_SLUDGE_ELF:
             hair = 0;
             break;
-#if TAG_MAJOR_VERSION == 34
         case SP_LAVA_ORC:
             // This should respect the player's choice of base tile, if possible.
             switch (temperature_colour(you.temperature))
@@ -708,7 +709,6 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
             }
             hair = 0;
             break;
-#endif
         case SP_KOBOLD:
             hair = 0;
             break;
@@ -1065,6 +1065,25 @@ void tilep_calc_flags(const dolls_data &doll, int flag[])
         flag[TILEP_PART_SHADOW]= TILEP_FLAG_HIDE;
         flag[TILEP_PART_DRCWING]=TILEP_FLAG_HIDE;
         flag[TILEP_PART_DRCHEAD]=TILEP_FLAG_HIDE;
+    }
+    else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_MONS_CRIMSON_IMP))
+    {
+        flag[TILEP_PART_BODY]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_ARM]   = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_HELM]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_HAIR]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_BEARD] = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_DRCWING]=TILEP_FLAG_HIDE;
+        flag[TILEP_PART_DRCHEAD]=TILEP_FLAG_HIDE;
+    }
+    else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_BASE_DORF))
+    {
+        flag[TILEP_PART_BODY]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_LEG]   = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_ARM]   = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_HELM]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_HAIR]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_BEARD] = TILEP_FLAG_HIDE;
     }
     else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_BASE_OCTOPODE))
     {
