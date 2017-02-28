@@ -720,7 +720,7 @@ void issue_orders()
  *                  E.g. ', "Scamper hence, thou jarring miscreant tiler!"'
  *                  Returns "!" if it fails (but it shouldn't?)
  */
-string _imp_insult(const actor &foe)
+static string _imp_insult(const actor &foe)
 {
     const string raw_insult = getSpeakString("imp_taunt");
     if (raw_insult.empty())
