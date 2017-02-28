@@ -14,7 +14,7 @@ for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/IN
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
 * **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
-* **Surface Dwarf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR.
+* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 
 All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
@@ -24,7 +24,7 @@ Try to collect most of the historical crawl races, including both removed and ex
 
 To further differentiate the elven subraces, deep elves will gain a noise attenuation modifier that makes everything they do quieter.
 
-Surface Dwarves are just an apt race at this point. high MR and HP, just like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making SD exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
+Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making SD exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
 
 ### *Minor "personal preference" changes:*
 Ogres are cooler now in a big way. (that means HP) Trolls got taken down a peg, they'll be fine.

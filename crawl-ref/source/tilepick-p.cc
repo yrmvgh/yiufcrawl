@@ -564,12 +564,12 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
     case SP_HUMAN:
         return TILEP_BASE_HUMAN;
     case SP_HIGH_ELF:
+    case SP_SLUDGE_ELF:
         return TILEP_BASE_ELF;
     case SP_DEEP_ELF:
         return TILEP_BASE_DEEP_ELF;
     case SP_HALFLING:
         return TILEP_BASE_HALFLING;
-    case SP_SLUDGE_ELF:
     case SP_HILL_ORC:
         return TILEP_BASE_ORC;
     case SP_LAVA_ORC:
@@ -672,13 +672,13 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
     switch (sp)
     {
         case SP_HIGH_ELF:
-        case SP_SLUDGE_ELF:
             hair = TILEP_HAIR_ELF_YELLOW;
             break;
         case SP_DEEP_ELF:
             hair = TILEP_HAIR_ELF_WHITE;
             break;
         case SP_HILL_ORC:
+        case SP_SLUDGE_ELF:
             hair = 0;
             break;
         case SP_LAVA_ORC:

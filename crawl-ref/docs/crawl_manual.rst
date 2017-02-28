@@ -1592,12 +1592,12 @@ There are a few distinct species of Dwarf. Dwarves are stout, short, and long-
 lived. Stronger than Humans, but sometimes slower to learn new things. They are
 skilled with magical devices, and comfortable with a mace and shield in hand.
 
-Surface Dwarves
-  Surface Dwarves, as opposed to the subterranean specimen, come from halls and
+Surface Dwarf
+  "Dorfs", as opposed to the infamous subterranean dwarves, come from halls and
   hills above the Dungeon. They love to fight, and often venture forth to seek
   fame and fortune through battle. As such, they are very robust and excellent
   at hand combat. Polearms usually are too big for them to wield comfortably and
-  so make quite bad weapons for Surface Dwarves.
+  so make quite bad weapons for Dorfs.
 
   In general, they are rather more resistant to magic than capable of using it
   themselves. However, they are very proficient at earth, fire, and skald magic.

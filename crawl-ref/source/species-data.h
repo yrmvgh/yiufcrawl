@@ -80,7 +80,7 @@ static const map<species_type, species_def> species_data =
     { "damage resistance", "heal wounds" },
     { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
       JOB_EARTH_ELEMENTALIST },
-    { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },
+    { SK_MACES_FLAILS, SK_STAVES, SK_CROSSBOWS, SK_SLINGS },
 } },
 
 { SP_DEEP_ELF, {
@@ -99,6 +99,24 @@ static const map<species_type, species_def> species_data =
       JOB_FIRE_ELEMENTALIST, JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST,
       JOB_EARTH_ELEMENTALIST, JOB_VENOM_MAGE },
     { SK_SHORT_BLADES, SK_STAVES, SK_BOWS },
+} },
+
+{ SP_SURFACE_DWARF, {
+    "Df",
+    "Surface Dwarf", "Dwarven", "Dwarf",
+    SPF_NONE,
+    -1, 2, 0, 6,
+    MONS_DEEP_DWARF,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    10, 8, 9, // 27
+    { STAT_STR, STAT_DEX }, 4,
+    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
+    { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+    {},
+    {},
+    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
+      JOB_EARTH_ELEMENTALIST },
+    { SK_MACES_FLAILS, SK_AXES, SK_CROSSBOWS, SK_SLINGS },
 } },
 
 { SP_DEMIGOD, {
@@ -486,7 +504,7 @@ static const map<species_type, species_def> species_data =
     { STAT_INT, STAT_DEX }, 4,
     { { MUT_BLINK, 1, 1 }, { MUT_HEAT_RESISTANCE, 1, 1 }, { MUT_SCREAM, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_TELEPORT, 1, 1 }, { MUT_HORNS, 1, 1 },
-      { MUT_REGENERATION, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 }, 
+      { MUT_REGENERATION, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 },
       { MUT_BIG_WINGS, 1, 14 }, { MUT_TELEPORT, 1, 14 },
       { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
     {},
@@ -565,24 +583,6 @@ static const map<species_type, species_def> species_data =
       JOB_ABYSSAL_KNIGHT },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
-} },
-
-{ SP_SURFACE_DWARF, {
-    "SD",
-    "Surface Dwarf", "Dwarven", "Dwarf",
-    SPF_NONE,
-    -1, 2, 0, 6,
-    MONS_DEEP_DWARF,
-    HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    10, 8, 9, // 27
-    { STAT_STR, STAT_DEX }, 4,
-    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
-    { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
-    {},
-    {},
-    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER,
-      JOB_EARTH_ELEMENTALIST },
-    { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_CROSSBOWS, SK_SLINGS },
 } },
 
 { SP_MUMMY, {

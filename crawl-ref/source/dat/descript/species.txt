@@ -28,6 +28,11 @@ Demonspawn
 Demonspawn are half human, half demon. They acquire strong demonic mutations as
 they grow.
 %%%%
+Surface Dwarf
+
+Dorfs are simple warriors with a high resistance to hexes and curses.
+All dwarves have a slight predilection towards wands, maces and shields.
+%%%%
 Draconian
 
 Draconians are versatile hybrids. They mature when reaching level 7 and develop
@@ -62,7 +67,7 @@ High Elf
 
 Spell and song, blade and bow! High elves have an approximate knowledge of many
 arts, which they can blend together, well, artfully.
-%%%% 
+%%%%
 Hill Orc
 
 Orcs were forged in a volcano by Beogh, but Hill Orcs wandered and forgot their
@@ -71,7 +76,7 @@ past. All they crave now is gold. Orcs are strong, skilled with armour and axe.
 Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
-%%%% 
+%%%%
 Imp
 
 Tiny warlike demons. They have fire resistance, wings, and a difficulty staying
@@ -125,16 +130,11 @@ Sludge Elf
 
 Sludge Elves are skilled at unarmed combat and a bit of magic. Orcish blood and
 chaotic mutagenic energies course through their veins.
-%%%% 
+%%%%
 Spriggan
 
 Very small, very frail and very fast, Spriggans make highly competent stabbers
 and spellcasters.
-%%%%
-Surface Dwarf
-
-Surface Dwarves are simple warriors with a high resistance to hexes and curses.
-All dwarves have a slight predilection towards wands, maces and shields.
 %%%%
 Troll
 
