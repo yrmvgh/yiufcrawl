@@ -1,6 +1,6 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup with extra soup
-### Excised races, expired experiments, and extinct species
+## A fork of Dungeon Crawl Stone Soup with leftover soup
+### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/crawl.git
     cd crawl/crawl-ref/source
