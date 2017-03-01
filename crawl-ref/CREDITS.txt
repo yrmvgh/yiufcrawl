@@ -71,7 +71,6 @@
     Mike Adams
     Aj Adamson
     Nikhil Addleman
-    advil
     Brandon Allbery
     Warwick Allison
     Austin Appleby
@@ -269,11 +268,13 @@
     Evan Williams
     Jeremey Wilson
     Yelve Yakut
+    Edward Z. Yang
     Rob Young
     Zannick
     Zooko
 
 The Dungeon Crawl Stone Soup development team is:
+    advil
     Peter Berger
     Adam Borowski
     Samuel Bronson

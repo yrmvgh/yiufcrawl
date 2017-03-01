@@ -1,5 +1,4 @@
-#ifndef MELEE_ATTACK_H
-#define MELEE_ATTACK_H
+#pragma once
 
 #include <list>
 
@@ -154,5 +153,3 @@ private:
 
     bool can_reach();
 };
-
-#endif

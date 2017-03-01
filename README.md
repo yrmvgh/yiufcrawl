@@ -1,12 +1,12 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup with extra soup
-### Excised races, expired experiments, and extinct species
+## A fork of Dungeon Crawl Stone Soup with leftover soup
+### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/crawl.git
     cd crawl/crawl-ref/source
     make TILES=y
     then just run the file named "crawl"
-    
+
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
 
 --------------------------------
@@ -16,15 +16,18 @@ for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/IN
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
 * **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
-* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep life simple.
+* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
+* **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 
 All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
 
-### *Future plans:*
-Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: change lava orcs to be based on damage, not tension, and add plutonians and imps to the game.
+[Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209)
 
-To further differentiate the elven subraces, deep elves will gain a noise attenuation modifier that makes everything they do quieter.
+### *Future plans:*
+Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: change lava orcs to be based on damage, not tension, and add plutonians ~~and imps~~ to the game.
+
+To further differentiate the elven subraces, deep elves will probably get a noise attenuation modifier that makes everything they do quieter.
 
 Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making SD exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
 
