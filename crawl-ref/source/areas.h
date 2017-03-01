@@ -47,4 +47,3 @@ bool umbraed(const coord_def& p);
 
 // ...or is the area hot?
 bool heated(const coord_def& p);
-#endif
