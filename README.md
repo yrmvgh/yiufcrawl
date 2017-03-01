@@ -20,6 +20,8 @@ for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/IN
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 
+Image album of the five races above: http://imgur.com/a/J1XBP
+
 All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
 
 [Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209)
