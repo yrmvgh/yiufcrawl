@@ -1,7 +1,6 @@
 language: cpp
-sudo: required
 compiler:
-    - clang
+#    - clang
     - gcc
 before_install:
     - perl .travis/apt.pl
@@ -34,3 +33,4 @@ notifications:
         use_notice: true
         template:
             - "%{message} (%{branch} - %{commit} #%{build_number} : %{author}): %{build_url}"
+sudo: required
