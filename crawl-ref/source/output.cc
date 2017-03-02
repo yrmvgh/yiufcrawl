@@ -468,6 +468,7 @@ public:
     void reset()
     {
         m_old_disp = -1;
+        m_request_redraw_after = 0;
     }
 
  private:
@@ -493,6 +494,12 @@ static colour_bar Noise_Bar(WHITE, LIGHTGREY, LIGHTGREY, DARKGREY);
 static colour_bar Noise_Bar(LIGHTGREY, LIGHTGREY, MAGENTA, DARKGREY);
 #endif
 
+void reset_hud()
+{
+    HP_Bar.reset();
+    MP_Bar.reset();
+    Noise_Bar.reset();
+}
 
 // ----------------------------------------------------------------------
 // Status display
