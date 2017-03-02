@@ -541,7 +541,7 @@ static const map<species_type, species_def> species_data =
     10, 8, 6, // 24
     { STAT_STR, STAT_INT }, 5,
     {},
-    { "You heat up during combat." },
+    { "While cool, your skin is stony.", "You heat up during combat." },
     { "heat effects" },
     {JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_TRANSMUTER,
      JOB_EARTH_ELEMENTALIST, JOB_FIRE_ELEMENTALIST },
