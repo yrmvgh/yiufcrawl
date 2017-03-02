@@ -731,7 +731,8 @@ static void _handle_magic_contamination()
         added_contamination += 13;
 
     // Normal dissipation
-    if (!you.duration[DUR_INVIS] && !you.duration[DUR_HASTE])
+    if (!you.duration[DUR_INVIS] && !you.duration[DUR_HASTE]
+        && you.species != SP_PLUTONIAN)
         added_contamination -= 25;
 
     // Scaling to turn length
@@ -771,6 +772,16 @@ static void _magic_contamination_effects()
         // through non-living flesh. :-)
         if (you.undead_state() != US_ALIVE)
             beam.damage.size *= 2;
+
+        // The "good old plutonian meltdown" is a little bigger
+        if (you.species == SP_PLUTONIAN)
+        {
+            beam.flavour   = BEAM_MAGIC;
+            beam.source_id = MID_PLAYER;
+            beam.ex_size   = 9;
+            mprf(MSGCH_WARN, "Oh MY!");
+            rot_hp(4);
+        }
 
         beam.explode();
     }

@@ -664,6 +664,28 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_PLUTONIAN, {
+    "Pu",
+    "Plutonian", "Radioactive", nullptr,
+    SPF_NO_HAIR,
+    -1, -1, -1, 3,
+    MONS_DJINNI,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    { { MUT_NO_POTION_HEAL, 1, 1 }, },
+    { "Magical contamination makes you explode.",
+      "Every moment, your contamination increases.",
+      "Slay enemies to dissipate contamination.",
+      "Drink potions to dissipate contamination." },
+    { "contamination", "explosive" },
+    { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_ABYSSAL_KNIGHT, JOB_BERSERKER,
+      JOB_FIRE_ELEMENTALIST, JOB_ICE_ELEMENTALIST, JOB_AIR_ELEMENTALIST,
+      JOB_EARTH_ELEMENTALIST, JOB_VENOM_MAGE },
+    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
+      SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
+} },
+
 { SP_SLUDGE_ELF, {
     "SE",
     "Sludge Elf", "Elven", "Elf",

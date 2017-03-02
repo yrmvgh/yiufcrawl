@@ -1601,5 +1601,44 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_IMP,                 SK_POISON_MAGIC,   -1),
     APT(SP_IMP,                 SK_INVOCATIONS,     1),
     APT(SP_IMP,                 SK_EVOCATIONS,      0),
+
+    // SP_PLUTONIAN
+    APT(SP_PLUTONIAN,           SK_FIGHTING,        0),
+    APT(SP_PLUTONIAN,           SK_SHORT_BLADES,    0),
+    APT(SP_PLUTONIAN,           SK_LONG_BLADES,     0),
+    APT(SP_PLUTONIAN,           SK_AXES,            0),
+    APT(SP_PLUTONIAN,           SK_MACES_FLAILS,    0),
+    APT(SP_PLUTONIAN,           SK_POLEARMS,        0),
+    APT(SP_PLUTONIAN,           SK_STAVES,          0),
+    APT(SP_PLUTONIAN,           SK_SLINGS,          0),
+    APT(SP_PLUTONIAN,           SK_BOWS,            0),
+    APT(SP_PLUTONIAN,           SK_CROSSBOWS,       0),
+    APT(SP_PLUTONIAN,           SK_THROWING,        0),
+    APT(SP_PLUTONIAN,           SK_ARMOUR,          0),
+    APT(SP_PLUTONIAN,           SK_DODGING,         0),
+    APT(SP_PLUTONIAN,           SK_STEALTH,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_PLUTONIAN,           SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_PLUTONIAN,           SK_SHIELDS,         1),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_PLUTONIAN,           SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_PLUTONIAN,           SK_UNARMED_COMBAT,  0),
+    APT(SP_PLUTONIAN,           SK_SPELLCASTING,    0),
+    APT(SP_PLUTONIAN,           SK_CONJURATIONS,   -1),
+    APT(SP_PLUTONIAN,           SK_HEXES,          -1),
+    APT(SP_PLUTONIAN,           SK_CHARMS,         -1),
+    APT(SP_PLUTONIAN,           SK_SUMMONINGS,     -1),
+    APT(SP_PLUTONIAN,           SK_NECROMANCY,     -1),
+    APT(SP_PLUTONIAN,           SK_TRANSLOCATIONS, -1),
+    APT(SP_PLUTONIAN,           SK_TRANSMUTATIONS, -1),
+    APT(SP_PLUTONIAN,           SK_FIRE_MAGIC,      1),
+    APT(SP_PLUTONIAN,           SK_ICE_MAGIC,       1),
+    APT(SP_PLUTONIAN,           SK_AIR_MAGIC,       1),
+    APT(SP_PLUTONIAN,           SK_EARTH_MAGIC,     1),
+    APT(SP_PLUTONIAN,           SK_POISON_MAGIC,    1),
+    APT(SP_PLUTONIAN,           SK_INVOCATIONS,     1),
+    APT(SP_PLUTONIAN,           SK_EVOCATIONS,      1),
 };
 COMPILE_CHECK(ARRAYSZ(species_skill_aptitudes) == NUM_SPECIES * NUM_SKILLS);
