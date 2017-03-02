@@ -8,7 +8,7 @@
     then just run the file named "crawl"
 
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
-You can clone or checkout the "yiuf" branch if you want stuff faster. "master" gets slightly more testing and is slightly behind "yiuf".
+You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf".
 
 --------------------------------
 > #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
@@ -32,7 +32,7 @@ Try to collect most of the historical crawl races, including both removed and ex
 
 To further differentiate the elven subraces, deep elves will probably get a noise attenuation modifier that makes everything they do quieter.
 
-Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making SD exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
+Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making dorfs/surface dwarves exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here you go! Suggestions on how to make them special are welcome.
 
 ### *Minor "personal preference" changes:*
 * Ogres have 1 more hp_mod, trolls have 1 less.
