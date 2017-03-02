@@ -5,7 +5,7 @@
 
 #pragma once
 
-#define CRAWL "Dungeon Crawl Stone Soup"
+#define CRAWL "Yiuf Soup (a DCSS fork)"
 
 enum rel_type
 {
