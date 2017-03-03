@@ -500,13 +500,13 @@ static const map<species_type, species_def> species_data =
     0, -2, 0, 4,
     MONS_CRIMSON_IMP,
     HT_LAND, US_ALIVE, SIZE_LITTLE,
-    7, 8, 10, // 24
+    7, 9, 8, // 24
     { STAT_INT, STAT_DEX }, 4,
     { { MUT_BLINK, 1, 1 }, { MUT_HEAT_RESISTANCE, 1, 1 }, { MUT_SCREAM, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_TELEPORT, 1, 1 }, { MUT_HORNS, 1, 1 },
-      { MUT_REGENERATION, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 },
-      { MUT_BIG_WINGS, 1, 14 }, { MUT_TELEPORT, 1, 14 },
-      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
+      { MUT_BIG_WINGS, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 },
+      { MUT_REGENERATION, 1, 13 }, { MUT_TELEPORT, 1, 13 },
+      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 13 }, { MUT_SCREAM, 1, 13 }, },
     { "Your bones are vulnerable to cold." },
     { "cold vulnerability" },
     { JOB_HUNTER, JOB_BERSERKER, JOB_ASSASSIN, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
