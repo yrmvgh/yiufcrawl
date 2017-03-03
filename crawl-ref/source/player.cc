@@ -1081,6 +1081,10 @@ static int _player_bonus_regen()
 {
     int rr = 0;
 
+    // Plutonians regen more when they're more contaminated.
+    if (you.species == SP_PLUTONIAN)
+        rr += ();
+
     // Trog's Hand is handled separately so that it will bypass slow
     // regeneration, and it overrides the spell.
     if (you.duration[DUR_REGENERATION]
@@ -4169,7 +4173,9 @@ int get_contamination_level()
 
 bool player_severe_contamination()
 {
-    return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
+    if you.species == SP_PLUTONIAN
+        return get_contamination_level() >= 1 + SEVERE_CONTAM_LEVEL;
+    else return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
 }
 
 /**
