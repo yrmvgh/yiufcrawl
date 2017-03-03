@@ -2264,10 +2264,11 @@ item_def* monster_die(monster* mons, killer_type killer,
 
             // Killing triggers hints mode lesson.
             if (gives_player_xp)
+            {
                 _hints_inspect_kill();
                 if (you.species == SP_PLUTONIAN)
                     you.magic_contamination -= 200;
-
+            }
             _fire_kill_conducts(*mons, killer, killer_index, gives_player_xp);
 
             // Divine health and mana restoration doesn't happen when
