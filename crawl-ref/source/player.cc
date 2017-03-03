@@ -1201,6 +1201,10 @@ int player_mp_regen()
         multiplier += 100;
     if (you.props[MANA_REGEN_AMULET_ACTIVE].get_int() == 1)
         multiplier += 50;
+    // the Pu numbers are organized in the following way to make it clear that
+    // 50 is roughly the cap. At 10k contam you're gonna explode soon.
+    if (you.species == SP_PLUTONIAN)
+        multiplier += 50 / (10000 / you.magic_contamination);
 
     return regen_amount * multiplier / 100;
 }
