@@ -1204,7 +1204,7 @@ int player_mp_regen()
     // the Pu numbers are organized in the following way to make it clear that
     // 50 is roughly the cap. At 10k contam you're gonna explode soon.
     if (you.species == SP_PLUTONIAN)
-        multiplier += 50 / (10000 / you.magic_contamination);
+        multiplier += 50 * (1 + you.magic_contamination) / 10000;
 
     return regen_amount * multiplier / 100;
 }

@@ -1831,7 +1831,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             if (yesno("Are you sure you want to explode?", true, 'n'))
             {
                 beam.flavour      = BEAM_MAGIC;
-                beam.damage       = dice_def(2, int(you.hp_max/3));
+                beam.damage       = dice_def(2, div_rand_round(you.hp_max, 3));
                 beam.target       = you.pos();
                 beam.name         = "magical detonation";
                 beam.source_id    = MID_PLAYER;
@@ -1845,6 +1845,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             }
             else
                 return SPRET_ABORT;
+            break;
         }
 
 #if TAG_MAJOR_VERSION == 34
@@ -3400,6 +3401,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         if (!crawl_state.game_is_sprint() || brdepth[you.where_are_you] > 1)
             _add_talent(talents, ABIL_SHAFT_SELF, check_confused);
     }
+
+    if (you.species == SP_PLUTONIAN)
+        _add_talent(talents, ABIL_OVERLOAD, check_confused);
 
     if (player_mutation_level(MUT_HOP))
         _add_talent(talents, ABIL_HOP, check_confused);
