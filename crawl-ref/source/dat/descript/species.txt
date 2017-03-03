@@ -116,6 +116,10 @@ Naga
 Nagas are hybrids; human from the chest up, with a scaly, muscular torso
 trailing off like that of a snake. They move slowly but are naturally resilient.
 %%%%
+NULL
+
+NULL
+%%%%
 Octopode
 
 Octopodes are a species of amphibious cephalopods. They can wear eight rings,
