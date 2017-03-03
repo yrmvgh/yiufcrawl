@@ -776,11 +776,10 @@ static void _magic_contamination_effects()
         // The "good old plutonian meltdown" is a little bigger
         if (you.species == SP_PLUTONIAN)
         {
-            beam.flavour   = BEAM_MAGIC;
             beam.source_id = MID_PLAYER;
-            beam.ex_size   = 9;
-            mprf(MSGCH_WARN, "Oh MY!");
+            beam.ex_size   += 1;
             rot_hp(4);
+            mprf(MSGCH_WARN, "Oh MY!");
         }
 
         beam.explode();
