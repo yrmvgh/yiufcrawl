@@ -28,7 +28,7 @@ Demonspawn
 Demonspawn are half human, half demon. They acquire strong demonic mutations as
 they grow.
 %%%%
-Surface Dwarf
+Dorf
 
 Dorfs are simple warriors with a high resistance to hexes and curses.
 All dwarves have a slight predilection towards wands, maces and shields.

@@ -101,9 +101,9 @@ static const map<species_type, species_def> species_data =
     { SK_SHORT_BLADES, SK_STAVES, SK_BOWS },
 } },
 
-{ SP_SURFACE_DWARF, {
+{ SP_DORF, {
     "Df",
-    "Surface Dwarf", "Dwarven", "Dwarf",
+    "Dorf", "Dwarven", "Dwarf",
     SPF_NONE,
     -1, 2, 0, 6,
     MONS_DEEP_DWARF,
