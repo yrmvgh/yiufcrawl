@@ -1083,7 +1083,7 @@ static int _player_bonus_regen()
 
     // Plutonians regen more when they're more contaminated.
     if (you.species == SP_PLUTONIAN)
-        rr += (you.magic_contamination/400);
+        rr += (you.magic_contamination/250);
 
     // Trog's Hand is handled separately so that it will bypass slow
     // regeneration, and it overrides the spell.
