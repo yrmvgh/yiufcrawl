@@ -178,7 +178,7 @@ static const species_type species_order[] =
     SP_SURFACE_DWARF,  SP_HIGH_ELF,
     SP_SLUDGE_ELF,     SP_LAVA_ORC,
     SP_IMP,            SP_PLUTONIAN,
-    SP_NULL,
+    SP_NIL,
     // comparatively human-like looks
     SP_HILL_ORC,       SP_HUMAN,
     SP_DEEP_ELF,       SP_DEEP_DWARF,
@@ -946,7 +946,7 @@ static species_group species_groups[] =
     SP_LAVA_ORC,
     SP_IMP,
     SP_PLUTONIAN,
-    SP_NULL,
+    SP_NIL,
         }
     },
     {

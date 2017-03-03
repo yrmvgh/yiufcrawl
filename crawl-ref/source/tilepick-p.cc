@@ -637,6 +637,8 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
         return TILEP_MONS_CRIMSON_IMP;
     case SP_SURFACE_DWARF:
         return TILEP_BASE_DORF;
+    case SP_NIL:
+        return TILEP_MONS_UNKNOWN;
     default:
         return TILEP_BASE_HUMAN;
     }
