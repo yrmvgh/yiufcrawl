@@ -51,6 +51,7 @@ enum species_type
     SP_SURFACE_DWARF,
     SP_IMP,
     SP_PLUTONIAN,
+    SP_NULL,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

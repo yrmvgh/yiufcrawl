@@ -1640,5 +1640,45 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_PLUTONIAN,           SK_POISON_MAGIC,    1),
     APT(SP_PLUTONIAN,           SK_INVOCATIONS,     1),
     APT(SP_PLUTONIAN,           SK_EVOCATIONS,      1),
+
+    // SP_NULL
+    APT(SP_NULL,           SK_FIGHTING,        0),
+    APT(SP_NULL,           SK_SHORT_BLADES,    0),
+    APT(SP_NULL,           SK_LONG_BLADES,     0),
+    APT(SP_NULL,           SK_AXES,            0),
+    APT(SP_NULL,           SK_MACES_FLAILS,    0),
+    APT(SP_NULL,           SK_POLEARMS,        0),
+    APT(SP_NULL,           SK_STAVES,          0),
+    APT(SP_NULL,           SK_SLINGS,          0),
+    APT(SP_NULL,           SK_BOWS,            0),
+    APT(SP_NULL,           SK_CROSSBOWS,       0),
+    APT(SP_NULL,           SK_THROWING,        0),
+    APT(SP_NULL,           SK_ARMOUR,          0),
+    APT(SP_NULL,           SK_DODGING,         0),
+    APT(SP_NULL,           SK_STEALTH,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_NULL,           SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_NULL,           SK_SHIELDS,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_NULL,           SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_NULL,           SK_UNARMED_COMBAT,  0),
+    APT(SP_NULL,           SK_SPELLCASTING,    0),
+    APT(SP_NULL,           SK_CONJURATIONS,    0),
+    APT(SP_NULL,           SK_HEXES,           0),
+    APT(SP_NULL,           SK_CHARMS,          0),
+    APT(SP_NULL,           SK_SUMMONINGS,      0),
+    APT(SP_NULL,           SK_NECROMANCY,      0),
+    APT(SP_NULL,           SK_TRANSLOCATIONS,  0),
+    APT(SP_NULL,           SK_TRANSMUTATIONS,  0),
+    APT(SP_NULL,           SK_FIRE_MAGIC,      0),
+    APT(SP_NULL,           SK_ICE_MAGIC,       0),
+    APT(SP_NULL,           SK_AIR_MAGIC,       0),
+    APT(SP_NULL,           SK_EARTH_MAGIC,     0),
+    APT(SP_NULL,           SK_POISON_MAGIC,    0),
+    APT(SP_NULL,           SK_INVOCATIONS,     0),
+    APT(SP_NULL,           SK_EVOCATIONS,      0),
+
 };
 COMPILE_CHECK(ARRAYSZ(species_skill_aptitudes) == NUM_SPECIES * NUM_SKILLS);

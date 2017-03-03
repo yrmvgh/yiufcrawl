@@ -507,8 +507,8 @@ static const map<species_type, species_def> species_data =
       { MUT_REGENERATION, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 7 },
       { MUT_BIG_WINGS, 1, 14 }, { MUT_TELEPORT, 1, 14 },
       { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
-    {},
-    {},
+    { "Your bones are vulnerable to cold." },
+    { "cold vulnerability" },
     { JOB_HUNTER, JOB_BERSERKER, JOB_ASSASSIN, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
       JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
     { SK_POLEARMS, SK_LONG_BLADES, SK_MACES_FLAILS, SK_SLINGS },
@@ -625,6 +625,22 @@ static const map<species_type, species_def> species_data =
       JOB_ICE_ELEMENTALIST, JOB_WARPER, JOB_WIZARD, JOB_VENOM_MAGE },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_BOWS,
       SK_CROSSBOWS, SK_SLINGS },
+} },
+
+{ SP_NULL, {
+    "Nu",
+    "NULL", nullptr, nullptr,
+    SPF_NONE,
+    0, 0, 0, 0,
+    MONS_HUMAN,
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    8, 8, 8, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 27,
+    {},
+    { "NULL" },
+    { "NULL" },
+    {},
+    {},
 } },
 
 { SP_OGRE, {
