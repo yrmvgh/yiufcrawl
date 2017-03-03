@@ -637,7 +637,7 @@ tileidx_t tilep_species_to_base_tile(int sp, int level)
         return TILEP_MONS_CRIMSON_IMP;
     case SP_SURFACE_DWARF:
         return TILEP_BASE_DORF;
-    case SP_NIL:
+    case SP_NULL:
         return TILEP_MONS_UNKNOWN;
     default:
         return TILEP_BASE_HUMAN;
@@ -682,7 +682,7 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
         case SP_SLUDGE_ELF:
             hair = TILEP_HAIR_ELF_BLACK;
         case SP_HILL_ORC:
-        case SP_NIL:
+        case SP_NULL:
             hair = 0;
             break;
         case SP_LAVA_ORC:

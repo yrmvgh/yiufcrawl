@@ -627,9 +627,9 @@ static const map<species_type, species_def> species_data =
       SK_CROSSBOWS, SK_SLINGS },
 } },
 
-{ SP_NIL, {
+{ SP_NULL, {
     "Ni",
-    "Nil", nullptr, nullptr,
+    "Null", nullptr, nullptr,
     SPF_NONE,
     0, 0, 0, 0,
     MONS_HUMAN,
@@ -637,8 +637,8 @@ static const map<species_type, species_def> species_data =
     8, 8, 8, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 27,
     {},
-    { "NIL" },
-    { "NIL" },
+    { "NULL" },
+    { "NULL" },
     { JOB_WANDERER },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
