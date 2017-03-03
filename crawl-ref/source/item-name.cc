@@ -3777,17 +3777,14 @@ bool is_useless_item(const item_def &item, bool temp)
         }
 
     case OBJ_BOOKS:
-        if(item.sub_type != BOOK_MANUAL && you_worship(GOD_TROG))
-            return true;
         if (!item_type_known(item) && item.sub_type != BOOK_MANUAL)
             return false;
         if (item_type_known(item) && item.sub_type != BOOK_MANUAL)
         {
-            //Spellbooks are useless if all spells are either in the library
-            //already or are uncastable.
+            //Spellbooks are useless if all spells are in the library already.
             bool useless = true;
             for (spell_type st : spells_in_book(item))
-                if (!you.spell_library[st] && you_can_memorise(st))
+                if (!you.spell_library[st])
                     useless = false;
             return useless;
         }
