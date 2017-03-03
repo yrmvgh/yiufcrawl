@@ -629,9 +629,9 @@ static const map<species_type, species_def> species_data =
 
 { SP_NIL, {
     "Ni",
-    "NIL", nullptr, nullptr,
+    "Nil", nullptr, nullptr,
     SPF_NONE,
-    0, 0, 0, 1,
+    0, 0, 0, 0,
     MONS_HUMAN,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     8, 8, 8, // 24
