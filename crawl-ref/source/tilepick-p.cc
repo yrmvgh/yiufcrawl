@@ -682,6 +682,7 @@ void tilep_race_default(int sp, int level, dolls_data *doll)
         case SP_SLUDGE_ELF:
             hair = TILEP_HAIR_ELF_BLACK;
         case SP_HILL_ORC:
+        case SP_NIL:
             hair = 0;
             break;
         case SP_LAVA_ORC:
@@ -1088,7 +1089,13 @@ void tilep_calc_flags(const dolls_data &doll, int flag[])
         flag[TILEP_PART_HAIR]  = TILEP_FLAG_HIDE;
         flag[TILEP_PART_BEARD] = TILEP_FLAG_HIDE;
     }
-    else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_BASE_OCTOPODE))
+      else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_MONS_UNKNOWN))
+    {
+        flag[TILEP_PART_LEG]   = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_HAIR]  = TILEP_FLAG_HIDE;
+        flag[TILEP_PART_BEARD] = TILEP_FLAG_HIDE;
+    }
+  else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_BASE_OCTOPODE))
     {
         flag[TILEP_PART_CLOAK] = TILEP_FLAG_HIDE;
         flag[TILEP_PART_BOOTS] = TILEP_FLAG_HIDE;
