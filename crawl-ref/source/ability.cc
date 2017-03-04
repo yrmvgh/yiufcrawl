@@ -1827,7 +1827,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_OVERLOAD:
         fail_check();
-        {
             if (yesno("Are you sure you want to explode?", true, 'n'))
             {
                 beam.flavour      = BEAM_MAGIC;
@@ -1846,7 +1845,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             else
                 return SPRET_ABORT;
             break;
-        }
 
 #if TAG_MAJOR_VERSION == 34
     case ABIL_DELAYED_FIREBALL:
