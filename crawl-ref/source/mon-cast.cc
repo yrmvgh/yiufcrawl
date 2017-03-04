@@ -6455,7 +6455,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
 
         static const set<dungeon_feature_type> safe_tiles =
         {
-            DNGN_SHALLOW_WATER, DNGN_FLOOR, DNGN_OPEN_DOOR
+            DNGN_SHALLOW_WATER, DNGN_FLOOR, DNGN_OPEN_DOOR,
         };
 
         for (adjacent_iterator ai(mons->pos()); ai; ++ai)

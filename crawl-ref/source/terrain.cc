@@ -65,8 +65,7 @@ actor* actor_at(const coord_def& c)
  */
 bool feat_is_malign_gateway_suitable(dungeon_feature_type feat)
 {
-    return feat == DNGN_FLOOR || feat == DNGN_SHALLOW_WATER || 
-      feat_is_stone_stair_up(feat) || feat == DNGN_ESCAPE_HATCH_UP;
+    return feat == DNGN_FLOOR || feat == DNGN_SHALLOW_WATER;
 }
 
 /** Is this feature a type of wall?

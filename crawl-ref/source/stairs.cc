@@ -879,6 +879,10 @@ level_id stair_destination(dungeon_feature_type feat, const string &dst,
         && feat != DNGN_EXIT_ZIGGURAT)
     {
         level_id lev = brentry[you.where_are_you];
+		if(feat == DNGN_EXIT_TEMPLE)
+        {
+            return level_id(BRANCH_DUNGEON, 1);
+		}
         if (!lev.is_valid())
         {
             // Wizmode, the branch wasn't generated this game.
