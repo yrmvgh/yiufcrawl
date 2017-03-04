@@ -117,15 +117,21 @@ public:
                 unrotted = true;
             }
             else
-            {
-                if (is_potion)
-                    amount = you.scale_potion_healing(amount);
-                if (player_rotted())
-                    unrotted = true;
-                // Pay for rot right off the top.
-                amount = unrot_hp(amount);
-                inc_hp(amount);
-            }
+                if (you.species == SP_PLUTONIAN)
+                {
+                    mpr("You feel less contaminated.");
+                    you.magic_contamination -= 1000;
+                }
+                else
+                {
+                    if (is_potion)
+                        amount = you.scale_potion_healing(amount);
+                    if (player_rotted())
+                        unrotted = true;
+                    // Pay for rot right off the top.
+                    amount = unrot_hp(amount);
+                    inc_hp(amount);
+                }
         }
 
         if (ddoor)
