@@ -557,6 +557,11 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
 
     // After this point, we're guaranteed to teleport. Kill the appropriate
     // delays. Teleportitis needs to check the target square first, though.
+    // Impish teleportitis doesn't necessarily bring you to monsters.
+    if (you.species == SP_IMP)
+    {
+        teleportitis = false;
+    }
     if (!teleportitis)
         interrupt_activity(AI_TELEPORT);
 

@@ -48,8 +48,10 @@ enum species_type
     SP_FORMICID,
     SP_VINE_STALKER,
     SP_BARACHIAN,
-    SP_SURFACE_DWARF,
+    SP_DORF,
     SP_IMP,
+    SP_PLUTONIAN,
+    SP_NULL,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

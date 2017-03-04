@@ -175,9 +175,10 @@ void choose_tutorial_character(newgame_def& ng_choice)
 static const species_type species_order[] =
 {
     //fork-specific races first to highlight their presence
-    SP_SURFACE_DWARF,  SP_HIGH_ELF,
+    SP_DORF,           SP_HIGH_ELF,
     SP_SLUDGE_ELF,     SP_LAVA_ORC,
-    SP_IMP,
+    SP_IMP,            SP_PLUTONIAN,
+    SP_NULL,
     // comparatively human-like looks
     SP_HILL_ORC,       SP_HUMAN,
     SP_DEEP_ELF,       SP_DEEP_DWARF,
@@ -939,11 +940,13 @@ static species_group species_groups[] =
         coord_def(0, -1),
         20,
         {
-    SP_SURFACE_DWARF,
+    SP_DORF,
     SP_HIGH_ELF,
     SP_SLUDGE_ELF,
     SP_LAVA_ORC,
     SP_IMP,
+    SP_PLUTONIAN,
+    SP_NULL,
         }
     },
     {

@@ -325,6 +325,8 @@ static const ability_def Ability_List[] =
 
     { ABIL_HOP, "Hop", 0, 0, 0, 0, {}, abflag::NONE },
 
+    { ABIL_OVERLOAD, "Overload", 2, 0, 0, 0, {FAIL_XL, 27, 1}, abflag::NONE },
+
     // EVOKE abilities use Evocations and come from items.
     // Teleportation and Blink can also come from mutations
     // so we have to distinguish them (see above). The off items
@@ -1822,6 +1824,27 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             return SPRET_ABORT;
         }
         return frog_hop(fail);
+
+    case ABIL_OVERLOAD:
+        fail_check();
+            if (yesno("Are you sure you want to explode?", true, 'n'))
+            {
+                beam.flavour      = BEAM_MAGIC;
+                beam.damage       = dice_def(2, div_rand_round(you.hp_max, 3));
+                beam.target       = you.pos();
+                beam.name         = "magical detonation";
+                beam.source_id    = MID_PLAYER;
+                beam.aux_source   = "an exploding Plutonian";
+                beam.ex_size      = random2(4) + 2;
+                beam.ench_power   = div_rand_round(you.magic_contamination, 200);
+                beam.is_explosion = true;
+                beam.explode();
+
+                contaminate_player(2000, true);
+            }
+            else
+                return SPRET_ABORT;
+            break;
 
 #if TAG_MAJOR_VERSION == 34
     case ABIL_DELAYED_FIREBALL:
@@ -3376,6 +3399,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         if (!crawl_state.game_is_sprint() || brdepth[you.where_are_you] > 1)
             _add_talent(talents, ABIL_SHAFT_SELF, check_confused);
     }
+
+    if (you.species == SP_PLUTONIAN)
+        _add_talent(talents, ABIL_OVERLOAD, check_confused);
 
     if (player_mutation_level(MUT_HOP))
         _add_talent(talents, ABIL_HOP, check_confused);

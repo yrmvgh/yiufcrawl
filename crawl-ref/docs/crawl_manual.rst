@@ -1592,8 +1592,8 @@ There are a few distinct species of Dwarf. Dwarves are stout, short, and long-
 lived. Stronger than Humans, but sometimes slower to learn new things. They are
 skilled with magical devices, and comfortable with a mace and shield in hand.
 
-Surface Dwarf
-  "Dorfs", as opposed to the infamous subterranean dwarves, come from halls and
+Dorf
+  Dorfs, as opposed to the infamous subterranean dwarves, come from halls and
   hills above the Dungeon. They love to fight, and often venture forth to seek
   fame and fortune through battle. As such, they are very robust and excellent
   at hand combat. Polearms usually are too big for them to wield comfortably and

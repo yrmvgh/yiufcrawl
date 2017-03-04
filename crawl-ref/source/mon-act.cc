@@ -3705,7 +3705,7 @@ static void _heated_area(monster& mons)
     if (you_worship(GOD_BEOGH) && mons.friendly() && mons.god == GOD_BEOGH)
         return;
 
-    const int base_damage = random2(11);
+    const int base_damage = random2(4 + you.experience_level / 3);
 
     // Timescale, like with clouds:
     const int speed = mons.speed > 0 ? mons.speed : 10;

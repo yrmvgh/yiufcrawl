@@ -28,7 +28,7 @@ Demonspawn
 Demonspawn are half human, half demon. They acquire strong demonic mutations as
 they grow.
 %%%%
-Surface Dwarf
+Dorf
 
 Dorfs are simple warriors with a high resistance to hexes and curses.
 All dwarves have a slight predilection towards wands, maces and shields.
@@ -84,8 +84,8 @@ They are enthusiastic about fire, whips, and tridents, but afraid of cold.
 %%%%
 Lava Orc
 
-Forged in a volcano by Beogh! Lava Orcs are excellent at casting Fire and Earth
-and Earth spells. All orcs are strong, skilled with armour and axe.
+Forged in a volcano by Beogh! Lava Orcs are excellent with Fire and Earth
+spells. All orcs are strong, skilled with armour and axe.
 %%%%
 Tengu
 
@@ -116,6 +116,10 @@ Naga
 Nagas are hybrids; human from the chest up, with a scaly, muscular torso
 trailing off like that of a snake. They move slowly but are naturally resilient.
 %%%%
+NULL
+
+NULL
+%%%%
 Octopode
 
 Octopodes are a species of amphibious cephalopods. They can wear eight rings,
@@ -125,6 +129,11 @@ Ogre
 
 Large and strong, Ogres are mostly seen as brutes. They are extremely robust,
 and have an excellent grasp of magic.
+%%%%
+Plutonian
+
+Contaminated humanoids that draw strength from their unstable magical flux.
+If they accumulate too much contamination, they detonate a little bit.
 %%%%
 Sludge Elf
 

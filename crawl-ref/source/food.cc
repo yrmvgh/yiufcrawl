@@ -53,6 +53,12 @@ void make_hungry(int hunger_amount, bool suppress_msg,
     if (crawl_state.disables[DIS_HUNGER])
         return;
 
+    if (you.species == SP_PLUTONIAN)
+    {
+        contaminate_player(hunger_amount * 4 / 3, true);
+        return;
+    }
+
 #if TAG_MAJOR_VERSION == 34
     // Lich/tree form djinn don't get exempted from food costs: infinite
     // healing from channeling would be just too good.
@@ -137,6 +143,7 @@ bool you_foodless(bool can_eat)
 #if TAG_MAJOR_VERSION == 34
         || you.species == SP_DJINNI && !can_eat
 #endif
+        || you.species == SP_PLUTONIAN && !can_eat
         ;
 }
 
@@ -146,6 +153,7 @@ bool you_foodless_normally()
 #if TAG_MAJOR_VERSION == 34
         || you.species == SP_DJINNI
 #endif
+        || you.species == SP_PLUTONIAN
         ;
 }
 

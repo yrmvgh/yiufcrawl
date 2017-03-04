@@ -1081,6 +1081,10 @@ static int _player_bonus_regen()
 {
     int rr = 0;
 
+    // Plutonians regen more when they're more contaminated.
+    if (you.species == SP_PLUTONIAN)
+        rr += (you.magic_contamination/250);
+
     // Trog's Hand is handled separately so that it will bypass slow
     // regeneration, and it overrides the spell.
     if (you.duration[DUR_REGENERATION]
@@ -1197,6 +1201,10 @@ int player_mp_regen()
         multiplier += 100;
     if (you.props[MANA_REGEN_AMULET_ACTIVE].get_int() == 1)
         multiplier += 50;
+    // the Pu numbers are organized in the following way to make it clear that
+    // 50 is roughly the cap. At 10k contam you're gonna explode soon.
+    if (you.species == SP_PLUTONIAN)
+        multiplier += 50 * (1 + you.magic_contamination) / 10000;
 
     return regen_amount * multiplier / 100;
 }
@@ -4169,7 +4177,9 @@ int get_contamination_level()
 
 bool player_severe_contamination()
 {
-    return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
+    if (you.species == SP_PLUTONIAN)
+        return get_contamination_level() >= 1 + SEVERE_CONTAM_LEVEL;
+    else return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
 }
 
 /**

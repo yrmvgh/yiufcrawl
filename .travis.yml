@@ -2,6 +2,7 @@ language: cpp
 compiler:
 #    - clang
     - gcc
+cache: ccache
 before_install:
     - perl .travis/apt.pl
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
@@ -24,13 +25,13 @@ notifications:
     email:
         on_success: change
         on_failure: always
-#        recipients:
-#          - crawl-ref-commits@lists.sourceforge.net
+        recipients:
+          - yiufsoup@mt2015.com
     irc:
         channels: "chat.freenode.net##circusfork"
         on_success: always
         on_failure: always
         use_notice: true
         template:
-            - "%{message} (%{branch} - %{commit} #%{build_number} : %{author}): %{build_url}"
+            - "%{message} (%{branch} - %{commit} #%{build_number} : %{build_url}"
 sudo: required
