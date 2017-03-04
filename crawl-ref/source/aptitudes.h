@@ -1412,7 +1412,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
 
     // SP_LAVA_ORC
-    APT(SP_LAVA_ORC,        SK_FIGHTING,        2),
+    APT(SP_LAVA_ORC,        SK_FIGHTING,        0),
     APT(SP_LAVA_ORC,        SK_SHORT_BLADES,    0),
     APT(SP_LAVA_ORC,        SK_LONG_BLADES,     0),
     APT(SP_LAVA_ORC,        SK_AXES,            2),
@@ -1424,13 +1424,13 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_LAVA_ORC,        SK_CROSSBOWS,      -2),
     APT(SP_LAVA_ORC,        SK_THROWING,       -2),
     APT(SP_LAVA_ORC,        SK_ARMOUR,          2),
-    APT(SP_LAVA_ORC,        SK_DODGING,        -2),
+    APT(SP_LAVA_ORC,        SK_DODGING,        -3),
     APT(SP_LAVA_ORC,        SK_STEALTH,        -1),
     APT(SP_LAVA_ORC,        SK_STABBING,      UNUSABLE_SKILL),
     APT(SP_LAVA_ORC,        SK_SHIELDS,         0),
     APT(SP_LAVA_ORC,        SK_TRAPS,         UNUSABLE_SKILL),
     APT(SP_LAVA_ORC,        SK_UNARMED_COMBAT,  1),
-    APT(SP_LAVA_ORC,        SK_SPELLCASTING,   -4),
+    APT(SP_LAVA_ORC,        SK_SPELLCASTING,   -2),
     APT(SP_LAVA_ORC,        SK_CONJURATIONS,    1),
     APT(SP_LAVA_ORC,        SK_HEXES,           0),
     APT(SP_LAVA_ORC,        SK_CHARMS,         -2),
@@ -1443,7 +1443,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_LAVA_ORC,        SK_AIR_MAGIC,      -4),
     APT(SP_LAVA_ORC,        SK_EARTH_MAGIC,     1),
     APT(SP_LAVA_ORC,        SK_POISON_MAGIC,    0),
-    APT(SP_LAVA_ORC,        SK_INVOCATIONS,     3),
+    APT(SP_LAVA_ORC,        SK_INVOCATIONS,     1),
     APT(SP_LAVA_ORC,        SK_EVOCATIONS,      0),
 
     // SP_FORMICID

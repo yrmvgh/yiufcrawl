@@ -535,17 +535,18 @@ static const map<species_type, species_def> species_data =
     "LO",
     "Lava Orc", "Orcish", "Orc",
     SPF_ORCISH | SPF_NO_HAIR,
-    -1, 1, 0, 3,
+    -2, 1, 0, 2,
     MONS_LAVA_ORC,
     HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
     10, 8, 6, // 24
     { STAT_STR, STAT_INT }, 5,
     {},
-    { "While cool, your skin is stony.", "You heat up during combat." },
-    { "heat effects" },
-    {JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_TRANSMUTER,
+    { "While cool, your skin is stony.", "You heat up during combat.",
+    "You have poor natural magic resistance." },
+    { "heat effects", "Low MR" },
+    {JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_CONJURER,
      JOB_EARTH_ELEMENTALIST, JOB_FIRE_ELEMENTALIST },
-    { SK_LONG_BLADES, SK_AXES, SK_POLEARMS, SK_UNARMED_COMBAT },
+    { SK_AXES, SK_POLEARMS, SK_UNARMED_COMBAT },
 } },
 
 { SP_MERFOLK, {
