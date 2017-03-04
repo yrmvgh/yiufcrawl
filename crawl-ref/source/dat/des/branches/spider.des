@@ -910,48 +910,6 @@ MAP
          .1.
 ENDMAP
 
-NAME:    lemuel_spider_zombies
-DEPTH:   Spider, !Spider:$
-ORIENT:  float
-TAGS:    no_monster_gen
-MONS:    redback zombie / wolf spider zombie / tarantella zombie
-MONS:    necromancer
-MONS:    plant
-SHUFFLE: {}
-SUBST:   . = .:50 1:4 3:1
-SUBST:   > = <>
-SUBST:   }=} .:4
-SHUFFLE: {}
-SUBST:   == +:15 .:3
-SUBST:   ? = x.
-MAP
-       xxxxxx
-      xx?..?xx
-xxxxxxx?....?xx
-x{...........?xxx
-xxxxxx?........?xxxx
-     xx...........?xxxx
-      x?..111........?xx
-      x?.11111........?x
-      xx.11111........?xx
-       x?.111..........?xxxxxxxx
-       x?.....................}x
-cccccccx...............?xxxxxxxx
-c|..=2.+...........??xxxx
-cccccccxx?.......?xxxx
-        xx?....?xxx
-         xxx...xx
-           x?.?x
-         xxx??xx
-       xxx????x
-     xxx....?xx
-    xx?.>..xxx
-    x?....xx
-    xx..?xx
-     x?xxx
-     xxx
-ENDMAP
-
 NAME:   nicolae_orb_stairs_large
 TAGS:   no_pool_fixup no_monster_gen
 DEPTH:  Spider:2-3
@@ -1386,6 +1344,7 @@ PLACE:  Spider:$
 WEIGHT: 20
 ORIENT: northwest
 KITEM:  O = potion of ambrosia ident:type, gossamer rune of Zot
+KFEAT:  O = enter_vaults
 MONS:   ghost moth, hornet / w:5 wasp, emperor scorpion / w:5 spark wasp
 MONS:   wolf spider / redback / tarantella / jumping spider / w:20 nothing
 MONS:   redback / nothing w:15
@@ -1443,6 +1402,7 @@ WEIGHT: 20
 PLACE:  Spider:$
 ORIENT: float
 KITEM:  O = gossamer rune of Zot
+KFEAT:  O = enter_vaults
 ITEM:   potion of ambrosia ident:type
 MONS:   ghost moth / w:7 nothing, moth of wrath / ghost moth, emperor scorpion
 MONS:   wolf spider / redback / tarantella / jumping spider / w:20 nothing
@@ -1480,6 +1440,7 @@ PLACE:  Spider:$
 TAGS:   no_pool_fixup
 ORIENT: southwest
 KITEM:  O = gossamer rune of zot
+KFEAT:  O = enter_vaults
 KMONS:  O = ghost moth
 KITEM:  *d = potion of ambrosia ident:type
 KMONS:  * = emperor scorpion
@@ -1530,6 +1491,7 @@ PLACE:  Spider:$
 ORIENT: east
 NSUBST: O = 1:O / *:P
 KITEM:  O = gossamer rune of Zot
+KFEAT:  O = enter_vaults
 KITEM:  P = potion of ambrosia ident:type
 MONS:   ghost moth, moth of wrath, emperor scorpion / w:5 spark wasp
 MONS:   wolf spider w:11 / redback / tarantella / jumping spider
@@ -1579,6 +1541,7 @@ PLACE:   Spider:$
 ORIENT:  west
 NSUBST:  d = 1:O / 3:d / *:.
 KITEM:   O = gossamer rune of Zot
+KFEAT:   O = enter_vaults
 ITEM:    potion of ambrosia ident:type
 MONS:    ghost moth, moth of wrath, emperor scorpion / w:5 spark wasp
 MONS:    hornet / wasp w:2, orb spider
@@ -1672,6 +1635,7 @@ NSUBST: 3 = 4:e / 1:s / *:t.2
 NSUBST: 2 = 4:o / 4:p / 2:m / *:t..1
 
 KITEM:  O = gossamer rune of Zot
+KFEAT:  O = enter_vaults
 NSUBST: O = 1:O / *:%.
 
 #thin out loot and monsters
@@ -1734,6 +1698,7 @@ TILE:   P = dngn_sarcophagus_pedestal_left
 FTILE:  23+$OEGHNPS. = floor_sandstone:20 / none
 ITEM:   gold w:40 / potion of ambrosia ident:type
 KITEM:  O = potion of ambrosia ident:type, gossamer rune of Zot
+KFEAT:  O = enter_vaults
 MONS:   death scarab
 MONS:   wolf spider spectre / wolf spider zombie w:5 / demonic crawler w:5 \
         / emperor scorpion spectre w:2

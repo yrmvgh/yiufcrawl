@@ -80,6 +80,10 @@ bool travel_colour_override(const coord_def& p)
         switch (cell.feat())
         {
         case DNGN_FLOOR:
+		case DNGN_STONE_STAIRS_UP_I:
+		case DNGN_STONE_STAIRS_UP_II:
+		case DNGN_STONE_STAIRS_UP_III:
+		case DNGN_ESCAPE_HATCH_UP:
         case DNGN_LAVA:
         case DNGN_DEEP_WATER:
         case DNGN_SHALLOW_WATER:

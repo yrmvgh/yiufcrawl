@@ -383,6 +383,8 @@ MONS: vault guard
   set_feature_name("metal_wall", "heavily etched metal wall")
   set_feature_name("crystal_wall", "heavily etched crystal wall")
 }}
+KFEAT: O = enter_depths
+KFEAT: P = enter_slime_pits
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -412,7 +414,7 @@ xx..AAAAAAAAAAAAAAAAAAAAAAAAAAA.11.BBBBBBBBBBBBBBBBBBBBBBBBBBB..xx
 xx...AAAAAAAAAAAAAAAAAAAAAAAA..1111..BBBBBBBBBBBBBBBBBBBBBBBB...xx
 xx....AAAAAAAAAAAAAAAAAAAAAAA.1....1.BBBBBBBBBBBBBBBBBBBBBBB....xx
 xx...........................1..(<..1...........................xx
-xx0.........................11.[..{.11..........................xx
+xx0.........................11.[OP{.11..........................xx
 xx...........................1..<<..1..........................0xx
 xx............................1....1............................xx
 xx....CCCCCCCCCCCCCCCCCCCCCCC..1111..DDDDDDDDDDDDDDDDDDDDDDD....xx

@@ -127,7 +127,7 @@ void initialise_branch_depths()
         brdepth[it->id] = it->numlevels;
 }
 
-#define MAX_OVERFLOW_LEVEL 9
+#define MAX_OVERFLOW_LEVEL 7
 
 static void _use_overflow_temple(vector<god_type> temple_gods)
 {
@@ -251,7 +251,7 @@ void initialise_temples()
 
     vector<god_type> overflow_gods;
 
-    while (god_list.size() > main_temple_size)
+    while (god_list.size() > 0)
     {
         overflow_gods.push_back(god_list.back());
         god_list.pop_back();
@@ -264,7 +264,7 @@ void initialise_temples()
     CrawlVector &temple_gods
         = you.props[TEMPLE_GODS_KEY].new_vector(SV_BYTE);
 
-    for (unsigned int i = 0; i < god_list.size(); i++)
+    for (unsigned int i = 0; i < main_temple_size; i++)
         temple_gods.push_back((char) god_list[i]);
 
     CrawlVector &overflow_temples
@@ -292,60 +292,6 @@ void initialise_temples()
         }
         else
             overflow_weights[i] = 0;
-    }
-
-    // Try to find combinations of overflow gods that have specialised
-    // overflow vaults.
-multi_overflow:
-    for (unsigned int i = 1, size = 1 << overflow_gods.size();
-         i <= size; i++)
-    {
-        unsigned int num = count_bits(i);
-
-        // TODO: possibly make this place single-god vaults too?
-        // XXX: upper limit on num here because this code gets really
-        // slow otherwise.
-        if (num <= 1 || num > 3)
-            continue;
-
-        vector<god_type> this_temple_gods;
-        vector<god_type> new_overflow_gods;
-
-        string tags = make_stringf("temple_overflow_%d", num);
-        for (unsigned int j = 0; j < overflow_gods.size(); j++)
-        {
-            if (i & (1 << j))
-            {
-                string name = replace_all(god_name(overflow_gods[j]), " ", "_");
-                lowercase(name);
-                tags = tags + " temple_overflow_" + name;
-                this_temple_gods.push_back(overflow_gods[j]);
-            }
-            else
-                new_overflow_gods.push_back(overflow_gods[j]);
-        }
-
-        mapref_vector maps = find_maps_for_tag(tags);
-        if (maps.empty())
-            continue;
-
-        if (overflow_weights[num] > 0)
-        {
-            int chance = 0;
-            for (auto map : maps)
-            {
-                chance += map->weight(level_id(BRANCH_DUNGEON,
-                                               MAX_OVERFLOW_LEVEL));
-            }
-            if (!x_chance_in_y(chance, overflow_weights[num] + chance))
-                continue;
-        }
-
-        _use_overflow_temple(this_temple_gods);
-
-        overflow_gods = new_overflow_gods;
-
-        goto multi_overflow;
     }
 
     // NOTE: The overflow temples don't have to contain only one

@@ -15,6 +15,7 @@
 #include "delay.h"
 #include "dgn-overview.h"
 #include "directn.h"
+#include "dungeon.h"
 #include "env.h"
 #include "files.h"
 #include "fprop.h"
@@ -471,6 +472,23 @@ static level_id _travel_destination(const dungeon_feature_type how,
     // it might prevent the transition itself.
     if (going_up && _fall_down_stairs(how, true))
         return dest;
+	
+    //backup check to make sure people don't get into pan a second time and hit an assert
+    if (how == DNGN_ENTER_PANDEMONIUM)
+    {
+        if (you.uniq_map_tags.count("uniq_holypan"))
+        {
+            mpr("The lords of Pandemonium reject your second attempt to enter their realm!");
+            return dest;
+        }
+    }
+	
+    //can't enter Hell without the orb
+	if (how == DNGN_ENTER_HELL && !player_has_orb())
+    {
+        mpr("The gates of Hell are locked tight! You need the Orb of Zot to enter.");
+        return dest;
+    }
 
     if (shaft)
     {
@@ -993,6 +1011,7 @@ void down_stairs(dungeon_feature_type force_stair, bool force_known_shaft,
                  bool wizard)
 {
     take_stairs(force_stair, false, force_known_shaft, wizard);
+	upstairs_removal();
 }
 
 static bool _any_glowing_mold()

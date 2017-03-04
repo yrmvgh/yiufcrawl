@@ -178,6 +178,7 @@ static void _slime_connectivity_fixup();
 static void _dgn_postprocess_level();
 static void _calc_density();
 static void _mark_solid_squares();
+static void _fixup_holypan();
 
 //////////////////////////////////////////////////////////////////////////
 // Static data
@@ -421,6 +422,12 @@ static bool _build_level_vetoable(bool enable_random_maps,
 
     check_map_validity();
     _count_gold();
+	
+	//fix up holypan stairs after checking validity, to trickeroni the coderoni
+	if (you.uniq_map_tags.count("uniq_holypan") && player_in_branch(BRANCH_PANDEMONIUM))
+	{
+        _fixup_holypan();
+	}
 
     if (!_you_vault_list.empty())
     {
@@ -449,6 +456,22 @@ static void _builder_assertions()
                     dungeon_feature_name(grd(*ri)));
             }
 #endif
+}
+
+void upstairs_removal()
+{
+    for (rectangle_iterator ri(0); ri; ++ri)
+	{
+		if (grd(*ri) == DNGN_STONE_STAIRS_UP_I || grd(*ri) == DNGN_STONE_STAIRS_UP_II
+        || grd(*ri) == DNGN_STONE_STAIRS_UP_III || grd(*ri) == DNGN_ESCAPE_HATCH_UP 
+        || grd(*ri) == DNGN_EXIT_DEPTHS || grd(*ri) == DNGN_EXIT_VAULTS 
+        || grd(*ri) == DNGN_EXIT_SLIME || grd(*ri) == DNGN_EXIT_SHOALS
+        || grd(*ri) == DNGN_EXIT_SWAMP || grd(*ri) == DNGN_EXIT_SNAKE
+        || grd(*ri) == DNGN_EXIT_SPIDER || grd(*ri) == DNGN_EXIT_ORC
+		|| grd(*ri) == DNGN_EXIT_ZOT || grd(*ri) == DNGN_EXIT_HELL
+		|| (you.depth == 1 && grd(*ri) == DNGN_ENTER_HELL))
+            grd(*ri) = DNGN_FLOOR;
+	}      
 }
 
 // Should be called after a level is constructed to perform any final
@@ -893,18 +916,6 @@ int dgn_count_disconnected_zones(bool choose_stairless,
                                        fill);
 }
 
-static void _fixup_hell_stairs()
-{
-    for (rectangle_iterator ri(1); ri; ++ri)
-    {
-        if (feat_is_stone_stair_up(grd(*ri))
-            || grd(*ri) == DNGN_ESCAPE_HATCH_UP)
-        {
-            _set_grd(*ri, DNGN_ENTER_HELL);
-        }
-    }
-}
-
 static void _fixup_pandemonium_stairs()
 {
     for (rectangle_iterator ri(1); ri; ++ri)
@@ -913,6 +924,18 @@ static void _fixup_pandemonium_stairs()
             || grd(*ri) == DNGN_ESCAPE_HATCH_UP)
         {
             _set_grd(*ri, DNGN_TRANSIT_PANDEMONIUM);
+        }
+    }
+}
+
+static void _fixup_holypan()
+{
+    for (rectangle_iterator ri(1); ri; ++ri)
+    {
+        if (feat_is_stone_stair_up(grd(*ri))
+            || grd(*ri) == DNGN_TRANSIT_PANDEMONIUM)
+        {
+            _set_grd(*ri, DNGN_EXIT_PANDEMONIUM);
         }
     }
 }
@@ -1821,9 +1844,17 @@ static bool _add_connecting_escape_hatches()
     if (branches[you.where_are_you].branch_flags & BFLAG_ISLANDED)
         return true;
 
-    // Veto D:1 or Pan if there are disconnected areas.
+    // Veto Dungeon, Vaults, Depths, Orc, Sbranches, or Pan if there are disconnected areas.
+	// Disconnected Slime is ok for now (doesn't affect loot, just exp)
     if (player_in_branch(BRANCH_PANDEMONIUM)
-        || (player_in_branch(BRANCH_DUNGEON) && you.depth == 1))
+        || player_in_branch(BRANCH_DUNGEON)
+        || player_in_branch(BRANCH_VAULTS)
+        || player_in_branch(BRANCH_DEPTHS)
+        || player_in_branch(BRANCH_ORC)
+		|| player_in_branch(BRANCH_SWAMP)
+        || player_in_branch(BRANCH_SNAKE)
+        || player_in_branch(BRANCH_SHOALS)
+        || player_in_branch(BRANCH_SPIDER))
     {
         // Allow == 0 in case the entire level is one opaque vault.
         return dgn_count_disconnected_zones(false) <= 1;
@@ -2367,9 +2398,6 @@ static void _build_dungeon_level(dungeon_feature_type dest_stairs_type)
     {
         _prepare_water();
     }
-
-    if (player_in_hell())
-        _fixup_hell_stairs();
 }
 
 static void _dgn_set_floor_colours()
@@ -2517,7 +2545,6 @@ static bool _pan_level()
     const char *pandemon_level_names[] =
         { "mnoleg", "lom_lobon", "cerebov", "gloorx_vloq", };
     int which_demon = -1;
-    PlaceInfo &place_info = you.get_place_info();
     bool all_demons_generated = true;
 
     if (you.props.exists("force_map"))
@@ -2539,11 +2566,8 @@ static bool _pan_level()
         }
     }
 
-    // Unique pan lords become more common as you travel through pandemonium.
-    // On average it takes 27 levels to see all four, and you're likely to see
-    // your first one after about 10 levels.
-    if (x_chance_in_y(1 + place_info.levels_seen, 5 + place_info.levels_seen)
-        && !all_demons_generated)
+    // Unique pan lords come to mess you up immediately. Get wrecked idiot.
+    if (!all_demons_generated)
     {
         do
         {
@@ -2561,7 +2585,10 @@ static bool _pan_level()
                                    false, MB_FALSE);
     }
     else
-        vault = random_map_in_depth(level_id::current(), false, MB_FALSE);
+    {
+        vault = random_map_for_tag("holy_pan", false,
+                                   false, MB_FALSE);
+	}
 
     // Every Pan level should have a primary vault.
     ASSERT(vault);

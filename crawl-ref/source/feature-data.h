@@ -289,10 +289,10 @@ STONE_STAIRS_DOWN(III, iii),
 
 #define STONE_STAIRS_UP(num, num2)\
 {\
-    DNGN_STONE_STAIRS_UP_##num, "stone staircase leading up", "stone_stairs_up_"#num2,\
-    DCHAR_STAIRS_UP, NUM_DCHAR_TYPES,\
-    GREEN, GREEN, GREEN, WHITE, WHITE,\
-    FFT_NONE, MF_STAIR_UP,\
+    DNGN_STONE_STAIRS_UP_##num, "floor", "stone_stairs_up_"#num2,\
+    DCHAR_FLOOR, DCHAR_FLOOR_MAGIC,\
+    COLOUR_IS(ETC_FLOOR),\
+    FFT_NONE, MF_FLOOR,\
 }
 
 STONE_STAIRS_UP(I, i),
@@ -307,10 +307,10 @@ STONE_STAIRS_UP(III, iii),
 },
 
 {
-    DNGN_ESCAPE_HATCH_UP, "escape hatch in the ceiling", "escape_hatch_up",
-    DCHAR_STAIRS_UP, NUM_DCHAR_TYPES,
-    COLOUR_AND_MAP(BROWN),
-    FFT_NONE, MF_STAIR_UP,
+    DNGN_ESCAPE_HATCH_UP, "floor", "escape_hatch_up",
+    DCHAR_FLOOR, DCHAR_FLOOR_MAGIC,
+    COLOUR_IS(ETC_FLOOR),
+    FFT_NONE, MF_FLOOR,
 },
 
 {
@@ -377,6 +377,7 @@ PORTAL_ENTRANCE(DNGN_ENTER_ICE_CAVE, "frozen archway", "enter_ice_cave", WHITE),
 PORTAL_ENTRANCE(DNGN_ENTER_VOLCANO, "dark tunnel", "enter_volcano", RED),
 PORTAL_ENTRANCE(DNGN_ENTER_WIZLAB, "magical portal", "enter_wizlab", ETC_SHIMMER_BLUE),
 PORTAL_ENTRANCE(DNGN_ENTER_DESOLATION, "ruined gateway", "enter_desolation", WHITE),
+PORTAL_ENTRANCE(DNGN_ENTER_ELF, "portal to the Elven Halls", "enter_elven_halls", WHITE),
 #if TAG_MAJOR_VERSION == 34
 PORTAL_EXIT(DNGN_EXIT_PORTAL_VAULT, "gate leading back out of this place", "exit_portal_vault", ETC_SHIMMER_BLUE),
 #endif
@@ -390,6 +391,7 @@ PORTAL_EXIT(DNGN_EXIT_ICE_CAVE, "ice covered gate leading back out of this place
 PORTAL_EXIT(DNGN_EXIT_VOLCANO, "rocky tunnel leading out of this place", "exit_volcano", RED),
 PORTAL_EXIT(DNGN_EXIT_WIZLAB, "portal leading out of this place", "exit_wizlab", ETC_SHIMMER_BLUE),
 PORTAL_EXIT(DNGN_EXIT_DESOLATION, "gate leading back out of this place", "exit_desolation", WHITE),
+PORTAL_EXIT(DNGN_EXIT_ELF, "portal leading out of this place", "exit_elven_halls", WHITE),
 
 #define BRANCH_ENTRANCE(enum, name, vaultname)\
 {\
@@ -450,9 +452,6 @@ BRANCH_EXIT(DNGN_EXIT_TEMPLE, "staircase back to the Dungeon", "exit_temple"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_SNAKE, "staircase to the Snake Pit", "enter_snake_pit"),
 BRANCH_EXIT(DNGN_EXIT_SNAKE, "staircase back to the Dungeon", "exit_snake_pit"),
-
-BRANCH_ENTRANCE(DNGN_ENTER_ELF, "staircase to the Elven Halls", "enter_elven_halls"),
-BRANCH_EXIT(DNGN_EXIT_ELF, "staircase back to the Vaults", "exit_elven_halls"),
 
 BRANCH_ENTRANCE(DNGN_ENTER_TOMB, "staircase to the Tomb", "enter_tomb"),
 BRANCH_EXIT(DNGN_EXIT_TOMB, "staircase back to the Crypt", "exit_tomb"),

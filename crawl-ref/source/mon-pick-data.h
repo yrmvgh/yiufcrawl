@@ -12,9 +12,9 @@ static const pop_entry pop_d[] =
   {  1,  5,  335, FALL, MONS_DART_SLUG },
   {  1,  7,  515, SEMI, MONS_QUOKKA },
   {  1,  7,  335, SEMI, MONS_JACKAL },
-  {  1,  7,  192, PEAK, MONS_GNOLL },
   {  2,  6,  925, FLAT, MONS_ADDER },
   {  2,  6,  515, SEMI, MONS_QUOKKA },
+  {  2,  7,  192, PEAK, MONS_GNOLL },
   {  3,  6, 1000, FLAT, MONS_ORC },
   {  3,  7,  300, FLAT, MONS_NO_MONSTER},
   {  3,  8,  335, SEMI, MONS_HOWLER_MONKEY },
@@ -168,27 +168,27 @@ static const pop_entry pop_orc[] =
 };
 
 static const pop_entry pop_elf[] =
-{ // Elven Halls (OOD cap: 7)
+{ // Elven Halls
   {  1,  1,   50, FLAT, MONS_ORC_HIGH_PRIEST },
   {  1,  1,   50, FLAT, MONS_ORC_SORCERER },
   {  1,  1,  775, FLAT, MONS_DEEP_ELF_MAGE },
-  {  1,  1, 2000,FLAT, MONS_NO_MONSTER }, //formerly deep elf mage
+  {  1,  1, 2000, FLAT, MONS_NO_MONSTER }, //formerly deep elf mage
   {  1,  1, 1385, FLAT, MONS_DANCING_WEAPON },
-  {  1,  2,  925, FLAT, MONS_DEEP_ELF_KNIGHT },
-  {  1,  2,  925, FLAT, MONS_DEEP_ELF_ARCHER },
-  {  1,  2,  345, FLAT, MONS_FIRE_ELEMENTAL },
-  {  1,  2,  345, FLAT, MONS_WATER_ELEMENTAL },
-  {  1,  2,  345, FLAT, MONS_AIR_ELEMENTAL },
-  {  1,  2,  345, FLAT, MONS_EARTH_ELEMENTAL },
-  {  1,  3,   65, SEMI, MONS_DEEP_ELF_SORCERER },
-  {  1,  3,   40, SEMI, MONS_DEEP_ELF_ANNIHILATOR },
-  {  1,  3,   65, SEMI, MONS_DEEP_ELF_DEMONOLOGIST },
-  {  1,  3,   40, SEMI, MONS_DEEP_ELF_HIGH_PRIEST },
-  {  1,  3,   65, SEMI, MONS_DEEP_ELF_ELEMENTALIST },
-  {  1,  4,   65, SEMI, MONS_GLOWING_SHAPESHIFTER },
-  {  0,  4,   45, SEMI, MONS_DEEP_ELF_DEATH_MAGE },
-  {  2,  7,   10, RISE, MONS_DEEP_ELF_BLADEMASTER },
-  {  2,  7,   10, RISE, MONS_DEEP_ELF_MASTER_ARCHER },
+  {  1,  1,  925, FLAT, MONS_DEEP_ELF_KNIGHT },
+  {  1,  1,  925, FLAT, MONS_DEEP_ELF_ARCHER },
+  {  1,  1,  345, FLAT, MONS_FIRE_ELEMENTAL },
+  {  1,  1,  345, FLAT, MONS_WATER_ELEMENTAL },
+  {  1,  1,  345, FLAT, MONS_AIR_ELEMENTAL },
+  {  1,  1,  345, FLAT, MONS_EARTH_ELEMENTAL },
+  {  1,  1,   65, FLAT, MONS_DEEP_ELF_SORCERER },
+  {  1,  1,   40, FLAT, MONS_DEEP_ELF_ANNIHILATOR },
+  {  1,  1,   65, FLAT, MONS_DEEP_ELF_DEMONOLOGIST },
+  {  1,  1,   40, FLAT, MONS_DEEP_ELF_HIGH_PRIEST },
+  {  1,  1,   65, FLAT, MONS_DEEP_ELF_ELEMENTALIST },
+  {  1,  1,   65, FLAT, MONS_GLOWING_SHAPESHIFTER },
+  {  1,  1,   45, FLAT, MONS_DEEP_ELF_DEATH_MAGE },
+  {  1,  1,   10, FLAT, MONS_DEEP_ELF_BLADEMASTER },
+  {  1,  1,   10, FLAT, MONS_DEEP_ELF_MASTER_ARCHER },
   { 0,0,0,FLAT,MONS_0 }
 };
 #if TAG_MAJOR_VERSION == 34

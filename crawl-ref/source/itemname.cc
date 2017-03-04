@@ -2579,6 +2579,8 @@ void check_item_knowledge(bool unknown_items)
 #if TAG_MAJOR_VERSION == 34
             if (i == MI_DART)
                 continue;
+            if (i == MI_NEEDLE)
+                continue;
 #endif
             _add_fake_item(OBJ_MISSILES, i, selected_items, items_missile);
         }
@@ -2634,7 +2636,6 @@ void check_item_knowledge(bool unknown_items)
                                               : known_item_mangle, 'a', false);
 
     ml = menu.load_items(items_missile, known_item_mangle, ml, false);
-    ml = menu.load_items(items_food, known_item_mangle, ml, false);
     if (!items_other.empty())
     {
         menu.add_entry(new MenuEntry("Other Items", MEL_SUBTITLE));

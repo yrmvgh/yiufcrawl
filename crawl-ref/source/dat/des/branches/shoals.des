@@ -1221,8 +1221,10 @@ SUBST:     e = e.
 KMONS:     ge = merfolk impaler / merfolk javelineer / merfolk aquamancer
 : if shoals_vault_is_mimic() then
 KITEM:     O = barnacled rune of Zot mimic
+KFEAT:     O = .
 : else
 KITEM:     O = barnacled rune of Zot
+KFEAT:     O = enter_vaults
 : end
 KPROP:     O = no_tide
 LROCKTILE: wall_pebble_lightgray
@@ -1283,8 +1285,10 @@ KMONS:   3 = harpy band
 KMONS:   d = merfolk aquamancer / water nymph w:5
 : if shoals_vault_is_mimic() then
 KITEM:   d = barnacled rune of zot mimic
+KFEAT:   d = .
 : else
 KITEM:   d = barnacled rune of zot
+KFEAT:   d = enter_vaults
 : end
 KFEAT:   123 = w
 KPROP:   d = no_tide
@@ -1367,8 +1371,10 @@ MONS:   merfolk impaler ; trident ego:freezing good_item . robe w:7 / \
 KMONS:  K = frost giant
 : if shoals_vault_is_mimic() then
 KITEM:  O = barnacled rune of Zot mimic
+KFEAT:  O = .
 : else
 KITEM:  O = barnacled rune of Zot
+KFEAT:  O = enter_vaults
 : end
 KFEAT:  K = deep_water
 NSUBST: A = 1:. / 1:xxxx. / *:x
@@ -1452,8 +1458,10 @@ MONS:    faun w:6 / 0
 KMONS:   P = plant
 : if shoals_vault_is_mimic() then
 KITEM:   O = barnacled rune of Zot mimic
+KFEAT:   O = .
 : else
 KITEM:   O = barnacled rune of Zot
+KFEAT:   O = enter_vaults
 : end
 NSUBST:  1 = 4:1 / 2:1. / 2:1. / 2:2 / 2:2. / 2:2. / *:.
 SHUFFLE: abcdefghijk, ABCDEFGH

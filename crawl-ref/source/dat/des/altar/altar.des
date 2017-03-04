@@ -195,22 +195,6 @@ MAP
 .........
 ENDMAP
 
-NAME:   lemuel_upstairs_altar
-DEPTH:  D:2-, Vaults, Elf, Crypt
-ORIENT: float
-SUBST:  T:T., )=)}], c:ccx
-KMASK:  T = no_monster_gen
-: interest_check(_G)
-MAP
-ccccccc
-cT...Tc
-c.....ccccccc
-c..C..+....)c
-c.....ccccccc
-cT...Tc
-ccccccc
-ENDMAP
-
 # This is the generic version. A special version may occur for Orc, almost always
 # to Beogh. Only one of these can come up.
 NAME:  david_defended_altar_elf

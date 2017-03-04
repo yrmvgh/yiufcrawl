@@ -1086,15 +1086,9 @@ static void _add_missing_branches()
     const level_id lc = level_id::current();
 
     // Could do all just in case, but this seems safer:
-    if (brentry[BRANCH_VAULTS] == lc)
-        _ensure_entry(BRANCH_VAULTS);
-    if (brentry[BRANCH_ZOT] == lc)
-        _ensure_entry(BRANCH_ZOT);
-    if (lc == level_id(BRANCH_DEPTHS, 2) || lc == level_id(BRANCH_DUNGEON, 21))
-        _ensure_entry(BRANCH_VESTIBULE);
     if (lc == level_id(BRANCH_DEPTHS, 3) || lc == level_id(BRANCH_DUNGEON, 24))
         _ensure_entry(BRANCH_PANDEMONIUM);
-    if (lc == level_id(BRANCH_DEPTHS, 1) || lc == level_id(BRANCH_DUNGEON, 25))
+    if (lc == level_id(BRANCH_DEPTHS, 3) || lc == level_id(BRANCH_DUNGEON, 25))
         _ensure_entry(BRANCH_ABYSS);
     if (player_in_branch(BRANCH_VESTIBULE))
     {
@@ -3776,7 +3770,7 @@ static branch_type old_entries[] =
     /* Temple */ BRANCH_DUNGEON,
     /* Orc */    BRANCH_DUNGEON,
     /* Elf */    BRANCH_ORC,
-    /* Dwarf */  BRANCH_ELF,
+    /* Dwarf */  BRANCH_VAULTS,
     /* Lair */   BRANCH_DUNGEON,
     /* Swamp */  BRANCH_LAIR,
     /* Shoals */ BRANCH_LAIR,

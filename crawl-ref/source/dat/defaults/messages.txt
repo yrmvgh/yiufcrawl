@@ -57,6 +57,8 @@ msc += $warning:crackle.*arcane power
 msc += $warning:crackle.*magical portal
 msc += $warning:distant wind
 msc += $warning:whistling.*wind
+msc += $warning:distant elf
+msc += $warning:chatter.*elf
 msc += $warning:rapidly growing quiet
 
 msc += lightcyan:LOW MAGIC WARNING
@@ -65,6 +67,7 @@ msc += $warning:no longer ripe
 msc += $warning:This .* contains the .* runes? of Zot.
 msc += $warning:They guard the .* runes? of Zot.
 msc += $warning:Beware, you cannot shaft yourself on this level.
+msc += $warning:The lords of Pandemonium reject your second attempt
 
 # Unimportant messages and combat clutter
 #
@@ -102,6 +105,7 @@ force_more_message += You rejoin the land of the living
 force_more_message += You cannot cast spells when silenced
 force_more_message += You don't have the energy to cast that spell
 force_more_message += This is a scroll of acquirement
+force_more_message += You will only be able to enter Pandemonium once
 
 ## Reduce chance of drowning because flight or form runs out:
 force_more_message += Careful!
@@ -116,6 +120,7 @@ force_more_message += sound of rushing water
 force_more_message += oppressive heat about you
 force_more_message += crackle of arcane power
 force_more_message += distant wind
+force_more_message += elven voice
 
 # Religion
 force_more_message += press .* to convert to Beogh

@@ -1601,6 +1601,16 @@ static bool _can_take_stairs(dungeon_feature_type ftype, bool down,
             return false;
         }
     }
+	
+	//don't allow re-entry to pandemonium after pan has been completed
+    if (ftype == DNGN_ENTER_PANDEMONIUM)
+    {
+        if (you.uniq_map_tags.count("uniq_holypan"))
+        {
+            mpr("The lords of Pandemonium reject your second attempt to enter their realm!");
+            return false;
+        }
+    }
 
     // Rune locks
     int min_runes = 0;
@@ -1641,6 +1651,7 @@ static bool _prompt_dangerous_portal(dungeon_feature_type ftype)
     switch (ftype)
     {
     case DNGN_ENTER_PANDEMONIUM:
+        mpr("You will only be able to enter Pandemonium once."); //fall through to the prompt.
     case DNGN_ENTER_ABYSS:
         return yesno("If you enter this portal you might not be able to return "
                      "immediately. Continue?", false, 'n');

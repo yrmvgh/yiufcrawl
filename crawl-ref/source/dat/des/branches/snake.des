@@ -1022,6 +1022,7 @@ SUBST:   _ : ....!x, ! = x .:2
 SHUFFLE: 123, 45
 NSUBST:  { = 1:{ / *:.
 KITEM:   O = serpentine rune of Zot
+KFEAT:   O = enter_vaults
 #
 validate {{ return glyphs_connected('{', 'O') }}
 #
@@ -1081,6 +1082,7 @@ SUBST:  v = x .:1
 NSUBST: 1 = 3:1 / 2:. / * = 1., 3 = 16:3 / 8:. / * = 3..
 NSUBST: 4 = 5:4 / 5:. / * = 4.
 KITEM:  O = serpentine rune of Zot
+KFEAT:  O = enter_vaults
 MAP
 xxxxxxxxxxxxxxxxxccc.@2cc2@.ccccxxxxxxxx
 xxxxxxxxxxxxcccccc.............ccccxxxxx
@@ -1135,6 +1137,7 @@ NSUBST:  2 = 6 = 23 / 6:. / * = 23..
 NSUBST:  4 = 5:4 / 4 = 12233 / 6:. / * = 44123....
 NSUBST:  X = 4:x / 4:. / * = x..
 KITEM:   O = serpentine rune of Zot
+KFEAT:   O = enter_vaults
 MAP
 xxxxxxxxxxxxxxxxxxc.@..cxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxc....cxxxxxxxxxxxxxxxxxx
@@ -1197,6 +1200,7 @@ MONS:   greater naga, guardian serpent
 MONS:   w:21 anaconda / black mamba / shock serpent w:7 / mana viper w:13 / \
         nothing w:30
 KITEM:  O = serpentine rune of Zot
+KFEAT:  O = enter_vaults
 KMONS:  OS = guardian serpent
 KFEAT:  7 = lava
 KMONS:  7 = salamander mystic
@@ -1258,7 +1262,8 @@ MONS:   greater naga w:20 / naga warrior w:5 / naga mage w:5 / \
         naga ritualist w:5 / naga sharpshooter w:5
 NSUBST: O = 1:A / 1:B
 KITEM:  A = serpentine rune of Zot
-KITEM:  B = serpentine rune of Zot mimic / w:90 acquire any
+KFEAT:  A = enter_vaults
+KITEM:  B = acquire any
 MAP
         cccccccc     c.@..c       cccccccc
      cccc..1...ccc   c....c    cccc..2...ccc
@@ -1301,6 +1306,7 @@ KMONS: 7 = sea snake
 KFEAT: 7 = deep_water
 NSUBST: 7 = 7:7 / 7:w / * = 7wwww
 KITEM: O = serpentine rune of zot
+KFEAT: O = enter_vaults
 MAP
           xxxxxxxxx
           ccccccccc
@@ -1340,6 +1346,7 @@ PLACE:  Snake:$
 ORIENT: north
 KMONS:  L = greater naga
 KITEM:  O = serpentine rune of Zot
+KFEAT:  O = enter_vaults
 KFEAT:  A = altar_okawaru / altar_makhleb / altar_trog
 MONS:   greater naga w:20 / naga warrior w:5 / naga mage w:5 / \
         naga ritualist w:5 / naga sharpshooter w:5
@@ -1405,6 +1412,7 @@ NSUBST: 5 = 6:5 / *:55.
 NSUBST: 6 = 8:6 / *:.
 
 KITEM:  O = serpentine rune of Zot
+KFEAT:  O = enter_vaults
 NSUBST: O = 1:O / *:%.
 MAP
 cccccccccccccccccccccccccccccccccccccccc

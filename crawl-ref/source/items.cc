@@ -1893,7 +1893,7 @@ static void _get_orb(const item_def &it, bool quiet)
         you.increase_duration(DUR_TELEPORT, 5 + random2(5));
     }
 
-    start_orb_run(CHAPTER_ESCAPING, "Now all you have to do is get back out of the dungeon!");
+    start_orb_run(CHAPTER_ESCAPING, "The gates of Hell open wide to receive you!");
 }
 
 /**

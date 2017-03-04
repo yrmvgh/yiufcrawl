@@ -386,48 +386,6 @@ MAP
          ...
 ENDMAP
 
-NAME:   lightli_tower_of_babel
-TAGS:   no_monster_gen no_item_gen
-DEPTH:  Dis, !Dis:$
-ORIENT: float
-MONS:   flying skull
-KMONS:  2 = patrolling iron giant
-KFEAT:  2 = )
-TILE:   c = wall_marble
-MAP
-            vvvvv
-       vvvvvv...vvvvv
-    vvvvv...........vvvvv
- vvvv........1.1........vvvv
-vv.........c.....c.........vv
-v..2.cc....1..c..1....cc....v
-v....cc.......1.......cc....v
-v......v.............v......v
-v.......v...vv.vv...v.......v
-v........vvvv...vvvv........v
-v........vvvv...vvvv........v
-v.......vvvvv...vvvvv.......v
-v..c1...vvvvvv.vvvvvv...1c..v
-v......vvvvvvv+vvvvvvv......v
-v.1....v...vv...vv...v....1.v
-v...c1......+.(.+......1c...v
-v.1....v...vv...vv...v....1.v
-v......vvvvvvv+vvvvvvv......v
-v..c1...vvvvvv.vvvvvv...1...v
-v.......vvvvv...vvvvv....c..v
-v........vvvv...vvvv........v
-v........vvvv...vvvv........v
-v.......v...vv.vv...v.......v
-v......v.............v......v
-v....cc.......1.......cc....v
-v....cc....1..c..1....cc....v
-vv.........c.....c.........vv
- vvvv........1.1........vvvv
-    vvvvv...........vvvvv
-        vvvvv...vvvvv
-            vvvvv
-ENDMAP
-
 NAME:    hangedman_dis_decor_blocks_mantle
 TAGS:    extra transparent decor
 SHUFFLE: ABC, DEFG
@@ -727,6 +685,7 @@ MONS:    patrolling Dispater, brimstone fiend, Ice Fiend
 MONS:    rust devil, war gargoyle, iron dragon / iron giant w:5
 KMONS:   7 = hell sentinel
 KMONS:   8 = quicksilver dragon
+KFEAT:   P = exit_dungeon
 : serpent_of_hell_setup(_G)
 SHUFFLE: 23
 SUBST:   4 = 4446
@@ -738,7 +697,7 @@ MAP
 .....v.vv+vvvv.v.v.v.v.v.v.v.v.v..v.v.v.v.v.v.v.v.v.v.vvvv+vv.v.....
 .....v.v.....vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv.....v.v.....
 .....v|v.....+$$v$$+$$v||vvvvvvvvvvvvvvvvv$$$$v4.4.v$$v.....v|v.....
-.....vvvv+vvvv$$+$$v$$+||v...............v$$$$+.4.4+$$v+vv+vvvv.....
+.....vvvv+vvvv$$+$$v$P+||v...............v$$$$+.4.4+$$v+vv+vvvv.....
 .......vv.vvvvvvvvvvvvvvvv.v..v..v..v..v.v$$$$v4.4.v$$+||v.vv5......
 ......vvv................v7.............7vvvvvvvvvvvvvvvvv.vvv......
 ......5vv................+...............+.................vv.......
@@ -766,6 +725,7 @@ ENDMAP
 
 NAME:    dis_mu
 KFEAT:   o = granite_statue
+KFEAT:   P = exit_dungeon
 MONS:    patrolling Dispater, brimstone fiend, ice fiend, rust devil
 MONS:    war gargoyle, iron dragon / iron giant w:5, iron troll
 KMONS:   8 = iron troll
@@ -804,7 +764,7 @@ MAP
 .....vv....v...........vv$$$vv..vvv..vvv+vvvvv||vvo......vvvv+vvv...
 ...vvv.8W..vvvvvvvvvvvvvv$$$v...v9v...v...vvvv|vvo2......vvv...v5...
 ...5vv.WW..vv5vv5vv5vv5vvv+vv.........+...vvvv|vv...v.v...vv9..vv...
-...vvv.WW..+................+..v...v..v...vvvvOv1.........+..o.v....
+...vvv.WW..+................+..v.P.v..v...vvvvOv1.........+..o.v....
 ...vvv.WW..+................+..5.W.5..v...vvvv|v0.........+..o.v....
 ...5vv.WW..vv5vv5vv5vv5vvv+vv..v.W.v..v...vvvv|vv...v.v...vv9..vv...
 ...vvv.8W..vvvvvvvvvvvvvv$$$v..5.W.5..v..Dvvvv|vvo3......vvv...v5...
@@ -831,6 +791,7 @@ TILE:   G = dngn_statue_iron_golem
 COLOUR: G = cyan
 KMONS:  8 = iron troll
 KMONS:  9 = war gargoyle
+KFEAT:  P = exit_dungeon
 ITEM:   plate armour good_item / crystal plate armour good_item w:3
 ITEM:   acquire weapon
 KMONS:  F = Hell Sentinel
@@ -844,7 +805,7 @@ MAP
 ....................................................................
 ....................................................................
 ...............vv9.vv4.vv9.vvvvvvvvvvvvvvvvvvvvvv.9v.4v.9vvvvvvvvv..
-.............vvvvvvvvvvvvvvv.....+$$$v||v.......vvvvvvvvvv.......v..
+.............vvvvvvvvvvvvvvv.....+$$Pv||v.......vvvvvvvvvv.......v..
 ...........vvv.............v.4.5.+$$$vF|v........vvvvvvvv........v..
 .........vvvvv.G.G.G.G.G.G.v..3..v$E$v$$v..7.....vvvvvvvv.....2..v..
 ......vvvvvvvv.............+...4.v|||v$$v........vvvvvvvv........v..
@@ -864,7 +825,7 @@ MAP
 ......vv.....+.............vvvvv.....v.3v........................v..
 ......9v.5.4.+....4...5....vvvvvvv...v54v.........vvvvvv.........v..
 ......vv.....+......3......+.....vvvvv++v........vvvvvvvv........v..
-......vvvvvvvv.............+...4.v$$$v$$v........vvvvvvvv........v..
+......vvvvvvvv.............+...4.v$$Pv$$v........vvvvvvvv........v..
 .........vvvvv.G.G.G.G.G.G.v..3..v$$$v$$v..1.....vvvvvvvv.....7..v..
 ...........vvv.............v.4.5.+$E$vF|v........vvvvvvvv........v..
 .............vvvvvvvvvvvvvvv.....+|||v||vO......vvvvvvvvvv.......v..
@@ -1009,6 +970,7 @@ NSUBST:  5 = 1:5 / 1:. / * = 5., 6 = 1:6 / 1:. / * = 6., 7 = 1:7 / 1:. / * = 7.
 NSUBST:  8 = 2:4 / 1:6 / 1:7 / 4 = 4.. / 4 = 67. / *:.
 SUBST:   0 = 09988...
 SHUFFLE: 67
+KFEAT:   P = exit_dungeon
 KMASK:   W = no_monster_gen
 : serpent_of_hell_setup(_G)
 : dis_setup(_G)
@@ -1016,7 +978,7 @@ KMASK:   W = no_monster_gen
 : dis_statues(_G)
 MAP
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-v...........................v.....v........v.0...v.............v.....v
+v...........................v.....v........v.0...v......PP.....v.....v
 v....8..vvvvvvvvvvvvv..8....B..0..v.7.vvvvvv.....v....G....G...v..0..v
 v.......v___________v.......v.....+...v....v..0..v.6..G....G...+.....v
 v....vvvv___________vvvv....v..0..v...+.0..A.....+.............vvvvvvv
@@ -1107,6 +1069,7 @@ NSUBST:  0 = 2:8 / 5 = 0:29 8:1 / 2:. / * = 0:49 .:1
 NSUBST:  9 = 3:8 / 3 = 9:4 8:1 / *:9
 SHUFFLE: {([, 34, %$, ab, cd, ef / ef / fe, gh / gh / hg, ij / ij / ji
 SUBST:   acegi = v, bdfhj = ., k : vvv., l : vvv., m : vvv., ` : 12
+KFEAT:   P = exit_dungeon
 : serpent_of_hell_setup(_G)
 : dis_setup(_G)
 : dis_rune(_G)
@@ -1116,7 +1079,7 @@ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 vvv.(.vv.....vv...vv...vv...vvvvvvv..vv..vv..vv..vvvvvvvvvvvvvvvvvv
 vv..........................v....0v..............v%%%%%.....0|||vvv
-vv[.......v.................+.....v..............v.............|vvv
+vv[.......v.................+.....v..............v............P|vvv
 vv.......vvv................v.....v.............vv.....3v......|vvv
 vvv.......v1................+.....v..............v..vvvvv......8vvv
 vvv......vvv................v0....v.............vv..............vvv
@@ -1174,7 +1137,7 @@ vvv..............v...v0v..............v..v...vv......v......++..vvv
 vvv..............vv.................v.v..v...vv%.v%v...v....vv..vvv
 vvv0......vvvvv..v..................v9=..v...vvvvvvvvvvvv++vvv.5vvv
 vvv|......v3.....vv.................v2v..v...vvvvvvvvvvvv++vvv..vvv
-vvv|.............v....................v..v......................vvv
+vvv|P............v....................v..v......................vvv
 vvv|||8.....%%%%%v..................vvvGGv.....G.....G......5..Gvvv
 vvvvvvvvvvvvvvvvvv...vv...vv...vv...vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -1204,6 +1167,7 @@ TILE:    G = dngn_statue_iron_golem
 COLOUR:  G = cyan
 KMONS:   8 = iron troll
 KMONS:   9 = war gargoyle
+KFEAT:   S = exit_dungeon
 : serpent_of_hell_setup(_G)
 : dis_setup(_G)
 : dis_rune(_G)
@@ -1244,7 +1208,7 @@ vv....vv..........vv...........vvvvv..v+vv.....vvvvv..v+vvv...vv....vv
 vv....vvv..........vvvevv......v%%%v........3....vv..........vvv....vv
 vv...vvvvv.........vv9..v......v$$$v............vvv..........vv.....vv
 vv...v...d..vvvvv...v...e......v...v............vv...........vv.....vv
-vv...v.9.v..v%%%v...+..9v......+...v....2......vvv..........vvv.....vv
+vv...v.9.v..v%%%v...+..9v......+.S.v....2......vvv..........vvv.....vv
 vv...v...d..v...v...vvvvv......v...v..........vvv...........vv......vv
 vv...+.9.v..vv+vv.....vv...3...vvvvv..........vv...vvvv.....vv....vvvv
 vvv..v...vv...........vvv................vvevvvv...v.$v....vvv....vvvv

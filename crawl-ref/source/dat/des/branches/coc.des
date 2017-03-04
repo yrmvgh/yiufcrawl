@@ -201,6 +201,7 @@ KMONS:   E = elemental wellspring
 KMONS:   defg = ice devil w:5 / Ice Fiend / nothing w:5
 KITEM:   defg = any misc
 KFEAT:   E = w
+KFEAT:   P = exit_dungeon
 SHUFFLE: O1dD / e4%H / f9*I / g8|J
 SUBST:   ' = w ., 3 = 3 ., HIJ = 4 4 .
 NSUBST:  w = 2:E / 2 = E w / *:w
@@ -217,10 +218,10 @@ xxxxwwwww....wwwww....wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww''wwwwwwwwxxxx
 xxxxwww...wwwwwwwwwww....wwwwwwwwwwwwwwwwwwwwwwwwwww'.......wwwwwwxxxx
 xxxxwww.wwww......wwwwww..wwwwwwwwwwwwwwwwwwww'.......ccccc...wwwwxxxx
 xxxxww..ww....cc......www.3wwwwwwwwwwwww..........ccccccccccc..wwwxxxx
-xxxxw...ww..cccccc.....www.wwwwwwwwww'3..........cc....9.2..cc..wwxxxx
+xxxxw...ww..cccccc.....www.wwwwwwwwww'3..........cc....9P2..cc..wwxxxx
 xxxxw..ww..ccccccc+c....ww.'wwwwwwwwwww''........ccf********cc..wwxxxx
 xxxxw..ww..cc.%%%%.cc...ww..wwwwwwwwwwwwwwwww'....ccccccc+ccc...'wxxxx
-xxxxw..ww..cc2.e4.2cc...ww..wwwwwwwwwwwwwwwwwwww'......c...c.....wxxxx
+xxxxw..ww..cc2.e4P2cc...ww..wwwwwwwwwwwwwwwwwwww'......c...c.....wxxxx
 xxxxw..ww..cc.%%%%.cc..www.'wwwwwwwwwwwwwwwwwwwwwwwww'.cc+cc..I..wxxxx
 xxxxw..www..c+cccccc...ww..wwwwwwwwwwwwwwwwwwwwwwwwwww..........wwxxxx
 xxxxww..ww....ccccH...www.wwwwwwwwwwwwwwwwwwwwwwwwwwwww........wwwxxxx
@@ -258,7 +259,7 @@ xxxxww'.c||.8cc......'wwwwwwwwwwwwwwwwwwwwwww'...w..wwwwwwwwwwwwwwxxxx
 xxxxww..c||2.2cc..J.....'wwwwwwwwwwwwwwwwww....wwww..wwwwwwwwwwwwwxxxx
 xxxxww..c||....cc..............3'wwwwwwwww...wwwwwww.....wwccccwwwxxxx
 xxxxww..cccc+ccccc..........wwwwwwwwwww'3...wwwwwwwwwww.2.cc2dccwwxxxx
-xxxxwww..ccc...........'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.+dd1Ocwwxxxx
+xxxxwww.Pccc...........'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.+dd1Ocwwxxxx
 xxxxwwww......'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwcc2dccwwxxxx
 xxxxwwwwww'''wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwccccwwwxxxx
 xxxxwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxxx
@@ -286,6 +287,7 @@ SUBST:   % = $, ~ = |, 3 = 3:6 .:4
 SUBST:   567 = 2, X8 = 4, AYZ = ., B = c , < = .
 : serpent_of_hell_setup(_G)
 KFEAT:   D = deep_water
+KFEAT:   P = exit_dungeon
 NSUBST:  H = 1:D / *:w
 NSUBST:  0 = 20:0 / 4:0. / 4:0.. / *:.
 : coc_setup(_G)
@@ -335,7 +337,7 @@ xxxxxx....cc...ww....cBccccccccccccccccccccAc....ww...cc....xxxxxx
 xxxxxxx....cc...ww....BccccccccccccccccccccA....ww...cc....xxxxxxx
 xxxxxxxx....cc...ww............0000............ww...cc....xxxxxxxx
 xxxxxxxxx....cc...ww..........................ww...cc....xxxxxxxxx
-xxxxxxxxxx....cc...wwwwwwwwwwwww..wwwwwwwwwwwww...cc....xxxxxxxxxx
+xxxxxxxxxx....cc...wwwwwwwwwwwwwPPwwwwwwwwwwwww...cc....xxxxxxxxxx
 xxxxxxxxxxx....cc...wwwwwwwwwHww..wwHwwwwwwwww...cc....xxxxxxxxxxx
 xxxxxxxxxxxx....cc...wwwwwwwwwww..wwwwwwwwwww...cc....xxxxxxxxxxxx
 xxxxxxxxxxxxx....cc............................cc....xxxxxxxxxxxxx
@@ -364,6 +366,7 @@ KMONS:   0 = blizzard demon
 KMONS:   e = water elemental
 KMONS:   E = elemental wellspring
 KFEAT:   eE = w
+KFEAT:   P = exit_dungeon
 SUBST:   3 = 3:5 4:4 5:4 6:2 7:2 9:1
 NSUBST:  0 = 5:0 / *:3
 : serpent_of_hell_setup(_G)
@@ -401,7 +404,7 @@ MAP
 #cccccc$$................ccccccccccccccc.....cccccccwwwwwwwcccccccc...x#
 #ccccccc$...........wwwwwwwccccccccccc......ccccc.cwwcwwwwccccccccc..cx#
 #cccccccc.........wwwwwwwwwwww.............cccc333333cccwccccX.-....ccc#
-#cccccccccc.....wwwwwwwwwwwwwwww........ccccccc.2....cccc-XXX..cc...ccc#
+#cccccccccc.....wwwwwwwwwwwwwwww........cccccccP2....cccc-XXX..cc...ccc#
 #cccccccccccccwwwwwwwwwwwwwwwwwwww.......cccccc333333ccccX....ccccX..cx#
 #cccccccccccwwwwww..wwwwwwwwwwwwwww........ccccc$$$$$cccX.0..cccccX...x#
 #ccccccccccwwwwww..wwwwwwwwwwwwwwwww........cccc*|*ccccc|.....ccc.....x#
@@ -461,6 +464,7 @@ KITEM:   egh = gold
 KFEAT:   D = floor
 KFEAT:   X = open_sea
 KFEAT:   9 = w
+KFEAT:   P = exit_dungeon
 : set_border_fill_type('open_sea')
 SHUFFLE: 1O|d$e / 5!*f%g, |d / $e
 NSUBST:  H = 1:D / *:8
@@ -531,7 +535,7 @@ cwwwwwwwwwwww..2......WWwwwWcccWwwW............wwwwwwwwwX
 cccwwwwwwwwwww...H...wWWWWWWWWWWWWWW.4.....4..wwwwwwwwwwX
 ccccwwwwwwwwwww.....wwwwWWWWWWWWWWww...2.H...wwwwwwwwwwwX
 cccccwwwwwwwwwwwwwwwwwwwwcWWWWWcwwwww.......wwwwwwwwwwwwc
-cccccccwwwwwwwwwwwwwwwwwwcc3..3cwwwwwww....wwwwwwwwwwwwcc
+cccccccwwwwwwwwwwwwwwwwwwcc3PP3cwwwwwww....wwwwwwwwwwwwcc
 ccccccccwwwwwwwwwwwwwwwwwccchhccwwwwwwwwwwwwwwwwwwwwwwwcc
 cccccccccwwwwwwwwwwwwwwwwccchhccwwwwwwwwwwwwwwwwwwwwwcccc
 cccccccccccwwwwwwwwwwwwwwcccccccwwwwwwwwwwwwwwwwwwwcccccc
@@ -560,6 +564,7 @@ KMONS:   & = patrolling ice fiend
 KITEM:   d = $ no_pickup
 KFEAT:   d67& = W
 KFEAT:   8 = w
+KFEAT:   P = exit_dungeon
 SHUFFLE: O1AB / eEFG, {([, !?^~
 SUBST:   AE = 2, B = 2333, F = 339, G = 995, !? = &,  ^~ = 6
 SUBST:   e = |, y : yY, y = xxw, Y = xww
@@ -600,8 +605,8 @@ ccxxywwwwwwwwww.c...x5x...c.wW.Wwwwwwwwwwwwwwwwwwwwwwwwwwwwwxxcccccccc
 ccxxywwwwwwwwww.c...444...c.wwW.WxxwxxwwwwwwwwwwwwwwwwwwwwwWxxcccccccc
 ccxxywwwwwwwwww.c.........c.wwwWx..x.DxwwwwwwwwwwwwwwwwwwwwWxxxxxxxxcc
 ccxxywwwwwwwwwww.c.......c.wwwwx......xwwwwwww..w..wwwwwwwww6xxxxxxxcc
-ccxxywwwwwwwwwwww.c..c..c.8wwwwx...W.xwwwwwww.cc.cc.wwwwwwwwwWWwwwxxcc
-ccxxywwwwwwwwwwwww.cc.cc.wwwwwwwx.W...xwwww8.c..c..c.wwwwwwwwwwwwyxxcc
+ccxxywwwwwwwwwwww.c..c..c.8wwwwx..PW.xwwwwwww.cc.cc.wwwwwwwwwWWwwwxxcc
+ccxxywwwwwwwwwwwww.cc.cc.wwwwwwwx.WP..xwwww8.c..c..c.wwwwwwwwwwwwyxxcc
 ccxxwwwWWwwwwwwwwww..w..wwwwwwwx......xwwww.c.......c.wwwwwwwwwwwyxxcc
 ccxxxxxxx6wwwwwwwwwwwwwwwwwwwcwW..x..xWwww.c.........c.wwwwwwwwwwyxxcc
 ccxxxxxxxxWwwwwwwwwwwwwwwwwwccW.WxwxxW.Www.c...444...c.wwwwwwwwwwyxxcc
@@ -651,6 +656,7 @@ MONS:     patrolling Ice Fiend, patrolling blizzard demon
 KMONS:    8 = ice statue
 KMONS:    9 = elemental wellspring
 KFEAT:    9 = w
+KFEAT:   P = exit_dungeon
 KFEAT:   X = open_sea
 : serpent_of_hell_setup(_G)
 SHUFFLE:  ABCEF
@@ -669,7 +675,7 @@ Xwwwwwwwwwww........wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwX
 Xwwwwwwwwww...........wwwwwwwwwwwwwwwwwwwwwww......wwwwwwwwwwwwwwwwwwX
 Xwwwwwwww........2.....wwwwwwwwwwwwwwwwwwww.........wwwwwwwwwwwwwwwwwX
 Xwwwwwww.....2........wwwwwwwwwwwwwww......................wwwwwwwwwwX
-Xwwwwww..............www.wwwwwwwww...........ccccc............wwwwwwwX
+Xwwwwww....P.........www.wwwwwwwww...........ccccc............wwwwwwwX
 Xwwww.............wwwww...wwwwwwww..........ccccccc...3.......wwwwwwwX
 Xwwww.....1......wwwwwww.wwwwwwww......ccccccccBBccc...........wwwwwwX
 Xwww............wwwwwwwwwwwwww......ccccccccccBBBBcc$$.ccccc...wwwwwwX
@@ -723,7 +729,7 @@ Xwwwww.......wwwww....cc..............ccccccccccccc....wwwwwww.....wwX
 Xwwww....2.1.wwwww..ccccccccc.....ccccccccccccccc.....wwwwwww......wwX
 Xwwww.......wwwwww..cccccccccccccccccccccccccccc.....wwwwwww.......wwX
 Xwww........wwwwwww..cccccccccccccccccccc..........wwwwwwww....1...wwX
-Xwww........wwwwwwww......ccccccccccc............wwwwwwwww........wwwX
+Xwww........wwwwwwww......ccccccccccc............wwwwwwwww...P....wwwX
 Xww........wwwwwwwww..........................wwwwwwwwwww........wwwwX
 Xww.(.....wwwwww.wwwwww.................wwwwwwwwwwwwwwww....1..wwwwwwX
 Xw........www.....wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.........wwwwwwwX

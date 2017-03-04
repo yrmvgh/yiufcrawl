@@ -2284,6 +2284,7 @@ LFLOORTILE: floor_rough_magenta
 LROCKTILE:  wall_zot_lightmagenta
 
 KITEM:    Z = Orb of Zot
+KFEAT:    R = enter_hell
 
 validate {{ return has_exit_from_glyph('Z') }}
 
@@ -2300,7 +2301,7 @@ XXXXXXXXXXXX...................XXXXXXXXXXXXXXXXXXX...................XXXXXXXXXXX
 XXXXXXXXXXX..........3...........XXXXXXXXXXXXXXX...........3..........XXXXXXXXXX
 XXXXXXXXXX..~.....................XXXXXXXXXXXXX.....................~..XXXXXXXXX
 XXXXXXXXXX.......?..?.....~.~.....XXX...1...XXX.....~.~.....?..?.......XXXXXXXXX
-XXXXXXXXXXX.~...........?.........XX..1...1..XX.........?...........~.XXXXXXXXXX
+XXXXXXXXXXX.~...........?.........XX..1.R.1..XX.........?...........~.XXXXXXXXXX
 XXXXXXXXXXXX......................X1...!!!...1X......................XXXXXXXXXXX
 XXXXXXXXXXXXX.....4....2....~.~......1.!Z!.1......~.~....2....4.....XXXXXXXXXXXX
 XXXXXXXXXXXX....?...?.....?...?...X1...!!!...1X...?...?.....?....?...XXXXXXXXXXX

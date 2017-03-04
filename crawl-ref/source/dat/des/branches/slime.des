@@ -609,6 +609,7 @@ KMASK:   |O* = no_monster_gen
 KPROP:   |O* = no_jiyva
 KPROP:   |O* = no_tele_into
 KFEAT:   Z = altar_jiyva
+KFEAT:   R = enter_depths
 KITEM:   O = slimy rune of Zot
 KITEM:   * = star_item
 SHUFFLE: ([{
@@ -686,7 +687,7 @@ xxxxxxxxxxxx'................"cc**|*nn..nn*|**cc"................'''xxxxxxxxxxxx
 xxxxxxxxxxxx'................"ccc**n|nn4n|n**ccc"..................xxxxxxxxxxxxx
 xxxxxxxxxxx'................."ccccnnnn.3nnnncccc"..................'xxxxxxxxxxxx
 xxxxxxxxxxx'................."c.4.n.4.1..4.n.4.c"..................''xxxxxxxxxxx
-xxxxxxxxxxx'..................2.c.4.n..Z.n.4.c.2....................'xxxxxxxxxxx
+xxxxxxxxxxx'..................2.c.4.n.RZ.n.4.c.2....................'xxxxxxxxxxx
 xxxxxxxxxx'..........)......."ccccnnnn3.nnnncccc"...................'xxxxxxxxxxx
 xxxxxxxxxx'.................."ccc**n|nn4n|n**ccc"...................'xxxxxxxxxxx
 xxxxxxxxxx'.................."cc**|*nn..nn*|**cc"..................'xxxxxxxxxxxx

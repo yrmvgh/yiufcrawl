@@ -178,7 +178,7 @@ const int AGILITY_BONUS = 5;
 #define TORNADO_RADIUS 5
 
 #define VAULTS_ENTRY_RUNES 0
-#define ZOT_ENTRY_RUNES 3
+#define ZOT_ENTRY_RUNES 0
 #define ZIG_ENTRY_RUNES 0
 
 // Size of unique_items in player class

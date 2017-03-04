@@ -358,7 +358,9 @@ A gate leading to yet another region of Pandemonium. There'll always be more.
 %%%%
 A one-way gate leading to the halls of Pandemonium
 
-A gate leading to the endless halls of Pandemonium.
+A gate leading to the halls of Pandemonium. Mighty Pandemonium Lords 
+reside here. You may be able to sneak into Pandemonium once, but the Lords
+would surely discover and prevent any repeat attempts to gain entry.
 %%%%
 A staircase to the Depths
 
@@ -393,7 +395,8 @@ A gateway leading to Gehenna.
 %%%%
 A gateway to Hell
 
-A gateway leading to the Vestibule of Hell. Few would go there voluntarily.
+A gateway leading to the Vestibule of Hell. Few are permitted to enter 
+voluntarily. The Orb of Zot will force the gateway to give you passage.
 %%%%
 A gateway to the Iron City of Dis
 
@@ -943,6 +946,14 @@ A ruined idol
 
 A monument to the glory of a dead god. The statue has been methodically
 defaced; not a single distinguishing feature remains.
+%%%%
+#elf
+A portal to the Elven Halls
+
+A staircase-shaped portal to the elven halls. Elves occasionally tempt
+visitors to enter their realm in order to use them for their strange, 
+nefarious purposes. A crafty intruder might be able to make away with
+some of their fabled treasures.
 %%%%
 ########################################################################
 ### Sprint

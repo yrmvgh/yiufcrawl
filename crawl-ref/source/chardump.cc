@@ -242,6 +242,7 @@ static branch_type single_portals[] =
     BRANCH_VOLCANO,
     BRANCH_WIZLAB,
     BRANCH_DESOLATION,
+	BRANCH_ELF,
 };
 
 static void _sdump_visits(dump_params &par)

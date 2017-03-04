@@ -234,43 +234,6 @@ xxxxxx..cXc.....cXc..xx
        xxxxxxxxx
 ENDMAP
 
-##############################################################################
-
-NAME:    hangedman_restless_catacombs
-TAGS:    no_monster_gen
-DEPTH:   Tar, !Tar:$
-MONS:    soul eater, patrolling curse skull
-MONS:    skeletal warrior / phantasmal warrior w:6 / \
-         shadow wraith w:4 / guardian mummy w:4 / \
-         ushabti w:2 / death ooze w:4
-KMONS:   45 = vampire knight
-KMONS:   67 = vampire mage
-KMONS:   89 = flayed ghost
-KMONS:   AB = mummy priest
-KMONS:   CD = lich
-NSUBST:  0 = 1:( / 1 : ):9 >:1 / 1 : 3:9 [:1 / 1:4 / 1:5 / 1:6 / 1:7 / *:3
-SHUFFLE: 456789ABCD"
-SUBST:   " = 3
-MAP
-xxxxxxxxxxxxxxxxx
-xcccccccccccccccx
-xcG.c0c0c0c0c.Gcx
-xc.1c+c+c+c+c1.cx
-xccc.........cccx
-xc0+.........+0cx
-xccc...x.x...cccx
-xc0+..x...x..+0cx
-xccc....2....cccx
-xc0+..x...x..+0cx
-xccc...x.x...cccx
-xc0+.........+0cx
-xccc.........cccx
-xc.1c+c+c+c+c1.cx
-xcG.c0c0c0c0c.Gcx
-xcccccccccccccccx
-xxxxxxxxxxxxxxxxx
-ENDMAP
-
 ################################################################################
 
 NAME:    hangedman_tartarus_temple_path
@@ -648,6 +611,7 @@ KMONS:   8 = ghoul
 KMONS:   9 = vampire mage / vampire knight
 KMONS:   0 = soul eater
 KMONS:   Z = skeleton / zombie
+KFEAT:   P = exit_dungeon
 SUBST:   ? = ?..., ? = 2., 0 = 002
 SHUFFLE: 3569
 : serpent_of_hell_setup(_G)
@@ -669,7 +633,7 @@ xxxx........cx............xx....cccc44cc.........xx.9......7.xx...xxxx
 xxxx.......ccx.G........G.xxx7ccc..c44c..........x....||||....x...xxxx
 xxxx.......cxx............xxxcc..................x....||||....x...xxxx
 xxxx......ccx..............xxc...................xx.9......9.xx...xxxx
-xxxx......ccx..G........G..xxc..x.........x.......x..........x....xxxx
+xxxx......ccx..G........G..xxc..x.........x.......x....P.....x....xxxx
 xxxx......ccx..............xcc......??............xx........xx....xxxx
 xxxx.......cxx............xxc......2222............xx......xx.....xxxx
 xxxx.......ccx.G........G.xcc.......??..............xxxxxxxx......xxxx
@@ -683,7 +647,7 @@ xxxx..........cccccccccccc......x.........x............V..........xxxx
 xxxx..............................................................xxxx
 xxxx...........................................cccccccccccccccc...xxxx
 xxxx...........................................cccccccccccccccc...xxxx
-xxxx..................................6........cc$$$$$xx|||||cc...xxxx
+xxxx..................................6........cc$$$$Pxx|||||cc...xxxx
 xxxx.......3........V...........x.........x....cc$$$$$xx|||||cc...xxxx
 xxxx................................7..........ccxxcccccccccccc...xxxx
 xxxx...........................................ccxxcccccccccccc...xxxx
@@ -699,7 +663,7 @@ xxxx.......c.................c.................ccZZZZZxx88888cc...xxxx
 xxxx.......cxxxxxxx.x.xxxxxxxc.................ccZZZZZxx00000cc...xxxx
 xxxx.......c$$$$$$x....x$$$||c.................ccxxcccccccccccc...xxxx
 xxxx.......c$x$$x$xx.x.x$x$x|c.................ccxxcccccccccccc...xxxx
-xxxx.......c||||||+....+$$$||c..x....3....x....cc||xx444xx|||cc...xxxx
+xxxx.......c||||||+.P..+$$$||c..x....3....x....cc||xx444xx|||cc...xxxx
 xxxx.......ccccccccccccccccccc.................cc||xx444xx|7|cc...xxxx
 xxxx...........................................cccccccccccccccc...xxxx
 xxxx...........................................cccccccccccccccc...xxxx
@@ -731,6 +695,7 @@ SHUFFLE:  AB
 SUBST:    A = %
 SUBST:    B = x
 KFEAT:    % = .
+KFEAT:    P = exit_dungeon
 KMONS:    % = soul eater w:20 / shadow wraith w:15 / reaper w:5 / nothing w:20
 KITEM:    % = | / $
 SUBST:    4 = 3333444455566778
@@ -748,7 +713,7 @@ xxxx..c===========================c...............................xxxx
 xxxx..c===========================c...............................xxxx
 xxxx..c===========================c..............3ccccccc3........xxxx
 xxxx..c===========================c............7ccccccccccc7......xxxx
-xxxx..c===========================c...........3ccccc$$$ccccc3.....xxxx
+xxxx..c===========================c...........3ccccc$P$ccccc3.....xxxx
 xxxx..c===========================c..........7cccc$$$$$$$cccc7....xxxx
 xxxx..c===========================c..........7ccc$$$$$$$$$ccc7....xxxx
 xxxx..c===========================c..........ccc$$$$$$$$$$$ccc....xxxx
@@ -890,6 +855,7 @@ NSUBST: ^ = 2:. / *:c
 KMONS:  E = spectral titan
 KMONS:  F = spectral swamp worm
 KFEAT:  EFw = deep_water
+KFEAT:  P = exit_dungeon
 KMASK:  Ww = no_monster_gen
 : serpent_of_hell_setup(_G)
 : tar_setup(_G)
@@ -897,7 +863,7 @@ KMASK:  Ww = no_monster_gen
 MAP
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-ccc$$$$$cccc........cccc$$$$$c|||||O||||||c$$$$$cccc........cccc$$$$$ccc
+ccc$$$$$cccc........cccc$$$$Pc|||||O||||||cP$$$$cccc........cccc$$$$$ccc
 ccc$$$ccc....cccccc....ccc$$$c|cccccccccc|c$$$ccc....cccccc....ccc$$$ccc
 ccc$$cc...cccc....cccc...cc$$c+c........c+c$$cc...cccc....cccc...cc$$ccc
 ccc$cc..ccc....cc....ccc..cc+cc....14....cc+cc..ccc....cc....ccc..cc$ccc
@@ -1056,6 +1022,7 @@ NAME: tar_grunt_big_loot
 TAGS: tar_grunt_big_loot unrand
 MONS: shadow fiend / shadow dragon, shadow demon / reaper
 MONS: lich / w:5 ancient lich
+KFEAT: P = exit_dungeon
 MAP
 ..................
 .cccccccccccccccc.
@@ -1068,7 +1035,7 @@ MAP
 .c..c..c22c..c..c.
 .c2.c3.c13c.3c.2c.
 .c..cxxcxxcxxc..c.
-.c..c$...1..$c..c.
+.c..c$..P1..$c..c.
 .c..c|$.3..$|c..c.
 .c..cccccccccc..c.
 .c$.x..1..2..x.$c.
@@ -1257,6 +1224,7 @@ NSUBST:   K = 1:D / *:.
 : serpent_of_hell_setup(_G)
 NSUBST:   P = 1:O / *:|
 KITEM:    $ = $ no_pickup
+KFEAT:    Q = exit_dungeon
 SHUFFLE:  {([<
 : tar_setup(_G)
 MAP
@@ -1269,7 +1237,7 @@ c....cccccc.................ccc|||||||ccc.................cccccc....c
 c..cccccccccc.............ccc...........ccc.............cccccccccc..c
 c..cccccccccccc....{....ccc......5.5......ccc....[....cccccccccccc..c
 c..cccccccccccccc.....ccc......ccccccc......ccc.....cccccccccccccc..c
-c..cccccccccccccccccccc......ccc.....ccc......cccccccccccccccccccc..c
+c..cccccccccccccccccccc......ccc..Q..ccc......cccccccccccccccccccc..c
 c..+......c...+...ccc......ccc.........ccc......ccc...+...c......+..c
 c..+......+.4.+.6.+..7...ccc.............ccc...7..+.6.+.4.+......+..c
 c..c...6..+.3.c...+....ccc.................ccc....+...c.3.+..6...c..c
@@ -1309,7 +1277,7 @@ c..c......c..ccc++c++ccc.....................ccc++c++ccc..c......c..c
 c..c...6..+.3.c...+....ccc.................ccc....+...c.3.+..6...c..c
 c..+......+.4.+.6.+..7...ccc.............ccc...7..+.6.+.4.+......+..c
 c..+......c...+...ccc......ccc.........ccc......ccc...+...c......+..c
-c..cccccccccccccccccccc......ccc.....ccc......cccccccccccccccccccc..c
+c..cccccccccccccccccccc......ccc..Q..ccc......cccccccccccccccccccc..c
 c..cccccccccccccc.....ccc......ccccccc......ccc.....cccccccccccccc..c
 c..cccccccccccc....(....ccc......5.5......ccc....<....cccccccccccc..c
 c..cccccccccc.............ccc...........ccc.............cccccccccc..c

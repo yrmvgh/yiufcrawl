@@ -223,7 +223,7 @@ end
 
 # Entries ##########################################
 # Not actually used, but useful for reference.
-default-depth: D:11-, Lair, Orc, Elf, Swamp, Shoals, Snake, Spider
+default-depth: D:11-, Lair, Orc, Swamp, Shoals, Snake, Spider
 
 # "Easy" ice cave entrances (D, Lair, Orc).
 NAME:   portal_ice_cave_entry_pillars_1

@@ -1383,22 +1383,8 @@ static level_id _generic_shaft_dest(level_pos lpos, bool known = false)
     int curr_depth = lid.depth;
     int max_depth = brdepth[lid.branch];
 
-    // Shaft traps' behavior depends on whether it is entered intentionally.
-    // Knowingly entering one is more likely to drop you 1 level.
-    // Falling in unknowingly can drop you 1/2/3 levels with equal chance.
-    if (known)
-    {
-        // Chances are 2/3 for 1 level, 1/3 for 2 levels
-        if (one_chance_in(3))
-            lid.depth += 2;
-        else
-            lid.depth += 1;
-    }
-    else
-    {
-        // 33.3% for 1, 2, 3 from D:3, less before
-        lid.depth += 1 + random2(min(lid.depth, 3));
-    }
+	//shaft traps always drop you 1 level only
+    lid.depth += 1;
 
     if (lid.depth > max_depth)
         lid.depth = max_depth;

@@ -3573,7 +3573,7 @@ static bool _hints_feat_interesting(dungeon_feature_type feat)
     // Altars and branch entrances are always interesting.
     return feat_is_altar(feat)
            || feat_is_branch_entrance(feat)
-           || feat_is_stone_stair(feat)
+           || feat_is_stone_stair_down(feat)
            || feat_is_escape_hatch(feat)
            || feat_is_trap(feat)
            || feat_is_statuelike(feat);
@@ -3661,21 +3661,6 @@ static void _hints_describe_feature(int x, int y)
                 "transport the fabled Orb of Zot outside.";
         break;
 
-    case DNGN_STONE_STAIRS_UP_I:
-    case DNGN_STONE_STAIRS_UP_II:
-    case DNGN_STONE_STAIRS_UP_III:
-        ostr << "You can enter the previous (shallower) level by "
-                "following these up (<w><<</w>). This is ideal for "
-                "retreating or finding a safe resting spot, since the "
-                "previous level will have less monsters and monsters "
-                "on this level can't follow you up unless they're "
-                "standing right next to you. To get back to this "
-                "level again, press <w>></w> while standing on the "
-                "downstairs.";
-#ifdef USE_TILE
-        ostr << " In Tiles, you can perform either action simply by "
-                "clicking the <w>left mouse button</w> instead.";
-#endif
         if (is_unknown_stair(where))
         {
             ostr << "\n\nYou have not yet passed through this "

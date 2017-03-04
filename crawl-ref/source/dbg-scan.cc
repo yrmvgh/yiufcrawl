@@ -663,15 +663,14 @@ void check_map_validity()
     {
         if (you.depth == 3)
             portal = DNGN_ENTER_PANDEMONIUM;
-        else if (you.depth == 4)
-            portal = DNGN_ENTER_ABYSS;
-        else if (you.depth == 2)
-            portal = DNGN_ENTER_HELL;
     }
+    if(player_in_branch(BRANCH_ZOT))
+    {
+        if (you.depth == 5)
+            portal = DNGN_ENTER_HELL;
+	}
 
     dungeon_feature_type exit = DNGN_UNSEEN;
-    if (you.depth == 1 && !player_in_branch(root_branch))
-        exit = branches[you.where_are_you].exit_stairs;
 
     // these may require you to look farther:
     if (exit == DNGN_EXIT_PANDEMONIUM)

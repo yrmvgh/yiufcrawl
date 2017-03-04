@@ -479,38 +479,6 @@ xx..2..2..xx
 ENDMAP
 
 ##############################################################################
-# Random unguarded exits
-##############################################################################
-default-depth: Pan
-
-NAME:   pan_exit
-TAGS:   extra allow_dup transparent no_dump
-CHANCE: 100%
-{{
-local exit_chance = 5 + 3*count_pan_runes()
-local floor_chance = 100 - exit_chance
-kfeat("O = exit_pandemonium w:" .. exit_chance .. " / floor w:" .. floor_chance)
-}}
-MAP
-O
-ENDMAP
-
-NAME:   pan_to_abyss
-TAGS:   extra allow_dup transparent no_dump
-CHANCE: 100%
-{{
-local exit_chance = 25 + 10*count_pan_runes()
-local floor_chance = 100 - exit_chance
-kfeat("O = exit_through_abyss w:" .. exit_chance ..
-      " / floor w:" .. floor_chance)
-}}
-KFEAT:  O = exit_through_abyss
-MAP
-O
-ENDMAP
-
-
-##############################################################################
 # Pan Demon Lairs
 #
 # NOTE: The pandemonium lord levels are requested by tag; if you change the
@@ -3625,8 +3593,7 @@ TAGS: transparent extra decor allow_dup
 SHUFFLE: Aai/Bbj/Cck/Ddl/Eem/Ffn/Ggo/Hhp, Ffn/Qqr/Qqr, Ggo/Sst/Sst, Hhp/Uuv/Uuv
 SUBST: ABCDFGHijklnop = x, abcdfgh = -, EQSU = @, emqrstuv = ., \
        I : x., J : x., K : x., L: x., M: x., N : x.
-KFEAT: - = transit_pandemonium w:36 / known permanent teleport trap w:1 / \
-           exit_pandemonium w:1 / exit_through_abyss w:1
+KFEAT: - = transit_pandemonium w:36 / known permanent teleport trap w:1
 MAP
     xxxAxxx
    xxxxaxxxx
@@ -3923,7 +3890,7 @@ ENDMAP
 # portal vault (for pan, even).
 #
 NAME:   evilmike_holy_pan
-TAGS:   no_pool_fixup
+TAGS:   no_pool_fixup holy_pan uniq_holypan
 ORIENT: encompass
 NSUBST: . = > / .
 : if you.have_rune("demonic") then

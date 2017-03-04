@@ -18,7 +18,7 @@ const Branch branches[NUM_BRANCHES] =
       LIGHTGREY, BROWN,
       'D', {}, 0 },
 
-    { BRANCH_TEMPLE, BRANCH_DUNGEON, 4, 7, 1, 5,
+    { BRANCH_TEMPLE, BRANCH_DUNGEON, -1, -1, 1, 5,
       BFLAG_NO_ITEMS,
       DNGN_ENTER_TEMPLE, DNGN_EXIT_TEMPLE, NUM_FEATURES,
       "Temple", "the Ecumenical Temple", "Temple",
@@ -26,7 +26,7 @@ const Branch branches[NUM_BRANCHES] =
       LIGHTGREY, BROWN,
       'T', {}, 0 },
 
-    { BRANCH_ORC, BRANCH_DUNGEON, 8, 11, 2, 10,
+    { BRANCH_ORC, BRANCH_DUNGEON, 15, 15, 2, 10,
       BFLAG_SPOTTY,
       DNGN_ENTER_ORC, DNGN_EXIT_ORC, NUM_FEATURES,
       "Orcish Mines", "the Orcish Mines", "Orc",
@@ -34,16 +34,16 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, BROWN,
       'O', {}, 0 },
 
-    { BRANCH_ELF, BRANCH_VAULTS, 1, 2, 1, 15,
-      BFLAG_DANGEROUS_END,
+    { BRANCH_ELF, NUM_BRANCHES, -1, -1, 1, 15,
+      BFLAG_NO_XLEV_TRAVEL | BFLAG_NO_ITEMS,
       DNGN_ENTER_ELF, DNGN_EXIT_ELF, NUM_FEATURES,
       "Elven Halls", "the Elven Halls", "Elf",
-      nullptr,
+      "You enter the Elven Halls!",
       WHITE, ETC_ELVEN_BRICK,
       'E', {}, 0 },
 
 #if TAG_MAJOR_VERSION == 34
-    { BRANCH_DWARF, BRANCH_ELF, -1, -1, 0, 17,
+    { BRANCH_DWARF, BRANCH_VAULTS, -1, -1, 0, 17,
       BFLAG_NONE,
       DNGN_ENTER_DWARF, DNGN_EXIT_DWARF, NUM_FEATURES,
       "Dwarven Hall", "the Dwarven Hall", "Dwarf",
@@ -61,7 +61,7 @@ const Branch branches[NUM_BRANCHES] =
       'L', {}, 0 },
 #endif
 
-    { BRANCH_SWAMP, BRANCH_DUNGEON, 13, 14, 3, 15,
+    { BRANCH_SWAMP, BRANCH_ORC, 2, 2, 3, 15,
       BFLAG_DANGEROUS_END | BFLAG_SPOTTY,
       DNGN_ENTER_SWAMP, DNGN_EXIT_SWAMP, NUM_FEATURES,
       "Swamp", "the Swamp", "Swamp",
@@ -69,7 +69,7 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, BROWN,
       'S', { RUNE_SWAMP }, 0 },
 
-    { BRANCH_SHOALS, BRANCH_DUNGEON, 13, 14, 3, 15,
+    { BRANCH_SHOALS, BRANCH_ORC, 2, 2, 3, 15,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_SHOALS, DNGN_EXIT_SHOALS, NUM_FEATURES,
       "Shoals", "the Shoals", "Shoals",
@@ -77,7 +77,7 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, BROWN,
       'A', { RUNE_SHOALS }, 0 },
 
-    { BRANCH_SNAKE, BRANCH_DUNGEON, 13, 14, 3, 15,
+    { BRANCH_SNAKE, BRANCH_ORC, 2, 2, 3, 15,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_SNAKE, DNGN_EXIT_SNAKE, NUM_FEATURES,
       "Snake Pit", "the Snake Pit", "Snake",
@@ -85,7 +85,7 @@ const Branch branches[NUM_BRANCHES] =
       LIGHTGREEN, YELLOW,
       'P', { RUNE_SNAKE }, 0 },
 
-    { BRANCH_SPIDER, BRANCH_DUNGEON, 13, 14, 3, 15,
+    { BRANCH_SPIDER, BRANCH_ORC, 2, 2, 3, 15,
       BFLAG_DANGEROUS_END,
       DNGN_ENTER_SPIDER, DNGN_EXIT_SPIDER, NUM_FEATURES,
       "Spider Nest", "the Spider Nest", "Spider",
@@ -93,7 +93,7 @@ const Branch branches[NUM_BRANCHES] =
       BROWN, YELLOW,
       'N', { RUNE_SPIDER }, 0 },
 
-    { BRANCH_SLIME, BRANCH_DEPTHS, 1, 2, 4, 17,
+    { BRANCH_SLIME, BRANCH_ORC, 2, 2, 4, 17,
       BFLAG_NO_ITEMS | BFLAG_DANGEROUS_END | BFLAG_SPOTTY,
       DNGN_ENTER_SLIME, DNGN_EXIT_SLIME, NUM_FEATURES,
       "Slime Pits", "the Pits of Slime", "Slime",
@@ -296,7 +296,7 @@ const Branch branches[NUM_BRANCHES] =
       LIGHTGREY, BROWN, // set per-map
       '8', {}, 0 },
 
-    { BRANCH_DEPTHS, BRANCH_DUNGEON, 15, 15, 3, 22,
+    { BRANCH_DEPTHS, BRANCH_VAULTS, 3, 3, 3, 22,
       BFLAG_NONE,
       DNGN_ENTER_DEPTHS, DNGN_EXIT_DEPTHS, NUM_FEATURES,
       "Depths", "the Depths", "Depths",
@@ -311,4 +311,5 @@ const Branch branches[NUM_BRANCHES] =
       "You enter a great desolation of salt!",
       LIGHTGREY, BROWN, // TODO
       '9', {}, 0 },
+	
 };

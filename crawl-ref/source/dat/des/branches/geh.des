@@ -414,13 +414,14 @@ ORIENT: encompass
 MONS:   patrolling Asmodeus, brimstone fiend, Balrug, molten gargoyle
 : serpent_of_hell_setup(_G)
 : geh_setup(_G)
+KFEAT:  P = exit_dungeon
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxx....xxxxxxxxxxxxxxx.xxxxxxx
 xxxxxxxxxxxxxxxxxxxx............................xxxxxxxxxxxxxx..xxxxxx
 xxxxxxxxxxxxxxxxxxxxx..............................xxxxxxxxxx....xxxxx
-xxxxxxxxxxxxxxxx...xxx................................xxxxxx....xxxxxx
+xxxxxxxxxxxxxxxx...xxx.............P..................xxxxxx....xxxxxx
 xxxxxxx.x.xxxxx.........................................xxx....xxxxxxx
 xxxxxxx....xx.....................4......................xx...xxxxxxxx
 xxxxxx......x......................llllllllllllll.........x..xxxxxxxxx
@@ -492,6 +493,7 @@ KMONS:  8 = sun demon
 # Place one Serpent in the inner circle.
 : serpent_of_hell_setup(_G)
 KFEAT:  D = lava
+KFEAT:  P = exit_dungeon
 NSUBST: X = 1:D / *:l
 SUBST:  4 = 34456778, % = $|
 SUBST:  " : """.l , " : ""; , " = .l , ; = ...l
@@ -517,7 +519,7 @@ x'.."lllv.v...lllc$$$$c.+..........c..c....cccccccclllll...v.vllll".[x
 xx."llllv.v...lllc$$$$c.c.44....44.c..c2.2.c|||.nOclllll...v.vllll".'x
 x'.."lllv.v...lllc$2..c.cccccccccccc..c....c|||.n.clllll...v.vllll".'x
 x'.."lllv.v...lllc$...c.+..........c..c....c|||.nlclllll...v.vlll"..'x
-x'.."lllv.v...lllcccc+c.+..4..vvvv.c..cc++cc......clllll...v.vll"...'x
+x'.."lllv.v.P.lllcccc+c.+..4..vvvv.c..cc++cc......clllll.P.v.vll"...'x
 x'."llllv.v...llllllc.ccc.....n||+.c..c....c.%%%%%clllll...v.vll"...'x
 x'.."lllv.v...llllllc.ccc..4..n||+.c..c%%%.c.%%%%%clllll...v.vll"...'x
 x'.."lllv.v...llllllc...+.....vvvv.c..c%%%.+.%%%%%clllll...v.vll"...'x
@@ -597,6 +599,7 @@ SUBST:   - = .
 KFEAT:   RV = lava
 KFEAT:   L = endless_lava
 KFEAT:   m = iron_grate
+KFEAT:   P = exit_dungeon
 : set_border_fill_type("endless_lava")
 : geh_setup(_G)
 MAP
@@ -660,7 +663,7 @@ Lllvvvvvvvvvvvcccccccccccccccccnncccllllllllllcc--ccccccccc--ccllllllL
 Lllvvvv----vvvcccc--2--ccccccc----cccRlllllllcc-4cc%2%-%5%cc4-cclllllL
 Lllvvv-||||-vvcccc-----cccccc--4---cclllllllcc--ccc-%-%-%-ccc--ccllllL
 Lllvv--|%%|--v------v------c--v--v--cvmmvmmvc--cccc%-%-%-%cccc--cllllL
-Lllvv--|*%|--+-----vvv-----+--------+.......+--ccccccc+ccccccc--nllllL
+Lllvv-P|*%|--+-----vvv-----+--------+.......+--ccccccc+ccccccc--nllllL
 Lllvv--|%%|--v------v------c--v--v--cvmmvmmvc-------------------nllllL
 Lllvvv-||||-vvcccc-----cccccc--4---cclllllllc---------5---------cllllL
 Lllvvvv----vvvcccc--3--ccccccc----cccRllllllcccc---ccccccc---ccccllllL
@@ -684,6 +687,7 @@ SHUFFLE: {[(<
 SUBST:   - = ll.
 SUBST:   _ = ..l
 KFEAT:   L = endless_lava
+KFEAT:   P = exit_dungeon
 : serpent_of_hell_setup(_G)
 : set_border_fill_type("endless_lava")
 : geh_setup(_G)
@@ -694,7 +698,7 @@ Llllllllllllllllllll--------------cc--------------lllllllllllllllllllL
 Lllllllllllllllllll-_____________cccc_____________-llllllllllllllllllL
 Llllllllllllllllll-________.....cccccc.....________-lllllllllllllllllL
 Lllllllllllllllll-____.........cccccccc.........____-llllllllllllllllL
-Llllllllllllllll-___..........cccc||cccc..........___-lllllllllllllllL
+Llllllllllllllll-___..........ccccP|cccc..........___-lllllllllllllllL
 Lllllllllllllll-_............cccc$23$cccc............_-llllllllllllllL
 Llllllllllllll-_..cccccccccccccc$$$$$$cccccccccccccc.._-lllllllllllllL
 Lllllllllllll-_...cccccccccccccc++cc++cccccccccccccc..._-llllllllllllL
@@ -712,8 +716,8 @@ Llllllll-_......ccccc...cc.4.cccccccccccc.4.cc...ccccc......_-lllllllL
 Llllllll-_.....cccccc...cc..+cccccccccccc+..cc...cccccc....._-lllllllL
 Llllllll-_....cccc$++.7.cc.+++cc$$O|$$cc+++.cc.7.++$cccc...._-lllllllL
 Llllllll-_...cccc$$++...cccc+$cc$$$$$$cc$+cccc...++$$cccc..._-lllllllL
-Llllllll-_..cccc|2$ccccccccc3|cc$$12$$cc|4ccccccccc$2|cccc.._-lllllllL
-Llllllll-_..cccc|3$ccccccccc4|cc$$..$$cc|3ccccccccc$3|cccc.._-lllllllL
+Llllllll-_..ccccP2$ccccccccc3|cc$$12$$cc|4ccccccccc$2|cccc.._-lllllllL
+Llllllll-_..cccc|3$ccccccccc4|cc$$..$$cc|3ccccccccc$3Pcccc.._-lllllllL
 Llllllll-_...cccc$$++...cccc+$cc$....$cc$+cccc...++$$cccc..._-lllllllL
 Llllllll-_....cccc$++.5.cc.+++cc......cc+++.cc.5.++$cccc...._-lllllllL
 Llllllll-_.....cccccc...cc..+ccccc++ccccc+..cc...cccccc....._-lllllllL
@@ -761,69 +765,6 @@ LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 ENDMAP
 
 ##############################################################################
-# Asmodeus (Gehenna) by Lightli
-# XXX: Disabled pending rebalancing.
-##############################################################################
-
-NAME: lightli_geh_unto_the_cruel
-TAGS: no_vmirror no_monster_gen
-WEIGHT: 0
-ORIENT: encompass
-MONS: patrolling Asmodeus
-MONS: smoke demon w:9 / sun demon w:9 / hellion w:1 / balrug w:1
-MONS: hell knight / fire giant w:2, Brimstone Fiend, fire giant / balrug w:2
-MONS: sun demon w:1 / smoke demon w:1, hellion
-NSUBST: 2  = 10:2 / *:.
-NSUBST: 4  = 2:4 / *:.
-KFEAT:  g  = iron_grate
-NSUBST: l  = 3:L / *:l
-KMONS:  G  = cacodemon
-KMONS:  L  = flying skull
-KFEAT:  GL = lava
-KITEM:  A  = any weapon good_item / any armour good_item
-: serpent_of_hell_setup(_G)
-: geh_setup(_G)
-MAP
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-ccc..6........6......cccccccccccccccccccccccccccccc|*%...2...2...2...ccccccccccc
-cc7.c.....6....6......ccccccccccccccccccccccccccccc|*%.....2...2...2....cccccccc
-cc..cccccccccccccccc..cccccccccccccccccccccccccccccccccccggggcggggg..2....cccccc
-cc...ccccccccccccc.5..5.cccccccccccccccccccccccccccccccclllllcllllggg..2...ccccc
-cc....ccccccccccc........cccccccccccccccccccccccccccccclllllllGlllllggg..2..cccc
-ccc.....cccccccc...cccc...ccccccccccccccccccccccccccccllllllllllllllllggg..2.ccc
-cccc.....cccccc...cccccc...cccccccccccccccccccccccccclllllllllllllllllllgg...ccc
-ccccc..2..ccccc..cccccccc..ccccccccccccccccccccccccclllllllllllllllllllllgg.2.cc
-cccccc.....6c....cccccccc.................ccccccccclllllllllllllllllllllllg...cc
-ccccccc..6..c.....cccccc...................ccccccccllGlllllllll...6...lllGgg.2cc
-cccccccc....+.................6......ccc....ccccccclllllllllll.........llllg..cc
-ccccccccc.6.+........................c3c....cccccccllllllllll...cc+cc...lllg..cc
-cccccccccc..c.....4...5..............c+c....cccccccllllllcll..6ccc$ccc6..llc..cc
-ccccccccccc.c.................xxx...........ccccccclllllccc...ccc$3$ccc...ccc2cc
-ccccccccccccc................xx.xx..........ccccccc......c...ccccccccccc...c..cc
-ccccccccccccc...............xx*|*xx.........+..c..+..5.......cc*ccccc(cc.....2cc
-ccccccccO|||+...4...1...5...g.|A|.x...D.....+..+..+..5.....6.+*3ccccc{.+.6....cc
-ccccccccccccc...............xx*|*xx.........+..c..+..5.......cc*ccccc[cc.....2cc
-ccccccccccccc................xx.xx..........ccccccc......c...ccccccccccc...c..cc
-ccccccccccc.c.................xxx...........ccccccclllllccc...ccc$3$ccc...ccc2cc
-cccccccccc..c.....4...5..............c+c....cccccccllllllcll...ccc$ccc6..llc..cc
-ccccccccc.6.+........................c3c....cccccccllllllllll...cc+cc...lllg.2cc
-cccccccc....+.................6......ccc....ccccccclllllllllll.........llllg..cc
-ccccccc..6..c.....cccccc...................ccccccccllGlllllllll...6...lllGgg.2cc
-cccccc.....6c....cccccccc.................ccccccccclllllllllllllllllllllllg...cc
-ccccc..2..ccccc..cccccccc..ccccccccccccccccccccccccclllllllllllllllllllllgg.2.cc
-cccc.....cccccc...cccccc...cccccccccccccccccccccccccclllllllllllllllllllgg...ccc
-ccc.....cccccccc...cccc...ccccccccccccccccccccccccccccllllllllllllllllggg..2.ccc
-cc....ccccccccccc........cccccccccccccccccccccccccccccclllllllGlllllggg..2..cccc
-cc...ccccccccccccc.5..5.cccccccccccccccccccccccccccccccclllllcllllggg..2...ccccc
-cc..cccccccccccccccc..cccccccccccccccccccccccccccccccccccggggcggggg..2....cccccc
-cc7.c.....6....6......cccccccccccccccccccccccccccccccccc...2...2...2....cccccccc
-ccc..6.......6.......cccccccccccccccccccccccccccccccccA+.2...2...2...ccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-ENDMAP
-
-##############################################################################
 # Asmodeus (Gehenna) by hangedman
 ##############################################################################
 
@@ -838,6 +779,7 @@ KMONS:   zZ = sun demon / efreet / smoke demon w:5 / \
 KITEM:   $ = $ no_pickup
 KFEAT:   yYZ = lava
 KFEAT:   L = endless_lava
+KFEAT:   W = exit_dungeon
 # Swap trios of hell knights with fire giants.
 SHUFFLE: 5A6B / 5A6B / 6B5A
 SUBST:   A = ., B = 6
@@ -858,7 +800,7 @@ MAP
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 LLllllllllllllllllllllllllllllccccccccccccxxxxxxxxxxxxxxxxxxxxxxxxxxLL
-LLllllllllllllll..............+....4....ccxXXXXXXXXXXXXXXXXXXXXXXXxxLL
+LLllllllllllllll..............+...W4W...ccxXXXXXXXXXXXXXXXXXXXXXXXxxLL
 LLlll.B.......................c++cc+cc++cccX..................[..XXxLL
 LLll.6...........ll````````llcc.........ccc..```````x```````x...{.XxLL
 LLllB.vv-vvvvvvvvllllllllllll+...vd3dv...cc..llllllllllllllllll...XxLL
@@ -921,7 +863,7 @@ LLllv+vv........````llllllllc..f..e..f..clllllllllllYvv.$$$v...v..llLL
 LLllv..vll...........```llll+...vd3dv...+llllllllllllvvvvvvvv?vv.BllLL
 LLllv*.+llllllll.........``lcc.........ccll````````ll...........6.llLL
 LLllvvvvlllllllllllll........cc++c+c++cc.......................B.lllLL
-LLlllllllllllllllllllllll....+....4....+..............llllllllllllllLL
+LLlllllllllllllllllllllll....+...W4W...+..............llllllllllllllLL
 LLlllllllllllllllllllllllllllcccccccccccllllllllllllllllllllllllllllLL
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
@@ -942,6 +884,7 @@ SUBST:   _ = ..l
 SUBST:   d = x.
 NSUBST:  P = 1:O / *:|
 KFEAT:   L = endless_lava
+KFEAT:   Q = exit_dungeon
 : serpent_of_hell_setup(_G)
 : set_border_fill_type("endless_lava")
 : geh_setup(_G)
@@ -951,7 +894,7 @@ LllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllL
 Llllll-------------lllllllllllll------------------lllllllllllllllllllL
 Lllll-_____________--llllllllll-__________________---------llllllllllL
 Lllll-_............__-lllllll--_.................._________--llllllllL
-Llll-_....d........._-lllllll-_...ccccc.......dd...........__--llllllL
+Llll-_....d.Q......._-lllllll-_...ccccc.......dd...........__--llllllL
 Lll-_....xx....d...._-llllll-_...cc$$$cc.....................__-lllllL
 Lll-_...dxx........._-llllll-_...c$.4..cccccc.......d.........._-llllL
 Lll-_...xxx........._-llllll-_...c$35..+....ccccc......ccccc...._-lllL
