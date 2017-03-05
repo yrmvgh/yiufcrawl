@@ -816,7 +816,7 @@ public:
         for (int i = 0; i < add_mutations; i++)
             mutated |= mutate(RANDOM_MUTATION, "potion of mutation", false);
         // Always a fifty percent chance for one good mutation.
-        if coinflip()
+        if (coinflip())
             mutated |= mutate(RANDOM_GOOD_MUTATION, "potion of mutation", false);
 
         learned_something_new(HINT_YOU_MUTATED);
