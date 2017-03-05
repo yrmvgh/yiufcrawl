@@ -8041,7 +8041,7 @@ bool temperature_effect(int which)
     switch (which)
     {
         case LORC_FIRE_RES_I:
-            return true; // 1-15
+            return temperature() >= TEMP_COOL; // ???
         case LORC_STONESKIN:
             return temperature() < TEMP_WARM; // 1-8
 //      case nothing, right now:
@@ -8094,17 +8094,17 @@ string temperature_text(int temp)
     switch (temp)
     {
         case TEMP_MIN:
-            return "rF+; racial 'Stoneskin' bonus to AC";
+            return "racial 'Stoneskin' bonus to AC";
         case TEMP_COOL:
-            return "";
+            return "                   rF+";
         case TEMP_WARM:
-            return "rF++; lava magic boost; Stoneskin ends";
+            return "Earth+Fire boosts; rF++; Stoneskin ends";
         case TEMP_HOT:
-            return "rF+++; rC-; lava magic boost";
+            return "All effects below; rF+++; rC-";
         case TEMP_FIRE:
-            return "Burn attackers";
+            return "All effects below; Burn attackers";
         case TEMP_MAX:
-            return "All above effects; fire aura; can't read";
+            return "All effects below; fire aura; can't read";
         default:
             return "";
     }

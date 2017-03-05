@@ -412,6 +412,7 @@ string describe_mutations(bool center_title)
 
         result += _annotate_form_based(
                     make_stringf("Your %s. (AC +%d)",
+                       you.species == SP_LAVA_ORC ? "skin is stony and craggy" :
                        you.species == SP_NAGA ? "serpentine skin is tough" :
                        you.species == SP_GARGOYLE ? "stone body is resilient" :
                                                     scale_clause.c_str(),
@@ -548,8 +549,8 @@ static const string _lava_orc_Ascreen_footer = (
 #else
     "<w>Right-click</w>"
 #endif
-    " to toggle between mutations and properties depending on your\n"
-    "temperature.\n");
+    " to toggle between mutations and properties depending on\n"
+    "your temperature.\n");
 
 static void _display_vampire_attributes()
 {
