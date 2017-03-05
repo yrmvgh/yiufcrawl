@@ -545,9 +545,9 @@ static const string _vampire_Ascreen_footer = (
 
 static const string _lava_orc_Ascreen_footer = (
 #ifndef USE_TILE_LOCAL
-    "Press '<w>!</w>'"
+    "<w>Right-click</w> or press '<w>!</w>'"
 #else
-    "<w>Right-click</w>"
+    "Press '<w>!</w>'"
 #endif
     " to toggle between mutations and properties depending on\n"
     "your temperature.\n");
