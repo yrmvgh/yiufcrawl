@@ -2658,7 +2658,7 @@ tileidx_t tileidx_known_base_item(tileidx_t label)
         int desc = you.item_description[IDESC_POTIONS][type] % NDSC_POT_PRI;
 
         if (!get_ident_type(OBJ_POTIONS, type))
-            return TILE_UNSEEN_POTION;
+            return TILE_POT_ID_FIRST;
         else
             return TILE_POTION_OFFSET + desc;
     }
@@ -2673,7 +2673,7 @@ tileidx_t tileidx_known_base_item(tileidx_t label)
         int desc = you.item_description[IDESC_RINGS][type] % NDSC_JEWEL_PRI;
 
         if (!get_ident_type(OBJ_JEWELLERY, type))
-            return TILE_UNSEEN_RING;
+            return TILE_RING_ID_FIRST;
         else
             return TILE_RING_NORMAL_OFFSET + desc;
     }
@@ -2684,7 +2684,7 @@ tileidx_t tileidx_known_base_item(tileidx_t label)
         int desc = you.item_description[IDESC_RINGS][type] % NDSC_JEWEL_PRI;
 
         if (!get_ident_type(OBJ_JEWELLERY, type))
-            return TILE_UNSEEN_AMULET;
+            return TILE_AMU_ID_FIRST;
         else
             return TILE_AMU_NORMAL_OFFSET + desc;
     }
@@ -2698,7 +2698,7 @@ tileidx_t tileidx_known_base_item(tileidx_t label)
         int desc = you.item_description[IDESC_WANDS][type] % NDSC_WAND_PRI;
 
         if (!get_ident_type(OBJ_WANDS, type))
-            return TILE_UNSEEN_WAND;
+            return TILE_WAND_ID_FIRST;
         else
             return TILE_WAND_OFFSET + desc;
     }

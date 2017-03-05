@@ -2533,7 +2533,6 @@ void check_item_knowledge(bool unknown_items)
 {
     vector<const item_def*> items;
     vector<const item_def*> items_missile; //List of missiles should go after normal items
-    vector<const item_def*> items_food;    //List of foods should come next
     vector<const item_def*> items_other;   //List of other items should go after everything
     vector<SelItem> selected_items;
 
@@ -2584,15 +2583,6 @@ void check_item_knowledge(bool unknown_items)
 #endif
             _add_fake_item(OBJ_MISSILES, i, selected_items, items_missile);
         }
-        // Foods
-        for (int i = 0; i < NUM_FOODS; i++)
-        {
-#if TAG_MAJOR_VERSION == 34
-            if (!is_real_food(static_cast<food_type>(i)))
-                continue;
-#endif
-            _add_fake_item(OBJ_FOOD, i, selected_items, items_food);
-        }
 
         // Misc.
         static const pair<object_class_type, int> misc_list[] =
@@ -2608,7 +2598,6 @@ void check_item_knowledge(bool unknown_items)
 
     sort(items.begin(), items.end(), _identified_item_names);
     sort(items_missile.begin(), items_missile.end(), _identified_item_names);
-    sort(items_food.begin(), items_food.end(), _identified_item_names);
 
     KnownMenu menu;
     string stitle;
@@ -2649,7 +2638,6 @@ void check_item_knowledge(bool unknown_items)
 
     deleteAll(items);
     deleteAll(items_missile);
-    deleteAll(items_food);
     deleteAll(items_other);
 
     if (!all_items_known && (last_char == '\\' || last_char == '-'))
