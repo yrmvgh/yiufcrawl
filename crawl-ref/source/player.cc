@@ -7977,7 +7977,7 @@ void temperature_changed(float change)
     {
         mprf(MSGCH_DURATION, "Your stony skin melts.");
         you.redraw_armour_class = true;
-        if(you.skill(SK_FIRE_MAGIC, true, 1, true) >= 3
+        if (you.skill(SK_FIRE_MAGIC, true, 1, true) >= 3
                     || you.skill(SK_EARTH_MAGIC, true, 1, true) >= 3)
             {
             mprf(MSGCH_INTRINSIC_GAIN, "Fire and Earth magic empowered!");
