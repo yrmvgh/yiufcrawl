@@ -1939,10 +1939,7 @@ static void _do_cycle_quiver(int dir)
 
 static void _do_list_gold()
 {
-    if (shopping_list.empty())
-        mprf("You have %d gold piece%s.", you.gold, you.gold != 1 ? "s" : "");
-    else
-        shopping_list.display();
+    mprf("You have %d gold piece%s.", you.gold, you.gold != 1 ? "s" : "");
 }
 
 // Note that in some actions, you don't want to clear afterwards.

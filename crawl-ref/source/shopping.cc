@@ -1142,7 +1142,7 @@ void ShopMenu::update_help()
         "[<w>Esc</w>] exit          "
 #endif
         "%s  [%s] %s\n"
-        "[<w>/</w>] sort (%s)%s  %s  [%s] put item on shopping list",
+        "[<w>/</w>] sort (%s)%s  %s",
         !can_purchase ? " " " "  "  " "       "  "          " :
         looking       ? "[<w>!</w>] buy|<w>examine</w> items" :
                         "[<w>!</w>] <w>buy</w>|examine items",
@@ -1152,8 +1152,7 @@ void ShopMenu::update_help()
         // strwidth("default")
         string(7 - strwidth(shopping_order_names[order]), ' ').c_str(),
         !can_purchase ? " " "     "  "               " :
-                        "[<w>Enter</w>] make purchase",
-        _hyphenated_letters(item_count(), 'A').c_str())));
+                        "[<w>Enter</w>] make purchase")));
 }
 
 void ShopMenu::purchase_selected()
@@ -1333,29 +1332,6 @@ bool ShopMenu::process_key(int keyin)
         if (can_purchase)
             purchase_selected();
         return true;
-    case '$':
-    {
-        const vector<MenuEntry*> selected = selected_entries();
-        if (!selected.empty())
-        {
-            // Move selected to shopping list.
-            for (auto entry : selected)
-            {
-                const item_def& item = *dynamic_cast<ShopEntry*>(entry)->item;
-                entry->selected_qty = 0;
-                if (!shopping_list.is_on_list(item, &pos))
-                    shopping_list.add_thing(item, item_price(item, shop), &pos);
-            }
-        }
-        else
-            // Move shoplist to selection.
-            for (auto entry : items)
-                if (shopping_list.is_on_list(*dynamic_cast<ShopEntry*>(entry)->item, &pos))
-                    entry->select(-2);
-        // Move shoplist to selection.
-        draw_menu();
-        return true;
-    }
     case '/':
         ++order;
         resort();
@@ -1386,20 +1362,6 @@ bool ShopMenu::process_key(int keyin)
             }
             describe_item(item);
         }
-        draw_menu();
-        return true;
-    }
-    else if (keyin - 'A' >= 0 && keyin - 'A' < (int)items.size())
-    {
-        const auto index = letter_to_index(keyin) % 26;
-        auto entry = dynamic_cast<ShopEntry*>(items[index]);
-        entry->selected_qty = 0;
-        const item_def& item(*entry->item);
-        if (shopping_list.is_on_list(item, &pos))
-            shopping_list.del_thing(item, &pos);
-        else
-            shopping_list.add_thing(item, item_price(item, shop), &pos);
-        // not draw_item since other items may enter/leave shopping list
         draw_menu();
         return true;
     }

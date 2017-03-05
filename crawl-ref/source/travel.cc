@@ -2457,23 +2457,6 @@ void start_translevel_travel(const level_pos &pos)
     _start_translevel_travel();
 }
 
-static void _start_translevel_travel_prompt()
-{
-    // Update information for this level. We need it even for the prompts, so
-    // we can't wait to confirm that the user chose to initiate travel.
-    travel_cache.get_level_info(level_id::current()).update();
-
-    level_pos target = prompt_translevel_target(TPF_DEFAULT_OPTIONS,
-            trans_travel_dest);
-    if (target.id.depth <= 0)
-    {
-        canned_msg(MSG_OK);
-        return;
-    }
-
-    start_translevel_travel(target);
-}
-
 static command_type _trans_negotiate_stairs()
 {
     return feat_stair_direction(grd(you.pos()));
@@ -4328,25 +4311,20 @@ void do_interlevel_travel()
     if (Hints.hints_travel)
         Hints.hints_travel = 0;
 
-    if (!can_travel_interlevel())
+    if (you.running.pos == you.pos())
     {
-        if (you.running.pos == you.pos())
-        {
-            mpr("You're already here!");
-            return;
-        }
-        else if (!you.running.pos.x || !you.running.pos.y)
-        {
-            mpr("Sorry, you can't auto-travel out of here.");
-            return;
-        }
+        mpr("You're already here!");
+        return;
+    }
+    else if (!you.running.pos.x || !you.running.pos.y)
+    {
+        mpr("Sorry, you can't auto-travel out of here.");
+        return;
+    }
 
         // Don't ask for a destination if you can only travel
         // within level anyway.
         start_travel(you.running.pos);
-    }
-    else
-        _start_translevel_travel_prompt();
 
     if (you.running)
         clear_messages();
