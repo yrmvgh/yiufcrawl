@@ -1751,6 +1751,24 @@ Vine Stalkers
   reserves start to run low, thus replenishing their shroud of magic and their
   spells' fuel with each voracious bite.
 
+Imps
+  Imps are tiny warlike demons incapable of holding still. An imp warps around
+  constantly in the hopes of finding new creatures to annoy, and vexing those
+  creatures' attempts to catch the imp. When it bores of this game, an imp
+  employs its skill with fire magic to turn its foes to ash.
+
+  They are frail yet tenacious, great at evading and recovering from blows to
+  the head (which they receive often from their demonic overlords). Like other
+  small creatures, they are capable of moving quietly, however their impulsive
+  nature often betrays them when they can't resist the urge to shout at the top
+  of their lungs. As they lack subtlety and finesse, there is little reason for
+  them to attempt the assassinations that spriggans and felids are known for,
+  apart from Imps' small size and skill with magic.
+
+  Imps are effective with harmful magic, especially Fire magic, and competent
+  wih any manner of ranged weapon. They enjoy the traditional weapons of demon-
+  kind: namely whips, tridents, and long blades.
+
 The Undead
 ========================================
 
