@@ -297,7 +297,10 @@ static string _get_unseen_branches()
         if (!connected_branch_can_exist(branch))
             continue;
 
-        if (branch == BRANCH_VESTIBULE || !is_connected_branch(branch))
+        if (branch == BRANCH_VESTIBULE || !is_connected_branch(branch)
+            || branch == BRANCH_TEMPLE || branch == BRANCH_LAIR
+            || branch == BRANCH_CRYPT  || branch == BRANCH_TOMB
+            || branch == BRANCH_ELF)
             continue;
 
         if (branch_is_unfinished(branch))
