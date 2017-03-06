@@ -119,6 +119,7 @@ makefile.dep
 
 # The Crawl executable.
 /source/crawl
+/source/yiufcrawl
 
 # Precompiled header
 /source/AppHdr.h.gch
@@ -168,10 +169,14 @@ makefile.dep
 /source/debian/crawl-common
 /source/debian/crawl-tiles
 /source/debian/crawl
+/source/debian/yiufcrawl-common
+/source/debian/yiufcrawl-tiles
+/source/debian/yiufcrawl
 /source/debian/files
 
 # Windows packaging
 /source/crawl-win
+/source/yiufcrawl-win
 
 # Windows thumbnail files
 Thumbs.db
