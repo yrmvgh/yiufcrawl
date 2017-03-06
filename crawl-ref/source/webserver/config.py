@@ -45,7 +45,7 @@ watch_socket_dirs = False
 games = OrderedDict([
     ("dcss-web-trunk", dict(
         name = "DCSS trunk",
-        crawl_binary = "./crawl",
+        crawl_binary = "./yiufcrawl",
         rcfile_path = "./rcs/",
         macro_path = "./rcs/",
         morgue_path = "./rcs/%n",
@@ -57,7 +57,7 @@ games = OrderedDict([
         send_json_options = True)),
     ("sprint-web-trunk", dict(
         name = "Sprint trunk",
-        crawl_binary = "./crawl",
+        crawl_binary = "./yiufcrawl",
         rcfile_path = "./rcs/",
         macro_path = "./rcs/",
         morgue_path = "./rcs/%n",
@@ -70,7 +70,7 @@ games = OrderedDict([
         options = ["-sprint"])),
     ("tut-web-trunk", dict(
         name = "Tutorial trunk",
-        crawl_binary = "./crawl",
+        crawl_binary = "./yiufcrawl",
         rcfile_path = "./rcs/",
         macro_path = "./rcs/",
         morgue_path = "./rcs/%n",

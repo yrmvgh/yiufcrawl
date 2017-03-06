@@ -6,7 +6,7 @@ use strict;
 my @TESTS = $#ARGV == -1 ? qw(1 2 3 4 5 8) : @ARGV;
 my $NTRIES = 5;
 
-!system("./crawl --builddb") or die "Rebuilding the db failed -- bailing.\n";
+!system("./yiufcrawl --builddb") or die "Rebuilding the db failed -- bailing.\n";
 
 # Load the db into the page cache, make the disk idle.
 system("tar cf - saves/db saves/des >/dev/null 2>/dev/null");
