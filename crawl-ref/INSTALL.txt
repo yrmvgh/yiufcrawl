@@ -1,4 +1,4 @@
-Install instructions for Dungeon Crawl Stone Soup (DCSS)
+Install instructions for Yiuf Crawl Soup (yiufcrawl)
 --------------------------------------------------------
 
 Getting Crawl to run
@@ -14,14 +14,14 @@ If, however, you're having trouble getting a precompiled binary to run:
 
     Platform        Tiles?          Download package
     --------        ------          ----------------
-    Windows         yes             stone_soup-VERSION-tiles-win32.zip
-    Windows         no              stone_soup-VERSION-win32.zip
-    Mac OS X        yes             stone_soup-VERSION-tiles-osx.zip
-                                    or stone_soup-VERSION-tiles-osx-app.dmg
-    Mac OS X        no              stone_soup-VERSION-osx.zip
-                                    or stone_soup-VERSION-osx-app.dmg
-    Source code     yes             stone_soup-VERSION-src.zip
-                                    or stone_soup-VERSION-src.tar.bz2
+    Windows         yes             yiuf_soup-VERSION-tiles-win32.zip
+    Windows         no              yiuf_soup-VERSION-win32.zip
+    Mac OS X        yes             yiuf_soup-VERSION-tiles-osx.zip
+                                    or yiuf_soup-VERSION-tiles-osx-app.dmg
+    Mac OS X        no              yiuf_soup-VERSION-osx.zip
+                                    or yiuf_soup-VERSION-osx-app.dmg
+    Source code     yes             yiuf_soup-VERSION-src.zip
+                                    or yiuf_soup-VERSION-src.tar.bz2
 
 2) Try removing/renaming your saves/ directory in case older saves aren't
    recognized anymore.

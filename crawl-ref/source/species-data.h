@@ -541,9 +541,10 @@ static const map<species_type, species_def> species_data =
     10, 8, 6, // 24
     { STAT_STR, STAT_INT }, 5,
     {},
-    { "While cool, your skin is stony.", "You heat up during combat.",
-    "You have poor natural magic resistance." },
-    { "heat effects", "Low MR" },
+    { "You have somewhat poor natural magic resistance.",
+      "Your igneous skin is stony at low temperatures.",
+      "As your temperature rises, the heat burns foes." },
+    { "temperature effects", "low MR" },
     {JOB_FIGHTER, JOB_MONK, JOB_BERSERKER, JOB_CONJURER,
      JOB_EARTH_ELEMENTALIST, JOB_FIRE_ELEMENTALIST },
     { SK_AXES, SK_POLEARMS, SK_UNARMED_COMBAT },

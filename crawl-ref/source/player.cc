@@ -1811,12 +1811,8 @@ int player_spec_cold()
     // rings of ice:
     sc += you.wearing(EQ_RINGS, RING_ICE);
 
-    if (you.species == SP_LAVA_ORC
-        && (temperature_effect(LORC_LAVA_BOOST)
-            || temperature_effect(LORC_FIRE_BOOST)))
-    {
+    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST))
         sc--;
-    }
 
     return sc;
 }
@@ -7885,7 +7881,7 @@ void temperature_check()
         // but otherwise it lets you know you're being
         // brought up to max temp.
         if (temperature() <= TEMP_FIRE)
-            mpr("The lava instantly superheats you.");
+            mpr("You are enlivened; a creature of magma and destruction!");
         you.temperature = TEMP_MAX;
         ignore_cap = true;
         // Otherwise, your temperature naturally decays.
@@ -7976,34 +7972,40 @@ void temperature_changed(float change)
     }
 
     // Just reached the temp that kills off stoneskin.
+    // Message about lava boost, but only if you can use it
     if (change > pos_threshold && temperature_tier(TEMP_WARM))
     {
         mprf(MSGCH_DURATION, "Your stony skin melts.");
         you.redraw_armour_class = true;
+        if (you.skill(SK_FIRE_MAGIC, true, 1, true) >= 3
+                    || you.skill(SK_EARTH_MAGIC, true, 1, true) >= 3)
+            {
+            mprf(MSGCH_INTRINSIC_GAIN, "Fire and Earth magic empowered!");
+            }
     }
 
     // Passive heat stuff.
     if (change > pos_threshold && temperature_tier(TEMP_FIRE))
-        mprf(MSGCH_DURATION, "You're getting fired up.");
+        mprf(MSGCH_DURATION, "You're too hot to handle!");
 
     // Heat aura stuff.
     if (change > pos_threshold && temperature_tier(TEMP_MAX))
     {
-        mprf(MSGCH_DURATION, "You blaze with the fury of an erupting volcano!");
+        mprf(MSGCH_DURATION, "You blaze with the fury of a volcano!");
         invalidate_agrid(true);
     }
 
     // For DECREMENTS (reverse order):
     if (change < neg_threshold && temperature_tier(TEMP_MAX))
-        mprf(MSGCH_DURATION, "The intensity of your heat diminishes.");
+        mprf(MSGCH_DURATION, "Your blaze dwindles.");
 
     if (change < neg_threshold && temperature_tier(TEMP_FIRE))
-        mprf(MSGCH_DURATION, "You're cooling off.");
+        mprf(MSGCH_DURATION, "You're cooling down.");
 
     // Cooled down enough for stoneskin to kick in again.
     if (change < neg_threshold && temperature_tier(TEMP_WARM))
     {
-        mprf(MSGCH_DURATION, "Your skin cools and hardens.");
+        mprf(MSGCH_DURATION, "Your molten flesh cools to igneous stone.");
         you.redraw_armour_class = true;
     }
 
@@ -8041,24 +8043,19 @@ bool temperature_effect(int which)
     switch (which)
     {
         case LORC_FIRE_RES_I:
-            return true; // 1-15
+            return temperature() >= TEMP_COOL; // ???
         case LORC_STONESKIN:
             return temperature() < TEMP_WARM; // 1-8
-//      case nothing, right now:
-//            return (you.temperature >= TEMP_COOL && you.temperature < TEMP_WARM); // 5-8
         case LORC_LAVA_BOOST:
-            return temperature() >= TEMP_WARM; // 9-10
         case LORC_FIRE_RES_II:
             return temperature() >= TEMP_WARM; // 9-15
         case LORC_FIRE_RES_III:
-//      rolling this case into lava boost
-//        case LORC_FIRE_BOOST:
         case LORC_COLD_VULN:
             return temperature() >= TEMP_HOT; // 11-15
         case LORC_PASSIVE_HEAT:
             return temperature() >= TEMP_FIRE; // 13-15
         case LORC_HEAT_AURA:
-            if (you_worship(GOD_BEOGH))
+            if (you_worship(GOD_BEOGH) || you_worship(GOD_YREDELEMNUL))
                 return false;
             // Deliberate fall-through.
         case LORC_NO_SCROLLS:
@@ -8094,17 +8091,17 @@ string temperature_text(int temp)
     switch (temp)
     {
         case TEMP_MIN:
-            return "rF+; racial 'Stoneskin' bonus to AC";
+            return "Racial 'Stoneskin' bonus to AC";
         case TEMP_COOL:
-            return "";
+            return "                   rF+";
         case TEMP_WARM:
-            return "rF++; lava magic boost; Stoneskin ends";
+            return "Earth+Fire boosts; rF++; Stoneskin ends";
         case TEMP_HOT:
-            return "rF+++; rC-; lava magic boost";
+            return "All effects below; rF+++; rC-";
         case TEMP_FIRE:
-            return "Burn attackers";
+            return "All effects below; Burn attackers";
         case TEMP_MAX:
-            return "All above effects; fire aura; can't read";
+            return "All effects below; Fire aura; Can't read";
         default:
             return "";
     }
