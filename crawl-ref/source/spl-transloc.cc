@@ -558,10 +558,6 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
     // After this point, we're guaranteed to teleport. Kill the appropriate
     // delays. Teleportitis needs to check the target square first, though.
     // Impish teleportitis doesn't necessarily bring you to monsters.
-    if (you.species == SP_IMP)
-    {
-        teleportitis = false;
-    }
     if (!teleportitis)
         interrupt_activity(AI_TELEPORT);
 
@@ -645,7 +641,7 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
             return false;
         // Teleportitis requires a monster in LOS of the new location, else
         // it silently fails.
-        else if (teleportitis)
+        else if (teleportitis && !you.species == SP_IMP)
         {
             int mons_near_target = 0;
             for (monster_near_iterator mi(newpos, LOS_NO_TRANS); mi; ++mi)
