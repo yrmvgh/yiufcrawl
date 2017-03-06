@@ -1477,10 +1477,6 @@ static void _xom_give_bad_mutations(int) { _xom_give_mutations(false); }
  */
 static void _xom_throw_divine_lightning(int /*sever*/)
 {
-    const bool protection = you.hp <= random2(201);
-    if (protection)
-        you.attribute[ATTR_DIVINE_LIGHTNING_PROTECTION] = 1;
-
     god_speaks(GOD_XOM, "The area is suffused with divine lightning!");
 
     bolt beam;
