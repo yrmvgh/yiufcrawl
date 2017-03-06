@@ -1,6 +1,6 @@
 # please run with -DVERSION="xxx"
 # !define VERSION "0.7.0"
-!define DCSS "Dungeon Crawl Stone Soup"
+!define DCSS "Yiufcrawl Soup"
 SetCompressor /SOLID lzma
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -21,7 +21,7 @@ SetCompressor /SOLID lzma
 Name "${DCSS} ${VERSION}"
 Outfile "yiuf_soup-${VERSION}-${WINARCH}-installer.exe"
 XPStyle on
-!define MUI_ICON util\crawl.ico
+!define MUI_ICON util\yiufcrawl.ico
 
 !define MUI_ABORTWARNING
 
@@ -55,7 +55,7 @@ Section ""
   # the order matters -- only the first shortcut is advertised by Win 7
   CreateShortCut "$SMPROGRAMS\${DCSS}\Dungeon Crawl - tiles.lnk" "$INSTDIR\crawl-tiles.exe"
   CreateShortCut "$SMPROGRAMS\${DCSS}\Dungeon Crawl - console.lnk" "$INSTDIR\crawl-console.exe"
-  CreateShortCut "$SMPROGRAMS\${DCSS}\Uninstall DCSS.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\${DCSS}\Uninstall Yiuf.lnk" "$INSTDIR\uninst.exe"
 
   WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\Crawl" "DisplayName" "${DCSS}"
   WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\Crawl" "DisplayVersion" "${VERSION}"
@@ -83,7 +83,7 @@ Section "Uninstall"
   # the top dir by hand.
   RMDir $INSTDIR
 
-  Delete "$SMPROGRAMS\${DCSS}\Uninstall DCSS.lnk"
+  Delete "$SMPROGRAMS\${DCSS}\Uninstall Yiuf.lnk"
   Delete "$SMPROGRAMS\${DCSS}\Dungeon Crawl - console.lnk"
   Delete "$SMPROGRAMS\${DCSS}\Dungeon Crawl - tiles.lnk"
   RMDir "$SMPROGRAMS\${DCSS}"
