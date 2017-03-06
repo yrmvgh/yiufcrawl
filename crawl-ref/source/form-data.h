@@ -88,7 +88,7 @@ static const form_entry formdata[] =
     TRAN_STATUE, MONS_STATUE, "Statue", "statue-form", "statue",
     "a stone statue.",
     EQF_STATUE, MR_RES_ELEC | MR_RES_NEG | MR_RES_PETRIFY,
-    DEFAULT_DURATION, 0, 0, SIZE_CHARACTER, 13, 0
+    DEFAULT_DURATION, 0, 0, SIZE_CHARACTER, 13, 0,
     20, 12, 0, true, 0, 9, 12,
     SPWPN_NORMAL, LIGHTGREY, "", DEFAULT_VERBS,
     FC_DEFAULT, FC_FORBID, FC_FORBID, false, true,
@@ -109,7 +109,7 @@ static const form_entry formdata[] =
     TRAN_DRAGON, MONS_PROGRAM_BUG, "Dragon", "dragon-form", "dragon",
     "a fearsome dragon!",
     EQF_PHYSICAL, MR_RES_POISON,
-    DEFAULT_DURATION, 10, 0, SIZE_GIANT, 15, 0
+    DEFAULT_DURATION, 10, 0, SIZE_GIANT, 15, 0,
     16, 0, 0, true, 0, 10, 32,
     SPWPN_NORMAL, GREEN, "Teeth and claws", { "hit", "claw", "bite", "maul" },
     FC_ENABLE, FC_FORBID, FC_ENABLE, true, false,
