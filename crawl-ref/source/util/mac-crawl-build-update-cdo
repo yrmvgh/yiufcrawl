@@ -171,7 +171,7 @@ sub build_crawl()
 
 sub app_zips()
 {
-  my $zipglob = "$ZIPDIR/stone_soup-$CURRENTVERSION*.zip";
+  my $zipglob = "$ZIPDIR/yiuf_soup-$CURRENTVERSION*.zip";
   return glob($zipglob);
 }
 

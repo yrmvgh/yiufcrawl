@@ -19,7 +19,7 @@ SetCompressor /SOLID lzma
 !endif
 
 Name "${DCSS} ${VERSION}"
-Outfile "stone_soup-${VERSION}-${WINARCH}-installer.exe"
+Outfile "yiuf_soup-${VERSION}-${WINARCH}-installer.exe"
 XPStyle on
 !define MUI_ICON util\crawl.ico
 

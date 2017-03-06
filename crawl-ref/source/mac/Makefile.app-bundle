@@ -11,9 +11,9 @@ ifdef BUILD_UNIVERSAL
 ZIP_ARCH := -universal
 endif
 
-APP_NAME := Dungeon Crawl Stone Soup
+APP_NAME := Yiuf Crawl Soup
 ifneq (,$(findstring tiles,$(MAKECMDGOALS)))
-BUNDLE_NAME := Dungeon\ Crawl\ Stone\ Soup\ -\ Tiles
+BUNDLE_NAME := Yiuf\ Crawl\ Soup\ -\ Tiles
 TILE_APP := y
 ifdef RELEASE
 ZIP_QUALIFIER := -tiles
@@ -22,7 +22,7 @@ ZIP_QUALIFIER := _tiles
 endif
 EXECUTABLE_PATH := $(CRAWL_SRC)/crawl
 else
-BUNDLE_NAME := Dungeon\ Crawl\ Stone\ Soup\ -\ Console
+BUNDLE_NAME := Yiuf\ Crawl\ Soup\ -\ Console
 EXECUTABLE_PATH := crawl
 ifdef RELEASE
 ZIP_QUALIFIER := -console
@@ -30,7 +30,7 @@ endif
 endif
 
 ifdef RELEASE
-ZIP_NAME = stone_soup-$(SRC_VERSION)$(ZIP_QUALIFIER)-macosx.zip
+ZIP_NAME = yiuf_soup-$(SRC_VERSION)$(ZIP_QUALIFIER)-macosx.zip
 else
 ZIP_NAME = crawl$(ZIP_QUALIFIER)_osx-$(SRC_VERSION).zip
 endif
