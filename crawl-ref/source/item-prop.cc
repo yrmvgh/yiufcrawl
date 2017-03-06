@@ -137,7 +137,7 @@ static const armour_def Armour_prop[] =
 
     { ARM_CLOAK,                "cloak",                  1,   0,   45,
         EQ_CLOAK,       SIZE_LITTLE, SIZE_BIG, true },
-    { ARM_SCARF,                "scarf",                  0,   0,   50,
+    { ARM_SCARF,                "scarf",                  1,   0,   50,
         EQ_CLOAK,       SIZE_LITTLE, SIZE_BIG, true },
 
     { ARM_GLOVES,               "gloves",                 1,   0,   45,
