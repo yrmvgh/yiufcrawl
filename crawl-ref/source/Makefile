@@ -73,7 +73,7 @@
 #    them; you can also ask for a package with convenience libraries instead --
 #    we'll try to provide them somewhere in the near future.
 
-GAME = crawl
+GAME = yiufcrawl
 
 # Disable GNU Make implicit rules and variables. Leaving them enabled will slow
 # down MinGW and Cygwin builds by a very VERY noticeable degree. Besides, we have
@@ -197,7 +197,7 @@ ifneq (,$(findstring MSYS,$(uname_S)))
 	msys = Yes
 endif
 ifdef msys
-	GAME = crawl.exe
+	GAME = yiufcrawl.exe
 	bin_prefix = .
 	WIN32 = Yes
 	NO_RDYNAMIC = YesPlease
@@ -245,7 +245,7 @@ ifdef USE_ICC
 	NO_RDYNAMIC := YesPlease
 endif
 ifneq (,$(findstring CYGWIN,$(uname_S)))
-	GAME = crawl.exe
+	GAME = yiufcrawl.exe
 	NO_RDYNAMIC = YesPlease
 	BUILD_PCRE = YesPlease
 	# newlib doesn't provide Posix functions with c++11
@@ -397,13 +397,13 @@ endif
 # SAVEDIR := saves/
 # DATADIR := data/
 ifneq (,$(FHS))
-DATADIR       := share/crawl
-SAVEDIR       := ~/.crawl
+DATADIR       := share/yiufcrawl
+SAVEDIR       := ~/.yiufcrawl
 endif
 
 ifneq ($(patsubst /opt%,%,$(prefix)),$(prefix))
 DATADIR := data
-SAVEDIR := ~/.crawl
+SAVEDIR := ~/.yiufcrawl
 endif
 
 
@@ -562,7 +562,7 @@ ifdef ANDROID
   TOUCH_UI=Y
   TILES=Y
   SOUND=Y
-  SAVEDIR="/sdcard/Android/data/org.develz.crawl/saves/"
+  SAVEDIR="/sdcard/Android/data/org.develz.yiufcrawl/saves/"
 else
 
 ifndef BUILD_LUA
@@ -1222,7 +1222,7 @@ endif
 
 .cflags: .force-cflags
 ifdef NEED_REBUILD
-	@echo "    * rebuilding crawl: new build flags or prefix"
+	@echo "    * rebuilding yiufcrawl: new build flags or prefix"
 	@echo 'TRACK_CFLAGS = $(TRACK_CFLAGS) #EOL'
 	@echo 'OLD_CFLAGS   = $(OLD_CFLAGS) #EOL'
 	@echo '$(TRACK_CFLAGS)' > .cflags
@@ -1389,7 +1389,7 @@ endif
 	$(COPY) ../docs/license/*.txt $(datadir_fp)/docs/license/
 	$(COPY) ../CREDITS.txt $(datadir_fp)/docs/
 	$(COPY) ../settings/* $(datadir_fp)/settings/
-ifeq ($(GAME),crawl.exe)
+ifeq ($(GAME),yiufcrawl.exe)
 	sed -i 's/$$/\r/' `find $(datadir_fp) -iname '*.txt' -o -iname '*.des'`
 endif
 ifdef TILES
@@ -1698,20 +1698,20 @@ endif
 	makensis -NOCD -DVERSION=$(SRC_VERSION) -DWINARCH="$$WINARCH" util/crawl.nsi
 
 build-windows:
-ifneq ($(GAME),crawl.exe)
+ifneq ($(GAME),yiufcrawl.exe)
 	@echo "This is only for Windows; please specify CROSSHOST.";false
 endif
 	+$(MAKE) clean
 	+$(MAKE) TILES=y DESTDIR=build-win SAVEDIR='~/crawl' install
-	mv build-win/crawl.exe build-win/crawl-tiles.exe
+	mv build-win/yiufcrawl.exe build-win/yiufcrawl-tiles.exe
 	+$(MAKE) TILES=  DESTDIR=build-win SAVEDIR='~/crawl' install
-	mv build-win/crawl.exe build-win/crawl-console.exe
+	mv build-win/yiufcrawl.exe build-win/yiufcrawl-console.exe
 	mv build-win/docs/CREDITS.txt build-win/
 	echo $(SRC_VERSION) >build-win/version.txt
 
 ZIP_DOCS=../licence.txt
 package-windows-zips:
-ifneq ($(GAME),crawl.exe)
+ifneq ($(GAME),yiufcrawl.exe)
 	@echo "This is only for Windows; please specify CROSSHOST.";false
 endif
 	+$(MAKE) clean
@@ -1749,7 +1749,7 @@ ifeq ($(ANDROID),)
 endif
 	+cd android-project && ndk-build -$(MAKEFLAGS) && ant debug && \
 	cp bin/DungeonCrawlStoneSoup-debug.apk \
-	../../../crawl_tiles_android-$(SRC_VERSION).apk
+	../../../yiufcrawl_tiles_android-$(SRC_VERSION).apk
 
 #############################################################################
 # Canned tests
