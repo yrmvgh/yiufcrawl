@@ -2,10 +2,10 @@
 ## A fork of Dungeon Crawl Stone Soup with leftover soup
 ### Exterminated races, expired experiments, and extinct species
     download instructions:
-    git clone https://github.com/yrmvgh/crawl.git
-    cd crawl/crawl-ref/source
+    git clone https://github.com/yrmvgh/crawl.git yiufcrawl
+    cd yiufcrawl/crawl-ref/source
     make TILES=y
-    then just run the file named "crawl"
+    then just run the file named "yiufcrawl"
 
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
 
@@ -43,7 +43,8 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Items don't block doorways.
 * Berserkers start with no weapons, and no weapon skill.
 
-#### *Below you will find the contents of the original DCSS readme:*
+#### *Below you will find the contents of the original DCSS readme.*
+#### *Some of this information no longer applies, but most of it does!*
 [![Build Status](https://travis-ci.org/yrmvgh/crawl.svg?branch=master)](https://travis-ci.org/yrmvgh/crawl)
 --------------------------------
 ## Contents
