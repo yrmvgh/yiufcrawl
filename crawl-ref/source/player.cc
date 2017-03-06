@@ -1811,9 +1811,6 @@ int player_spec_cold()
     // rings of ice:
     sc += you.wearing(EQ_RINGS, RING_ICE);
 
-    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST))
-        sc--;
-
     return sc;
 }
 
@@ -7955,21 +7952,6 @@ void temperature_changed(float change)
     float neg_threshold = -1 * pos_threshold;
 
     // For INCREMENTS:
-
-    // Check these no-nos every turn.
-    if (you.temperature >= TEMP_WARM)
-    {
-        // Handles condensation shield, ozo's armour, icemail.
-        // 10 => 100aut reduction in duration.
-        maybe_melt_player_enchantments(BEAM_FIRE, 10);
-
-        // Handled separately because normally heat doesn't affect this.
-        if (you.form == transformation::ice_beast
-            || you.form == transformation::statue)
-        {
-            untransform(false);
-        }
-    }
 
     // Just reached the temp that kills off stoneskin.
     // Message about lava boost, but only if you can use it
