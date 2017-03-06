@@ -44,7 +44,7 @@ watch_socket_dirs = False
 # morgue_url is for a publicly available URL to access morgue_path
 games = OrderedDict([
     ("dcss-web-trunk", dict(
-        name = "DCSS trunk",
+        name = "Yiufcrawl",
         crawl_binary = "./yiufcrawl",
         rcfile_path = "./rcs/",
         macro_path = "./rcs/",

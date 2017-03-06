@@ -936,7 +936,7 @@ void species_group::attach(const newgame_def& ng, const newgame_def& defaults,
 static species_group species_groups[] =
 {
     {
-        "Not found in DCSS",
+        "Yiuf's Friends",
         coord_def(0, -1),
         20,
         {
