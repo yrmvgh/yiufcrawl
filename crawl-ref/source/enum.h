@@ -1389,7 +1389,7 @@ enum game_chapter
 enum game_type
 {
     GAME_TYPE_UNSPECIFIED,
-    GAME_TYPE_NORMAL,
+    GAME_TYPE_NORMAL, //'Normal' mode for this build is hellcrawl
     GAME_TYPE_TUTORIAL,
     GAME_TYPE_ARENA,
     GAME_TYPE_SPRINT,
