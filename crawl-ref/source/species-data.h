@@ -538,7 +538,7 @@ static const map<species_type, species_def> species_data =
     "LO",
     "Lava Orc", "Orcish", "Orc",
     SPF_ORCISH | SPF_NO_HAIR,
-    -2, 1, 0, 2,
+    -1, 0, 0, 2,
     MONS_LAVA_ORC,
     HT_AMPHIBIOUS_LAVA, US_ALIVE, SIZE_MEDIUM,
     10, 8, 6, // 24
