@@ -500,7 +500,7 @@ static const map<species_type, species_def> species_data =
     "Im",
     "Imp", "Demonic", nullptr,
     SPF_NONE,
-    0, -2, 0, 4,
+    0, -3, 0, 4,
     MONS_CRIMSON_IMP,
     HT_LAND, US_ALIVE, SIZE_LITTLE,
     7, 9, 8, // 24
@@ -713,7 +713,7 @@ static const map<species_type, species_def> species_data =
     "SE",
     "Sludge Elf", "Elven", "Elf",
     SPF_ORCISH | SPF_ELVEN,
-    -1, 0, 1, 3,
+    -1, -1, 1, 3,
     MONS_ELF,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     9, 7, 8, // 24
