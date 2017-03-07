@@ -547,6 +547,14 @@ static void _handle_teleport_update(bool large_change, const coord_def old_pos)
 
 static bool _teleport_player(bool wizard_tele, bool teleportitis)
 {
+    if (you.species == SP_IMP && teleportitis)
+    {
+        uncontrolled_blink();
+        if (!i_feel_safe(true,false,false))
+            mprf(MSGCH_WARN, "What a blink!");
+        return false;
+    }
+
     if (!wizard_tele && !teleportitis
         && (crawl_state.game_is_sprint() || you.no_tele(true, true))
             && !player_in_branch(BRANCH_ABYSS))
@@ -557,7 +565,6 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
 
     // After this point, we're guaranteed to teleport. Kill the appropriate
     // delays. Teleportitis needs to check the target square first, though.
-    // Impish teleportitis doesn't necessarily bring you to monsters.
     if (!teleportitis)
         interrupt_activity(AI_TELEPORT);
 
@@ -641,7 +648,7 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
             return false;
         // Teleportitis requires a monster in LOS of the new location, else
         // it silently fails.
-        else if (teleportitis && !you.species == SP_IMP)
+        else if (teleportitis)
         {
             int mons_near_target = 0;
             for (monster_near_iterator mi(newpos, LOS_NO_TRANS); mi; ++mi)
