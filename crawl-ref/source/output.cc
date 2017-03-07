@@ -1420,9 +1420,7 @@ void print_stats()
 
     for (int i = 0; i < NUM_STATS; ++i)
         if (you.redraw_stats[i])
-        {
             _print_stat(static_cast<stat_type>(i), 19, 5 + i + temp);
-        }
     you.redraw_stats.init(false);
 
     if (you.redraw_experience)

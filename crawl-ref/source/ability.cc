@@ -324,6 +324,7 @@ static const ability_def Ability_List[] =
     { ABIL_SHAFT_SELF, "Shaft Self", 0, 0, 250, 0, {}, abflag::DELAY },
 
     { ABIL_HOP, "Hop", 0, 0, 0, 0, {}, abflag::NONE },
+    { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::NONE },
 
     { ABIL_OVERLOAD, "Overload", 2, 0, 0, 0, {FAIL_XL, 27, 1}, abflag::NONE },
 
@@ -1845,6 +1846,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             else
                 return SPRET_ABORT;
             break;
+    case ABIL_REAP:
+        return cast_reap(fail);
 
 #if TAG_MAJOR_VERSION == 34
     case ABIL_DELAYED_FIREBALL:
@@ -3391,6 +3394,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     // Species-based abilities.
     if (you.species == SP_DEEP_DWARF)
         _add_talent(talents, ABIL_HEAL_WOUNDS, check_confused);
+
+    if (you.species == SP_SKELETON)
+        _add_talent(talents, ABIL_REAP, check_confused);
 
     if (you.species == SP_FORMICID
         && (form_keeps_mutations() || include_unusable))

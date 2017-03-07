@@ -6169,6 +6169,11 @@ bool ru_power_leap()
         crawl_state.cancel_cmd_repeat();
         return false;
     }
+    if (you.is_nervous())
+    {
+        mpr("You are too terrified to leap around!");
+        return false;
+    }
 
     // query for location:
     dist beam;
@@ -6184,6 +6189,7 @@ bool ru_power_leap()
         args.self = CONFIRM_CANCEL;
         const int explosion_size = 1;
         targeter_smite tgt(&you, args.range, explosion_size, explosion_size);
+        tgt.obeys_mesmerise = true;
         args.hitfunc = &tgt;
         direction(beam, args);
         if (crawl_state.seen_hups)
@@ -6702,19 +6708,7 @@ spret_type uskayaw_grand_finale(bool fail)
             continue;
         }
 
-        if (grd(beam.target) == DNGN_OPEN_SEA)
-        {
-            clear_messages();
-            mpr("You would fall into the sea!");
-            continue;
-        }
-        else if (grd(beam.target) == DNGN_LAVA_SEA)
-        {
-            clear_messages();
-            mpr("You would fall into the sea of lava!");
-            continue;
-        }
-        else if (!check_moveto(beam.target, "move"))
+        if (!check_moveto(beam.target, "move"))
         {
             // try again (messages handled by check_moveto)
         }

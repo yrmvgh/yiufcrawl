@@ -52,7 +52,9 @@ enum ability_type
     ABIL_HOP,
     // Plutonians
     ABIL_OVERLOAD,
-    ABIL_MAX_INTRINSIC = ABIL_OVERLOAD,
+    // Skeletons
+    ABIL_REAP,
+    ABIL_MAX_INTRINSIC = ABIL_REAP,
 
     // Evoking items.
     ABIL_EVOKE_BERSERK = 40,

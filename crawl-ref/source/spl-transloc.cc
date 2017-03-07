@@ -250,6 +250,10 @@ void wizard_blink()
     direction_chooser_args args;
     args.restricts = DIR_TARGET;
     args.needs_path = false;
+    targeter_smite tgt(&you, LOS_RADIUS);
+    tgt.obeys_mesmerise = false;
+    args.hitfunc = &tgt;
+
     args.top_prompt = "Blink to where?";
     dist beam;
     direction(beam, args);
@@ -322,6 +326,7 @@ spret_type frog_hop(bool fail)
     const int hop_range = 2 + player_mutation_level(MUT_HOP) * 2; // 4-6
     coord_def target;
     targeter_smite tgt(&you, hop_range, 0, HOP_FUZZ_RADIUS);
+    tgt.obeys_mesmerise = true;
     while (true)
     {
         if (!_find_cblink_target(target, true, "hop", &tgt))
@@ -372,7 +377,9 @@ spret_type frog_hop(bool fail)
 spret_type controlled_blink(bool fail, bool safe_cancel)
 {
     coord_def target;
-    if (!_find_cblink_target(target, safe_cancel, "blink"))
+    targeter_smite tgt(&you, LOS_RADIUS);
+    tgt.obeys_mesmerise = true;
+    if (!_find_cblink_target(target, safe_cancel, "blink", &tgt))
         return SPRET_ABORT;
 
     fail_check();
@@ -547,6 +554,14 @@ static void _handle_teleport_update(bool large_change, const coord_def old_pos)
 
 static bool _teleport_player(bool wizard_tele, bool teleportitis)
 {
+    if (you.species == SP_IMP && teleportitis)
+    {
+        uncontrolled_blink();
+        if (!i_feel_safe(true,false,false))
+            mprf(MSGCH_WARN, "What a blink!");
+        return false;
+    }
+
     if (!wizard_tele && !teleportitis
         && (crawl_state.game_is_sprint() || you.no_tele(true, true))
             && !player_in_branch(BRANCH_ABYSS))
@@ -557,11 +572,6 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
 
     // After this point, we're guaranteed to teleport. Kill the appropriate
     // delays. Teleportitis needs to check the target square first, though.
-    // Impish teleportitis doesn't necessarily bring you to monsters.
-    if (you.species == SP_IMP)
-    {
-        teleportitis = false;
-    }
     if (!teleportitis)
         interrupt_activity(AI_TELEPORT);
 

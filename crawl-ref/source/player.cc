@@ -452,12 +452,6 @@ void moveto_location_effects(dungeon_feature_type old_feat,
 
             if (!you.can_swim() && !you.can_water_walk())
             {
-                if (stepped)
-                {
-                    you.time_taken *= 13 + random2(8);
-                    you.time_taken /= 10;
-                }
-
                 if (!feat_is_water(old_feat))
                 {
                     mprf("You %s the %s water.",
@@ -1811,9 +1805,6 @@ int player_spec_cold()
     // rings of ice:
     sc += you.wearing(EQ_RINGS, RING_ICE);
 
-    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_LAVA_BOOST))
-        sc--;
-
     return sc;
 }
 
@@ -1997,6 +1988,10 @@ int player_movement_speed()
         mv = 8;
     else if (you.fishtail || you.form == transformation::hydra && you.in_water())
         mv = 6;
+
+    // Wading through water is very slow.
+    if (you.in_water() && !you.can_swim())
+        mv += 6;
 
     // moving on liquefied ground takes longer
     if (you.liquefied_ground())
@@ -3411,7 +3406,6 @@ static void _display_movement_speed()
           (fly)     ? "flying"
                     : "movement",
 
-          (water && !swim)  ? "uncertain and " :
           (!water && swift) ? "aided by the wind" :
           (!water && antiswift) ? "hindered by the wind" : "",
 
@@ -4174,7 +4168,7 @@ int get_contamination_level()
 bool player_severe_contamination()
 {
     if (you.species == SP_PLUTONIAN)
-        return get_contamination_level() >= 1 + SEVERE_CONTAM_LEVEL;
+        return get_contamination_level() >= 2 + SEVERE_CONTAM_LEVEL;
     else return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
 }
 
@@ -5932,6 +5926,10 @@ int player::skill(skill_type sk, int scale, bool real, bool drained) const
     }
     if (duration[DUR_HEROISM] && sk <= SK_LAST_MUNDANE)
         level = min(level + 5 * scale, MAX_SKILL_LEVEL * scale);
+
+    if (attribute[ATTR_REAPING])
+       level = level * 12 / 10;
+
     return level;
 }
 
@@ -7637,25 +7635,44 @@ void player::sentinel_mark(bool trap)
     }
 }
 
-bool player::made_nervous_by(const coord_def &p)
+/*
+ * Is the player too terrified to move (because of fungusform)?
+ *
+ * @return true iff there is an alarming monster anywhere near a fungusform player.
+ */
+bool player::is_nervous()
 {
     if (form != transformation::fungus)
         return false;
-    monster* mons = monster_at(p);
-    if (mons && mons_is_threatening(*mons))
-        return false;
     for (monster_near_iterator mi(&you); mi; ++mi)
     {
-        if (!mons_is_wandering(**mi)
-            && !mi->asleep()
-            && !mi->confused()
-            && !mi->cannot_act()
-            && mons_is_threatening(**mi)
-            && !mi->wont_attack()
-            && !mi->neutral())
-        {
+        if (made_nervous_by(*mi))
             return true;
-        }
+    }
+    return false;
+}
+
+/*
+ * Does monster `mons` make the player nervous (in fungusform)?
+ *
+ * @param mons  the monster to check
+ * @return      true iff mons is non-null, player is fungal, and `mons` is a threatening monster.
+ */
+bool player::made_nervous_by(const monster *mons)
+{
+    if (form != transformation::fungus)
+        return false;
+    if (!mons)
+        return false;
+    if (!mons_is_wandering(*mons)
+        && !mons->asleep()
+        && !mons->confused()
+        && !mons->cannot_act()
+        && mons_is_threatening(*mons)
+        && !mons->wont_attack()
+        && !mons->neutral())
+    {
+        return true;
     }
     return false;
 }
@@ -7955,21 +7972,6 @@ void temperature_changed(float change)
     float neg_threshold = -1 * pos_threshold;
 
     // For INCREMENTS:
-
-    // Check these no-nos every turn.
-    if (you.temperature >= TEMP_WARM)
-    {
-        // Handles condensation shield, ozo's armour, icemail.
-        // 10 => 100aut reduction in duration.
-        maybe_melt_player_enchantments(BEAM_FIRE, 10);
-
-        // Handled separately because normally heat doesn't affect this.
-        if (you.form == transformation::ice_beast
-            || you.form == transformation::statue)
-        {
-            untransform(false);
-        }
-    }
 
     // Just reached the temp that kills off stoneskin.
     // Message about lava boost, but only if you can use it
