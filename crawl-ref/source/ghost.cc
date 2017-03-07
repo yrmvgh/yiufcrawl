@@ -272,7 +272,7 @@ void ghost_demon::init_pandemonium_lord()
 //FIXME: deduplicate with player_movement_speed()
 static int _player_ghost_movement_energy()
 {
-    int energy = 10;
+    int energy = 11;
 
     if (int fast = player_mutation_level(MUT_FAST, false))
         energy -= fast + 1;
@@ -301,8 +301,8 @@ void ghost_demon::init_player_ghost(bool actual_ghost)
 
     name   = you.your_name;
     max_hp = min(get_real_hp(false), MAX_GHOST_HP);
-    ev     = min(you.evasion(EV_IGNORE_HELPLESS), MAX_GHOST_EVASION);
-    ac     = you.armour_class();
+    ev     = min(you.evasion(EV_IGNORE_HELPLESS), MAX_GHOST_EVASION) - 3;
+    ac     = you.armour_class() - 3;
     dprf("ghost ac: %d, ev: %d", ac, ev);
 
     see_invis      = you.can_see_invisible();
