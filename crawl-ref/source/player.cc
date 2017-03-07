@@ -4171,7 +4171,7 @@ int get_contamination_level()
 bool player_severe_contamination()
 {
     if (you.species == SP_PLUTONIAN)
-        return get_contamination_level() >= 1 + SEVERE_CONTAM_LEVEL;
+        return get_contamination_level() >= 2 + SEVERE_CONTAM_LEVEL;
     else return get_contamination_level() >= SEVERE_CONTAM_LEVEL;
 }
 
