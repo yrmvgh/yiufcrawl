@@ -1,5 +1,5 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup with leftover soup
+## A trunk-based fork of Stone Soup with leftover soup
 ### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/crawl.git yiufcrawl
@@ -7,21 +7,27 @@
     make TILES=y
     then just run the file named "yiufcrawl"
 
+alternately "make TILES=y install" will try to install yiufcrawl to your system
+for super- "git clone https://github.com/yrmvgh/crawl.git -b yiuf yiufcrawl"
+
 for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
 
 You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf".
 
 --------------------------------
-> #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
+> #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space*
+> #### * in his hut for other sad creatures and they will be a little family in the dark.*
 
 ### *They're Back:*
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
-* **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
+* **Sludge Elf**, now with an evolving mutagenic body and orcish blood. Great at throwing.
 * **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 * **Plutonian**, an unstable, contaminated humanoid that occasionally explodes. !Curing and kills reduce contam.
+*They're New:*
+* **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. ObsidianAxe-like.
 
 Image album of the first five races above: http://imgur.com/a/J1XBP
 
@@ -42,6 +48,8 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Formicids can't fall in shafts by accident.
 * Items don't block doorways.
 * Berserkers start with no weapons, and no weapon skill.
+* Scarves remain unenchantable, but have 1 base AC.
+* Roles with ranged weapons start with more ammo.
 
 #### *Below you will find the contents of the original DCSS readme.*
 #### *Some of this information no longer applies, but most of it does!*
