@@ -544,7 +544,7 @@ static const string _vampire_Ascreen_footer = (
     "level.\n");
 
 static const string _lava_orc_Ascreen_footer = (
-#ifndef USE_TILE_LOCAL
+#ifdef USE_TILE_LOCAL
     "<w>Right-click</w> or press '<w>!</w>'"
 #else
     "Press '<w>!</w>'"
