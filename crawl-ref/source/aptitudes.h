@@ -1412,13 +1412,13 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 #endif
 
     // SP_LAVA_ORC
-    APT(SP_LAVA_ORC,        SK_FIGHTING,        1),
-    APT(SP_LAVA_ORC,        SK_SHORT_BLADES,   -1),
-    APT(SP_LAVA_ORC,        SK_LONG_BLADES,    -1),
-    APT(SP_LAVA_ORC,        SK_AXES,            1),
-    APT(SP_LAVA_ORC,        SK_MACES_FLAILS,   -1),
-    APT(SP_LAVA_ORC,        SK_POLEARMS,        0),
-    APT(SP_LAVA_ORC,        SK_STAVES,         -1),
+    APT(SP_LAVA_ORC,        SK_FIGHTING,        0),
+    APT(SP_LAVA_ORC,        SK_SHORT_BLADES,    0),
+    APT(SP_LAVA_ORC,        SK_LONG_BLADES,     0),
+    APT(SP_LAVA_ORC,        SK_AXES,            2),
+    APT(SP_LAVA_ORC,        SK_MACES_FLAILS,    0),
+    APT(SP_LAVA_ORC,        SK_POLEARMS,        1),
+    APT(SP_LAVA_ORC,        SK_STAVES,          0),
     APT(SP_LAVA_ORC,        SK_SLINGS,         -2),
     APT(SP_LAVA_ORC,        SK_BOWS,           -2),
     APT(SP_LAVA_ORC,        SK_CROSSBOWS,      -2),
