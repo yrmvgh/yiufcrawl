@@ -137,7 +137,7 @@ static const armour_def Armour_prop[] =
 
     { ARM_CLOAK,                "cloak",                  1,   0,   45,
         EQ_CLOAK,       SIZE_LITTLE, SIZE_BIG, true },
-    { ARM_SCARF,                "scarf",                  1,   0,   50,
+    { ARM_SCARF,                "scarf",                  1,   0,   40,
         EQ_CLOAK,       SIZE_LITTLE, SIZE_BIG, true },
 
     { ARM_GLOVES,               "gloves",                 1,   0,   45,
@@ -252,9 +252,9 @@ struct weapon_def
 
 /// brand weights for non-dagger shortblades (short sword & rapier)
 static const vector<brand_weight_tuple> SBL_BRANDS = {
-    { SPWPN_NORMAL, 33 },
+    { SPWPN_NORMAL, 30 },
     { SPWPN_VENOM, 17 },
-    { SPWPN_SPEED, 10 },
+    { SPWPN_SPEED, 13 },
     { SPWPN_DRAINING, 9 },
     { SPWPN_PROTECTION, 6 },
     { SPWPN_ELECTROCUTION, 6 },
@@ -281,7 +281,7 @@ static const vector<brand_weight_tuple> M_AND_F_BRANDS = {
 
 /// brand weights for demon weapons (whip, blade, trident)
 static const vector<brand_weight_tuple> DEMON_BRANDS = {
-    { SPWPN_NORMAL,         27 },
+    { SPWPN_NORMAL,         26 },
     { SPWPN_VENOM,          19 },
     { SPWPN_ELECTROCUTION,  16 },
     { SPWPN_DRAINING,       10 },
@@ -290,6 +290,7 @@ static const vector<brand_weight_tuple> DEMON_BRANDS = {
     { SPWPN_VAMPIRISM,       7 },
     { SPWPN_PAIN,            4 },
     { SPWPN_ANTIMAGIC,       3 },
+    { SPWPN_CHAOS,           1 },
 };
 
 /// brand weights for long blades.
@@ -311,13 +312,13 @@ static const vector<brand_weight_tuple> LBL_BRANDS = {
 
 /// brand weights for axes.
 static const vector<brand_weight_tuple> AXE_BRANDS = {
-    { SPWPN_NORMAL,         31 },
-    { SPWPN_VORPAL,         16 },
+    { SPWPN_NORMAL,         29 },
+    { SPWPN_VORPAL,         15 },
     { SPWPN_ELECTROCUTION,  11 },
-    { SPWPN_FLAMING,        10 },
-    { SPWPN_FREEZING,       10 },
-    { SPWPN_VENOM,           8 },
-    { SPWPN_VAMPIRISM,       5 },
+    { SPWPN_FLAMING,        11 },
+    { SPWPN_FREEZING,       11 },
+    { SPWPN_VENOM,           7 },
+    { SPWPN_VAMPIRISM,       7 },
     { SPWPN_DRAINING,        3 },
     { SPWPN_DISTORTION,      2 },
     { SPWPN_ANTIMAGIC,       2 },
@@ -327,12 +328,12 @@ static const vector<brand_weight_tuple> AXE_BRANDS = {
 
 /// brand weights for most polearms.
 static const vector<brand_weight_tuple> POLEARM_BRANDS = {
-    { SPWPN_NORMAL,     36 },
+    { SPWPN_NORMAL,     32 },
     { SPWPN_VENOM,      17 },
     { SPWPN_PROTECTION, 12 },
     { SPWPN_VORPAL,      9 },
-    { SPWPN_FLAMING,     7 },
-    { SPWPN_FREEZING,    7 },
+    { SPWPN_FLAMING,     9 },
+    { SPWPN_FREEZING,    9 },
     { SPWPN_VAMPIRISM,   5 },
     { SPWPN_DISTORTION,  2 },
     { SPWPN_PAIN,        2 },
@@ -342,10 +343,11 @@ static const vector<brand_weight_tuple> POLEARM_BRANDS = {
 
 /// brand weights for most ranged weapons.
 static const vector<brand_weight_tuple> RANGED_BRANDS = {
-    { SPWPN_NORMAL,   58 },
+    { SPWPN_NORMAL,   50 },
     { SPWPN_FLAMING,  16 },
     { SPWPN_FREEZING, 16 },
-    { SPWPN_VORPAL,   10 },
+    { SPWPN_VORPAL,   16 },
+    { SPWPN_CHAOS,     2 },
 };
 
 /// brand weights for holy (TSO-blessed) weapons.
@@ -401,12 +403,12 @@ static const weapon_def Weapon_prop[] =
             { SPWPN_DRAINING,       10 },
             { SPWPN_VORPAL,          9 },
             { SPWPN_VENOM,           5 },
-            { SPWPN_FLAMING,         4 },
+            { SPWPN_FLAMING,         5 },
             { SPWPN_FREEZING,        4 },
             { SPWPN_DISTORTION,      2 },
             { SPWPN_ANTIMAGIC,       2 },
-            { SPWPN_PAIN,            2 },
             { SPWPN_VAMPIRISM,       2 },
+            { SPWPN_PAIN,            1 },
         }},
     { WPN_DEMON_WHIP,        "demon whip",         11,  1, 11,
         SK_MACES_FLAILS, SIZE_LITTLE, SIZE_LITTLE, MI_NONE,
@@ -421,17 +423,16 @@ static const weapon_def Weapon_prop[] =
         SK_MACES_FLAILS, SIZE_LITTLE, SIZE_LITTLE, MI_NONE,
         DAMV_CRUSHING | DAM_PIERCE, 0, 2, 150, {
             { SPWPN_PROTECTION,     30 },
-            { SPWPN_DRAINING,       19 },
-            { SPWPN_HOLY_WRATH,     15 },
-            { SPWPN_NORMAL,          8 },
-            { SPWPN_VORPAL,          6 },
-            { SPWPN_VENOM,           6 },
-            { SPWPN_FLAMING,         6 },
-            { SPWPN_FREEZING,        6 },
-            { SPWPN_DISTORTION,      2 },
-            { SPWPN_ANTIMAGIC,       2 },
-            { SPWPN_PAIN,            2 },
-            { SPWPN_VAMPIRISM,       2 },
+            { SPWPN_DRAINING,       15 },
+            { SPWPN_HOLY_WRATH,      9 },
+            { SPWPN_NORMAL,          9 },
+            { SPWPN_VORPAL,          9 },
+            { SPWPN_VAMPIRISM,       7 },
+            { SPWPN_VENOM,           5 },
+            { SPWPN_FREEZING,        5 },
+            { SPWPN_FLAMING,         5 },
+            { SPWPN_PAIN,            3 },
+            { SPWPN_DISTORTION,      1 },
         }},
     { WPN_GREAT_MACE,        "great mace",         17, -4, 17,
         SK_MACES_FLAILS, SIZE_MEDIUM, NUM_SIZE_LEVELS, MI_NONE,
@@ -449,17 +450,18 @@ static const weapon_def Weapon_prop[] =
         DAMV_PIERCING, 10, 10, 20, {
             { SPWPN_VENOM,          28 },
             { SPWPN_NORMAL,         20 },
-            { SPWPN_SPEED,          10 },
+            { SPWPN_SPEED,           9 },
             { SPWPN_DRAINING,        9 },
             { SPWPN_PROTECTION,      6 },
             { SPWPN_ELECTROCUTION,   6 },
-            { SPWPN_HOLY_WRATH,      5 },
+            { SPWPN_HOLY_WRATH,      4 },
             { SPWPN_VAMPIRISM,       4 },
             { SPWPN_FLAMING,         4 },
             { SPWPN_FREEZING,        4 },
-            { SPWPN_PAIN,            2 },
+            { SPWPN_PAIN,            3 },
             { SPWPN_DISTORTION,      1 },
             { SPWPN_ANTIMAGIC,       1 },
+            { SPWPN_CHAOS,           1 },
         }},
     { WPN_QUICK_BLADE,       "quick blade",         5,  6,  7,
         SK_SHORT_BLADES, SIZE_LITTLE, SIZE_LITTLE, MI_NONE,
