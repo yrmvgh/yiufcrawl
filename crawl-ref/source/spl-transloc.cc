@@ -47,6 +47,7 @@
 #include "teleport.h"
 #include "terrain.h"
 #include "traps.h"
+#include "travel.h"
 #include "view.h"
 #include "viewmap.h"
 #include "xom.h"
@@ -556,7 +557,8 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
 {
     if (you.species == SP_IMP && teleportitis)
     {
-        uncontrolled_blink();
+        if (!is_resting())
+            uncontrolled_blink();
         if (!i_feel_safe(true,false,false))
         {
             mprf(MSGCH_WARN, "What a blink!");
