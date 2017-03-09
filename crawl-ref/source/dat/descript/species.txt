@@ -162,5 +162,5 @@ Their magical reserves absorb damage, and they pack a magic-restoring bite.
 %%%%
 Skeleton
 
-creatures animated by arcane means, skeletons are adept at combat and offensive 
+creatures animated by arcane means, skeletons are adept at combat and offensive
 magic, and can enter a deep murderous trance at will.

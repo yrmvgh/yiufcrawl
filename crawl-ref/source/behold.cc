@@ -112,9 +112,9 @@ void player::remove_beholder(const monster& mon)
         }
 }
 
-// Clear the list of beholders. 
+// Clear the list of beholders.
 void player::clear_beholders(bool ignore_reap, bool silent)
-{ 
+{
     if (ignore_reap || !renew_reap()) {
        if (!silent)
            mprf(MSGCH_DURATION, "You break out of your daze.");
@@ -273,7 +273,7 @@ bool player::possible_beholder(const monster* mon) const
             && !mons_is_fleeing(*mon)
             && !is_sanctuary(pos())
           || (you.species == SP_SKELETON
-              && mon->holiness() != MH_NONLIVING 
+              && mon->holiness() != MH_NONLIVING
               && mon->holiness() != MH_UNDEAD)
           || player_equip_unrand(UNRAND_DEMON_AXE));
 }

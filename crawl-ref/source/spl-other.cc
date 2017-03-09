@@ -355,7 +355,7 @@ spret_type cast_reap(bool fail)
     }
 
     bool living_beings_nearby = false;
-    for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi) 
+    for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi)
         if (mi->holiness() != MH_NONLIVING && mi->holiness() != MH_UNDEAD)
             living_beings_nearby = true;
 
@@ -400,7 +400,7 @@ bool renew_reap()
 
     if (!you.beheld_by(*mon))
     {
-        const char* message[4] = 
+        const char* message[4] =
         {
            "You lay your malignant gaze on %s.",
            "%s is next on your list.",

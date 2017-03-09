@@ -395,7 +395,7 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_UNDEAD, SIZE_MEDIUM,
     10, 7, 7, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 }, 
+    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 },
       { MUT_TORMENT_RESISTANCE, 1, 1 },
       { MUT_UNBREATHING, 1, 1 },
       { MUT_FRAIL, 2, 1 } },

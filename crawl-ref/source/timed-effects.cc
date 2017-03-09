@@ -770,7 +770,7 @@ static void _magic_contamination_effects()
         beam.is_explosion = true;
 
         // The "good old plutonian meltdown" is a little bigger
-        // and it rots instead of malmutating you. 
+        // and it rots instead of malmutating you.
         if (you.species == SP_PLUTONIAN)
         {
             beam.flavour   = BEAM_MAGIC;
@@ -792,8 +792,10 @@ static void _magic_contamination_effects()
 
     // We want to warp the player, not do good stuff!
     if (you.species != SP_PLUTONIAN)
+    {
         mutate(one_chance_in(5) ? RANDOM_MUTATION : RANDOM_BAD_MUTATION,
            "mutagenic glow", true, coinflip(), false, false, mutclass, false);
+    }
 
     // we're meaner now, what with explosions and whatnot, but
     // we dial down the contamination a little faster if its actually
