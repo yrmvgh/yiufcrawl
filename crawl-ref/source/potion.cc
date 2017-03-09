@@ -204,6 +204,11 @@ public:
             mpr("That seemed strangely inert.");
             return false;
         }
+        if (you.species == SP_PLUTONIAN)
+        {
+            mpr("You feel less contaminated.");
+            you.magic_contamination -= 1000;
+        }
 
         int amount = 10 + random2avg(28, 3);
         if (is_potion)
