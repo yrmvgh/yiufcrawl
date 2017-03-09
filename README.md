@@ -11,11 +11,11 @@ alternately "make TILES=y install" will try to install yiufcrawl to your system
 
 for further help, check https://github.com/crawl/crawl/blob/master/crawl-ref/INSTALL.txt
 
-You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf". For the cutting-edge-dev-branch: "git clone https://github.com/yrmvgh/crawl.git -b yiuf yiufcrawl"
+You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf". For the cutting-edge-dev-branch: `git clone https://github.com/yrmvgh/crawl.git -b yiuf yiufcrawl`
 
 --------------------------------
 > #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space*
-> #### * in his hut for other sad creatures and they can be a little family in the dark.*
+> #### *in his hut for other sad creatures and they can be a little family in the dark.*
 
 ### *They're Back:*
 
