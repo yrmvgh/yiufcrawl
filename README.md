@@ -26,7 +26,7 @@ You can clone or checkout the "yiuf" branch if you want to see changes and new c
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 * **Plutonian**, an unstable, contaminated humanoid that occasionally explodes. !Curing and kills reduce contam.
 *They're New:*
-* **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. From [SteelNeuron].
+* **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. From [SteelNeuron](https://github.com/PabloMansanet/crawl/commits/skeleton).
 
 Image album of the first five races above: http://imgur.com/a/J1XBP Image album of Plutonians: http://imgur.com/a/cCjnU
 
