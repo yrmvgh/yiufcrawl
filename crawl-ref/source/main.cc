@@ -429,10 +429,10 @@ NORETURN static void _launch_game()
 
     if (!crawl_state.game_is_tutorial())
     {
-        msg::stream << "<yellow>Welcome" << (game_start? "" : " back") << ", "
-                    << you.your_name << " the "
+        msg::stream << "<green>Welcome" << (game_start? " to yiufcrawl" : " back")
+                    << ", " << you.your_name << " the "
                     << species_name(you.species)
-                    << " " << get_job_name(you.char_class) << ".</yellow>"
+                    << " " << get_job_name(you.char_class) << ".</green>"
                     << endl;
     }
 

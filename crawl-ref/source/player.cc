@@ -6033,7 +6033,7 @@ int player::racial_ac(bool temp) const
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
-        else if (species == SP_LAVA_ORC && you.temperature <= TEMP_WARM)
+        else if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
             return 200 + 100 * experience_level / 6;        // max 6
 
     }

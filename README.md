@@ -1,5 +1,5 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A fork of Dungeon Crawl Stone Soup with leftover soup
+## A trunk-based fork of Stone Soup with leftover soup
 ### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/crawl.git yiufcrawl
@@ -7,27 +7,33 @@
     make TILES=y
     then just run the file named "yiufcrawl"
 
-for further help, check https://github.com/yrmvgh/crawl/blob/master/crawl-ref/INSTALL.txt
+alternately "make TILES=y install" will try to install yiufcrawl to your system
 
-You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf".
+for further help, check https://github.com/crawl/crawl/blob/master/crawl-ref/INSTALL.txt
+
+You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf". For the cutting-edge-dev-branch: "git clone https://github.com/yrmvgh/crawl.git -b yiuf yiufcrawl"
 
 --------------------------------
-> #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space in his hut for other sad creatures and they can be a little family in the dark. Here are Yiuf's notes about this fork.*
+> #### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space*
+> #### * in his hut for other sad creatures and they can be a little family in the dark.*
 
 ### *They're Back:*
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
-* **Sludge Elf**, now with a host of evolving mutagenic body issues and orcish blood.
+* **Sludge Elf**, now with an evolving mutagenic body and orcish blood. Great at throwing.
 * **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 * **Plutonian**, an unstable, contaminated humanoid that occasionally explodes. !Curing and kills reduce contam.
+*They're New:*
+* **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. From [SteelNeuron].
 
-Image album of the first five races above: http://imgur.com/a/J1XBP
+Image album of the first five races above: http://imgur.com/a/J1XBP Image album of Plutonians: http://imgur.com/a/cCjnU
 
 All species are subject to having their aptitudes shuffled around, to reduce species overlap. Don't get too attached to apts being one particular number or another, aptitudes aren't very important in the long run.
 
 [Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209)
+[Post bug reports, suggestions, and crash logs here in Issues](https://github.com/yrmvgh/crawl/issues)
 
 ### *Future plans:*
 Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: change lava orcs to be based on damage, not tension, and add ~~plutonians~~ (done!) ~~and imps~~ (done!) to the game.
@@ -42,9 +48,13 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Formicids can't fall in shafts by accident.
 * Items don't block doorways.
 * Berserkers start with no weapons, and no weapon skill.
+* Scarves remain unenchantable, but have 1 base AC.
+* Roles with ranged weapons start with more ammo.
+* Small-folk have no problem with DTrident, but big eveningstars are now as heavy as other similar weapons.
 
 #### *Below you will find the contents of the original DCSS readme.*
-#### *Some of this information no longer applies, but most of it does!*
+#### *Some of this information no longer applies, but much of it does!*
+#### *To reduce confusion, YIUF is chopping up and rewriting stuff!*
 [![Build Status](https://travis-ci.org/yrmvgh/crawl.svg?branch=master)](https://travis-ci.org/yrmvgh/crawl)
 --------------------------------
 ## Contents
@@ -67,51 +77,43 @@ There is also an ingame list of frequently asked questions which you can access 
 
 #### Internet Play
 
-You can play Crawl online, competing with other players or watching them. Click "Play Online Now!" on [the Crawl homepage](https://crawl.develz.org/) to find your closest server. You can play in your browser or over SSH.
+You can play Crawl online, competing with other players or watching them. Visit https://crawl.project357.org/ , and hopefully soon another server will be added!
 
 #### Offline Play
 
-Both classical ASCII and tiles (GUI) versions of Crawl are available to [download for Linux, Windows and OS X](https://crawl.develz.org/download.htm).
+Both classical ASCII and tiles (GUI) versions of Crawl are available at https://github.com/yrmvgh/crawl/releases
 
 ## Community
 
 ### Web
-Our official homepage is [https://crawl.develz.org](https://crawl.develz.org/). You can find online play, offline downloads, a community forum and the development bug tracker/wiki.
+~~Our~~ YIUFCRAWL'S official homepage is here on github. But posting in the [Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209) is fun too! Also chat **_live_** on IRC:
 
 ### IRC
-Chat with fellow crawlers in [##crawl on irc.freenode.net](https://webchat.freenode.net/?channels=##crawl), or talk development in [##crawl-dev](https://webchat.freenode.net/?channels=##crawl-dev).
+Chat with fellow friends of Yiuf in [##crawl-forks on irc.freenode.net](https://webchat.freenode.net/?channels=##crawl-forks).
 
 ## How you can help
 
-If you like the game and you want to help make it better, there are a number
-of ways to do so:
+If you like the game and you want to help make it better, there are a number of ways to do so:
 
 ### Reporting bugs
 
-At any time, there will be bugs -- finding and reporting them is a great help.
-Many of the online servers host the regularly updated development version. Bugs
-should be reported to [our bug tracker](https://crawl.develz.org/mantis/). Besides pointing out bugs, new ideas on how to improve interface or gameplay are welcome. These can be added to [the development wiki](https://crawl.develz.org/wiki/).
+At any time, there will be bugs -- finding and reporting them is a great help. Bugs should be reported to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues
 
 ### Map making
-Crawl creates levels by combining many hand-made (but often randomised) maps, known as *vaults*. Making them is fun and
-easy. It's best to start with simple entry vaults: see [simple.des](crawl-ref/source/dat/des/arrival/simple.des) for examples. You can also read [the level-design manual](crawl-ref/docs/develop/levels/introduction.txt) for more help.
+Crawl creates levels by combining many hand-made (but often randomised) maps, known as *vaults*. Making them is fun and easy. It's best to start with simple entry vaults: see [simple.des](crawl-ref/source/dat/des/arrival/simple.des) for examples. You can also read [the level-design manual](crawl-ref/docs/develop/levels/introduction.txt) for more help.
 
-If you're ambitious, you can create new vaults for anywhere in the game. If you've
-made some vaults, you can test them on your own system (no compiling needed) and
-submit them to [our bug tracker](https://crawl.develz.org/mantis/).
+If you're ambitious, you can create new vaults for anywhere in the game. If you've made some vaults, you can test them on your own system (no compiling needed) and submit them to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues
 
 ### Monster Speech & Item Descriptions
-Monster speech provides a lot of flavour. Just like vaults, varied speech depends
-upon a large set of entries. Speech syntax is effective but unusual, so you may want to read [the formatting guide](crawl-ref/docs/develop/monster_speech.txt).
+Monster speech provides a lot of flavour. Just like vaults, varied speech depends upon a large set of entries. Speech syntax is effective but unusual, so you may want to read [the formatting guide](crawl-ref/docs/develop/monster_speech.txt).
 
-Current item descriptions can be read in-game with `?/` or out-of-game
-them in [dat/descript/](crawl-ref/source/dat/descript/). The following conventions should be more or less obeyed:
+Current item descriptions can be read in-game with `?/` or out-of-game them in [dat/descript/](crawl-ref/source/dat/descript/). The following conventions should be more or less obeyed:
 * Descriptions ought to contain flavour text, ideally pointing out major weaknesses/strengths.
 * No numbers, please.
 * Citations are okay, but try to stay away from the most generic ones.
 
 ### Tiles
-We're always open to improvements to existing tiles or variants of often-used tiles (eg floor tiles). If you want to give this a shot, please [contact us](#community) via forums or IRC. In case you drew some tiles of your own, you can submit them to [our bug tracker](https://crawl.develz.org/mantis/).
+We're always open to improvements to existing tiles or variants of often-used tiles (eg floor tiles). If you want to give this a shot, please [contact us](#community) via forums or IRC. In case you drew some tiles of your own, you can submit them to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues.
 
 ### Patches
 For developers (both existing & aspiring!), you can download/fork the source code and write patches. Bug fixes as well as new features are very much welcome.

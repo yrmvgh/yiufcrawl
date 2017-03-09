@@ -214,21 +214,21 @@ static void _give_ammo(weapon_type weapon, int plus)
     {
     case WPN_THROWN:
         if (species_can_throw_large_rocks(you.species))
-            newgame_make_item(OBJ_MISSILES, MI_LARGE_ROCK, 4 + plus);
+            newgame_make_item(OBJ_MISSILES, MI_LARGE_ROCK, 6 + plus);
         else if (you.body_size(PSIZE_TORSO) <= SIZE_SMALL)
-            newgame_make_item(OBJ_MISSILES, MI_TOMAHAWK, 8 + 2 * plus);
+            newgame_make_item(OBJ_MISSILES, MI_TOMAHAWK, 12 + 2 * plus);
         else
-            newgame_make_item(OBJ_MISSILES, MI_JAVELIN, 5 + plus);
+            newgame_make_item(OBJ_MISSILES, MI_JAVELIN, 6 + 2 * plus);
         newgame_make_item(OBJ_MISSILES, MI_THROWING_NET, 2);
         break;
     case WPN_SHORTBOW:
-        newgame_make_item(OBJ_MISSILES, MI_ARROW, 20);
+        newgame_make_item(OBJ_MISSILES, MI_ARROW, 30);
         break;
     case WPN_HAND_CROSSBOW:
-        newgame_make_item(OBJ_MISSILES, MI_BOLT, 20);
+        newgame_make_item(OBJ_MISSILES, MI_BOLT, 30);
         break;
     case WPN_HUNTING_SLING:
-        newgame_make_item(OBJ_MISSILES, MI_SLING_BULLET, 20);
+        newgame_make_item(OBJ_MISSILES, MI_SLING_BULLET, 30);
         break;
     default:
         break;
@@ -317,6 +317,9 @@ static void _give_items_skills(const newgame_def& ng)
 
 static void _give_starting_food()
 {
+    // it's not food, but it stands in for "hunger"
+    if (you.species == SP_PLUTONIAN)
+        you.magic_contamination = 5000;
     // No food for those who don't need it.
     if (you_foodless())
         return;

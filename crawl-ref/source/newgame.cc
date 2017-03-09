@@ -149,7 +149,7 @@ static string _welcome(const newgame_def& ng)
         text = "unnamed " + text;
     if (!text.empty())
         text = ", " + text;
-    text = "Welcome" + text + "!";
+    text = "Welcome" + text + " to";
     return text;
 }
 
@@ -1159,12 +1159,12 @@ static void _prompt_choice(int choice_type, newgame_def& ng, newgame_def& ng_cho
 
     if (choice_type == C_JOB)
     {
-        cprintf(" Yiuf's Home for Lost and Forgotten Species");
+        cprintf(" Yiuf's Home for Lost and Forgotten Species!");
         _construct_backgrounds_menu(ng, defaults, freeform);
     }
     else
     {
-        cprintf(" Yiuf's Home for Lost and Forgotten Species");
+        cprintf(" Yiuf's Home for Lost and Forgotten Species!");
         _construct_species_menu(ng, defaults, freeform);
     }
 

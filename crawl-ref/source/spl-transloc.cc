@@ -558,7 +558,10 @@ static bool _teleport_player(bool wizard_tele, bool teleportitis)
     {
         uncontrolled_blink();
         if (!i_feel_safe(true,false,false))
+        {
             mprf(MSGCH_WARN, "What a blink!");
+            more();
+        }
         return false;
     }
 

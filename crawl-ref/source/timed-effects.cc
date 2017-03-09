@@ -762,8 +762,7 @@ static void _magic_contamination_effects()
         beam.damage       = dice_def(3, div_rand_round(contam, 2000));
         beam.target       = you.pos();
         beam.name         = "magical storm";
-        //XXX: Should this be MID_PLAYER?
-        beam.source_id    = MID_NOBODY;
+        beam.source_id    = MID_PLAYER;
         beam.aux_source   = "a magical explosion";
         beam.ex_size      = max(1, min(LOS_RADIUS,
                                        div_rand_round(contam, 15000)));
@@ -771,12 +770,13 @@ static void _magic_contamination_effects()
         beam.is_explosion = true;
 
         // The "good old plutonian meltdown" is a little bigger
+        // and it rots instead of malmutating you. 
         if (you.species == SP_PLUTONIAN)
         {
-            beam.source_id = MID_PLAYER;
-            beam.ex_size   += 1;
-            rot_hp(4);
-            mprf(MSGCH_WARN, "Oh MY!");
+            beam.flavour   = BEAM_MAGIC;
+            beam.ex_size  += 1;
+            rot_hp(2 + div_rand_round(you.experience_level, 13));
+            mprf(MSGCH_WARN, "Ouchie! A bit of your skin melts off.");
         }
 
         beam.explode();
@@ -791,7 +791,8 @@ static void _magic_contamination_effects()
 #endif
 
     // We want to warp the player, not do good stuff!
-    mutate(one_chance_in(5) ? RANDOM_MUTATION : RANDOM_BAD_MUTATION,
+    if (you.species != SP_PLUTONIAN)
+        mutate(one_chance_in(5) ? RANDOM_MUTATION : RANDOM_BAD_MUTATION,
            "mutagenic glow", true, coinflip(), false, false, mutclass, false);
 
     // we're meaner now, what with explosions and whatnot, but

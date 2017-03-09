@@ -1,7 +1,7 @@
 %%%%
 welcome
 
-<white>Welcome to Dungeon Crawl!</white>
+<white>Welcome to Yiuf Crawl!</white>
 
 Your objective is to lead your <w>{{ return you.race() }} {{ return you.class()
 }}</w> safely through the depths of the dungeon, retrieving the fabled Orb of
