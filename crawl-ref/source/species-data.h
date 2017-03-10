@@ -689,7 +689,7 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_POLEARMS, SK_STAVES },
 } },
 
-{ SP_OLDOGRE, {
+{ SP_OLD_OGRE, {
     "OO",
     "Old Ogre", "Ogreish", nullptr,
     SPF_NONE,

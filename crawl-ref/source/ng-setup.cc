@@ -144,7 +144,7 @@ item_def* newgame_make_item(object_class_type base,
             item.sub_type = ARM_ROBE;
     }
     // If the character is an Old Ogre, do weird old equipment substitutions.
-    if (you.species == SP_OLDOGRE) 
+    if (you.species == SP_OLD_OGRE) 
         if (item.sub_type == WPN_SHORT_SWORD || item.sub_type == WPN_DAGGER)
             item.sub_type = WPN_CLUB;
 

@@ -1526,7 +1526,7 @@ Ogres
 
 Old Ogres
   Old Ogres hit things with clubs, hammers, and whips. Old Ogres flail those
-  weapons about with alarming speed. Old ogres hit really hard. Old Ogres will
+  weapons about with alarming speed. Old Ogres hit really hard. Old Ogres will
   take your cow and your goat.
 
 Trolls
