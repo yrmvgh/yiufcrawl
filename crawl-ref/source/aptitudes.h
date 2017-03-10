@@ -401,6 +401,45 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_OGRE,            SK_INVOCATIONS,     1),
     APT(SP_OGRE,            SK_EVOCATIONS,     -2),
 
+    // SP_OLDOGRE
+    APT(SP_OLDOGRE,         SK_FIGHTING,        3),
+    APT(SP_OLDOGRE,         SK_SHORT_BLADES,   -5),
+    APT(SP_OLDOGRE,         SK_LONG_BLADES,    -5),
+    APT(SP_OLDOGRE,         SK_AXES,           -5),
+    APT(SP_OLDOGRE,         SK_MACES_FLAILS,    5),
+    APT(SP_OLDOGRE,         SK_POLEARMS,        0),
+    APT(SP_OLDOGRE,         SK_STAVES,         -5),
+    APT(SP_OLDOGRE,         SK_SLINGS,         -5),
+    APT(SP_OLDOGRE,         SK_BOWS,           -5),
+    APT(SP_OLDOGRE,         SK_CROSSBOWS,      -5),
+    APT(SP_OLDOGRE,         SK_THROWING,        0),
+    APT(SP_OLDOGRE,         SK_ARMOUR,         -2),
+    APT(SP_OLDOGRE,         SK_DODGING,        -1),
+    APT(SP_OLDOGRE,         SK_STEALTH,        -2),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_OLDOGRE,         SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_OLDOGRE,         SK_SHIELDS,        -1),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_OLDOGRE,         SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_OLDOGRE,         SK_UNARMED_COMBAT, -5),
+    APT(SP_OLDOGRE,         SK_SPELLCASTING,    5),
+    APT(SP_OLDOGRE,         SK_CONJURATIONS,   -5),
+    APT(SP_OLDOGRE,         SK_HEXES,          -5),
+    APT(SP_OLDOGRE,         SK_CHARMS,         -5),
+    APT(SP_OLDOGRE,         SK_SUMMONINGS,     -5),
+    APT(SP_OLDOGRE,         SK_NECROMANCY,     -5),
+    APT(SP_OLDOGRE,         SK_TRANSLOCATIONS, -5),
+    APT(SP_OLDOGRE,         SK_TRANSMUTATIONS, -5),
+    APT(SP_OLDOGRE,         SK_FIRE_MAGIC,     -5),
+    APT(SP_OLDOGRE,         SK_ICE_MAGIC,      -5),
+    APT(SP_OLDOGRE,         SK_AIR_MAGIC,      -5),
+    APT(SP_OLDOGRE,         SK_EARTH_MAGIC,    -5),
+    APT(SP_OLDOGRE,         SK_POISON_MAGIC,   -5),
+    APT(SP_OLDOGRE,         SK_INVOCATIONS,     1),
+    APT(SP_OLDOGRE,         SK_EVOCATIONS,     -2),
+
     // SP_TROLL
     APT(SP_TROLL,           SK_FIGHTING,       -2),
     APT(SP_TROLL,           SK_SHORT_BLADES,   -2),
