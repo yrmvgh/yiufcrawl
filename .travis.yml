@@ -1,7 +1,7 @@
 language: cpp
 compiler:
-#    - clang
-    - gcc
+    - clang
+#    - gcc
 cache: ccache
 before_install:
     - perl .travis/apt.pl
