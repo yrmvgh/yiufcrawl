@@ -94,6 +94,7 @@ sub split_species
     my $sp = shift;
     # Don't split Vine Stalker, because it's not a kind of Stalker.
     return ($2, $1) if ($sp =~ /^(?!Vine Stalker)(.*) (.*)$/);
+    return ($2, $1) if ($sp =~ /^(?!Old Oge)(.*) (.*)$/);
     return ($sp, $sp);
 }
 

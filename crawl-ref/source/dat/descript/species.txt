@@ -127,7 +127,7 @@ but almost no armour fits them.
 %%%%
 Old Ogre
 
-Large and strong, Old Ogres are brutes.
+Large and strong, Old Ogres are brutes. They use maces. They attack enemies.
 %%%%
 Ogre
 
