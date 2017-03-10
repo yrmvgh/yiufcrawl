@@ -1645,9 +1645,6 @@ static bool _prompt_weapon(const newgame_def& ng, newgame_def& ng_choice,
 static weapon_type _starting_weapon_upgrade(weapon_type wp, job_type job,
                                             species_type species)
 {
-    const bool fighter = job == JOB_FIGHTER;
-    const size_type size = species_size(species, PSIZE_TORSO);
-
     // TODO: actually query itemprop for one-handedness.
     switch (wp)
     {
