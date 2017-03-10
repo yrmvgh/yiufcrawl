@@ -1524,6 +1524,11 @@ Ogres
   While all sophisticated forms of missile combat are too awkward for them, they
   are good at throwing things, in particular boulders.
 
+Old Ogres
+  Old Ogres hit things with clubs, hammers, and whips. Old Ogres flail those
+  weapons about with alarming speed. Old ogres hit really hard. Old Ogres will
+  take your cow and your goat.
+
 Trolls
   Trolls are monstrous creatures with powerful claws. They have thick, knobbly
   skins of any colour from putrid green to mucky brown, which are covered in

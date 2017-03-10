@@ -53,6 +53,7 @@ enum species_type
     SP_PLUTONIAN,
     SP_NULL,
     SP_SKELETON,
+    SP_OLDOGRE,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

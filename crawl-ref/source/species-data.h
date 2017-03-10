@@ -689,6 +689,23 @@ static const map<species_type, species_def> species_data =
     { SK_MACES_FLAILS, SK_POLEARMS, SK_STAVES },
 } },
 
+{ SP_OLDOGRE, {
+    "OO",
+    "Old Ogre", "Ogreish", nullptr,
+    SPF_NONE,
+    0, 3, 0, 4,
+    MONS_OGRE,
+    HT_LAND, US_ALIVE, SIZE_LARGE,
+    12, 7, 5, // 24
+    { STAT_STR }, 3,
+    { { MUT_TOUGH_SKIN, 1, 1 }, },
+    {},
+    {},
+    { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
+      JOB_ICE_ELEMENTALIST },
+    { SK_MACES_FLAILS },
+} },
+
 { SP_OCTOPODE, {
     "Op",
     "Octopode", "Octopoid", "Octopus",
