@@ -76,7 +76,7 @@ combo = DDBe.handaxe, GrBe.handaxe, MiBe.handaxe
 
 name = qw
 restart_after_game = false
-
+difficulty = casual
 view_delay = 0
 use_animations =
 clear_messages = true

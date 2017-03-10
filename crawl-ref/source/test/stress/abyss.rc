@@ -4,6 +4,7 @@
 # (or disable the autosave then ./crawl --no-save --rc test/stress/abyss.rc)
 
 name = Abyss_walker
+difficulty = casual
 species = mu
 background = ck
 weapon = mace

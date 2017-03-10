@@ -4,6 +4,7 @@
 # Wizmode is needed.
 
 name = CPU_hog
+difficulty = casual
 species = mu
 background = ar
 restart_after_game = false

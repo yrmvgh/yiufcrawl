@@ -5,6 +5,7 @@
 # Wizmode is needed.
 
 name = Abyss_waiter
+difficulty = casual
 species = mu
 background = fi
 weapon = flail

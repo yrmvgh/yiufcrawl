@@ -5,6 +5,7 @@
 # Wizmode is needed.
 
 name = Abyss_runner
+difficulty = casual
 species = mu
 background = be
 # CK is slowed down by constant tension checks.
