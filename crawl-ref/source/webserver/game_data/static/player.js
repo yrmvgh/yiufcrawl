@@ -351,7 +351,14 @@ function ($, comm, enums, map_knowledge, messages, options) {
     function update_stats_pane()
     {
         $("#stats_titleline").text(player.name + " " + player.title);
-        $("#stats_wizmode").text(player.wizard ? "*WIZARD*" : "");
+        if (player.wizard)
+            $("#stats_wizmode").text("WIZARD");
+        else if (player.diff == 1)
+            $("#stats_wizmode").text("CASUAL");
+        else if (player.diff == 2)
+            $("#stats_wizmode").text("NORMAL");
+        else
+            $("#stats_wizmode").text("");
 
         var do_temperature = false;
         var do_contam = false;
@@ -553,6 +560,7 @@ function ($, comm, enums, map_knowledge, messages, options) {
                 hp: 0, hp_max: 0, real_hp_max: 0, poison_survival: 0,
                 mp: 0, mp_max: 0,
                 ac: 0, ev: 0, sh: 0,
+                diff: 0,
                 xl: 0, progress: 0,
                 time: 0, time_delta: 0,
                 gold: 0,

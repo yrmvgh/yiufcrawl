@@ -4,6 +4,8 @@ import datetime, time
 import hashlib
 import logging
 import re
+import pdb
+#pdb.set_trace()
 
 import config
 
@@ -13,7 +15,7 @@ from tornado.ioloop import PeriodicCallback, IOLoop
 from terminal import TerminalRecorder
 from connection import WebtilesSocketConnection
 from util import DynamicTemplateLoader, dgl_format_str, parse_where_data
-from game_data_handler import GameDataHandler
+from game_data_handler import GameDataHandler, MorgueHandler
 from ws_handler import update_all_lobbys, remove_in_lobbys
 from inotify import DirectoryWatcher
 
@@ -76,6 +78,14 @@ def watch_socket_dirs():
         socket_dir = os.path.abspath(game_info["socket_path"])
         if socket_dir in added_dirs: continue
         watcher.watch(socket_dir, handle_new_socket)
+		
+def diff_string(level):
+    result = "Unknown"
+    if level == "1":
+        result = "Casual"
+    if level == "2":
+        result = "Normal"
+    return result
 
 class CrawlProcessHandlerBase(object):
     def __init__(self, game_params, username, logger, io_loop=None):
@@ -88,6 +98,7 @@ class CrawlProcessHandlerBase(object):
 
         self.process = None
         self.client_path = self.config_path("client_path")
+        self.morgue_path = self.config_path("morgue_path")
         self.crawl_version = None
         self.where = {}
         self.wheretime = 0
@@ -240,8 +251,8 @@ class CrawlProcessHandlerBase(object):
         if self.crawl_version:
             h.update(self.crawl_version)
         v = h.hexdigest()
-        GameDataHandler.add_version(v,
-                                    os.path.join(self.client_path, "static"))
+        GameDataHandler.add_version(v, os.path.join(self.client_path, "static"))
+        MorgueHandler.add_version(v, self.morgue_path)
 
         templ_path = os.path.join(self.client_path, "templates")
         loader = DynamicTemplateLoader.get(templ_path)
@@ -301,7 +312,14 @@ class CrawlProcessHandlerBase(object):
             "spectator_count": self.watcher_count(),
             "idle_time": (self.idle_time() if self.is_idle() else 0),
             "game_id": self.game_params["id"],
+#           "diff": diff_string(self.where["diff"]),
             }
+			
+        if "difficulty" in self.where.keys():
+            entry["diff"] = diff_string(self.where["difficulty"])
+        else:
+            entry["diff"] = "Unknown"
+			
         for key in CrawlProcessHandlerBase.interesting_info:
             if key in self.where:
                 entry[key] = self.where[key]

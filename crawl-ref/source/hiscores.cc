@@ -743,6 +743,7 @@ void scorefile_entry::init_from(const scorefile_entry &se)
     zigmax             = se.zigmax;
     scrolls_used       = se.scrolls_used;
     potions_used       = se.potions_used;
+    difficulty         = se.difficulty;
     fixup_char_name();
 
     // We could just reset raw_line to "" instead.
@@ -1045,6 +1046,8 @@ void scorefile_entry::init_with_fields()
 
     scrolls_used = fields->int_field("scrollsused");
     potions_used = fields->int_field("potionsused");
+	
+    difficulty = (game_difficulty_level) fields->int_field("difficulty");
 
     fixup_char_name();
 }
@@ -1144,6 +1147,7 @@ void scorefile_entry::set_base_xlog_fields() const
         fields->add_field("zigdeepest", "%d", zigmax);
     fields->add_field("scrollsused", "%d", scrolls_used);
     fields->add_field("potionsused", "%d", potions_used);
+    fields->add_field("difficulty", "%d", difficulty);
 }
 
 void scorefile_entry::set_score_fields() const
@@ -1481,6 +1485,7 @@ void scorefile_entry::reset()
     zigmax               = 0;
     scrolls_used         = 0;
     potions_used         = 0;
+    difficulty           = DIFFICULTY_NORMAL;
 }
 
 static int _award_modified_experience()
@@ -1588,6 +1593,9 @@ void scorefile_entry::init(time_t dt)
             pt += num_runes * 10000;
             pt += _award_modified_experience();     
         }
+		if (crawl_state.difficulty == DIFFICULTY_CASUAL)
+            pt = pt / 1000;
+		
         points = pt;
     }
     else
@@ -1707,6 +1715,7 @@ void scorefile_entry::init(time_t dt)
 
     wiz_mode = (you.wizard ? 1 : 0);
     explore_mode = (you.explore ? 1 : 0);
+    difficulty = crawl_state.difficulty;
 }
 
 string scorefile_entry::hiscore_line(death_desc_verbosity verbosity) const
@@ -1843,10 +1852,30 @@ string scorefile_entry::single_cdesc() const
     string scname;
     scname = chop_string(name, 10);
 
-    return make_stringf("%8d %s %s-%02d%s", points, scname.c_str(),
+    return make_stringf("%8d %s %s %s-%02d%s", points, scname.c_str(), difficulty_name().c_str(),
                         race_class_name.c_str(), lvl,
                         (wiz_mode == 1) ? "W" : (explore_mode == 1) ? "E" : "");
 }
+
+string scorefile_entry::difficulty_name() const
+{
+	string result;
+	switch(difficulty)
+	{
+	case DIFFICULTY_CASUAL:
+		result = "CASUAL";
+		break;
+    case DIFFICULTY_NORMAL:
+        result = "NORMAL";
+		break;
+	default:
+		result = "BUGGY";
+		break;
+	}
+
+	return result;
+}
+
 
 static string _append_sentence_delimiter(const string &sentence,
                                          const string &delimiter)
@@ -1896,7 +1925,9 @@ scorefile_entry::character_description(death_desc_verbosity verbosity) const
         desc += " HPs";
     }
 
-    desc += wiz_mode ? ") *WIZ*" : explore_mode ? ") *EXPLORE*" : ")";
+    desc += wiz_mode ? ") *WIZ*" : 
+         explore_mode ? ") *EXPLORE*" : 
+         difficulty == DIFFICULTY_CASUAL ? ") *CASUAL*" : ")";
     desc += _hiscore_newline_string();
 
     if (verbose)

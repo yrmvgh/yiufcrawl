@@ -786,6 +786,7 @@ void TilesFramework::_send_player(bool force_full)
     _update_int(force_full, c.intel_max, (int8_t) you.max_intel(), "int_max");
     _update_int(force_full, c.dex, (int8_t) you.dex(false), "dex");
     _update_int(force_full, c.dex_max, (int8_t) you.max_dex(), "dex_max");
+    _update_int(force_full, c.diff, (int)crawl_state.difficulty, "diff");
     _update_int(force_full, c.experience_level, you.experience_level, "xl");
     _update_int(force_full, c.exp_progress, (int8_t) get_exp_progress(), "progress");
     _update_int(force_full, c.gold, you.gold, "gold");

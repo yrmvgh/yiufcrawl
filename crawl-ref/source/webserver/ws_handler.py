@@ -116,6 +116,7 @@ class CrawlWebSocket(tornado.websocket.WebSocketHandler):
         self.process = None
         self.game_id = None
         self.received_pong = None
+        self.diff = None
 
         self.ioloop = tornado.ioloop.IOLoop.instance()
 

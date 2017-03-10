@@ -2708,13 +2708,21 @@ void gain_exp(unsigned int exp_gained, unsigned int* actual_gain)
     _recharge_xp_evokers(skill_xp);
     _reduce_abyss_xp_timer(skill_xp);
     _handle_xp_drain(skill_xp);
+	
+    //for difficulty levels other than normal,
+    //multiply both exp gain and skill exp (but don't multiply xp-gated effects)
+    if (crawl_state.difficulty == DIFFICULTY_CASUAL)
+    {
+	    exp_gained *= 2;
+        skill_xp *= 2;
+	}
 
     if (player_under_penance(GOD_HEPLIAKLQANA))
         return; // no xp for you!
 
     // handle actual experience gains,
     // i.e. XL and skills
-
+		
     const unsigned int old_exp = you.experience;
 
     dprf("gain_exp: %d", exp_gained);

@@ -112,6 +112,8 @@ void mprf_nocap(msg_channel_type channel, int param, PRINTF(2, ));
 void mprf_nocap(msg_channel_type channel, PRINTF(1, ));
 void mprf_nocap(PRINTF(0, ));
 
+void wprf(PRINTF(0, ));
+
 #ifdef DEBUG_DIAGNOSTICS
 void dprf(PRINTF(0, ));
 void dprf(diag_type param, PRINTF(1, ));

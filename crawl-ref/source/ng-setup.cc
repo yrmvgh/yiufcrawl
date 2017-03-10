@@ -372,6 +372,7 @@ static void _setup_generic(const newgame_def& ng);
 void setup_game(const newgame_def& ng)
 {
     crawl_state.type = ng.type;
+    crawl_state.difficulty = ng.difficulty;
     crawl_state.map  = ng.map;
 
     switch (crawl_state.type)

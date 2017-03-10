@@ -182,6 +182,13 @@ public:
     EXPANDMACRO(DEF_BITFIELD_OPERATORS(fieldT, __VA_ARGS__, ))
 // The trailing comma suppresses "ISO C99 requires rest arguments to be used"
 
+enum game_difficulty_level
+{
+	DIFFICULTY_ASK = -1,
+	DIFFICULTY_CASUAL = 0,
+	DIFFICULTY_NORMAL = 1,
+};
+
 enum lang_t
 {
     LANG_EN = 0,

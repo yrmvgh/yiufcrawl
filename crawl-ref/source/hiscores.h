@@ -129,6 +129,8 @@ private:
     int         scrolls_used;       // Number of scrolls used.
     int         potions_used;       // Number of potions used.
 
+    game_difficulty_level difficulty; // how difficult the game was
+
     mutable unique_ptr<xlog_fields> fields;
 
 public:
@@ -179,6 +181,7 @@ public:
 
 private:
     string single_cdesc() const;
+    string difficulty_name() const;
     string strip_article_a(const string &s) const;
     string terse_missile_cause() const;
     string terse_missile_name() const;

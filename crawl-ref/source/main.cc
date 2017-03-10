@@ -432,6 +432,21 @@ NORETURN static void _launch_game()
                     << species_name(you.species)
                     << " " << get_job_name(you.char_class) << ".</yellow>"
                     << endl;
+					
+	    msg::stream << "<yellow>You are playing on ";
+        switch(crawl_state.difficulty)
+        {
+        case DIFFICULTY_CASUAL:
+        	msg::stream << "Casual";
+        	break;
+        case DIFFICULTY_NORMAL:
+        	msg::stream << "Normal";
+        	break;
+        default:
+            msg::stream << "Buggy";
+        	break;
+        }
+        msg::stream << " difficulty. </yellow><yellow></yellow>" << endl;
     }
 
 #ifdef USE_TILE

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include "enum.h"
 #include "feature.h"
 #include "newgame_def.h"
 #include "pattern.h"
