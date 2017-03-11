@@ -6376,7 +6376,7 @@ KMONS:  8 = w:15 shadow fiend / reaper / w:5 soul eater / shadow dragon / lich /
 KMONS:  8 = w:15 blizzard demon / frost giant / w:5 titan / w:15 ice fiend / \
             w:5 simulacrum / place:Coc
 : elseif you.in_branch("Zot") then
-KMONS:  8 = w:35 dev favorite / orb of fire / electric golem / killer klown / \
+KMONS:  8 = w:35 orb child / orb of fire / electric golem / killer klown / \
             death cob / w:5 curse toe / w:5 ancient lich
 : end
 : if you.in_branch("Geh") or you.in_branch("Tar")

@@ -3069,7 +3069,7 @@ KMONS:  8 = tengu reaver ; battleaxe ego:flaming | great sword ego:freezing | \
                            halberd ego:electrocution | lajatang ego:vorpal . \
                            fire dragon scales | ice dragon scales
 KMONS:  9 = zotling
-KMONS:  0 = THE GIAGGOSTUONO / dev favorite / electric golem
+KMONS:  0 = THE GIAGGOSTUONO / orb child / electric golem
 KMONS:  ! = orb of fire / electric golem / ice fiend / iron giant
 KMONS:  & = ancient lich
 KITEM:  $ = $ no_pickup

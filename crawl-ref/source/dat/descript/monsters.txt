@@ -900,10 +900,9 @@ demonspawn
 A half-mortal, half-demonic creature, with its hellish heritage asserting
 itself through a certain devilish cast to its features.
 %%%%
-dev favorite
+orb child
 
-The pet creation of an ancient sorcerer, this ill-conceived abomination wreaks
-havoc wherever it roams.
+An ill-conceived abomination brought into existence by the power of the Orb.
 %%%%
 diamond obelisk
 

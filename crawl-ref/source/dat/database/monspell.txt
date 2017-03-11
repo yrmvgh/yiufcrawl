@@ -572,7 +572,7 @@ ghost moth cast targeted
 
 @The_monster@ stares @at@ @target@.
 %%%%
-dev favorite cast targeted
+orb child cast targeted
 
 @The_monster@ cries @at@ @target@.
 %%%%
@@ -580,7 +580,7 @@ ghost moth cast
 
 @The_monster@ looks around.
 %%%%
-dev favorite cast
+orb child cast
 
 @The_monster@ cries.
 %%%%

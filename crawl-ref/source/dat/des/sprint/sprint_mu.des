@@ -1449,7 +1449,7 @@ MARKER: T = lua:fog_machine { \
 KFEAT: T = zot trap
 KMONS: * = orb of fire
 MONS: THE GIAGGOSTUONO, storm dragon
-MONS: dev favorite
+MONS: orb child
 MARKER: i = lua:fog_machine { \
         pow_max = 10, delay_min = 100, delay_max = 150, \
         size = 2, size_buildup_amnt = 15, \
