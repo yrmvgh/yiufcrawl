@@ -1656,7 +1656,7 @@ static weapon_type _starting_weapon_upgrade(weapon_type wp, job_type job,
         return WPN_WAR_AXE;
     case WPN_SPEAR:
         // Small fighters can use tridents with a shield in yiufcrawl.
-        WPN_TRIDENT;
+        return WPN_TRIDENT;
     case WPN_FALCHION:
         return WPN_LONG_SWORD;
     default:
