@@ -543,12 +543,10 @@ static special_missile_type _determine_missile_brand(const item_def& item,
                                     nw, SPMSL_NORMAL);
         break;
     case MI_TOMAHAWK:
-        rc = random_choose_weighted(15, SPMSL_POISONED,
-                                    10, SPMSL_SILVER,
-                                    10, SPMSL_STEEL,
+        rc = random_choose_weighted(24, SPMSL_POISONED,
+                                    20, SPMSL_STEEL,
                                     12, SPMSL_DISPERSAL,
-                                    28, SPMSL_RETURNING,
-                                    15, SPMSL_EXPLODING,
+                                    24, SPMSL_EXPLODING,
                                     nw, SPMSL_NORMAL);
         break;
     }
@@ -800,19 +798,21 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
 
     case ARM_SCARF:
         return random_choose_weighted(3, SPARM_COLD_RESISTANCE,
-                                      1, SPARM_SPIRIT_SHIELD,
-                                      1, SPARM_RESISTANCE,
-                                      1, SPARM_REPULSION);
+                                      2, SPARM_SPIRIT_SHIELD,
+                                      2, SPARM_RESISTANCE,
+                                      2, SPARM_REPULSION,
+                                      1, SPARM_ARCHMAGI);
 
     case ARM_CLOAK:
         return random_choose(SPARM_POISON_RESISTANCE,
                              SPARM_INVISIBILITY,
-                             SPARM_MAGIC_RESISTANCE);
+                             SPARM_MAGIC_RESISTANCE,
+                             SPARM_STEALTH);
 
     case ARM_HAT:
-        return random_choose_weighted(7, SPARM_NORMAL,
-                                      3, SPARM_MAGIC_RESISTANCE,
-                                      2, SPARM_INTELLIGENCE,
+        return random_choose_weighted(5, SPARM_NORMAL,
+                                      4, SPARM_MAGIC_RESISTANCE,
+                                      3, SPARM_INTELLIGENCE,
                                       2, SPARM_SEE_INVISIBLE);
 
     case ARM_HELMET:
@@ -909,14 +909,13 @@ bool is_armour_brand_ok(int type, int brand, bool strict)
             return true;
         // deliberate fall-through
     case SPARM_RUNNING:
-    case SPARM_STEALTH:
 #if TAG_MAJOR_VERSION == 34
     case SPARM_JUMPING:
 #endif
         return slot == EQ_BOOTS;
 
     case SPARM_ARCHMAGI:
-        return !strict || type == ARM_ROBE;
+        return !strict || type == ARM_ROBE || type == ARM_SCARF;
 
     case SPARM_PONDEROUSNESS:
         return true;
@@ -945,6 +944,7 @@ bool is_armour_brand_ok(int type, int brand, bool strict)
     case SPARM_INTELLIGENCE:
         return slot == EQ_HELMET;
 
+    case SPARM_STEALTH:
     case SPARM_FIRE_RESISTANCE:
     case SPARM_COLD_RESISTANCE:
     case SPARM_RESISTANCE:
@@ -1035,8 +1035,8 @@ static armour_type _get_random_armour_type(int item_level)
                                          5, ARM_CLOAK,
                                          1, ARM_SCARF,
                                          // Head slot
-                                         5, ARM_HELMET,
-                                         1, ARM_HAT,
+                                         4, ARM_HELMET,
+                                         2, ARM_HAT,
                                          // Shield slot
                                          2, ARM_SHIELD,
                                          3, ARM_BUCKLER,
