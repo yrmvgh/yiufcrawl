@@ -466,6 +466,7 @@ static void _cloud_interacts_with_terrain(const cloud_struct &cloud)
             const cloud_type old = cloud_type_at(p);
             env.cloud[p] = cloud_struct(p, CLOUD_STEAM, cloud.decay / 2 + 1,
                                         22, cloud.whose, cloud.killer,
+                                        cloud.source, -1);
             _los_cloud_changed(p, env.cloud[p].type, old);
         }
     }
