@@ -618,6 +618,12 @@ bool feat_is_valid_border(dungeon_feature_type feat)
  */
 bool feat_is_mimicable(dungeon_feature_type feat, bool strict)
 {
+    if (!strict && feat != DNGN_FLOOR && feat != DNGN_SHALLOW_WATER
+        && feat != DNGN_DEEP_WATER)
+    {
+        return true;
+    }
+	
     if (feat_is_portal_entrance(feat))
         return true;
 
