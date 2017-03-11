@@ -2097,9 +2097,9 @@ foes.
 %%%%
 silent spectre
 
-A terrible spirit which brings an unearthly silence to the area around it,
-making it impossible to recite the magical incantations involved with casting
-spells or reading scrolls.
+A terrible spirit which has the power to bring an unearthly silence to the 
+area around it, making it impossible to recite the magical incantations 
+involved with casting spells or reading scrolls.
 %%%%
 simulacrum
 

@@ -1671,13 +1671,13 @@ Sludge Elves
   and transmutative talents. As fighters, they are often most dangerous unarmed.
   They advance in levels slower than Humans, but faster than other Elves.
 
-Barachians
-  Barachians are an amphibious humanoid race, spawned at the dawn of time as
+Barachim
+  Barachim are an amphibious humanoid race, spawned at the dawn of time as
   servants for the gods. Inevitably, they rebelled and fled into the mortal
   world; but even uncounted years later, the darkness still flees at their
   approach, remembering those who they once served.
 
-  Barachians' most remarkable trait is their grossly overmuscled legs, which
+  Barachim's most remarkable trait is their grossly overmuscled legs, which
   allow them to leap great distances. When not leaping, they are somewhat
   slow-moving, and the long sight-lines that their heritage creates can be a
   major disadvantage, but they can master almost any skill.

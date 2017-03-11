@@ -743,6 +743,8 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_JEWELLERY, RING_REGENERATION },
     { OBJ_JEWELLERY, RING_SUSTAIN_ATTRIBUTES },
     { OBJ_JEWELLERY, RING_TELEPORT_CONTROL },
+	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_FIRE },
+	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_COLD },
     { OBJ_STAVES,    STAFF_ENCHANTMENT },
     { OBJ_STAVES,    STAFF_CHANNELING },
     { OBJ_POTIONS,   POT_GAIN_STRENGTH },
@@ -2259,8 +2261,6 @@ bool ring_has_stackable_effect(const item_def &item)
 
     switch (item.sub_type)
     {
-    case RING_PROTECTION_FROM_FIRE:
-    case RING_PROTECTION_FROM_COLD:
     case RING_LIFE_PROTECTION:
     case RING_STEALTH:
     case RING_LOUDNESS:
@@ -2514,12 +2514,8 @@ int get_jewellery_res_fire(const item_def &ring, bool check_artp)
     // intrinsic jewellery abilities
     switch (ring.sub_type)
     {
-    case RING_PROTECTION_FROM_FIRE:
     case RING_FIRE:
         res += 1;
-        break;
-    case RING_ICE:
-        res -= 1;
         break;
     default:
         break;
@@ -2540,12 +2536,8 @@ int get_jewellery_res_cold(const item_def &ring, bool check_artp)
     // intrinsic jewellery abilities
     switch (ring.sub_type)
     {
-    case RING_PROTECTION_FROM_COLD:
     case RING_ICE:
         res += 1;
-        break;
-    case RING_FIRE:
-        res -= 1;
         break;
     default:
         break;
@@ -2769,9 +2761,7 @@ bool gives_resistance(const item_def &item)
     case OBJ_JEWELLERY:
         if (!jewellery_is_amulet(item))
         {
-            if (item.sub_type == RING_PROTECTION_FROM_FIRE
-                || item.sub_type == RING_POISON_RESISTANCE
-                || item.sub_type == RING_PROTECTION_FROM_COLD
+            if (item.sub_type == RING_POISON_RESISTANCE
                 || item.sub_type == RING_SEE_INVISIBLE
                 || item.sub_type == RING_LIFE_PROTECTION
                 || item.sub_type == RING_PROTECTION_FROM_MAGIC

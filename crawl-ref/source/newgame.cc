@@ -1645,9 +1645,6 @@ static bool _prompt_weapon(const newgame_def& ng, newgame_def& ng_choice,
 static weapon_type _starting_weapon_upgrade(weapon_type wp, job_type job,
                                             species_type species)
 {
-    const bool fighter = job == JOB_FIGHTER;
-    const size_type size = species_size(species, PSIZE_TORSO);
-
     // TODO: actually query itemprop for one-handedness.
     switch (wp)
     {
@@ -1658,8 +1655,8 @@ static weapon_type _starting_weapon_upgrade(weapon_type wp, job_type job,
     case WPN_HAND_AXE:
         return WPN_WAR_AXE;
     case WPN_SPEAR:
-        // Small fighters can't use tridents with a shield.
-        return fighter && size <= SIZE_SMALL  ? wp : WPN_TRIDENT;
+        // Small fighters can use tridents with a shield in yiufcrawl.
+        return WPN_TRIDENT;
     case WPN_FALCHION:
         return WPN_LONG_SWORD;
     default:

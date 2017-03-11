@@ -799,8 +799,7 @@ depending on its degree of enchantment.
 ring of fire
 
 A ring that brings its wearer more in contact with the powers of fire. It
-grants resistance to heat and enhances fire magic, but causes vulnerability to
-cold.
+grants resistance to heat and enhances fire magic.
 %%%%
 ring of flight
 
@@ -810,7 +809,7 @@ airborne, making it ill-suited for longer trips above deadly liquid.
 ring of ice
 
 A ring that brings its wearer more in contact with the powers of ice. It grants
-resistance to cold and enhances ice magic, but causes vulnerability to heat.
+resistance to cold and enhances ice magic.
 %%%%
 ring of intelligence
 

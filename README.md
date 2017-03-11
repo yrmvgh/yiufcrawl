@@ -50,11 +50,13 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Berserkers start with no weapons, and no weapon skill.
 * Scarves remain unenchantable, but have 1 base AC.
 * Roles with ranged weapons start with more ammo.
-* Small-folk have no problem with DTrident, but big eveningstars are now as heavy as other similar weapons.
+* Small characters have no problem with DTrident, but eveningstars are now as difficult to wield as other weapons that have similar damage and speed.
+* Rings of protection from fire/cold have been rolled into rings of fire/ice.
+* No energy randomization.
 
 #### *Below you will find the contents of the original DCSS readme.*
-#### *Some of this information no longer applies, but much of it does!*
-#### *To reduce confusion, YIUF is chopping up and rewriting stuff!*
+#### *Some of the info below no longer applies, but much of it does!*
+#### *To reduce confusion, **YIUF** is chopping and rewriting down there!*
 [![Build Status](https://travis-ci.org/yrmvgh/crawl.svg?branch=master)](https://travis-ci.org/yrmvgh/crawl)
 --------------------------------
 ## Contents
@@ -86,7 +88,7 @@ Both classical ASCII and tiles (GUI) versions of Crawl are available at https://
 ## Community
 
 ### Web
-~~Our~~ YIUFCRAWL'S official homepage is here on github. But posting in the [Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209) is fun too! Also chat **_live_** on IRC:
+~~Our~~ **YIUFCRAWL**'S official homepage is here on github. But posting in the [Tavern thread for this fork](https://crawl.develz.org/tavern/viewtopic.php?f=17&t=23209) is fun too! Also chat **_live_** on IRC:
 
 ### IRC
 Chat with fellow friends of Yiuf in [##crawl-forks on irc.freenode.net](https://webchat.freenode.net/?channels=##crawl-forks).
@@ -97,12 +99,12 @@ If you like the game and you want to help make it better, there are a number of 
 
 ### Reporting bugs
 
-At any time, there will be bugs -- finding and reporting them is a great help. Bugs should be reported to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues
+At any time, there will be bugs -- finding and reporting them is a great help. Bugs should be reported to ~~our bug tracker~~ **YIUFCRAWL**! https://github.com/yrmvgh/crawl/issues
 
 ### Map making
 Crawl creates levels by combining many hand-made (but often randomised) maps, known as *vaults*. Making them is fun and easy. It's best to start with simple entry vaults: see [simple.des](crawl-ref/source/dat/des/arrival/simple.des) for examples. You can also read [the level-design manual](crawl-ref/docs/develop/levels/introduction.txt) for more help.
 
-If you're ambitious, you can create new vaults for anywhere in the game. If you've made some vaults, you can test them on your own system (no compiling needed) and submit them to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues
+If you're ambitious, you can create new vaults for anywhere in the game. If you've made some vaults, you can test them on your own system (no compiling needed) and submit them to ~~our bug tracker~~ **YIUFCRAWL**! https://github.com/yrmvgh/crawl/issues
 
 ### Monster Speech & Item Descriptions
 Monster speech provides a lot of flavour. Just like vaults, varied speech depends upon a large set of entries. Speech syntax is effective but unusual, so you may want to read [the formatting guide](crawl-ref/docs/develop/monster_speech.txt).
@@ -113,7 +115,7 @@ Current item descriptions can be read in-game with `?/` or out-of-game them in [
 * Citations are okay, but try to stay away from the most generic ones.
 
 ### Tiles
-We're always open to improvements to existing tiles or variants of often-used tiles (eg floor tiles). If you want to give this a shot, please [contact us](#community) via forums or IRC. In case you drew some tiles of your own, you can submit them to ~~our bug tracker~~ YIUFCRAWL! https://github.com/yrmvgh/crawl/issues.
+We're always open to improvements to existing tiles or variants of often-used tiles (eg floor tiles). If you want to give this a shot, please [contact us](#community) via forums or IRC. In case you drew some tiles of your own, you can submit them to ~~our bug tracker~~ **YIUFCRAWL**! https://github.com/yrmvgh/crawl/issues.
 
 ### Patches
 For developers (both existing & aspiring!), you can download/fork the source code and write patches. Bug fixes as well as new features are very much welcome.
