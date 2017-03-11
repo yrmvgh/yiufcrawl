@@ -3383,6 +3383,14 @@ static void _move_player(coord_def move)
                 return;
             }
 			
+			//You can't attack while in lava either
+			if (grd(you.pos()) == DNGN_LAVA
+                && !player_likes_lava() && !you.airborne())
+            {
+                mpr("You cannot attack while walking through lava!");
+                return;
+            }
+			
 			// Don't allow the player to freely locate invisible monsters
             // with confirmation prompts.
             if (!you.can_see(*targ_monst)

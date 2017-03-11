@@ -212,7 +212,17 @@ bool check_moveto_trap(const coord_def& p, const string &move_verb,
 
 static bool _check_moveto_dangerous(const coord_def& p, const string& msg)
 {
-    if (you.can_swim() && feat_is_water(env.grid(p))
+    if (env.grid(p) == DNGN_LAVA && env.grid(you.pos()) != DNGN_LAVA && !player_likes_lava())
+    {
+	    if(!yesno("Really immerse yourself in lava?", false, 'n'))
+        {
+            mpr("Okay, then.");
+			return false;
+        }
+        else return true;
+    }
+	
+	if (you.can_swim() && feat_is_water(env.grid(p))
         || you.airborne() || !is_feat_dangerous(env.grid(p)))
     {
         return true;
@@ -233,8 +243,8 @@ bool check_moveto_terrain(const coord_def& p, const string &move_verb,
                           const string &msg, bool *prompted)
 {
     if (!_check_moveto_dangerous(p, msg))
-        return false
-;
+        return false;
+	
     if (!need_expiration_warning() && need_expiration_warning(p)
         && !crawl_state.disables[DIS_CONFIRMATIONS])
     {
@@ -265,6 +275,7 @@ bool check_moveto_terrain(const coord_def& p, const string &move_verb,
             return false;
         }
     }
+
     return true;
 }
 
@@ -417,34 +428,52 @@ void moveto_location_effects(dungeon_feature_type old_feat,
 
     if (you.ground_level())
     {
-        if (player_likes_lava(false))
+
+        if (feat_is_lava(new_grid) && !feat_is_lava(old_feat))
         {
-            if (feat_is_lava(new_grid) && !feat_is_lava(old_feat))
-            {
-                if (!stepped)
-                    noisy(4, you.pos(), "Gloop!");
+            if (!stepped)
+                noisy(4, you.pos(), "Gloop!");
 
-                mprf("You %s lava.",
-                     (stepped) ? "slowly immerse yourself in the" : "fall into the");
+            mprf("You %s lava.",
+                (stepped) ? "slowly immerse yourself in the" : "fall into the");
 
-                // Extra time if you stepped in.
-                if (stepped)
-                    you.time_taken *= 2;
+            // Extra time if you stepped in.
+            if (stepped)
+                you.time_taken *= 2;
 #if TAG_MAJOR_VERSION == 34
+            if (player_likes_lava(false))
+            {
                 // This gets called here because otherwise you wouldn't heat
                 // until your second turn in lava.
                 if (temperature() < TEMP_FIRE)
                     mpr("The lava instantly superheats you.");
                 you.temperature = TEMP_MAX;
+            }
+            else
+		    {
+                int lava_damage = div_rand_round(you.hp_max, 10) + random2(10);
+			    mprf("The lava roasts you! (%d)", lava_damage);
+                ouch(lava_damage, KILLED_BY_LAVA);
+            }
 #endif
-            }
-
-            else if (!feat_is_lava(new_grid) && feat_is_lava(old_feat))
-            {
-                mpr("You slowly pull yourself out of the lava.");
-                you.time_taken *= 2;
-            }
         }
+
+        else if (!feat_is_lava(new_grid) && feat_is_lava(old_feat))
+        {
+            mpr("You slowly pull yourself out of the lava.");
+            you.time_taken *= 2;
+        }
+		
+        else if (feat_is_lava(new_grid) && feat_is_lava(old_feat))
+        {
+			if (stepped)
+            {
+			    you.time_taken *= 2;
+                int lava_damage = div_rand_round(you.hp_max, 10) + random2(10);
+			    mprf("The lava roasts you! (%d)", lava_damage);
+                ouch(lava_damage, KILLED_BY_LAVA);
+			}
+		}
 
         if (feat_is_water(new_grid))
         {
@@ -560,17 +589,7 @@ void move_player_to_grid(const coord_def& p, bool stepped)
 bool is_feat_dangerous(dungeon_feature_type grid, bool permanently,
                        bool ignore_flight)
 {
-    if (!ignore_flight
-        && (you.permanent_flight() || you.airborne() && !permanently))
-    {
-        return false;
-    }
-    else if (grid == DNGN_LAVA && !player_likes_lava(permanently))
-    {
-        return true;
-    }
-    else
-        return false;
+    return false;
 }
 
 bool is_map_persistent()
