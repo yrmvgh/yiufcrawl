@@ -231,7 +231,7 @@ tileidx_t tileidx_feature_base(dungeon_feature_type feat)
     case DNGN_STONE_STAIRS_DOWN_I:
     case DNGN_STONE_STAIRS_DOWN_II:
     case DNGN_STONE_STAIRS_DOWN_III:
-        return TILE_DNGN_ESCAPE_HATCH_DOWN;
+        return TILE_DNGN_STONE_STAIRS_DOWN;
     case DNGN_ESCAPE_HATCH_DOWN:
         return TILE_DNGN_ESCAPE_HATCH_DOWN;
     case DNGN_SEALED_STAIRS_DOWN:
@@ -239,12 +239,12 @@ tileidx_t tileidx_feature_base(dungeon_feature_type feat)
     case DNGN_STONE_STAIRS_UP_I:
     case DNGN_STONE_STAIRS_UP_II:
     case DNGN_STONE_STAIRS_UP_III:
-        return TILE_FLOOR_NORMAL;
+        return TILE_DNGN_STONE_STAIRS_UP;
     case DNGN_EXIT_LABYRINTH:
     case DNGN_ESCAPE_HATCH_UP:
-        return TILE_FLOOR_NORMAL;
+        return TILE_DNGN_ESCAPE_HATCH_UP;
     case DNGN_SEALED_STAIRS_UP:
-        return TILE_FLOOR_NORMAL;
+        return TILE_DNGN_SEALED_STAIRS_UP;
     case DNGN_EXIT_DUNGEON:
         return TILE_DNGN_EXIT_DUNGEON;
     case DNGN_ENTER_DIS:
