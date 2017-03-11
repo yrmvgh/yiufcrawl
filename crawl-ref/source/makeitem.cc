@@ -535,11 +535,10 @@ static special_missile_type _determine_missile_brand(const item_def& item,
                                     nw, SPMSL_POISONED);
         break;
     case MI_JAVELIN:
-        rc = random_choose_weighted(30, SPMSL_RETURNING,
-                                    32, SPMSL_PENETRATION,
-                                    32, SPMSL_POISONED,
+        rc = random_choose_weighted(32, SPMSL_PENETRATION,
+                                    42, SPMSL_POISONED,
                                     21, SPMSL_STEEL,
-                                    20, SPMSL_SILVER,
+                                    30, SPMSL_SILVER,
                                     nw, SPMSL_NORMAL);
         break;
     case MI_TOMAHAWK:
@@ -660,13 +659,13 @@ static void _generate_missile_item(item_def& item, int force_type,
         item.sub_type =
             random_choose_weighted(50, MI_STONE,
                                    20, MI_ARROW,
-                                   12, MI_BOLT,
-                                   12, MI_SLING_BULLET,
+                                   13, MI_BOLT,
+                                   10, MI_SLING_BULLET,
                                    10, MI_NEEDLE,
                                    3,  MI_TOMAHAWK,
                                    2,  MI_JAVELIN,
                                    1,  MI_THROWING_NET,
-                                   1,  MI_LARGE_ROCK);
+                                   2,  MI_LARGE_ROCK);
     }
 
     // No fancy rocks -- break out before we get to special stuff.
@@ -858,7 +857,8 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
         || type == ARM_ANIMAL_SKIN
         || type == ARM_CRYSTAL_PLATE_ARMOUR)
     {
-        return SPARM_NORMAL;
+        return random_choose_weighted(7, SPARM_NORMAL,
+                                      1, SPARM_DEXTERITY);
     }
 
     return random_choose_weighted(7, SPARM_FIRE_RESISTANCE,
@@ -945,7 +945,7 @@ bool is_armour_brand_ok(int type, int brand, bool strict)
 	case SPARM_DEXTERITY:
 		if (!strict)
             return true;
-		return slot == EQ_GLOVES || slot == EQ_BOOTS;
+		return slot == EQ_GLOVES || slot == EQ_BOOTS || slot == EQ_BODY_ARMOUR;
 
     case SPARM_SEE_INVISIBLE:
     case SPARM_INTELLIGENCE:
@@ -1323,9 +1323,9 @@ static void _generate_food_item(item_def& item, int force_quant, int force_type)
     // Determine sub_type:
     if (force_type == OBJ_RANDOM)
     {
-        item.sub_type = random_choose_weighted(30, FOOD_MEAT_RATION,
-                                               30, FOOD_BREAD_RATION,
-                                               25, FOOD_ROYAL_JELLY,
+        item.sub_type = random_choose_weighted(15, FOOD_MEAT_RATION,
+                                               15, FOOD_BREAD_RATION,
+                                               55, FOOD_ROYAL_JELLY,
                                                15, FOOD_FRUIT);
     }
     else
@@ -1386,9 +1386,9 @@ static void _generate_potion_item(item_def& item, int force_type,
             stype = random_choose_weighted(192, POT_CURING,
                                            105, POT_HEAL_WOUNDS,
                                             73, POT_LIGNIFY,
-                                            73, POT_FLIGHT,
+                                            53, POT_FLIGHT,
                                             73, POT_HASTE,
-                                            66, POT_MUTATION,
+                                            86, POT_MUTATION,
                                             66, POT_MIGHT,
                                             66, POT_AGILITY,
                                             66, POT_BRILLIANCE,
@@ -1432,7 +1432,7 @@ static void _generate_scroll_item(item_def& item, int force_type,
             //                  908  otherwise
             //                 -112  in sprint
             item.sub_type = random_choose_weighted(
-                200, SCR_IDENTIFY,
+                221, SCR_IDENTIFY,
                 112, SCR_REMOVE_CURSE,
                  // [Cha] don't generate teleportation scrolls if in sprint
                 100, (crawl_state.game_is_sprint() ? NUM_SCROLLS
@@ -1448,13 +1448,13 @@ static void _generate_scroll_item(item_def& item, int force_type,
                  32, SCR_IMMOLATION,
                  // [Cha] don't generate noise scrolls if in sprint
                  22, (crawl_state.game_is_sprint() ? NUM_SCROLLS : SCR_NOISE),
-                 22, SCR_RANDOM_USELESSNESS,
+                 1, SCR_RANDOM_USELESSNESS,
                  // Higher-level scrolls.
-                 27, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
+                 17, (depth_mod < 4 ? NUM_SCROLLS : SCR_VULNERABILITY),
                  17, (depth_mod < 4 ? NUM_SCROLLS : SCR_SUMMONING),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_ACQUIREMENT),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_SILENCE),
-                 15, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
+                 25, (depth_mod < 4 ? NUM_SCROLLS : SCR_BRAND_WEAPON),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_TORMENT),
                  15, (depth_mod < 4 ? NUM_SCROLLS : SCR_HOLY_WORD));
         }
@@ -1537,8 +1537,8 @@ static void _generate_book_item(item_def& item, bool allow_uniques,
         && x_chance_in_y(101 + item_level * 3, 4000))
     {
         int choice = random_choose_weighted(
-            29, BOOK_RANDART_THEME,
-             1, BOOK_RANDART_LEVEL);
+            28, BOOK_RANDART_THEME,
+             2, BOOK_RANDART_LEVEL);
 
         item.sub_type = choice;
     }
