@@ -2228,10 +2228,6 @@ ring of strength
 
 <ring>
 %%%%
-ring of stealth
-
-<ring>
-%%%%
 ring of wizardry
 
 <ring>

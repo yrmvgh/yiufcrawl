@@ -1245,7 +1245,6 @@ static void _unequip_jewellery_effect(item_def &item, bool mesg, bool meld,
     case RING_POISON_RESISTANCE:
     case RING_PROTECTION_FROM_MAGIC:
     case RING_SLAYING:
-    case RING_STEALTH:
     case RING_WIZARDRY:
     case AMU_REGENERATION:
         break;

@@ -196,8 +196,8 @@ enum jewellery_type
     RING_EVASION,
 #if TAG_MAJOR_VERSION == 34
     RING_SUSTAIN_ATTRIBUTES,
-#endif
     RING_STEALTH,
+#endif
     RING_DEXTERITY,
     RING_INTELLIGENCE,
     RING_WIZARDRY,

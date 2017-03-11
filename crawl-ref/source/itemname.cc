@@ -768,8 +768,8 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_EVASION:               return "evasion";
 #if TAG_MAJOR_VERSION == 34
         case RING_SUSTAIN_ATTRIBUTES:    return "sustain attributes";
-#endif
         case RING_STEALTH:               return "stealth";
+#endif
         case RING_DEXTERITY:             return "dexterity";
         case RING_INTELLIGENCE:          return "intelligence";
         case RING_WIZARDRY:              return "wizardry";
@@ -827,7 +827,9 @@ const char* jewellery_effect_name(int jeweltype, bool terse)
         case RING_LOUDNESS:              return "Stlth-";
 #endif
         case RING_EVASION:               return "EV";
+#if TAG_MAJOR_VERSION == 34
         case RING_STEALTH:               return "Stlth+";
+#endif
         case RING_DEXTERITY:             return "Dex";
         case RING_INTELLIGENCE:          return "Int";
         case RING_MAGICAL_POWER:         return "MP+9";
@@ -3641,8 +3643,10 @@ bool is_useless_item(const item_def &item, bool temp)
                    || you.racial_permanent_flight()
                    || player_mutation_level(MUT_NO_ARTIFICE);
 
+#if TAG_MAJOR_VERSION == 34
         case RING_STEALTH:
             return player_mutation_level(MUT_NO_STEALTH);
+#endif
 
         default:
             return false;

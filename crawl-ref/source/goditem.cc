@@ -565,9 +565,6 @@ bool god_likes_item_type(const item_def &item, god_type which_god)
             break;
 
         case GOD_SHINING_ONE:
-            // Crusader god: holiness, honourable combat.
-            if (item.is_type(OBJ_JEWELLERY, RING_STEALTH))
-                return false;
             break;
 
         case GOD_SIF_MUNA:

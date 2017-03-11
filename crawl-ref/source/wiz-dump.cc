@@ -105,8 +105,6 @@ static uint8_t _jewellery_type_from_artefact_prop(const string &s
         return RING_INTELLIGENCE;
     if (s.substr(0, 2) == "EV")
         return RING_EVASION;
-    if (s.substr(0, 5) == "Stlth")
-        return RING_STEALTH;
     if (s.substr(0, 2) == "MR")
         return RING_PROTECTION_FROM_MAGIC;
 
