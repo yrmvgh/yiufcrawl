@@ -474,6 +474,28 @@ void upstairs_removal()
 	}      
 }
 
+void zap_close_monsters()
+{
+    for (radius_iterator ri(you.pos(), LOS_SOLID); ri; ++ri)
+    {
+        monster* mon = monster_at(*ri);
+        if (mon == nullptr || !mons_is_threatening(*mon) || mon->friendly())
+            continue;
+
+        if (you.pos().distance_from(mon->pos()) <= 3)
+        {
+            dprf("Dismissing %s",
+                 mon->name(DESC_PLAIN, true).c_str());
+
+            // Do a hard reset so the monster's items will be discarded.
+            mon->flags |= MF_HARD_RESET;
+            // Do a silent, wizard-mode monster_die() just to be extra sure the
+            // player sees nothing.
+            monster_die(mon, KILL_DISMISSED, NON_MONSTER, true, true);
+        }
+    }
+}
+
 // Should be called after a level is constructed to perform any final
 // fixups.
 static void _dgn_postprocess_level()
