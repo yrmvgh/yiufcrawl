@@ -3375,7 +3375,15 @@ static void _move_player(coord_def move)
         }
         else if (!try_to_swap) // attack!
         {
-            // Don't allow the player to freely locate invisible monsters
+            // Non-swimmers cannot attack while in deep water
+            if (grd(you.pos()) == DNGN_DEEP_WATER
+                && !you.can_swim() && !you.airborne())
+            {
+                mpr("You cannot attack while swimming in deep water!");
+                return;
+            }
+			
+			// Don't allow the player to freely locate invisible monsters
             // with confirmation prompts.
             if (!you.can_see(*targ_monst)
                 && !you.confused()
