@@ -1682,15 +1682,35 @@ static bool _prompt_dangerous_portal(dungeon_feature_type ftype)
     }
 }
 
-static bool _prompt_unique_pan_rune(dungeon_feature_type ygrd)
+static bool _prompt_skippable_branch(dungeon_feature_type ftype)
 {
-    if (ygrd != DNGN_TRANSIT_PANDEMONIUM
-        && ygrd != DNGN_EXIT_PANDEMONIUM
-        && ygrd != DNGN_EXIT_THROUGH_ABYSS)
+	switch(ftype)
     {
+    case DNGN_ENTER_VAULTS:
+        if (player_in_branch(BRANCH_DUNGEON))
+            return yesno("This shortcut to the Vaults bypasses a rune. " 
+                         "Enter anyway?", false, 'n');
+        else return true;
+    case DNGN_ENTER_SLIME:
+        if (player_in_branch(BRANCH_ORC))
+            return yesno("This shortcut to the Slime Pits bypasses two runes. "
+                         "Enter anyway?", false, 'n');
+        else return true;
+    case DNGN_ENTER_DEPTHS:
+        if (player_in_branch(BRANCH_DUNGEON))
+            return yesno("This shortcut to the Depths bypasses three runes. "
+                         "Enter anyway?", false, 'n');
+        else if (player_in_branch(BRANCH_VAULTS))
+            return yesno("This shortcut to the Depths bypasses a runes. "
+                         "Enter anyway?", false, 'n');
+        else return true;
+    default:
         return true;
     }
+}
 
+static bool _prompt_unique_rune(dungeon_feature_type ygrd)
+{
     item_def* rune = find_floor_item(OBJ_RUNES);
     if (rune && item_is_unique_rune(*rune))
     {
@@ -1732,8 +1752,15 @@ static bool _prompt_stairs(dungeon_feature_type ygrd, bool down, bool shaft)
         }
     }
 
-    // Leaving Pan runes behind.
-    if (!_prompt_unique_pan_rune(ygrd))
+    // Leaving runes behind.
+    if (!_prompt_unique_rune(ygrd))
+    {
+        canned_msg(MSG_OK);
+        return false;
+    }
+	
+    // Prompt if the player is skipping branches.
+    if (!_prompt_skippable_branch(ygrd))
     {
         canned_msg(MSG_OK);
         return false;
