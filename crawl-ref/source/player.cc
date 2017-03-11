@@ -3183,6 +3183,7 @@ int player_stealth()
 
     const item_def *arm = you.slot_item(EQ_BODY_ARMOUR, false);
     const item_def *boots = you.slot_item(EQ_BOOTS, false);
+    const item_def *cloak = you.slot_item(EQ_BOOTS, false);
 
     if (arm)
     {
