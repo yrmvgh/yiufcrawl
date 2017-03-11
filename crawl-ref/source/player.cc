@@ -3183,7 +3183,7 @@ int player_stealth()
 
     const item_def *arm = you.slot_item(EQ_BODY_ARMOUR, false);
     const item_def *boots = you.slot_item(EQ_BOOTS, false);
-    const item_def *cloak = you.slot_item(EQ_BOOTS, false);
+    const item_def *cloak = you.slot_item(EQ_CLOAK, false);
 
     if (arm)
     {
@@ -3204,6 +3204,9 @@ int player_stealth()
 
     stealth += STEALTH_PIP * you.wearing(EQ_RINGS, RING_STEALTH);
     stealth -= STEALTH_PIP * you.wearing(EQ_RINGS, RING_LOUDNESS);
+
+    if (cloak && get_armour_ego_type(*cloak) == SPARM_STEALTH)
+        stealth += STEALTH_PIP;
 
     if (you.duration[DUR_STEALTH])
         stealth += STEALTH_PIP * 2;
