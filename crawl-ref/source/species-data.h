@@ -535,8 +535,8 @@ static const map<species_type, species_def> species_data =
     { "Your bones are vulnerable to cold.",
       "All sources of teleportitis gives you blinkitis instead." },
     { "cold vulnerability", "blinkitis" },
-    { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
-      JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
+    { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_ICE_ELEMENTALIST,
+      JOB_WIZARD, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
     { SK_POLEARMS, SK_LONG_BLADES, SK_MACES_FLAILS, SK_SLINGS },
 } },
 
