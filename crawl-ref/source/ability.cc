@@ -282,7 +282,7 @@ static const ability_def Ability_List[] =
     // NON_ABILITY should always come first
     { ABIL_NON_ABILITY, "No ability", 0, 0, 0, 0, {}, abflag::none },
     { ABIL_SPIT_POISON, "Spit Poison",
-        0, 0, 40, 0, {fail_basis::xl, 20, 1}, abflag::breath },
+        0, 0, 40, 0, {}, abflag::breath },
 
     { ABIL_BLINK, "Blink", 0, 50, 50, 0, {fail_basis::xl, -1}, abflag::none },
     // ^ failure special-cased
@@ -326,7 +326,8 @@ static const ability_def Ability_List[] =
     { ABIL_HOP, "Hop", 0, 0, 0, 0, {}, abflag::none },
     { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::none },
 
-    { ABIL_OVERLOAD, "Overload", 2, 0, 0, 0, {FAIL_XL, 27, 1}, abflag::none },
+    { ABIL_OVERLOAD, "Overload",
+        2, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
 
     // EVOKE abilities use Evocations and come from items.
     // Teleportation and Blink can also come from mutations
