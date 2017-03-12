@@ -30,8 +30,8 @@ they grow.
 %%%%
 Dorf
 
-Dorfs are simple warriors with a high resistance to hexes and curses.
-All dwarves have a slight predilection towards wands, maces and shields.
+Dorfs are simple warriors with a high resistance to hexes and nastymancy.
+All dwarves feel comfortable using wands, maces and shields.
 %%%%
 Draconian
 
@@ -41,7 +41,7 @@ a colour.
 Formicid
 
 Formicids are humanoid ants adept at digging. Their limbs are exceptionally
-strong and they live in a state of permanent stasis.
+strong and they live in a state of permanent stasis. (YIUF: no shaft traps)
 %%%%
 Felid
 
@@ -80,7 +80,7 @@ Humans advance quickly in levels and have equal abilities in most skills.
 Imp
 
 Tiny warlike demons. They possess wings and a difficulty staying in one place.
-They are enthusiastic about fire, whips, and tridents, but afraid of cold.
+They are enthusiastic about fire and demonic weapons, but afraid of cold.
 %%%%
 Lava Orc
 
@@ -113,12 +113,12 @@ learn other skills very slowly. They are unable to consume any food or potions.
 %%%%
 Naga
 
-Nagas are hybrids; human from the chest up, with a scaly, muscular torso
-trailing off like that of a snake. They move slowly but are naturally resilient.
+Nagas are human from the chest up, with a scaly, muscular torso that ends in a
+snake tail. They move slowly but are naturally resilient. (YIUF: easier start)
 %%%%
 NULL
 
-NULL
+-NULL-
 %%%%
 Octopode
 
@@ -128,7 +128,7 @@ but almost no armour fits them.
 Ogre
 
 Large and strong, Ogres are mostly seen as brutes. They are extremely robust,
-and have an excellent grasp of magic.
+and have an excellent grasp of magic. (YIUF: more HP)
 %%%%
 Plutonian
 
@@ -137,8 +137,8 @@ If they accumulate too much contamination, they detonate a little bit.
 %%%%
 Sludge Elf
 
-Sludge Elves are good at unarmed combat and magic. Orcish blood and chaotic
-mutagenic energies course through their veins.
+Sludge Elves are good at unarmed combat and magic. Orcish blood clouds their
+veins. (YIUF: constantly Evolve mutations)
 %%%%
 Spriggan
 
@@ -148,7 +148,7 @@ and spellcasters.
 Troll
 
 Trolls are monstrous creatures with powerful claws, always hungering for raw
-meat. They regenerate health rapidly.
+meat. They regenerate health rapidly. (YIUF: less HP)
 %%%%
 Vampire
 
@@ -162,5 +162,5 @@ Their magical reserves absorb damage, and they pack a magic-restoring bite.
 %%%%
 Skeleton
 
-creatures animated by arcane means, skeletons are adept at combat and offensive
-magic, and can enter a deep murderous trance at will.
+Experimental species by SteelNeuron. Find info or share your thoughts about
+this race at https://crawl.develz.org/tavern/viewtopic.php?f=8&p=308801

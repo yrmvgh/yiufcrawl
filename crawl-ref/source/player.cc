@@ -2922,8 +2922,9 @@ void level_change(bool skip_attribute_increase)
                 }
                 break;
 
+            case SP_LAVA_ORC:
             case SP_NAGA:
-                if (!(you.experience_level % 3))
+                if (!(you.experience_level % 5))
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "Your skin feels tougher.");
                     you.redraw_armour_class = true;
@@ -3183,6 +3184,7 @@ int player_stealth()
 
     const item_def *arm = you.slot_item(EQ_BODY_ARMOUR, false);
     const item_def *boots = you.slot_item(EQ_BOOTS, false);
+    const item_def *cloak = you.slot_item(EQ_CLOAK, false);
 
     if (arm)
     {
@@ -3203,6 +3205,9 @@ int player_stealth()
 
     stealth += STEALTH_PIP * you.wearing(EQ_RINGS, RING_STEALTH);
     stealth -= STEALTH_PIP * you.wearing(EQ_RINGS, RING_LOUDNESS);
+
+    if (cloak && get_armour_ego_type(*cloak) == SPARM_STEALTH)
+        stealth += STEALTH_PIP;
 
     if (you.duration[DUR_STEALTH])
         stealth += STEALTH_PIP * 2;
@@ -6019,14 +6024,14 @@ int player::racial_ac(bool temp) const
     if (!(player_is_shapechanged() && temp))
     {
         if (species == SP_NAGA)
-            return 100 * experience_level / 3;              // max 9
+            return 300 + 100 * experience_level / 5;              // max 8
         else if (species == SP_GARGOYLE)
         {
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
         else if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
-            return 200 + 100 * experience_level / 6;        // max 6
+            return 100 + 100 * experience_level / 5;        // max 6
 
     }
 
