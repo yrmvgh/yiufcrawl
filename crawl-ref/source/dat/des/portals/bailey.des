@@ -552,7 +552,7 @@ ENDMAP
 ############################################################################
 # River.
 #
-# There will be either a ring of flight or three potions.
+# There will be three potions of flight.
 # Loots consists of six good items.
 #
 NAME:    bailey_axe_4
@@ -561,7 +561,6 @@ TAGS:    bailey_axe no_rotate no_item_gen no_monster_gen no_pool_fixup
 #
 ITEM:    any good_item
 ITEM:    potion of flight ident:type
-ITEM:    ring of flight ident:type
 SUBST:   e : eeef
 NSUBST:  f = 1:f / *:.
 SHUFFLE: EB / XY / XY / XY

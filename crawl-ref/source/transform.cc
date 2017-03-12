@@ -1362,9 +1362,7 @@ static bool _flying_in_new_form(transformation which_trans)
             continue;
         item_info inf = get_item_info(*item);
 
-        //similar code to safe_to_remove from item-use.cc
-        if (inf.is_type(OBJ_JEWELLERY, RING_FLIGHT))
-            sources_removed++;
+        //similar code to safe_to_remove from item_use.cc
         if (inf.base_type == OBJ_ARMOUR && inf.brand == SPARM_FLYING)
             sources_removed++;
         if (is_artefact(inf) && artefact_known_property(inf, ARTP_FLY))
