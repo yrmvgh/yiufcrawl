@@ -891,8 +891,13 @@ int DungeonRegion::handle_mouse(MouseEvent &event)
     // else not on player...
     if (event.button == MouseEvent::RIGHT)
     {
-        full_describe_square(gc);
-        return CK_MOUSE_CMD;
+        if (map_bounds(gc) && env.map_knowledge(gc).known())
+        {
+            full_describe_square(gc);
+            return CK_MOUSE_CMD;
+        }
+        else
+            return 0;
     }
 
     if (event.button != MouseEvent::LEFT)
