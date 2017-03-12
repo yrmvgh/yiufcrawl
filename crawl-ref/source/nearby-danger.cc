@@ -248,6 +248,15 @@ bool i_feel_safe(bool announce, bool want_move, bool just_monsters,
 
             return false;
         }
+		
+		//don't rest in lava
+        if(env.grid(you.pos()) == DNGN_LAVA && !you.airborne())
+        {
+            if (announce)
+                mprf(MSGCH_WARN, "You are swimming in lava!");
+			
+            return false;
+		}
     }
 
     // Monster check.

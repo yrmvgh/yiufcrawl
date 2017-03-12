@@ -987,6 +987,14 @@ void player_reacts()
     if (grd(you.pos()) == DNGN_LAVA)
         maybe_melt_player_enchantments(BEAM_FIRE, you.time_taken);
 
+    //roast the player if they're in lava
+    if (grd(you.pos()) == DNGN_LAVA && !player_likes_lava(false) && !you.airborne())
+    {
+        int lava_damage = div_rand_round((int)you.hp_max, 10);
+        mprf("The lava roasts you! (%d)", lava_damage);
+        ouch(lava_damage, KILLED_BY_LAVA);
+    }
+	
     // Handle starvation before subtracting hunger for this turn (including
     // hunger from the berserk duration) and before monsters react, so you
     // always get a turn (though it may be a delay or macro!) between getting

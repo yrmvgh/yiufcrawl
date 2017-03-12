@@ -212,7 +212,8 @@ bool check_moveto_trap(const coord_def& p, const string &move_verb,
 
 static bool _check_moveto_dangerous(const coord_def& p, const string& msg)
 {
-    if (env.grid(p) == DNGN_LAVA && env.grid(you.pos()) != DNGN_LAVA && !player_likes_lava())
+    if (env.grid(p) == DNGN_LAVA && env.grid(you.pos()) != DNGN_LAVA
+    && !player_likes_lava() && !you.airborne())
     {
 	    if(!yesno("Really immerse yourself in lava?", false, 'n'))
         {
@@ -449,12 +450,6 @@ void moveto_location_effects(dungeon_feature_type old_feat,
                     mpr("The lava instantly superheats you.");
                 you.temperature = TEMP_MAX;
             }
-            else
-		    {
-                int lava_damage = div_rand_round(you.hp_max, 10) + random2(10);
-			    mprf("The lava roasts you! (%d)", lava_damage);
-                ouch(lava_damage, KILLED_BY_LAVA);
-            }
 #endif
         }
 
@@ -469,9 +464,6 @@ void moveto_location_effects(dungeon_feature_type old_feat,
 			if (stepped)
             {
 			    you.time_taken *= 2;
-                int lava_damage = div_rand_round(you.hp_max, 10) + random2(10);
-			    mprf("The lava roasts you! (%d)", lava_damage);
-                ouch(lava_damage, KILLED_BY_LAVA);
 			}
 		}
 
