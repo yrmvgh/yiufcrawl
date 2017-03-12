@@ -310,8 +310,7 @@ int actor::evokable_flight(bool calc_unid) const
     if (is_player() && get_form()->forbids_flight())
         return 0;
 
-    return wearing(EQ_RINGS, RING_FLIGHT, calc_unid)
-           + wearing_ego(EQ_ALL_ARMOUR, SPARM_FLYING, calc_unid)
+    return wearing_ego(EQ_ALL_ARMOUR, SPARM_FLYING, calc_unid)
            + scan_artefacts(ARTP_FLY, calc_unid);
 }
 

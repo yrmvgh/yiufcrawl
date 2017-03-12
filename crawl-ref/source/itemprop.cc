@@ -749,11 +749,12 @@ const set<pair<object_class_type, int> > removed_items =
     { OBJ_JEWELLERY, RING_REGENERATION },
     { OBJ_JEWELLERY, RING_SUSTAIN_ATTRIBUTES },
     { OBJ_JEWELLERY, RING_TELEPORT_CONTROL },
-	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_FIRE },
-	{ OBJ_JEWELLERY, RING_PROTECTION_FROM_COLD },
-	{ OBJ_JEWELLERY, RING_TELEPORTATION },
-	{ OBJ_JEWELLERY, RING_LOUDNESS },
-	{ OBJ_JEWELLERY, RING_STEALTH },
+    { OBJ_JEWELLERY, RING_PROTECTION_FROM_FIRE },
+    { OBJ_JEWELLERY, RING_PROTECTION_FROM_COLD },
+    { OBJ_JEWELLERY, RING_TELEPORTATION },
+    { OBJ_JEWELLERY, RING_LOUDNESS },
+    { OBJ_JEWELLERY, RING_STEALTH },
+    { OBJ_JEWELLERY, RING_FLIGHT },
 	{ OBJ_STAVES, 	 STAFF_POISON },
     { OBJ_STAVES,    STAFF_ENCHANTMENT },
     { OBJ_STAVES,    STAFF_CHANNELING },
@@ -2687,8 +2688,7 @@ bool gives_ability(const item_def &item)
     case OBJ_WEAPONS:
         break;
     case OBJ_JEWELLERY:
-        if (item.sub_type == RING_FLIGHT
-            || item.sub_type == AMU_RAGE)
+        if (item.sub_type == AMU_RAGE)
         {
             return true;
         }

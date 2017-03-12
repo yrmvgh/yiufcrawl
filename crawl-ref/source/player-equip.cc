@@ -903,7 +903,7 @@ static void _equip_armour_effect(item_def& arm, bool unmeld,
 
 /**
  * The player lost a source of permafly. End their flight if there was
- * no other source, evoking a ring of flight "for free" if possible.
+ * no other source, evoking "for free" if possible.
  */
 void lose_permafly_source()
 {
@@ -1272,14 +1272,6 @@ static void _unequip_jewellery_effect(item_def &item, bool mesg, bool meld,
 
     case RING_INTELLIGENCE:
         notify_stat_change(STAT_INT, -item.plus, false);
-        break;
-
-    case RING_FLIGHT:
-        if (you.cancellable_flight() && !you.evokable_flight())
-        {
-            you.duration[DUR_FLIGHT] = 0;
-            land_player();
-        }
         break;
 
     case RING_MAGICAL_POWER:

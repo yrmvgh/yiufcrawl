@@ -49,7 +49,6 @@ ae += forbidden
 :  if you.mutation("missing a hand") == 1 and you.race() ~= "octopode"
 :  and it.class(true) == "jewellery"
 :  and (itsubtype == "ring of positive energy"
-:   or itsubtype == "ring of flight"
 :   or itsubtype == "ring of poison resistance"
 :   or itsubtype == "ring of wizardry"
 :   or itsubtype == "ring of resist corrosion"
