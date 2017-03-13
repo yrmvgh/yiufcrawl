@@ -695,11 +695,12 @@ unsigned int item_value(item_def item, bool ident)
                     valued += 200;
                     break;
 
-                case RING_STEALTH:
+#if (TAG_MAJOR_VERSION == 34)
                 case RING_FLIGHT:
                     valued += 175;
                     break;
-
+#endif
+                case RING_STEALTH:
                 case RING_SEE_INVISIBLE:
                     valued += 150;
                     break;

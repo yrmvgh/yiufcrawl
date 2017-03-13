@@ -367,7 +367,6 @@ static map<jewellery_type, vector<jewellery_fake_artp>> jewellery_artps = {
     { AMU_HARM, { { ARTP_DRAIN, 1 } } },
 
     { RING_MAGICAL_POWER, { { ARTP_MAGICAL_POWER, 9 } } },
-    { RING_FLIGHT, { { ARTP_FLY, 1 } } },
     { RING_SEE_INVISIBLE, { { ARTP_SEE_INVISIBLE, 1 } } },
     { RING_STEALTH, { { ARTP_STEALTH, 1 } } },
     { RING_LOUDNESS, { { ARTP_STEALTH, -1 } } },
@@ -1452,10 +1451,6 @@ static bool _randart_is_redundant(const item_def &item,
 
     case RING_MAGICAL_POWER:
         provides = ARTP_MAGICAL_POWER;
-        break;
-
-    case RING_FLIGHT:
-        provides = ARTP_FLY;
         break;
 
     case RING_LIFE_PROTECTION:

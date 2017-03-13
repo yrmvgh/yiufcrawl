@@ -13,7 +13,7 @@ env:
 #    - TILES=1 FULLDEBUG=1
 #    - WEBTILES=1
     - WEBTILES=1 FULLDEBUG=1
-#    - USE_DGAMELAUNCH=1 EXTERNAL_DEFINES=-UTOURNEY
+    - USE_DGAMELAUNCH=1 EXTERNAL_DEFINES=-UTOURNEY
 #    - USE_DGAMELAUNCH=1 WEBTILES=1 EXTERNAL_DEFINES=-UTOURNEY
     - TILES=1 BUILD_ALL=1 SOUND=1
     - WEBTILES=1 BUILD_ALL=1
@@ -22,16 +22,16 @@ git:
 install: perl .travis/deps.pl
 script: perl .travis/build.pl
 notifications:
-    email:
-        on_success: change
-        on_failure: always
-        recipients:
-          - yiufsoup@mt2015.com
+#    email:
+#        on_success: change
+#        on_failure: always
+#        recipients:
+#          - crawl-ref-commits@lists.sourceforge.net
     irc:
         channels: "chat.freenode.net##crawl-forks"
         on_success: always
         on_failure: always
         use_notice: true
         template:
-            - "%{message} (%{branch} - %{commit} #%{build_number} : %{build_url}"
+            - "%{result} (%{repository_slug} %{branch} - #%{build_number} : %{build_url} View changes: %{compare_url}"
 sudo: required

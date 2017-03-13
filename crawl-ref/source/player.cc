@@ -2261,7 +2261,7 @@ static int _player_armour_adjusted_dodge_bonus(int scale)
     const int ev_dex = stepdown(you.dex(), 18, ROUND_CLOSE, MAX_STAT_VALUE);
 
     const int dodge_bonus =
-        (70 + you.skill(SK_DODGING, 10) * ev_dex) * scale
+        (70 + you.skill(SK_DODGING, 11) * ev_dex) * scale
         / (20 - _player_evasion_size_factor()) / 10;
 
     const int armour_dodge_penalty = you.unadjusted_body_armour_penalty() - 3;
@@ -2283,7 +2283,7 @@ static int _player_evasion(ev_ignore_type evit)
             || you.form == transformation::tree)
         && !(evit & EV_IGNORE_HELPLESS))
     {
-        return max(1, 2 + size_factor / 2);
+        return max(2, 4 + size_factor / 2);
     }
 
     const int scale = 100;
@@ -2371,11 +2371,11 @@ int player_shield_class()
 
         int stat = 0;
         if (item.sub_type == ARM_BUCKLER)
-            stat = you.dex() * 38;
+            stat = you.dex() * 51;
         else if (item.sub_type == ARM_LARGE_SHIELD)
-            stat = you.dex() * 12 + you.strength() * 26;
+            stat = you.dex() * 12 + you.strength() * 34;
         else
-            stat = you.dex() * 19 + you.strength() * 19;
+            stat = you.dex() * 23 + you.strength() * 23;
         stat = stat * (base_shield + 13) / 26;
 
         shield += stat;
@@ -2906,6 +2906,10 @@ void level_change(bool skip_attribute_increase)
 
             switch (you.species)
             {
+//            case SP_IMP:
+//                if (you.experience_level == 13)
+//                    mprf(MSGCH_INTRINSIC_GAIN, "Your birthright as a tiny, "
+//                         "annoying demon")
             case SP_VAMPIRE:
                 if (you.experience_level == 3)
                 {
@@ -6030,8 +6034,6 @@ int player::racial_ac(bool temp) const
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
-        else if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
-            return 100 + 100 * experience_level / 5;        // max 6
 
     }
 
@@ -6121,6 +6123,9 @@ int player::armour_class(bool /*calc_unid*/) const
 {
     const int scale = 100;
     int AC = base_ac(scale);
+
+    if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
+        AC += 100 + 100 * experience_level / 5;        // max 6
 
     if (duration[DUR_ICY_ARMOUR])
         AC += 500 + you.props[ICY_ARMOUR_KEY].get_int() * 8;

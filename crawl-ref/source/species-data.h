@@ -529,14 +529,14 @@ static const map<species_type, species_def> species_data =
     { STAT_INT, STAT_DEX }, 4,
     { { MUT_HORNS, 1, 1 }, { MUT_HEAT_RESISTANCE, 1, 1 }, { MUT_SCREAM, 1, 1 },
       { MUT_REGENERATION, 1, 1 }, { MUT_TELEPORT, 1, 1 }, { MUT_SCREAM, 1, 7 },
-      { MUT_BIG_WINGS, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 13 },
+      { MUT_TENGU_FLIGHT, 1, 7 }, { MUT_TELEPORT, 1, 7 }, { MUT_SCREAM, 1, 13 },
       { MUT_REGENERATION, 1, 13 }, { MUT_TELEPORT, 1, 13 },
-      { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 13 }, },
+      { MUT_TORMENT_RESISTANCE, 1, 13 }, { MUT_ROT_IMMUNITY, 1, 13 }, },
     { "Your bones are vulnerable to cold.",
       "All sources of teleportitis gives you blinkitis instead." },
     { "cold vulnerability", "blinkitis" },
-    { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_WIZARD,
-      JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
+    { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_ICE_ELEMENTALIST,
+      JOB_WIZARD, JOB_FIRE_ELEMENTALIST, JOB_SUMMONER, JOB_ABYSSAL_KNIGHT },
     { SK_POLEARMS, SK_LONG_BLADES, SK_MACES_FLAILS, SK_SLINGS },
 } },
 
@@ -656,7 +656,7 @@ static const map<species_type, species_def> species_data =
 } },
 
 { SP_NULL, {
-    "Ni",
+    "NL",
     "Null", nullptr, nullptr,
     SPF_NONE,
     0, 0, 0, 0,

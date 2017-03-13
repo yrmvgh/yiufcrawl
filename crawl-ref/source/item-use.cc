@@ -1431,8 +1431,7 @@ bool safe_to_remove(const item_def &item, bool quiet)
     item_info inf = get_item_info(item);
 
     const bool grants_flight =
-         inf.is_type(OBJ_JEWELLERY, RING_FLIGHT)
-         || inf.base_type == OBJ_ARMOUR && inf.brand == SPARM_FLYING
+        inf.base_type == OBJ_ARMOUR && inf.brand == SPARM_FLYING
          || is_artefact(inf)
             && artefact_known_property(inf, ARTP_FLY);
 
@@ -2975,8 +2974,6 @@ void read_scroll(item_def& scroll)
 
     case SCR_IMMOLATION:
     {
-        // Dithmenos hates trying to play with fire, even if it does nothing.
-        did_god_conduct(DID_FIRE, 2 + random2(3), item_type_known(scroll));
 
         bool had_effect = false;
         for (monster_near_iterator mi(you.pos(), LOS_NO_TRANS); mi; ++mi)

@@ -1642,8 +1642,8 @@ static set<spell_type> _vehumet_eligible_gift_spells(set<spell_type> excluded_sp
     if (gifts >= NUM_VEHUMET_GIFTS)
         return eligible_spells;
 
-    const int min_lev[] = {1,1,2,3,3,4,4,5,5,6,6,6,8};
-    const int max_lev[] = {1,2,3,4,5,7,7,7,7,7,7,7,9};
+    const int min_lev[] = {3,3,3,3,4,4,4,5,5,6,6,7,9};
+    const int max_lev[] = {3,3,4,5,6,7,7,7,7,8,8,8,9};
     COMPILE_CHECK(ARRAYSZ(min_lev) == NUM_VEHUMET_GIFTS);
     COMPILE_CHECK(ARRAYSZ(max_lev) == NUM_VEHUMET_GIFTS);
     int min_level = min_lev[gifts];
@@ -1801,14 +1801,14 @@ bool do_god_gift(bool forced)
                 // included in default force_more_message
 
                 if (gift_type == OBJ_MISSILES)
-                    _inc_gift_timeout(4 + roll_dice(2, 4));
+                    _inc_gift_timeout(6 + roll_dice(2, 5));
                 else
                 {
                     // Okawaru charges extra for armour acquirements.
                     if (you_worship(GOD_OKAWARU) && gift_type == OBJ_ARMOUR)
-                        _inc_gift_timeout(30 + random2avg(15, 2));
+                        _inc_gift_timeout(40 + random2avg(19, 2));
 
-                    _inc_gift_timeout(30 + random2avg(19, 2));
+                    _inc_gift_timeout(40 + random2avg(23, 2));
                 }
                 you.num_current_gifts[you.religion]++;
                 you.num_total_gifts[you.religion]++;
@@ -3901,10 +3901,6 @@ bool god_hates_spell(spell_type spell, god_type god, bool fake_spell)
         if (is_hasty_spell(spell))
             return true;
         break;
-    case GOD_DITHMENOS:
-        if (is_fiery_spell(spell))
-            return true;
-        break;
     case GOD_PAKELLAS:
         if (spell == SPELL_SUBLIMATION_OF_BLOOD)
             return true;
@@ -3928,11 +3924,6 @@ bool god_hates_ability(ability_type ability, god_type god)
 {
     switch (ability)
     {
-        case ABIL_BREATHE_FIRE:
-#if TAG_MAJOR_VERSION == 34
-        case ABIL_DELAYED_FIREBALL:
-            return god == GOD_DITHMENOS;
-#endif
         case ABIL_EVOKE_BERSERK:
             return god == GOD_CHEIBRIADOS;
         default:
@@ -4027,7 +4018,7 @@ void handle_god_time(int /*time_delta*/)
             break;
 
         case GOD_ASHENZARI:
-		case GOD_DITHMENOS:
+                case GOD_DITHMENOS:
         case GOD_ELYVILON:
         case GOD_HEPLIAKLQANA:
         case GOD_FEDHAS:

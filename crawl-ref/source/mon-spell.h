@@ -1343,6 +1343,12 @@ static const mon_spellbook mspell_list[] =
       }
     },
 
+        {  MST_SILENT_SPECTRE,
+      {
+       { SPELL_SILENCE, 120, MON_SPELL_WIZARD },
+      }
+    },
+
     {  MST_PHANTASMAL_WARRIOR,
       {
        { SPELL_BLINK_CLOSE, 67, MON_SPELL_MAGICAL },

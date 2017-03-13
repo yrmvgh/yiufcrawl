@@ -106,7 +106,7 @@ MONS:    ice statue / obsidian statue / orange crystal statue
 : end
 SHUFFLE: 1|/!*
 SUBST:   *:*$, ?:x., !:., '=w.
-ITEM:    ring of flight ident:type
+ITEM:    potion of flight ident:type
 MAP
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxwwwxxxxxxxxxxx
@@ -553,7 +553,7 @@ DEPTH:   D:10-, !D:$
 ORIENT:  south
 TAGS:    no_pool_fixup no_rotate uniq_rubicon
 WEIGHT:  6
-ITEM:    ring of flight ident:type / potion of flight ident:type / nothing
+ITEM:    potion of flight ident:type / potion of flight ident:type / nothing
 ITEM:    potion of flight ident:type / nothing, nothing, nothing, nothing
 SHUFFLE: {[(, )gh
 SUBST:   ?:?.w, ?=w., w:lw, ':'.c, '=cx.
@@ -584,7 +584,7 @@ DEPTH:   D:10-, !D:$
 ORIENT:  south
 TAGS:    no_rotate uniq_rubicon
 WEIGHT:  4
-ITEM:    ring of flight ident:type / potion of flight ident:type / nothing
+ITEM:    potion of flight ident:type / potion of flight ident:type / nothing
 ITEM:    potion of flight ident:type, nothing, nothing, nothing, nothing
 SHUFFLE: {[(, fgW, )hi
 SUBST:   ?:?.wW, ?=wW., ':'.c, '=c.

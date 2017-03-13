@@ -914,9 +914,9 @@ bool is_armour_brand_ok(int type, int brand, bool strict)
 #endif
         return slot == EQ_BOOTS;
 
-	 case SPARM_STEALTH:
-		return slot == EQ_BOOTS || slot == EQ_CLOAK;
-		
+         case SPARM_STEALTH:
+                return slot == EQ_BOOTS || slot == EQ_CLOAK;
+
     case SPARM_ARCHMAGI:
         return !strict || type == ARM_ROBE || type == ARM_SCARF;
 
@@ -946,6 +946,11 @@ bool is_armour_brand_ok(int type, int brand, bool strict)
 		if (!strict)
             return true;
 		return slot == EQ_GLOVES || slot == EQ_BOOTS || slot == EQ_BODY_ARMOUR;
+
+        case SPARM_DEXTERITY:
+                if (!strict)
+            return true;
+                return slot == EQ_GLOVES || slot == EQ_BOOTS || slot == EQ_BODY_ARMOUR;
 
     case SPARM_SEE_INVISIBLE:
     case SPARM_INTELLIGENCE:

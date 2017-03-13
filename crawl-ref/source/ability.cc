@@ -232,7 +232,7 @@ struct failure_info
             return base_chance - sk_mod - piety_mod;
         }
         default:
-            die("unknown failure basis %d!", basis);
+            die("unknown failure basis %d!", (int)basis);
         }
     }
 
@@ -1832,7 +1832,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_OVERLOAD:
         fail_check();
-            if (yesno("Are you sure you want to explode?", true, 'n'))
+            if (yesno("Are you sure you want to %s",
+                you.hp >= (you.hp_max / 2) ? "explode?"
+                : "explode, even though it might hurt a lot?", true, 'n'))
             {
                 beam.flavour      = BEAM_MAGIC;
                 beam.damage       = dice_def(2, div_rand_round(you.hp_max, 3));
