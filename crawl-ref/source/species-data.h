@@ -656,7 +656,7 @@ static const map<species_type, species_def> species_data =
 } },
 
 { SP_NULL, {
-    "Ni",
+    "NL",
     "Null", nullptr, nullptr,
     SPF_NONE,
     0, 0, 0, 0,
