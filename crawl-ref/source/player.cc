@@ -6030,8 +6030,6 @@ int player::racial_ac(bool temp) const
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
-        else if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
-            return 100 + 100 * experience_level / 5;        // max 6
 
     }
 
@@ -6121,6 +6119,9 @@ int player::armour_class(bool /*calc_unid*/) const
 {
     const int scale = 100;
     int AC = base_ac(scale);
+
+    if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
+        AC += 100 + 100 * experience_level / 5;        // max 6
 
     if (duration[DUR_ICY_ARMOUR])
         AC += 500 + you.props[ICY_ARMOUR_KEY].get_int() * 8;

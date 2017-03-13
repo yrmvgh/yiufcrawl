@@ -518,8 +518,7 @@ static bool _boosted_mp()
 
 static bool _boosted_ac()
 {
-    return you.armour_class() > you.base_ac(1)
-           || temperature_effect(LORC_STONESKIN);
+    return you.armour_class() > you.base_ac(1);
 }
 
 static bool _boosted_ev()
