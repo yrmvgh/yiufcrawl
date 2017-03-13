@@ -3198,6 +3198,8 @@ tileidx_t tileidx_ability(const ability_type ability)
         return TILEG_ABILITY_HOP;
     case ABIL_REAP:
         return TILEG_ABILITY_REAP;
+    case ABIL_OVERLOAD:
+        return TILEG_ABILITY_OVERLOAD;
 
     // Others
 #if TAG_MAJOR_VERSION == 34

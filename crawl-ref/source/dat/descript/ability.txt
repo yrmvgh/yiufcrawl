@@ -880,3 +880,9 @@ Enters a magically induced trance with a single purpose: Destroy all sentient
 life. Your combat ability is increased and you become able to ignore some
 incoming damage, but you are forced to fight until no living being remains
 nearby.
+%%%%
+Overload ability
+
+You unleash raw magical energy in a violent explosion that engulfs any nearby
+creature, including yourself. The size and intensity of the explosion varies,
+but it generally won't kill you unless your health is low. Causes contamination.
