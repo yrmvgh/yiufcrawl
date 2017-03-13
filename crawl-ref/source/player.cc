@@ -2371,11 +2371,11 @@ int player_shield_class()
 
         int stat = 0;
         if (item.sub_type == ARM_BUCKLER)
-            stat = you.dex() * 38;
+            stat = you.dex() * 51;
         else if (item.sub_type == ARM_LARGE_SHIELD)
-            stat = you.dex() * 12 + you.strength() * 26;
+            stat = you.dex() * 12 + you.strength() * 34;
         else
-            stat = you.dex() * 19 + you.strength() * 19;
+            stat = you.dex() * 23 + you.strength() * 23;
         stat = stat * (base_shield + 13) / 26;
 
         shield += stat;
