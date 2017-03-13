@@ -1336,10 +1336,10 @@ static const mon_spellbook mspell_list[] =
        { SPELL_INVISIBILITY, 33, MON_SPELL_NATURAL },
       }
     },
-	
-	{  MST_SILENT_SPECTRE,
+
+        {  MST_SILENT_SPECTRE,
       {
-       { SPELL_SILENCE, 120, MON_SPELL_WIZARD },	   
+       { SPELL_SILENCE, 120, MON_SPELL_WIZARD },
       }
     },
 

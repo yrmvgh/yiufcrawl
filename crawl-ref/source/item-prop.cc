@@ -2714,9 +2714,7 @@ bool gives_ability(const item_def &item)
         break;
     case OBJ_JEWELLERY:
         if (item.sub_type == AMU_RAGE)
-        {
             return true;
-        }
         break;
     case OBJ_ARMOUR:
     {

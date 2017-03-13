@@ -876,9 +876,7 @@ void bolt::burn_wall_effect()
     else if (you.can_smell())
         emit_message("You smell burning wood.");
     if (whose_kill() == KC_YOU)
-    {
         did_god_conduct(DID_KILL_PLANT, 1, god_cares());
-    }
     else if (whose_kill() == KC_FRIENDLY && !crawl_state.game_is_arena())
         did_god_conduct(DID_KILL_PLANT, 1, god_cares());
 
