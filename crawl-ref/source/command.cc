@@ -613,6 +613,9 @@ static int _show_keyhelp_menu(const vector<formatted_string> &lines,
 
         cols.add_formatted(
             0,
+            "https://github.com/yrmvgh/crawl/\n"
+            "blob/master/README.md\n"
+            "\n"
             "<h>Dungeon Crawl Help\n"
             "\n"
             "Press one of the following keys to\n"
