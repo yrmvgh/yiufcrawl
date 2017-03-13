@@ -2906,6 +2906,10 @@ void level_change(bool skip_attribute_increase)
 
             switch (you.species)
             {
+//            case SP_IMP:
+//                if (you.experience_level == 13)
+//                    mprf(MSGCH_INTRINSIC_GAIN, "Your birthright as a tiny, "
+//                         "annoying demon")
             case SP_VAMPIRE:
                 if (you.experience_level == 3)
                 {
