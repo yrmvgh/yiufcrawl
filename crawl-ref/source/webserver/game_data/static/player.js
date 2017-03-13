@@ -353,9 +353,9 @@ function ($, comm, enums, map_knowledge, messages, options) {
         $("#stats_titleline").text(player.name + " " + player.title);
         if (player.wizard)
             $("#stats_wizmode").text("WIZARD");
-        else if (player.diff == 1)
+        else if (player.diff == 0)
             $("#stats_wizmode").text("CASUAL");
-        else if (player.diff == 2)
+        else if (player.diff == 1)
             $("#stats_wizmode").text("NORMAL");
         else
             $("#stats_wizmode").text("");

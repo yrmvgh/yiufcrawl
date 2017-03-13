@@ -81,9 +81,9 @@ def watch_socket_dirs():
 		
 def diff_string(level):
     result = "Unknown"
-    if level == "1":
+    if level == "0":
         result = "Casual"
-    if level == "2":
+    if level == "1":
         result = "Normal"
     return result
 
