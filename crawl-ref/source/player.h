@@ -174,6 +174,7 @@ public:
     FixedBitVector<NUM_RUNE_TYPES> runes;
     int obtainable_runes; // can be != 15 in Sprint
 
+    FixedBitVector<NUM_SPELLS> spell_library;
     FixedVector<spell_type, MAX_KNOWN_SPELLS> spells;
     set<spell_type> old_vehumet_gifts, vehumet_gifts;
 
@@ -946,6 +947,7 @@ int calc_hunger(int food_cost);
 
 int player_icemail_armour_class();
 int sanguine_armour_bonus();
+int lorc_stoneskin_bonus();
 
 int player_wizardry(spell_type spell);
 

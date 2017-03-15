@@ -16,7 +16,7 @@ env:
     - USE_DGAMELAUNCH=1 EXTERNAL_DEFINES=-UTOURNEY
 #    - USE_DGAMELAUNCH=1 WEBTILES=1 EXTERNAL_DEFINES=-UTOURNEY
     - TILES=1 BUILD_ALL=1 SOUND=1
-    - WEBTILES=1 BUILD_ALL=1
+#    - WEBTILES=1 BUILD_ALL=1
 git:
     submodules: false
 install: perl .travis/deps.pl
@@ -33,5 +33,5 @@ notifications:
         on_failure: always
         use_notice: true
         template:
-            - "%{result} (%{repository_slug} %{branch} - #%{build_number} : %{build_url} View changes: %{compare_url}"
+            - "%{result} (%{branch} - #%{build_number}) %{build_url} View changes: %{compare_url}"
 sudo: required

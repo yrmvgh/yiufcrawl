@@ -413,7 +413,6 @@ string describe_mutations(bool center_title)
 
         result += _annotate_form_based(
                     make_stringf("Your %s. (AC +%d)",
-                       you.species == SP_LAVA_ORC ? "skin is stony and craggy" :
                        you.species == SP_NAGA ? "serpentine skin is tough" :
                        you.species == SP_GARGOYLE ? "stone body is resilient" :
                                                     scale_clause.c_str(),
@@ -423,6 +422,20 @@ string describe_mutations(bool center_title)
                          && you.form == transformation::dragon));
     }
 
+    if (you.species == SP_LAVA_ORC)
+    {
+        if (temperature_effect(LORC_STONESKIN))
+            result += make_stringf("Your skin is stony and craggy. (AC +%d)\n",
+                lorc_stoneskin_bonus() / 100);
+        if (temperature_effect(LORC_LAVA_BOOST))
+            result += "Your Earth and Fire spells are enhanced.\n";
+        if (temperature_effect(LORC_FIRE_RES_I) && !temperature_effect(LORC_FIRE_RES_III))
+            result += "Your partially-molten flesh resists fire damage.\n";
+        if (temperature_effect(LORC_FIRE_RES_III))
+            result += "You are nearly immune to fire, but susceptible to cold damage.\n";
+        if (temperature_effect(LORC_PASSIVE_HEAT))
+            result += "Your blazing heat sears nearby attackers.\n";
+   }
     if (you.species == SP_VAMPIRE)
     {
         if (you.hunger_state <= HS_STARVING)
