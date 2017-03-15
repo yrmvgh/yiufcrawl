@@ -393,6 +393,8 @@ tomb1
 tomb2
 tomb3
 
+
+
 vault0 WALL_VAULT
 vault1
 vault2
@@ -747,6 +749,11 @@ stone_gray3
 %lum 0 35
 %repeat WALL_STONE_GRAY WALL_STONE_WHITE
 %resetcol
+
+bazaar_0 WALL_BAZAAR
+bazaar_1
+bazaar_2
+bazaar_3
 
 stone_dark0 WALL_STONE_DARK
 stone_dark1
