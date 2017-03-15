@@ -326,23 +326,6 @@ MAP
 ENDMAP
 
 ##############################################################################
-NAME:    dpeg_arrival_radiant
-TAGS:    arrival no_rotate
-ORIENT:  float
-NSUBST:  ' = 1:@ / *=.x
-MAP
-'xxxxxxx'xxxxxxx'
-x.xxxxxx.xxxxxx'x
-xx..xxxx+xxxx..xx
-xxxx..+...+..xxxx
-xxxxxxx.{.xxxxxxx
-xxxx..+...+..xxxx
-xx..xxxx+xxxx..xx
-x.xxxxxx.xxxxxx.x
-'xxxxxxx'xxxxxxx'
-ENDMAP
-
-##############################################################################
 NAME:    dpeg_arrival_rooms_with_view
 TAGS:    arrival no_monster_gen no_pool_fixup
 ORIENT:  float
