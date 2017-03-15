@@ -5975,6 +5975,14 @@ int sanguine_armour_bonus()
     return 300 + mut_lev * 300;
 }
 
+int lorc_stoneskin_bonus()
+{
+    if (!temperature_effect(LORC_STONESKIN))
+        return 0;
+    if (you.species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
+        return 100 + 100 * you.experience_level / 5;        // max 6
+}
+
 /**
  * How much AC does the player get from an unenchanted version of the given
  * armour?
@@ -6124,9 +6132,6 @@ int player::armour_class(bool /*calc_unid*/) const
     const int scale = 100;
     int AC = base_ac(scale);
 
-    if (species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
-        AC += 100 + 100 * experience_level / 5;        // max 6
-
     if (duration[DUR_ICY_ARMOUR])
         AC += 500 + you.props[ICY_ARMOUR_KEY].get_int() * 8;
 
@@ -6142,6 +6147,7 @@ int player::armour_class(bool /*calc_unid*/) const
     if (duration[DUR_CORROSION])
         AC -= 400 * you.props["corrosion_amount"].get_int();
 
+    AC += lorc_stoneskin_bonus();
     AC += _bone_armour_bonus();
     AC += sanguine_armour_bonus();
 
