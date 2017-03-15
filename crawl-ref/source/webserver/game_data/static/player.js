@@ -358,9 +358,9 @@ function ($, comm, enums, map_knowledge, messages, options) {
         else if (player.diff == 0)
             $("#stats_wizmode").text("NORMAL");
         else if (player.diff == 1)
-            $("#stats_wizmode").text("NORMAL");
-        else
             $("#stats_wizmode").text("Casual");
+        else
+            $("#stats_wizmode").text("");
 
         var do_temperature = false;
         var do_contam = false;
