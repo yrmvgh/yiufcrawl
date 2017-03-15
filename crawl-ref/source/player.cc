@@ -5977,10 +5977,9 @@ int sanguine_armour_bonus()
 
 int lorc_stoneskin_bonus()
 {
-    if (!temperature_effect(LORC_STONESKIN))
-        return 0;
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
         return 100 + 100 * you.experience_level / 5;        // max 6
+    return 0;
 }
 
 /**
@@ -8101,9 +8100,9 @@ string temperature_text(int temp)
     switch (temp)
     {
         case TEMP_MIN:
-            return "Racial 'Stoneskin' bonus to AC";
+            return "'Stoneskin' bonus to AC";
         case TEMP_COOL:
-            return "                   rF+";
+            return "'Stoneskin' bonus; rF+";
         case TEMP_WARM:
             return "Earth+Fire boosts; rF++; Stoneskin ends";
         case TEMP_HOT:
