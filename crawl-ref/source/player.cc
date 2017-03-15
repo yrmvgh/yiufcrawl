@@ -5978,10 +5978,9 @@ int sanguine_armour_bonus()
 
 int lorc_stoneskin_bonus()
 {
-    if (!temperature_effect(LORC_STONESKIN))
-        return 0;
     if (you.species == SP_LAVA_ORC && temperature_effect(LORC_STONESKIN))
         return 100 + 100 * you.experience_level / 5;        // max 6
+    return 0;
 }
 
 /**
