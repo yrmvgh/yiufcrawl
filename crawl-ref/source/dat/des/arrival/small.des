@@ -2649,40 +2649,6 @@ wwwwwwwwwcccccwwwwwwwww
 ENDMAP
 
 ##############################################################
-# A small-room arrival with wooden doors and big ring of trees and rocks.
-NAME:    saegor_arrival_under_anarchy
-TAGS:    arrival no_trap_gen no_monster_gen
-ORIENT:  float
-NSUBST:  @ = 3:@ / *:X
-SUBST:   X = tc w:1
-COLOUR:  # = lightgreen / green / yellow:1
-NSUBST:  p = 2:+ / *:c
-COLOUR:  + : brown
-SUBST:   # = .. 1:1
-MONS:    plant
-KPROP:   w = no_tele_into
-NSUBST:  { = 1:{ / *:.
-MAP
-   xxx @@@ xxx
-   XXXX@.@XXXX
-  @@XXX.X.XXX@@
-xX@...........@Xx
-xXX...........XXx
-xXX..ccpppcc..XXx
-xXX..c#####c..XXx
-@X...p##{##p...X@
-@.X..p#####p..X.@
-@X...p#{#{#p...X@
-xXX..c#####c..XXx
-xXX..ccpppcc..XXx
-xXX...........XXx
-xX@...........@Xx
-  @@XXX.X.XXX@@
-   XXXX@.@XXXX
-   xxx @@@ xxx
-ENDMAP
-
-##############################################################
 # Moated graveyard arrival (oiseaux)
 NAME:    moated_graveyard_arrival
 TAGS:    arrival no_monster_gen no_trap_gen no_pool_fixup no_rotate
