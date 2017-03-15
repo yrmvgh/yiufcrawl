@@ -7,9 +7,10 @@
 * It is a streamlined experience. Content, mechanics, and options from DCSS which are tedious, unpopular, or unnecessary have been removed.
 * Notably, this include no food, no curses, no Lair branch, no player ghosts, no item identification, no poison magic, no halflings, no centaurs, and no felids.
 * You can play it online. http://crawl.berotato.org:8080/#play-dcss-hellcrawl-cbro is the link for a USA-based server, and https://crawl.project357.org/ is a server in Australia.
+* Downloads available at https://github.com/Hellmonk/hellcrawl/releases
 * Information and discussion about Hellcrawl is primarily found on the Tavern discussion thread. Go to the following link in order to find the best, fullest changelog or to share your thoughts:
 * https://crawl.develz.org/tavern/viewtopic.php?f=17&t=21527
-* You may also occasionally spot the project maintainer, hellmonk, in the ##crawl channel on the Freenode IRC server.
+* You may also occasionally spot the project maintainer, hellmonk, in the ##crawl-forks or the ##crawl channel on the Freenode IRC server.
 
 #### The readme from DCSS trunk may also be of use to you:
 
