@@ -1214,7 +1214,6 @@ static int _random_wand_subtype()
                                   6, WAND_PARALYSIS,
                                   6, WAND_CONFUSION,
                                   6, WAND_POLYMORPH,
-                                  6, WAND_RANDOM_EFFECTS,
                                   6, WAND_ACID,
                                   5, WAND_DISINTEGRATION,
                                   5, WAND_DIGGING,

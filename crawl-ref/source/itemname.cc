@@ -612,7 +612,6 @@ static const char* _wand_type_name(int wandtype)
     case WAND_POLYMORPH:       return "polymorph";
     case WAND_ENSLAVEMENT:     return "enslavement";
     case WAND_ACID:            return "acid";
-    case WAND_RANDOM_EFFECTS:  return "random effects";
     case WAND_DISINTEGRATION:  return "disintegration";
     case WAND_CLOUDS:          return "clouds";
     case WAND_SCATTERSHOT:     return "scattershot";

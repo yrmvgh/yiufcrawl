@@ -851,7 +851,7 @@ SUBST:  1 = 1 2:5 3:20
 SUBST:  2 = 2 2 .
 SUBST:  % = !:20 ?:5 .:20
 KITEM:  ! = whip / w:2 demon whip
-KITEM:  ? = wand of random effects
+KITEM:  ? = wand of acid
 COLOUR: " : yellow
 MAP
      ................

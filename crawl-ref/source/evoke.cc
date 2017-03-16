@@ -552,8 +552,6 @@ void zap_wand(int slot)
     {
         const zap_type type_zapped = wand.zap();
 
-        bool invis_enemy  = false;
-        const bool dangerous = player_in_a_dangerous_place(&invis_enemy);
         targetter *hitfunc = _wand_targetter(&wand);
 
 
@@ -568,7 +566,7 @@ void zap_wand(int slot)
             break;
         }
 
-        const bool randeff = wand.sub_type == WAND_RANDOM_EFFECTS;
+        const bool randeff = false;
 
         const int tracer_range = !randeff ? _wand_range(type_zapped)
                                           : _max_wand_range();
@@ -644,21 +642,6 @@ void zap_wand(int slot)
             {
                 return;
             }
-        }
-
-        // Zapping the wand isn't risky if you aim it away from all monsters
-        // and yourself, unless there's a nearby invisible enemy and you're
-        // trying to hit it at random.
-        const bool risky = dangerous && (beam.friend_info.count
-                                         || beam.foe_info.count
-                                         || invis_enemy
-                                         || aimed_at_self);
-
-        if (risky && wand.sub_type == WAND_RANDOM_EFFECTS)
-        {
-            // Xom loves it when you use a Wand of Random Effects and
-            // there is a dangerous monster nearby...
-            xom_is_stimulated(200);
         }
 
         // Reset range.

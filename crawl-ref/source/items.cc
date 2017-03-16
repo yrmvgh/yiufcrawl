@@ -3344,20 +3344,6 @@ zap_type item_def::zap() const
     if (spell_in_wand(wand_sub_type) != SPELL_NO_SPELL)
         return NUM_ZAPS;
 
-    if (wand_sub_type == WAND_RANDOM_EFFECTS)
-    {
-        // choose from all existing wands, except:
-        // (1) don't allow /hw, because it encourages stuff like curing rot
-        // (2) allow /invis even though that was removed, because it's fun
-        return random_choose(ZAP_THROW_FLAME, ZAP_SLOW, ZAP_HASTE,
-                             ZAP_PARALYSE, ZAP_CONFUSE,
-                             ZAP_ICEBLAST, ZAP_TELEPORT_OTHER,
-                             ZAP_LIGHTNING_BOLT, ZAP_POLYMORPH,
-                             ZAP_ENSLAVEMENT, ZAP_BOLT_OF_DRAINING,
-                             ZAP_INVISIBILITY,
-                             ZAP_BOLT_OF_FIRE);
-    }
-
     switch (wand_sub_type)
     {
     case WAND_FLAME:           result = ZAP_THROW_FLAME;     break;
@@ -3373,7 +3359,6 @@ zap_type item_def::zap() const
     case WAND_DISINTEGRATION:  result = ZAP_DISINTEGRATE;    break;
     case WAND_CLOUDS:
     case WAND_SCATTERSHOT:
-    case WAND_RANDOM_EFFECTS:  /* impossible */
     case NUM_WANDS:
 #if TAG_MAJOR_VERSION == 34
     case WAND_HASTING:
@@ -3384,6 +3369,7 @@ zap_type item_def::zap() const
     case WAND_COLD_REMOVED:
     case WAND_FROST_REMOVED:
     case WAND_HEAL_WOUNDS_REMOVED:
+    case WAND_RANDOM_EFFECTS:  /* impossible */
 #endif
         break;
     }

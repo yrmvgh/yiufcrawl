@@ -98,8 +98,7 @@ bool is_potentially_evil_item(const item_def& item)
         }
         break;
     case OBJ_WANDS:
-        if (item.sub_type == WAND_RANDOM_EFFECTS
-            || item.sub_type == WAND_CLOUDS)
+        if (item.sub_type == WAND_CLOUDS)
         {
             return true;
         }
@@ -267,8 +266,6 @@ static bool _is_potentially_hasty_item(const item_def& item)
         }
         break;
     case OBJ_WANDS:
-        if (item.sub_type == WAND_RANDOM_EFFECTS)
-            return true;
         break;
     default:
         break;

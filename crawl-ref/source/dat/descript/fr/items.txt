@@ -1058,10 +1058,6 @@ wand of polymorph
 Un instrument magique qui métamorphose la créature ciblée en une autre
 créature. Ceci est particulièrement efficace contre les changeurs de forme.
 %%%%
-wand of random effects
-
-Un instrument magique qui peut produire une grande variété d'effets.
-%%%%
 wand of slowing
 
 Un instrument magique qui ralenti, par enchantement, les actions d'une créature

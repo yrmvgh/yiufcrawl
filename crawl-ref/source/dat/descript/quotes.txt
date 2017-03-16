@@ -3062,10 +3062,6 @@ wand of polymorph
 
 <wand>
 %%%%
-wand of random effects
-
-<wand>
-%%%%
 wand of slowing
 
 <wand>

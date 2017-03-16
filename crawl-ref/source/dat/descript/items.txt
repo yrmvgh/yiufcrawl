@@ -1177,10 +1177,6 @@ wand of polymorph
 A magical device which causes a creature to be transmogrified into another
 form. It is especially effective against shape-changing creatures.
 %%%%
-wand of random effects
-
-A magical device which can produce a variety of effects.
-%%%%
 wand of scattershot
 
 A magical device which fires powerful blasts of metallic shrapnel. Its damage

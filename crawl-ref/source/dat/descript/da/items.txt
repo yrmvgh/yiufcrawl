@@ -975,10 +975,6 @@ wand of polymorph
 En magisk anordning som omskaber et væsen til en anden form. Den er særligt
 effektiv mod formskiftende væsener.
 %%%%
-wand of random effects
-
-En magisk anordning, som kan producere en lang række effekter.
-%%%%
 wand of slowing
 
 En magisk anordning, som kaster fortryllelser, der gør et væsens handlinger

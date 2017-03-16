@@ -363,7 +363,7 @@ SUBST: G : YlG
 : kfeat("s = general shop " .. shopname .. " ; \
 :   any weapon ego:draining w:15 | any weapon ego:pain | \
 :   any weapon ego:vampirism | any weapon ego:chaos w:1 | wand of clouds w:3 | \
-:   demon blade w:5 | demon trident w:5 | wand of random effects w:3 | \
+:   demon blade w:5 | demon trident w:5 | \
 :   demon whip w:5 | scroll of torment | staff of death | \
 :   book of necromancy | book of death | \
 :   book of unlife | randbook disc:necromancy w:5 | necronomicon w:1 | \

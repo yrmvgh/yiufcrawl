@@ -451,10 +451,6 @@ static bool _is_appropriate_evokable(const item_def& item,
     if (!item_type_known(item))
         return true;
 
-    // Random effects are always (in)appropriate for all targets.
-    if (item.sub_type == WAND_RANDOM_EFFECTS)
-        return true;
-
     spell_type spell = zap_to_spell(item.zap());
     if (spell == SPELL_TELEPORT_OTHER && target->is_player())
         spell = SPELL_TELEPORT_SELF;

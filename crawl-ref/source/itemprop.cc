@@ -801,6 +801,7 @@ const set<pair<object_class_type, int> > removed_items =
 	{ OBJ_WANDS, 	 WAND_HASTING},
 	{ OBJ_WANDS,     WAND_TELEPORTATION },
     { OBJ_WANDS,     WAND_HEAL_WOUNDS_REMOVED },
+    { OBJ_WANDS,     WAND_RANDOM_EFFECTS },
     { OBJ_SCROLLS,   SCR_CURSE_WEAPON },
     { OBJ_SCROLLS,   SCR_CURSE_ARMOUR },
     { OBJ_SCROLLS,   SCR_CURSE_JEWELLERY },
@@ -1596,7 +1597,6 @@ int wand_charge_value(int type)
     case WAND_FLAME:
     case WAND_SLOWING:
     case WAND_CONFUSION:
-    case WAND_RANDOM_EFFECTS:
         return 6; 
     }
 }
@@ -1646,7 +1646,6 @@ bool is_offensive_wand(const item_def& item)
     {
     // Monsters don't use those, so no need to warn the player about them.
     case WAND_ENSLAVEMENT:
-    case WAND_RANDOM_EFFECTS:
     case WAND_DIGGING:
 		return false;
 
