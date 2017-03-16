@@ -387,7 +387,7 @@ static const map<species_type, species_def> species_data =
 } },
 
 { SP_SKELETON, {
-    "Sk",
+    "ST",
     "Skeleton", "Skeletal", "Skeleton",
     SPF_NONE,
     -1, -1, 0, 6,
@@ -400,7 +400,7 @@ static const map<species_type, species_def> species_data =
       { MUT_UNBREATHING, 1, 1 },
       { MUT_FRAIL, 2, 1 } },
     { "You do not eat or drink.",
-      "You can enter a trance state until all enemies are dead."},
+      "You can enter a murderous trance until all enemies are non-alive."},
     { "no food or potions" },
     { JOB_FIGHTER, JOB_GLADIATOR,  JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_HUNTER,
       JOB_ICE_ELEMENTALIST, JOB_EARTH_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
