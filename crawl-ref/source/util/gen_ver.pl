@@ -20,7 +20,7 @@ $_ = `git describe --tags $mergebase 2> /dev/null`
 
 chomp;
 
-/(yiuf)?(crawl)?v?(([0-9]+\.[0-9]+)(?:\.[0-9]+)?(?:-([a-zA-Z]+[0-9]+))?)(?:-[0-9]+-g[a-fA-F0-9]+)?/
+/v?(([0-9]+\.[0-9]+)(?:\.[0-9]+)?(?:-([a-zA-Z]+[0-9]+))?)(?:-[0-9]+-g[a-fA-F0-9]+)?/
     or die "Version string '$_' is malformed.\n";
 
 my ($major, $tag, $pretyp) = ($2, $1, $3);
