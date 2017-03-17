@@ -400,7 +400,7 @@ bool renew_reap()
 
     if (!you.beheld_by(*mon))
     {
-        const char* message[4] =
+        const char* message[11] =
         {
            "You lay your malignant gaze on %s.",
            "%s is next on your list.",
