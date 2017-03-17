@@ -450,6 +450,14 @@ bool is_pproj_active()
 // If item passed, it will be put into the quiver.
 void fire_thing(int item)
 {
+    if ((grd(you.pos()) == DNGN_DEEP_WATER
+                && !you.can_swim() && !you.airborne()) 
+        || (grd(you.pos()) == DNGN_LAVA && !you.airborne()))
+            {
+                mprf("You can't throw or fire anything while swimming in %s!",
+                grd(you.pos()) == DNGN_DEEP_WATER ? "deep water" : "lava");
+                return;
+            }
     dist target;
     item = get_ammo_to_shoot(item, target, is_pproj_active());
     if (item == -1)
