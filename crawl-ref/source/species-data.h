@@ -106,10 +106,10 @@ static const map<species_type, species_def> species_data =
     "Df",
     "Dorf", "Dwarven", "Dwarf",
     SPF_NONE,
-    -1, 2, 0, 6,
+    -1, 2, -1, 6,
     MONS_DEEP_DWARF,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    10, 8, 9, // 27
+    12, 7, 8, // 27
     { STAT_STR, STAT_DEX }, 4,
     { { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
     { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
