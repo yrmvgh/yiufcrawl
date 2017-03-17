@@ -3218,13 +3218,6 @@ int check_stealth()
     if (cloak && get_armour_ego_type(*cloak) == SPARM_STEALTH)
 	    stealth += STEALTH_PIP;
 
-    if (you.form == TRAN_BLADE_HANDS && you.species == SP_FELID
-        && !you.airborne())
-    {
-        stealth -= STEALTH_PIP; // klack klack klack go the blade paws
-        // this is an absurd special case but also it's really funny so w/e
-    }
-
     // Mutations.
     stealth += STEALTH_PIP * player_mutation_level(MUT_NIGHTSTALKER);
     stealth += (STEALTH_PIP / 2)
@@ -3242,6 +3235,9 @@ int check_stealth()
     // which pretty much gives away the stealth game.
     if (you.duration[DUR_SILENCE])
         stealth -= STEALTH_PIP;
+	
+    if (you.species == SP_VAMPIRE)
+		stealth += STEALTH_PIP; // innate vampire stealth boost
 
     if (!you.airborne())
     {
@@ -3306,6 +3302,9 @@ int check_stealth()
         stealth *= umbra_mul;
         stealth /= umbra_div;
     }
+	
+    if (you.form == TRAN_SHADOW)
+        stealth *= 2;
 
     // If you're surrounded by a storm, you're inherently pretty conspicuous.
     if (have_passive(passive_t::storm_shield))
