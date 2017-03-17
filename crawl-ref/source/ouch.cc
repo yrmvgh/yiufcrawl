@@ -769,7 +769,7 @@ bool can_blunt_damage()
     return (you.attribute[ATTR_REAPING]);
 }
 
-int do_blunt_damage(int dam)
+int do_blunt_damage(int dam, int damage_fraction_of_hp)
 {
     if (!can_blunt_damage())
         return dam;
