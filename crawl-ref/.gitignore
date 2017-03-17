@@ -118,6 +118,7 @@ makefile.dep
 /source/.contrib-ok
 /source/.contrib-libs
 /source/compflag.h
+source/build-win
 
 # The Crawl executable.
 /source/crawl

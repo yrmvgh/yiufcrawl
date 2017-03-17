@@ -1201,6 +1201,10 @@ int attack::player_apply_final_multipliers(int damage)
     if (you.form == transformation::shadow)
         damage = div_rand_round(damage, 2);
 
+    // That's my secret, Cap: I'm always angry.
+    if (you.species == SP_SKELETON && you.attribute[ATTR_REAPING])
+        damage = damage  * 1.15;
+
     return damage;
 }
 

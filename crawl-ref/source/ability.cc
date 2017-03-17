@@ -324,7 +324,7 @@ static const ability_def Ability_List[] =
     { ABIL_SHAFT_SELF, "Shaft Self", 0, 0, 250, 0, {}, abflag::delay },
 
     { ABIL_HOP, "Hop", 0, 0, 0, 0, {}, abflag::none },
-    { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::none },
+    { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::instant },
 
     { ABIL_OVERLOAD, "Overload",
         2, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },

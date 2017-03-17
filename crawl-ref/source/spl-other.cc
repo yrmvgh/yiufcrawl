@@ -400,12 +400,19 @@ bool renew_reap()
 
     if (!you.beheld_by(*mon))
     {
-        const char* message[4] =
+        const char* message[11] =
         {
            "You lay your malignant gaze on %s.",
            "%s is next on your list.",
            "You stare at %s eerily.",
            "You swivel your skull at %s.",
+           "All your focus is on %s now.",
+           "Target: %s.",
+           "Murderous intent drives you towards %s.",
+           "Your bones shudder as you turn to face %s.",
+           "%s has your attention.",
+           "%s would look better as a corpse.",
+           "Better off dead? %s, most definitely.",
         };
 
         mprf(message[random2(4)], mon->name(DESC_THE).c_str());

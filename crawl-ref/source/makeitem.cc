@@ -796,7 +796,7 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
                                       12, SPARM_PROTECTION);
 
     case ARM_SCARF:
-        return random_choose_weighted(3, SPARM_COLD_RESISTANCE,
+        return random_choose_weighted(1, SPARM_INVISIBILITY,
                                       2, SPARM_SPIRIT_SHIELD,
                                       2, SPARM_RESISTANCE,
                                       2, SPARM_REPULSION,
@@ -804,7 +804,7 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
 
     case ARM_CLOAK:
         return random_choose(SPARM_POISON_RESISTANCE,
-                             SPARM_INVISIBILITY,
+                             SPARM_COLD_RESISTANCE,
                              SPARM_MAGIC_RESISTANCE,
                              SPARM_STEALTH);
 
@@ -821,7 +821,8 @@ static special_armour_type _generate_armour_type_ego(armour_type type,
         return random_choose(SPARM_DEXTERITY, SPARM_STRENGTH, SPARM_ARCHERY);
 
     case ARM_BOOTS:
-        return random_choose(SPARM_RUNNING, SPARM_FLYING, SPARM_STEALTH);
+        return random_choose(SPARM_COLD_RESISTANCE, SPARM_FIRE_RESISTANCE,
+                             SPARM_FLYING, SPARM_STEALTH);
 
     case ARM_NAGA_BARDING:
     case ARM_CENTAUR_BARDING:
@@ -1038,8 +1039,8 @@ static armour_type _get_random_armour_type(int item_level)
         armtype = random_choose_weighted(6, ARM_BOOTS,
                                          6, ARM_GLOVES,
                                          // Cloak slot
-                                         5, ARM_CLOAK,
-                                         1, ARM_SCARF,
+                                         4, ARM_CLOAK,
+                                         2, ARM_SCARF,
                                          // Head slot
                                          4, ARM_HELMET,
                                          2, ARM_HAT,

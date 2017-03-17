@@ -24,7 +24,7 @@ static const map<job_type, job_def> job_data =
 
 { JOB_ABYSSAL_KNIGHT, {
     "AK", "Abyssal Knight",
-    4, 4, 4,
+    5, 2, 5,
     { SP_HILL_ORC, SP_SPRIGGAN, SP_TROLL, SP_MERFOLK, SP_BASE_DRACONIAN,
       SP_DEMONSPAWN, },
     { "leather armour" },
@@ -166,7 +166,7 @@ static const map<job_type, job_def> job_data =
 
 { JOB_HUNTER, {
     "Hu", "Hunter",
-    4, 3, 5,
+    5, 2, 5,
     { SP_HIGH_ELF, SP_HILL_ORC, SP_HALFLING, SP_KOBOLD, SP_OGRE, SP_SLUDGE_ELF,
       SP_TROLL, SP_CENTAUR, },
     { "short sword", "leather armour" },
@@ -210,7 +210,7 @@ static const map<job_type, job_def> job_data =
 
 { JOB_SKALD, {
     "Sk", "Skald",
-    3, 5, 4,
+    4, 4, 4,
     { SP_HIGH_ELF, SP_HALFLING, SP_CENTAUR, SP_MERFOLK, SP_BASE_DRACONIAN,
       SP_VAMPIRE, },
     { "leather armour", "book of Battle" },

@@ -106,10 +106,10 @@ static const map<species_type, species_def> species_data =
     "Df",
     "Dorf", "Dwarven", "Dwarf",
     SPF_NONE,
-    -1, 2, 0, 6,
+    -1, 2, -1, 6,
     MONS_DEEP_DWARF,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
-    10, 8, 9, // 27
+    12, 7, 8, // 27
     { STAT_STR, STAT_DEX }, 4,
     { { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
     { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 14 }, },
@@ -384,28 +384,6 @@ static const map<species_type, species_def> species_data =
       JOB_GLADIATOR, JOB_HUNTER, JOB_ARCANE_MARKSMAN },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
-} },
-
-{ SP_SKELETON, {
-    "Sk",
-    "Skeleton", "Skeletal", "Skeleton",
-    SPF_NONE,
-    -1, -1, 0, 6,
-    MONS_SKELETON,
-    HT_LAND, US_UNDEAD, SIZE_MEDIUM,
-    10, 7, 7, // 24
-    { STAT_STR, STAT_INT, STAT_DEX }, 4,
-    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 },
-      { MUT_TORMENT_RESISTANCE, 1, 1 },
-      { MUT_UNBREATHING, 1, 1 },
-      { MUT_FRAIL, 2, 1 } },
-    { "You do not eat or drink.",
-      "You can enter a trance state until all enemies are dead."},
-    { "no food or potions" },
-    { JOB_FIGHTER, JOB_GLADIATOR,  JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_HUNTER,
-      JOB_ICE_ELEMENTALIST, JOB_EARTH_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
-    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES,
-      SK_BOWS, SK_CROSSBOWS},
 } },
 
 { SP_GHOUL, {
@@ -763,6 +741,26 @@ static const map<species_type, species_def> species_data =
     { JOB_ASSASSIN, JOB_ARTIFICER, JOB_ABYSSAL_KNIGHT, JOB_WARPER,
       JOB_ENCHANTER, JOB_CONJURER, JOB_EARTH_ELEMENTALIST, JOB_VENOM_MAGE },
     { SK_SHORT_BLADES, SK_SLINGS },
+} },
+
+{ SP_SKELETON, {
+    "ST",
+    "Skeleton", "Skeletal", "Skeleton",
+    SPF_NONE,
+    0, -3, 0, 5,
+    MONS_SKELETON,
+    HT_LAND, US_UNDEAD, SIZE_MEDIUM,
+    9, 8, 7, // 24
+    { STAT_STR, STAT_INT, STAT_DEX }, 4,
+    { { MUT_NEGATIVE_ENERGY_RESISTANCE, 3, 1 }, { MUT_COLD_RESISTANCE, 1, 1 },
+      { MUT_TORMENT_RESISTANCE, 1, 1 }, { MUT_UNBREATHING, 1, 1 }, },
+    { "You can enter a murderous trance until all living enemies are dead.",
+      "You do not eat or drink." },
+    { "no food or potions" },
+    { JOB_FIGHTER, JOB_GLADIATOR,  JOB_CONJURER, JOB_FIRE_ELEMENTALIST, JOB_HUNTER,
+      JOB_ICE_ELEMENTALIST, JOB_EARTH_ELEMENTALIST, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
+    { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES,
+      SK_BOWS, SK_CROSSBOWS},
 } },
 
 { SP_TENGU, {

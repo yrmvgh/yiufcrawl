@@ -51,8 +51,12 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Scarves remain unenchantable, but have 1 base AC.
 * Roles with ranged weapons start with more ammo.
 * Small characters have no problem with DTrident, but eveningstars are now as difficult to wield as other weapons that have similar damage and speed.
-* Rings of protection from fire/cold have been rolled into rings of fire/ice.
+* Rings of protection from fire/cold have been rolled into rings of fire/ice. (hellmonk)
 * No energy randomization.
+* Goldified spellbooks, courtesy of Doesnty! In other words, spellbooks don't cost space. This is gonna be huge!
+* Dith piety decay is slower, dith no longer hates fire. (hellmonk)
+* Vehumet no longer gifts level 1 and 2 spells. (hellmonk)
+* Fewer gifts from trog and oka. (hellmonk)
 
 #### *Below you will find the contents of the original DCSS readme.*
 #### *Some of the info below no longer applies, but much of it does!*
