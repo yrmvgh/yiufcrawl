@@ -93,3 +93,5 @@ void expose_player_to_element(beam_type flavour, int strength = 0,
 int timescale_damage(const actor *act, int damage);
 bool can_shave_damage();
 int do_shave_damage(int dam);
+bool can_blunt_damage();
+int do_blunt_damage(int dam);

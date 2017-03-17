@@ -748,8 +748,7 @@ void reset_damage_counters()
 
 bool can_shave_damage()
 {
-    return (you.species == SP_DEEP_DWARF)
-            || you.attribute[ATTR_REAPING];
+    return (you.species == SP_DEEP_DWARF);
 }
 
 int do_shave_damage(int dam)
@@ -757,13 +756,31 @@ int do_shave_damage(int dam)
     if (!can_shave_damage())
         return dam;
 
-    // Deep Dwarves and reaping skeletons get to shave any hp loss.
+    // Deep Dwarves get to shave any hp loss.
     int shave = 1 + random2(2 + random2(1 + you.experience_level / 3));
     dprf("HP shaved: %d.", shave);
     dam -= shave;
 
     return dam;
 }
+
+bool can_blunt_damage()
+{
+    return (you.attribute[ATTR_REAPING]);
+}
+
+int do_blunt_damage(int dam, int damage_fraction_of_hp)
+{
+    if (!can_blunt_damage())
+        return dam;
+
+    // reaping skeletons get to shave any hp loss.
+    int blunt = div_rand_round(dam, 15);
+    dam-= blunt;
+
+    return dam;
+}
+
 
 // Determine what's threatening for purposes of sacrifice drink and reading.
 // the statuses are guaranteed not to happen if the incoming damage is less
