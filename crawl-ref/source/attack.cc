@@ -1203,7 +1203,7 @@ int attack::player_apply_final_multipliers(int damage)
 
     // That's my secret, Cap: I'm always angry.
     if (you.species == SP_SKELETON && you.attribute[ATTR_REAPING])
-        damage = damage + random2(damage * 1.15);
+        damage = damage  * 1.15;
 
     return damage;
 }
