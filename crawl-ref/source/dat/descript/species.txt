@@ -30,8 +30,8 @@ they grow.
 %%%%
 Dorf
 
-Dorfs are simple warriors with a high resistance to hexes and nastymancy.
-All dwarves feel comfortable using wands, maces and shields.
+Dorfs are simple warriors with a high resistance to hexes and necromancy.
+All dwarves are comfortable using wands, maces and shields.
 %%%%
 Draconian
 
@@ -128,7 +128,7 @@ but almost no armour fits them.
 Ogre
 
 Large and strong, Ogres are mostly seen as brutes. They are extremely robust,
-and have an excellent grasp of magic. (YIUF: more HP)
+and have an good grasp of magic. (YIUF: more HP)
 %%%%
 Plutonian
 
@@ -162,5 +162,5 @@ Their magical reserves absorb damage, and they pack a magic-restoring bite.
 %%%%
 Skeleton
 
-Experimental species by SteelNeuron. Find info or share your thoughts about
+Experimental species by SteelNeuron. Read info or share your thoughts about
 this race at https://crawl.develz.org/tavern/viewtopic.php?f=8&p=308801
