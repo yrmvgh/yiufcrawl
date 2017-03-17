@@ -33,5 +33,5 @@ notifications:
         on_failure: always
         use_notice: true
         template:
-            - "%{result} (%{branch} - #%{build_number}) %{build_url} View changes: %{compare_url}"
+            - "%{result} (%{branch} - #%{build_number}) %{build_url} View changes: %{compare_url} %{commit_subject}"
 sudo: required
