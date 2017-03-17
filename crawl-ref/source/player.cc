@@ -3150,26 +3150,6 @@ void adjust_level(int diff, bool just_xp)
 }
 
 /**
- * Return a multiplier for skill when calculating stealth values, based on the
- * player's species & form.
- *
- * @return The player's current stealth multiplier value.
- */
-static int _stealth_mod()
-{
-    const int form_stealth_mod = get_form()->get_stealth_mod();
-
-    if (form_stealth_mod != 0)
-        return form_stealth_mod;
-
-    int species_stealth_mod = species_stealth_modifier(you.species);
-    if (you.form == TRAN_STATUE)
-        species_stealth_mod -= 3;
-
-    return species_stealth_mod;
-}
-
-/**
  * Get the player's current stealth value.
  *
  * XXX: rename this to something more reasonable
@@ -3196,7 +3176,7 @@ int check_stealth()
 
     int stealth = you.dex() * 3;
 
-    stealth += you.skill(SK_STEALTH, _stealth_mod());
+    stealth += you.skill(SK_STEALTH, 18);
 
     if (you.confused())
         stealth /= 3;
