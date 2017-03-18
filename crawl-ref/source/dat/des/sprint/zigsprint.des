@@ -542,7 +542,7 @@ local rnd = crawl.random2(142)
 -- Uniques
   elseif rnd < 140 then
     e.kmons("1 = Blork the orc / Crazy Yiuf / Dowan / Duvessa / Edmund / Erica / Erolcha /\
-               Eustachio / Gastronok / Grum / Grinder / Harold / Ijyb / Jessica /\
+               Eustachio / Gastronok / Grum / Grinder / Harold / Jessica /\
                Joseph / Josephine / Menkaure / Pikel /\
                Prince Ribbit / Psyche / Purgy / Sigmund / Sonja / Terence / Urug /\
                Agnes / Aizul / Azrael / Donald / Frances / Kirke / Louise /\
