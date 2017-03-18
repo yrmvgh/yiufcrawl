@@ -1609,19 +1609,16 @@ DEPTH:  D:2-4
 {{
   -- Default for when we're only map validating.
   if not crawl.game_started() then
-    kmons("O = Ijyb / Robin / hobgoblin w:1")
+    kmons("O = Robin / hobgoblin w:1")
     subst("B = 1")
     return
   end
 
   -- possible hobgoblin bosses and their weights
-  bossw = {hobgoblin = 1, Ijyb = 10, Robin = 10}
+  bossw = {hobgoblin = 1, Robin = 10}
   bosses = {hobgoblin = 1}
 
-  -- Find out which hobgoblin uniques we can use
-  if not you.uniques("Ijyb") then
-    bosses["Ijyb"] = bossw["Ijyb"]
-  end
+  -- Find out which hobgoblin unique we can use
   if not you.uniques("Robin") then
     bosses["Robin"] = bossw["Robin"]
   end

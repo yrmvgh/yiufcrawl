@@ -1130,7 +1130,7 @@ WEIGHT: 5
 MONS:   jackal / hound, yak, human
 # XXX: Use some function to cover for used uniques,
 # like in kennysheep_goblin_castle.
-MONS:   Edmund / Jessica / Sigmund, Ijyb / Psyche
+MONS:   Edmund / Jessica / Sigmund / Psyche
 SUBST:  1 = 11., 3 = 3., 4 = 34, 5 = 35
 # Guarantee two winding tunnel into the center in this mess.
 SHUFFLE: rR / sS / uU / vV / wW / yY / zZ, uU / nN
@@ -6703,7 +6703,7 @@ NAME:   kennysheep_the_goblin_king
 ORIENT: float
 TAGS:   no_monster_gen no_trap_gen
 DEPTH:  D:2-4
-KMONS:  1 = Ijyb / hobgoblin, hobgoblin
+KMONS:  1 = hobgoblin, hobgoblin
 KMONS:  2 = goblin
 MAP
 xxxxxxxxx

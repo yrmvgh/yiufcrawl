@@ -191,7 +191,7 @@ function choose_mset_1(e)
   else
     e.kmons("1 = Sigmund, Jessica, Blork the orc, Crazy Yiuf, Dowan, \
                Duvessa, Edmund, Erica, Erolcha, Eustachio, Gastronok, \
-               Grum, Grinder, Harold, Ijyb, Joseph, Josephine, \
+               Grum, Grinder, Harold, Joseph, Josephine, \
                Menkaure, Pikel, Prince Ribbit, Psyche, \
                Purgy, Sonja, Terence, Urug, human")
   end
@@ -286,7 +286,7 @@ function choose_mset_2(e)
   else
     e.kmons("1 = Sigmund, Jessica, Blork the orc, Crazy Yiuf, Dowan, \
                Duvessa, Edmund, Erica, Erolcha, Eustachio, Gastronok, \
-               Grum, Grinder, Harold, Ijyb, Joseph, Josephine, \
+               Grum, Grinder, Harold, Joseph, Josephine, \
                Menkaure, Pikel, Prince Ribbit, Psyche, \
                Purgy, Sonja, Terence, Urug, human")
   end
@@ -408,7 +408,7 @@ function choose_mset_3(e)
 -- Uniques
   elseif rnd < 114 then
     e.kmons("1 = Blork the orc / Crazy Yiuf / Dowan / Duvessa / Edmund / Erica / Erolcha /\
-               Eustachio / Gastronok / Grum / Grinder / Harold / Ijyb / Jessica /\
+               Eustachio / Gastronok / Grum / Grinder / Harold / Jessica /\
                Joseph / Josephine / Menkaure / Pikel /\
                Prince Ribbit / Psyche / Purgy / Sigmund / Sonja / Terence / Urug /\
                Agnes / Aizul / Azrael / Donald / Frances / Kirke / Louise /\

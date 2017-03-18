@@ -221,7 +221,7 @@ function arena_sprint_get_monster_set(round, boss)
         elseif round <= 2 then
             mon_set = {
                 "place:D:3 / place:D:5 / w:4 sigmund / w:2 jessica / w:2 terence",
-                "goblin / hobgoblin / kobold / big kobold / ijyb w:6 / pikel w:4",
+                "goblin / hobgoblin / kobold / big kobold / pikel w:4",
                 "rat / quokka / iguana / porcupine / w:2 hell rat / w:6 purgy",
                 "ball python / adder w:15 / water moccasin w:5",
                 "orc w:40 / orc wizard w:8 / orc priest w:5 / w:5 orc warrior / blork the orc",

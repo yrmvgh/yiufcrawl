@@ -138,8 +138,7 @@ static void _give_wand(monster* mon, int level)
     // Don't give top-tier wands before 5 HD, except to Ijyb and not in sprint.
     const bool no_high_tier =
             (mon->get_experience_level() < 5
-                || mons_class_flag(mon->type, M_NO_HT_WAND))
-            && (mon->type != MONS_IJYB || crawl_state.game_is_sprint());
+                || mons_class_flag(mon->type, M_NO_HT_WAND));
 
     const int idx = items(false, OBJ_WANDS, OBJ_RANDOM, level);
 
@@ -433,7 +432,6 @@ static void _give_weapon(monster* mon, int level, bool melee_only = false,
         } } },
         { MONS_GOBLIN,                  { GOBLIN_WEAPONS } },
         { MONS_JESSICA,                 { GOBLIN_WEAPONS } },
-        { MONS_IJYB,                    { GOBLIN_WEAPONS } },
         { MONS_WIGHT,
             { { { WPN_MORNINGSTAR,      4 },
                 { WPN_DIRE_FLAIL,       4 },
@@ -1638,7 +1636,6 @@ static void _give_armour(monster* mon, int level, bool spectral_orcs)
         item.sub_type  = ARM_LEATHER_ARMOUR;
         break;
 
-    case MONS_IJYB:
     case MONS_DUVESSA:
     case MONS_DEEP_ELF_ANNIHILATOR:
     case MONS_DEEP_ELF_DEATH_MAGE:

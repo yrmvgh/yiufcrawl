@@ -1015,7 +1015,6 @@ local scary_monsters = {
   {3, "Terence"},
 
   {5, "gnoll"},
-  {5, "Ijyb"},
   {5, "ice beast"},
   {5, "iguana"},
   {5, "Natasha"},

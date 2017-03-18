@@ -4547,63 +4547,6 @@ _Ignacio_rare_
 @The_monster@ says @to_foe@, "No gallows around, so decapitation it is."
 ## END Ignacio ##
 %%%%
-############ IJYB ### A twisted goblin
-Ijyb
-
-@_Ijyb_common_@
-
-w:5
-@_Ijyb_rare_@
-%%%%
-_Ijyb_common_
-
-VISUAL:@The_monster@ grins evilly.
-
-@The_monster@ screams @at_foe@, "Die!"
-
-@The_monster@ screams @at_foe@, "Me kill you!"
-
-@The_monster@ screams @at_foe@, "Me stronger than you!"
-
-@The_monster@ screams @at_foe@, "It's all mine!"
-
-@The_monster@ screams @at_foe@, "Get away!"
-
-@The_monster@ screams @at_foe@, "Level is mine! All mine!"
-
-@The_monster@ screams @at_foe@, "You nasty! Big nasty!"
-%%%%
-_Ijyb_rare_
-
-@The_monster@ screams @at_foe@, "I cut your head off!"
-
-@The_monster@ screams @at_foe@, "I dance on your bones!"
-
-@The_monster@ screams @at_foe@, "Me very upset!"
-
-@The_monster@ screams @at_foe@, "No! No, no, no, no!"
-
-@The_monster@ screams @at_foe@, "I no like you!"
-%%%%
-confused Ijyb
-
-@The_monster@ cowers and screams, "My head! Aaaah! Get out now!"
-
-@The_monster@ screams @at_foe@, "Me give you whole level! Then you leave me be!"
-
-@The_monster@ screams @at_foe@, "Me still stronger! You very nasty!"
-
-@The_monster@ screams @at_foe@, "Me deserve better than this!"
-
-@The_monster@ screams @at_foe@, "Me be nice to you! Me promise!"
-
-@The_monster@ screams @at_foe@, "Me back to killing you soon!"
-
-@The_monster@ screams @at_foe@, "No nasty magic on me!"
-
-VISUAL:@The_monster@ clutches @possessive@ head and gibbers rapidly, swaying.
-## END Ijyb ##
-%%%%
 ############ ILSUIW ### a powerful merfolk witch
 Ilsuiw
 
