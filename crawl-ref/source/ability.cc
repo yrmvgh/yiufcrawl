@@ -327,7 +327,7 @@ static const ability_def Ability_List[] =
     { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::instant },
 
     { ABIL_OVERLOAD, "Overload",
-        2, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
+        0, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
 
     // EVOKE abilities use Evocations and come from items.
     // Teleportation and Blink can also come from mutations
