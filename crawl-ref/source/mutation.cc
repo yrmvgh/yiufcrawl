@@ -1229,6 +1229,9 @@ static bool _resist_mutation(mutation_permanence_class mutclass,
     if (player_mutation_level(MUT_MUTATION_RESISTANCE) == 3)
         return true;
 
+    if (you.species == SP_NULL)
+        return true;
+
     const int mut_resist_chance = mutclass == MUTCLASS_TEMPORARY ? 2 : 3;
     if (player_mutation_level(MUT_MUTATION_RESISTANCE)
         && !one_chance_in(mut_resist_chance))
