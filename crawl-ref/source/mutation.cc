@@ -425,8 +425,10 @@ string describe_mutations(bool center_title)
     if (you.species == SP_LAVA_ORC)
     {
         if (temperature_effect(LORC_STONESKIN))
+        {
             result += make_stringf("Your skin is stony and craggy. (AC +%d)\n",
                 lorc_stoneskin_bonus() / 100);
+        }
         if (temperature_effect(LORC_LAVA_BOOST))
             result += "Your Earth and Fire spells are enhanced.\n";
         if (temperature_effect(LORC_FIRE_RES_I) && !temperature_effect(LORC_FIRE_RES_III))
