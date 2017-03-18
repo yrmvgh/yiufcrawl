@@ -1832,8 +1832,10 @@ static void _get_book(const item_def& it, bool quiet)
     bool newspells = false;
     bool useless = false;
     if (!quiet)
-        mprf("You pick up %s and begin reading...", 
+    {
+        mprf("You pick up %s and begin reading...",
              it.name(DESC_A).c_str());
+    }
     for (spell_type& st : spells_in_book(it))
     {
         if (!you.spell_library[st])
@@ -1860,7 +1862,7 @@ bool add_held_books_to_library()
     bool added = false;
     for (item_def& it : you.inv)
     {
-        if(it.base_type == OBJ_BOOKS && it.sub_type != BOOK_MANUAL)
+        if (it.base_type == OBJ_BOOKS && it.sub_type != BOOK_MANUAL)
         {
             _get_book(it, true);
             added = true;

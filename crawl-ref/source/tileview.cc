@@ -235,7 +235,7 @@ void tile_default_flv(branch_type br, int depth, tile_flavour &flv)
         flv.wall  = TILE_WALL_BAZAAR;
         flv.floor = TILE_FLOOR_VAULT;
         return;
-    
+
     case BRANCH_TROVE:
         flv.wall  = TILE_STONE_WALL_VAULT;
         flv.floor = TILE_FLOOR_VAULT;

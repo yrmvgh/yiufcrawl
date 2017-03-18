@@ -3771,9 +3771,7 @@ static void tag_read_you_items(reader &th)
     }
     // Move any books from inventory into the player's library.
     if (th.getMinorVersion() < TAG_MINOR_GOLDIFY_BOOKS)
-    {
         add_held_books_to_library();
-    }
 #endif
 }
 
