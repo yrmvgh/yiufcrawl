@@ -782,8 +782,8 @@ void yell(const actor* mon)
              shout_verb.c_str(),
              you.duration[DUR_RECITE] ? " your recitation" : "",
              mon->name(DESC_THE).c_str(),
-             you.species == SP_IMP && coinflip() ? _imp_insult(*mon).c_str()
-             : "!");
+             you.species == SP_IMP && one_chance_in(3)
+                ? _imp_insult(*mon).c_str() : "!");
     }
     else
     {
