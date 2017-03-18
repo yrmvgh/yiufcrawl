@@ -1822,7 +1822,7 @@ MONS:    thorn hunter / shambling mangrove / spriggan druid
 KMONS:   O = fire dragon w:1 / ice dragon w:1 / hydra w:18
 KMONS:   & = the lernaean hydra
 KITEM:   O& = decaying rune of Zot
-KFEAT:   O = enter_vaults
+KFEAT:   O& = enter_vaults
 SHUFFLE: 12
 SUBST:   - = WW.
 NSUBST:  13 = 5:., 1 = 5:1 / 2:. / * = 1..
