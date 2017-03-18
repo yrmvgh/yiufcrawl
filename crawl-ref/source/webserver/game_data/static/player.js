@@ -356,9 +356,9 @@ function ($, comm, enums, map_knowledge, messages, options) {
         else if (player.diff == -1)
 			$("#stats_wizmode").text("CASUAL");
         else if (player.diff == 0)
-            $("#stats_wizmode").text("NORMAL");
+            $("#stats_wizmode").text("CASUAL");
         else if (player.diff == 1)
-            $("#stats_wizmode").text("Casual");
+            $("#stats_wizmode").text("NORMAL");
         else
             $("#stats_wizmode").text("");
 
