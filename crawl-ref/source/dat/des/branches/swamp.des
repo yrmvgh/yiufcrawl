@@ -1864,7 +1864,7 @@ KMONS:   O = fire dragon w:2 / hydra w:18
 KMONS:   P = ice dragon w:2 / hydra w:18
 KMONS:   & = the lernaean hydra
 KITEM:   OP& = decaying rune of Zot
-KFEAT:   O = enter_vaults
+KFEAT:   OP& = enter_vaults
 SHUFFLE: Od, 123,  lLO4 / wWP5, 56
 SUBST:   1 = 111., 2 = 2., 3 = 333.
 SUBST:   l = l `:2, L~ = ., ' = .t, " = tc
@@ -2053,7 +2053,7 @@ KITEM:   O = decaying rune of Zot
 KFEAT:   O = enter_vaults
 KITEM:   * = *
 KFEAT:   ?Y = deep_water
-KFEAT:   O* = shallow_water
+KFEAT:   * = shallow_water
 SHUFFLE: O*
 SUBST:   1 = 113, ? = ??w, " = tc, ' = .w
 NSUBST:  6 = 5:5 / 3 = 89 / 10 = 5666. / *:., y = 1:Y / *:W

@@ -669,7 +669,25 @@ void check_map_validity()
         if (you.depth == 5)
             portal = DNGN_ENTER_HELL;
 	}
+    if (player_in_branch(BRANCH_SWAMP) || player_in_branch(BRANCH_SPIDER)
+        || player_in_branch(BRANCH_SNAKE) || player_in_branch(BRANCH_SHOALS))
+    {
+        if (you.depth == 3)
+             portal = DNGN_ENTER_VAULTS;	
+    }
 
+    if (player_in_branch(BRANCH_SLIME))
+    {
+        if (you.depth == 4)
+		    portal = DNGN_ENTER_DEPTHS;
+    }
+	
+    if (player_in_branch(BRANCH_VAULTS))
+    {
+		if (you.depth == 3)
+             portal = DNGN_ENTER_SLIME;	
+	}
+	
     dungeon_feature_type exit = DNGN_UNSEEN;
 
     // these may require you to look farther:
