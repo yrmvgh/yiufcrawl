@@ -57,6 +57,8 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 * Dith piety decay is slower, dith no longer hates fire. (hellmonk)
 * Vehumet no longer gifts level 1 and 2 spells. (hellmonk)
 * Fewer gifts from trog and oka. (hellmonk)
+* Demonspawn can have multiple mutations in the same "slot". In other words, a Ds with hooves can also have talons. Presumably one of those mutations is growing out of the character's knees or something.
+* Demonspawn claws *should* generally appear sooner than other Ds mutations. This gives you a chance to switch to using Unarmed Combat as your primary weapon sooner rather than later.
 
 #### *Below you will find the contents of the original DCSS readme.*
 #### *Some of the info below no longer applies, but much of it does!*
