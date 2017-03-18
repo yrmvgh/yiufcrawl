@@ -1830,9 +1830,6 @@ int player_spec_conj()
     // Staves
     sc += you.wearing(EQ_STAFF, STAFF_CONJURATION);
 
-    if (you.attribute[ATTR_REAPING])
-        sc++;
-
     return sc;
 }
 
