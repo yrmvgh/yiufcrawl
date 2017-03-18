@@ -844,9 +844,7 @@ string monster_info::_core_name() const
                                                "enormous ", "titanic "};
         s = get_monster_data(nametype)->name;
 
-        if (mons_is_draconian_job(type) && base_type != MONS_NO_MONSTER)
-            s = draconian_colour_name(base_type) + " " + s;
-        else if (mons_is_demonspawn_job(type) && base_type != MONS_NO_MONSTER)
+        if (mons_is_demonspawn_job(type) && base_type != MONS_NO_MONSTER)
             s = demonspawn_base_name(base_type) + " " + s;
 
         switch (type)

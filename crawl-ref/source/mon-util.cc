@@ -1454,20 +1454,6 @@ bool mons_is_demonspawn_job(monster_type mc)
 }
 
 /**
- * Is the provided monster_type a draconian job type? (Not just any draconian,
- * but specifically one with a job! Or the job itself, depending how you think
- * about it.)
- *
- * @param mc    The monster type in question.
- * @return      Whether that monster type is a draconian job.
- **/
-bool mons_is_draconian_job(monster_type mc)
-{
-    return mc >= MONS_FIRST_NONBASE_DRACONIAN
-           && mc <= MONS_LAST_NONBASE_DRACONIAN;
-}
-
-/**
  * Is the provided monster_type a job? (E.g. black sun, draconian knight)
  *
  * @param mc    The monster type in question.
@@ -1475,7 +1461,7 @@ bool mons_is_draconian_job(monster_type mc)
  **/
 bool mons_is_job(monster_type mc)
 {
-    return mons_is_draconian_job(mc) || mons_is_demonspawn_job(mc);
+    return mons_is_demonspawn_job(mc);
 }
 
 bool mons_is_unique(monster_type mc)
@@ -2800,18 +2786,6 @@ void define_monster(monster& mons)
 
     default:
         break;
-    }
-
-    if (mons_is_draconian_job(mcls))
-    {
-        // Professional draconians still have a base draconian type.
-        // White draconians will never be draconian scorchers, but
-        // apart from that, anything goes.
-        do
-        {
-            monbase = random_draconian_monster_species();
-        }
-        while (drac_colour_incompatible(mcls, monbase));
     }
 
     if (mons_is_demonspawn_job(mcls))

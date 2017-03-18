@@ -167,12 +167,6 @@ void wizard_create_spec_object()
             return;
         }
 
-        if (mons_is_draconian_job(mon))
-        {
-            mpr("You can't make a draconian corpse by its background.");
-            mon = MONS_DRACONIAN;
-        }
-
         monster dummy;
         dummy.type = mon;
         dummy.position = you.pos();

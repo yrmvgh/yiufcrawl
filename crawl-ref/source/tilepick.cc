@@ -1885,8 +1885,6 @@ tileidx_t tileidx_draco_base(const monster_info& mon)
 
 tileidx_t tileidx_draco_job(const monster_info& mon)
 {
-    if (mons_is_draconian_job(mon.type))
-        return get_mon_base_tile(mon.type);
     return 0;
 }
 
