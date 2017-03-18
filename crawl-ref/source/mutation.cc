@@ -1161,8 +1161,8 @@ bool physiology_mutation_conflict(mutation_type mutat)
 
     equipment_type eq_type = EQ_NONE;
 
-    // Mutations of the same slot conflict
-    if (is_body_facet(mutat))
+    // Mutations of the same slot conflict if you're not a demonspawn
+    if (is_body_facet(mutat) && !you.species == SP_DEMONSPAWN)
     {
         // Find equipment slot of attempted mutation
         for (const body_facet_def &facet : _body_facets)
