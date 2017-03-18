@@ -1972,7 +1972,7 @@ static const facet_def _demon_facets[] =
 {
     // Body Slot facets
     { 0, { MUT_CLAWS, MUT_CLAWS, MUT_CLAWS },
-      { -33, -33, -33 } },
+      { -99, -33, -33 } },
     { 0, { MUT_HORNS, MUT_HORNS, MUT_HORNS },
       { -33, -33, -33 } },
     { 0, { MUT_ANTENNAE, MUT_ANTENNAE, MUT_ANTENNAE },
