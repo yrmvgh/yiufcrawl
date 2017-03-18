@@ -430,19 +430,6 @@ static bool _mons_can_cast_dig(const monster* mons, bool random)
             && !(mons->is_silenced() && flags & MON_SPELL_SILENCE_MASK);
 }
 
-static bool _mons_can_zap_dig(const monster* mons)
-{
-    return mons->foe != MHITNOT
-           && !mons->asleep()
-           && !mons->confused() // they don't get here anyway
-           && !mons->berserk_or_insane()
-           && !mons->submerged()
-           && mons_itemuse(*mons) >= MONUSE_STARTING_EQUIPMENT
-           && mons->inv[MSLOT_WAND] != NON_ITEM
-           && mitm[mons->inv[MSLOT_WAND]].is_type(OBJ_WANDS, WAND_DIGGING)
-           && mitm[mons->inv[MSLOT_WAND]].charges > 0;
-}
-
 static void _set_mons_move_dir(const monster* mons,
                                coord_def* dir, coord_def* delta)
 {
@@ -746,83 +733,6 @@ static void _handle_movement(monster* mons)
         mmov.reset();
 }
 
-static bool _handle_potion(monster& mons)
-{
-    item_def* potion = mons.mslot_item(MSLOT_POTION);
-    if (mons.asleep()
-        || !potion
-        || !one_chance_in(3)
-        || mons_itemuse(mons) < MONUSE_STARTING_EQUIPMENT
-        || potion->base_type != OBJ_POTIONS)
-    {
-        return false;
-    }
-
-    bool rc = false;
-
-    const potion_type ptype = static_cast<potion_type>(potion->sub_type);
-
-    if (mons.can_drink_potion(ptype) && mons.should_drink_potion(ptype))
-    {
-        const bool was_visible = you.can_see(mons);
-
-        // XXX: this is mostly to prevent a funny message order:
-        // "$foo drinks a potion. $foo wields a great mace. $foo goes berserk!"
-        if (ptype == POT_BERSERK_RAGE)
-            mons.wield_melee_weapon();
-
-        // Drink the potion, and identify it.
-        if (mons.drink_potion_effect(ptype) && was_visible)
-            set_ident_type(OBJ_POTIONS, ptype, true);
-
-        // Remove the oldest blood timer.
-        if (is_blood_potion(*potion))
-            remove_oldest_perishable_item(*potion);
-
-        // Remove it from inventory.
-        if (dec_mitm_item_quantity(potion->index(), 1))
-            mons.inv[MSLOT_POTION] = NON_ITEM;
-
-        mons.lose_energy(EUT_ITEM);
-        rc = true;
-    }
-
-    return rc;
-}
-
-static bool _handle_evoke_equipment(monster& mons)
-{
-    // TODO: check non-ring, non-amulet equipment
-    item_def* jewel = mons.mslot_item(MSLOT_JEWELLERY);
-    if (mons.asleep()
-        || mons_is_confused(mons)
-        || !jewel
-        || !one_chance_in(3)
-        || mons_itemuse(mons) < MONUSE_STARTING_EQUIPMENT
-        || jewel->base_type != OBJ_JEWELLERY)
-    {
-        return false;
-    }
-
-    bool rc = false;
-
-    const jewellery_type jtype = static_cast<jewellery_type>(jewel->sub_type);
-
-    if (mons.can_evoke_jewellery(jtype) && mons.should_evoke_jewellery(jtype))
-    {
-        const bool was_visible = you.can_see(mons);
-
-        // Evoke the item, and identify it.
-        if (mons.evoke_jewellery_effect(jtype) && was_visible)
-            set_ident_type(OBJ_JEWELLERY, jtype, true);
-
-        mons.lose_energy(EUT_ITEM);
-        rc = true;
-    }
-
-    return rc;
-}
-
 /**
  * Check if the monster has a swooping attack and is in a position to
  * use it, and do so if they can.
@@ -955,254 +865,6 @@ static bool _handle_reaching(monster* mons)
     }
 
     return ret;
-}
-
-static bool _handle_scroll(monster& mons)
-{
-    item_def* scroll = mons.mslot_item(MSLOT_SCROLL);
-
-    // Yes, there is a logic to this ordering {dlb}:
-    if (mons.asleep()
-        || mons_is_confused(mons)
-        || mons.submerged()
-        || !scroll
-        || mons.has_ench(ENCH_BLIND)
-        || !one_chance_in(3)
-        || mons_itemuse(mons) < MONUSE_STARTING_EQUIPMENT
-        || silenced(mons.pos())
-        || scroll->base_type != OBJ_SCROLLS)
-    {
-        return false;
-    }
-
-    bool read        = false;
-    bool was_visible = you.can_see(mons);
-
-    // Notice how few cases are actually accounted for here {dlb}:
-    const int scroll_type = scroll->sub_type;
-    switch (scroll_type)
-    {
-    case SCR_TELEPORTATION:
-        if (!mons.has_ench(ENCH_TP) && !mons.no_tele(true, false))
-        {
-            if (mons.caught() || mons_is_fleeing(mons) || mons.pacified())
-            {
-                simple_monster_message(mons, " reads a scroll.");
-                read = true;
-                monster_teleport(&mons, false);
-            }
-        }
-        break;
-
-    case SCR_BLINKING:
-        if ((mons.caught() || mons_is_fleeing(mons) || mons.pacified())
-            && mons.can_see(you) && !mons.no_tele(true, false))
-        {
-            simple_monster_message(mons, " reads a scroll.");
-            read = true;
-            if (mons.caught())
-                monster_blink(&mons);
-            else
-                blink_away(&mons);
-        }
-        break;
-
-    case SCR_SUMMONING:
-        if (mons.can_see(you))
-        {
-            simple_monster_message(mons, " reads a scroll.");
-            mprf("Wisps of shadow swirl around %s.", mons.name(DESC_THE).c_str());
-            read = true;
-            int count = roll_dice(2, 2);
-            for (int i = 0; i < count; ++i)
-            {
-                create_monster(
-                    mgen_data(RANDOM_MOBILE_MONSTER, SAME_ATTITUDE((&mons)),
-                              mons.pos(), mons.foe)
-                    .set_summoned(&mons, 3, MON_SUMM_SCROLL));
-            }
-        }
-        break;
-    }
-
-    if (read)
-    {
-        if (dec_mitm_item_quantity(mons.inv[MSLOT_SCROLL], 1))
-            mons.inv[MSLOT_SCROLL] = NON_ITEM;
-
-        if (was_visible)
-            set_ident_type(OBJ_SCROLLS, scroll_type, true);
-
-        mons.lose_energy(EUT_ITEM);
-    }
-
-    return read;
-}
-
-static bolt& _generate_item_beem(bolt &beem, bolt& from, monster& mons)
-{
-    beem.name         = from.name;
-    beem.source_id    = mons.mid;
-    beem.source       = mons.pos();
-    beem.colour       = from.colour;
-    beem.range        = from.range;
-    beem.damage       = from.damage;
-    beem.ench_power   = from.ench_power;
-    beem.hit          = from.hit;
-    beem.glyph        = from.glyph;
-    beem.flavour      = from.flavour;
-    beem.thrower      = from.thrower;
-    beem.pierce       = from.pierce ;
-    beem.is_explosion = from.is_explosion;
-    beem.origin_spell = from.origin_spell;
-    beem.evoked       = true;
-    return beem;
-}
-
-static bool _setup_wand_beam(bolt& beem, monster& mons, const item_def& wand)
-{
-    if (item_type_removed(wand.base_type, wand.sub_type))
-        return false;
-
-    //XXX: implement these for monsters... (:
-    if (wand.sub_type == WAND_ICEBLAST
-        || wand.sub_type == WAND_CLOUDS
-        || wand.sub_type == WAND_SCATTERSHOT)
-    {
-        return false;
-    }
-
-    const spell_type mzap = spell_in_wand(static_cast<wand_type>(wand.sub_type));
-
-    // set up the beam
-    int power         = 30 + mons.get_hit_dice();
-    bolt theBeam      = mons_spell_beam(&mons, mzap, power);
-    beem = _generate_item_beem(beem, theBeam, mons);
-
-    beem.aux_source =
-        wand.name(DESC_QUALNAME, false, true, false, false);
-
-    return true;
-}
-
-static void _mons_fire_wand(monster& mons, item_def &wand, bolt &beem,
-                            bool was_visible, bool niceWand)
-{
-    if (!simple_monster_message(mons, " zaps a wand."))
-    {
-        if (!silenced(you.pos()))
-            mprf(MSGCH_SOUND, "You hear a zap.");
-    }
-
-    // charge expenditure {dlb}
-    wand.charges--;
-    beem.is_tracer = false;
-    beem.fire();
-
-    if (was_visible)
-    {
-        const int wand_type = wand.sub_type;
-
-        set_ident_type(OBJ_WANDS, wand_type, true);
-        if (!mons.props["wand_known"].get_bool())
-        {
-            mprf("It is %s.", wand.name(DESC_A).c_str());
-            mons.props["wand_known"] = true;
-        }
-
-        // Increment zap count.
-        if (wand.used_count >= 0)
-            wand.used_count++;
-
-        mons.flags |= MF_SEEN_RANGED;
-    }
-
-    mons.lose_energy(EUT_ITEM);
-}
-
-static bool _handle_wand(monster& mons)
-{
-    item_def *wand = mons.mslot_item(MSLOT_WAND);
-    // Yes, there is a logic to this ordering {dlb}:
-    // FIXME: monsters should be able to use wands
-    //        out of sight of the player [rob]
-    if (!you.see_cell(mons.pos())
-        || mons.asleep()
-        || mons_is_fleeing(mons)
-        || mons.pacified()
-        || mons_itemuse(mons) < MONUSE_STARTING_EQUIPMENT
-        || mons.has_ench(ENCH_SUBMERGED)
-        || x_chance_in_y(3, 4)
-        || !wand
-        || wand->base_type != OBJ_WANDS)
-    {
-        return false;
-    }
-
-    if (wand->charges <= 0)
-    {
-        if (wand->used_count != ZAPCOUNT_EMPTY)
-        {
-            if (simple_monster_message(mons, " zaps a wand."))
-                canned_msg(MSG_NOTHING_HAPPENS);
-            else if (!silenced(you.pos()))
-                mprf(MSGCH_SOUND, "You hear a zap.");
-            wand->used_count = ZAPCOUNT_EMPTY;
-            mons.lose_energy(EUT_ITEM);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    bool niceWand    = false;
-    bool zap         = false;
-    bool was_visible = you.can_see(mons);
-    bolt beem = setup_targetting_beam(mons);
-
-    if (!_setup_wand_beam(beem, mons, *wand))
-        return false;
-
-    const wand_type kind = (wand_type)wand->sub_type;
-    switch (kind)
-    {
-    case WAND_DISINTEGRATION:
-        // Dial down damage from wands of disintegration, since
-        // disintegration beams can do large amounts of damage.
-        beem.damage.size = beem.damage.size * 2 / 3;
-        break;
-
-    case WAND_DIGGING:
-        // This is handled elsewhere.
-        return false;
-
-    default:
-        break;
-    }
-
-    if (mons.confused())
-    {
-        beem.target = dgn_random_point_from(mons.pos(), LOS_RADIUS);
-        if (beem.target.origin())
-            return false;
-        zap = true;
-    }
-    else if (!niceWand)
-    {
-        // Fire tracer, if necessary.
-        fire_tracer(&mons, beem);
-
-        // Good idea?
-        zap = mons_should_fire(beem);
-    }
-
-    if (niceWand || zap)
-    {
-        _mons_fire_wand(mons, *wand, beem, was_visible, niceWand);
-        return true;
-    }
-
-    return false;
 }
 
 bool handle_throw(monster* mons, bolt & beem, bool teleport, bool check_only)
@@ -1840,30 +1502,6 @@ void handle_monster_move(monster* mons)
 
         if (friendly_or_near)
         {
-            if (_handle_potion(*mons))
-            {
-                DEBUG_ENERGY_USE("_handle_potion()");
-                return;
-            }
-
-            if (_handle_scroll(*mons))
-            {
-                DEBUG_ENERGY_USE("_handle_scroll()");
-                return;
-            }
-
-            if (_handle_evoke_equipment(*mons))
-            {
-                DEBUG_ENERGY_USE("_handle_evoke_equipment()");
-                return;
-            }
-
-            if (_handle_wand(*mons))
-            {
-                DEBUG_ENERGY_USE("_handle_wand()");
-                return;
-            }
-
             if (_handle_swoop(*mons))
             {
                 DEBUG_ENERGY_USE("_handle_swoop()");
@@ -2828,8 +2466,7 @@ bool mon_can_move_to_pos(const monster* mons, const coord_def& delta,
     if (env.level_state & LSTATE_SLIMY_WALL && _check_slime_walls(mons, targ))
         return false;
 
-    const bool digs = _mons_can_cast_dig(mons, false)
-                      || _mons_can_zap_dig(mons);
+    const bool digs = _mons_can_cast_dig(mons, false);
     if ((target_grid == DNGN_ROCK_WALL || target_grid == DNGN_CLEAR_ROCK_WALL)
            && (mons_class_flag(mons->type, M_BURROWS) || digs)
         || mons->type == MONS_SPATIAL_MAELSTROM
@@ -3511,8 +3148,7 @@ static bool _monster_move(monster* mons)
 
     const bool burrows = mons_class_flag(mons->type, M_BURROWS);
     const bool flattens_trees = mons_flattens_trees(*mons);
-    const bool digs = _mons_can_cast_dig(mons, false)
-                      || _mons_can_zap_dig(mons);
+    const bool digs = _mons_can_cast_dig(mons, false);
     // Take care of formicid/Dissolution burrowing, lerny, etc
     if (burrows || flattens_trees || digs)
     {
@@ -3528,14 +3164,6 @@ static bool _monster_move(monster* mons)
                 beem.target = mons->pos() + mmov;
                 mons_cast(mons, beem, SPELL_DIG,
                           mons->spell_slot_flags(SPELL_DIG));
-            }
-            else if (_mons_can_zap_dig(mons))
-            {
-                ASSERT(mons->mslot_item(MSLOT_WAND));
-                item_def &wand = *mons->mslot_item(MSLOT_WAND);
-                beem.target = mons->pos() + mmov;
-                _setup_wand_beam(beem, *mons, wand);
-                _mons_fire_wand(*mons, wand, beem, you.can_see(*mons), false);
             }
             else
                 simple_monster_message(*mons, " falters for a moment.");
