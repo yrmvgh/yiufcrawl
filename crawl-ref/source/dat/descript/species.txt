@@ -132,13 +132,13 @@ and have an good grasp of magic. (YIUF: more HP)
 %%%%
 Plutonian
 
-Contaminated humanoids that draw strength from their unstable magical flux.
-If they accumulate too much contamination, they detonate a little bit.
+Contaminated beings who can erupt in magical explosions. Like humans, reasonably
+skilled at all things. They regenerate faster when contamination is higher.
 %%%%
 Sludge Elf
 
-Sludge Elves are good at unarmed combat and magic. Orcish blood clouds their
-veins. (YIUF: constantly Evolve mutations)
+Part elven, part orcish. Other elves despise them, and named them "sludge".
+Mutagenic energies fill their veins. (YIUF: constantly Evolve)
 %%%%
 Spriggan
 
