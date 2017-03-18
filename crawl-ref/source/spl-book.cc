@@ -374,7 +374,7 @@ static void _list_available_spells(spell_set &available_spells)
 {
     for (spell_type st = SPELL_NO_SPELL; st < NUM_SPELLS; st++)
     {
-        if(you.spell_library[st])
+        if (you.spell_library[st])
             available_spells.insert(st);
     }
 
@@ -468,9 +468,7 @@ static void _get_mem_list(spell_list &mem_spells,
     if (available_spells.empty())
     {
         if (!just_check)
-        {
             mprf(MSGCH_PROMPT, "Your library has no spells.");
-        }
         return;
     }
 

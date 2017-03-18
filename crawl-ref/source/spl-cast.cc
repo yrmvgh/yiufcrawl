@@ -542,6 +542,12 @@ int apply_enhancement(const int initial_power, const int enhancer_levels)
             power /= 2;
     }
 
+    if (you.attribute[ATTR_REAPING])
+    {
+        power *= 115;
+        power /= 100;
+    }
+
     return power;
 }
 

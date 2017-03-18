@@ -1830,9 +1830,6 @@ int player_spec_conj()
     // Staves
     sc += you.wearing(EQ_STAFF, STAFF_CONJURATION);
 
-    if (you.attribute[ATTR_REAPING])
-        sc++;
-
     return sc;
 }
 
@@ -2909,6 +2906,15 @@ void level_change(bool skip_attribute_increase)
 
             switch (you.species)
             {
+            case SP_SLUDGE_ELF:
+                if (!((3 + you.experience_level) % 7))
+                {
+                    mprf(MSGCH_INTRINSIC_GAIN, "Your genes become even more twisted!");
+                    mutate(random_choose(RANDOM_GOOD_MUTATION, RANDOM_SLIME_MUTATION),
+                           "being a sludge elf", false, true, false, true,
+                           MUTCLASS_INNATE, true);
+                }
+                break;
 //            case SP_IMP:
 //                if (you.experience_level == 13)
 //                    mprf(MSGCH_INTRINSIC_GAIN, "Your birthright as a tiny, "
@@ -6003,10 +6009,15 @@ int player::base_ac_from(const item_def &armour, int scale) const
     // The deformed don't fit into body armour very well.
     // (This includes nagas and centaurs.)
     if (get_armour_slot(armour) == EQ_BODY_ARMOUR
-            && (player_mutation_level(MUT_DEFORMED)
-                || player_mutation_level(MUT_PSEUDOPODS)))
+            && (player_mutation_level(MUT_DEFORMED)))
     {
         return AC - base / 2;
+    }
+    // Jiyva AC isn't so bad though. It's supposed to be a goodmut
+    if (get_armour_slot(armour) == EQ_BODY_ARMOUR
+            && (player_mutation_level(MUT_PSEUDOPODS)))
+    {
+        return AC - base * 2 / 3;
     }
 
     return AC;

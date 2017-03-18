@@ -425,8 +425,10 @@ string describe_mutations(bool center_title)
     if (you.species == SP_LAVA_ORC)
     {
         if (temperature_effect(LORC_STONESKIN))
+        {
             result += make_stringf("Your skin is stony and craggy. (AC +%d)\n",
                 lorc_stoneskin_bonus() / 100);
+        }
         if (temperature_effect(LORC_LAVA_BOOST))
             result += "Your Earth and Fire spells are enhanced.\n";
         if (temperature_effect(LORC_FIRE_RES_I) && !temperature_effect(LORC_FIRE_RES_III))
@@ -1159,8 +1161,8 @@ bool physiology_mutation_conflict(mutation_type mutat)
 
     equipment_type eq_type = EQ_NONE;
 
-    // Mutations of the same slot conflict
-    if (is_body_facet(mutat))
+    // Mutations of the same slot conflict if you're not a demonspawn
+    if ((is_body_facet(mutat)) && (you.species == !SP_DEMONSPAWN))
     {
         // Find equipment slot of attempted mutation
         for (const body_facet_def &facet : _body_facets)
@@ -1227,6 +1229,9 @@ static bool _resist_mutation(mutation_permanence_class mutclass,
                              bool beneficial)
 {
     if (player_mutation_level(MUT_MUTATION_RESISTANCE) == 3)
+        return true;
+
+    if (you.species == SP_NULL)
         return true;
 
     const int mut_resist_chance = mutclass == MUTCLASS_TEMPORARY ? 2 : 3;
@@ -1967,7 +1972,7 @@ static const facet_def _demon_facets[] =
 {
     // Body Slot facets
     { 0, { MUT_CLAWS, MUT_CLAWS, MUT_CLAWS },
-      { -33, -33, -33 } },
+      { -99, -33, -33 } },
     { 0, { MUT_HORNS, MUT_HORNS, MUT_HORNS },
       { -33, -33, -33 } },
     { 0, { MUT_ANTENNAE, MUT_ANTENNAE, MUT_ANTENNAE },

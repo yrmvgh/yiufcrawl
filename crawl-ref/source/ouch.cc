@@ -748,7 +748,7 @@ void reset_damage_counters()
 
 bool can_shave_damage()
 {
-    return (you.species == SP_DEEP_DWARF);
+    return you.species == SP_DEEP_DWARF;
 }
 
 int do_shave_damage(int dam)
@@ -766,7 +766,7 @@ int do_shave_damage(int dam)
 
 bool can_blunt_damage()
 {
-    return (you.attribute[ATTR_REAPING]);
+    return you.attribute[ATTR_REAPING];
 }
 
 int do_blunt_damage(int dam)

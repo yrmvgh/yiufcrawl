@@ -2,12 +2,12 @@
 ## A trunk-based fork of Stone Soup with leftover soup
 ### Exterminated races, expired experiments, and extinct species
     download instructions:
-    git clone https://github.com/yrmvgh/crawl.git yiufcrawl
+    git clone https://github.com/yrmvgh/yiufcrawl.git
     cd yiufcrawl/crawl-ref/source
     make TILES=y
     then just run the file named "yiufcrawl"
 
-alternately "make TILES=y install" will try to install yiufcrawl to your system
+alternately "make TILES=y install" will try to install yiufcrawl to your system. You may need to also set "SAVEDIR=something".
 
 for further help, check https://github.com/crawl/crawl/blob/master/crawl-ref/INSTALL.txt
 

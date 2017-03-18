@@ -327,7 +327,7 @@ static const ability_def Ability_List[] =
     { ABIL_REAP, "Reap", 0, 0, 0, 0, {}, abflag::instant },
 
     { ABIL_OVERLOAD, "Overload",
-        2, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
+        0, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
 
     // EVOKE abilities use Evocations and come from items.
     // Teleportation and Blink can also come from mutations
@@ -1830,9 +1830,9 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_OVERLOAD:
         fail_check();
-            if (yesno("Are you sure you want to %s",
-                you.hp >= (you.hp_max / 2) ? "explode?"
-                : "explode, even though it might hurt a lot?", true, 'n'))
+            if (you.hp <= you.hp_max / 2)
+              mprf(MSGCH_DANGER, "This might hurt a lot!");
+            if (yesno("Are you sure you want to explode?", true, 'n'))
             {
                 beam.flavour      = BEAM_MAGIC;
                 beam.damage       = dice_def(2, div_rand_round(you.hp_max, 3));
