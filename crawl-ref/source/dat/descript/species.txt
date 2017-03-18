@@ -128,7 +128,7 @@ but almost no armour fits them.
 Ogre
 
 Large and strong, Ogres are mostly seen as brutes. They are extremely robust,
-and have an good grasp of magic. (YIUF: more HP)
+and have a good grasp of magic. (YIUF: even more HP)
 %%%%
 Plutonian
 
@@ -137,7 +137,7 @@ skilled at all things. They regenerate faster when contamination is higher.
 %%%%
 Sludge Elf
 
-Part elven, part orcish. Other elves despise them, and named them "sludge".
+Part elven, part orcish. Other elves despised them, and called them "sludge".
 Mutagenic energies fill their veins. (YIUF: constantly Evolve)
 %%%%
 Spriggan
@@ -162,5 +162,5 @@ Their magical reserves absorb damage, and they pack a magic-restoring bite.
 %%%%
 Skeleton
 
-Experimental species by SteelNeuron. Read info or share your thoughts about
-this race at https://crawl.develz.org/tavern/viewtopic.php?f=8&p=308801
+Experimental species designed by SteelNeuron. Can enter a murderous trance
+until all living things are dead.
