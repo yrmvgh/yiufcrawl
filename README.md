@@ -1,6 +1,6 @@
 # Yiuf's Home for Lost and Forgotten Species
-## A trunk-based fork of Stone Soup with leftover soup
-### Exterminated races, expired experiments, and extinct species
+### A trunk-based fork of Stone Soup with leftover soup    
+Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/yiufcrawl.git
     cd yiufcrawl/crawl-ref/source
@@ -63,7 +63,7 @@ Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have
 #### *Below you will find the contents of the original DCSS readme.*
 #### *Some of the info below no longer applies, but much of it does!*
 #### *To reduce confusion, **YIUF** is chopping and rewriting down there!*
-[![Build Status](https://travis-ci.org/yrmvgh/crawl.svg?branch=master)](https://travis-ci.org/yrmvgh/crawl)
+[![Build Status](https://travis-ci.org/yrmvgh/yiufcrawl.svg?branch=master)](https://travis-ci.org/yrmvgh/yiufcrawl)
 --------------------------------
 ## Contents
 
