@@ -884,7 +884,7 @@ static mutation_type _get_random_xom_mutation()
     {
         mutat = static_cast<mutation_type>(random2(NUM_MUTATIONS));
 
-        if (one_chance_in(1000))
+        if (one_chance_in(500))
             return NUM_MUTATIONS;
         else if (one_chance_in(5))
             mutat = _get_mut_with_use(mutflag::xom);
@@ -897,6 +897,11 @@ static mutation_type _get_random_xom_mutation()
 static mutation_type _get_random_qazlal_mutation()
 {
     return _get_mut_with_use(mutflag::qazlal);
+}
+
+static mutation_type _get_random_bear_mutation()
+{
+    return _get_mut_with_use(mutflag::bear);
 }
 
 static mutation_type _get_random_mutation(mutation_type mutclass)
@@ -1355,6 +1360,8 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         break;
     case RANDOM_QAZLAL_MUTATION:
         mutat = _get_random_qazlal_mutation();
+    case RANDOM_BEAR_MUTATION:
+        mutat = _get_random_bear_mutation();
         break;
     default:
         break;
