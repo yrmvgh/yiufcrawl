@@ -550,6 +550,8 @@ static const duration_def duration_data[] =
       {{ "", []() {
           wu_jian_heaven_tick();
       }}}},
+    { DUR_CORNERED, YELLOW, "Corner", "", "cornered",
+      "You feel cornered and can go bearserk.", D_NO_FLAGS },
 
     // The following are visible in wizmode only, or are handled
     // specially in the status lights and/or the % or @ screens.

@@ -2906,6 +2906,14 @@ void level_change(bool skip_attribute_increase)
 
             switch (you.species)
             {
+            case SP_BEARKIN:
+                if (you.experience_level % 4)
+                {
+                    mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
+                    mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
+                           true, MUTCLASS_INNATE, true);
+                }
+                break;
             case SP_SLUDGE_ELF:
                 if (!((3 + you.experience_level) % 7))
                 {

@@ -52,15 +52,14 @@ static const map<species_type, species_def> species_data =
     -1, 1, 0, 6,
     MONS_FELID,
     HT_LAND, US_ALIVE, SIZE_LARGE,
-    11, 7, 9, // 27
+    10, 6, 8, // 24
     { STAT_STR, STAT_DEX }, 3,
     { { MUT_CARNIVOROUS, 3, 1 }, { MUT_FANGS, 1, 1 }, { MUT_SHAGGY_FUR, 3, 1 },
-      { MUT_ACUTE_VISION, 1, 1 }, { MUT_SLOW_METABOLISM, 1, 1 }, { MUT_CLAWS, 1, 1 },
-       },
+      { MUT_ACUTE_VISION, 1, 1 }, { MUT_CLAWS, 1, 1 }, },
     { "You cannot wear armour." },
     { "no armour", },
-    { JOB_BERSERKER, JOB_ENCHANTER, JOB_TRANSMUTER, JOB_ICE_ELEMENTALIST,
-      JOB_CONJURER, JOB_SUMMONER, JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE },
+    { JOB_HUNTER, JOB_BERSERKER, JOB_SKALD, JOB_ICE_ELEMENTALIST,
+      JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE, JOB_GLADIATOR, JOB_WARPER },
     { SK_UNARMED_COMBAT },
 } },
 
