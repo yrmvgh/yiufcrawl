@@ -3274,23 +3274,6 @@ int check_stealth()
             stealth -= 5 + 5 * player_mutation_level(MUT_HOOVES);
     }
 
-    // Radiating silence is the negative complement of shouting all the
-    // time... a sudden change from background noise to no noise is going
-    // to clue anything in to the fact that something is very wrong...
-    // a personal silence spell would naturally be different, but this
-    // silence radiates for a distance and prevents monster spellcasting,
-    // which pretty much gives away the stealth game.
-    // this penalty is dependent on the actual amount of ambient noise
-    // in the level -doy
-    if (you.duration[DUR_SILENCE])
-        stealth -= STEALTH_PIP + current_level_ambient_noise();
-
-    // Mutations.
-    stealth += STEALTH_PIP * player_mutation_level(MUT_NIGHTSTALKER);
-    stealth += (STEALTH_PIP / 2)
-                * player_mutation_level(MUT_THIN_SKELETAL_STRUCTURE);
-    stealth += STEALTH_PIP * player_mutation_level(MUT_CAMOUFLAGE);
-
     // it's easier to be stealthy when there's a lot of background noise
     stealth += 2 * current_level_ambient_noise();
 
@@ -3329,10 +3312,6 @@ int check_stealth()
                   * (MAX_PIETY - min((int)you.piety, piety_breakpoint(5)))
                   / (MAX_PIETY - piety_breakpoint(0));
     }
-    // The shifting glow from the Orb, while too unstable to negate invis
-    // or affect to-hit, affects stealth even more than regular glow.
-    if (player_has_orb())
-        stealth /= 3;
 
     stealth = max(0, stealth);
 
