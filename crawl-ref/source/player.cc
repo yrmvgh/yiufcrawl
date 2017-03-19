@@ -2907,10 +2907,27 @@ void level_change(bool skip_attribute_increase)
             switch (you.species)
             {
             case SP_BEARKIN:
-                if (you.experience_level % 4)
+            // Ds-ish random muts every 3 levels, to approximate old bearkin design
+                if ((you.experience_level + 1) % 3)
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
                     mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
+                           true, MUTCLASS_INNATE, true);
+                }
+                // ensure that max-level bearkins have their bearserk.
+                if (you.experience_level % you.max_level)
+                {
+                    if (!you.mutation[MUT_BEARSERK])
+                        mutate(MUT_BEARSERK, "the bear spirit", false, true, false,
+                            true, MUTCLASS_INNATE, true);
+                    else if (you.mutation[MUT_ROBUST] < 3)
+                        mutate(MUT_ROBUST, "the bear spirit", false, true, false,
+                            true, MUTCLASS_INNATE, true);
+                    else if (you.mutation[MUT_CLAWS] < 3)
+                        mutate(MUT_CLAWS, "the bear spirit", false, true, false,
+                            true, MUTCLASS_INNATE, true);
+                    else
+                        mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
                            true, MUTCLASS_INNATE, true);
                 }
                 break;
