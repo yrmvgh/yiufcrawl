@@ -1203,8 +1203,8 @@ static int _abyss_place_vaults(const map_bitmask &abyss_genlevel_mask)
 
 static void _generate_area(const map_bitmask &abyss_genlevel_mask)
 {
-    dprf(DIAG_ABYSS, "_generate_area(). turns_on_level: %d, rune_on_floor: %s",
-         env.turns_on_level, placed_abyssal_rune? "yes" : "no");
+    dprf(DIAG_ABYSS, "_generate_area(). turns_on_level: %d",
+         env.turns_on_level);
 
     _abyss_apply_terrain(abyss_genlevel_mask);
 
