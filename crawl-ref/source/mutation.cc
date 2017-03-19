@@ -76,10 +76,11 @@ enum class mutflag
     jiyva   = 1 << 2, // jiyva-only muts
     qazlal  = 1 << 3, // qazlal wrath
     xom     = 1 << 4, // xom being xom
+    bear    = 1 << 5, // the bear spirit taking over
 
-    last    = xom
+    last    = bear
 };
-DEF_BITFIELD(mutflags, mutflag, 4);
+DEF_BITFIELD(mutflags, mutflag, 5);
 COMPILE_CHECK(mutflags::exponent(mutflags::last_exponent) == mutflag::last);
 
 #include "mutation-data.h"
@@ -188,6 +189,7 @@ static int _mut_weight(const mutation_def &mut, mutflag use)
         case mutflag::jiyva:
         case mutflag::qazlal:
         case mutflag::xom:
+        case mutflag::bear:
             return 1;
         case mutflag::good:
         case mutflag::bad:
@@ -914,6 +916,9 @@ static mutation_type _get_random_mutation(mutation_type mutclass)
             break;
         case RANDOM_GOOD_MUTATION:
             mt = mutflag::good;
+            break;
+        case RANDOM_BEAR_MUTATION:
+            mt = mutflag::bear;
             break;
         default:
             die("invalid mutation class: %d", mutclass);
@@ -1701,7 +1706,8 @@ bool delete_mutation(mutation_type which_mutation, const string &reason,
         || which_mutation == RANDOM_BAD_MUTATION
         || which_mutation == RANDOM_NON_SLIME_MUTATION
         || which_mutation == RANDOM_CORRUPT_MUTATION
-        || which_mutation == RANDOM_QAZLAL_MUTATION)
+        || which_mutation == RANDOM_QAZLAL_MUTATION
+        || which_mutation == RANDOM_BEAR_MUTATION)
     {
         while (true)
         {
