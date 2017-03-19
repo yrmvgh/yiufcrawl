@@ -452,17 +452,6 @@ static void _handle_uskayaw_time(int time_taken)
 }
 
 /**
- * Update whether a player with MUT_BEARSERK is cornered or not
- */
-static void _update_cornered()
-{
-    if (player_mutation_level(MUT_BEARSERK) && you.hp * 100 / you.hp_max <= 30)
-        you.set_duration(DUR_CORNERED, 1);
-    else
-        you.set_duration(DUR_CORNERED, 0);
-}
-
-/**
  * Player reactions after monster and cloud activities in the turn are finished.
  */
 void player_reacts_to_monsters()

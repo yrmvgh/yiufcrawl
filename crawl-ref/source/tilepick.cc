@@ -3200,6 +3200,8 @@ tileidx_t tileidx_ability(const ability_type ability)
         return TILEG_ABILITY_REAP;
     case ABIL_OVERLOAD:
         return TILEG_ABILITY_OVERLOAD;
+    case ABIL_BEARSERK:
+        return TILEG_ABILITY_EVOKE_BERSERK;
 
     // Others
 #if TAG_MAJOR_VERSION == 34

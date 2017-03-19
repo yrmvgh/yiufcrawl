@@ -2913,23 +2913,24 @@ void level_change(bool skip_attribute_increase)
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
                     mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           false, MUTCLASS_INNATE, true);
+                    mpr("This mutation is permanent, even though it's not in blue text.");
                 }
                 // ensure that max-level bearkins have their bearserk.
                 if (you.experience_level % you.max_level)
                 {
                     if (!you.mutation[MUT_BEARSERK])
                         mutate(MUT_BEARSERK, "the bear spirit", false, true, false,
-                            true, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE, true);
                     else if (you.mutation[MUT_ROBUST] < 3)
                         mutate(MUT_ROBUST, "the bear spirit", false, true, false,
-                            true, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE, true);
                     else if (you.mutation[MUT_CLAWS] < 3)
                         mutate(MUT_CLAWS, "the bear spirit", false, true, false,
-                            true, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE, true);
                     else
                         mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           false, MUTCLASS_INNATE, true);
                 }
                 break;
             case SP_SLUDGE_ELF:
@@ -2939,6 +2940,7 @@ void level_change(bool skip_attribute_increase)
                     mutate(random_choose(RANDOM_GOOD_MUTATION, RANDOM_SLIME_MUTATION),
                            "being a sludge elf", false, true, false, true,
                            MUTCLASS_INNATE, true);
+                    mpr("This mutation is permanent, even though it's not in blue text.");
                 }
                 break;
 //            case SP_IMP:

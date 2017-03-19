@@ -883,3 +883,9 @@ You unleash raw magical energy in a violent explosion that engulfs any nearby
 creature, including yourself. The size and intensity of the explosion varies.
 Typical damage is around 1/3 of your maximum health. Armour can reduce the
 damage a bit. Causes contamination.
+%%%%
+Bearserk ability
+When in a state of panic, an angry bear can lash out in rage. Sends the user
+into a bearserk rage, even if the user is already exhausted from a normal
+rage. This drains skills a bit, however.
+
