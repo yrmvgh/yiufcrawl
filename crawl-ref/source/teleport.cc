@@ -457,7 +457,7 @@ bool valid_blink_destination(const actor* moved, const coord_def& target,
     {
         if (!moved->is_habitable(target))
             return false;
-        if (moved->is_player() && is_feat_dangerous(grd(target), true))
+        if (moved->is_player() && is_feat_unpleasant(grd(target), true))
             return false;
     }
     if (forbid_sanctuary && is_sanctuary(target))

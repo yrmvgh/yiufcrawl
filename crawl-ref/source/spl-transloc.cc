@@ -508,7 +508,7 @@ static bool _cell_vetoes_teleport(const coord_def cell, bool check_monsters = tr
     if (cell_is_solid(cell))
         return true;
 
-    return is_feat_dangerous(grd(cell), true) && !wizard_tele;
+    return is_feat_unpleasant(grd(cell), true) && !wizard_tele;
 }
 
 static void _handle_teleport_update(bool large_change, const coord_def old_pos)

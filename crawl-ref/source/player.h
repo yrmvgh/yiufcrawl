@@ -1112,6 +1112,8 @@ void handle_player_drowning(int delay);
 // Determines if the given grid is dangerous for the player to enter.
 bool is_feat_dangerous(dungeon_feature_type feat, bool permanently = false,
                        bool ignore_flight = false);
+bool is_feat_unpleasant(dungeon_feature_type feat, bool permanently = false,
+                        bool ignore_flight = false);
 void enable_emergency_flight();
 
 int count_worn_ego(int which_ego);

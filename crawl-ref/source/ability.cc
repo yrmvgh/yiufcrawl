@@ -1558,16 +1558,7 @@ bool activate_talent(const talent& tal)
     // Doing these would outright kill the player.
     // (or, in the case of the stat-zeros, they'd at least be extremely
     // dangerous.)
-    if (tal.which == ABIL_STOP_FLYING)
-    {
-        if (is_feat_dangerous(grd(you.pos()), false, true))
-        {
-            mpr("Stopping flight right now would be fatal!");
-            crawl_state.zero_turns_taken();
-            return false;
-        }
-    }
-    else if (tal.which == ABIL_TRAN_BAT)
+    if (tal.which == ABIL_TRAN_BAT)
     {
         if (!check_form_stat_safety(TRAN_BAT))
         {

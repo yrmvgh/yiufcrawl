@@ -583,6 +583,25 @@ bool is_feat_dangerous(dungeon_feature_type grid, bool permanently,
 {
     return false;
 }
+/**
+* Check for lava / deep water to prevent players teleporting into it
+*/
+bool is_feat_unpleasant(dungeon_feature_type grid, bool permanently,
+                        bool ignore_flight)
+{
+    if (!ignore_flight
+         &&(you.permanent_flight() || you.airborne() && !permanently))
+    {
+        return false;
+    }
+    else if (grid == DNGN_DEEP_WATER && !player_likes_water(permanently)
+             || grid == DNGN_LAVA && !player_likes_lava(permanently))
+    {
+        return true;		 
+    }
+	else 
+        return false;
+}
 
 bool is_map_persistent()
 {

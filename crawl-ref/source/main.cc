@@ -3427,7 +3427,7 @@ static void _move_player(coord_def move)
 
     if (!attacking && targ_pass && moving && !beholder && !fmonger)
     {
-        if (you.confused() && is_feat_dangerous(env.grid(targ)))
+        if (you.confused() && is_feat_unpleasant(env.grid(targ)))
         {
             mprf("You nearly stumble into %s!",
                  feature_description_at(targ, false, DESC_THE, false).c_str());
