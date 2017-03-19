@@ -14,8 +14,8 @@ for further help, check https://github.com/crawl/crawl/blob/master/crawl-ref/INS
 You can clone or checkout the "yiuf" branch if you want to see changes and new content *slightly* faster. "master" gets slightly more testing and is slightly behind "yiuf". For the cutting-edge-dev-branch: `git clone https://github.com/yrmvgh/crawl.git -b yiuf yiufcrawl`
 
 --------------------------------
-#### *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space*
-#### *in his hut for other sad creatures and they can be a little family in the dark.*
+> *Yiuf knows how it feels to be unloved. To be forgotten. Yiuf will make some space*
+> *in his hut for other sad creatures and they can be a little family in the dark.*
 
 ### *They're Back:*
 
@@ -25,7 +25,7 @@ You can clone or checkout the "yiuf" branch if you want to see changes and new c
 * **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
 * **Plutonian**, an unstable, contaminated humanoid that occasionally explodes. !Curing and kills reduce contam.
-* **Bearkin**, shamanistic giant bear-people who can rage when endangered and have a Ds-lite selection of random mutations. They're so big they can wield anything except giant clubs in one hand (they still need two hands to draw a bow, naturally).
+* **Bearkin**, shamanistic giant bear-people with a Ds-lite selection of random mutations. They're so big they can wield anything except giant clubs in one hand (and they still need two hands to draw a bow, naturally).
 
 *They're New:*
 * **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. From [SteelNeuron](https://github.com/PabloMansanet/crawl/commits/skeleton).
