@@ -1244,7 +1244,7 @@ void dgn_reset_level(bool enable_random_maps)
     }
 	else if (player_on_orb_run() && !player_in_branch(BRANCH_ABYSS))
 	{
-		env.spawn_random_rate = 240; // make the orbrun great again
+		env.spawn_random_rate = 420; // make the orbrun great again
 	}
     else if (player_in_connected_branch())
         env.spawn_random_rate = 0; //ood spawning is actually not a good mechanic
