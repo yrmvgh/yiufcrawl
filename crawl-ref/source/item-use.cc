@@ -701,8 +701,7 @@ static int armour_equip_delay(const item_def &item)
 bool can_wear_armour(const item_def &item, bool verbose, bool ignore_temporary)
 {
     const object_class_type base_type = item.base_type;
-    if (base_type != OBJ_ARMOUR
-        || you.species == SP_FELID || you.species == SP_BEARKIN)
+    if (base_type != OBJ_ARMOUR || you.species == SP_FELID)
     {
         if (verbose)
             mpr("You can't wear that.");
@@ -713,7 +712,8 @@ bool can_wear_armour(const item_def &item, bool verbose, bool ignore_temporary)
     const int sub_type = item.sub_type;
     const equipment_type slot = get_armour_slot(item);
 
-    if (you.species == SP_OCTOPODE && slot != EQ_HELMET && slot != EQ_SHIELD)
+    if ((you.species == SP_OCTOPODE && slot != EQ_HELMET && slot != EQ_SHIELD)
+            || (slot != EQ_SHIELD && you.species == SP_BEARKIN))
     {
         if (verbose)
             mpr("You can't wear that!");
