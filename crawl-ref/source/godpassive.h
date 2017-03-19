@@ -104,7 +104,7 @@ enum class passive_t
     /// Less map rot in the abyss.
     map_rot_res_abyss,
 
-    /// Higher chance for spawning the abyssal rune.
+    /// Higher chance for spawning the abyssal rune. Removed.
     attract_abyssal_rune,
 
     /// Potentially save allies from death. Holy or natural, in LOS.

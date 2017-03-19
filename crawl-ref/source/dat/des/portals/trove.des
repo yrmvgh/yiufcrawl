@@ -100,7 +100,6 @@ function trove.get_trove_item(e, value, base_item)
   local prices = {
        {base="scroll", type="acquirement", quant=2},
        {base="miscellaneous", type="rune of Zot", quant=3, name="slimy rune of Zot"},
-       {base="miscellaneous", type="rune of Zot", quant=11, name="abyssal rune of Zot"},
        {base="miscellaneous", type="horn of Geryon"} }
 
   local wpn = {

@@ -1852,7 +1852,7 @@ static void _get_rune(const item_def& it, bool quiet)
     }
 
     if (it.sub_type == RUNE_ABYSSAL)
-        mpr("You feel the abyssal rune guiding you out of this place.");
+        mpr("How the heck did you manage to get your hands on this? Wizmode?");
 }
 
 /**

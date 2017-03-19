@@ -374,14 +374,14 @@ enum rune_type
     RUNE_SLIME,
     RUNE_ELF, // unused
     RUNE_VAULTS,
-    RUNE_TOMB,
+    RUNE_TOMB, //removed
 
     RUNE_DIS,
     RUNE_GEHENNA,
     RUNE_COCYTUS,
     RUNE_TARTARUS,
 
-    RUNE_ABYSSAL,
+    RUNE_ABYSSAL, // removed
 
     RUNE_DEMONIC,
 

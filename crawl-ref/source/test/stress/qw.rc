@@ -3059,9 +3059,7 @@ function want_to_stay_in_abyss()
     say("Giving up on abyssal rune: low on food")
     ABYSSAL_RUNE = false
   end
-  return ABYSSAL_RUNE and you.xl() > 20
-         and not you.have_rune("abyssal") and you.have_rune("silver")
-         and count_permafood() > 5 and not hp_is_low(60)
+  return false
 end
 
 function plan_wait_for_melee()
