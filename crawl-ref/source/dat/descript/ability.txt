@@ -888,4 +888,3 @@ Bearserk ability
 When in a state of panic, an angry bear can lash out in rage. Sends the user
 into a bearserk rage, even if the user is already exhausted from a normal
 rage. This drains skills a bit, however.
-
