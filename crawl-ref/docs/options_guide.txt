@@ -204,12 +204,12 @@ playing style and sometimes also on your operating system.
 
 There are two styles you can use to set options. The classic
 name=value syntax, one option per-line:
-    remember_name  = true
-    explore_greedy = false
-    confirm_butcher= never
+ remember_name  = true
+ explore_greedy = false
+ confirm_butcher= never
 
 And the NetHack-style combined option line:
-    OPTION = remember_name, !explore_greedy, confirm_butcher:never
+ OPTION = remember_name, !explore_greedy, confirm_butcher:never
 
 The second style is useful to specify simple options in a few lines,
 but it cannot be used for options that take complex lists of values
@@ -224,10 +224,10 @@ syntax.
 Note that in the tutorial and hints modes, some of your options settings may
 get overwritten to facilitate the explanations. This concerns the following
 options, and their enforced setting for tutorial games are as follows:
-   clear_messages      = true
-   weapon              = hand axe, for Berserkers in hints mode
+ clear_messages      = true
+ weapon              = hand axe, for Berserkers in hints mode
 and, for Tiles,
-   tile_tag_pref       = tutorial
+ tile_tag_pref       = tutorial
 
 0-d     List options.
 ---------------------
@@ -370,6 +370,10 @@ autopickup_starting_ammo = true
         for Earth Elementalists and arrows for Transmuters). Even when this
         option is set, autopickup of those items can be disabled from the
         \ menu once the game has begun.
+
+Difficulty = ask | casual | normal
+        Sets the difficulty of the next game, or prompts when starting a new game.
+        Casual difficulty gives double experience and divides score by 1000.
 
 2-  File System.
 ================
@@ -1761,7 +1765,8 @@ macros += M \{9} za
         The second argument describes the trigger key and consists the
         character or keycode of that key (for example 'a', 'A' or \{9} for the
         A, Shift-A or Tab keys). The third argument describes the macro or
-        keymap action and
+        keymap action
+ and
  consists the command sequence to be associated with
         the second argument. (for example "zap" for zapping the spell in slot a
         at the previous target).
