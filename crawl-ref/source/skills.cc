@@ -1539,27 +1539,41 @@ vector<skill_type> get_crosstrain_skills(skill_type sk)
     switch (sk)
     {
     case SK_SHORT_BLADES:
-        return { SK_LONG_BLADES };
+        return { SK_LONG_BLADES, SK_POLEARMS };
     case SK_LONG_BLADES:
         if (you.species == SP_HIGH_ELF)
             return { SK_BOWS, SK_SHORT_BLADES };
         else
-            return { SK_SHORT_BLADES };
+            return { SK_SHORT_BLADES, SK_POLEARMS };
     case SK_AXES:
+        return { SK_STAVES, SK_MACES_FLAILS };
     case SK_STAVES:
-        return { SK_POLEARMS, SK_MACES_FLAILS };
+        return { SK_AXES, SK_MACES_FLAILS };
     case SK_MACES_FLAILS:
+        return { SK_STAVES, SK_AXES };
     case SK_POLEARMS:
-        return { SK_AXES, SK_STAVES };
+        return { SK_LONG_BLADES, SK_SHORT_BLADES };
+    case SK_CROSSBOWS:
+        return { SK_THROWING };
     case SK_SLINGS:
         return { SK_THROWING };
     case SK_BOWS:
         if (you.species == SP_HIGH_ELF)
             return { SK_LONG_BLADES };
         else
-            return {};
-    case SK_THROWING:
-        return { SK_SLINGS };
+            return { SK_THROWING };
+    case SK_FIRE_MAGIC:
+        if (you.species == SP_HUMAN)
+            return { SK_EARTH_MAGIC, SK_AIR_MAGIC, SK_ICE_MAGIC };
+    case SK_EARTH_MAGIC:
+        if (you.species == SP_HUMAN)
+            return { SK_FIRE_MAGIC, SK_AIR_MAGIC, SK_ICE_MAGIC };
+    case SK_AIR_MAGIC:
+        if (you.species == SP_HUMAN)
+            return { SK_FIRE_MAGIC, SK_EARTH_MAGIC, SK_ICE_MAGIC };
+    case SK_ICE_MAGIC:
+        if (you.species == SP_HUMAN)
+            return { SK_FIRE_MAGIC, SK_EARTH_MAGIC, SK_AIR_MAGIC };
     default:
         return {};
     }
