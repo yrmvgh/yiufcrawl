@@ -899,7 +899,8 @@ static const mutation_def mut_data[] =
 { MUT_BEARSERK, 0, 1, mutflag::good | mutflag::bear, true,
   "cornered berserk",
 
-  {"You can berserk when greatly wounded.", "", ""},
+  {"You can berserk when greatly wounded. Not working for some characters,"
+   "hang tight while I hunt this bug", "", ""},
   {"You can now berserk when greatly wounded.", "", ""},
   {"You can no longer berserk when greatly wounded.","",""},
 },

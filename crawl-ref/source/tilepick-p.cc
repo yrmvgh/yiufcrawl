@@ -1096,9 +1096,7 @@ void tilep_calc_flags(const dolls_data &doll, int flag[])
         flag[TILEP_PART_BEARD] = TILEP_FLAG_HIDE;
     }
     else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_BASE_BEARKIN))
-    {
         flag[TILEP_PART_LEG]   = TILEP_FLAG_HIDE;
-    }
       else if (is_player_tile(doll.parts[TILEP_PART_BASE], TILEP_MONS_UNKNOWN))
     {
         flag[TILEP_PART_LEG]   = TILEP_FLAG_HIDE;

@@ -119,6 +119,9 @@ M filtered_vector_select(vector<pair<M, int>> weights, Pred filter)
  */
 static equipment_type _acquirement_armour_slot(bool divine)
 {
+    if (you.species == SP_BEARKIN)
+        return EQ_SHIELD;
+
     if (you.species == SP_NAGA || you.species == SP_CENTAUR)
     {
         const armour_type bard =

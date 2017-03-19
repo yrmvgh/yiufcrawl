@@ -2920,8 +2920,10 @@ void level_change(bool skip_attribute_increase)
                 if (you.experience_level % you.max_level)
                 {
                     if (!you.mutation[MUT_BEARSERK])
+                    {
                         mutate(MUT_BEARSERK, "the bear spirit", false, true, false,
                             false, MUTCLASS_INNATE, true);
+                    }
                     else if (you.mutation[MUT_ROBUST] < 3)
                         mutate(MUT_ROBUST, "the bear spirit", false, true, false,
                             false, MUTCLASS_INNATE, true);

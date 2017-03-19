@@ -55,7 +55,7 @@ static const map<species_type, species_def> species_data =
     10, 6, 8, // 24
     { STAT_STR, STAT_DEX }, 3,
     { { MUT_CARNIVOROUS, 3, 1 }, { MUT_FANGS, 1, 1 }, { MUT_SHAGGY_FUR, 3, 1 },
-      { MUT_ACUTE_VISION, 1, 1 }, { MUT_CLAWS, 1, 1 }, },
+      { MUT_CLAWS, 1, 1 }, },
     { "You can easily heft most weapons in one hand.",
       "You become enormous when angry, and thus cannot wear armour." },
     { "no armour", },
