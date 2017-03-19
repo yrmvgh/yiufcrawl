@@ -240,7 +240,7 @@ static const mutation_def mut_data[] =
    "Your metabolism slows."},
 },
 
-{ MUT_SLOW_METABOLISM, 0, 2, mutflag::good | mutflag::bear, false,
+{ MUT_SLOW_METABOLISM, 0, 2, mutflag::good, false,
   "slow metabolism",
 
   {"You have a slow metabolism.",
