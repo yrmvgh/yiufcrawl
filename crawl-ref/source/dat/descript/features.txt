@@ -232,7 +232,8 @@ goods.
 %%%%
 A stone staircase leading down
 
-A staircase leading further down.
+A staircase leading further down. The bizarre nature of the dungeon makes
+these staircases one-way only; there's no way back up.
 %%%%
 A stone staircase leading up
 
@@ -271,9 +272,8 @@ quite easily. It is too strong to be breakable by hand, however.
 %%%%
 An escape hatch in the floor
 
-A spring-loaded one-way escape hatch set in the dungeon floor, allowing the
-adventurer beset by adversaries to exchange the perils of this level for the
-perils of the next.
+A spring-loaded one-way escape hatch set in the dungeon floor. It functions
+much like a staircase.
 %%%%
 An escape hatch in the ceiling
 
