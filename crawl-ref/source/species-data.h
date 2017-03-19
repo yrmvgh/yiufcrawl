@@ -60,8 +60,8 @@ static const map<species_type, species_def> species_data =
       "You become enormous when angry, and thus cannot wear armour." },
     { "no armour", },
     { JOB_HUNTER, JOB_BERSERKER, JOB_SKALD, JOB_ICE_ELEMENTALIST,
-      JOB_AIR_ELEMENTALIST, JOB_VENOM_MAGE, JOB_GLADIATOR, JOB_WARPER },
-    { SK_UNARMED_COMBAT },
+      JOB_AIR_ELEMENTALIST, JOB_FIGHTER, JOB_GLADIATOR, JOB_WARPER },
+    { SK_LONG_BLADES, SK_CROSSBOWS, SK_AXES, SK_POLEARMS, SK_MACES_FLAILS },
 } },
 
 { SP_CENTAUR, {
