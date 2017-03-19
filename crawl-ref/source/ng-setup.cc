@@ -568,6 +568,9 @@ static void _setup_generic(const newgame_def& ng)
     // Get rid of god companions left from previous games
     init_companions();
 
+    if (you.species == SP_FELID)
+        you.lives = 9;
+
     // Create the save file.
     if (Options.no_save)
         you.save = new package();
