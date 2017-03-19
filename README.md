@@ -1,6 +1,6 @@
 # Yiuf's Home for Lost and Forgotten Species
-### A trunk-based fork of Stone Soup with leftover soup    
-Exterminated races, expired experiments, and extinct species
+### A trunk-based fork of Stone Soup with leftover soup
+### Exterminated races, expired experiments, and extinct species
     download instructions:
     git clone https://github.com/yrmvgh/yiufcrawl.git
     cd yiufcrawl/crawl-ref/source
