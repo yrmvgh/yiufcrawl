@@ -45,6 +45,25 @@ struct species_def
 static const map<species_type, species_def> species_data =
 {
 
+{ SP_BEARKIN, {
+    "BK",
+    "Bearkin", "Ursine", "Manbear",
+    SPF_NONE,
+    -1, 2, 0, 6,
+    MONS_FELID,
+    HT_LAND, US_ALIVE, SIZE_BIG,
+    10, 6, 8, // 24
+    { STAT_STR, STAT_DEX }, 3,
+    { { MUT_CARNIVOROUS, 3, 1 }, { MUT_FANGS, 1, 1 }, { MUT_SHAGGY_FUR, 3, 1 },
+      { MUT_ACUTE_VISION, 1, 1 }, { MUT_CLAWS, 1, 1 }, },
+    { "You can easily heft most weapons in one hand.",
+      "You become enormous when angry, and thus cannot wear armour." },
+    { "no armour", },
+    { JOB_HUNTER, JOB_BERSERKER, JOB_SKALD, JOB_ICE_ELEMENTALIST,
+      JOB_AIR_ELEMENTALIST, JOB_FIGHTER, JOB_GLADIATOR, JOB_WARPER },
+    { SK_LONG_BLADES, SK_CROSSBOWS, SK_AXES, SK_POLEARMS, SK_MACES_FLAILS },
+} },
+
 { SP_CENTAUR, {
     "Ce",
     "Centaur", nullptr, nullptr,
@@ -490,8 +509,8 @@ static const map<species_type, species_def> species_data =
     {},
     {},
     {},
-    { JOB_BERSERKER, JOB_ENCHANTER, JOB_ICE_ELEMENTALIST, JOB_FIRE_ELEMENTALIST,
-      JOB_HUNTER, JOB_EARTH_ELEMENTALIST, JOB_ICE_ELEMENTALIST, JOB_WANDERER },
+    { JOB_BERSERKER, JOB_ENCHANTER, JOB_AIR_ELEMENTALIST, JOB_FIRE_ELEMENTALIST,
+      JOB_CONJURER, JOB_EARTH_ELEMENTALIST, JOB_ICE_ELEMENTALIST, JOB_WANDERER },
     { SK_MACES_FLAILS, SK_AXES, SK_POLEARMS, SK_LONG_BLADES, SK_STAVES,
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
@@ -657,7 +676,7 @@ static const map<species_type, species_def> species_data =
     MONS_OGRE,
     HT_LAND, US_ALIVE, SIZE_LARGE,
     11, 9, 4, // 24
-    { STAT_STR }, 3,
+    { STAT_STR, STAT_INT }, 3,
     { { MUT_TOUGH_SKIN, 1, 1 }, },
     {},
     {},

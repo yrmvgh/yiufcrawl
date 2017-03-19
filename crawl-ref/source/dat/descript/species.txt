@@ -4,6 +4,11 @@ Barachi
 Barachim are amphibious humanoids who rebelled against the gods. They're fast
 learners and can hop long distances, but are otherwise slow and easily seen.
 %%%%
+Bearkin
+
+Enormous humanoid bear shamans who stand taller than an Ogre and even taller
+when angered. Can hold anything smaller than a greatclub in one hand.
+%%%%
 Centaur
 
 Swift, strong and bulky, Centaurs are particularly skilled with ranged
@@ -46,7 +51,7 @@ strong and they live in a state of permanent stasis. (YIUF: no shaft traps)
 Felid
 
 Felids are many-lived cats possessing sentience. They are incapable of advanced
-item manipulation or the use of armour or weapons.
+item manipulation or using armour and weapons. (YIUF: 9 lives right away)
 %%%%
 Ghoul
 
@@ -66,7 +71,7 @@ to mutagenic effects.
 High Elf
 
 Spell and song, blade and bow! High elves have an approximate knowledge of many
-arts, which they can blend together, well... artfully.
+arts, which they can blend together, well... artfully. (YIUF: unique crosstrain)
 %%%%
 Hill Orc
 
@@ -76,6 +81,7 @@ past. All they crave now is gold and violence.
 Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
+(YIUF: unique crosstrain)
 %%%%
 Imp
 

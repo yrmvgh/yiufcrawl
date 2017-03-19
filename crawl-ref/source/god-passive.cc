@@ -1543,8 +1543,11 @@ void wu_jian_heaven_tick()
     else
         you.attribute[ATTR_HEAVEN_ON_EARTH] -= 10;
 
-    for (radius_iterator ai(you.pos(), 2, C_SQUARE); ai; ++ai)
-        big_cloud(CLOUD_GOLD_DUST, &you, *ai, 10 + random2(5), 50 + random2(30), 4);
+    for (radius_iterator ai(you.pos(), 2, C_SQUARE, LOS_SOLID); ai; ++ai)
+    {
+        if (!cell_is_solid(*ai))
+            place_cloud(CLOUD_GOLD_DUST, *ai, 5 + random2(5), &you);
+    }
 
     noisy(15, you.pos());
 
@@ -1562,16 +1565,9 @@ void end_heaven_on_earth()
 
 bool wu_jian_has_momentum(wu_jian_attack_type attack_type)
 {
-    if (attack_type == WU_JIAN_ATTACK_NONE
-        || attack_type == WU_JIAN_ATTACK_TRIGGERED_AUX)
-    {
-        return false;
-    }
-
-    if (you.attribute[ATTR_SERPENTS_LASH] > 0)
-        return true;
-
-    return false;
+    return you.attribute[ATTR_SERPENTS_LASH]
+           && attack_type != WU_JIAN_ATTACK_NONE
+           && attack_type != WU_JIAN_ATTACK_TRIGGERED_AUX;
 }
 
 static bool _dont_attack_martial(const monster* mons)
@@ -1609,31 +1605,25 @@ static void _wu_jian_lunge(const coord_def& old_pos)
 
     if (you.attribute[ATTR_HEAVEN_ON_EARTH] > 0)
         you.attribute[ATTR_HEAVEN_ON_EARTH] += 2;
+
     you.apply_berserk_penalty = false;
 
     const int number_of_attacks = _wu_jian_number_of_attacks();
 
     if (number_of_attacks == 0)
     {
-        mprf("You lunge at %s, but your attack speed is too slow for a blow to land.",
-             mons->name(DESC_THE).c_str());
+        mprf("You lunge at %s, but your attack speed is too slow for a blow "
+             "to land.", mons->name(DESC_THE).c_str());
         return;
-    }
-    else if (number_of_attacks > 1)
-    {
-        if (wu_jian_has_momentum(WU_JIAN_ATTACK_LUNGE))
-           mprf("You lunge at %s in a momentous flurry of attacks!", mons->name(DESC_THE).c_str());
-        else
-           mprf("You lunge at %s in a flurry of attacks!", mons->name(DESC_THE).c_str());
     }
     else
     {
-        if (wu_jian_has_momentum(WU_JIAN_ATTACK_LUNGE))
-           mprf("You lunge at %s with incredible momentum!", mons->name(DESC_THE).c_str());
-        else
-           mprf("You lunge at %s.", mons->name(DESC_THE).c_str());
+        mprf("You lunge%s at %s%s.",
+             wu_jian_has_momentum(WU_JIAN_ATTACK_LUNGE) ?
+                 " with incredible momentum" : "",
+             mons->name(DESC_THE).c_str(),
+             number_of_attacks > 1 ? " in a flurry of attacks" : "");
     }
-
 
     for (int i = 0; i < number_of_attacks; i++)
     {

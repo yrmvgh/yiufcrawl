@@ -177,6 +177,8 @@ bool player::is_habitable_feat(dungeon_feature_type actual_grid) const
 
 size_type player::body_size(size_part_type psize, bool base) const
 {
+    if (species == SP_BEARKIN)
+        return you.berserk() ? SIZE_GIANT : SIZE_BIG;
     if (base)
         return species_size(species, psize);
     else

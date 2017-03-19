@@ -328,6 +328,8 @@ static const ability_def Ability_List[] =
 
     { ABIL_OVERLOAD, "Overload",
         0, 0, 0, 0, {fail_basis::xl, 27, 1}, abflag::none },
+    { ABIL_BEARSERK, "Bearserk",
+        0, 0, 800, 0, {}, abflag::skill_drain },
 
     // EVOKE abilities use Evocations and come from items.
     // Teleportation and Blink can also come from mutations
@@ -1852,6 +1854,10 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
             break;
     case ABIL_REAP:
         return cast_reap(fail);
+    case ABIL_BEARSERK:
+        fail_check();
+        you.go_berserk(true);
+        break;
 
 #if TAG_MAJOR_VERSION == 34
     case ABIL_DELAYED_FIREBALL:
@@ -3147,10 +3153,16 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
 
     case ABIL_WU_JIAN_HEAVEN_ON_EARTH:
         fail_check();
-        mprf(MSGCH_GOD, "The air is filled with shimmering golden clouds! You feel the urge to strike!");
-        wu_jian_sifu_message(" says: The storm will not ease as long as you keep fighting, disciple!");
-        for (radius_iterator ai(you.pos(), 2, C_SQUARE); ai; ++ai)
-            big_cloud(CLOUD_GOLD_DUST, &you, *ai, 10 + random2(5), 50 + random2(30), 4);
+        mprf(MSGCH_GOD, "The air is filled with shimmering golden clouds!");
+        wu_jian_sifu_message(" says: The storm will not cease as long as you "
+                             "keep fighting, disciple!");
+
+        for (radius_iterator ai(you.pos(), 2, C_SQUARE, LOS_SOLID); ai; ++ai)
+        {
+            if (!cell_is_solid(*ai))
+                place_cloud(CLOUD_GOLD_DUST, *ai, 5 + random2(5), &you);
+        }
+
         you.attribute[ATTR_HEAVEN_ON_EARTH] = 12;
         you.duration[DUR_HEAVEN_ON_EARTH] = WU_JIAN_HEAVEN_TICK_TIME;
         invalidate_agrid(true);
@@ -3424,6 +3436,9 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
 
     if (you.species == SP_PLUTONIAN)
         _add_talent(talents, ABIL_OVERLOAD, check_confused);
+
+    if (player_mutation_level(MUT_BEARSERK) && you.duration[DUR_CORNERED])
+        _add_talent(talents, ABIL_BEARSERK, check_confused);
 
     if (player_mutation_level(MUT_HOP))
         _add_talent(talents, ABIL_HOP, check_confused);

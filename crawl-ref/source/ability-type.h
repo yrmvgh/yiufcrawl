@@ -54,7 +54,9 @@ enum ability_type
     ABIL_OVERLOAD,
     // Skeletons
     ABIL_REAP,
-    ABIL_MAX_INTRINSIC = ABIL_REAP,
+    // Bearkin
+    ABIL_BEARSERK,
+    ABIL_MAX_INTRINSIC = ABIL_BEARSERK,
 
     // Evoking items.
     ABIL_EVOKE_BERSERK = 40,
