@@ -1980,11 +1980,11 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
 #ifdef USE_SOUND
             parse_sound(PICKUP_SOUND);
 #endif
-                        mprf_nocap("%s (gained %d%s)",
-                    get_menu_colour_prefix_tags(you.inv[inv_slot],
-                                                DESC_INVENTORY).c_str(),
-                    quant,
-                                        it.base_type == OBJ_WANDS ? " charges" : "");
+                mprf_nocap("%s (gained %d%s)",
+                menu_colour_item_name(you.inv[inv_slot],
+                                            DESC_INVENTORY).c_str(),
+                quant,
+                                    it.base_type == OBJ_WANDS ? " charges" : "");
         }
 
         return true;
