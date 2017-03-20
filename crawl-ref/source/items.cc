@@ -1508,8 +1508,7 @@ bool is_stackable_item(const item_def &item)
         || item.base_type == OBJ_FOOD
         || item.base_type == OBJ_SCROLLS
         || item.base_type == OBJ_POTIONS
-        || item.base_type == OBJ_GOLD
-                || item.base_type == OBJ_WANDS)
+        || item.base_type == OBJ_GOLD)
     {
         return true;
     }
@@ -1609,16 +1608,6 @@ void merge_item_stacks(const item_def &source, item_def &dest, int quant)
         quant = source.quantity;
 
     ASSERT_RANGE(quant, 0 + 1, source.quantity + 1);
-
-        if (source.base_type == OBJ_WANDS && dest.base_type == OBJ_WANDS)
-    {
-                if (source.charges >0)
-                {
-                        //it's otherwise treated as empty despite having charges
-                        dest.used_count = 0;
-                        dest.charges += source.charges;
-                }
-    }
 
     if (is_perishable_stack(source) && is_perishable_stack(dest))
         merge_perishable_stacks(source, dest, quant);
@@ -1964,27 +1953,19 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
             you.inv[inv_slot].inscription = it.inscription;
         }
 
-                int quant = quant_got;
-                if (it.base_type == OBJ_WANDS)
-                        quant = it.charges;
-
         merge_item_stacks(it, you.inv[inv_slot], quant_got);
-
-                if (it.base_type != OBJ_WANDS)
-                        inc_inv_item_quantity(inv_slot, quant_got);
-
-                you.last_pickup[inv_slot] = quant_got;
+        inc_inv_item_quantity(inv_slot, quant_got);
+        you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
         {
 #ifdef USE_SOUND
             parse_sound(PICKUP_SOUND);
 #endif
-                mprf_nocap("%s (gained %d%s)",
-                menu_colour_item_name(you.inv[inv_slot],
-                                            DESC_INVENTORY).c_str(),
-                quant,
-                                    it.base_type == OBJ_WANDS ? " charges" : "");
+            mprf_nocap("%s (gained %d)",
+                        menu_colour_item_name(you.inv[inv_slot],
+                                                    DESC_INVENTORY).c_str(),
+                        quant_got);
         }
 
         return true;
@@ -2080,7 +2061,6 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     god_id_item(item);
     if (item.base_type == OBJ_WANDS)
     {
-                item.quantity = 1;
         set_ident_type(item, true);
 
         if (have_passive(passive_t::identify_devices)
@@ -2090,6 +2070,7 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
         }
     }
 
+    maybe_identify_base_type(item);
     if (item.base_type == OBJ_BOOKS)
     {
         set_ident_flags(item, ISFLAG_IDENT_MASK);
@@ -2097,6 +2078,17 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     }
 
     note_inscribe_item(item);
+
+    // avoid blood potion timer/stack size mismatch
+    if (quant_got != it.quantity && is_perishable_stack(it))
+        remove_newest_perishable_item(item);
+
+    if (crawl_state.game_is_hints())
+    {
+        taken_new_item(item.base_type);
+        if (is_artefact(item) || get_equip_desc(item) != ISFLAG_NO_DESC)
+            learned_something_new(HINT_SEEN_RANDART);
+    }
 
     you.m_quiver.on_inv_quantity_changed(freeslot, quant_got);
     you.last_pickup[item.link] = quant_got;
@@ -2258,10 +2250,7 @@ bool move_item_to_grid(int *const obj, const coord_def& p, bool silent)
                 // Add quantity to item already here, and dispose
                 // of obj, while returning the found item. -- bwr
                 merge_item_stacks(item, *si);
-
-                                if (item.base_type != OBJ_WANDS)
-                                        inc_mitm_item_quantity(si->index(), item.quantity);
-
+                inc_mitm_item_quantity(si->index(), item.quantity);
                 destroy_item(ob);
                 ob = si->index();
                 _gozag_move_gold_to_top(p);

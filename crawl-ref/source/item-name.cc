@@ -1792,9 +1792,20 @@ string item_def::name_aux(description_level_type desc, bool terse, bool ident,
                  << " wand";
         }
 
-        if (know_type)
-            buff << " (" << charges << ")";
-        else if (!dbname && with_inscription)
+        if (dbname)
+            break;
+
+        if (know_type || know_pluses) // probably know_type is sufficient?
+        {
+            buff << " (";
+            if (know_pluses)
+                buff << charges;
+            else
+                buff << "?";
+            buff << "/" << wand_max_charges(*this) << ")";
+        }
+
+        if (!know_pluses && with_inscription)
         {
             if (used_count == ZAPCOUNT_EMPTY)
                 buff << " {empty}";

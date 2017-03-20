@@ -1568,6 +1568,13 @@ bool item_is_rechargeable(const item_def &it, bool hide_charged)
     if (!hide_charged)
         return true;
 
+    // Don't offer wands already maximally charged.
+    if (item_ident(it, ISFLAG_KNOW_PLUSES)
+        && it.charges >= wand_max_charges(it))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1577,20 +1584,20 @@ int wand_charge_value(int type)
     {
     case WAND_CLOUDS:
     case WAND_SCATTERSHOT:
-        return 2;
+        return 3;
 
     case WAND_ICEBLAST:
     case WAND_LIGHTNING:
     case WAND_ACID:
-        return 4;
+        return 5;
 
     default:
-        return 5;
+        return 8;
 
     case WAND_FLAME:
     case WAND_CONFUSION:
     case WAND_RANDOM_EFFECTS:
-        return 6;
+        return 16;
     }
 }
 
