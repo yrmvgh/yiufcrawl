@@ -2922,27 +2922,25 @@ void level_change(bool skip_attribute_increase)
                     if (!you.mutation[MUT_BEARSERK])
                     {
                         mutate(MUT_BEARSERK, "the bear spirit", false, true, false,
-                            false, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE);
                     }
                     else if (you.mutation[MUT_ROBUST] < 3)
                         mutate(MUT_ROBUST, "the bear spirit", false, true, false,
-                            false, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE);
                     else if (you.mutation[MUT_CLAWS] < 3)
                         mutate(MUT_CLAWS, "the bear spirit", false, true, false,
-                            false, MUTCLASS_INNATE, true);
+                            false, MUTCLASS_INNATE);
                     else
                         mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
-                           false, MUTCLASS_INNATE, true);
+                           false, MUTCLASS_INNATE);
+                    mpr("This mutation is permanent, even though it's not in blue text.");
                 }
                 break;
             case SP_SLUDGE_ELF:
-                if (!((3 + you.experience_level) % 7))
+                if (you.experience_level = 2)
                 {
-                    mprf(MSGCH_INTRINSIC_GAIN, "Your genes become even more twisted!");
-                    mutate(random_choose(RANDOM_GOOD_MUTATION, RANDOM_SLIME_MUTATION),
-                           "being a sludge elf", false, true, false, true,
-                           MUTCLASS_INNATE, true);
-                    mpr("This mutation is permanent, even though it's not in blue text.");
+                    mutate(MUT_EVOLVE, "being a sludge elf", false, true, false, true,
+                           MUTCLASS_NORMAL);
                 }
                 break;
 //            case SP_IMP:
