@@ -873,6 +873,16 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
     {
         int damage_fraction_of_hp = dam * 100 / you.hp_max;
 
+        if (player_mutation_level(MUT_BEARSERK))
+        {
+            if (_is_damage_threatening(damage_fraction_of_hp))
+            {
+                if (!you.duration[DUR_CORNERED])
+                    mpr("You feel threatened and you want to go bearserk!");
+                you.increase_duration(DUR_CORNERED, 1 + random2(dam), 30);
+            }
+        }
+
         // Check _is_damage_threatening separately for read and drink so they
         // don't always trigger in unison when you have both.
         if (player_mutation_level(MUT_NO_READ))

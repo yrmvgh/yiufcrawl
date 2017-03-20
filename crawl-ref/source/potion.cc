@@ -809,7 +809,8 @@ public:
 
     bool effect(bool = true, int = 40, bool = true) const override
     {
-        mpr("You feel extremely strange.");
+        you.species == SP_NULL ?
+            mpr("You feel extremely NULL.") : mpr("You feel extremely strange.");
         bool mutated = false;
         int remove_mutations = random_range(MIN_REMOVED, MAX_REMOVED);
         int add_mutations = random_range(MIN_ADDED, MAX_ADDED);

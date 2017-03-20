@@ -915,25 +915,34 @@ static void _evolve(int time_delta)
                > (int)exp_needed(you.experience_level + 1))
         {
             you.attribute[ATTR_EVOL_XP] = 0;
-            mpr("You feel a genetic drift.");
-            bool evol = one_chance_in(5) ?
-                delete_mutation(RANDOM_BAD_MUTATION, "evolution", false) :
-                mutate(random_choose(RANDOM_GOOD_MUTATION, RANDOM_MUTATION),
-                       "evolution", false, false, false, false, MUTCLASS_NORMAL,
-                       true);
-            // it would kill itself anyway, but let's speed that up
-            if (one_chance_in(10)
-                && (!you.rmut_from_item()
-                    || one_chance_in(10)))
+            if (you.species == SP_SLUDGE_ELF && one_chance_in(100))
             {
-                const string reason = (you.mutation[MUT_EVOLUTION] == 1)
-                                    ? "end of evolution"
-                                    : "decline of evolution";
-                evol |= delete_mutation(MUT_EVOLUTION, reason, false);
+                mpr("You feel a very uncomfortable genetic drift.");
+                mutate(RANDOM_SLIME_MUTATION, "evolution", false,
+                       false, false, false, MUTCLASS_INNATE, true);
+                more();
+            }
+            else
+            {
+                mpr("You feel a genetic drift.");
+                bool evol = one_chance_in(5) ?
+                    delete_mutation(RANDOM_BAD_MUTATION, "evolution", false) :
+                    mutate(random_choose(RANDOM_GOOD_MUTATION, RANDOM_MUTATION),
+                           "evolution", false, false, false, false, MUTCLASS_NORMAL,
+                           true);
+                // it would kill itself anyway, but let's speed that up
+                if (one_chance_in(10)
+                    && (!you.rmut_from_item()
+                        || one_chance_in(10)))
+                {
+                    const string reason = (you.mutation[MUT_EVOLUTION] == 1)
+                                        ? "end of evolution"
+                                        : "decline of evolution";
+                    evol |= delete_mutation(MUT_EVOLUTION, reason, false);
+                }
+                more();
             }
             // interrupt the player only if something actually happened
-            if (evol)
-                more();
         }
 }
 

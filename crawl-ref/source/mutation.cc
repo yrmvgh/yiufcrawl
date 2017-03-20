@@ -1292,8 +1292,10 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         // than divine protection.
         if (!god_gift && _resist_mutation(mutclass, beneficial))
         {
-            if (failMsg)
+            if (failMsg && you.species != SP_NULL)
                 mprf(MSGCH_MUTATION, "You feel odd for a moment.");
+            else if (failMsg)
+                mprf(MSGCH_MUTATION, "You feel NULL.");
             return false;
         }
 
