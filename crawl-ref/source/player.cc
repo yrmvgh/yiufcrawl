@@ -2937,7 +2937,7 @@ void level_change(bool skip_attribute_increase)
                 }
                 break;
             case SP_SLUDGE_ELF:
-                if (you.experience_level = 2)
+                if (you.experience_level == 2)
                 {
                     mutate(MUT_EVOLUTION, "being a sludge elf", false, true, false, true,
                            MUTCLASS_NORMAL);
