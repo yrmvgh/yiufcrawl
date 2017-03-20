@@ -915,11 +915,12 @@ static void _evolve(int time_delta)
                > (int)exp_needed(you.experience_level + 1))
         {
             you.attribute[ATTR_EVOL_XP] = 0;
-            if (you.species == SP_SLUDGE_ELF) && one_chance_in(100)
+            if (you.species == SP_SLUDGE_ELF && one_chance_in(100))
             {
                 mpr("You feel a very uncomfortable genetic drift.");
-                mutate(RANDOM_JIYVA_MUTATION, "evolution", false, false,
-                false, false, MUTCLASS_INNATE, true);
+                mutate(RANDOM_SLIME_MUTATION, "evolution", false,
+                       false, false, false, MUTCLASS_INNATE, true);
+                more();
             }
             else
             {
@@ -939,10 +940,9 @@ static void _evolve(int time_delta)
                                         : "decline of evolution";
                     evol |= delete_mutation(MUT_EVOLUTION, reason, false);
                 }
+                more();
             }
             // interrupt the player only if something actually happened
-            if (evol)
-                more();
         }
 }
 

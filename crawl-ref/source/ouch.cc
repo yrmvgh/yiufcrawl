@@ -877,8 +877,8 @@ void ouch(int dam, kill_method_type death_type, mid_t source, const char *aux,
         {
             if (_is_damage_threatening(damage_fraction_of_hp))
             {
-                if (!you.duration(DUR_CORNERED))
-                    mpr("You feel threatened and you want to go bearserk!")
+                if (!you.duration[DUR_CORNERED])
+                    mpr("You feel threatened and you want to go bearserk!");
                 you.increase_duration(DUR_CORNERED, 1 + random2(dam), 30);
             }
         }

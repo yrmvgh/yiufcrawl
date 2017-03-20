@@ -1294,7 +1294,6 @@ bool mutate(mutation_type which_mutation, const string &reason, bool failMsg,
         {
             if (failMsg && you.species != SP_NULL)
                 mprf(MSGCH_MUTATION, "You feel odd for a moment.");
-            return false;
             else if (failMsg)
                 mprf(MSGCH_MUTATION, "You feel NULL.");
             return false;
