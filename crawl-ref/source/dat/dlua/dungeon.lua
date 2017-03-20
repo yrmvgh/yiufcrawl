@@ -649,8 +649,6 @@ dgn.good_scrolls = [[
     w:20  scroll of blinking no_pickup q:2 /
     w:50  scroll of enchant armour no_pickup /
     w:20  scroll of enchant armour no_pickup q:2 /
-    w:50  scroll of recharging no_pickup /
-    w:20  scroll of recharging no_pickup q:2 /
     w:30  scroll of magic mapping no_pickup /
     w:10  scroll of magic mapping no_pickup q:2 /
     w:30  scroll of amnesia no_pickup /

@@ -173,7 +173,7 @@
 
       elseif s == "R" then i = { "amulet of rage", "amulet of reflection",
        "amulet of regeneration", "rapier", "ring of resist corrosion",
-       "potion of resistance", "scroll of recharging", "robe",
+       "potion of resistance", "robe",
        "ring mail" }
 
       elseif s == "S" then i = { "scimitar", "short sword",

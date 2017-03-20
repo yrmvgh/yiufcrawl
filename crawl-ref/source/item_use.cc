@@ -2537,7 +2537,9 @@ static void _vulnerability_scroll()
 static bool _is_cancellable_scroll(scroll_type scroll)
 {
     return scroll == SCR_BLINKING
+#if TAG_MAJOR_VERSION == 34
            || scroll == SCR_RECHARGING
+#endif
            || scroll == SCR_ENCHANT_ARMOUR
            || scroll == SCR_AMNESIA
 #if TAG_MAJOR_VERSION == 34
@@ -2666,12 +2668,10 @@ string cannot_read_item_reason(const item_def &item)
 #if TAG_MAJOR_VERSION == 34
         case SCR_IDENTIFY:
             return _no_items_reason(OSEL_UNIDENT, true);
-#endif
 
         case SCR_RECHARGING:
             return _no_items_reason(OSEL_RECHARGE);
 
-#if TAG_MAJOR_VERSION == 34
         case SCR_REMOVE_CURSE:
             return _no_items_reason(OSEL_CURSED_WORN);
 
@@ -2980,7 +2980,6 @@ void read_scroll(item_def& scroll)
         }
         cancel_scroll = !_identify(alreadyknown, pre_succ_msg);
         break;
-#endif
 
     case SCR_RECHARGING:
         if (!alreadyknown)
@@ -2991,6 +2990,7 @@ void read_scroll(item_def& scroll)
         }
         cancel_scroll = (recharge_wand(alreadyknown, pre_succ_msg) == -1);
         break;
+#endif
 
     case SCR_ENCHANT_ARMOUR:
         if (!alreadyknown)

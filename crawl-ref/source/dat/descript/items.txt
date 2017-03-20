@@ -948,10 +948,6 @@ scroll of noise
 
 A prank scroll that creates a loud noise when read.
 %%%%
-scroll of recharging
-
-A scroll that restores the charges of any magical wand chosen by its reader.
-%%%%
 scroll of silence
 
 A scroll that eliminates all sound near the reader. This makes reading scrolls,

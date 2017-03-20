@@ -2336,10 +2336,6 @@ scroll of noise
 
 <scroll>
 %%%%
-scroll of recharging
-
-<scroll>
-%%%%
 scroll of silence
 
 <scroll>

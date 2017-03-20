@@ -88,7 +88,6 @@ function setup_room(e, id)
     -- Create items
 e.kitem("1 = superb_item ident:all w:590 / royal jelly q:3 w:2 /\
             potion of heal wounds ident:all q:4 w:3 /\
-            scroll of recharging ident:all w:1 /\
             scroll of fog w:1 ident:all / scroll of holy word w:1 ident:all /\
             potion of might ident:all w:2 / potion of agility w:2 ident:all /\
             potion of haste q:2 ident:all w:2 / scroll of acquirement q:1 w:1 ident:all /\
@@ -765,7 +764,6 @@ KITEM:    L = scroll of blinking q:3 ident:all, \
               scroll of noise q:5 ident:all, \
               scroll of holy word q:1 ident:all, \
               scroll of fog q:7 ident:all, \
-              scroll of recharging q:3 ident:all, \
           scroll of amnesia q:4 ident:all
 KITEM:    M = stone q:42
 KITEM:    N = wand of acid ident:all charges:5, \
