@@ -1509,7 +1509,7 @@ bool is_stackable_item(const item_def &item)
         || item.base_type == OBJ_SCROLLS
         || item.base_type == OBJ_POTIONS
         || item.base_type == OBJ_GOLD
-		|| item.base_type == OBJ_WANDS)
+                || item.base_type == OBJ_WANDS)
     {
         return true;
     }
@@ -1609,15 +1609,15 @@ void merge_item_stacks(const item_def &source, item_def &dest, int quant)
         quant = source.quantity;
 
     ASSERT_RANGE(quant, 0 + 1, source.quantity + 1);
-	
-	if (source.base_type == OBJ_WANDS && dest.base_type == OBJ_WANDS)
+
+        if (source.base_type == OBJ_WANDS && dest.base_type == OBJ_WANDS)
     {
-		if(source.charges >0)
-		{
-			//it's otherwise treated as empty despite having charges
-			dest.used_count = 0;
-			dest.charges += source.charges;
-		}
+                if (source.charges >0)
+                {
+                        //it's otherwise treated as empty despite having charges
+                        dest.used_count = 0;
+                        dest.charges += source.charges;
+                }
     }
 
     if (is_perishable_stack(source) && is_perishable_stack(dest))
@@ -1963,32 +1963,28 @@ static bool _merge_stackable_item_into_inv(const item_def &it, int quant_got,
         {
             you.inv[inv_slot].inscription = it.inscription;
         }
-		
-		int quant = quant_got;
-		if (it.base_type == OBJ_WANDS)
-		{
-			quant = it.charges;
-		}
-		
+
+                int quant = quant_got;
+                if (it.base_type == OBJ_WANDS)
+                        quant = it.charges;
+
         merge_item_stacks(it, you.inv[inv_slot], quant_got);
-		
-		if (it.base_type != OBJ_WANDS)
-		{
-			inc_inv_item_quantity(inv_slot, quant_got);
-		}
-		
-		you.last_pickup[inv_slot] = quant_got;
+
+                if (it.base_type != OBJ_WANDS)
+                        inc_inv_item_quantity(inv_slot, quant_got);
+
+                you.last_pickup[inv_slot] = quant_got;
 
         if (!quiet)
         {
 #ifdef USE_SOUND
             parse_sound(PICKUP_SOUND);
 #endif
-			mprf_nocap("%s (gained %d%s)",
+                        mprf_nocap("%s (gained %d%s)",
                     get_menu_colour_prefix_tags(you.inv[inv_slot],
                                                 DESC_INVENTORY).c_str(),
                     quant,
-					it.base_type == OBJ_WANDS ? " charges" : "");
+                                        it.base_type == OBJ_WANDS ? " charges" : "");
         }
 
         return true;
@@ -2084,7 +2080,7 @@ static int _place_item_in_free_slot(item_def &it, int quant_got,
     god_id_item(item);
     if (item.base_type == OBJ_WANDS)
     {
-		item.quantity = 1;
+                item.quantity = 1;
         set_ident_type(item, true);
 
         if (have_passive(passive_t::identify_devices)
@@ -2262,10 +2258,10 @@ bool move_item_to_grid(int *const obj, const coord_def& p, bool silent)
                 // Add quantity to item already here, and dispose
                 // of obj, while returning the found item. -- bwr
                 merge_item_stacks(item, *si);
-				
-				if (item.base_type != OBJ_WANDS)
-					inc_mitm_item_quantity(si->index(), item.quantity);
-				
+
+                                if (item.base_type != OBJ_WANDS)
+                                        inc_mitm_item_quantity(si->index(), item.quantity);
+
                 destroy_item(ob);
                 ob = si->index();
                 _gozag_move_gold_to_top(p);

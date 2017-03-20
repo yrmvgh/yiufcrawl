@@ -1585,12 +1585,12 @@ int wand_charge_value(int type)
         return 4;
 
     default:
-        return 5; 
+        return 5;
 
     case WAND_FLAME:
     case WAND_CONFUSION:
     case WAND_RANDOM_EFFECTS:
-        return 6; 
+        return 6;
     }
 }
 
