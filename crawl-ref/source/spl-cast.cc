@@ -1047,6 +1047,25 @@ static void _try_monster_cast(spell_type spell, int powc,
 }
 #endif // WIZARD
 
+static void _setup_evaporate_cast()
+{
+    int rc = prompt_invent_item("Throw which potion?", MT_INVLIST, OBJ_POTIONS);
+
+    if (prompt_failed(rc))
+        rc = -1;
+    else if (you.inv[rc].base_type != OBJ_POTIONS)
+    {
+        mpr("This spell works only on potions!");
+        rc = -1;
+    }
+    else
+    {
+        mprf(MSGCH_PROMPT, "Where do you want to aim %s?",
+             you.inv[rc].name(DESC_YOUR).c_str());
+    }
+    return rc;
+}
+
 static void _maybe_cancel_repeat(spell_type spell)
 {
 #if TAG_MAJOR_VERSION == 34
@@ -1329,7 +1348,13 @@ spret_type your_spells(spell_type spell, int powc, bool allow_fail,
                                               DIR_NONE;
 
         const char *prompt = get_spell_target_prompt(spell);
-        if (dir == DIR_DIR)
+        if (spell == SPELL_EVAPORATE)
+        {
+            potion = _setup_evaporate_cast();
+            if (potion == -1)
+                return SPRET_ABORT;
+        }
+        else if (dir == DIR_DIR)
             mprf(MSGCH_PROMPT, "%s", prompt ? prompt : "Which direction?");
 
         const bool needs_path = !testbits(flags, SPFLAG_TARGET)
@@ -1915,6 +1940,12 @@ static spret_type _do_cast(spell_type spell, int powc, const dist& spd,
     case SPELL_POISONOUS_VAPOURS:
         return cast_poisonous_vapours(powc, spd, fail);
 
+    case SPELL_EVAPORATE:
+        return cast_evaporate(powc, beam, potion, fail);
+
+    case SPELL_FULSOME_DISTILLATION:
+        return cast_fulsome_distillation(powc, fail);
+
     default:
         if (spell_removed(spell))
         {
@@ -2226,11 +2257,9 @@ const set<spell_type> removed_spells =
     SPELL_CONDENSATION_SHIELD,
     SPELL_CONTROL_TELEPORT,
     SPELL_DEMONIC_HORDE,
-    SPELL_EVAPORATE,
     SPELL_FIRE_BRAND,
     SPELL_FORCEFUL_DISMISSAL,
     SPELL_FREEZING_AURA,
-    SPELL_FULSOME_DISTILLATION,
     SPELL_INSULATION,
     SPELL_LETHAL_INFUSION,
     SPELL_POISON_WEAPON,
