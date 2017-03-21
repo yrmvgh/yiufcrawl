@@ -58,6 +58,7 @@
 #include "skills.h"
 #include "species.h"
 #include "spl-book.h"
+#include "spl-clouds.h"
 #include "spl-summoning.h"
 #include "spl-util.h"
 #include "spl-wpnench.h"

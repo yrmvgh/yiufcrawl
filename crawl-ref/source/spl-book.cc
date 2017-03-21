@@ -144,12 +144,12 @@ int book_rarity(book_type which_book)
     case BOOK_DEBILITATION:
         return 5;
 
-    case BOOK_CLOUDS:
     case BOOK_POWER:
         return 6;
 
     case BOOK_ENCHANTMENTS:
     case BOOK_PARTY_TRICKS:
+    case BOOK_CLOUDS:
         return 7;
 
     case BOOK_TRANSFIGURATIONS:
@@ -170,13 +170,13 @@ int book_rarity(book_type which_book)
         return 11;
 
     case BOOK_BURGLARY:
-    case BOOK_ALCHEMY:
     case BOOK_DREAMS:
     case BOOK_FEN:
         return 12;
 
     case BOOK_WARP:
     case BOOK_DRAGON:
+    case BOOK_ALCHEMY:
         return 15;
 
     case BOOK_ANNIHILATIONS:
