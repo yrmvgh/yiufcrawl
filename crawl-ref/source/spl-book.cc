@@ -182,6 +182,7 @@ int book_rarity(book_type which_book)
     case BOOK_ANNIHILATIONS:
     case BOOK_GRAND_GRIMOIRE:
     case BOOK_NECRONOMICON:  // Kikubaaqudgha special
+    case BOOK_STALKING:
     case BOOK_MANUAL:
         return 20;
 

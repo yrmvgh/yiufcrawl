@@ -1334,6 +1334,7 @@ string spell_uselessness_reason(spell_type spell, bool temp, bool prevent,
     case SPELL_POISONOUS_CLOUD:
     case SPELL_FREEZING_CLOUD:
     case SPELL_MEPHITIC_CLOUD:
+    case SPELL_EVAPORATE:
         if (env.level_state & LSTATE_STILL_WINDS)
             return "the air is too still for clouds to form.";
         break;
@@ -1467,7 +1468,7 @@ bool spell_no_hostile_in_range(spell_type spell)
         beam.thrower = KILL_YOU_MISSILE;
         zappy(zap, calc_spell_power(spell, true, false, true), false,
               beam);
-        if (spell == SPELL_MEPHITIC_CLOUD)
+        if (spell == SPELL_MEPHITIC_CLOUD || spell == SPELL_EVAPORATE)
             beam.damage = dice_def(1, 1); // so that foe_info is populated
     }
 

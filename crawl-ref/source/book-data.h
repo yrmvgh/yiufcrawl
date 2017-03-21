@@ -331,6 +331,7 @@ static const vector<spell_type> spellbook_templates[] =
 },
 
 {   // Book of Alchemy
+    SPELL_FULSOME_DISTILLATION,
     SPELL_SUBLIMATION_OF_BLOOD,
     SPELL_IGNITE_POISON,
     SPELL_PETRIFY,
@@ -367,6 +368,14 @@ static const vector<spell_type> spellbook_templates[] =
     SPELL_DEATHS_DOOR,
     SPELL_INFESTATION,
     SPELL_NECROMUTATION,
+},
+
+{   // Book of Stalking
+    SPELL_FULSOME_DISTILLATION,
+    SPELL_EVAPORATE,
+    SPELL_PASSWALL,
+    SPELL_PETRIFY,
+    SPELL_DIG,
 },
 
 };

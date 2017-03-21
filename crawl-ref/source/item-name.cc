@@ -1096,6 +1096,7 @@ static const char* _book_type_name(int booktype)
     case BOOK_DREAMS:                 return "Dreams";
     case BOOK_ALCHEMY:                return "Alchemy";
     case BOOK_BEASTS:                 return "Beasts";
+    case BOOK_STALKING:               return "Stalking";
     case BOOK_RANDART_LEVEL:          return "Fixed Level";
     case BOOK_RANDART_THEME:          return "Fixed Theme";
     default:                          return "Bugginess";
@@ -3544,6 +3545,10 @@ bool is_useless_item(const item_def &item, bool temp)
 
     case OBJ_POTIONS:
     {
+        // No potion is useless if it can be Evaporated.
+        if (you.has_spell(SPELL_EVAPORATE))
+            return false;
+
         // Mummies can't use potions.
         if (you.undead_state(temp) == US_UNDEAD)
             return true;

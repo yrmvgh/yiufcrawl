@@ -332,6 +332,221 @@ void corpse_rot(actor* caster)
         canned_msg(MSG_NOTHING_HAPPENS);
 }
 
+// Returns a vector of cloud types created by this potion type.
+// FIXME: Heavily duplicated code.
+static std::vector<int> _get_evaporate_result(int potion)
+{
+    std::vector <int> beams;
+    bool random_potion = false;
+    switch (potion)
+    {
+    case POT_DEGENERATION:
+        beams.push_back(BEAM_POTION_POISON);
+        beams.push_back(BEAM_POTION_MIASMA);
+        break;
+
+    case POT_BLOOD:
+    case POT_BLOOD_COAGULATED:
+        beams.push_back(BEAM_POTION_MEPHITIC);
+        // deliberate fall through
+    case POT_BERSERK_RAGE:
+        beams.push_back(BEAM_POTION_FIRE);
+        beams.push_back(BEAM_POTION_STEAM);
+        break;
+
+    case POT_MUTATION:
+        beams.push_back(BEAM_POTION_MUTAGENIC);
+        // deliberate fall-through
+    case POT_EXPERIENCE:
+    case POT_MAGIC:
+        beams.push_back(BEAM_POTION_FIRE);
+        beams.push_back(BEAM_POTION_COLD);
+        beams.push_back(BEAM_POTION_POISON);
+        beams.push_back(BEAM_POTION_MIASMA);
+        random_potion = true;
+        break;
+
+    default:
+        beams.push_back(BEAM_POTION_FIRE);
+        beams.push_back(BEAM_POTION_MEPHITIC);
+        beams.push_back(BEAM_POTION_COLD);
+        beams.push_back(BEAM_POTION_POISON);
+        beams.push_back(BEAM_POTION_BLUE_SMOKE);
+        beams.push_back(BEAM_POTION_STEAM);
+        random_potion = true;
+        break;
+    }
+
+    std::vector<int> clouds;
+    for (unsigned int k = 0; k < beams.size(); ++k)
+        clouds.push_back(beam2cloud((beam_type) beams[k]));
+
+    if (random_potion)
+    {
+        // handled in beam.cc
+        clouds.push_back(CLOUD_FIRE);
+        clouds.push_back(CLOUD_MEPHITIC);
+        clouds.push_back(CLOUD_COLD);
+        clouds.push_back(CLOUD_POISON);
+        clouds.push_back(CLOUD_BLUE_SMOKE);
+        clouds.push_back(CLOUD_STEAM);
+    }
+
+    return clouds;
+}
+
+// Returns a comma-separated list of all cloud types potentially created
+// by this potion type. Doesn't respect the different probabilities.
+std::string get_evaporate_result_list(int potion)
+{
+    std::vector<int> clouds = _get_evaporate_result(potion);
+    std::sort(clouds.begin(), clouds.end());
+
+    std::vector<std::string> clouds_list;
+
+    int old_cloud = -1;
+    for (unsigned int k = 0; k < clouds.size(); ++k)
+    {
+        const int new_cloud = clouds[k];
+        if (new_cloud == old_cloud)
+            continue;
+
+        // This relies on all smoke types being handled as blue.
+        if (new_cloud == CLOUD_BLUE_SMOKE)
+            clouds_list.push_back("coloured smoke");
+        else
+            clouds_list.push_back(cloud_type_name((cloud_type) new_cloud));
+
+        old_cloud = new_cloud;
+    }
+
+    return comma_separated_line(clouds_list.begin(), clouds_list.end(),
+                                " or ", ", ");
+}
+
+
+// Assumes beam.range is already set -cao
+spret_type cast_evaporate(int pow, bolt& beam, int pot_idx, bool fail)
+{
+    ASSERT(you.inv[pot_idx].base_type == OBJ_POTIONS);
+    item_def& potion = you.inv[pot_idx];
+
+    beam.name        = "potion";
+    beam.colour      = potion.colour;
+    beam.glyph       = dchar_glyph(DCHAR_FIRED_FLASK);
+    beam.beam_source = MHITYOU;
+    beam.thrower     = KILL_YOU_MISSILE;
+    beam.is_tracer   = false;
+    beam.aux_source.clear();
+
+    beam.auto_hit   = true;
+    beam.damage     = dice_def(1, 0);  // no damage, just producing clouds
+    beam.ench_power = pow;               // used for duration only?
+    beam.is_explosion = true;
+
+    beam.flavour    = BEAM_MEPHITIC;
+    beam_type tracer_flavour = BEAM_MISSILE;
+
+    switch (potion.sub_type)
+    {
+    case POT_DEGENERATION:
+        beam.effect_known = false;
+        beam.flavour   = BEAM_MIASMA;
+        tracer_flavour = BEAM_MIASMA;
+        beam.ench_power *= 2;
+        break;
+
+
+    case POT_BLOOD:
+    case POT_BLOOD_COAGULATED:
+        if (one_chance_in(3))
+            break; // stinking cloud
+        // deliberate fall through
+    case POT_BERSERK_RAGE:
+        beam.effect_known = false;
+        beam.flavour = (coinflip() ? BEAM_POTION_FIRE : BEAM_POTION_STEAM);
+        if (potion.sub_type == POT_BERSERK_RAGE)
+            tracer_flavour = BEAM_FIRE;
+        else
+            tracer_flavour = BEAM_RANDOM;
+        break;
+
+    case POT_MUTATION:
+        // Maybe we'll get a mutagenic cloud.
+        if (coinflip())
+        {
+            beam.effect_known = true;
+            tracer_flavour = beam.flavour = BEAM_POTION_MUTAGENIC;
+            break;
+        }
+        // if not, deliberate fall through for something random
+
+    case POT_EXPERIENCE:
+    case POT_MAGIC:
+        beam.effect_known = false;
+        switch (random2(5))
+        {
+        case 0:   beam.flavour = BEAM_POTION_FIRE;   break;
+        case 1:   beam.flavour = BEAM_POTION_COLD;   break;
+        case 2:   beam.flavour = BEAM_POTION_POISON; break;
+        case 3:   beam.flavour = BEAM_POTION_MIASMA; break;
+        default:  beam.flavour = BEAM_POTION_RANDOM; break;
+        }
+        tracer_flavour = BEAM_RANDOM;
+        break;
+
+    default:
+        beam.effect_known = false;
+        switch (random2(12))
+        {
+        case 0:   beam.flavour = BEAM_POTION_FIRE;            break;
+        case 1:   beam.flavour = BEAM_MEPHITIC;               break;
+        case 2:   beam.flavour = BEAM_POTION_COLD;            break;
+        case 3:   beam.flavour = BEAM_POTION_POISON;          break;
+        case 4:   beam.flavour = BEAM_POTION_RANDOM;          break;
+        case 5:   beam.flavour = BEAM_POTION_BLUE_SMOKE;      break;
+        case 6:   beam.flavour = BEAM_POTION_BLACK_SMOKE;     break;
+        default:  beam.flavour = BEAM_POTION_STEAM;           break;
+        }
+        tracer_flavour = BEAM_RANDOM;
+        break;
+    }
+
+    // Fire tracer. FIXME: use player_tracer() here!
+    beam.source         = you.pos();
+    beam.can_see_invis  = you.can_see_invisible();
+    beam.smart_monster  = true;
+    beam.attitude       = ATT_FRIENDLY;
+    beam.beam_cancelled = false;
+    beam.is_tracer      = true;
+    beam.friend_info.reset();
+
+    beam_type real_flavour = beam.flavour;
+    beam.flavour           = tracer_flavour;
+    beam.fire();
+
+    if (beam.beam_cancelled)
+    {
+        // We don't want to fire through friendlies or at ourselves.
+        canned_msg(MSG_OK);
+        return SPRET_ABORT;
+    }
+
+    fail_check();
+    // Really fire.
+    beam.flavour = real_flavour;
+    beam.is_tracer = false;
+    beam.fire();
+
+    // Use up a potion.
+    if (is_blood_potion(potion))
+        remove_oldest_blood_potion(potion);
+
+    dec_inv_item_quantity(pot_idx, 1);
+
+    return SPRET_SUCCESS;
+}
+
 void holy_flames(monster* caster, actor* defender)
 {
     const coord_def pos = defender->pos();

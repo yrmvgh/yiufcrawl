@@ -219,6 +219,18 @@ static const map<job_type, job_def> job_data =
       { SK_SPELLCASTING, 2 }, { SK_CHARMS, 3 }, { SK_WEAPON, 2 }, },
 } },
 
+{ JOB_STALKER, {
+    "St", "Stalker",
+    2, 4, 6,
+    { SP_NAGA, SP_MERFOLK, SP_BASE_DRACONIAN, SP_VAMPIRE, SP_DEMONSPAWN,
+      SP_TROLL, SP_SLUDGE_ELF, SP_SPRIGGAN, SP_VINE_STALKER, },
+    { SP_DEEP_ELF, SP_FELID, SP_KOBOLD, SP_SPRIGGAN, SP_NAGA, SP_VAMPIRE, },
+    { "dagger", "robe", "cloak" "book of Stalking" },
+    WCHOICE_NONE,
+    { { SK_WEAPON, 1 }, { SK_TRANSMUTATIONS, 2 }, { SK_SPELLCASTING, 1 },
+      { SK_FIGHTING, 1 }, { SK_DODGING, 2 }, { SK_STEALTH, 3 }, },
+} },
+
 { JOB_SUMMONER, {
     "Su", "Summoner",
     0, 7, 5,
@@ -322,13 +334,5 @@ static const map<job_type, job_def> job_data =
     { },
 } },
 
-{ JOB_STALKER, {
-    "St", "Stalker",
-    0, 0, 0,
-    { },
-    { },
-    WCHOICE_NONE,
-    { },
-} },
 #endif
 };

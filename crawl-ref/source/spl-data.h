@@ -823,7 +823,6 @@ static const struct spell_desc spelldata[] =
     TILEG_DISPEL_UNDEAD,
 },
 
-#if TAG_MAJOR_VERSION == 34
 {
     SPELL_FULSOME_DISTILLATION, "Fulsome Distillation",
     SPTYP_TRANSMUTATION | SPTYP_NECROMANCY,
@@ -832,9 +831,8 @@ static const struct spell_desc spelldata[] =
     0,
     -1, -1,
     1, 0,
-    TILEG_ERROR,
+    TILEG_FULSOME_DISTILLATION,
 },
-#endif
 
 {
     SPELL_POISON_ARROW, "Poison Arrow",
@@ -1528,18 +1526,16 @@ static const struct spell_desc spelldata[] =
     TILEG_ALISTAIRS_INTOXICATION,
 },
 
-#if TAG_MAJOR_VERSION == 34
 {
     SPELL_EVAPORATE, "Evaporate",
-    SPTYP_FIRE | SPTYP_TRANSMUTATION,
+    SPTYP_TRANSMUTATION | SPTYP_FIRE,
     SPFLAG_DIR_OR_TARGET | SPFLAG_AREA,
     2,
     50,
     5, 5,
     2, 0,
-    TILEG_ERROR,
+    TILEG_EVAPORATE,
 },
-#endif
 
 {
     SPELL_LRD, "Lee's Rapid Deconstruction",
