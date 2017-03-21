@@ -546,7 +546,8 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_SMALL,
     5, 9, 10, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
-    { { MUT_CARNIVOROUS, 3, 1 }, },
+    { { MUT_CARNIVOROUS, 3, 1 },
+      { MUT_WILD_MAGIC, 1, 1 }, { MUT_MP_WANDS, 1, 1}, },
     {},
     {},
     { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_ENCHANTER,
