@@ -710,7 +710,7 @@ static const mutation_def mut_data[] =
   {"Your beak shortens and softens into a mouth.", "", ""},
 },
 
-{ MUT_CLAWS, 2, 3, mutflag::good | mutflag::bear, true,
+{ MUT_CLAWS, 2, 3, mutflag::good, true,
   "claws",
 
   {"You have sharp fingernails.",
