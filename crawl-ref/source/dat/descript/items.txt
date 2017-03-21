@@ -236,6 +236,10 @@ book of spatial translocations
 
 A basic spellbook on the magical field of Translocations.
 %%%%
+book of stalking
+
+An instructional guide to the fundamentals of transmutational Stalking.
+%%%%
 book of summonings
 
 An advanced treatise on Summoning magics, detailing ways of summoning and

@@ -88,6 +88,11 @@ Skald
 Skalds are melee fighters who can boost themselves in battle with spells from
 the book of Battle.
 %%%%
+Stalker
+
+Stalkers use stealth and transformative magic to approach and subdue their
+victims.
+%%%%
 Summoner
 
 Summoners start with the book of Callings and are able to cast Summon Small

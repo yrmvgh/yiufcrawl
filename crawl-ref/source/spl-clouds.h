@@ -22,6 +22,9 @@ void manage_fire_shield(int delay);
 spret_type cast_corpse_rot(bool fail);
 void corpse_rot(actor* caster);
 
+std::string get_evaporate_result_list(int potion);
+spret_type cast_evaporate(int pow, bolt& beem, int potion, bool fail);
+
 void holy_flames(monster* caster, actor* defender);
 
 spret_type cast_cloud_cone(const actor *caster, int pow, const coord_def &pos,

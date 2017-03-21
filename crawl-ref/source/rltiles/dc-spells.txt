@@ -158,6 +158,8 @@ beastly_appendage BEASTLY_APPENDAGE
 irradiate IRRADIATE
 hydra_form HYDRA_FORM
 dragon_form DRAGON_FORM
+evaporate EVAPORATE
+fulsome_distillation FULSOME_DISTILLATION
 
 # item-based spells
 %sdir gui/spells/misc
