@@ -1,6 +1,6 @@
-Note- several trivial, bugfix, or poorly-described commits have been https://github.com/hellmonk/hellcrawl/commit/pruned
+Note- several trivial, bugfix, or poorly-described commits have been pruned
 
-#### Commits on Mar 11, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 11, 2017
 
 * reduce THE GIAGGOSTUONO ac https://github.com/hellmonk/hellcrawl/commit/312c0f5
 * rename dev favorite to orb child, also give it more damage https://github.com/hellmonk/hellcrawl/commit/c23a4aa
@@ -17,17 +17,17 @@ Note- several trivial, bugfix, or poorly-described commits have been https://git
 * various lava swimming fixes  https://github.com/hellmonk/hellcrawl/commit/7b29143
 * Update README.md  https://github.com/hellmonk/hellcrawl/commit/836640c
 
-#### Commits on Mar 14, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 14, 2017
 
 * fix + test some bugs  https://github.com/hellmonk/hellcrawl/commit/d9fd16e
 * remove another entrance  https://github.com/hellmonk/hellcrawl/commit/9b7521d
 
-#### Commits on Mar 15, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 15, 2017
 
 * remove wands of random effects https://github.com/hellmonk/hellcrawl/commit/9b7dfb3
 * update descriptions for deep water and lava  https://github.com/hellmonk/hellcrawl/commit/7d631a4
 
-#### Commits on Mar 16, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 16, 2017
 
 * message for trying to throw/fire things while swimming https://github.com/hellmonk/hellcrawl/commit/78e1fbe
 * finally get around to removing stealth modifiers https://github.com/hellmonk/hellcrawl/commit/e242d6f
@@ -37,7 +37,7 @@ Note- several trivial, bugfix, or poorly-described commits have been https://git
 * mr apt on the ?% screen, also a minor stealth bugfix https://github.com/hellmonk/hellcrawl/commit/1733a31
 * remove a disconnected altar vault  https://github.com/hellmonk/hellcrawl/commit/d7e60ba
 
-#### Commits on Mar 18, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 18, 2017
 
 * fix difficulty display again https://github.com/Hellmonk/hellcrawl/commit/6016422
 * remove item destruction and monster amulet of rage use https://github.com/hellmonk/hellcrawl/commit/78d8647
@@ -48,7 +48,7 @@ Note- several trivial, bugfix, or poorly-described commits have been https://git
 * another swamp vault fix  https://github.com/hellmonk/hellcrawl/commit/d7a76f8
 * Remove the abyssal rune. https://github.com/hellmonk/hellcrawl/commit/497c066
 
-#### Commits on Mar 19, https://github.com/Hellmonk/hellcrawl/commit/2017
+#### Commits on Mar 19, 2017
 
 * sanity check the hell endings https://github.com/hellmonk/hellcrawl/commit/30bbf62
 * Don't spawn so much shit in vestibule. https://github.com/hellmonk/hellcrawl/commit/ad4acab
