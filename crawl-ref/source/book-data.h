@@ -331,6 +331,7 @@ static const vector<spell_type> spellbook_templates[] =
 },
 
 {   // Book of Alchemy
+    SPELL_FULSOME_DISTILLATION,
     SPELL_SUBLIMATION_OF_BLOOD,
     SPELL_EVAPORATE,
     SPELL_IGNITE_POISON,
