@@ -2909,13 +2909,13 @@ void level_change(bool skip_attribute_increase)
             {
             case SP_BEARKIN:
             // Ds-ish random muts every 2 levels, to approximate old bearkin design
-                if (you.experience_level % 2)
+                if (!you.experience_level % 2)
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
                     mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
                            false, MUTCLASS_INNATE, true);
                     mpr("This mutation is meant to be permanent, however I haven't been able"
-                        "to code that yet. Take care not to wipe it out with mut pots :)");
+                        " to code that yet. Take care not to wipe it out with mut pots :)");
                 }
                 // ensure that max-level bearkins have their bearserk.
                 if (you.experience_level % you.max_level)
