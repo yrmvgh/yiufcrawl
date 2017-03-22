@@ -717,7 +717,7 @@ static const map<species_type, species_def> species_data =
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
     { { MUT_NO_POTION_HEAL, 1, 1 }, },
     { "Every moment, your contamination rises, increasing your hp/mp regen.",
-      "Extreme magical contamination makes you explode.",
+      "You can explode at will, and automatically when contamination is extreme.",
       "Slay enemies or drink potions to dissipate contamination." },
     { "powered by contamination", "explosive" },
     { JOB_FIGHTER, JOB_ABYSSAL_KNIGHT, JOB_BERSERKER, JOB_EARTH_ELEMENTALIST,
