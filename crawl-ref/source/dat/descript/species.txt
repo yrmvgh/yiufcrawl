@@ -71,7 +71,7 @@ to mutagenic effects.
 High Elf
 
 Spell and song, blade and bow! High elves have an approximate knowledge of many
-arts, which they can blend together, well... artfully. (YIUF: unique crosstrain)
+arts, which they can blend together, well... artfully. (YIUF: bow+LB crosstrain)
 %%%%
 Hill Orc
 
@@ -81,7 +81,7 @@ past. All they crave now is gold and violence.
 Human
 
 Humans advance quickly in levels and have equal abilities in most skills.
-(YIUF: unique crosstrain)
+(YIUF: elemental crosstraining)
 %%%%
 Imp
 
