@@ -574,9 +574,9 @@ static const mutation_def mut_data[] =
   mutflag::bad | mutflag::xom, false,
   "frail",
 
-  {"You are frail. (-10% HP)",
-   "You are very frail. (-20% HP)",
-   "You are extremely frail. (-30% HP)"},
+  {"You are frail. (-7% HP)",
+   "You are very frail. (-14% HP)",
+   "You are extremely frail. (-21% HP)"},
 
   {"You feel frail.",
    "You feel frail.",
@@ -590,9 +590,9 @@ static const mutation_def mut_data[] =
 { MUT_ROBUST, 5, 3, mutflag::good | mutflag::bear, false,
   "robust",
 
-  {"You are robust. (+10% HP)",
-   "You are very robust. (+20% HP)",
-   "You are extremely robust. (+30% HP)"},
+  {"You are robust. (+7% HP)",
+   "You are very robust. (+14% HP)",
+   "You are extremely robust. (+21% HP)"},
 
   {"You feel robust.",
    "You feel robust.",
@@ -710,7 +710,7 @@ static const mutation_def mut_data[] =
   {"Your beak shortens and softens into a mouth.", "", ""},
 },
 
-{ MUT_CLAWS, 2, 3, mutflag::good | mutflag::bear, true,
+{ MUT_CLAWS, 2, 3, mutflag::good, true,
   "claws",
 
   {"You have sharp fingernails.",

@@ -937,7 +937,7 @@ void species_group::attach(const newgame_def& ng, const newgame_def& defaults,
 static species_group species_groups[] =
 {
     {
-        "Yiuf's Species",
+        "Yiuf's Species!",
         coord_def(0, -1),
         20,
         {
@@ -953,7 +953,7 @@ static species_group species_groups[] =
         }
     },
     {
-        "DCSS Species",
+        "DCSS Species; (YIUF)",
         coord_def(20, -1),
         20,
         {
@@ -973,7 +973,7 @@ static species_group species_groups[] =
         }
     },
     {
-        "",
+        " ones are altered.",
         coord_def(40, -1),
         20,
         {

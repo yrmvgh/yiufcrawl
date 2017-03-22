@@ -125,7 +125,7 @@ static const map<species_type, species_def> species_data =
     "Df",
     "Dorf", "Dwarven", "Dwarf",
     SPF_NONE,
-    -1, 2, -1, 6,
+    -1, 2, -1, 5,
     MONS_DEEP_DWARF,
     HT_LAND, US_ALIVE, SIZE_MEDIUM,
     12, 7, 8, // 27
@@ -546,7 +546,8 @@ static const map<species_type, species_def> species_data =
     HT_LAND, US_ALIVE, SIZE_SMALL,
     5, 9, 10, // 24
     { STAT_STR, STAT_INT, STAT_DEX }, 5,
-    { { MUT_CARNIVOROUS, 3, 1 }, },
+    { { MUT_CARNIVOROUS, 3, 1 },
+      { MUT_WILD_MAGIC, 1, 1 }, { MUT_MP_WANDS, 1, 1}, },
     {},
     {},
     { JOB_HUNTER, JOB_BERSERKER, JOB_ARCANE_MARKSMAN, JOB_ENCHANTER,
@@ -716,7 +717,7 @@ static const map<species_type, species_def> species_data =
     { STAT_STR, STAT_INT, STAT_DEX }, 4,
     { { MUT_NO_POTION_HEAL, 1, 1 }, },
     { "Every moment, your contamination rises, increasing your hp/mp regen.",
-      "Extreme magical contamination makes you explode.",
+      "You can explode at will, and automatically when contamination is extreme.",
       "Slay enemies or drink potions to dissipate contamination." },
     { "powered by contamination", "explosive" },
     { JOB_FIGHTER, JOB_ABYSSAL_KNIGHT, JOB_BERSERKER, JOB_EARTH_ELEMENTALIST,

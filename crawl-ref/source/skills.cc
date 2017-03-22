@@ -1553,15 +1553,9 @@ vector<skill_type> get_crosstrain_skills(skill_type sk)
         return { SK_STAVES, SK_AXES };
     case SK_POLEARMS:
         return { SK_LONG_BLADES, SK_SHORT_BLADES };
-    case SK_CROSSBOWS:
-        return { SK_THROWING };
-    case SK_SLINGS:
-        return { SK_THROWING };
     case SK_BOWS:
         if (you.species == SP_HIGH_ELF)
             return { SK_LONG_BLADES };
-        else
-            return { SK_THROWING };
     case SK_FIRE_MAGIC:
         if (you.species == SP_HUMAN)
             return { SK_EARTH_MAGIC, SK_AIR_MAGIC, SK_ICE_MAGIC };
