@@ -2909,7 +2909,7 @@ void level_change(bool skip_attribute_increase)
             {
             case SP_BEARKIN:
             // Ds-ish random muts every 2 levels, to approximate old bearkin design
-                if (!you.experience_level % 2)
+                if (!(you.experience_level % 2))
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
                     mutate(RANDOM_BEAR_MUTATION, "the bear spirit", false, true, false,
