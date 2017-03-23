@@ -545,8 +545,9 @@ static const duration_def duration_data[] =
       "can't hop", "",
       "", D_NO_FLAGS,
       {{ "You are ready to hop once more." }}},
-    { DUR_CORNERED, YELLOW, "Corner", "", "cornered",
-      "You feel cornered and ready to bearserk.", D_NO_FLAGS },
+    { DUR_CORNERED, YELLOW, "Cornered", "cornered", "cornered",
+      "You feel cornered and ready to bearserk!", D_NO_FLAGS,
+      {{ "You feel too calm to bearserk." }, {}, false }},
 
     // The following are visible in wizmode only, or are handled
     // specially in the status lights and/or the % or @ screens.
