@@ -53,9 +53,9 @@ REMOVEPACKAGES=""
 #HOOKDIR="/usr/lib/pbuilder/hooks"
 HOOKDIR=""
 # NB: this var is private to pbuilder; ccache uses "CCACHE_DIR" instead
-# CCACHEDIR="/var/cache/pbuilder/ccache"
+CCACHEDIR="/var/cache/pbuilder/ccache"
 # Disable ccache since we make packages infrequently
-CCACHEDIR=""
+# CCACHEDIR=""
 
 # make debconf not interact with user
 export DEBIAN_FRONTEND="noninteractive"
