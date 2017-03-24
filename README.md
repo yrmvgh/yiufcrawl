@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hellmonk/hellcrawl.svg?branch=master)](https://travis-ci.org/Hellmonk/hellcrawl)
+[![Build Status](https://travis-ci.org/Hellmonk/hellcrawl.svg?branch=master)](https://travis-ci.org/Hellmonk/hellcrawl)
 
 # Dungeon Crawl Stone Soup (hellcrawl fork)
 
