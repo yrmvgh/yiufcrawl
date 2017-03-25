@@ -1,38 +1,39 @@
 language: cpp
 compiler:
-#    - clang
-    - gcc
+- gcc
 cache: ccache
 before_install:
-    - perl .travis/apt.pl
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
+- perl .travis/apt.pl
+- if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
 env:
-    - NOTHING=1
-    - FULLDEBUG=1
-#    - TILES=1
-#    - TILES=1 FULLDEBUG=1
-#    - WEBTILES=1
-    - WEBTILES=1 FULLDEBUG=1
-    - USE_DGAMELAUNCH=1 EXTERNAL_DEFINES=-UTOURNEY
-#    - USE_DGAMELAUNCH=1 WEBTILES=1 EXTERNAL_DEFINES=-UTOURNEY
-    - TILES=1 BUILD_ALL=1 SOUND=1
-#    - WEBTILES=1 BUILD_ALL=1
-    - CROSSHOST=i686-w64-mingw32 package-windows-zips
+- NOTHING=1
+- FULLDEBUG=1
+- WEBTILES=1 FULLDEBUG=1
+- USE_DGAMELAUNCH=1 EXTERNAL_DEFINES=-UTOURNEY
+- TILES=1 BUILD_ALL=1 SOUND=1
 git:
-    submodules: false
+  submodules: false
 install: perl .travis/deps.pl
 script: perl .travis/build.pl
 notifications:
-#    email:
-#        on_success: change
-#        on_failure: always
-#        recipients:
-#          - crawl-ref-commits@lists.sourceforge.net
-    irc:
-        channels: "chat.freenode.net##crawl-forks"
-        on_success: always
-        on_failure: always
-        use_notice: true
-        template:
-            - "%{result} (%{branch} - #%{build_number}) %{build_url} View changes: %{compare_url} %{commit_subject}"
+  irc:
+    channels: chat.freenode.net##crawl-forks
+    on_success: always
+    on_failure: always
+    use_notice: true
+    template:
+    - "%{commit_subject} %{result} (%{branch} - #%{build_number}) %{build_url}
+      View changes: %{compare_url}"
 sudo: required
+deploy:
+  skip_cleanup: true
+  overwrite: true
+  provider: releases
+  api_key:
+    secure: Bs/aRBgUU4BxYVI6mLXo3u8quLcH2rKpPcEAwJnZewoqXo8+k/Lb0Qz56Q0RTQnbqLiK39BokRnb7hZFePbmHtpfekZ8WsUj6x7vaZeXFwb+f227icDyBZekvSOC2ispieyrrJaxb4vWmqoOsYOZqYe9s1Yk0h6ErE/UJbxVDlnmRAscKu8KOIFlOoTVTv0JXq5Gw9zYmFk9uR0gosEl47VFx8TLSH6ASmCfdeAXK5CRNUuV+zVTGYY6gusBKmADSXpVCsbA8tAIaAFZKGSeilbPfnEndIYLJx9udei+VM8qerPQNUd5/r2gLPmnvkoI0zgb0dMYZcqgpmpu4ptadGTAk8nGMSSuc2YnACS7pbFHSFt27ruRPsmjDYwghM5SKbjAR4E1axyLE3e5DhH9ovKewAV9soe5f6qAv5Dj3bJQoh/zMUlhhtmqFrtK3t+vEXAyh/Z4ht9SKxu911oyDLsvYmBC3gOCcKJPLthw9L7dSo68GJsclaKE+P4atQBN9RKJMwlXmTp9G1JMb3b7Jv0JnKtsK9UnkTXl+uPCAEZW+a/zYYlGCVNhieo/dAU80qnuj8/JtCz62wJsznQN10+R0T376nxBbvqmGy7a7FbkzaQ0U5GypjwGtCpmIgnAISqALgCJcLds21kJ0hMK+catB1c6W0SmPKaZmrK/8+I=
+  file_glob: true
+  file: yiuf_soup*tiles*.zip
+  file: yiuf_soup*ascii*.zip
+  file: yiuf_soup*installer.exe
+  on:
+    tags: true
