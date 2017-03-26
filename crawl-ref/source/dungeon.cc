@@ -1868,7 +1868,7 @@ static bool _add_connecting_escape_hatches()
     if (branches[you.where_are_you].branch_flags & BFLAG_ISLANDED)
         return true;
 
-    // Veto Dungeon, Vaults, Depths, Orc, Sbranches, or Pan if there are disconnected areas.
+    // Veto Dungeon, Vaults, Depths, Orc, Sbranches, Zot, or Pan if there are disconnected areas.
 	// Disconnected Slime is ok for now (doesn't affect loot, just exp)
     if (player_in_branch(BRANCH_PANDEMONIUM)
         || player_in_branch(BRANCH_DUNGEON)
@@ -1878,7 +1878,8 @@ static bool _add_connecting_escape_hatches()
 		|| player_in_branch(BRANCH_SWAMP)
         || player_in_branch(BRANCH_SNAKE)
         || player_in_branch(BRANCH_SHOALS)
-        || player_in_branch(BRANCH_SPIDER))
+        || player_in_branch(BRANCH_SPIDER)
+        || player_in_branch(BRANCH_ZOT))
     {
         // Allow == 0 in case the entire level is one opaque vault.
         return dgn_count_disconnected_zones(false) <= 1;
