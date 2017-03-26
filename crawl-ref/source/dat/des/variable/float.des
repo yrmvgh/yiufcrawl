@@ -3581,41 +3581,6 @@ MAP
    cccccc     ccccc  cccccc     ccccc
 ENDMAP
 
-NAME: cheibrodos_quadrivalence
-DEPTH: D:12-, Depths
-TAGS: no_item_gen no_monster_gen no_pool_fixup
-ORIENT: float
-: if you.branch() == "Depths" then
-MONS: smoke demon / sun demon, balrug / w:2 nothing
-MONS: ynoxinul , blizzard demon / w:2 nothing
-: else
-MONS: sun demon / w:5 smoke demon / w:3 nothing
-MONS: ice devil, ynoxinul / w:2 nothing
-: end
-SHUFFLE: l2'/w4B
-NSUBST: ' = 3:1 / 3=1. / *:., B = 3:3 / 3=3. / *:., - = 2=|* / 4:* / 6=$%
-MAP
-...................
-.ccccc.......ccccc.
-.c-c-ccccccccc-c-c.
-.cc2c+c'''''c+c2cc.
-.c-cnc'lllll.cnc-c.
-.cc+c'll...l..c+cc.
-..cc'll..l..l..cc..
-..c'll..lll..ll'c..
-..c'l..lllll..l'c..
-..c'l.ll.)lll.l'c..
-..c'l.....ll..l'c..
-..c'll...ll..ll'c..
-..cc'll..l..ll'cc..
-.cc+c'll...ll'c+cc.
-.c-cnc'lllll'cnc-c.
-.cc2c+c'''''c+c2cc.
-.c-c-ccccccccc-c-c.
-.ccccc.......ccccc.
-...................
-ENDMAP
-
 NAME: cheibrodos_tormentor_scu
 DEPTH: D:11-, Depths
 TAGS: no_item_gen no_monster_gen
@@ -3768,28 +3733,6 @@ ENDMAP
 ###############################################################################
 
 ##############################################################################
-# Elevator
-NAME:    lemuel_elevator
-TAGS:    allow_dup extra luniq_staircase
-DEPTH:   D:2-, !D:$, Elf:2, Crypt:2-, !Crypt:$, Zot:2-, !Zot:$, \
-         Tar:2-, !Tar:$, Dis:2-, !Dis:$, Geh:2-, !Geh:$, Coc:2-, !Coc:$
-ORIENT:  float
-WEIGHT:  10 (D), 5
-SUBST:   m:mn
-KFEAT:   ] = ]
-KFEAT:   } = }
-KFEAT:   ) = )
-: if not you.in_branch("D") then
-KMONS:   ]}) = 9
-: end
-SHUFFLE: ]}), [{(
-MAP
-mmmm
-m{}m
-mmmm
-ENDMAP
-
-##############################################################################
 # Kobold bridge
 # Could perhaps use colour.
 NAME:   minmay_kobold_bridge
@@ -3841,64 +3784,6 @@ c0......x...xx..9..xx
 cc0....cx...x......xx
 xcc0.0ccx........xxxx
 xxcccccxxxxxxxxxxxxxx
-ENDMAP
-
-##############################################################################
-# Klotski a.k.a. what we learned from the elders.
-NAME:    minmay_klotski
-SHUFFLE: }])>
-DEPTH:   D:6-12
-ORIENT:  float
-SUBST:   0 = 0.., 9 = 9., 8 = 88.
-MONS:    bush
-MAP
-xxxxxxxxxxxxxxxxxxxxx
-x....+.........+...9x
-x1...x...0.0...x....x
-x...1x..0.0.0..x.0..x
-x1...x.0.....0.x..0.x
-x...1x..0...0..x.0..x
-x1...x.0.....0.x..0.x
-x...1x.........x.0..x
-x1...x.9.9.9.9.x....x
-x...1x8.8...8.8x9...x
-x+xxxxxxxx+xxxxxxxx+x
-x...9x$$$$$$$$$xG...x
-x.0..x$$$$$$$$$x....x
-x..0.x$$$$$$$$$x....x
-x.0..x$$$$$$$$$x....x
-x..0.xxxxxxxxxxx....x
-x.0..+....x0...+....x
-x..0.x..T.x.0..x....x
-x.0..x.T..x..0.x....x
-x9...x....x...0x...Gx
-xxxxxxxxx+x+xxxxxxxxx
-     x....x....x
-     x....x....x
-     x....x....x
-     x}...x...]x
-     xxxxxxxxxxx
-ENDMAP
-
-##############################################################################
-# Statue pair
-NAME:    minmay_separated_statues
-DEPTH:   D:8-
-ORIENT:  float
-MONS:    obsidian statue, ice statue
-SHUFFLE: 123
-MAP
-     ......
-    ......xx
-   xxx.....xx
-  xx*xx.....xx
- xx...xx.....xx
-xx*.1..xx..2.*xx
- xx.....xx...xx
-  xx.....xx*xx
-   xx.....xxx
-    xx......
-     ......
 ENDMAP
 
 ##############################################################################
@@ -3991,66 +3876,6 @@ bbbbbb.bbb.....bbb.bb
 ............b........
 @.........bbbbb.....@
 bbbbbbbbbbbbbbbbbbbbb
-ENDMAP
-
-##############################################################################
-# A traditional vault
-NAME:    minmay_two_paths
-ORIENT:  float
-DEPTH:   D:12-, Depths, !Depths:$
-MAP
-cccccccccccccccc
-c.9.c......c.9.c
-c.c.c.c88c.c.c.c
-c.c.c.c$$c.c.c.c
-c.c.c.c%%c.c.c.c
-c.c.c.c**c.c.c.c
-c.c.9.c||c.9.c.c
-c.cccccccccccc.c
-c.cccccccccccc.c
-c.9.c......c.9.c
-c.c.c.c..c.c.c.c
-c.c.c.c..c.c.c.c
-c.c.c.c..c.c.c.c
-c.c.c.c..c.c.c.c
-c9c.9.c00c.9.c9c
-ccccccc..ccccccc
-ENDMAP
-
-##############################################################################
-# An old-fashioned vault, by Lemuel
-NAME:  lemuel_traditional_vault
-DEPTH: D:12-, Depths
-ORIENT: float
-SUBST: 9 = 9 0 8:2
-SUBST: 0 = 0 .
-MAP
-........................
-wwwwwwwwwwwwwwwwwwwwwwww
-wcccccccccc++ccccccccccw
-wc$..................$cw
-wc.........99.........cw
-wc..cccccccccccccccc..cw
-wc0.c$....9999....$c.0cw
-wc..c.....9999.....c..cw
-wc..c..cccc++cccc..c..cw
-wc..c..c$......$c..c..cw
-wc..c..c...99...c..c..cw
-wc..c..c..cccc..c..c..cw
-wc00c..c..c||c..c..c00cw
-wc00c..c..c||c..c..c00cw
-wc..c..c..c++c..c..c..cw
-wc..c..c..9889..c..c..cw
-wc..c..c$.9889.$c..c..cw
-wc..c..cccccccccc..c..cw
-wc..c......99......c..cw
-wc0.c$............$c.0cw
-wc..ccccccc++ccccccc..cw
-wc.........00.........cw
-wc$........00........$cw
-wccccccccccccccccccccccw
-wwwwwwwwwwwwwwwwwwwwwwww
-........................
 ENDMAP
 
 ##############################################################################
@@ -4261,40 +4086,6 @@ xx$$$$$$xxxxxxxxxx-xxxxxxxxxx%%%%%%xx
 xx$$$$xxxxxxxxxxxx-xxxxxxxxxxxx%%%%xx
 xx$$xxxxxxxxxxxxxx-xxxxxxxxxxxxxx%%xx
 xxxxxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxxxx
-ENDMAP
-
-##############################################################################
-# Inaccessible box (evilmike)
-NAME:   evilmike_inaccessible_box
-DEPTH:  Depths
-ORIENT: float
-SUBST:  x : xxxm
-NSUBST: 9 = 6:. / *:9
-NSUBST: 0 = 6:. / *:0
-KPROP:  .089*| = no_tele_into
-SUBST:  ' = .
-MAP
-'''''''''''''''''''''
-'cccmcccccccccccmccc'
-'c.....x.....x.....c'
-'c..0..x..9..x..0..c'
-'m.000.m.999.m.000.m'
-'c..0..x..9..x..0..c'
-'c.....x.....x.....c'
-'cxxmxxcxxmxxcxxmxxc'
-'c.....x..*..x.....c'
-'c..9..x.|8|.x..9..c'
-'c.999.m*8|8*m.999.c'
-'c..9..x.|8|.x..9..c'
-'c.....x..*..x.....c'
-'cxxmxxcxxmxxcxxmxxc'
-'c.....x.....x.....c'
-'c..0..x..9..x..0..c'
-'m.000.m.999.m.000.m'
-'c..0..x..9..x..0..c'
-'c.....x.....x.....c'
-'cccmcccccccccccmccc'
-'''''''''''''''''''''
 ENDMAP
 
 ##############################################################################
