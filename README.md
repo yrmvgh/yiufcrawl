@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/crawl/crawl.svg?branch=master)](https://travis-ci.org/crawl/crawl)
+[![Build Status](https://travis-ci.org/Hellmonk/hellcrawl.svg?branch=master)](https://travis-ci.org/Hellmonk/hellcrawl)
 
 # Dungeon Crawl Stone Soup (hellcrawl fork)
 
@@ -6,13 +6,15 @@
 
 * It is a streamlined experience. Content, mechanics, and options from DCSS which are tedious, unpopular, or unnecessary have been removed.
 * Notably, this include no food, no curses, no Lair branch, no player ghosts, no item identification, no poison magic, no halflings, no centaurs, and no felids.
-* You can play it online. http://crawl.berotato.org:8080/#play-dcss-hellcrawl-cbro is the link for a USA-based server, and https://crawl.project357.org/ is a server in Australia.
+* No turning back! In other words, there are no stairs up to previous levels. The only way out is forward, and when you grab the Orb of Zot you can't just walk it back through the dungeon, you must carry it through **HELL**!
+* You can play it online. The **freshest** builds are updated regularly at http://crawl.gnollcrawl.tk/ , a fork-friendly USA-based server.
+* Two official DCSS servers also host Hellcrawl! http://crawl.berotato.org:8080/#play-dcss-hellcrawl-cbro is the link for a USA-based server, and https://crawl.project357.org/ is a server in Australia.
 * Downloads available at https://github.com/Hellmonk/hellcrawl/releases
 * Information and discussion about Hellcrawl is primarily found on the Tavern discussion thread. Go to the following link in order to find the best, fullest changelog or to share your thoughts:
 * https://crawl.develz.org/tavern/viewtopic.php?f=17&t=21527
 * You may also occasionally spot the project maintainer, hellmonk, in the ##crawl-forks or the ##crawl channel on the Freenode IRC server.
 
-#### The readme from DCSS trunk may also be of use to you:
+#### The readme from DCSS 0.19 may also be of use to you, but it may also be dead wrong. It is preserved in its entirety below.
 
 Dungeon Crawl Stone Soup is a game of dungeon exploration, combat and magic, involving characters of diverse skills, worshipping deities of great power and caprice. To win, you'll need to be a master of tactics and strategy, and prevail against overwhelming odds.
 
