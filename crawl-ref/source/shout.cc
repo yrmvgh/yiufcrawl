@@ -839,7 +839,7 @@ bool noisy(int original_loudness, const coord_def& where,
 
     // The multiplier converts to milli-auns which are used internally by noise propagation.
     // Ring of loudness increases player noise: 1 ring is x2, 2 rings is x3, etc.
-    const int multiplier = you.species == SP_DEEP_ELF ? 666 : 1000;
+    const int multiplier = you.species == SP_DEEP_ELF ? 600 : 1000;
 
     // [ds] Reduce noise propagation for Sprint.
     const int scaled_loudness =

@@ -22,7 +22,7 @@ are very resilient to damage, and have a limited ability to heal at will.
 Deep Elf
 
 Deep Elves have a strong affinity for all kinds of magic, but are very fragile.
-Sound near a Deep Elf is hushed, as if heard from afar. (YIUF: now 33% quieter)
+Sound near a Deep Elf is hushed, as if heard from afar. (YIUF: now 40% quieter)
 %%%%
 Demigod
 
