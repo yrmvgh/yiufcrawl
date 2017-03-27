@@ -1721,7 +1721,7 @@ endif
 	rm -rf build-win
 	+$(MAKE) DESTDIR=build-win/yiuf_soup-$(MAJOR_VERSION) install
 	cp -p $(ZIP_DOCS) build-win/yiuf_soup-$(MAJOR_VERSION)/
-	cd build-win && zip -9r ../yiuf_soup-$(SRC_VERSION)-win32.zip *
+	cd build-win && zip -9r ../yiuf_soup-$(SRC_VERSION)-ascii-win32.zip *
 	rm -rf build-win
 	if which advzip >/dev/null;then advzip -z4 yiuf_soup-$(SRC_VERSION)*-win32.zip;fi
 

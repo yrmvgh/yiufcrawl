@@ -837,6 +837,10 @@ bool noisy(int original_loudness, const coord_def& where,
     if (silenced(where) && !fake_noise)
         return false;
 
+    // The multiplier converts to milli-auns which are used internally by noise propagation.
+    // Ring of loudness increases player noise: 1 ring is x2, 2 rings is x3, etc.
+    const int multiplier = you.species == SP_DEEP_ELF ? 600 : 1000;
+
     // [ds] Reduce noise propagation for Sprint.
     const int scaled_loudness =
         crawl_state.game_is_sprint()? max(1, div_rand_round(loudness, 2))
@@ -846,7 +850,7 @@ bool noisy(int original_loudness, const coord_def& where,
     // sound of loudness 1 will hear the sound.
     const string noise_msg(msg? msg : "");
     _noise_grid.register_noise(
-        noise_t(where, noise_msg, (scaled_loudness + 1) * 1000, who));
+        noise_t(where, noise_msg, (scaled_loudness + 1) * multiplier, who));
 
     // Some users of noisy() want an immediate answer to whether the
     // player heard the noise. The deferred noise system also means
