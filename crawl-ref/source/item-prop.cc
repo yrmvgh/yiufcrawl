@@ -282,7 +282,7 @@ static const vector<brand_weight_tuple> M_AND_F_BRANDS = {
 
 /// brand weights for demon weapons (whip, blade, trident)
 static const vector<brand_weight_tuple> DEMON_BRANDS = {
-    { SPWPN_NORMAL,         26 },
+    { SPWPN_NORMAL,         25 },
     { SPWPN_VENOM,          19 },
     { SPWPN_ELECTROCUTION,  16 },
     { SPWPN_DRAINING,       10 },
@@ -292,6 +292,7 @@ static const vector<brand_weight_tuple> DEMON_BRANDS = {
     { SPWPN_PAIN,            4 },
     { SPWPN_ANTIMAGIC,       3 },
     { SPWPN_CHAOS,           1 },
+    { SPWPN_DISTORTION,      1 },
 };
 
 /// brand weights for long blades.
