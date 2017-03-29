@@ -954,7 +954,7 @@ static species_group species_groups[] =
     },
     {
         "DCSS Species; (YIUF)",
-        coord_def(22, -1),
+        coord_def(25, -1),
         20,
         {
             SP_BARACHIAN,
@@ -974,7 +974,7 @@ static species_group species_groups[] =
     },
     {
         " ones are altered.",
-        coord_def(42, -1),
+        coord_def(45, -1),
         20,
         {
             SP_HUMAN,
