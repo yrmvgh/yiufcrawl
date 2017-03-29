@@ -29,7 +29,7 @@
 #define ENDOFPACK 52
 
 // Max ghosts on a level.
-const int MAX_GHOSTS = 0;
+const int MAX_GHOSTS = 1;
 
 enum extra_monster_index_type
 {
@@ -139,7 +139,7 @@ const int BASELINE_DELAY  = 10;
 const int GOURMAND_MAX            = 200 * BASELINE_DELAY;
 const int GOURMAND_NUTRITION_BASE = 10  * BASELINE_DELAY;
 
-const int CHUNK_BASE_NUTRITION    = 1000;
+const int CHUNK_BASE_NUTRITION    = 1500;
 
 const int ICEMAIL_MAX  = 10;
 const int ICEMAIL_TIME = 30 * BASELINE_DELAY;
@@ -158,7 +158,7 @@ const int MAX_SEC_ENCHANT = 2;
 // formula for MP from a potion of magic
 #define POT_MAGIC_MP (10 + random2avg(28, 3))
 
-const int MAX_KNOWN_SPELLS = 21;
+const int MAX_KNOWN_SPELLS = 26;
 
 const int INVALID_ABSDEPTH = -1000;
 
