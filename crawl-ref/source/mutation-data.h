@@ -115,7 +115,7 @@ static const mutation_def mut_data[] =
    "You feel less heat resistant."},
 },
 
-{ MUT_COLD_RESISTANCE, 4, 3, mutflag::good | mutflag::bear, true,
+{ MUT_COLD_RESISTANCE, 4, 3, mutflag::good, true,
   "cold resistance",
 
   {"Your flesh is cold resistant. (rC+)",
