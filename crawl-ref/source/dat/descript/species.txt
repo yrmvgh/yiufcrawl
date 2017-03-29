@@ -6,8 +6,8 @@ learners and can hop long distances, but are otherwise slow and easily seen.
 %%%%
 Bearkin
 
-Enormous humanoid bear shamans who stand taller than an Ogre and even taller
-when angered. Can hold anything smaller than a greatclub in one hand.
+Enormous humanoid bear shamans who are bigger than an Ogre and even bigger
+when angered. Can heft anything that's not a bow or a greatclub in one hand.
 %%%%
 Centaur
 
