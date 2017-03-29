@@ -545,7 +545,7 @@ static const duration_def duration_data[] =
       "can't hop", "",
       "", D_NO_FLAGS,
       {{ "You are ready to hop once more." }}},
-    { DUR_CORNERED, YELLOW, "Cornered", "cornered", "cornered",
+    { DUR_CORNERED, LIGHTGREEN, "Cornered", "cornered", "cornered",
       "You feel cornered and ready to bearserk!", D_NO_FLAGS,
       {{ "You feel too calm to bearserk." }, {}, false }},
 
