@@ -47,7 +47,7 @@ enum species_type
     SP_GARGOYLE,
     SP_FORMICID,
     SP_VINE_STALKER,
-    SP_BARACHIAN,
+    SP_BARACHI,
     SP_DORF,
     SP_IMP,
     SP_PLUTONIAN,
