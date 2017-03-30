@@ -1721,8 +1721,8 @@ static const species_skill_aptitude species_skill_aptitudes[] =
 
     // SP_BEARKIN
     APT(SP_BEARKIN,         SK_FIGHTING,        2),
-    APT(SP_BEARKIN,         SK_SHORT_BLADES,    0),
-    APT(SP_BEARKIN,         SK_LONG_BLADES,     0),
+    APT(SP_BEARKIN,         SK_SHORT_BLADES,   -1),
+    APT(SP_BEARKIN,         SK_LONG_BLADES,    -1),
     APT(SP_BEARKIN,         SK_AXES,           -1),
     APT(SP_BEARKIN,         SK_MACES_FLAILS,   -1),
     APT(SP_BEARKIN,         SK_POLEARMS,       -1),
@@ -1732,7 +1732,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_BEARKIN,         SK_CROSSBOWS,       0),
     APT(SP_BEARKIN,         SK_THROWING,        0),
     APT(SP_BEARKIN,         SK_ARMOUR,        UNUSABLE_SKILL),
-    APT(SP_BEARKIN,         SK_DODGING,        -1),
+    APT(SP_BEARKIN,         SK_DODGING,         0),
     APT(SP_BEARKIN,         SK_STEALTH,         1),
 #if TAG_MAJOR_VERSION == 34
     APT(SP_BEARKIN,         SK_STABBING,      UNUSABLE_SKILL),
@@ -1753,7 +1753,7 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_BEARKIN,         SK_FIRE_MAGIC,     -2),
     APT(SP_BEARKIN,         SK_ICE_MAGIC,       0),
     APT(SP_BEARKIN,         SK_AIR_MAGIC,       0),
-    APT(SP_BEARKIN,         SK_EARTH_MAGIC,    -2),
+    APT(SP_BEARKIN,         SK_EARTH_MAGIC,     0),
     APT(SP_BEARKIN,         SK_POISON_MAGIC,    0),
     APT(SP_BEARKIN,         SK_INVOCATIONS,     0),
     APT(SP_BEARKIN,         SK_EVOCATIONS,      0),
