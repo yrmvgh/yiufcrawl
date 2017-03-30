@@ -1363,11 +1363,13 @@ static vector<stash_search_result> _stash_filter_duplicates(vector<stash_search_
         if (out.size() && _is_potentially_boring(res) && _is_duplicate_for_search(out.back(), res))
         {
             // don't push_back the duplicate
-            out.back().duplicates++;
+            out.back().duplicate_piles++;
+            out.back().duplicates += res.item.quantity;
         }
         else
         {
             out.push_back(res);
+            out.back().duplicate_piles = 0;
             out.back().duplicates = 0;
         }
     }
@@ -1521,8 +1523,6 @@ void StashTracker::get_matching_stashes(
         if (curr_lev && curr != entry.first)
             continue;
         entry.second.get_matching_stashes(search, results);
-        if (results.size() > SEARCH_SPAM_THRESHOLD)
-            return;
     }
 
     for (stash_search_result &result : results)
@@ -1683,8 +1683,13 @@ bool StashTracker::display_search_results(
         matchtitle << res.match;
         if (res.duplicates > 0)
         {
-            matchtitle << " (" << res.duplicates
-                << " further duplicate" << (res.duplicates == 1 ? "" : "s") << ")";
+            matchtitle << " (" << res.duplicates << " further duplicate" << (res.duplicates == 1 ? "" : "s");
+            if (res.duplicates != res.duplicate_piles)
+            {
+                matchtitle << " in " << res.duplicate_piles
+                           << " pile" << (res.duplicate_piles == 1 ? "" : "s");
+            }
+            matchtitle << ")";
         }
 
         MenuEntry *me = new MenuEntry(matchtitle.str(), MEL_ITEM, 1,

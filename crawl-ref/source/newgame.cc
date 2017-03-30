@@ -193,7 +193,7 @@ static const species_type species_order[] =
     SP_MERFOLK,        SP_MINOTAUR,
     SP_TENGU,          SP_BASE_DRACONIAN,
     SP_GARGOYLE,       SP_FORMICID,
-    SP_BARACHIAN,
+    SP_BARACHI,
     // mostly human shape but made of a strange substance
     SP_VINE_STALKER,
     // celestial species
@@ -954,10 +954,10 @@ static species_group species_groups[] =
     },
     {
         "DCSS Species; (YIUF)",
-        coord_def(20, -1),
+        coord_def(25, -1),
         20,
         {
-            SP_BARACHIAN,
+            SP_BARACHI,
             SP_CENTAUR,
             SP_DEEP_DWARF,
             SP_DEEP_ELF,
@@ -974,7 +974,7 @@ static species_group species_groups[] =
     },
     {
         " ones are altered.",
-        coord_def(40, -1),
+        coord_def(45, -1),
         20,
         {
             SP_HUMAN,
@@ -984,12 +984,6 @@ static species_group species_groups[] =
             SP_MUMMY,
             SP_NAGA,
             SP_OCTOPODE,
-            SP_OGRE,
-            SP_SPRIGGAN,
-            SP_TENGU,
-            SP_TROLL,
-            SP_VAMPIRE,
-            SP_VINE_STALKER,
         }
     },
 };
@@ -1072,12 +1066,12 @@ static job_group jobs_order[] =
     {
         "Warrior",
         coord_def(0, 0), 15,
-        { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_ASSASSIN }
+        { JOB_FIGHTER, JOB_GLADIATOR, JOB_HUNTER, JOB_ASSASSIN }
     },
     {
         "Adventurer",
         coord_def(0, 7), 15,
-        { JOB_ARTIFICER, JOB_WANDERER }
+        { JOB_MONK, JOB_ARTIFICER, JOB_WANDERER }
     },
     {
         "Zealot",
