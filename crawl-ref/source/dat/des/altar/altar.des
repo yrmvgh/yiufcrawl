@@ -403,7 +403,7 @@ ENDMAP
 NAME:   chequers_ecumenical_altar_simple
 DEPTH:  D:2-3
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 10%
+CHANCE: 60%
 KFEAT:  _ = altar_ecumenical
 SUBST: G : Gbt x:5
 MAP
@@ -417,7 +417,7 @@ ENDMAP
 NAME: chequers_ecumenical_altar_simple_redux
 DEPTH: D:2-3
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 10%
+CHANCE: 60%
 KFEAT:  _ = altar_ecumenical
 SUBST: G : Gbt x:5
 MAP
@@ -434,7 +434,7 @@ NAME:   chequers_ecumenical_altar_grove
 DEPTH:  D:2-3
 TAGS:   uniq_ecumenical_altar chance_ecumenical_altar
 # Disconnected regions can spawn in the trees
-CHANCE: 10%
+CHANCE: 60%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 KMASK:  - = no_item_gen
@@ -466,7 +466,7 @@ ENDMAP
 NAME: chequers_ecumenical_altar_lobes
 DEPTH: D:2-3
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 10%
+CHANCE: 60%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 KPROP:  tG = no_tele_into
@@ -493,7 +493,7 @@ ENDMAP
 NAME: chequers_ecumenical_altar_twisty
 DEPTH: D:2-3
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 10%
+CHANCE: 60%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 SUBST: x : x:30 c t:1
@@ -514,7 +514,7 @@ ENDMAP
 NAME: chequers_ecumenical_altar_island
 DEPTH: D:2-3
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 10%
+CHANCE: 60%
 KFEAT: _ = altar_ecumenical
 SUBST: - = W:5 . t:5
 SUBST: s = W:5 .
@@ -533,4 +533,31 @@ sSwwwwwwwwwSs
 sSwwwwwwwwwSs
 sSSSSSSSSSSSs
 sssssssssssss
+ENDMAP
+
+NAME:   ecumenical_temple_of_chaos
+DEPTH:  D:2-3
+TAGS:  uniq_ecumenical_altar chance_ecumenical_altar 
+CHANCE: 60%
+WEIGHT: 30
+KFEAT:  E = altar_ecumenical
+KFEAT:  _ = altar_xom
+KFEAT:  1 = w:5 altar_jiyva / w:4 altar_lugonu / w:1 C
+KFEAT:  C = C / C mimic w:1
+NSUBST: _ = 1:1 / 1:C
+SUBST:  - : .:60 A w d l
+SUBST:  . = . F:1 
+MARKER: F = lua:fog_machine { cloud_type = "translocational energy", \
+            pow_max = 15, delay_min = 10, delay_max = 40, walk_dist = 2, \
+            size = 1, spread_rate=3, start_clouds=2 }
+COLOUR: F = lightmagenta
+ITEM:     = % / w:30 dagger ego:chaos / hunting sling ego:chaos / mace ego:chaos
+MAP
+    .
+  .._
+._-_-.
+ ._E_.
+ .-_-_.
+  _..
+  .
 ENDMAP
