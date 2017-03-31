@@ -973,7 +973,7 @@ static species_group species_groups[] =
         }
     },
     {
-        " ones are altered.",
+        " ones have changes.",
         coord_def(45, -1),
         20,
         {
@@ -984,6 +984,12 @@ static species_group species_groups[] =
             SP_MUMMY,
             SP_NAGA,
             SP_OCTOPODE,
+            SP_OGRE,
+            SP_SPRIGGAN,
+            SP_TENGU,
+            SP_TROLL,
+            SP_VAMPIRE,
+            SP_VINE_STALKER,
         }
     },
 };
