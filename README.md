@@ -7,6 +7,8 @@
     make TILES=y
     then just run the file named "yiufcrawl"
 
+If you don't want to compile yourself as above, you can download compiled binaries! Get them here: https://github.com/yrmvgh/yiufcrawl/releases
+
 alternately "make TILES=y install" will try to install yiufcrawl to your system. You may need to also set "SAVEDIR=something".
 
 for further help, check https://github.com/crawl/crawl/blob/master/crawl-ref/INSTALL.txt
@@ -40,7 +42,7 @@ All species are subject to having their aptitudes shuffled around, to reduce spe
 ### *Future plans:*
 Try to collect most of the historical crawl races, including both removed and experimental ones. Polish them up, give them a new home. Next on the horizon: change lava orcs to be based on damage, not tension, and add ~~plutonians~~ (done!) ~~and imps~~ (done!) to the game.
 
-To further differentiate the elven subraces, deep elves will probably get a noise attenuation modifier that makes everything they do quieter.
+To further differentiate the elven subraces, ~~deep elves will probably get a noise attenuation modifier that makes everything they do quieter~~. (done!)
 
 Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making dorfs/surface dwarves exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here's yer Dorf! Suggestions on how to make them special are welcome.
 
