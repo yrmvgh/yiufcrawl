@@ -395,7 +395,7 @@ static int _strength_modifier(bool innate_only)
     }
 
     // mutations
-    result += 2 * (_mut_level(MUT_STRONG, innate_only)
+    result += 3 * (_mut_level(MUT_STRONG, innate_only)
                    - _mut_level(MUT_WEAK, innate_only));
 #if TAG_MAJOR_VERSION == 34
     result += _mut_level(MUT_STRONG_STIFF, innate_only)
@@ -430,7 +430,7 @@ static int _int_modifier(bool innate_only)
     }
 
     // mutations
-    result += 2 * (_mut_level(MUT_CLEVER, innate_only)
+    result += 3 * (_mut_level(MUT_CLEVER, innate_only)
                    - _mut_level(MUT_DOPEY, innate_only));
 
     return result;
@@ -464,7 +464,7 @@ static int _dex_modifier(bool innate_only)
     }
 
     // mutations
-    result += 2 * (_mut_level(MUT_AGILE, innate_only)
+    result += 3 * (_mut_level(MUT_AGILE, innate_only)
                   - _mut_level(MUT_CLUMSY, innate_only));
 #if TAG_MAJOR_VERSION == 34
     result += _mut_level(MUT_FLEXIBLE_WEAK, innate_only)
