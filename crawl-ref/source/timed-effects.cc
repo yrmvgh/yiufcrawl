@@ -714,11 +714,12 @@ static void _handle_magic_contamination()
     // every turn instead of every 20 turns, so everything has been multiplied
     // by 50 and scaled to you.time_taken.
 
+    //Increase contamination each turn while invisible
     if (you.duration[DUR_INVIS])
         added_contamination += 30;
-
-    if (you.duration[DUR_HASTE])
-        added_contamination += 30;
+    //If not invisible, normal dissipation
+    else if (you.species != SP_PLUTONIAN)
+        added_contamination -= 25;
 
 #if TAG_MAJOR_VERSION == 34
     if (you.duration[DUR_REGENERATION] && you.species == SP_DJINNI)
@@ -729,13 +730,6 @@ static void _handle_magic_contamination()
     // with messages about contamination oscillating near zero.
     if (you.magic_contamination && player_has_orb())
         added_contamination += 13;
-
-    // Normal dissipation
-    if (!you.duration[DUR_INVIS] && !you.duration[DUR_HASTE]
-        && you.species != SP_PLUTONIAN)
-    {
-        added_contamination -= 25;
-    }
 
     // Scaling to turn length
     added_contamination = div_rand_round(added_contamination * you.time_taken,
