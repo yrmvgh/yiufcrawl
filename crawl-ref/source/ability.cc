@@ -348,9 +348,10 @@ static const ability_def Ability_List[] =
 
     { ABIL_EVOKE_TURN_INVISIBLE, "Evoke Invisibility",
       2, 0, 250, 0, {fail_basis::evo, 60, 2}, abflag::none },
+#if TAG_MAJOR_VERSION == 34
     { ABIL_EVOKE_TURN_VISIBLE, "Turn Visible",
       0, 0, 0, 0, {}, abflag::none },
-
+#endif
     { ABIL_EVOKE_FLIGHT, "Evoke Flight",
       1, 0, 100, 0, {fail_basis::evo, 40, 2}, abflag::none },
     { ABIL_EVOKE_FOG, "Evoke Fog",
@@ -1637,7 +1638,9 @@ bool activate_talent(const talent& tal)
         case ABIL_RENOUNCE_RELIGION:
         case ABIL_CONVERT_TO_BEOGH:
         case ABIL_STOP_FLYING:
+#if TAG_MAJOR_VERSION == 34
         case ABIL_EVOKE_TURN_VISIBLE:
+#endif
         case ABIL_END_TRANSFORMATION:
 #if TAG_MAJOR_VERSION == 34
         case ABIL_DELAYED_FIREBALL:
@@ -2099,12 +2102,14 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         contaminate_player(1000 + random2(2000), true);
         break;
 
+#if TAG_MAJOR_VERSION == 34
     case ABIL_EVOKE_TURN_VISIBLE:
         fail_check();
         ASSERT(!you.attribute[ATTR_INVIS_UNCANCELLABLE]);
         mpr("You feel less transparent.");
         you.duration[DUR_INVIS] = 1;
         break;
+#endif
 
     case ABIL_EVOKE_FLIGHT:             // ring, boots, randarts
         fail_check();
@@ -3542,22 +3547,17 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         && !player_mutation_level(MUT_NO_ARTIFICE)
         && !player_mutation_level(MUT_NO_LOVE))
     {
-      _add_talent(talents, ABIL_EVOKE_RATSKIN, check_confused);
+        _add_talent(talents, ABIL_EVOKE_RATSKIN, check_confused);
     }
 
     if (you.evokable_berserk() && !player_mutation_level(MUT_NO_ARTIFICE))
         _add_talent(talents, ABIL_EVOKE_BERSERK, check_confused);
 
-    if (you.evokable_invis() && !you.attribute[ATTR_INVIS_UNCANCELLABLE]
-        && !player_mutation_level(MUT_NO_ARTIFICE))
+    if (you.evokable_invis()
+        && !player_mutation_level(MUT_NO_ARTIFICE)
+        && !you.duration[DUR_INVIS])
     {
-        // Now you can only turn invisibility off if you have an
-        // activatable item. Wands and potions will have to time
-        // out. -- bwr
-        if (you.duration[DUR_INVIS])
-            _add_talent(talents, ABIL_EVOKE_TURN_VISIBLE, check_confused);
-        else
-            _add_talent(talents, ABIL_EVOKE_TURN_INVISIBLE, check_confused);
+        _add_talent(talents, ABIL_EVOKE_TURN_INVISIBLE, check_confused);
     }
 
     if (you.evokable_flight() && !player_mutation_level(MUT_NO_ARTIFICE))
