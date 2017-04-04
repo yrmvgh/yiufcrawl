@@ -903,7 +903,7 @@ static void _jiyva_effects(int /*time_delta*/)
 
 static void _evolve(int time_delta)
 {
-    if (int lev = player_mutation_level(MUT_EVOLUTION))
+    if (int lev = you.get_mutation_level(MUT_EVOLUTION))
         if (one_chance_in(2 / lev)
             && you.attribute[ATTR_EVOL_XP] * (1 + random2(10))
                > (int)exp_needed(you.experience_level + 1))
@@ -911,10 +911,14 @@ static void _evolve(int time_delta)
             you.attribute[ATTR_EVOL_XP] = 0;
             if (you.species == SP_SLUDGE_ELF && one_chance_in(100))
             {
-                mpr("You feel a very uncomfortable genetic drift.");
+                mpr("You feel a VERY uncomfortable genetic drift.");
                 mutate(RANDOM_SLIME_MUTATION, "evolution", false,
                        false, false, false, MUTCLASS_INNATE, true);
                 more();
+                const string reason = (you.get_mutation_level(MUT_EVOLUTION) == 1)
+                                    ? "end of evolution"
+                                    : "decline of evolution";
+                evol |= delete_mutation(MUT_EVOLUTION, reason, false);
             }
             else
             {
