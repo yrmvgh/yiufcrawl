@@ -452,7 +452,7 @@ static void _generate_weapon_item(item_def& item, bool allow_uniques,
             set_item_ego_type(item, OBJ_WEAPONS,
                 determine_weapon_brand(item, 2 + 2 * env.absdepth0));
         }
-        item.plus -= 1 + random2(3);
+        item.plus -= 1 + random2(1);
 
         if (item_level == ISPEC_BAD)
             do_curse_item(item);
@@ -484,7 +484,7 @@ static void _generate_weapon_item(item_def& item, bool allow_uniques,
         {
             // Make a cursed item.
             do_curse_item(item);
-            item.plus  -= random2(4);
+            item.plus  -= 1;
             set_item_ego_type(item, OBJ_WEAPONS, SPWPN_NORMAL);
         }
     }
@@ -746,9 +746,6 @@ static bool _try_make_armour_artefact(item_def& item, int force_type,
 
             if (one_chance_in(6))
                 item.plus -= random2(max_plus + 6);
-
-            if (item.plus < 0 && !one_chance_in(3))
-                do_curse_item(item);
         }
 
         // On body armour, an enchantment of less than 0 is never viable.
@@ -1164,7 +1161,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
                 _generate_armour_ego(item, 2 + 2 * env.absdepth0));
         }
 
-        item.plus -= 1 + random2(3);
+        item.plus -= 1 + random2(1);
 
         if (item_level == ISPEC_BAD)
             do_curse_item(item);
@@ -1204,7 +1201,7 @@ static void _generate_armour_item(item_def& item, bool allow_uniques,
         do_curse_item(item);
 
         if (one_chance_in(5))
-            item.plus -= random2(3);
+            item.plus -= 1;
 
         set_item_ego_type(item, OBJ_ARMOUR, SPARM_NORMAL);
     }
@@ -1631,11 +1628,11 @@ static bool _try_make_jewellery_unrandart(item_def& item, int force_type,
  */
 static int _bad_ring_plus()
 {
-    int plus = -2;
+    int plus = -1;
     if (coinflip())
         --plus;
     if (one_chance_in(3))
-        plus -= random2(4);
+        plus -= random2(2);
     return plus;
 }
 

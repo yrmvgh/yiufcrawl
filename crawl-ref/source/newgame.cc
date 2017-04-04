@@ -973,7 +973,7 @@ static species_group species_groups[] =
         }
     },
     {
-        " ones are altered.",
+        " ones have changes.",
         coord_def(45, -1),
         20,
         {

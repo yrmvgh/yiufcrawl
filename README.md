@@ -22,15 +22,15 @@ You can clone or checkout the "yiuf" branch if you want to see changes and new c
 ### *They're Back:*
 
 * **High Elf**, now with keen eyes, a Tolkien-friendly bonus to noticing traps.
-* **Sludge Elf**, now with an evolving mutagenic body and orcish blood. Great at throwing.
-* **Dorf**, your basic Dwarf, based loosely on Hill & Mountain dwarves. High MR and rN to keep your life simple.
-* **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a damage aura.
+* **Sludge Elf**, now part-Orc, with constant evolution. Great at throwing.
+* **Dorf**, your basic Dwarf, based loosely on Hill/Mountain dwarves. High MR and rN to keep your life simple.
+* **Lava Orc**, as their heat increases, they get a fire/earth magic boost and a fire aura.
 * **Imp**, a short-lived experimental race. Their undead-like resistances have been simplified to just rN+.
-* **Plutonian**, an unstable, contaminated humanoid that occasionally explodes. !Curing and kills reduce contam.
-* **Bearkin**, shamanistic giant bear-people with a Ds-lite selection of random mutations. They're so big they can wield anything except giant clubs in one hand (and they still need two hands to draw a bow, naturally).
+* **Plutonian**, Increased mp/hp regen based on contamination. Can explode, damaging all creatures and gaining contam. !Curing and kills reduce contam.
+* **Bearkin**, shamanistic giant bear-people with a Ds-lite selection of random mutations. They're so big they can wield anything except giant clubs in one hand (they still need two hands to draw a bow, naturally).
 
 *They're New:*
-* **Skeleton**, murderous animated skeleton seeks revenge against all living creatures. From [SteelNeuron](https://github.com/PabloMansanet/crawl/commits/skeleton).
+* **Skeleton**, murderous animated skeleton seeks revenge against all life. By [SteelNeuron](https://github.com/PabloMansanet/crawl/commits/skeleton).
 
 Image album of the first five races above: http://imgur.com/a/J1XBP Image album of Plutonians: http://imgur.com/a/cCjnU
 
@@ -46,23 +46,28 @@ To further differentiate the elven subraces, ~~deep elves will probably get a no
 
 Dorfs are just an apt race at this point. high MR and HP, like DD. I didn't have any bright ideas for a cool mut, yet. I'll leave that up to Tavern/Reddit. Job 1 was making dorfs/surface dwarves exist, not making them great or special or worthy of mainline crawl. If you miss Hill Dwarves or Mountain Dwarves, here's yer Dorf! Suggestions on how to make them special are welcome.
 
-### *Minor "personal preference" changes:*
-* Ogres have 1 more hp_mod, trolls have 1 less.
-* Club, scythe, and GSC are a bit faster now. (stealth ogre buff?)
-* Formicids can't fall in shafts by accident.
-* Items don't block doorways.
-* Berserkers start with no weapons, and no weapon skill.
-* Scarves remain unenchantable, but have 1 base AC.
-* Roles with ranged weapons start with more ammo.
-* Small characters have no problem with DTrident, but eveningstars are now as difficult to wield as other weapons that have similar damage and speed.
-* Rings of protection from fire/cold have been rolled into rings of fire/ice. (hellmonk)
-* No energy randomization.
-* Goldified spellbooks, courtesy of Doesnty! In other words, spellbooks don't cost space. This is gonna be huge!
-* Dith piety decay is slower, dith no longer hates fire. (hellmonk)
-* Vehumet no longer gifts level 1 and 2 spells. (hellmonk)
-* Fewer gifts from trog and oka. (hellmonk)
-* Demonspawn can have multiple mutations in the same "slot". In other words, a Ds with hooves can also have talons. Presumably one of those mutations is growing out of the character's knees or something.
+### *Minor "personal preference" changes, newest first:*
+* S/I/D mutations are single-level, now.
+* Fewer ghosts. (We had no ghosts at all for a bit, but players... complained.)
+* Cursed weapons will usually only be -1, so that wielding floor weapons is less dangerous.
+* You can know 26 spells max, not 21.
+* Robust and frail are 7%, so that they overshadow other muts less.
 * Demonspawn claws *should* generally appear sooner than other Ds mutations. This gives you a chance to switch to using Unarmed Combat as your primary weapon sooner rather than later.
+* Demonspawn can have multiple mutations in the same "slot". In other words, a Ds with hooves can also have talons. Presumably one of those mutations is growing out of the character's knees or something.
+* Fewer gifts from trog and oka. (hellmonk)
+* Vehumet no longer gifts level 1 and 2 spells. (hellmonk)
+* Dith piety decay is slower, dith no longer hates fire. (hellmonk)
+* Goldified spellbooks, courtesy of Doesnty! In other words, spellbooks don't cost space. This is gonna be huge!
+* No energy randomization.
+* Rings of protection from fire/cold have been rolled into rings of fire/ice. (hellmonk)
+* Small characters have no problem with DTrident, but eveningstars are now as difficult to wield as other weapons that have similar damage and speed.
+* Roles with ranged weapons start with more ammo.
+* Scarves remain unenchantable, but have 1 base AC.
+* Berserkers start with no weapons, and no weapon skill.
+* Items don't block doorways.
+* Formicids can't fall in shafts by accident.
+* Club, scythe, and GSC are a bit faster now. (stealth ogre buff?)
+* Ogres have 1 more hp_mod, trolls have 1 less.
 
 #### *Below you will find the contents of the original DCSS readme.*
 #### *Some of the info below no longer applies, but much of it does!*
