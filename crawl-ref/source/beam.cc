@@ -4264,7 +4264,7 @@ static void _glaciate_freeze(monster* mon, killer_type englaciator,
     simple_monster_message(*mon, " is frozen into a solid block of ice!");
 
     // If the monster leaves a corpse when it dies, destroy the corpse.
-    item_def* corpse = monster_die(mon, englaciator, kindex);
+    item_def* corpse = monster_die(*mon, englaciator, kindex);
     if (corpse)
         destroy_item(corpse->index());
 
@@ -4851,7 +4851,7 @@ void bolt::affect_monster(monster* mon)
         {
             if (mon->attitude == ATT_FRIENDLY)
                 mon->attitude = ATT_HOSTILE;
-            monster_die(mon, KILL_MON, kindex);
+            monster_die(*mon, KILL_MON, kindex);
         }
         else
         {
@@ -4861,7 +4861,7 @@ void bolt::affect_monster(monster* mon)
                 ref_killer = KILL_YOU_MISSILE;
                 kindex = YOU_FAULTLESS;
             }
-            monster_die(mon, ref_killer, kindex);
+            monster_die(*mon, ref_killer, kindex);
         }
     }
 
