@@ -359,8 +359,8 @@ function ($, comm, enums, map_knowledge, messages, options) {
         // Setup species
         // TODO: Move to a proper initialisation task
         if ($("#stats").attr("data-species") != player.species)
+        {
             $("#stats").attr("data-species", player.species);
-<<<<<<< HEAD
             var hp_cap;
             if (player.real_hp_max != player.hp_max)
             {
@@ -427,19 +427,10 @@ function ($, comm, enums, map_knowledge, messages, options) {
         for (var i = 0; i < simple_stats.length; ++i)
             $("#stats_" + simple_stats[i]).text(player[simple_stats[i]]);
 
-        $("#stats_hpline > .stats_caption").text(
-            if (player.species == "Djinni")
-                (player.real_ep_max != player.ep_max) ? "EP:" : "Essence:";
-                (player.real_hp_max != player.hp_max) ? "HP:" : "Health:");
-        
-        else if (player.real_hp_max != player.hp_max)
+        if (player.real_hp_max != player.hp_max)
             $("#stats_real_hp_max").text("(" + player.real_hp_max + ")");
-        else if (player.species != "Djinni")
-            $("#stats_real_hp_max").text("");
-        else if (player.real_ep_max != player.ep_max)
-            $("#stats_real_ep_max").text("(" + player.real_ep_max + ")");
         else
-            $("#stats_real_ep_max").text("");
+            $("#stats_real_hp_max").text("");
 
         percentage_color("hp");
         percentage_color("mp");
