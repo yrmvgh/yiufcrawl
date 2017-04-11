@@ -1592,7 +1592,7 @@ static int _ignite_poison_monsters(coord_def where, int pow, actor *agent)
     // clouds where it's standing!
 
     monster* mon = monster_at(where);
-    if (mon == nullptr || mon == agent)
+    if (invalid_monster(mon) || mon == agent)
         return 0;
 
     // how poisoned is the victim?
@@ -1617,7 +1617,6 @@ static int _ignite_poison_monsters(coord_def where, int pow, actor *agent)
             return mons_aligned(mon, agent) ? 0 : 1;
         return mons_aligned(mon, agent) ? -1 * damage : damage;
     }
-
     simple_monster_message(*mon, " seems to burn from within!");
 
     dprf("Dice: %dd%d; Damage: %d", dam_dice.num, dam_dice.size, damage);
@@ -1631,12 +1630,6 @@ static int _ignite_poison_monsters(coord_def where, int pow, actor *agent)
         // Monster survived, remove any poison.
         mon->del_ench(ENCH_POISON, true); // suppress spam
         print_wounds(*mon);
-    }
-    else
-    {
-        monster_die(*mon,
-                    agent->is_player() ? KILL_YOU : KILL_MON,
-                    agent->mindex());
     }
 
     return 1;
