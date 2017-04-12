@@ -3428,7 +3428,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
             _add_talent(talents, ABIL_SHAFT_SELF, check_confused);
     }
 
-<<<<<<< HEAD
     if (you.species == SP_PLUTONIAN)
         _add_talent(talents, ABIL_OVERLOAD, check_confused);
 
