@@ -3635,7 +3635,7 @@ bool is_useless_item(const item_def &item, bool temp)
 
         case AMU_THE_GOURMAND:
             return player_likes_chunks(true) == 3
-                   || you_worship(GOD_GOZAG);
+                   || you_worship(GOD_GOZAG)
                    || you.get_mutation_level(MUT_GOURMAND) > 0
                    || you.get_mutation_level(MUT_HERBIVOROUS) == 3
                    || you.undead_state(temp);
