@@ -2876,7 +2876,7 @@ void level_change(bool skip_attribute_increase)
                 {
                     mprf(MSGCH_INTRINSIC_GAIN, "The bear spirit takes greater control.");
                     mutate(RANDOM_BEAR_MUTATION, "the bear spirit", true, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           true, MUTCLASS_INNATE);
                     mpr("This mutation is meant to be permanent, however I haven't managed"
                         " to code that yet. Take care not to wipe it out with mut pots!");
                 }
@@ -2886,17 +2886,17 @@ void level_change(bool skip_attribute_increase)
                     if (!you.mutation[MUT_BEARSERK])
                     {
                         mutate(MUT_BEARSERK, "the bear spirit", true, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           true, MUTCLASS_INNATE);
                     }
                     else if (you.mutation[MUT_ROBUST] < 3)
                         mutate(MUT_ROBUST, "the bear spirit", true, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           true, MUTCLASS_INNATE);
                     else if (you.mutation[MUT_CLAWS] < 3)
                         mutate(MUT_CLAWS, "the bear spirit", true, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           true, MUTCLASS_INNATE);
                     else
                         mutate(RANDOM_BEAR_MUTATION, "the bear spirit", true, true, false,
-                           true, MUTCLASS_INNATE, true);
+                           true, MUTCLASS_INNATE);
                 }
                 break;
             case SP_SLUDGE_ELF:
