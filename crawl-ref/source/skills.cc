@@ -1556,6 +1556,8 @@ vector<skill_type> get_crosstrain_skills(skill_type sk)
     case SK_BOWS:
         if (you.species == SP_HIGH_ELF)
             return { SK_LONG_BLADES };
+        else
+          return {};
     case SK_FIRE_MAGIC:
         if (you.species == SP_HUMAN)
             return { SK_EARTH_MAGIC, SK_AIR_MAGIC, SK_ICE_MAGIC };
