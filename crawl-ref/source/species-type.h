@@ -54,7 +54,7 @@ enum species_type
     SP_NULL,
     SP_SKELETON,
     SP_BEARKIN,
-    SP_BULTUNGIN,
+    SP_GNOLL,
     NUM_SPECIES,
 
     SP_UNKNOWN  = 100,

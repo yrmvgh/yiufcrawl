@@ -9,10 +9,10 @@ Bearkin
 Enormous humanoid bear shamans who are bigger than an Ogre and even bigger
 when angered. Can heft anything that's not a bow or a greatclub in one hand.
 %%%%
-Bultungin
+Gnoll
 
-Bultungins are hyena-headed humanoids. They are quick to learn the basics
-of any skill, but struggle to master any. Their strong noses can sniff out
+Gnolls are canine-like humanoids. They are quick to learn the basics of any
+skill, but struggle to master any. Their strong noses can sniff out food and
 treasure from afar.
 %%%%
 Centaur

@@ -1044,7 +1044,7 @@ enum monster_type                      // menv[].type
     MONS_FROG,
     MONS_BARACHI,
     MONS_PLUTONIAN,
-    MONS_BULTUNGIN,
+    MONS_BULTUNGIN,             // remove this someday
 #endif
 
     NUM_MONSTERS,               // used for polymorph
