@@ -290,6 +290,19 @@ static void _change_skill_level(skill_type exsk, int n)
              specify_base ? "base " : "",
              skill_name(exsk), (n > 0) ? "increases" : "decreases",
              you.skills[exsk]);
+
+        // Send a status message about 'aptitude' increases/decreases if Gnoll
+        if (you.species == SP_GNOLL)
+        {
+            if (n > 0 && you.skills[exsk] < 12 && you.skills[exsk] > 6)
+            {
+                mprf(MSGCH_MUTATION, "You become less interested in %s.",
+                     skill_name(exsk));
+            }
+            else if (n < 0 && you.skills[exsk] < 11 && you.skills[exsk] > 5)
+                mprf(MSGCH_MUTATION, "You become more interested in %s.",
+                     skill_name(exsk));
+        }
     }
     else if (you.num_turns)
     {
@@ -299,6 +312,19 @@ static void _change_skill_level(skill_type exsk, int n)
              skill_name(exsk),
              (n > 0) ? "gained" : "lost",
              abs(n), you.skills[exsk]);
+
+        // Send a status message about 'aptitude' increases/decreases if Gnoll
+        if (you.species == SP_GNOLL)
+        {
+            if (n > 0 && (you.skills[exsk] - n) < 12 && you.skills[exsk] > 6)
+            {
+                mprf(MSGCH_MUTATION, "You become less interested in %s.",
+                     skill_name(exsk));
+            }
+            else if (n < 0 && you.skills[exsk] < 11 && (you.skills[exsk] - n) > 5)
+                mprf(MSGCH_MUTATION, "You become more interested in %s.",
+                     skill_name(exsk));
+        }
     }
 
     if (you.skills[exsk] == n && n > 0)
@@ -1496,15 +1522,43 @@ float apt_to_factor(int apt)
 
 unsigned int skill_exp_needed(int lev, skill_type sk, species_type sp)
 {
-    const int exp[28] = { 0, 50, 150, 300, 500, 750,         // 0-5
-                          1050, 1400, 1800, 2250, 2800,      // 6-10
-                          3450, 4200, 5050, 6000, 7050,      // 11-15
-                          8200, 9450, 10800, 12300, 13950,   // 16-20
-                          15750, 17700, 19800, 22050, 24450, // 21-25
-                          27000, 29750 };
+    // Regular XP table:
+    const int exp[28] =
+      { 0, 50, 150, 300, 500, 750,          // 0-5
+        1050, 1400, 1800, 2250, 2800,       // 6-10
+        3450, 4200, 5050, 6000, 7050,       // 11-15
+        8200, 9450, 10800, 12300, 13950,    // 16-20
+        15750, 17700, 19800, 22050, 24450,  // 21-25
+        27000, 29750 };
 
+    // This is a custom XP table for Gnolls, precalculated to match their
+    // dynamic aptitudes. Until SL 7, Gnolls have an effective aptitude of
+    // +4 (half as much XP needed). At 7 and after, their aptitude decreases by
+    // two for each skill level, reaching a floor of -6 at skill level 12. XP
+    // values are calculated accordingly, using the original XP table (above).
+    // At SL 7, standard +2 aptitude requires 283 XP to go from 7 to 8; thus
+    // Gnolls get their 8th level in any given skill by going from 700 total
+    // XP to 983. This pattern continues. -6 aptitude at SL 14 requires 2970 XP,
+    // so Gnolls go from 10723 total XP at SL 14 to 13963 at 15.
+    //
+    // There are ways to do this programmatically (such as to call this function
+    // inside of itself at runtime to dynamically calculate the needed XP), but
+    // they either cause strange interactions with wizard mode, or take up more
+    // resources than this implementation.
+    const int gnoll_exp[28] =
+      { 0, 25, 75, 150, 250, 375,           // 0-5
+        525, 700, 983, 1433, 2211,          // 6-10
+        3511, 5629, 8036, 10723, 13693,     // 11-15
+        16946, 20481, 24300, 28542, 33209,  // 16-20
+        38300, 43816, 49755, 56119, 62908,  // 21-25
+        70120, 77898 };
+
+    // Choose between normal exp table and Gnoll exp table
     ASSERT_RANGE(lev, 0, MAX_SKILL_LEVEL + 1);
-    return exp[lev] * species_apt_factor(sk, sp);
+    if (sp == SP_GNOLL)
+        return gnoll_exp[lev] * species_apt_factor(sk, sp);
+    else
+        return exp[lev] * species_apt_factor(sk, sp);
 }
 
 int species_apt(skill_type skill, species_type species)
@@ -1556,6 +1610,8 @@ vector<skill_type> get_crosstrain_skills(skill_type sk)
     case SK_BOWS:
         if (you.species == SP_HIGH_ELF)
             return { SK_LONG_BLADES };
+        else
+          return {};
     case SK_FIRE_MAGIC:
         if (you.species == SP_HUMAN)
             return { SK_EARTH_MAGIC, SK_AIR_MAGIC, SK_ICE_MAGIC };

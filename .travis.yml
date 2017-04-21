@@ -16,14 +16,19 @@ git:
 install: perl .travis/deps.pl
 script: perl .travis/build.pl
 notifications:
-  irc:
-    channels: chat.freenode.net##crawl-forks
-    on_success: always
-    on_failure: always
-    use_notice: true
-    template:
-    - "%{commit_subject} (%{result} %{branch} #%{build_number}) %{build_url}
-      Diff: %{compare_url}"
+#    email:
+#        on_success: change
+#        on_failure: always
+#        recipients:
+#          - crawl-ref-commits@lists.sourceforge.net
+    irc:
+        channels: "chat.freenode.net##crawl-forks"
+        on_success: always
+        on_failure: always
+        use_notice: true
+        template:
+          - "%{commit_subject} (%{result} %{branch} #%{build_number}) %{build_url}
+            Diff: %{compare_url}"
 sudo: required
 deploy:
   skip_cleanup: true

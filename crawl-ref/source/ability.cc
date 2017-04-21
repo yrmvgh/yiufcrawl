@@ -315,8 +315,6 @@ static const ability_def Ability_List[] =
     { ABIL_DELAYED_FIREBALL, "Release Delayed Fireball",
       0, 0, 0, 0, {}, abflag::instant },
 #endif
-    { ABIL_STOP_SINGING, "Stop Singing",
-      0, 0, 0, 0, {}, abflag::none },
     { ABIL_CANCEL_PPROJ, "Cancel Portal Projectile",
       0, 0, 0, 0, {}, abflag::instant },
 
@@ -644,7 +642,7 @@ static const ability_def Ability_List[] =
     // Wu Jian
     { ABIL_WU_JIAN_SERPENTS_LASH, "Serpent's Lash",
         0, 0, 0, 4, {fail_basis::invo}, abflag::exhaustion | abflag::instant },
-    { ABIL_WU_JIAN_HEAVEN_ON_EARTH, "Heaven On Earth",
+    { ABIL_WU_JIAN_HEAVENLY_STORM, "Heavenly Storm",
         0, 0, 0, 20, {fail_basis::invo, piety_breakpoint(5), 0, 1}, abflag::none },
 
     { ABIL_STOP_RECALL, "Stop Recall", 0, 0, 0, 0, {fail_basis::invo}, abflag::none },
@@ -1645,7 +1643,6 @@ bool activate_talent(const talent& tal)
 #if TAG_MAJOR_VERSION == 34
         case ABIL_DELAYED_FIREBALL:
 #endif
-        case ABIL_STOP_SINGING:
         case ABIL_CANCEL_PPROJ:
         case ABIL_STOP_RECALL:
         case ABIL_TRAN_BAT:
@@ -2150,12 +2147,6 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
                 m->add_ench(mon_enchant(ENCH_FAKE_ABJURATION, 3));
         }
 
-        break;
-
-    case ABIL_STOP_SINGING:
-        fail_check();
-        you.duration[DUR_SONG_OF_SLAYING] = 0;
-        mpr("You stop singing.");
         break;
 
     case ABIL_CANCEL_PPROJ:
@@ -3154,7 +3145,7 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
         you.redraw_status_lights = true;
         return SPRET_SUCCESS;
 
-    case ABIL_WU_JIAN_HEAVEN_ON_EARTH:
+    case ABIL_WU_JIAN_HEAVENLY_STORM:
         fail_check();
         mprf(MSGCH_GOD, "The air is filled with shimmering golden clouds!");
         wu_jian_sifu_message(" says: The storm will not cease as long as you "
@@ -3166,8 +3157,8 @@ static spret_type _do_ability(const ability_def& abil, bool fail)
                 place_cloud(CLOUD_GOLD_DUST, *ai, 5 + random2(5), &you);
         }
 
-        you.attribute[ATTR_HEAVEN_ON_EARTH] = 12;
-        you.duration[DUR_HEAVEN_ON_EARTH] = WU_JIAN_HEAVEN_TICK_TIME;
+        you.attribute[ATTR_HEAVENLY_STORM] = 12;
+        you.duration[DUR_HEAVENLY_STORM] = WU_JIAN_HEAVEN_TICK_TIME;
         invalidate_agrid(true);
         break;
 
@@ -3525,8 +3516,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
         _add_talent(talents, ABIL_DELAYED_FIREBALL, check_confused);
 #endif
 
-    if (you.duration[DUR_SONG_OF_SLAYING])
-        _add_talent(talents, ABIL_STOP_SINGING, check_confused);
     if (you.duration[DUR_PORTAL_PROJECTILE])
         _add_talent(talents, ABIL_CANCEL_PPROJ, check_confused);
 

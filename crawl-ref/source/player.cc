@@ -3688,7 +3688,7 @@ int slaying_bonus(bool ranged)
     if (you.duration[DUR_HORROR])
         ret -= you.props[HORROR_PENALTY_KEY].get_int();
 
-    ret += you.attribute[ATTR_HEAVEN_ON_EARTH];
+    ret += you.attribute[ATTR_HEAVENLY_STORM];
 
     return ret;
 }
@@ -4812,9 +4812,7 @@ bool haste_player(int turns, bool rageext)
     else if (you.duration[DUR_HASTE] > threshold * BASELINE_DELAY)
         mpr("You already have as much speed as you can handle.");
     else if (!rageext)
-    {
         mpr("You feel as though your hastened speed will last longer.");
-    }
 
     you.increase_duration(DUR_HASTE, turns, threshold);
 
@@ -5597,6 +5595,7 @@ bool player::cannot_speak() const
 static const string shout_verbs[] = {"shout", "yell", "scream"};
 static const string felid_shout_verbs[] = {"meow", "yowl", "caterwaul"};
 static const string frog_shout_verbs[] = {"ribbit", "croak", "bellow"};
+static const string dog_shout_verbs[] = {"bark", "howl", "screech"};
 
 /**
  * What verb should be used to describe the player's shouting?
@@ -5611,6 +5610,8 @@ string player::shout_verb(bool directed) const
 
     const int screaminess = max(player_mutation_level(MUT_SCREAM) - 1, 0);
 
+    if (species == SP_GNOLL)
+        return dog_shout_verbs[screaminess];
     if (species == SP_BARACHI)
         return frog_shout_verbs[screaminess];
     if (species != SP_FELID)

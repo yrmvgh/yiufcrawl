@@ -205,6 +205,7 @@ enum tag_minor_version
     TAG_MINOR_DESOLATION_GLOBAL,   // Recover from saves where desolation is incorrectly marked as global
     TAG_MINOR_GOLDIFY_BOOKS,       // Spellbooks disintegrate when picked up, like gold/runes/orbs
     TAG_MINOR_NO_ITEM_TRANSIT,     // Remove code to transit items across levels.
+    TAG_MINOR_TOMB_HATCHES,        // Use fixed-destination hatches in Tomb.
 #endif
     NUM_TAG_MINORS,
     TAG_MINOR_VERSION = NUM_TAG_MINORS - 1

@@ -1524,7 +1524,6 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_VINE_STALKER,    SK_INVOCATIONS,     0),
     APT(SP_VINE_STALKER,    SK_EVOCATIONS,     -1),
 
-
     // SP_BARACHI
     APT(SP_BARACHI,             SK_FIGHTING,        2),
     APT(SP_BARACHI,             SK_SHORT_BLADES,    1),
@@ -1758,5 +1757,44 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_BEARKIN,         SK_POISON_MAGIC,    0),
     APT(SP_BEARKIN,         SK_INVOCATIONS,     0),
     APT(SP_BEARKIN,         SK_EVOCATIONS,      0),
+
+    // SP_GNOLL
+    APT(SP_GNOLL,           SK_FIGHTING,        0),
+    APT(SP_GNOLL,           SK_SHORT_BLADES,    0),
+    APT(SP_GNOLL,           SK_LONG_BLADES,     0),
+    APT(SP_GNOLL,           SK_AXES,            0),
+    APT(SP_GNOLL,           SK_MACES_FLAILS,    0),
+    APT(SP_GNOLL,           SK_POLEARMS,        0),
+    APT(SP_GNOLL,           SK_STAVES,          0),
+    APT(SP_GNOLL,           SK_SLINGS,          0),
+    APT(SP_GNOLL,           SK_BOWS,            0),
+    APT(SP_GNOLL,           SK_CROSSBOWS,       0),
+    APT(SP_GNOLL,           SK_THROWING,        0),
+    APT(SP_GNOLL,           SK_ARMOUR,          0),
+    APT(SP_GNOLL,           SK_DODGING,         0),
+    APT(SP_GNOLL,           SK_STEALTH,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_GNOLL,           SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_GNOLL,           SK_SHIELDS,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_GNOLL,           SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_GNOLL,           SK_UNARMED_COMBAT,  0),
+    APT(SP_GNOLL,           SK_SPELLCASTING,    0),
+    APT(SP_GNOLL,           SK_CONJURATIONS,    0),
+    APT(SP_GNOLL,           SK_HEXES,           0),
+    APT(SP_GNOLL,           SK_CHARMS,          0),
+    APT(SP_GNOLL,           SK_SUMMONINGS,      0),
+    APT(SP_GNOLL,           SK_NECROMANCY,      0),
+    APT(SP_GNOLL,           SK_TRANSLOCATIONS,  0),
+    APT(SP_GNOLL,           SK_TRANSMUTATIONS,  0),
+    APT(SP_GNOLL,           SK_FIRE_MAGIC,      0),
+    APT(SP_GNOLL,           SK_ICE_MAGIC,       0),
+    APT(SP_GNOLL,           SK_AIR_MAGIC,       0),
+    APT(SP_GNOLL,           SK_EARTH_MAGIC,     0),
+    APT(SP_GNOLL,           SK_POISON_MAGIC,    0),
+    APT(SP_GNOLL,           SK_INVOCATIONS,     0),
+    APT(SP_GNOLL,           SK_EVOCATIONS,      0),
 };
 COMPILE_CHECK(ARRAYSZ(species_skill_aptitudes) == NUM_SPECIES * NUM_SKILLS);

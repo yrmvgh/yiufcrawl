@@ -212,6 +212,7 @@ enum mutation_type
     MUT_HOP,
     MUT_NO_REGENERATION,
     MUT_BEARSERK,
+    MUT_STRONG_NOSE,
     NUM_MUTATIONS,
 
     RANDOM_MUTATION,
