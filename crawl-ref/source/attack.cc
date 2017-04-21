@@ -1634,7 +1634,7 @@ bool attack::apply_damage_brand(const char *what)
         if (attacker->is_player() && damage_brand == SPWPN_CONFUSE
             && you.duration[DUR_CONFUSING_TOUCH])
         {
-            you.duration[DUR_CONFUSING_TOUCH] = 0;
+            you.duration[DUR_CONFUSING_TOUCH] = 1;
             obvious_effect = false;
         }
         break;
