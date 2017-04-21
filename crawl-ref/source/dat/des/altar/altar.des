@@ -421,13 +421,13 @@ CHANCE: 70%
 KFEAT:  _ = altar_ecumenical
 SUBST: G : Gbt x:5
 MAP
- ..... 
+ .....
 ...G...
 ..G.G..
 .G._.G.
 ..G.G..
 ...G...
- ..... 
+ .....
 ENDMAP
 
 NAME:   chequers_ecumenical_altar_grove
@@ -537,7 +537,7 @@ ENDMAP
 
 NAME:   ecumenical_temple_of_chaos
 DEPTH: D:4
-TAGS:  uniq_ecumenical_altar chance_ecumenical_altar 
+TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
 CHANCE: 70%
 WEIGHT: 40
 KFEAT:  _ = altar_xom / w:1 E
@@ -546,7 +546,7 @@ KFEAT:  1 = w:5 altar_jiyva / w:4 altar_lugonu / w:1 C
 KFEAT:  C = C / C mimic w:1
 NSUBST: _ = 1:1 / 1:C
 SUBST:  - : .:60 A w d l
-SUBST:  . = . F:1 
+SUBST:  . = . F:1
 MARKER: F = lua:fog_machine { cloud_type = "translocational energy", \
             pow_max = 12, delay_min = 10, delay_max = 40, walk_dist = 2, \
             size = 1, spread_rate=3, start_clouds=2 }
