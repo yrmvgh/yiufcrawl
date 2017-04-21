@@ -401,9 +401,9 @@ ENDMAP
 ### Ecumenical altars ########################################################
 
 NAME:   chequers_ecumenical_altar_simple
-DEPTH:  D:2-3
+DEPTH:  D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 40%
+CHANCE: 70%
 KFEAT:  _ = altar_ecumenical
 SUBST: G : Gbt x:5
 MAP
@@ -415,26 +415,26 @@ MAP
 ENDMAP
 
 NAME: chequers_ecumenical_altar_simple_redux
-DEPTH: D:2-3
+DEPTH: D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 40%
+CHANCE: 70%
 KFEAT:  _ = altar_ecumenical
 SUBST: G : Gbt x:5
 MAP
-.......
+ ..... 
 ...G...
 ..G.G..
 .G._.G.
 ..G.G..
 ...G...
-.......
+ ..... 
 ENDMAP
 
 NAME:   chequers_ecumenical_altar_grove
-DEPTH:  D:2-3
+DEPTH:  D:4
 TAGS:   uniq_ecumenical_altar chance_ecumenical_altar
 # Disconnected regions can spawn in the trees
-CHANCE: 40%
+CHANCE: 70%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 KMASK:  - = no_item_gen
@@ -448,25 +448,25 @@ COLOUR: t = w:5 lightgrey / w:5 darkgrey / brown
 SUBST: t : bt x:5
 : end
 MAP
- ......
+  .....
  .-.-.@..
 --.-..-.--.
  .tttttt.--.
 .-t-...t.---.
-.tt.-tt.-t--.
+.tt.-tt.-t--..
 -t--.-t--t-.
   tt-.ttt-t-.
 -t.t.-.-t-t.
  -tt_tttt-@.
 -ttttt--tt.
 -ttt--.---.
-...........
+............
 ENDMAP
 
 NAME: chequers_ecumenical_altar_lobes
-DEPTH: D:2-3
+DEPTH: D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 40%
+CHANCE: 70%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 KPROP:  tG = no_tele_into
@@ -491,9 +491,9 @@ xxxtGpppp..ppppGtxxx
 ENDMAP
 
 NAME: chequers_ecumenical_altar_twisty
-DEPTH: D:2-3
+DEPTH: D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 40%
+CHANCE: 70%
 WEIGHT: 5
 KFEAT:  _ = altar_ecumenical
 SUBST: x : x:30 c t:1
@@ -512,9 +512,9 @@ xx.x
 ENDMAP
 
 NAME: chequers_ecumenical_altar_island
-DEPTH: D:2-3
+DEPTH: D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar
-CHANCE: 40%
+CHANCE: 70%
 KFEAT: _ = altar_ecumenical
 SUBST: - = W:5 . t:5
 SUBST: s = W:5 .
@@ -536,12 +536,12 @@ sssssssssssss
 ENDMAP
 
 NAME:   ecumenical_temple_of_chaos
-DEPTH:  D:2-3
+DEPTH: D:4
 TAGS:  uniq_ecumenical_altar chance_ecumenical_altar 
-CHANCE: 40%
-WEIGHT: 45
+CHANCE: 70%
+WEIGHT: 40
+KFEAT:  _ = altar_xom / w:1 E
 KFEAT:  E = altar_ecumenical
-KFEAT:  _ = altar_xom
 KFEAT:  1 = w:5 altar_jiyva / w:4 altar_lugonu / w:1 C
 KFEAT:  C = C / C mimic w:1
 NSUBST: _ = 1:1 / 1:C
@@ -553,11 +553,11 @@ MARKER: F = lua:fog_machine { cloud_type = "translocational energy", \
 COLOUR: F = lightmagenta
 ITEM:     = % / w:30 dagger ego:chaos / hunting sling ego:chaos / mace ego:chaos
 MAP
-    .
-  .._
+    ..
+. .._
 ._-_-.
  ._E_.
  .-_-_.
-  _..
-  .
+  _.. .
+ ..
 ENDMAP
