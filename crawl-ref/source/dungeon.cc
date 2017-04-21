@@ -5303,7 +5303,7 @@ static dungeon_feature_type _pick_an_altar()
             {
                 god = random_god();
             }
-            while (god == GOD_LUGONU || god == GOD_BEOGH || god == GOD_JIYVA);
+            while (god == GOD_LUGONU || god == GOD_BEOGH);
             break;
         }
     }
