@@ -22,7 +22,7 @@ void opening_screen()
     string msg =
     "<yellow>Hello, welcome to " CRAWL " " + string(Version::Long) + "!</yellow>\n"
     "<brown>(c) Copyright 1997-2002 Linley Henzell, 2002-2017 Crawl DevTeam\n"
-    "Read the instructions for legal details.</brown> ";
+    "Shpingle helped in 2017. Read the instructions for legal details.</brown> ";
 
 
     FileLineInput f(Options.filename.c_str());
@@ -54,7 +54,7 @@ void opening_screen()
     }
 
     msg += "\n";
-    msg += "<lightgreen>Take part in the player survey at http://crawl.develz.org</lightgreen>\n";
+    msg += "<lightgreen>Chat about Yiufcrawl at http://webchat.freenode.net/?channels=##crawl-forks</lightgreen>\n";
 
     formatted_string::parse_string(msg).display();
     textcolour(LIGHTGREY);
