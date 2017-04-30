@@ -111,19 +111,19 @@ function the_grid_main_setup(e,no_doors)
     e.subst('+ : +..')
   end
   e.subst('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw = x')
-  e.subst('x : c:45 v:20 b:15 n Z:8 Q:2')
+  e.subst('x : c:50 v:12 b:12 n:2 Z:12 Q:12')
   e.subst('Z : X:4 Y:3 Z:2 U:1 V:1 W:1')
-  e.subst('X = cv')
-  e.subst('Y = cb')
-  e.subst('Z = vb')
-  e.subst('U = cn')
-  e.subst('V = vn')
-  e.subst('W = bn')
-  e.subst('Q = ccvbn G:2')
+  e.subst('X = ccv')
+  e.subst('Y = ccb')
+  e.subst('Z = vcb')
+  e.subst('U = ccn')
+  e.subst('V = vcn')
+  e.subst('W = bcn')
+  e.subst('Q = ccvbn G:1')
 end
 }}
 
-default-depth: D:7-, Depths, Elf
+default-depth: Tomb, Depths, Elf
 
 ################################################################################
 # Original (9x9 square) main vaults
@@ -249,7 +249,7 @@ MAP
 ENDMAP
 
 NAME:     minmay_the_grid_3x2
-DEPTH:    D:9-, Depths, Elf
+DEPTH:    Tomb, Depths, Elf
 SUBVAULT: A : the_grid
 SUBVAULT: B : the_grid
 SUBVAULT: C : the_grid
@@ -284,7 +284,7 @@ MAP
 ENDMAP
 
 NAME:     minmay_the_grid_net
-DEPTH:    D:9-, Depths, Elf
+DEPTH:    Tomb, Depths, Elf
 SUBVAULT: A : the_grid
 SUBVAULT: B : the_grid
 SUBVAULT: C : the_grid
@@ -329,7 +329,7 @@ MAP
 ENDMAP
 
 NAME:     minmay_the_grid_4x2
-DEPTH:    D:9-, Depths, Elf
+DEPTH:    Tomb, Depths, Elf
 SUBVAULT: A : the_grid
 SUBVAULT: B : the_grid
 SUBVAULT: C : the_grid
@@ -366,7 +366,7 @@ MAP
 ENDMAP
 
 NAME:     minmay_the_grid_3x3
-DEPTH:    D:9-, Depths, Elf
+DEPTH:    Tomb, Depths, Elf
 SUBVAULT: A : the_grid
 SUBVAULT: B : the_grid
 SUBVAULT: C : the_grid
@@ -417,7 +417,7 @@ ENDMAP
 # 9x9 triangle main vaults
 #
 NAME:       minmay_the_grid_triangle_9x9_recursive_2
-DEPTH:      D:7-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9_prize
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -456,7 +456,7 @@ ENDMAP
 
 
 NAME:       minmay_the_grid_triangle_9x9_recursive_2_mashed
-DEPTH:      D:9-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9_prize
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -524,7 +524,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_triangle_9x9_rhombus_thin_mashed
-DEPTH:      D:9-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9_prize
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -587,7 +587,7 @@ x.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ENDMAP
 
 NAME:       minmay_the_grid_triangle_9x9_line_8_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -655,7 +655,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_triangle_9x9_rhombus_full_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -695,7 +695,7 @@ ENDMAP
 # This shows that you need a lot of wasted space to prevent the geometry from
 # degenerating...
 NAME:       minmay_the_grid_triangle_9x9_recursive_3
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -755,7 +755,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_triangle_9x9_recursive_3_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -882,7 +882,7 @@ ENDMAP
 # 5x5 square main vaults
 #
 NAME:       minmay_the_grid_square_5x5_5x5
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_square_5x5
 SUBVAULT:   B : the_grid_square_5x5
 SUBVAULT:   C : the_grid_square_5x5
@@ -946,7 +946,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_square_5x5_4x4
-DEPTH:      D:9-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_square_5x5
 SUBVAULT:   B : the_grid_square_5x5
 SUBVAULT:   C : the_grid_square_5x5
@@ -1030,7 +1030,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_square_5x5_5x5_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_square_5x5
 SUBVAULT:   B : the_grid_square_5x5
 SUBVAULT:   C : the_grid_square_5x5
@@ -1096,7 +1096,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_square_5x5_4x4_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_square_5x5
 SUBVAULT:   B : the_grid_square_5x5
 SUBVAULT:   C : the_grid_square_5x5
@@ -1148,7 +1148,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_square_5x5_3x3_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_square_5x5
 SUBVAULT:   B : the_grid_square_5x5
 SUBVAULT:   C : the_grid_square_5x5
@@ -1240,7 +1240,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_four_pointed_star_mashed
-DEPTH:      D:9-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_triangle_9x9
 SUBVAULT:   B : the_grid_triangle_9x9
 SUBVAULT:   C : the_grid_triangle_9x9
@@ -1388,7 +1388,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_octo_tiled_squarecenter_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_octo
 SUBVAULT:   B : the_grid_octo
 SUBVAULT:   C : the_grid_octo
@@ -1440,7 +1440,7 @@ MAP
 ENDMAP
 
 NAME:       minmay_the_grid_octo_tiled_octocenter_mashed
-DEPTH:      D:11-, Depths, Elf
+DEPTH:      Tomb, Depths, Elf
 SUBVAULT:   A : the_grid_octo
 SUBVAULT:   B : the_grid_octo
 SUBVAULT:   C : the_grid_octo
@@ -1732,7 +1732,7 @@ ENDMAP
 
 NAME:   minmay_the_grid_airy
 TAGS:   the_grid unrand
-DEPTH:  D:13-, Depths, Elf
+DEPTH:  Tomb, Depths, Elf
 MONS:   spriggan air mage
 NSUBST: 1 = 2:1 / 3 = 11... / *:.
 MAP
@@ -1749,7 +1749,7 @@ ENDMAP
 
 NAME:   minmay_the_grid_artifice
 TAGS:   the_grid unrand
-DEPTH:  D:13-, Depths, Elf
+DEPTH:  Tomb, Depths, Elf
 ITEM:   any misc
 MONS:   crystal guardian
 NSUBST: 1 = 2:1 / 4 = 1. / *:.
