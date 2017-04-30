@@ -472,15 +472,6 @@ bool fill_status_info(int status, status_info* inf)
         }
         break;
 
-    case DUR_CORNERED:
-        if (you.hp * 100 / you.hp_max <= 30)
-        {
-            inf->light_colour = YELLOW;
-            inf->light_text = "Corner";
-            inf->short_text = "corner";
-            inf->long_text = "You feel threatened and angry.";
-        }
-
     case STATUS_REAP:
         if (you.attribute[ATTR_REAPING] > 0)
         {
