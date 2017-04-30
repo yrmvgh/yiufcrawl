@@ -7930,14 +7930,6 @@ void temperature_check()
     // Whether to ignore caps on incrementing temperature
     bool ignore_cap = you.duration[DUR_BERSERK];
 
-    // These numbers seem to work pretty well, but they're definitely experimental:
-    int tension = get_tension(GOD_NO_GOD); // Raw tension
-
-    // It would generally be better to handle this at the tension level and have temperature much more closely tied to tension.
-
-    // For testing, but super handy for that!
-    // mprf("Tension value: %d", tension);
-
     // Increment temp to full if you're in lava.
     if (feat_is_lava(env.grid(you.pos())) && you.ground_level())
     {
@@ -7972,9 +7964,6 @@ void temperature_check()
             }
         }
     }
-
-    // Next, add temperature from tension. Can override temperature loss from water!
-    temperature_increment(tension);
 
     // Cap net temperature change to 1 per turn if no exceptions.
     float tempchange = you.temperature - you.temperature_last;
