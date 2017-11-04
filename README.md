@@ -6,7 +6,7 @@
     cd yiufcrawl/crawl-ref/source
     make TILES=y
     then just run the file named "yiufcrawl"
-
+    
 If you don't want to compile yourself as above, you can download compiled binaries! Get them here: https://github.com/yrmvgh/yiufcrawl/releases
 
 alternately "make TILES=y install" will try to install yiufcrawl to your system. You may need to also set "SAVEDIR=something".
